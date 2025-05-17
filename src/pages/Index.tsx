@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import NewsletterForm from "@/components/NewsletterForm";
 import TestimonialCard from "@/components/TestimonialCard";
-import { MessageSquare } from "lucide-react";
+import { MessageSquare, CheckCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
 
@@ -210,42 +210,62 @@ const Index = () => {
       </section>
       
       {/* About Section */}
-      <section id="about" className="py-20 md:py-28">
+      <section id="about" className="py-20 md:py-28 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6 text-navy-dark text-center">
-              About Churn Is Dead
+            <h2 className="text-3xl md:text-4xl font-serif font-bold mb-8 text-navy-dark text-center">
+              About <span className="underline-red">Churn Is Dead</span>
             </h2>
             
             <div className="prose prose-lg max-w-none">
-              <p>
-                After 15+ years in Customer Success leadership roles across B2B SaaS, I was tired of 
-                watching smart CS professionals struggle with recycled advice that never moved the needle
-                on what really matters: customer outcomes and revenue growth.
-              </p>
-              
-              <p>
-                Churn Is Dead was born from the belief that CS needs to stop defining itself by what it 
-                prevents (churn) and start focusing on what it creates: value, trust, and sustainable growth.
-              </p>
-              
-              <p>
-                Each week, I share tactical frameworks, contrarian perspectives, and real case studies 
-                that help CS professionals at every level drive better results in less time.
-              </p>
-              
-              <p>
-                No fluff. No platitudes. Just practical, battle-tested insights from the CS trenches.
-              </p>
-              
-              <div className="mt-8 p-6 bg-gray-100 rounded-lg">
-                <h3 className="font-serif font-bold text-xl mb-3 text-navy-dark">About the Author</h3>
-                <p className="mb-0">
-                  <strong>Alex Mitchell</strong> has led Customer Success teams at companies including 
-                  [Company Name], [Company Name], and [Company Name], where he helped scale CS organizations 
-                  and develop strategies that consistently increased NRR by 15-25%. He regularly speaks on 
-                  CS strategy at industry events including [Conference Name] and [Conference Name].
+              <div className="bg-white p-8 rounded-xl shadow-md">
+                <p className="text-xl font-medium mb-4 text-navy-dark">
+                  Churn Is Dead isn't just a newsletter. It's a movement.
+                  <span className="block text-red-600 mt-1">A rejection of recycled CS advice, and a rallying cry for bold, outcome-driven Customer Success.</span>
                 </p>
+                
+                <p className="mb-6">
+                  After a decade in the trenches with B2B SaaS orgs, I saw too many smart CSMs buried under QBR decks, low-impact check-ins, and renewal anxiety. So I created this space — to deliver tactical, battle-tested frameworks that actually move the needle.
+                </p>
+                
+                <p className="mb-6 italic border-l-4 border-red-500 pl-4 py-2">
+                  This isn't about fluffy thought leadership or "feel-good CS." It's about the hard truth: Churn isn't your north star. Value is.
+                </p>
+                
+                <p className="mb-3 font-medium text-navy-dark">Each week, I break down:</p>
+                <ul className="space-y-2 mb-6">
+                  <li className="flex items-start">
+                    <CheckCircle className="h-5 w-5 text-red-600 mr-2 mt-1 flex-shrink-0" />
+                    <span>What's broken in CS (and what's working)</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="h-5 w-5 text-red-600 mr-2 mt-1 flex-shrink-0" />
+                    <span>Practical plays you can run today</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="h-5 w-5 text-red-600 mr-2 mt-1 flex-shrink-0" />
+                    <span>Stories from real CS leaders, not just "influencers"</span>
+                  </li>
+                </ul>
+                
+                <p className="mb-6">
+                  If you're tired of just fighting churn and ready to build trust, revenue, and long-term growth — this is for you.
+                </p>
+                
+                <p className="font-medium text-lg text-center border-t border-b border-gray-200 py-4 my-6">
+                  No fluff. No slides. Just value, delivered every Tuesday.
+                </p>
+                
+                <div className="text-center mt-6">
+                  <Button 
+                    className="bg-red-600 hover:bg-red-700 text-white"
+                    size="lg"
+                  >
+                    <Link to="/newsletters">
+                      Subscribe Now
+                    </Link>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
