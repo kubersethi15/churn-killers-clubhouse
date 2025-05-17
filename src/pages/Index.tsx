@@ -1,16 +1,63 @@
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import NewsletterForm from "@/components/NewsletterForm";
 import ArticleCard from "@/components/ArticleCard";
 import TestimonialCard from "@/components/TestimonialCard";
 import { MessageSquare } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { format } from "date-fns";
+
+type Newsletter = {
+  id: string;
+  title: string;
+  excerpt: string;
+  published_date: string;
+  read_time: string;
+  category: string | null;
+  slug: string;
+};
 
 const Index = () => {
+  const [latestNewsletters, setLatestNewsletters] = useState<Newsletter[]>([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     document.title = "Churn Is Dead | Bold Customer Success Strategies";
   }, []);
+
+  useEffect(() => {
+    const fetchLatestNewsletters = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("newsletters")
+          .select("*")
+          .order("published_date", { ascending: false })
+          .limit(3);
+
+        if (error) {
+          console.error("Error fetching newsletters:", error);
+          return;
+        }
+
+        if (data) {
+          setLatestNewsletters(data as Newsletter[]);
+        }
+      } catch (error) {
+        console.error("Unexpected error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLatestNewsletters();
+  }, []);
+
+  const formatDate = (dateString: string) => {
+    return format(new Date(dateString), "MMMM d, yyyy");
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -63,32 +110,34 @@ const Index = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <ArticleCard 
-              title="The 'Trusted Advisor' Trap and How to Escape It" 
-              excerpt="Why being a 'strategic partner' is killing your CS outcomes and the data-driven alternative that works." 
-              date="May 10, 2025" 
-              readTime="6 min read" 
-              category="Strategy"
-            />
-            <ArticleCard 
-              title="Expansion Revenue: It's Not About 'Land and Expand'" 
-              excerpt="How top CS teams are shifting from growth targets to value delivery – and hitting their expansion numbers anyway." 
-              date="May 3, 2025" 
-              readTime="8 min read" 
-              category="Revenue"
-            />
-            <ArticleCard 
-              title="Quarterly Business Reviews Are Dead (Try This Instead)" 
-              excerpt="The shocking data on why QBRs are failing both you and your customers, plus the framework that's replacing them." 
-              date="April 26, 2025" 
-              readTime="5 min read" 
-              category="Process"
-            />
+            {loading ? (
+              <div className="col-span-3 text-center py-16">
+                <p className="text-lg text-gray-600">Loading latest newsletters...</p>
+              </div>
+            ) : (
+              latestNewsletters.map(newsletter => (
+                <ArticleCard
+                  key={newsletter.id}
+                  title={newsletter.title}
+                  excerpt={newsletter.excerpt}
+                  date={formatDate(newsletter.published_date)}
+                  readTime={newsletter.read_time}
+                  category={newsletter.category || undefined}
+                  slug={newsletter.slug}
+                />
+              ))
+            )}
           </div>
           
           <div className="mt-12 text-center">
-            <Button variant="outline" className="border-navy-dark text-navy-dark hover:bg-navy-dark hover:text-white">
-              View All Insights
+            <Button 
+              variant="outline" 
+              className="border-navy-dark text-navy-dark hover:bg-navy-dark hover:text-white"
+              asChild
+            >
+              <Link to="/newsletters">
+                View All Insights
+              </Link>
             </Button>
           </div>
         </div>

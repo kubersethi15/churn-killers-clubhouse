@@ -9,10 +9,11 @@ interface NewsletterCardProps {
   date: string;
   readTime: string;
   category?: string;
-  id?: number;
+  id?: string;
+  slug?: string;
 }
 
-const NewsletterCard = ({ title, excerpt, date, readTime, category }: NewsletterCardProps) => {
+const NewsletterCard = ({ title, excerpt, date, readTime, category, slug }: NewsletterCardProps) => {
   return (
     <Card className="h-full flex flex-col overflow-hidden border-none shadow-md hover:shadow-lg transition-shadow duration-300">
       <CardHeader className="pb-2 bg-gray-50 border-b border-gray-100">
@@ -41,7 +42,7 @@ const NewsletterCard = ({ title, excerpt, date, readTime, category }: Newsletter
           className="p-0 text-navy-dark hover:text-red-600 font-medium"
           asChild
         >
-          <Link to={`/newsletter/${encodeURIComponent(title.toLowerCase().replace(/\s+/g, '-'))}`}>
+          <Link to={`/newsletter/${slug || encodeURIComponent(title.toLowerCase().replace(/\s+/g, '-'))}`}>
             Read Full Newsletter →
           </Link>
         </Button>

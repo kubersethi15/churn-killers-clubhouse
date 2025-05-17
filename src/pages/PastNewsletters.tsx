@@ -1,71 +1,78 @@
-import { useEffect } from "react";
+
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import NewsletterCard from "@/components/NewsletterCard";
+import NewsletterForm from "@/components/NewsletterForm";
+import { supabase } from "@/integrations/supabase/client";
+import { format } from "date-fns";
+
+type Newsletter = {
+  id: string;
+  title: string;
+  excerpt: string;
+  published_date: string;
+  read_time: string;
+  category: string | null;
+  slug: string;
+};
+
 const PastNewsletters = () => {
+  const [newsletters, setNewsletters] = useState<Newsletter[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeFilter, setActiveFilter] = useState<string>("All");
+  const [categories, setCategories] = useState<string[]>([]);
+
   useEffect(() => {
     document.title = "Past Newsletters | Churn Is Dead";
   }, []);
 
-  // Sample newsletter data - in a real app this would come from an API
-  const newsletters = [{
-    id: 1,
-    title: "The 'Trusted Advisor' Trap and How to Escape It",
-    excerpt: "Why being a 'strategic partner' is killing your CS outcomes and the data-driven alternative that works.",
-    date: "May 10, 2025",
-    readTime: "6 min read",
-    category: "Strategy"
-  }, {
-    id: 2,
-    title: "Expansion Revenue: It's Not About 'Land and Expand'",
-    excerpt: "How top CS teams are shifting from growth targets to value delivery – and hitting their expansion numbers anyway.",
-    date: "May 3, 2025",
-    readTime: "8 min read",
-    category: "Revenue"
-  }, {
-    id: 3,
-    title: "Quarterly Business Reviews Are Dead (Try This Instead)",
-    excerpt: "The shocking data on why QBRs are failing both you and your customers, plus the framework that's replacing them.",
-    date: "April 26, 2025",
-    readTime: "5 min read",
-    category: "Process"
-  }, {
-    id: 4,
-    title: "The Customer Health Score Myth",
-    excerpt: "Why traditional health scores are misleading and how to build indicators that actually predict behavior.",
-    date: "April 19, 2025",
-    readTime: "7 min read",
-    category: "Metrics"
-  }, {
-    id: 5,
-    title: "Unlocking the 'Value Gap' Framework",
-    excerpt: "How to identify and monetize the space between what customers are paying for and what they could be achieving.",
-    date: "April 12, 2025",
-    readTime: "6 min read",
-    category: "Strategy"
-  }, {
-    id: 6,
-    title: "Building a CS Career: Beyond the 'Relationship Manager'",
-    excerpt: "The skills that differentiate top-performing CS leaders and how to develop them in your team.",
-    date: "April 5, 2025",
-    readTime: "9 min read",
-    category: "Career"
-  }, {
-    id: 7,
-    title: "Why Your Onboarding Process Is Failing",
-    excerpt: "The three critical mistakes most CS teams make in the first 90 days and how to fix them.",
-    date: "March 29, 2025",
-    readTime: "6 min read",
-    category: "Process"
-  }, {
-    id: 8,
-    title: "From Red to Green: Turning Around At-Risk Accounts",
-    excerpt: "A step-by-step playbook for rescuing struggling customers before they churn.",
-    date: "March 22, 2025",
-    readTime: "7 min read",
-    category: "Retention"
-  }];
-  return <div className="min-h-screen bg-white">
+  useEffect(() => {
+    const fetchNewsletters = async () => {
+      setLoading(true);
+      try {
+        let query = supabase.from("newsletters").select("*").order("published_date", { ascending: false });
+        
+        if (activeFilter !== "All") {
+          query = query.eq("category", activeFilter);
+        }
+        
+        const { data, error } = await query;
+        
+        if (error) {
+          console.error("Error fetching newsletters:", error);
+          return;
+        }
+
+        if (data) {
+          setNewsletters(data as Newsletter[]);
+          
+          // Extract unique categories for filters
+          if (activeFilter === "All") {
+            const uniqueCategories = Array.from(new Set(data.map(item => item.category).filter(Boolean)));
+            setCategories(uniqueCategories as string[]);
+          }
+        }
+      } catch (error) {
+        console.error("Unexpected error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNewsletters();
+  }, [activeFilter]);
+
+  const handleFilterChange = (category: string) => {
+    setActiveFilter(category);
+  };
+
+  const formatDate = (dateString: string) => {
+    return format(new Date(dateString), "MMMM d, yyyy");
+  };
+
+  return (
+    <div className="min-h-screen bg-white">
       <Header />
       
       {/* Hero Section */}
@@ -87,12 +94,24 @@ const PastNewsletters = () => {
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex flex-wrap gap-2">
-              <Button variant="outline" className="bg-white">All</Button>
-              <Button variant="ghost">Onboarding</Button>
-              <Button variant="ghost">Implementation</Button>
-              <Button variant="ghost">Value Realization</Button>
-              <Button variant="ghost">Metrics</Button>
-              <Button variant="ghost">Career</Button>
+              <Button 
+                variant={activeFilter === "All" ? "outline" : "ghost"} 
+                className={activeFilter === "All" ? "bg-white" : ""}
+                onClick={() => handleFilterChange("All")}
+              >
+                All
+              </Button>
+              
+              {categories.map(category => (
+                <Button 
+                  key={category} 
+                  variant={activeFilter === category ? "outline" : "ghost"}
+                  className={activeFilter === category ? "bg-white" : ""}
+                  onClick={() => handleFilterChange(category)}
+                >
+                  {category}
+                </Button>
+              ))}
             </div>
             <div>
               <Button variant="outline" className="gap-2">
@@ -107,9 +126,29 @@ const PastNewsletters = () => {
       {/* Newsletters Grid */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {newsletters.map(newsletter => <NewsletterCard key={newsletter.id} title={newsletter.title} excerpt={newsletter.excerpt} date={newsletter.date} readTime={newsletter.readTime} category={newsletter.category} />)}
-          </div>
+          {loading ? (
+            <div className="text-center py-16">
+              <p className="text-lg text-gray-600">Loading newsletters...</p>
+            </div>
+          ) : newsletters.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-lg text-gray-600">No newsletters found for this category.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {newsletters.map(newsletter => (
+                <NewsletterCard 
+                  key={newsletter.id}
+                  title={newsletter.title}
+                  excerpt={newsletter.excerpt}
+                  date={formatDate(newsletter.published_date)}
+                  readTime={newsletter.read_time}
+                  category={newsletter.category || undefined}
+                  slug={newsletter.slug}
+                />
+              ))}
+            </div>
+          )}
           
           <div className="mt-16 text-center">
             <Button variant="outline" className="border-navy-dark text-navy-dark hover:bg-navy-dark hover:text-white">
@@ -166,7 +205,8 @@ const PastNewsletters = () => {
           </div>
         </div>
       </footer>
-    </div>;
+    </div>
+  );
 };
+
 export default PastNewsletters;
-import NewsletterForm from "@/components/NewsletterForm"; // Add this import at the top
