@@ -1,9 +1,9 @@
+
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import NewsletterForm from "@/components/NewsletterForm";
-import ArticleCard from "@/components/ArticleCard";
 import TestimonialCard from "@/components/TestimonialCard";
 import { MessageSquare } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -20,7 +20,7 @@ type Newsletter = {
 };
 
 const Index = () => {
-  const [latestNewsletters, setLatestNewsletters] = useState<Newsletter[]>([]);
+  const [latestNewsletter, setLatestNewsletter] = useState<Newsletter | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -28,13 +28,14 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
-    const fetchLatestNewsletters = async () => {
+    const fetchLatestNewsletter = async () => {
       try {
         const { data, error } = await supabase
           .from("newsletters")
           .select("*")
           .order("published_date", { ascending: false })
-          .limit(3);
+          .limit(1)
+          .single();
 
         if (error) {
           console.error("Error fetching newsletters:", error);
@@ -42,7 +43,7 @@ const Index = () => {
         }
 
         if (data) {
-          setLatestNewsletters(data as Newsletter[]);
+          setLatestNewsletter(data as Newsletter);
         }
       } catch (error) {
         console.error("Unexpected error:", error);
@@ -51,7 +52,7 @@ const Index = () => {
       }
     };
 
-    fetchLatestNewsletters();
+    fetchLatestNewsletter();
   }, []);
 
   const formatDate = (dateString: string) => {
@@ -83,49 +84,75 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Insights Section */}
+      {/* Latest Insights Section */}
       <section id="insights" className="py-20 md:py-28">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16">
+          <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4 text-navy-dark">
               Latest Insights
             </h2>
-            <p className="text-lg text-gray-700">
+            <p className="text-lg text-gray-700 mb-10">
               Tactical CS advice you won't find anywhere else.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {loading ? (
-              <div className="col-span-3 text-center py-16">
-                <p className="text-lg text-gray-600">Loading latest newsletters...</p>
+          {loading ? (
+            <div className="text-center py-16">
+              <p className="text-lg text-gray-600">Loading latest newsletter...</p>
+            </div>
+          ) : latestNewsletter ? (
+            <div className="max-w-5xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {/* Latest Newsletter Feature */}
+                <div className="md:col-span-3">
+                  <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100">
+                    <div className="p-6 md:p-8">
+                      {latestNewsletter.category && (
+                        <div className="inline-block px-3 py-1 text-xs font-medium uppercase tracking-wider text-red-600 bg-red-50 rounded-md mb-4">
+                          {latestNewsletter.category}
+                        </div>
+                      )}
+                      <h3 className="text-2xl md:text-3xl font-serif font-bold text-navy-dark mb-3">
+                        {latestNewsletter.title}
+                      </h3>
+                      <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
+                        <span>{formatDate(latestNewsletter.published_date)}</span>
+                        <span>•</span>
+                        <span>{latestNewsletter.read_time}</span>
+                      </div>
+                      <p className="text-gray-700 text-lg mb-6 leading-relaxed">
+                        {latestNewsletter.excerpt}
+                      </p>
+                      <Button 
+                        className="bg-red-600 hover:bg-red-700 text-white"
+                        asChild
+                      >
+                        <Link to={`/newsletter/${latestNewsletter.slug}`}>
+                          Read More →
+                        </Link>
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               </div>
-            ) : (
-              latestNewsletters.map(newsletter => (
-                <ArticleCard
-                  key={newsletter.id}
-                  title={newsletter.title}
-                  excerpt={newsletter.excerpt}
-                  date={formatDate(newsletter.published_date)}
-                  readTime={newsletter.read_time}
-                  category={newsletter.category || undefined}
-                  slug={newsletter.slug}
-                />
-              ))
-            )}
-          </div>
-          
-          <div className="mt-12 text-center">
-            <Button 
-              variant="outline" 
-              className="border-navy-dark text-navy-dark hover:bg-navy-dark hover:text-white"
-              asChild
-            >
-              <Link to="/newsletters">
-                View All Insights
-              </Link>
-            </Button>
-          </div>
+              
+              <div className="mt-12 text-center">
+                <Button 
+                  variant="outline" 
+                  className="border-navy-dark text-navy-dark hover:bg-navy-dark hover:text-white"
+                  asChild
+                >
+                  <Link to="/newsletters">
+                    View All Insights
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <p className="text-lg text-gray-600">No newsletters available yet.</p>
+            </div>
+          )}
         </div>
       </section>
       
