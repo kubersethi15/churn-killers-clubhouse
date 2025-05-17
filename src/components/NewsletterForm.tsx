@@ -58,6 +58,7 @@ const NewsletterForm = ({ location = "hero", className = "" }: NewsletterFormPro
 
   const isHero = location === "hero";
   const isArticle = location === "article";
+  const isFooter = location === "footer";
 
   return (
     <form 
@@ -73,17 +74,17 @@ const NewsletterForm = ({ location = "hero", className = "" }: NewsletterFormPro
           required
           className={`${
             isHero || isArticle ? "bg-white border-gray-200" : "bg-white/90"
-          } h-12 px-4 text-base`}
+          } h-12 px-4 text-base shadow-sm`}
         />
       </div>
       <Button 
         type="submit" 
         disabled={isLoading}
         className={`${
-          isHero || isArticle
-            ? "bg-red-600 hover:bg-red-700 text-white" 
-            : "bg-navy-dark hover:bg-navy text-white"
-        } h-12 px-6 font-medium min-w-[140px]`}
+          isFooter
+            ? "bg-white text-red-600 hover:bg-gray-100 hover:text-red-700 border border-white"
+            : "bg-cream text-red-600 hover:bg-white hover:text-red-700 border border-white" 
+        } h-12 px-6 font-medium min-w-[140px] shadow-md transition-all`}
       >
         {isLoading ? "Subscribing..." : "Subscribe"}
       </Button>

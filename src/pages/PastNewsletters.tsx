@@ -159,17 +159,17 @@ const PastNewsletters = () => {
       </section>
       
       {/* Newsletter Signup */}
-      <section className="py-16 md:py-20 bg-red-600 text-white">
-        <div className="container mx-auto px-4 md:px-6">
+      <section className="py-16 md:py-20 newsletter-section">
+        <div className="relative z-10 container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
+            <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6 text-white">
               Don't miss the next issue
             </h2>
-            <p className="text-lg mb-8">
+            <p className="text-lg mb-8 text-white/90">
               Join the weekly newsletter and get tactical CS insights delivered to your inbox.
             </p>
             <div className="max-w-lg mx-auto">
-              <NewsletterForm />
+              <NewsletterForm location="footer" />
             </div>
           </div>
         </div>
