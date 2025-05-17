@@ -90,7 +90,7 @@ const PastNewsletters = () => {
               <Button variant="outline" className="bg-white">All</Button>
               <Button variant="ghost">Onboarding</Button>
               <Button variant="ghost">Implementation</Button>
-              <Button variant="ghost">Revenue</Button>
+              <Button variant="ghost">Value Realization</Button>
               <Button variant="ghost">Metrics</Button>
               <Button variant="ghost">Career</Button>
             </div>
