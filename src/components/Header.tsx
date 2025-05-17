@@ -2,10 +2,13 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import NewsletterForm from "./NewsletterForm";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSubscribeOpen, setIsSubscribeOpen] = useState(false);
   
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +26,8 @@ const Header = () => {
   }, []);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const openSubscribeModal = () => setIsSubscribeOpen(true);
+  const closeSubscribeModal = () => setIsSubscribeOpen(false);
 
   return (
     <header 
@@ -47,7 +52,10 @@ const Header = () => {
           <a href="#about" className="text-navy-dark hover:text-red-600 font-medium transition-colors">
             About
           </a>
-          <Button className="bg-red-600 hover:bg-red-700 text-white">
+          <Button 
+            className="bg-red-600 hover:bg-red-700 text-white"
+            onClick={openSubscribeModal}
+          >
             Subscribe
           </Button>
         </nav>
@@ -92,12 +100,33 @@ const Header = () => {
             >
               About
             </a>
-            <Button className="bg-red-600 hover:bg-red-700 text-white w-full">
+            <Button 
+              className="bg-red-600 hover:bg-red-700 text-white w-full"
+              onClick={() => {
+                setIsMenuOpen(false);
+                openSubscribeModal();
+              }}
+            >
               Subscribe
             </Button>
           </nav>
         </div>
       )}
+
+      {/* Subscribe Modal */}
+      <Dialog open={isSubscribeOpen} onOpenChange={setIsSubscribeOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-center text-2xl font-serif font-bold mb-2">Subscribe to our newsletter</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-center text-gray-600 mb-6">
+              Get the latest customer success insights and strategies delivered straight to your inbox.
+            </p>
+            <NewsletterForm location="hero" className="max-w-sm mx-auto" />
+          </div>
+        </DialogContent>
+      </Dialog>
     </header>
   );
 };

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 interface NewsletterFormProps {
   location?: "hero" | "footer" | "article";
@@ -13,18 +14,46 @@ const NewsletterForm = ({ location = "hero", className = "" }: NewsletterFormPro
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulating API call
-    setTimeout(() => {
+    try {
+      // Check if email already exists in subscribers
+      const { data: existingSubscriber } = await supabase
+        .from('subscribers')
+        .select('email')
+        .eq('email', email)
+        .single();
+
+      if (existingSubscriber) {
+        toast.info("You're already subscribed!", {
+          description: "You'll continue to receive our newsletter.",
+        });
+        setEmail("");
+        setIsLoading(false);
+        return;
+      }
+
+      // Insert new subscriber
+      const { error } = await supabase
+        .from('subscribers')
+        .insert([{ email }]);
+
+      if (error) throw error;
+
       toast.success("You're subscribed!", {
         description: "Thanks for joining. The next issue lands in your inbox soon.",
       });
       setEmail("");
+    } catch (error) {
+      console.error("Error subscribing:", error);
+      toast.error("Subscription failed", {
+        description: "Please try again or contact support if the problem persists.",
+      });
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   const isHero = location === "hero";
