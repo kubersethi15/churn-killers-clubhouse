@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,20 +38,18 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Custom colors for Churn Is Dead */
+    --navy: 220 45% 18%;
+    --red: 358 85% 52%;
+    --cream: 36 100% 97%;
   }
 
   .dark {
@@ -96,6 +97,21 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-bold;
+  }
+}
+
+@layer components {
+  .underline-red {
+    @apply relative inline-block;
+  }
+  
+  .underline-red::after {
+    content: '';
+    @apply absolute w-full h-1 bg-red-600 bottom-0 left-0 -mb-1;
   }
 }
