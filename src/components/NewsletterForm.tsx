@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/sonner";
 
 interface NewsletterFormProps {
-  location?: "hero" | "footer";
+  location?: "hero" | "footer" | "article";
   className?: string;
 }
 
@@ -28,6 +28,7 @@ const NewsletterForm = ({ location = "hero", className = "" }: NewsletterFormPro
   };
 
   const isHero = location === "hero";
+  const isArticle = location === "article";
 
   return (
     <form 
@@ -42,7 +43,7 @@ const NewsletterForm = ({ location = "hero", className = "" }: NewsletterFormPro
           onChange={(e) => setEmail(e.target.value)}
           required
           className={`${
-            isHero ? "bg-white border-gray-200" : "bg-white/90"
+            isHero || isArticle ? "bg-white border-gray-200" : "bg-white/90"
           } h-12 px-4 text-base`}
         />
       </div>
@@ -50,7 +51,7 @@ const NewsletterForm = ({ location = "hero", className = "" }: NewsletterFormPro
         type="submit" 
         disabled={isLoading}
         className={`${
-          isHero 
+          isHero || isArticle
             ? "bg-red-600 hover:bg-red-700 text-white" 
             : "bg-navy-dark hover:bg-navy text-white"
         } h-12 px-6 font-medium min-w-[140px]`}

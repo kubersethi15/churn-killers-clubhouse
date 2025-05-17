@@ -1,6 +1,7 @@
 
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 interface ArticleCardProps {
   title: string;
@@ -8,9 +9,10 @@ interface ArticleCardProps {
   date: string;
   readTime: string;
   category?: string;
+  slug?: string;
 }
 
-const ArticleCard = ({ title, excerpt, date, readTime, category }: ArticleCardProps) => {
+const ArticleCard = ({ title, excerpt, date, readTime, category, slug }: ArticleCardProps) => {
   return (
     <Card className="h-full flex flex-col border-none shadow-md hover:shadow-lg transition-shadow duration-300">
       <CardHeader className="pb-2">
@@ -34,8 +36,14 @@ const ArticleCard = ({ title, excerpt, date, readTime, category }: ArticleCardPr
       </CardContent>
       
       <CardFooter>
-        <Button variant="link" className="p-0 text-navy-dark hover:text-red-600 font-medium">
-          Read More →
+        <Button 
+          variant="link" 
+          className="p-0 text-navy-dark hover:text-red-600 font-medium"
+          asChild
+        >
+          <Link to={`/newsletter/${slug || encodeURIComponent(title.toLowerCase().replace(/\s+/g, '-'))}`}>
+            Read More →
+          </Link>
         </Button>
       </CardFooter>
     </Card>
