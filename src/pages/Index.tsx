@@ -84,12 +84,12 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Latest Insights Section */}
+      {/* Current Newsletter Section */}
       <section id="insights" className="py-20 md:py-28">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4 text-navy-dark">
-              Latest Insights
+              Current Newsletter
             </h2>
             <p className="text-lg text-gray-700 mb-10">
               Tactical CS advice you won't find anywhere else.
@@ -143,7 +143,7 @@ const Index = () => {
                   asChild
                 >
                   <Link to="/newsletters">
-                    View All Insights
+                    View All
                   </Link>
                 </Button>
               </div>
