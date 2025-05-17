@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -80,19 +79,6 @@ const Index = () => {
             <div className="mt-6 text-sm text-gray-300">
               <p>Join 2,000+ CS leaders getting actionable insights every Tuesday.</p>
             </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* Social Proof */}
-      <section className="py-8 bg-gray-50">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-80">
-            <p className="text-navy-dark font-medium">Trusted by CS teams at:</p>
-            <span className="text-gray-500 font-bold">Company Logo</span>
-            <span className="text-gray-500 font-bold">Company Logo</span>
-            <span className="text-gray-500 font-bold">Company Logo</span>
-            <span className="text-gray-500 font-bold">Company Logo</span>
           </div>
         </div>
       </section>
