@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import NewsletterForm from "@/components/NewsletterForm";
 import TestimonialCard from "@/components/TestimonialCard";
-import { MessageSquare, CheckCircle } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
 
@@ -84,18 +84,9 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Current Newsletter Section */}
-      <section id="insights" className="py-20 md:py-28">
+      {/* Newsletter Content Section - Removed heading and description text */}
+      <section className="py-20 md:py-28">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4 text-navy-dark">
-              Current Newsletter
-            </h2>
-            <p className="text-lg text-gray-700 mb-10">
-              Tactical CS advice you won't find anywhere else.
-            </p>
-          </div>
-          
           {loading ? (
             <div className="text-center py-16">
               <p className="text-lg text-gray-600">Loading latest newsletter...</p>
@@ -105,7 +96,7 @@ const Index = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {/* Latest Newsletter Feature */}
                 <div className="md:col-span-3">
-                  <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100">
+                  <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 transform transition-all duration-300 hover:shadow-lg">
                     <div className="p-6 md:p-8">
                       {latestNewsletter.category && (
                         <div className="inline-block px-3 py-1 text-xs font-medium uppercase tracking-wider text-red-600 bg-red-50 rounded-md mb-4">
