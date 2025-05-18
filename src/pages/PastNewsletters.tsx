@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
@@ -5,7 +6,7 @@ import NewsletterCard from "@/components/NewsletterCard";
 import NewsletterForm from "@/components/NewsletterForm";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
-import { Compass, Rocket, Wrench, TrendingUp, LightbulbIcon, ShieldCheck } from "lucide-react";
+import { Handshake, DollarSign, Target } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -23,8 +24,8 @@ type Newsletter = {
   slug: string;
 };
 
-// Define lifecycle stage configuration with icons and tooltips
-const lifecycleStageConfig = [
+// Define new category configuration with icons and tooltips
+const categoryConfig = [
   {
     id: "All",
     label: "All",
@@ -32,46 +33,25 @@ const lifecycleStageConfig = [
     filterValue: "All",
   },
   {
-    id: "Rediscovery",
-    label: "🧭 Rediscovery",
-    icon: Compass,
-    tooltipText: "Reset expectations after the deal",
-    filterValue: "Rediscovery",
+    id: "Trust",
+    label: "🤝 Trust",
+    icon: Handshake,
+    tooltipText: "Signals that build customer confidence",
+    filterValue: "Trust",
   },
   {
-    id: "Kickoff & Onboarding",
-    label: "🚀 Kickoff",
-    icon: Rocket,
-    tooltipText: "Launch alignment and build momentum",
-    filterValue: "Kickoff & Onboarding",
+    id: "Revenue",
+    label: "💰 Revenue",
+    icon: DollarSign,
+    tooltipText: "Moves that grow NRR and reduce CAC",
+    filterValue: "Revenue",
   },
   {
-    id: "Implementation",
-    label: "🔧 Build",
-    icon: Wrench,
-    tooltipText: "Drive action and solve blockers",
-    filterValue: "Implementation",
-  },
-  {
-    id: "Value Realization",
-    label: "📈 Value",
-    icon: TrendingUp,
-    tooltipText: "Prove value with real outcomes",
-    filterValue: "Value Realization",
-  },
-  {
-    id: "Expansion & Advocacy",
-    label: "💡 Grow",
-    icon: LightbulbIcon,
-    tooltipText: "Grow influence and share success",
-    filterValue: "Expansion & Advocacy",
-  },
-  {
-    id: "Churn Recovery",
-    label: "🛟 Recovery",
-    icon: ShieldCheck,
-    tooltipText: "Rescue risk and rebuild trust",
-    filterValue: "Churn Recovery",
+    id: "Outcomes",
+    label: "🎯 Outcomes",
+    icon: Target,
+    tooltipText: "Frameworks that actually deliver value",
+    filterValue: "Outcomes",
   },
 ];
 
@@ -144,23 +124,29 @@ const PastNewsletters = () => {
       <section className="py-8 bg-gray-50 border-b border-gray-200">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex flex-wrap gap-2">
-              {lifecycleStageConfig.map((stage) => (
-                <Tooltip key={stage.id}>
-                  <TooltipTrigger asChild>
-                    <Button 
-                      variant={activeFilter === stage.filterValue ? "outline" : "ghost"}
-                      className={`${activeFilter === stage.filterValue ? "bg-white" : ""} gap-1.5`}
-                      onClick={() => handleFilterChange(stage.filterValue)}
-                    >
-                      {stage.icon && <stage.icon className="h-4 w-4" />}
-                      <span className="hidden sm:inline">{stage.label.split(" ")[1] || stage.label}</span>
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>{stage.tooltipText}</p>
-                  </TooltipContent>
-                </Tooltip>
+            <div className="flex flex-nowrap overflow-x-auto gap-2 pb-2 md:pb-0 md:flex-wrap">
+              {categoryConfig.map((category) => (
+                <TooltipProvider key={category.id}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button 
+                        variant={activeFilter === category.filterValue ? "default" : "outline"}
+                        className={`${
+                          activeFilter === category.filterValue 
+                            ? "bg-navy-dark text-white" 
+                            : "bg-white border-navy-dark/30 text-navy-dark hover:bg-navy-dark/10"
+                        } whitespace-nowrap gap-2`}
+                        onClick={() => handleFilterChange(category.filterValue)}
+                      >
+                        {category.id !== "All" && <category.icon className="h-4 w-4" />}
+                        <span>{category.label}</span>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{category.tooltipText}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               ))}
             </div>
             <div>
