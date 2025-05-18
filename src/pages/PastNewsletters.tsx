@@ -13,6 +13,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
 
 type Newsletter = {
   id: string;
@@ -36,22 +37,25 @@ const categoryConfig = [
     id: "Trust",
     label: "🤝 Trust",
     icon: Handshake,
-    tooltipText: "Signals that build customer confidence",
+    tooltipText: "Build strong relationships, fast",
     filterValue: "Trust",
+    color: "bg-blue-500",
   },
   {
     id: "Revenue",
     label: "💰 Revenue",
     icon: DollarSign,
-    tooltipText: "Moves that grow NRR and reduce CAC",
+    tooltipText: "Tactical plays to grow NRR",
     filterValue: "Revenue",
+    color: "bg-green-500",
   },
   {
     id: "Outcomes",
     label: "🎯 Outcomes",
     icon: Target,
-    tooltipText: "Frameworks that actually deliver value",
+    tooltipText: "Drive real, measurable impact",
     filterValue: "Outcomes",
+    color: "bg-amber-500",
   },
 ];
 
@@ -123,6 +127,10 @@ const PastNewsletters = () => {
       {/* Filter Section with Icons and Tooltips */}
       <section className="py-8 bg-gray-50 border-b border-gray-200">
         <div className="container mx-auto px-4 md:px-6">
+          {/* New section label */}
+          <div className="mb-3 text-sm text-gray-600 font-medium">
+            Filter by what you're trying to achieve
+          </div>
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex flex-nowrap overflow-x-auto gap-2 pb-2 md:pb-0 md:flex-wrap">
               {categoryConfig.map((category) => (
@@ -187,8 +195,15 @@ const PastNewsletters = () => {
           )}
           
           <div className="mt-16 text-center">
-            <Button variant="outline" className="border-navy-dark text-navy-dark hover:bg-navy-dark hover:text-white">
+            <Button 
+              variant="outline" 
+              className="border-red-500 text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-200"
+            >
               Load More
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1">
+                <path d="M12 5v14"/>
+                <path d="m19 12-7 7-7-7"/>
+              </svg>
             </Button>
           </div>
         </div>
