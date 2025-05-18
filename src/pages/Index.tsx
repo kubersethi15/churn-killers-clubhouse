@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -64,7 +63,7 @@ const Index = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 md:pt-40 md:pb-28 bg-navy-dark text-white">
+      <section id="newsletter-section" className="pt-32 pb-20 md:pt-40 md:pb-28 bg-navy-dark text-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-serif font-black mb-6 animate-fade-in">
@@ -211,6 +210,9 @@ const Index = () => {
               Join the weekly newsletter and get tactical CS insights delivered to your inbox.
             </p>
             <NewsletterForm className="max-w-lg mx-auto" />
+            <p className="text-sm mt-4 text-gray-300">
+              Join 2,000+ CS leaders getting fresh insights every Tuesday.
+            </p>
           </div>
         </div>
       </section>
@@ -218,7 +220,17 @@ const Index = () => {
       {/* Footer */}
       <footer className="py-12 bg-navy-dark text-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-col md:flex-row justify-between items-center">
+          <div className="flex flex-col items-center mb-8">
+            <h3 className="text-xl font-serif font-bold mb-6">
+              Stay ahead of the curve
+            </h3>
+            <NewsletterForm location="footer" className="max-w-lg w-full" />
+            <p className="text-sm mt-3 text-gray-300">
+              Join 2,000+ CS leaders getting fresh insights every Tuesday.
+            </p>
+          </div>
+          
+          <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-800">
             <div className="mb-6 md:mb-0">
               <h2 className="text-xl font-serif font-black mb-2">
                 <span className="underline-red">Churn</span> Is Dead

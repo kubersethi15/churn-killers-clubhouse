@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import NewsletterForm from "./NewsletterForm";
 
@@ -9,6 +9,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSubscribeOpen, setIsSubscribeOpen] = useState(false);
+  const location = useLocation();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -28,6 +29,32 @@ const Header = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const openSubscribeModal = () => setIsSubscribeOpen(true);
   const closeSubscribeModal = () => setIsSubscribeOpen(false);
+  
+  const scrollToNewsletter = (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    // If we're not on the homepage, go to homepage first
+    if (location.pathname !== "/") {
+      window.location.href = "/#newsletter-section";
+      return;
+    }
+    
+    // Smooth scroll to newsletter section
+    const newsletterSection = document.getElementById("newsletter-section");
+    if (newsletterSection) {
+      newsletterSection.scrollIntoView({ behavior: "smooth" });
+    }
+    
+    // Close the menu if it's open
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+    }
+    
+    // Close the dialog if it's open
+    if (isSubscribeOpen) {
+      setIsSubscribeOpen(false);
+    }
+  };
 
   return (
     <header 
@@ -50,8 +77,8 @@ const Header = () => {
             About
           </Link>
           <Button 
-            className="bg-red-600 hover:bg-red-700 text-white"
-            onClick={openSubscribeModal}
+            className="bg-red-600 hover:bg-red-700 text-white transform transition-all duration-200 hover:scale-103"
+            onClick={scrollToNewsletter}
           >
             Subscribe
           </Button>
@@ -91,11 +118,8 @@ const Header = () => {
               About
             </Link>
             <Button 
-              className="bg-red-600 hover:bg-red-700 text-white w-full"
-              onClick={() => {
-                setIsMenuOpen(false);
-                openSubscribeModal();
-              }}
+              className="bg-red-600 hover:bg-red-700 text-white w-full transform transition-all duration-200 hover:scale-103"
+              onClick={scrollToNewsletter}
             >
               Subscribe
             </Button>
@@ -114,6 +138,9 @@ const Header = () => {
               Get the latest customer success insights and strategies delivered straight to your inbox.
             </p>
             <NewsletterForm location="hero" className="max-w-sm mx-auto" />
+            <p className="text-sm mt-4 text-center text-gray-500">
+              Join 2,000+ CS leaders getting fresh insights every Tuesday.
+            </p>
           </div>
         </DialogContent>
       </Dialog>

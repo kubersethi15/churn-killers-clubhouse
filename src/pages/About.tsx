@@ -2,13 +2,51 @@
 import { useEffect } from "react";
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
+import NewsletterForm from "@/components/NewsletterForm";
 import { Link } from "react-router-dom";
 import { MessageSquare, User, Briefcase, Award, CheckCircle, XCircle } from "lucide-react";
 
 const About = () => {
   useEffect(() => {
-    document.title = "About | Churn Is Dead";
+    document.title = "Churn Is Dead: Tactical Customer Success That Drives Outcomes";
+    // Add meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', "Ditch the fluff. Churn Is Dead gives you bold, battle-tested CS strategy every Tuesday — built for growth, not just retention.");
+    } else {
+      const meta = document.createElement('meta');
+      meta.name = 'description';
+      meta.content = "Ditch the fluff. Churn Is Dead gives you bold, battle-tested CS strategy every Tuesday — built for growth, not just retention.";
+      document.head.appendChild(meta);
+    }
+    // Add Open Graph tags
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+      ogTitle.setAttribute('content', "Churn Is Dead: Tactical Customer Success That Drives Outcomes");
+    } else {
+      const meta = document.createElement('meta');
+      meta.setAttribute('property', 'og:title');
+      meta.content = "Churn Is Dead: Tactical Customer Success That Drives Outcomes";
+      document.head.appendChild(meta);
+    }
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) {
+      ogDescription.setAttribute('content', "Ditch the fluff. Churn Is Dead gives you bold, battle-tested CS strategy every Tuesday — built for growth, not just retention.");
+    } else {
+      const meta = document.createElement('meta');
+      meta.setAttribute('property', 'og:description');
+      meta.content = "Ditch the fluff. Churn Is Dead gives you bold, battle-tested CS strategy every Tuesday — built for growth, not just retention.";
+      document.head.appendChild(meta);
+    }
   }, []);
+
+  const scrollToNewsletter = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const newsletterSection = document.getElementById('newsletter-section');
+    if (newsletterSection) {
+      newsletterSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -20,7 +58,7 @@ const About = () => {
           <div className="max-w-3xl mx-auto">
             <h1 className="text-3xl md:text-5xl font-serif font-black mb-6 leading-tight">
               CS isn't about fighting churn.<br />
-              <span className="text-red-500">It's about driving revenue, trust, and outcomes.</span>
+              <span className="text-red-500 text-2xl md:text-4xl">It's about driving revenue, trust, and outcomes.</span>
             </h1>
             <p className="text-xl md:text-2xl font-semibold mb-4">
               This is your roadmap.
@@ -69,7 +107,7 @@ const About = () => {
               </p>
               
               <div className="mb-8">
-                <p className="font-semibold text-navy-dark mb-4 text-lg">What You'll Get Every Tuesday:</p>
+                <p className="font-semibold text-navy-dark mb-4 text-lg">Every Tuesday, Here's What Lands in Your Inbox:</p>
                 <ul className="space-y-3">
                   <li className="flex items-start">
                     <span className="text-red-600 mr-2 font-bold">🧠</span>
@@ -113,7 +151,7 @@ const About = () => {
       </section>
       
       {/* CTA Section */}
-      <section className="py-16 md:py-20 bg-navy-dark text-white">
+      <section id="newsletter-section" className="py-16 md:py-20 bg-navy-dark text-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
@@ -122,15 +160,10 @@ const About = () => {
             <p className="text-lg mb-8">
               Get weekly insights that help you drive more value, expansion, and growth.
             </p>
-            <Button 
-              className="bg-red-600 hover:bg-red-700 text-white"
-              size="lg"
-              asChild
-            >
-              <Link to="/">
-                Subscribe to the Newsletter
-              </Link>
-            </Button>
+            <NewsletterForm className="max-w-lg mx-auto" />
+            <p className="text-sm mt-4 text-gray-300">
+              Join 2,000+ CS leaders getting fresh insights every Tuesday.
+            </p>
           </div>
         </div>
       </section>
@@ -138,7 +171,17 @@ const About = () => {
       {/* Footer */}
       <footer className="py-12 bg-navy-dark text-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-col md:flex-row justify-between items-center">
+          <div className="flex flex-col items-center mb-8">
+            <h3 className="text-xl font-serif font-bold mb-6">
+              Ready to transform your Customer Success approach?
+            </h3>
+            <NewsletterForm location="footer" className="max-w-lg w-full" />
+            <p className="text-sm mt-3 text-gray-300">
+              Join 2,000+ CS leaders getting fresh insights every Tuesday.
+            </p>
+          </div>
+          
+          <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-800">
             <div className="mb-6 md:mb-0">
               <h2 className="text-xl font-serif font-black mb-2">
                 <span className="underline-red">Churn</span> Is Dead
