@@ -30,6 +30,7 @@ const buttonVariants = cva(
         sm: "h-9 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
         xl: "h-12 rounded-md px-8 text-base",
+        "xl-wide": "h-12 rounded-md px-10 py-3 text-base", // Added new size for wider buttons
         icon: "h-10 w-10",
       },
     },

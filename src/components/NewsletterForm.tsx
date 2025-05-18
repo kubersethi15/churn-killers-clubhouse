@@ -18,7 +18,7 @@ const NewsletterForm = ({
   className = "",
   title,
   description, 
-  buttonVariant = "cream"
+  buttonVariant = "outline-red" // Changed default to outline-red for consistency
 }: NewsletterFormProps) => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -94,7 +94,8 @@ const NewsletterForm = ({
           type="submit" 
           disabled={isLoading}
           variant={buttonVariant}
-          className={`h-12 px-6 font-medium min-w-[140px] shadow-sm transition-all`}
+          size="xl-wide" // Using the new consistent size
+          className="font-medium min-w-[140px] shadow-sm transition-all"
         >
           {isLoading ? "Subscribing..." : "Subscribe"}
         </Button>
