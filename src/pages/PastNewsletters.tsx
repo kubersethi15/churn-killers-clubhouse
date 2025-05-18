@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
@@ -6,6 +5,13 @@ import NewsletterCard from "@/components/NewsletterCard";
 import NewsletterForm from "@/components/NewsletterForm";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
+import { Compass, Rocket, Wrench, TrendingUp, LightbulbIcon, ShieldCheck } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type Newsletter = {
   id: string;
@@ -17,23 +23,63 @@ type Newsletter = {
   slug: string;
 };
 
+// Define lifecycle stage configuration with icons and tooltips
+const lifecycleStageConfig = [
+  {
+    id: "All",
+    label: "All",
+    tooltipText: "View all newsletters",
+    filterValue: "All",
+  },
+  {
+    id: "Rediscovery",
+    label: "🧭 Rediscovery",
+    icon: Compass,
+    tooltipText: "Reset expectations after the deal",
+    filterValue: "Rediscovery",
+  },
+  {
+    id: "Kickoff & Onboarding",
+    label: "🚀 Kickoff",
+    icon: Rocket,
+    tooltipText: "Launch alignment and build momentum",
+    filterValue: "Kickoff & Onboarding",
+  },
+  {
+    id: "Implementation",
+    label: "🔧 Build",
+    icon: Wrench,
+    tooltipText: "Drive action and solve blockers",
+    filterValue: "Implementation",
+  },
+  {
+    id: "Value Realization",
+    label: "📈 Value",
+    icon: TrendingUp,
+    tooltipText: "Prove value with real outcomes",
+    filterValue: "Value Realization",
+  },
+  {
+    id: "Expansion & Advocacy",
+    label: "💡 Grow",
+    icon: LightbulbIcon,
+    tooltipText: "Grow influence and share success",
+    filterValue: "Expansion & Advocacy",
+  },
+  {
+    id: "Churn Recovery",
+    label: "🛟 Recovery",
+    icon: ShieldCheck,
+    tooltipText: "Rescue risk and rebuild trust",
+    filterValue: "Churn Recovery",
+  },
+];
+
 const PastNewsletters = () => {
   const [newsletters, setNewsletters] = useState<Newsletter[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<string>("All");
-  const [categories, setCategories] = useState<string[]>([]);
   
-  // Define lifecycle stages
-  const lifecycleStages = [
-    "All",
-    "Rediscovery",
-    "Kickoff & Onboarding",
-    "Implementation",
-    "Value Realization",
-    "Expansion & Advocacy",
-    "Churn Recovery"
-  ];
-
   useEffect(() => {
     document.title = "Past Newsletters | Churn Is Dead";
   }, []);
@@ -94,20 +140,27 @@ const PastNewsletters = () => {
         </div>
       </section>
       
-      {/* Filter Section */}
+      {/* Filter Section with Icons and Tooltips */}
       <section className="py-8 bg-gray-50 border-b border-gray-200">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex flex-wrap gap-2">
-              {lifecycleStages.map(stage => (
-                <Button 
-                  key={stage} 
-                  variant={activeFilter === stage ? "outline" : "ghost"}
-                  className={activeFilter === stage ? "bg-white" : ""}
-                  onClick={() => handleFilterChange(stage)}
-                >
-                  {stage}
-                </Button>
+              {lifecycleStageConfig.map((stage) => (
+                <Tooltip key={stage.id}>
+                  <TooltipTrigger asChild>
+                    <Button 
+                      variant={activeFilter === stage.filterValue ? "outline" : "ghost"}
+                      className={`${activeFilter === stage.filterValue ? "bg-white" : ""} gap-1.5`}
+                      onClick={() => handleFilterChange(stage.filterValue)}
+                    >
+                      {stage.icon && <stage.icon className="h-4 w-4" />}
+                      <span className="hidden sm:inline">{stage.label.split(" ")[1] || stage.label}</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{stage.tooltipText}</p>
+                  </TooltipContent>
+                </Tooltip>
               ))}
             </div>
             <div>
