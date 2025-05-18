@@ -71,7 +71,7 @@ const About = () => {
       <section className="py-16 md:py-20">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white p-8 md:p-10 rounded-xl shadow-md">
+            <div className="bg-white p-8 md:p-12 rounded-xl shadow-lg">
               <p className="text-xl font-medium mb-6 text-navy-dark">
                 Churn Is Dead isn't a newsletter. It's a wake-up call.
                 <span className="block text-red-600 mt-1">A rejection of fluffy CS thought leadership.</span>
@@ -82,17 +82,17 @@ const About = () => {
                 After 10+ years in the CS trenches, I saw it all:
               </p>
 
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-4 mb-8 text-lg">
                 <li className="flex items-start">
-                  <XCircle size={20} className="text-red-500 mr-2 mt-1 flex-shrink-0" />
+                  <XCircle size={22} className="text-red-500 mr-2 mt-1 flex-shrink-0" />
                   <span className="text-gray-700">QBR decks collecting dust</span>
                 </li>
                 <li className="flex items-start">
-                  <XCircle size={20} className="text-red-500 mr-2 mt-1 flex-shrink-0" />
+                  <XCircle size={22} className="text-red-500 mr-2 mt-1 flex-shrink-0" />
                   <span className="text-gray-700">Check-ins with no impact</span>
                 </li>
                 <li className="flex items-start">
-                  <XCircle size={20} className="text-red-500 mr-2 mt-1 flex-shrink-0" />
+                  <XCircle size={22} className="text-red-500 mr-2 mt-1 flex-shrink-0" />
                   <span className="text-gray-700">Teams chasing renewals, not outcomes</span>
                 </li>
               </ul>
@@ -107,21 +107,30 @@ const About = () => {
               </p>
               
               <div className="mb-8">
-                <p className="font-semibold text-navy-dark mb-4 text-lg">Every Tuesday, Here's What Lands in Your Inbox:</p>
-                <ul className="space-y-3">
+                <h3 className="font-semibold text-red-600 mb-4 text-xl">Every Tuesday, Here's What Lands in Your Inbox:</h3>
+                <ul className="space-y-4">
                   <li className="flex items-start">
-                    <span className="text-red-600 mr-2 font-bold">🧠</span>
-                    <span>What's broken (and what's actually working) in CS</span>
+                    <span className="text-red-600 mr-2 font-bold text-xl">🧠</span>
+                    <span className="text-lg">What's broken (and what's actually working) in CS</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-red-600 mr-2 font-bold">📦</span>
-                    <span>Frameworks and plays you can run now</span>
+                    <span className="text-red-600 mr-2 font-bold text-xl">📦</span>
+                    <span className="text-lg">Frameworks and plays you can run now</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-red-600 mr-2 font-bold">🎤</span>
-                    <span>Real stories from CS leaders in the arena (not just "influencers")</span>
+                    <span className="text-red-600 mr-2 font-bold text-xl">🎤</span>
+                    <span className="text-lg">Real stories from CS leaders in the arena (not just "influencers")</span>
                   </li>
                 </ul>
+              </div>
+              
+              {/* New subscription form moved up from bottom */}
+              <div className="bg-navy-dark p-6 rounded-lg shadow-md mb-8">
+                <h3 className="text-xl text-white font-medium mb-4">Ready to transform your CS approach?</h3>
+                <NewsletterForm location="article" className="max-w-full" />
+                <p className="text-sm mt-3 text-gray-300">
+                  Join 2,000+ CS leaders getting fresh insights every Tuesday.
+                </p>
               </div>
               
               <p className="font-medium text-navy-dark mb-6">
@@ -131,7 +140,7 @@ const About = () => {
               </p>
               
               <div className="border-t border-gray-200 pt-6 mt-8">
-                <h3 className="text-xl font-serif font-bold text-navy-dark mb-4">Why Now?</h3>
+                <h3 className="text-xl font-serif font-bold text-red-600 mb-4">Why Now?</h3>
                 <p className="text-gray-700 mb-4">
                   Customer Success is at a crossroads.
                 </p>
@@ -146,24 +155,6 @@ const About = () => {
                 </p>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* CTA Section */}
-      <section id="newsletter-section" className="py-16 md:py-20 bg-navy-dark text-white">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-              Join the movement
-            </h2>
-            <p className="text-lg mb-8">
-              Get weekly insights that help you drive more value, expansion, and growth.
-            </p>
-            <NewsletterForm className="max-w-lg mx-auto" />
-            <p className="text-sm mt-4 text-gray-300">
-              Join 2,000+ CS leaders getting fresh insights every Tuesday.
-            </p>
           </div>
         </div>
       </section>
