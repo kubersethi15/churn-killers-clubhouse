@@ -71,7 +71,7 @@ const About = () => {
       <section className="py-16 md:py-20">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white p-8 md:p-12 rounded-xl shadow-lg">
+            <div className="bg-white p-10 md:p-14 rounded-xl shadow-lg">
               <p className="text-xl font-medium mb-6 text-navy-dark">
                 Churn Is Dead isn't a newsletter. It's a wake-up call.
                 <span className="block text-red-600 mt-1">A rejection of fluffy CS thought leadership.</span>
@@ -82,75 +82,77 @@ const About = () => {
                 After 10+ years in the CS trenches, I saw it all:
               </p>
 
-              <ul className="space-y-4 mb-8 text-lg">
+              <ul className="space-y-5 mb-8 text-lg">
                 <li className="flex items-start">
-                  <XCircle size={22} className="text-red-500 mr-2 mt-1 flex-shrink-0" />
+                  <XCircle size={24} className="text-red-500 mr-3 mt-1 flex-shrink-0" />
                   <span className="text-gray-700">QBR decks collecting dust</span>
                 </li>
                 <li className="flex items-start">
-                  <XCircle size={22} className="text-red-500 mr-2 mt-1 flex-shrink-0" />
+                  <XCircle size={24} className="text-red-500 mr-3 mt-1 flex-shrink-0" />
                   <span className="text-gray-700">Check-ins with no impact</span>
                 </li>
                 <li className="flex items-start">
-                  <XCircle size={22} className="text-red-500 mr-2 mt-1 flex-shrink-0" />
+                  <XCircle size={24} className="text-red-500 mr-3 mt-1 flex-shrink-0" />
                   <span className="text-gray-700">Teams chasing renewals, not outcomes</span>
                 </li>
               </ul>
               
-              <p className="mb-6 text-gray-700">
+              <p className="mb-6 text-gray-700 text-lg">
                 So I created Churn Is Dead — a space for battle-tested plays, contrarian thinking, and no-BS strategies that actually move the needle.
               </p>
               
-              <p className="mb-6 italic border-l-4 border-red-500 pl-4 py-2 font-medium">
+              <p className="mb-8 italic border-l-4 border-red-500 pl-4 py-2 font-medium text-lg">
                 💥 This isn't about inspiration. It's about implementation.<br />
                 Churn isn't your North Star. Value is.
               </p>
               
               <div className="mb-8">
-                <h3 className="font-semibold text-red-600 mb-4 text-xl">Every Tuesday, Here's What Lands in Your Inbox:</h3>
-                <ul className="space-y-4">
+                <h3 className="font-semibold text-red-600 mb-5 text-2xl">Every Tuesday, Here's What Lands in Your Inbox:</h3>
+                <ul className="space-y-5 text-lg">
                   <li className="flex items-start">
-                    <span className="text-red-600 mr-2 font-bold text-xl">🧠</span>
-                    <span className="text-lg">What's broken (and what's actually working) in CS</span>
+                    <span className="text-red-600 mr-3 font-bold text-xl">🧠</span>
+                    <span>What's broken (and what's actually working) in CS</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-red-600 mr-2 font-bold text-xl">📦</span>
-                    <span className="text-lg">Frameworks and plays you can run now</span>
+                    <span className="text-red-600 mr-3 font-bold text-xl">📦</span>
+                    <span>Frameworks and plays you can run now</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-red-600 mr-2 font-bold text-xl">🎤</span>
-                    <span className="text-lg">Real stories from CS leaders in the arena (not just "influencers")</span>
+                    <span className="text-red-600 mr-3 font-bold text-xl">🎤</span>
+                    <span>Real stories from CS leaders in the arena (not just "influencers")</span>
                   </li>
                 </ul>
               </div>
               
               {/* New subscription form moved up from bottom */}
-              <div className="bg-navy-dark p-6 rounded-lg shadow-md mb-8">
-                <h3 className="text-xl text-white font-medium mb-4">Ready to transform your CS approach?</h3>
-                <NewsletterForm location="article" className="max-w-full" />
-                <p className="text-sm mt-3 text-gray-300">
-                  Join 2,000+ CS leaders getting fresh insights every Tuesday.
-                </p>
+              <div id="newsletter-section" className="bg-navy-dark p-8 rounded-lg shadow-md mb-8">
+                <NewsletterForm 
+                  location="article" 
+                  className="max-w-full" 
+                  title="Ready to transform your CS approach?"
+                  description="Join 2,000+ CS leaders getting fresh insights every Tuesday."
+                  buttonVariant="outline-red"
+                />
               </div>
               
-              <p className="font-medium text-navy-dark mb-6">
+              <p className="font-medium text-navy-dark mb-8 text-lg">
                 If you're done chasing renewals…<br />
                 If you're ready to lead with clarity, value, and real impact…<br />
                 <span className="text-red-600">Then welcome. You're one of us.</span>
               </p>
               
               <div className="border-t border-gray-200 pt-6 mt-8">
-                <h3 className="text-xl font-serif font-bold text-red-600 mb-4">Why Now?</h3>
-                <p className="text-gray-700 mb-4">
+                <h3 className="text-2xl font-serif font-bold text-red-600 mb-4">Why Now?</h3>
+                <p className="text-gray-700 mb-4 text-lg">
                   Customer Success is at a crossroads.
                 </p>
-                <p className="text-gray-700 mb-4">
+                <p className="text-gray-700 mb-4 text-lg">
                   In an era of layoffs, AI overload, and NRR obsession, it's never been more urgent to reset the strategy and reclaim what CS is meant to be:
-                  <span className="block font-medium text-navy-dark mt-2">
+                  <span className="block font-medium text-navy-dark mt-2 text-lg">
                     A growth engine. A trust accelerator. A business multiplier.
                   </span>
                 </p>
-                <p className="font-medium text-center text-lg text-red-600 mt-6">
+                <p className="font-medium text-center text-xl text-red-600 mt-6">
                   That's why Churn Is Dead exists.
                 </p>
               </div>
@@ -162,14 +164,19 @@ const About = () => {
       {/* Footer */}
       <footer className="py-12 bg-navy-dark text-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-col items-center mb-8">
-            <h3 className="text-xl font-serif font-bold mb-6">
-              Ready to transform your Customer Success approach?
-            </h3>
-            <NewsletterForm location="footer" className="max-w-lg w-full" />
-            <p className="text-sm mt-3 text-gray-300">
-              Join 2,000+ CS leaders getting fresh insights every Tuesday.
-            </p>
+          <div className="flex flex-col items-center mb-8" id="footer-newsletter">
+            <div className="max-w-lg w-full">
+              <NewsletterForm 
+                location="footer" 
+                className="w-full" 
+                title="Join the movement."
+                description="No fluff. Just value, trust, and tactical execution — delivered weekly."
+                buttonVariant="soft-red"
+              />
+              <p className="text-sm mt-3 text-gray-300 text-center">
+                Join 2,000+ CS leaders getting fresh insights every Tuesday.
+              </p>
+            </div>
           </div>
           
           <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-800">

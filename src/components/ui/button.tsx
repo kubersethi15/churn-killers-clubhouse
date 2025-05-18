@@ -22,6 +22,8 @@ const buttonVariants = cva(
         cream: "bg-cream text-red-600 hover:bg-white hover:text-red-700 shadow-md hover:scale-[1.03]",
         navy: "bg-navy text-white hover:bg-navy-dark shadow-md hover:scale-[1.03]",
         white: "bg-white text-navy-dark hover:bg-gray-100 shadow-md hover:scale-[1.03]",
+        "outline-red": "border-2 border-red-500 bg-transparent text-red-600 hover:bg-red-50 hover:text-red-700 hover:scale-[1.03]",
+        "soft-red": "bg-red-400 text-white hover:bg-red-500 shadow-md hover:scale-[1.03]",
       },
       size: {
         default: "h-10 px-4 py-2",

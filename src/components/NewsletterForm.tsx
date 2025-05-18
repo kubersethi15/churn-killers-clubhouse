@@ -8,9 +8,18 @@ import { supabase } from "@/integrations/supabase/client";
 interface NewsletterFormProps {
   location?: "hero" | "footer" | "article";
   className?: string;
+  title?: string;
+  description?: string;
+  buttonVariant?: "cream" | "outline-red" | "soft-red";
 }
 
-const NewsletterForm = ({ location = "hero", className = "" }: NewsletterFormProps) => {
+const NewsletterForm = ({ 
+  location = "hero", 
+  className = "",
+  title,
+  description, 
+  buttonVariant = "cream"
+}: NewsletterFormProps) => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -61,34 +70,36 @@ const NewsletterForm = ({ location = "hero", className = "" }: NewsletterFormPro
   const isFooter = location === "footer";
 
   return (
-    <form 
-      onSubmit={handleSubmit} 
-      className={`${className} flex flex-col sm:flex-row gap-3`}
-    >
-      <div className="flex-1">
-        <Input
-          type="email"
-          placeholder="Your email address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className={`${
-            isHero || isArticle ? "bg-white border-gray-200" : "bg-white/90"
-          } h-12 px-4 text-base shadow-sm`}
-        />
-      </div>
-      <Button 
-        type="submit" 
-        disabled={isLoading}
-        className={`${
-          isFooter
-            ? "bg-white text-red-600 hover:bg-gray-100 hover:text-red-700 border border-white"
-            : "bg-cream text-red-600 hover:bg-white hover:text-red-700 border border-white" 
-        } h-12 px-6 font-medium min-w-[140px] shadow-md transition-all`}
+    <div className="w-full">
+      {title && <h3 className="text-xl font-medium mb-3">{title}</h3>}
+      {description && <p className="text-sm mb-4 opacity-80">{description}</p>}
+      
+      <form 
+        onSubmit={handleSubmit} 
+        className={`${className} flex flex-col sm:flex-row gap-3`}
       >
-        {isLoading ? "Subscribing..." : "Subscribe"}
-      </Button>
-    </form>
+        <div className="flex-1">
+          <Input
+            type="email"
+            placeholder="Your email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className={`${
+              isHero || isArticle ? "bg-white border-gray-200" : "bg-white/90"
+            } h-12 px-4 py-3 text-base shadow-sm`}
+          />
+        </div>
+        <Button 
+          type="submit" 
+          disabled={isLoading}
+          variant={buttonVariant}
+          className={`h-12 px-6 font-medium min-w-[140px] shadow-sm transition-all`}
+        >
+          {isLoading ? "Subscribing..." : "Subscribe"}
+        </Button>
+      </form>
+    </div>
   );
 };
 
