@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import Header from "@/components/Header";
 import NewsletterForm from "@/components/NewsletterForm";
@@ -115,7 +116,8 @@ const About = () => {
                 <span className="text-red-600">Then welcome. You're one of us.</span>
               </p>
               
-              <div className="border-t border-gray-200 pt-6 mt-8">
+              {/* Added more vertical spacing with mt-12 (was mt-8) */}
+              <div className="border-t border-gray-200 pt-6 mt-12">
                 <h3 className="text-2xl font-serif font-bold text-red-600 mb-4">Why Now?</h3>
                 <p className="text-gray-700 mb-4 text-lg">
                   Customer Success is at a crossroads.
@@ -148,8 +150,9 @@ const About = () => {
                 buttonVariant="outline-red"
                 textColor="text-white"
               />
-              <p className="text-sm mt-3 text-gray-300 text-center">
-                Join 2,000+ CS leaders getting fresh insights every Tuesday.
+              {/* Enhanced social proof with improved styling */}
+              <p className="text-sm mt-3 text-white font-medium text-center">
+                <span className="bg-red-600/20 px-3 py-1 rounded-full">Join <strong>2,000+ CS leaders</strong> getting fresh insights every Tuesday</span>
               </p>
             </div>
           </div>
