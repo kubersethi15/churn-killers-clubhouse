@@ -22,6 +22,17 @@ const PastNewsletters = () => {
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<string>("All");
   const [categories, setCategories] = useState<string[]>([]);
+  
+  // Define lifecycle stages
+  const lifecycleStages = [
+    "All",
+    "Rediscovery",
+    "Kickoff & Onboarding",
+    "Implementation",
+    "Value Realization",
+    "Expansion & Advocacy",
+    "Churn Recovery"
+  ];
 
   useEffect(() => {
     document.title = "Past Newsletters | Churn Is Dead";
@@ -46,12 +57,6 @@ const PastNewsletters = () => {
 
         if (data) {
           setNewsletters(data as Newsletter[]);
-          
-          // Extract unique categories for filters
-          if (activeFilter === "All") {
-            const uniqueCategories = Array.from(new Set(data.map(item => item.category).filter(Boolean)));
-            setCategories(uniqueCategories as string[]);
-          }
         }
       } catch (error) {
         console.error("Unexpected error:", error);
@@ -94,22 +99,14 @@ const PastNewsletters = () => {
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex flex-wrap gap-2">
-              <Button 
-                variant={activeFilter === "All" ? "outline" : "ghost"} 
-                className={activeFilter === "All" ? "bg-white" : ""}
-                onClick={() => handleFilterChange("All")}
-              >
-                All
-              </Button>
-              
-              {categories.map(category => (
+              {lifecycleStages.map(stage => (
                 <Button 
-                  key={category} 
-                  variant={activeFilter === category ? "outline" : "ghost"}
-                  className={activeFilter === category ? "bg-white" : ""}
-                  onClick={() => handleFilterChange(category)}
+                  key={stage} 
+                  variant={activeFilter === stage ? "outline" : "ghost"}
+                  className={activeFilter === stage ? "bg-white" : ""}
+                  onClick={() => handleFilterChange(stage)}
                 >
-                  {category}
+                  {stage}
                 </Button>
               ))}
             </div>
