@@ -10,7 +10,7 @@ interface NewsletterFormProps {
   className?: string;
   title?: string;
   description?: string;
-  buttonVariant?: "cream" | "outline-red" | "soft-red";
+  buttonVariant?: "cream" | "outline-red" | "soft-red" | "white";
   textColor?: string;
 }
 

@@ -220,7 +220,7 @@ const PastNewsletters = () => {
               Join the weekly newsletter and get tactical CS insights delivered to your inbox.
             </p>
             <div className="max-w-lg mx-auto">
-              <NewsletterForm location="footer" />
+              <NewsletterForm location="footer" buttonVariant="white" textColor="text-white" />
             </div>
           </div>
         </div>
