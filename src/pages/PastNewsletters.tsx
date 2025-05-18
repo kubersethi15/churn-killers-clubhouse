@@ -126,13 +126,12 @@ const PastNewsletters = () => {
     <div className="min-h-screen bg-white">
       <Header />
       
-      {/* Hero Section with Enhanced Underline */}
+      {/* Hero Section */}
       <section className="pt-32 pb-16 md:pt-40 md:pb-20 bg-navy-dark text-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-3xl md:text-5xl font-serif font-black mb-6 relative inline-block">
+            <h1 className="text-3xl md:text-5xl font-serif font-black mb-6">
               <span className="text-red-500">Past Newsletters</span>
-              <span className="absolute left-0 bottom-0 w-full h-1.5 bg-red-600 rounded-sm transform translate-y-1"></span>
             </h1>
             <p className="text-lg md:text-xl mb-8 text-gray-200 leading-relaxed">
               Catch up on previous editions of Churn Is Dead. Tactical CS advice and frameworks you won't find anywhere else.
