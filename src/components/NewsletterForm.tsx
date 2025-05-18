@@ -11,6 +11,7 @@ interface NewsletterFormProps {
   title?: string;
   description?: string;
   buttonVariant?: "cream" | "outline-red" | "soft-red";
+  textColor?: string;
 }
 
 const NewsletterForm = ({ 
@@ -18,7 +19,8 @@ const NewsletterForm = ({
   className = "",
   title,
   description, 
-  buttonVariant = "outline-red" // Changed default to outline-red for consistency
+  buttonVariant = "outline-red",
+  textColor = "text-gray-700" // Default text color
 }: NewsletterFormProps) => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -71,8 +73,8 @@ const NewsletterForm = ({
 
   return (
     <div className="w-full">
-      {title && <h3 className="text-xl font-medium mb-3">{title}</h3>}
-      {description && <p className="text-sm mb-4 opacity-80">{description}</p>}
+      {title && <h3 className={`text-xl font-medium mb-3 ${textColor}`}>{title}</h3>}
+      {description && <p className={`text-sm mb-4 ${textColor === "text-gray-700" ? "opacity-80" : ""} ${textColor}`}>{description}</p>}
       
       <form 
         onSubmit={handleSubmit} 
@@ -94,7 +96,7 @@ const NewsletterForm = ({
           type="submit" 
           disabled={isLoading}
           variant={buttonVariant}
-          size="xl-wide" // Using the new consistent size
+          size="xl-wide"
           className="font-medium min-w-[140px] shadow-sm transition-all"
         >
           {isLoading ? "Subscribing..." : "Subscribe"}

@@ -1,15 +1,16 @@
 import { useEffect } from "react";
 import Header from "@/components/Header";
-import { Button } from "@/components/ui/button";
 import NewsletterForm from "@/components/NewsletterForm";
-import { Link } from "react-router-dom";
 import { MessageSquare, User, Briefcase, Award, CheckCircle, XCircle } from "lucide-react";
 
 const About = () => {
   useEffect(() => {
     document.title = "Churn Is Dead: Tactical Customer Success That Drives Outcomes";
-    // Keep existing meta description code
-    // ... keep existing code (meta tags setup)
+    document.querySelector('meta[name="description"]')?.setAttribute("content", "Discover tactical customer success strategies that drive revenue, trust, and outcomes. Churn Is Dead provides actionable insights for CS leaders.");
+    document.querySelector('meta[property="og:title"]')?.setAttribute("content", "Churn Is Dead: Tactical Customer Success That Drives Outcomes");
+    document.querySelector('meta[property="og:description"]')?.setAttribute("content", "Discover tactical customer success strategies that drive revenue, trust, and outcomes. Churn Is Dead provides actionable insights for CS leaders.");
+    document.querySelector('meta[property="twitter:title"]')?.setAttribute("content", "Churn Is Dead: Tactical Customer Success That Drives Outcomes");
+    document.querySelector('meta[property="twitter:description"]')?.setAttribute("content", "Discover tactical customer success strategies that drive revenue, trust, and outcomes. Churn Is Dead provides actionable insights for CS leaders.");
   }, []);
 
   const scrollToNewsletter = (e: React.MouseEvent) => {
@@ -104,6 +105,7 @@ const About = () => {
                   title="Ready to transform your CS approach?"
                   description="Join 2,000+ CS leaders getting fresh insights every Tuesday."
                   buttonVariant="outline-red"
+                  textColor="text-white"
                 />
               </div>
               
@@ -143,7 +145,8 @@ const About = () => {
                 className="w-full" 
                 title="Join the movement."
                 description="No fluff. Just value, trust, and tactical execution — delivered weekly."
-                buttonVariant="outline-red" // Updated to use consistent button style
+                buttonVariant="outline-red"
+                textColor="text-white"
               />
               <p className="text-sm mt-3 text-gray-300 text-center">
                 Join 2,000+ CS leaders getting fresh insights every Tuesday.
