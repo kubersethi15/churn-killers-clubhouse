@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import Header from "@/components/Header";
 import NewsletterForm from "@/components/NewsletterForm";
@@ -150,8 +149,8 @@ const About = () => {
                 buttonVariant="outline-red"
                 textColor="text-white"
               />
-              {/* Enhanced social proof with improved styling */}
-              <p className="text-sm mt-3 text-white font-medium text-center">
+              {/* Changed text alignment from center to left for social proof */}
+              <p className="text-sm mt-3 text-white font-medium text-left">
                 <span className="bg-red-600/20 px-3 py-1 rounded-full">Join <strong>2,000+ CS leaders</strong> getting fresh insights every Tuesday</span>
               </p>
             </div>
