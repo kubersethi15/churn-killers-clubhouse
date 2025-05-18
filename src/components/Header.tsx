@@ -46,12 +46,9 @@ const Header = () => {
           <Link to="/newsletters" className="text-navy-dark hover:text-red-600 font-medium transition-colors">
             Newsletters
           </Link>
-          <a href="#insights" className="text-navy-dark hover:text-red-600 font-medium transition-colors">
-            Insights
-          </a>
-          <a href="#about" className="text-navy-dark hover:text-red-600 font-medium transition-colors">
+          <Link to="/about" className="text-navy-dark hover:text-red-600 font-medium transition-colors">
             About
-          </a>
+          </Link>
           <Button 
             className="bg-red-600 hover:bg-red-700 text-white"
             onClick={openSubscribeModal}
@@ -86,20 +83,13 @@ const Header = () => {
             >
               Newsletters
             </Link>
-            <a 
-              href="#insights" 
-              className="text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Insights
-            </a>
-            <a 
-              href="#about" 
+            <Link 
+              to="/about" 
               className="text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
               onClick={() => setIsMenuOpen(false)}
             >
               About
-            </a>
+            </Link>
             <Button 
               className="bg-red-600 hover:bg-red-700 text-white w-full"
               onClick={() => {
