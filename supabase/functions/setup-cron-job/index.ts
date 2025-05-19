@@ -40,12 +40,12 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Set up the cron job to run every 15 minutes
-    const { error: cronError } = await supabase.rpc('setup_newsletter_cron_job');
+    // Set up the cron job to run every 5 minutes for testing
+    const { error: cronError } = await supabase.rpc('setup_newsletter_test_cron_job');
     if (cronError) {
-      console.error("Error setting up cron job:", cronError);
+      console.error("Error setting up test cron job:", cronError);
       return new Response(
-        JSON.stringify({ error: "Failed to set up cron job", details: cronError }),
+        JSON.stringify({ error: "Failed to set up test cron job", details: cronError }),
         {
           status: 500,
           headers: { "Content-Type": "application/json", ...corsHeaders },
@@ -53,12 +53,12 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    console.log("Cron job successfully set up");
+    console.log("Test cron job successfully set up to run every 5 minutes");
 
     return new Response(
       JSON.stringify({
         success: true,
-        message: "Newsletter cron job has been set up to run every 15 minutes",
+        message: "Newsletter test cron job has been set up to run every 5 minutes",
       }),
       {
         status: 200,
