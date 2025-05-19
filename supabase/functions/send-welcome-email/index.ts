@@ -61,45 +61,55 @@ const handler = async (req: Request): Promise<Response> => {
     
     console.log(`Sending welcome email to: ${email}`);
 
-    // Use the verified domain now that it's ready
+    // Improved email configuration for better deliverability
     const emailResponse = await resend.emails.send({
       from: "Churn Is Dead <newsletter@churnisdead.com>",
       to: [email],
       subject: "Welcome to Churn Is Dead Newsletter!",
+      reply_to: "support@churnisdead.com", // Adding reply-to address improves legitimacy
+      headers: {
+        "List-Unsubscribe": "<mailto:unsubscribe@churnisdead.com?subject=unsubscribe>", // This helps avoid spam filters
+        "Precedence": "bulk" // Common header for bulk emails/newsletters
+      },
       html: `
-        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
           <h1 style="color: #172554; margin-top: 30px;">You're In!</h1>
-          <p style="font-size: 16px; line-height: 1.5; margin: 20px 0;">
+          <p style="font-size: 16px; line-height: 1.5; margin: 20px 0; color: #333;">
             Thanks for subscribing to <strong>Churn Is Dead</strong> — your weekly dose of no-fluff CS strategies.
           </p>
-          <p style="font-size: 16px; line-height: 1.5; margin: 20px 0;">
+          <p style="font-size: 16px; line-height: 1.5; margin: 20px 0; color: #333;">
             Every Tuesday, you'll get battle-tested plays to drive trust, revenue, and real outcomes with your customers.
           </p>
-          <p style="font-size: 16px; line-height: 1.5; margin: 20px 0;">
+          <p style="font-size: 16px; line-height: 1.5; margin: 20px 0; color: #333;">
             The next issue lands in your inbox soon. In the meantime, you can check out our 
             <a href="https://yoursite.com/newsletters" style="color: #dc2626; text-decoration: underline;">past newsletters</a>.
           </p>
           <div style="background-color: #f8f8f8; padding: 20px; border-left: 4px solid #dc2626; margin: 25px 0;">
-            <p style="font-size: 16px; font-style: italic;">
+            <p style="font-size: 16px; font-style: italic; color: #555;">
               "Churn isn't an event. It's the outcome of missed opportunities to deliver value." 
             </p>
           </div>
-          <p style="font-size: 16px; line-height: 1.5; margin: 20px 0;">
+          <p style="font-size: 16px; line-height: 1.5; margin: 20px 0; color: #333;">
             Looking forward to killing churn together,<br>
             The Churn Is Dead Team
           </p>
           <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eaeaea; font-size: 12px; color: #666;">
             <p>
-              If you didn't sign up for this newsletter, please 
-              <a href="mailto:unsubscribe@churnisdead.com" style="color: #666;">let us know</a> 
-              and we'll remove you from our list.
+              You received this email because you signed up for the Churn Is Dead newsletter.
+              If you'd like to unsubscribe, please 
+              <a href="mailto:unsubscribe@churnisdead.com?subject=Unsubscribe" style="color: #666;">click here</a>.
+            </p>
+            <p style="margin-top: 10px; color: #888;">
+              Churn Is Dead, Inc.<br>
+              1234 Marketing Street, Suite 500<br>
+              San Francisco, CA 94107
             </p>
           </div>
         </div>
       `,
     });
 
-    console.log("Email sent successfully:", emailResponse);
+    console.log("Email sent response:", emailResponse);
 
     // Properly handle Resend API specific errors
     if (emailResponse.error) {
