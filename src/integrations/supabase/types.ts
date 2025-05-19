@@ -68,7 +68,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      enable_pg_cron: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      setup_newsletter_cron_job: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
