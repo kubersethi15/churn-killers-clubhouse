@@ -110,7 +110,7 @@ const PastNewsletters = () => {
     <div className="min-h-screen bg-white">
       <Header />
       
-      {/* Hero Section - Updated headline and subtext */}
+      {/* Hero Section */}
       <section className="pt-32 pb-16 md:pt-40 md:pb-20 bg-navy-dark text-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
@@ -219,7 +219,7 @@ const PastNewsletters = () => {
               Don't miss the next issue
             </h2>
             <p className="text-lg mb-8 text-white/90">
-              Join the weekly newsletter and get tactical CS insights delivered to your inbox.
+              Join the weekly drop of tactical, no-fluff CS strategy that actually moves the needle.
             </p>
             <div className="max-w-lg mx-auto">
               <NewsletterForm 
