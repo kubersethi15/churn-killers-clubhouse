@@ -27,18 +27,8 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    // First, enable the required PostgreSQL extensions if they aren't already enabled
-    const { error: extError } = await supabase.rpc('enable_pg_cron');
-    if (extError) {
-      console.error("Error enabling pg_cron extension:", extError);
-      return new Response(
-        JSON.stringify({ error: "Failed to enable pg_cron extension", details: extError }),
-        {
-          status: 500,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
-        }
-      );
-    }
+    // Skip trying to enable the extension since we don't have superuser privileges
+    // The pg_cron extension should already be available in Supabase
 
     // Set up the cron job to run every 5 minutes for testing
     const { error: cronError } = await supabase.rpc('setup_newsletter_test_cron_job');

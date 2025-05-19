@@ -76,6 +76,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
+      setup_newsletter_test_cron_job: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
