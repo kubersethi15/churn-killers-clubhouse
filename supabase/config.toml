@@ -3,3 +3,9 @@ project_id = "xtwxemlxzbnadkkrvozr"
 
 [functions.send-welcome-email]
 verify_jwt = false
+
+[functions.send-latest-newsletter]
+verify_jwt = false
+
+[functions.setup-cron-job]
+verify_jwt = false
