@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -81,7 +82,7 @@ const Index = () => {
             />
             
             <div className="mt-6 text-sm text-gray-300">
-              <p>Join 2,000+ CS leaders getting tactical insight every Tuesday.</p>
+              <p>Join CS leaders getting tactical insight every Tuesday.</p>
             </div>
           </div>
         </div>
@@ -253,7 +254,7 @@ const Index = () => {
               Ready to lead with clarity, value, and real impact?
             </h2>
             <p className="text-lg mb-8">
-              Join 2,000+ CS leaders getting battle-tested plays in their inbox every Tuesday.
+              Join CS leaders getting battle-tested plays in their inbox every Tuesday.
             </p>
             <NewsletterForm 
               className="max-w-lg mx-auto" 

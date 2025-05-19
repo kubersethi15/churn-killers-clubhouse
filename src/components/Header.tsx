@@ -139,7 +139,7 @@ const Header = () => {
             </p>
             <NewsletterForm location="hero" className="max-w-sm mx-auto" />
             <p className="text-sm mt-4 text-center text-gray-500">
-              Join 2,000+ CS leaders getting fresh insights every Tuesday.
+              Join CS leaders getting fresh insights every Tuesday.
             </p>
           </div>
         </DialogContent>
