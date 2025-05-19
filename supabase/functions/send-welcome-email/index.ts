@@ -61,9 +61,9 @@ const handler = async (req: Request): Promise<Response> => {
     
     console.log(`Sending welcome email to: ${email}`);
 
-    // Use Resend's default verified domain instead of a custom domain
+    // Use the verified domain now that it's ready
     const emailResponse = await resend.emails.send({
-      from: "Churn Is Dead <onboarding@resend.dev>",
+      from: "Churn Is Dead <newsletter@churnisdead.com>",
       to: [email],
       subject: "Welcome to Churn Is Dead Newsletter!",
       html: `
@@ -105,16 +105,15 @@ const handler = async (req: Request): Promise<Response> => {
     if (emailResponse.error) {
       console.error("Resend API error:", emailResponse.error);
       
-      // Still return success to the client if the subscriber was added to the database
-      // but log detailed error for debugging
+      // Return error details so we can diagnose the issue
       return new Response(
         JSON.stringify({ 
-          success: true, 
-          message: "Subscriber added successfully, but email delivery had an issue.",
+          success: false, 
+          message: "Email delivery had an issue.",
           error: emailResponse.error
         }), 
         {
-          status: 200,
+          status: 500,
           headers: { "Content-Type": "application/json", ...corsHeaders },
         }
       );

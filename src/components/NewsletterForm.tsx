@@ -71,11 +71,10 @@ const NewsletterForm = ({
         const result = await response.json();
         console.log("Welcome email function response:", result);
         
-        // We now consider it a success even if there was an email delivery issue
-        // as long as the subscriber was added to the database
-        if (!response.ok && !result.success) {
+        // Check for errors in the response
+        if (result.error || !result.success) {
           console.error("Welcome email API error:", result);
-          throw new Error(`API returned ${response.status}: ${JSON.stringify(result)}`);
+          // We still consider the subscription successful, but log the email error
         }
       } catch (emailError) {
         console.error("Error sending welcome email:", emailError);
