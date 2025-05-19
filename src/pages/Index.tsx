@@ -86,7 +86,7 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Newsletter Content Section - Updated with "This Week's Drop" heading */}
+      {/* Newsletter Content Section */}
       <section className="py-20 md:py-28">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-5xl mx-auto">
@@ -208,7 +208,7 @@ const Index = () => {
             </div>
             <NewsletterForm 
               className="max-w-lg mx-auto"
-              buttonText="Join the movement →"
+              buttonText="Let's Kill Churn →"
               buttonVariant="soft-red"
             />
           </div>
@@ -244,8 +244,8 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Final CTA */}
-      <section className="py-16 md:py-20 bg-red-600 text-white">
+      {/* Extra spacing before final CTA (added 40px to padding) */}
+      <section className="py-24 md:py-32 bg-red-600 text-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
@@ -262,27 +262,10 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Footer - UPDATED */}
+      {/* Simplified Footer - removed duplicate CTA */}
       <footer className="py-12 bg-navy-dark text-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-6">
-            <h3 className="text-xl font-serif font-bold mb-3">
-              Stay ahead of the curve
-            </h3>
-            <p className="text-base text-gray-300 mb-6">
-              No fluff. No slides. Just tactical CS insight.
-            </p>
-            <NewsletterForm 
-              location="footer" 
-              className="max-w-lg mx-auto" 
-              buttonText="Let's Kill Churn →"
-            />
-            <p className="text-sm mt-3 text-gray-300">
-              Join 2,000+ CS leaders getting tactical insight every Tuesday.
-            </p>
-          </div>
-          
-          <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-800">
+          <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-6 md:mb-0">
               <h2 className="text-xl font-serif font-black mb-2">
                 <span className="underline-red">Churn</span> Is Dead
