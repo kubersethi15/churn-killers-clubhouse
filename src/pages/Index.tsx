@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import NewsletterForm from "@/components/NewsletterForm";
 import TestimonialCard from "@/components/TestimonialCard";
-import { MessageSquare } from "lucide-react";
+import { MessageSquare, CheckCircle, BookText } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
 
@@ -156,35 +156,68 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Value Proposition */}
+      {/* Rallying Cry Section - NEW */}
       <section className="py-20 md:py-28 bg-navy-dark text-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto">
-            <div className="flex flex-col md:flex-row gap-8 items-center">
-              <div className="bg-red-600 rounded-full p-5 flex-shrink-0">
-                <MessageSquare size={32} />
+            <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">
+              CS is broken. Let's fix it — together.
+            </h2>
+            <div className="text-lg text-gray-200 mb-8 space-y-4">
+              <p>You're not crazy.</p>
+              <p>QBR decks gather dust.</p>
+              <p>Check-ins don't drive outcomes.</p>
+              <p>Teams are chasing renewals instead of value.</p>
+            </div>
+            <p className="text-lg text-gray-200 mb-8">
+              Churn Is Dead is your weekly roadmap to a better way — with battle-tested frameworks, bold plays, and no-BS execution tactics that work.
+            </p>
+            <Button 
+              variant="outline-red" 
+              size="lg"
+              className="font-medium"
+              asChild
+            >
+              <Link to="/newsletters">
+                Get the Playbook →
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+      
+      {/* What You'll Get Section - NEW */}
+      <section className="py-20 md:py-28 bg-cream">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-serif font-bold mb-8 text-navy-dark">
+              Here's what lands in your inbox every Tuesday:
+            </h2>
+            <div className="space-y-6 mb-10">
+              <div className="flex items-start gap-4">
+                <CheckCircle className="text-red-500 flex-shrink-0 mt-1" />
+                <p className="text-lg text-navy-dark">What's broken in CS — and what's working</p>
               </div>
-              <div>
-                <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4">
-                  CS is broken. Let's fix it together.
-                </h2>
-                <p className="text-lg text-gray-200 mb-6">
-                  In an industry drowning in platitudes about "customer centricity," we deliver 
-                  battle-tested frameworks and contrarian insights that actually move the needle on 
-                  outcomes, adoption, and expansion revenue.
-                </p>
-                <NewsletterForm 
-                  location="footer" 
-                  buttonText="Let's Kill Churn →"
-                />
+              <div className="flex items-start gap-4">
+                <CheckCircle className="text-red-500 flex-shrink-0 mt-1" />
+                <p className="text-lg text-navy-dark">Frameworks you can run today</p>
+              </div>
+              <div className="flex items-start gap-4">
+                <BookText className="text-red-500 flex-shrink-0 mt-1" />
+                <p className="text-lg text-navy-dark">Real stories from CS leaders in the arena</p>
               </div>
             </div>
+            <NewsletterForm 
+              className="max-w-lg mx-auto"
+              buttonText="Join the movement →"
+              buttonVariant="soft-red"
+            />
           </div>
         </div>
       </section>
       
       {/* Testimonials */}
-      <section className="py-20 md:py-28 bg-cream">
+      <section className="py-20 md:py-28 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16">
             <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4 text-navy-dark">
@@ -212,34 +245,34 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Final CTA */}
+      {/* Final CTA - UPDATED */}
       <section className="py-16 md:py-20 bg-red-600 text-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-              Ready to transform your Customer Success approach?
+              Ready to lead with clarity, value, and real impact?
             </h2>
             <p className="text-lg mb-8">
-              Join the weekly newsletter and get tactical CS insights delivered to your inbox.
+              Join 2,000+ CS leaders getting battle-tested plays in their inbox every Tuesday.
             </p>
             <NewsletterForm 
               className="max-w-lg mx-auto" 
               buttonText="Let's Kill Churn →"
             />
-            <p className="text-sm mt-4 text-gray-300">
-              Join 2,000+ CS leaders getting tactical insight every Tuesday.
-            </p>
           </div>
         </div>
       </section>
       
-      {/* Footer */}
+      {/* Footer - UPDATED */}
       <footer className="py-12 bg-navy-dark text-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center mb-8">
-            <h3 className="text-xl font-serif font-bold mb-6">
+            <h3 className="text-xl font-serif font-bold mb-4">
               Stay ahead of the curve
             </h3>
+            <p className="text-base text-gray-300 text-center mb-6">
+              No fluff. No slides. Just tactical CS insight.
+            </p>
             <NewsletterForm 
               location="footer" 
               className="max-w-lg w-full" 
