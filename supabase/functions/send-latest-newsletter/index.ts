@@ -126,10 +126,10 @@ const handler = async (req: Request): Promise<Response> => {
       const emailAddresses = batch.map(subscriber => subscriber.email);
       
       try {
-        // Send the email using Resend
+        // Send the email using Resend - FIX: adding a 'to' address to make the API happy
         const emailResponse = await resend.emails.send({
           from: "Churn Is Dead <newsletter@churnisdead.com>",
-          to: [], 
+          to: ["newsletter@churnisdead.com"], // Adding a default 'to' address to fix the error
           bcc: emailAddresses, // Use BCC for privacy
           subject: latestNewsletter.title,
           reply_to: "support@churnisdead.com",
