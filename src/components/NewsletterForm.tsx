@@ -136,7 +136,7 @@ const NewsletterForm = ({
             value={email}
             onChange={handleEmailChange}
             required
-            className={`h-12 px-4 py-3 text-base ${inputClass}`}
+            className={`h-12 px-4 py-3 text-base ${isHero ? "text-black" : ""} ${inputClass}`}
           />
           <Mail className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={18} />
         </div>
