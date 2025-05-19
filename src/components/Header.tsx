@@ -30,7 +30,6 @@ const Header = () => {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const openSubscribeModal = () => setIsSubscribeOpen(true);
-  const closeSubscribeModal = () => setIsSubscribeOpen(false);
   const openContactModal = () => setIsContactOpen(true);
   
   const scrollToNewsletter = (e: React.MouseEvent) => {
@@ -85,6 +84,13 @@ const Header = () => {
           >
             Subscribe
           </Button>
+          <Button 
+            variant="ghost"
+            className="text-navy-dark hover:text-red-600 font-medium transition-colors"
+            onClick={openContactModal}
+          >
+            Contact
+          </Button>
         </nav>
         
         <Button 
@@ -125,6 +131,16 @@ const Header = () => {
               onClick={scrollToNewsletter}
             >
               Subscribe
+            </Button>
+            <Button 
+              variant="ghost"
+              className="text-navy-dark hover:text-red-600 font-medium transition-colors w-full"
+              onClick={() => {
+                setIsMenuOpen(false);
+                setIsContactOpen(true);
+              }}
+            >
+              Contact
             </Button>
           </nav>
         </div>

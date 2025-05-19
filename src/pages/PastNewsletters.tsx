@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
@@ -313,6 +312,7 @@ const PastNewsletters = () => {
               <button 
                 onClick={() => setIsContactOpen(true)} 
                 className="text-gray-300 hover:text-white transition-colors bg-transparent border-none p-0 cursor-pointer"
+                aria-label="Contact Us"
               >
                 Contact
               </button>
