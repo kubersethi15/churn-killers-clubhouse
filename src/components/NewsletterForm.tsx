@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,7 +9,7 @@ interface NewsletterFormProps {
   className?: string;
   title?: string;
   description?: string;
-  buttonVariant?: "cream" | "outline-red" | "soft-red" | "white";
+  buttonVariant?: "cream" | "outline-red" | "soft-red" | "white" | "vibrant-red" | "navy";
   textColor?: string;
   buttonText?: string;
   subscribeText?: string;
