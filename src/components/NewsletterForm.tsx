@@ -71,18 +71,21 @@ const NewsletterForm = ({
     }
   };
 
-  const isHero = location === "hero";
-  const isArticle = location === "article";
   const isFooter = location === "footer";
+  
+  // Apply special styling for footer to match the reference image
+  const inputClass = isFooter 
+    ? "bg-transparent border-gray-600 text-white placeholder:text-gray-400" 
+    : "bg-white border-gray-200";
 
   return (
-    <div className="w-full">
+    <div className={`w-full ${className}`}>
       {title && <h3 className={`text-xl font-medium mb-3 ${textColor}`}>{title}</h3>}
       {description && <p className={`text-sm mb-4 ${textColor === "text-gray-700" ? "opacity-80" : ""} ${textColor}`}>{description}</p>}
       
       <form 
         onSubmit={handleSubmit} 
-        className={`${className} flex flex-col sm:flex-row gap-3`}
+        className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
       >
         <div className="flex-1">
           <Input
@@ -91,26 +94,24 @@ const NewsletterForm = ({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className={`${
-              isHero || isArticle ? "bg-white border-gray-200" : "bg-white/90"
-            } h-12 px-4 py-3 text-base shadow-sm`}
+            className={`h-12 px-4 py-3 text-base ${inputClass}`}
           />
-          {subscribeText && (
-            <p className={`text-xs mt-2 ${textColor === "text-gray-700" ? "text-gray-600" : "text-white/80"}`}>
-              {subscribeText}
-            </p>
-          )}
         </div>
         <Button 
           type="submit" 
           disabled={isLoading}
-          variant={buttonVariant}
+          variant={isFooter ? "outline-red" : buttonVariant}
           size="xl-wide"
           className="font-medium min-w-[140px] shadow-sm transition-all"
         >
           {isLoading ? "Subscribing..." : buttonText}
         </Button>
       </form>
+      {subscribeText && (
+        <p className={`text-xs mt-2 text-center ${textColor === "text-gray-700" ? "text-gray-600" : "text-white/80"}`}>
+          {subscribeText}
+        </p>
+      )}
     </div>
   );
 };

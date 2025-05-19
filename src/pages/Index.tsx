@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -156,7 +155,7 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Rallying Cry Section - NEW */}
+      {/* Rallying Cry Section */}
       <section className="py-20 md:py-28 bg-navy-dark text-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto">
@@ -186,7 +185,7 @@ const Index = () => {
         </div>
       </section>
       
-      {/* What You'll Get Section - NEW */}
+      {/* What You'll Get Section */}
       <section className="py-20 md:py-28 bg-cream">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto">
@@ -245,7 +244,7 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Final CTA - UPDATED */}
+      {/* Final CTA */}
       <section className="py-16 md:py-20 bg-red-600 text-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
@@ -266,16 +265,16 @@ const Index = () => {
       {/* Footer - UPDATED */}
       <footer className="py-12 bg-navy-dark text-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-col items-center mb-8">
-            <h3 className="text-xl font-serif font-bold mb-4">
+          <div className="text-center mb-6">
+            <h3 className="text-xl font-serif font-bold mb-3">
               Stay ahead of the curve
             </h3>
-            <p className="text-base text-gray-300 text-center mb-6">
+            <p className="text-base text-gray-300 mb-6">
               No fluff. No slides. Just tactical CS insight.
             </p>
             <NewsletterForm 
               location="footer" 
-              className="max-w-lg w-full" 
+              className="max-w-lg mx-auto" 
               buttonText="Let's Kill Churn →"
             />
             <p className="text-sm mt-3 text-gray-300">
