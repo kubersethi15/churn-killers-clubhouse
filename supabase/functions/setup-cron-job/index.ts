@@ -27,8 +27,7 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    // Instead of using RPC, set up the cron job directly with SQL
-    // This allows us more control and better error handling
+    // Test database connection to ensure everything is working
     const { data, error } = await supabase.from('newsletters')
       .select('id')
       .limit(1);
@@ -44,16 +43,44 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Set up manual HTTP invocation instead of relying on the cron schema
-    // Log info about what we're doing
-    console.log("Database connection successful. Setting up manual test pattern.");
+    // Get tomorrow's date at 10:00 PM for initial run
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(22, 0, 0, 0);
     
+    // Format date for display
+    const formattedTomorrow = tomorrow.toLocaleString('en-US', {
+      weekday: 'long',
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
+    });
+
+    // Create cron expression for every Tuesday at 10:00 PM
+    const cronExpression = "0 22 * * 2"; // At 22:00 on Tuesday
+
     return new Response(
       JSON.stringify({
         success: true,
-        message: "Newsletter test functionality check successful. Due to Supabase project limitations, scheduled execution requires alternative implementation.",
-        info: "Please use an external scheduler service like GitHub Actions, AWS Lambda, or a dedicated cron service to call this edge function every 5 minutes for testing.",
+        message: "Newsletter scheduling information prepared.",
+        initialRun: {
+          scheduledTime: formattedTomorrow,
+          timestamp: tomorrow.toISOString()
+        },
+        recurringSchedule: {
+          description: "Every Tuesday at 10:00 PM",
+          cronExpression: cronExpression
+        },
+        setupInstructions: {
+          github: "Set up a GitHub Action with cron: '0 22 * * 2' (Note: GitHub Actions uses UTC time)",
+          aws: "Create an AWS EventBridge rule or Lambda with cron(0 22 ? * TUE *)",
+          cron: "0 22 * * 2 curl -X POST https://xtwxemlxzbnadkkrvozr.supabase.co/functions/v1/send-latest-newsletter",
+        },
         endpoint: `${supabaseUrl}/functions/v1/send-latest-newsletter`,
+        note: "Due to Supabase free tier limitations, please use an external scheduler service. For the first run, schedule a one-time execution for tomorrow at 10:00 PM."
       }),
       {
         status: 200,
