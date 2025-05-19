@@ -1,9 +1,13 @@
-import { useEffect } from "react";
+
+import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import NewsletterForm from "@/components/NewsletterForm";
 import { MessageSquare, User, Briefcase, Award, CheckCircle, XCircle } from "lucide-react";
+import ContactDialog from "@/components/ContactDialog";
 
 const About = () => {
+  const [isContactOpen, setIsContactOpen] = useState(false);
+  
   useEffect(() => {
     document.title = "Churn Is Dead: Tactical Customer Success That Drives Outcomes";
     document.querySelector('meta[name="description"]')?.setAttribute("content", "Discover tactical customer success strategies that drive revenue, trust, and outcomes. Churn Is Dead provides actionable insights for CS leaders.");
@@ -173,9 +177,13 @@ const About = () => {
               <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 LinkedIn
               </a>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
+              <button 
+                onClick={() => setIsContactOpen(true)} 
+                className="text-gray-300 hover:text-white transition-colors bg-transparent border-none p-0 cursor-pointer"
+                aria-label="Contact Us"
+              >
                 Contact
-              </a>
+              </button>
               <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 Privacy
               </a>
@@ -183,6 +191,9 @@ const About = () => {
           </div>
         </div>
       </footer>
+      
+      {/* Contact Dialog */}
+      <ContactDialog open={isContactOpen} onOpenChange={setIsContactOpen} />
     </div>
   );
 };
