@@ -43,44 +43,73 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Get tomorrow's date at 10:00 PM for initial run
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    tomorrow.setHours(22, 0, 0, 0);
+    // Set up the Supabase pg_cron functionality
+    // First, enable the pg_cron extension (if not already enabled)
+    const { error: enableExtError } = await supabase.rpc('enable_pg_cron');
+    if (enableExtError) {
+      console.error("Error enabling pg_cron extension:", enableExtError);
+      return new Response(
+        JSON.stringify({ error: "Failed to enable pg_cron extension", details: enableExtError }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    // Convert 10:00 PM AEST on Tuesday to cron expression
+    // Note: AEST is UTC+10, so 10:00 PM AEST is 12:00 PM UTC (noon)
+    const cronExpression = "0 12 * * 2"; // At 12:00 UTC on Tuesday (10:00 PM AEST)
+    
+    // Schedule the cron job to run the edge function
+    const { error: scheduleCronError } = await supabase.rpc('setup_newsletter_cron_job');
+    if (scheduleCronError) {
+      console.error("Error setting up cron job:", scheduleCronError);
+      return new Response(
+        JSON.stringify({ error: "Failed to set up cron job", details: scheduleCronError }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    // Get next Tuesday at 10:00 PM AEST
+    const now = new Date();
+    const nextTuesday = new Date();
+    nextTuesday.setDate(now.getDate() + (2 + 7 - now.getDay()) % 7); // Get next Tuesday
+    nextTuesday.setHours(22, 0, 0, 0); // Set to 10:00 PM
+    
+    // If today is Tuesday and it's before 10 PM, use today
+    if (now.getDay() === 2 && now.getHours() < 22) {
+      nextTuesday.setDate(now.getDate());
+    }
     
     // Format date for display
-    const formattedTomorrow = tomorrow.toLocaleString('en-US', {
+    const formattedNextTuesday = nextTuesday.toLocaleString('en-US', {
       weekday: 'long',
       year: 'numeric', 
       month: 'long', 
       day: 'numeric',
       hour: 'numeric',
       minute: 'numeric',
-      hour12: true
+      hour12: true,
+      timeZone: 'Australia/Sydney' // Use AEST timezone
     });
-
-    // Create cron expression for every Tuesday at 10:00 PM
-    const cronExpression = "0 22 * * 2"; // At 22:00 on Tuesday
 
     return new Response(
       JSON.stringify({
         success: true,
-        message: "Newsletter scheduling information prepared.",
-        initialRun: {
-          scheduledTime: formattedTomorrow,
-          timestamp: tomorrow.toISOString()
+        message: "Newsletter scheduling successfully set up with Supabase pg_cron!",
+        nextScheduledRun: {
+          scheduledTime: formattedNextTuesday,
+          timestamp: nextTuesday.toISOString()
         },
         recurringSchedule: {
-          description: "Every Tuesday at 10:00 PM",
+          description: "Every Tuesday at 10:00 PM AEST",
           cronExpression: cronExpression
         },
-        setupInstructions: {
-          github: "Set up a GitHub Action with cron: '0 22 * * 2' (Note: GitHub Actions uses UTC time)",
-          aws: "Create an AWS EventBridge rule or Lambda with cron(0 22 ? * TUE *)",
-          cron: "0 22 * * 2 curl -X POST https://xtwxemlxzbnadkkrvozr.supabase.co/functions/v1/send-latest-newsletter",
-        },
-        endpoint: `${supabaseUrl}/functions/v1/send-latest-newsletter`,
-        note: "Due to Supabase free tier limitations, please use an external scheduler service. For the first run, schedule a one-time execution for tomorrow at 10:00 PM."
+        endpoint: `${supabaseUrl}/functions/v1/send-latest-newsletter`
       }),
       {
         status: 200,
