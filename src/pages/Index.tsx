@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -77,6 +78,7 @@ const Index = () => {
             <NewsletterForm 
               className="max-w-lg mx-auto"
               buttonText="Let's Kill Churn →"
+              buttonVariant="vibrant-red"
             />
             
             <div className="mt-6 text-sm text-gray-300">
@@ -172,7 +174,7 @@ const Index = () => {
               Churn Is Dead is your weekly roadmap to a better way — with battle-tested frameworks, bold plays, and no-BS execution tactics that work.
             </p>
             <Button 
-              variant="outline-red" 
+              variant="vibrant-red" 
               size="lg"
               className="font-medium"
               asChild
@@ -209,7 +211,7 @@ const Index = () => {
             <NewsletterForm 
               className="max-w-lg mx-auto"
               buttonText="Let's Kill Churn →"
-              buttonVariant="soft-red"
+              buttonVariant="vibrant-red"
             />
           </div>
         </div>
@@ -257,6 +259,7 @@ const Index = () => {
             <NewsletterForm 
               className="max-w-lg mx-auto" 
               buttonText="Let's Kill Churn →"
+              buttonVariant="white"
             />
           </div>
         </div>

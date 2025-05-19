@@ -78,6 +78,13 @@ const NewsletterForm = ({
     ? "bg-transparent border-gray-600 text-white placeholder:text-gray-400" 
     : "bg-white border-gray-200";
 
+  // Define button styling based on location and variant
+  const getButtonVariant = () => {
+    if (location === "hero") return "navy";
+    if (location === "footer") return "outline-red";
+    return buttonVariant;
+  };
+
   return (
     <div className={`w-full ${className}`}>
       {title && <h3 className={`text-xl font-medium mb-3 ${textColor}`}>{title}</h3>}
@@ -100,9 +107,9 @@ const NewsletterForm = ({
         <Button 
           type="submit" 
           disabled={isLoading}
-          variant={isFooter ? "outline-red" : buttonVariant}
+          variant={getButtonVariant()}
           size="xl-wide"
-          className="font-medium min-w-[140px] shadow-sm transition-all"
+          className="font-medium min-w-[140px] shadow-sm transition-all text-white"
         >
           {isLoading ? "Subscribing..." : buttonText}
         </Button>
