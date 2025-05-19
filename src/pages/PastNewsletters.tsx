@@ -35,25 +35,25 @@ const categoryConfig = [
   },
   {
     id: "Trust",
-    label: "🤝 Trust",
+    label: "Trust",
     icon: Handshake,
-    tooltipText: "Build strong relationships, fast",
+    tooltipText: "Build relationships that retain.",
     filterValue: "Trust",
     color: "bg-blue-500",
   },
   {
     id: "Revenue",
-    label: "💰 Revenue",
+    label: "Revenue",
     icon: DollarSign,
-    tooltipText: "Tactical plays to grow NRR",
+    tooltipText: "Grow accounts without chasing renewals.",
     filterValue: "Revenue",
     color: "bg-green-500",
   },
   {
     id: "Outcomes",
-    label: "🎯 Outcomes",
+    label: "Outcomes",
     icon: Target,
-    tooltipText: "Drive real, measurable impact",
+    tooltipText: "Deliver what matters. Prove it.",
     filterValue: "Outcomes",
     color: "bg-amber-500",
   },
@@ -110,15 +110,15 @@ const PastNewsletters = () => {
     <div className="min-h-screen bg-white">
       <Header />
       
-      {/* Hero Section */}
+      {/* Hero Section - Updated headline and subtext */}
       <section className="pt-32 pb-16 md:pt-40 md:pb-20 bg-navy-dark text-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-3xl md:text-5xl font-serif font-black mb-6">
-              <span className="text-red-500">Past Newsletters</span>
+              The Library of <span className="text-red-500">No-Fluff CS Plays</span>
             </h1>
             <p className="text-lg md:text-xl mb-8 text-gray-200 leading-relaxed">
-              Catch up on previous editions of Churn Is Dead. Tactical CS advice and frameworks you won't find anywhere else.
+              Catch up on every edition of Churn Is Dead — built to drive trust, revenue, and real outcomes
             </p>
           </div>
         </div>
@@ -194,10 +194,12 @@ const PastNewsletters = () => {
             </div>
           )}
           
+          {/* Improved Load More Button */}
           <div className="mt-16 text-center">
             <Button 
-              variant="outline" 
-              className="border-red-500 text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-200"
+              variant="outline-red"  
+              size="lg"
+              className="border-red-500 hover:bg-red-50 hover:scale-[1.03] transition-all duration-200 px-8"
             >
               Load More
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1">
@@ -209,7 +211,7 @@ const PastNewsletters = () => {
         </div>
       </section>
       
-      {/* Newsletter Signup */}
+      {/* Newsletter Signup with improved microcopy */}
       <section className="py-16 md:py-20 newsletter-section">
         <div className="relative z-10 container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
@@ -220,7 +222,13 @@ const PastNewsletters = () => {
               Join the weekly newsletter and get tactical CS insights delivered to your inbox.
             </p>
             <div className="max-w-lg mx-auto">
-              <NewsletterForm location="footer" buttonVariant="white" textColor="text-white" />
+              <NewsletterForm 
+                location="footer" 
+                buttonVariant="white" 
+                textColor="text-white"
+                buttonText="Let's Kill Churn" 
+                subscribeText="Join 2,000+ CS leaders getting fresh insights every Tuesday." 
+              />
             </div>
           </div>
         </div>

@@ -12,6 +12,8 @@ interface NewsletterFormProps {
   description?: string;
   buttonVariant?: "cream" | "outline-red" | "soft-red" | "white";
   textColor?: string;
+  buttonText?: string;
+  subscribeText?: string;
 }
 
 const NewsletterForm = ({ 
@@ -20,7 +22,9 @@ const NewsletterForm = ({
   title,
   description, 
   buttonVariant = "outline-red",
-  textColor = "text-gray-700" // Default text color
+  textColor = "text-gray-700", // Default text color
+  buttonText = "Subscribe",
+  subscribeText
 }: NewsletterFormProps) => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -91,6 +95,11 @@ const NewsletterForm = ({
               isHero || isArticle ? "bg-white border-gray-200" : "bg-white/90"
             } h-12 px-4 py-3 text-base shadow-sm`}
           />
+          {subscribeText && (
+            <p className={`text-xs mt-2 ${textColor === "text-gray-700" ? "text-gray-600" : "text-white/80"}`}>
+              {subscribeText}
+            </p>
+          )}
         </div>
         <Button 
           type="submit" 
@@ -99,7 +108,7 @@ const NewsletterForm = ({
           size="xl-wide"
           className="font-medium min-w-[140px] shadow-sm transition-all"
         >
-          {isLoading ? "Subscribing..." : "Subscribe"}
+          {isLoading ? "Subscribing..." : buttonText}
         </Button>
       </form>
     </div>

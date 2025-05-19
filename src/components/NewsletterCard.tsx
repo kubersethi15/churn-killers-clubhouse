@@ -20,23 +20,23 @@ const NewsletterCard = ({ title, excerpt, date, readTime, category, slug }: News
   const getCategoryBadge = () => {
     if (!category) return null;
     
-    let icon = null;
+    let Icon = null;
     let bgColor = "bg-gray-100";
     let textColor = "text-gray-700";
     
     switch (category) {
       case "Trust":
-        icon = <Handshake className="h-3 w-3 mr-1" />;
+        Icon = Handshake;
         bgColor = "bg-blue-100";
         textColor = "text-blue-700";
         break;
       case "Revenue":
-        icon = <DollarSign className="h-3 w-3 mr-1" />;
+        Icon = DollarSign;
         bgColor = "bg-green-100";
         textColor = "text-green-700";
         break;
       case "Outcomes":
-        icon = <Target className="h-3 w-3 mr-1" />;
+        Icon = Target;
         bgColor = "bg-amber-100";
         textColor = "text-amber-700";
         break;
@@ -44,7 +44,7 @@ const NewsletterCard = ({ title, excerpt, date, readTime, category, slug }: News
     
     return (
       <Badge variant="outline" className={`flex items-center ${bgColor} ${textColor} border-none py-1 px-2`}>
-        {icon}
+        {Icon && <Icon className="h-3 w-3 mr-1" />}
         {category}
       </Badge>
     );
