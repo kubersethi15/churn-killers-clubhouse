@@ -65,8 +65,12 @@ const NewsletterForm = ({
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email }),
+          body: JSON.stringify({ email }), // Make sure email is correctly passed in the body
         });
+
+        if (!response.ok) {
+          throw new Error(`Server responded with status ${response.status}`);
+        }
 
         const result = await response.json();
         console.log("Welcome email function response:", result);
