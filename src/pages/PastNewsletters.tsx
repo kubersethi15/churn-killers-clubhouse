@@ -110,15 +110,15 @@ const PastNewsletters = () => {
     <div className="min-h-screen bg-white">
       <Header />
       
-      {/* Hero Section */}
+      {/* Hero Section - Updated headline and subtext */}
       <section className="pt-32 pb-16 md:pt-40 md:pb-20 bg-navy-dark text-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-3xl md:text-5xl font-serif font-black mb-6">
-              The Library of <span className="text-red-500">No-Fluff CS Plays</span>
+              The Vault of <span className="text-red-500">No-Fluff CS Plays</span>
             </h1>
             <p className="text-lg md:text-xl mb-8 text-gray-200 leading-relaxed">
-              Catch up on every edition of Churn Is Dead — built to drive trust, revenue, and real outcomes
+              Every edition of Churn Is Dead — battle-tested strategies to drive trust, revenue, and outcomes.
             </p>
           </div>
         </div>
