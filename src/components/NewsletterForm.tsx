@@ -82,7 +82,7 @@ const NewsletterForm = ({
   // Define button styling based on location and variant
   const getButtonVariant = () => {
     if (isHero) return "vibrant-red"; // Hero location uses vibrant-red
-    if (isFooter) return "navy"; // Footer uses navy blue
+    if (isFooter) return "navy"; // Footer uses navy brand color
     return buttonVariant;
   };
 
