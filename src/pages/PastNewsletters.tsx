@@ -6,7 +6,7 @@ import NewsletterCard from "@/components/NewsletterCard";
 import NewsletterForm from "@/components/NewsletterForm";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
-import { Handshake, DollarSign, Target } from "lucide-react";
+import { Handshake, DollarSign, Target, ChevronDown, ChevronUp } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -14,6 +14,13 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 
 type Newsletter = {
   id: string;
@@ -24,6 +31,26 @@ type Newsletter = {
   category: string | null;
   slug: string;
 };
+
+// Define sorting options
+type SortOption = {
+  label: string;
+  value: "asc" | "desc";
+  icon: React.ElementType;
+};
+
+const sortOptions: SortOption[] = [
+  {
+    label: "Latest First",
+    value: "desc",
+    icon: ChevronDown,
+  },
+  {
+    label: "Oldest First",
+    value: "asc",
+    icon: ChevronUp,
+  },
+];
 
 // Define new category configuration with icons and tooltips
 const categoryConfig = [
@@ -63,6 +90,7 @@ const PastNewsletters = () => {
   const [newsletters, setNewsletters] = useState<Newsletter[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<string>("All");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc"); // Default to latest first
   
   useEffect(() => {
     document.title = "Past Newsletters | Churn Is Dead";
@@ -72,7 +100,7 @@ const PastNewsletters = () => {
     const fetchNewsletters = async () => {
       setLoading(true);
       try {
-        let query = supabase.from("newsletters").select("*").order("published_date", { ascending: false });
+        let query = supabase.from("newsletters").select("*").order("published_date", { ascending: sortOrder === "asc" });
         
         if (activeFilter !== "All") {
           query = query.eq("category", activeFilter);
@@ -96,15 +124,23 @@ const PastNewsletters = () => {
     };
 
     fetchNewsletters();
-  }, [activeFilter]);
+  }, [activeFilter, sortOrder]);
 
   const handleFilterChange = (category: string) => {
     setActiveFilter(category);
   };
 
+  const handleSortChange = (newSortOrder: "asc" | "desc") => {
+    setSortOrder(newSortOrder);
+  };
+
   const formatDate = (dateString: string) => {
     return format(new Date(dateString), "MMMM d, yyyy");
   };
+
+  // Get current sort option display
+  const currentSortOption = sortOptions.find(option => option.value === sortOrder);
+  const SortIcon = currentSortOption?.icon || ChevronDown;
 
   return (
     <div className="min-h-screen bg-white">
@@ -158,10 +194,26 @@ const PastNewsletters = () => {
               ))}
             </div>
             <div>
-              <Button variant="outline" className="gap-2">
-                Latest First
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="gap-2">
+                    {currentSortOption?.label}
+                    <SortIcon className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {sortOptions.map((option) => (
+                    <DropdownMenuItem 
+                      key={option.value}
+                      className="gap-2"
+                      onClick={() => handleSortChange(option.value)}
+                    >
+                      <option.icon className="h-4 w-4" />
+                      {option.label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>
