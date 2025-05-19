@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -57,18 +56,28 @@ const NewsletterForm = ({
 
       if (error) throw error;
 
-      // Send welcome email
+      // Send welcome email with better error handling
       try {
-        await fetch("https://xtwxemlxzbnadkkrvozr.supabase.co/functions/v1/send-welcome-email", {
+        console.log("Calling welcome email function for:", email);
+        const response = await fetch("https://xtwxemlxzbnadkkrvozr.supabase.co/functions/v1/send-welcome-email", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ email }),
         });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error("Welcome email API error:", errorData);
+          throw new Error(`API returned ${response.status}: ${JSON.stringify(errorData)}`);
+        }
+
+        const result = await response.json();
+        console.log("Welcome email function response:", result);
       } catch (emailError) {
         console.error("Error sending welcome email:", emailError);
-        // Continue with success message even if email sending fails
+        // Log but don't disrupt user experience if email sending fails
       }
 
       toast.success("You're subscribed!", {

@@ -2,7 +2,12 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 
-const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+// Initialize Resend with proper error handling
+const resendApiKey = Deno.env.get("RESEND_API_KEY");
+if (!resendApiKey) {
+  console.error("Missing RESEND_API_KEY environment variable");
+}
+const resend = new Resend(resendApiKey);
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -15,15 +20,36 @@ interface EmailRequest {
 }
 
 const handler = async (req: Request): Promise<Response> => {
+  console.log("Edge function received request:", req.method);
+  
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
+    console.log("Handling OPTIONS request (CORS preflight)");
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { email }: EmailRequest = await req.json();
+    const body = await req.text();
+    console.log("Received request body:", body);
+    
+    let data: EmailRequest;
+    try {
+      data = JSON.parse(body);
+    } catch (parseError) {
+      console.error("Failed to parse JSON body:", parseError);
+      return new Response(
+        JSON.stringify({ error: "Invalid JSON payload" }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+    
+    const { email } = data;
     
     if (!email || typeof email !== "string") {
+      console.error("Invalid email in request:", email);
       return new Response(
         JSON.stringify({ error: "Valid email is required" }),
         {
@@ -74,14 +100,18 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Email sent successfully:", emailResponse);
 
-    return new Response(JSON.stringify({ success: true }), {
+    return new Response(JSON.stringify({ success: true, message: "Email sent" }), {
       status: 200,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });
   } catch (error: any) {
     console.error("Error sending welcome email:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ 
+        error: error.message,
+        stack: error.stack,
+        name: error.name 
+      }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },
