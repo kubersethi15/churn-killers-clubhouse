@@ -82,7 +82,7 @@ const handler = async (req: Request): Promise<Response> => {
           </p>
           <p style="font-size: 16px; line-height: 1.5; margin: 20px 0; color: #333;">
             The next issue lands in your inbox soon. In the meantime, you can check out our 
-            <a href="https://xtwxemlxzbnadkkrvozr.supabase.co/newsletters" style="color: #dc2626; text-decoration: underline;">past newsletters</a>.
+            <a href="https://churnisdead.com/newsletters" style="color: #dc2626; text-decoration: underline;">past newsletters</a>.
           </p>
           <div style="background-color: #f8f8f8; padding: 20px; border-left: 4px solid #dc2626; margin: 25px 0;">
             <p style="font-size: 16px; font-style: italic; color: #555;">
