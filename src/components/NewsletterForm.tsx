@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -67,14 +68,15 @@ const NewsletterForm = ({
           body: JSON.stringify({ email }),
         });
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          console.error("Welcome email API error:", errorData);
-          throw new Error(`API returned ${response.status}: ${JSON.stringify(errorData)}`);
-        }
-
         const result = await response.json();
         console.log("Welcome email function response:", result);
+        
+        // We now consider it a success even if there was an email delivery issue
+        // as long as the subscriber was added to the database
+        if (!response.ok && !result.success) {
+          console.error("Welcome email API error:", result);
+          throw new Error(`API returned ${response.status}: ${JSON.stringify(result)}`);
+        }
       } catch (emailError) {
         console.error("Error sending welcome email:", emailError);
         // Log but don't disrupt user experience if email sending fails
