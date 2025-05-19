@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -8,6 +7,7 @@ import TestimonialCard from "@/components/TestimonialCard";
 import { MessageSquare, CheckCircle, BookText } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
+import ContactDialog from "@/components/ContactDialog";
 
 type Newsletter = {
   id: string;
@@ -22,6 +22,7 @@ type Newsletter = {
 const Index = () => {
   const [latestNewsletter, setLatestNewsletter] = useState<Newsletter | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
   useEffect(() => {
     document.title = "Churn Is Dead | Bold Customer Success Strategies";
@@ -286,9 +287,13 @@ const Index = () => {
               <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 LinkedIn
               </a>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
+              <button 
+                onClick={() => setIsContactOpen(true)} 
+                className="text-gray-300 hover:text-white transition-colors bg-transparent border-none p-0 cursor-pointer"
+                aria-label="Contact Us"
+              >
                 Contact
-              </a>
+              </button>
               <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 Privacy
               </a>
@@ -296,6 +301,9 @@ const Index = () => {
           </div>
         </div>
       </footer>
+      
+      {/* Contact Dialog */}
+      <ContactDialog open={isContactOpen} onOpenChange={setIsContactOpen} />
     </div>
   );
 };
