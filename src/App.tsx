@@ -23,7 +23,6 @@ const App = () => (
           <Route path="/newsletters" element={<PastNewsletters />} />
           <Route path="/newsletter/:slug" element={<NewsletterDetail />} />
           <Route path="/about" element={<About />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

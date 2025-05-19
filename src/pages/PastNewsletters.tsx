@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import NewsletterCard from "@/components/NewsletterCard";
 import NewsletterForm from "@/components/NewsletterForm";
+import ContactDialog from "@/components/ContactDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
 import { Handshake, DollarSign, Target, ChevronDown, ChevronUp } from "lucide-react";
@@ -91,6 +92,7 @@ const PastNewsletters = () => {
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<string>("All");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc"); // Default to latest first
+  const [isContactOpen, setIsContactOpen] = useState(false);
   
   useEffect(() => {
     document.title = "Past Newsletters | Churn Is Dead";
@@ -281,7 +283,7 @@ const PastNewsletters = () => {
                 buttonVariant="white" 
                 textColor="text-white"
                 buttonText="Let's Kill Churn" 
-                subscribeText="Join 2,000+ CS leaders getting fresh insights every Tuesday." 
+                subscribeText="Join CS leaders getting fresh insights every Tuesday." 
               />
             </div>
           </div>
@@ -308,9 +310,12 @@ const PastNewsletters = () => {
               <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 LinkedIn
               </a>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
+              <button 
+                onClick={() => setIsContactOpen(true)} 
+                className="text-gray-300 hover:text-white transition-colors bg-transparent border-none p-0 cursor-pointer"
+              >
                 Contact
-              </a>
+              </button>
               <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 Privacy
               </a>
@@ -318,6 +323,9 @@ const PastNewsletters = () => {
           </div>
         </div>
       </footer>
+      
+      {/* Contact Dialog */}
+      <ContactDialog open={isContactOpen} onOpenChange={setIsContactOpen} />
     </div>
   );
 };

@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import NewsletterForm from "./NewsletterForm";
+import ContactDialog from "./ContactDialog";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSubscribeOpen, setIsSubscribeOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
   const location = useLocation();
   
   useEffect(() => {
@@ -29,6 +31,7 @@ const Header = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const openSubscribeModal = () => setIsSubscribeOpen(true);
   const closeSubscribeModal = () => setIsSubscribeOpen(false);
+  const openContactModal = () => setIsContactOpen(true);
   
   const scrollToNewsletter = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -144,6 +147,9 @@ const Header = () => {
           </div>
         </DialogContent>
       </Dialog>
+      
+      {/* Contact Dialog */}
+      <ContactDialog open={isContactOpen} onOpenChange={setIsContactOpen} />
     </header>
   );
 };

@@ -9,3 +9,6 @@ verify_jwt = false
 
 [functions.setup-cron-job]
 verify_jwt = false
+
+[functions.send-contact-email]
+verify_jwt = false
