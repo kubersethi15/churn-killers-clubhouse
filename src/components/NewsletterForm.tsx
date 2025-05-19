@@ -41,13 +41,20 @@ const NewsletterForm = ({
 
     try {
       // Check if email already exists in subscribers
-      const { data: existingSubscriber } = await supabase
+      const { data: existingSubscriber, error: checkError } = await supabase
         .from('subscribers')
         .select('email')
         .eq('email', email)
         .single();
 
+      if (checkError && checkError.code !== 'PGRST116') {
+        // This is an actual error, not just "no rows returned"
+        console.error("Error checking for existing subscriber:", checkError);
+        throw checkError;
+      }
+
       if (existingSubscriber) {
+        // Handle case where user is already subscribed - show a friendly message
         toast.info("You're already subscribed!", {
           description: "You'll continue to receive our newsletter.",
         });
@@ -57,11 +64,24 @@ const NewsletterForm = ({
       }
 
       // Insert new subscriber
-      const { error } = await supabase
+      const { error: insertError } = await supabase
         .from('subscribers')
         .insert([{ email }]);
 
-      if (error) throw error;
+      if (insertError) {
+        // Check if this is a duplicate key violation
+        if (insertError.code === '23505') {
+          // This is a duplicate email - handle gracefully
+          toast.info("You're already subscribed!", {
+            description: "You'll continue to receive our newsletter.",
+          });
+          setEmail("");
+          setIsLoading(false);
+          return;
+        }
+        
+        throw insertError;
+      }
 
       // Send welcome email with better error handling
       try {
