@@ -76,13 +76,13 @@ const NewsletterForm = ({
   
   // Apply special styling for footer to match the reference image
   const inputClass = isFooter 
-    ? "bg-transparent border-gray-600 text-white placeholder:text-gray-400" 
+    ? "bg-white border-gray-200 text-navy-dark placeholder:text-gray-500" 
     : "bg-white border-gray-200";
 
   // Define button styling based on location and variant
   const getButtonVariant = () => {
-    if (isHero) return "vibrant-red"; // Always use vibrant-red for hero location
-    if (isFooter) return "outline-red";
+    if (isHero) return "vibrant-red"; // Hero location uses vibrant-red
+    if (isFooter) return "navy"; // Footer uses navy blue
     return buttonVariant;
   };
 
@@ -110,7 +110,7 @@ const NewsletterForm = ({
           disabled={isLoading}
           variant={getButtonVariant()}
           size="xl-wide"
-          className={`font-medium min-w-[140px] shadow-sm transition-all text-white ${isHero ? "!bg-red-600 hover:!bg-red-700" : ""}`}
+          className={`font-medium min-w-[140px] shadow-sm transition-all ${isHero ? "text-white !bg-red-600 hover:!bg-red-700" : ""}`}
         >
           {isLoading ? "Subscribing..." : buttonText}
         </Button>
