@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { Mail } from "lucide-react";
 
 interface NewsletterFormProps {
   location?: "hero" | "footer" | "article";
@@ -28,6 +29,11 @@ const NewsletterForm = ({
 }: NewsletterFormProps) => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  // Handle input change event
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -123,15 +129,16 @@ const NewsletterForm = ({
         onSubmit={handleSubmit} 
         className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
       >
-        <div className="flex-1">
+        <div className="flex-1 relative">
           <Input
             type="email"
             placeholder="Your email address"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
             required
             className={`h-12 px-4 py-3 text-base ${inputClass}`}
           />
+          <Mail className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={18} />
         </div>
         <Button 
           type="submit" 
