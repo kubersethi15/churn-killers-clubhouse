@@ -57,6 +57,20 @@ const NewsletterForm = ({
 
       if (error) throw error;
 
+      // Send welcome email
+      try {
+        await fetch("https://xtwxemlxzbnadkkrvozr.supabase.co/functions/v1/send-welcome-email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        });
+      } catch (emailError) {
+        console.error("Error sending welcome email:", emailError);
+        // Continue with success message even if email sending fails
+      }
+
       toast.success("You're subscribed!", {
         description: "Thanks for joining. The next issue lands in your inbox soon.",
       });
