@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import NewsletterForm from "@/components/NewsletterForm";
@@ -186,9 +185,6 @@ const About = () => {
               >
                 Contact
               </button>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                Privacy
-              </a>
             </div>
           </div>
         </div>

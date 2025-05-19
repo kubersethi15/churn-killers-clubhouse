@@ -79,12 +79,6 @@ const Header = () => {
             About
           </Link>
           <Button 
-            className="bg-red-600 hover:bg-red-700 text-white transform transition-all duration-200 hover:scale-103"
-            onClick={scrollToNewsletter}
-          >
-            Subscribe
-          </Button>
-          <Button 
             variant="ghost"
             className="text-navy-dark hover:text-red-600 font-medium transition-colors"
             onClick={openContactModal}
@@ -127,14 +121,8 @@ const Header = () => {
               About
             </Link>
             <Button 
-              className="bg-red-600 hover:bg-red-700 text-white w-full transform transition-all duration-200 hover:scale-103"
-              onClick={scrollToNewsletter}
-            >
-              Subscribe
-            </Button>
-            <Button 
               variant="ghost"
-              className="text-navy-dark hover:text-red-600 font-medium transition-colors w-full"
+              className="text-navy-dark hover:text-red-600 font-medium transition-colors w-full text-left"
               onClick={() => {
                 setIsMenuOpen(false);
                 setIsContactOpen(true);
