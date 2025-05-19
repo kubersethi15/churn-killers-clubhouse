@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
@@ -153,7 +154,7 @@ const PastNewsletters = () => {
               The Vault of <span className="text-red-500">No-Fluff CS Plays</span>
             </h1>
             <p className="text-lg md:text-xl mb-8 text-gray-200 leading-relaxed">
-              Every edition of Churn Is Dead — battle-tested strategies to drive trust, revenue, and outcomes.
+              Every edition of Churn Is Dead is battle tested strategies to drive trust, revenue, and outcomes.
             </p>
           </div>
         </div>
