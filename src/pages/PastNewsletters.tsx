@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
@@ -303,10 +304,12 @@ const PastNewsletters = () => {
             </div>
             
             <div className="flex gap-6">
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                Twitter
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
+              <a 
+                href="https://www.linkedin.com/in/kuber-s-79521946/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-gray-300 hover:text-white transition-colors"
+              >
                 LinkedIn
               </a>
               <button 
