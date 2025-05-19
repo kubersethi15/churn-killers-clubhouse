@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -71,6 +72,7 @@ const NewsletterForm = ({
   };
 
   const isFooter = location === "footer";
+  const isHero = location === "hero";
   
   // Apply special styling for footer to match the reference image
   const inputClass = isFooter 
@@ -79,8 +81,8 @@ const NewsletterForm = ({
 
   // Define button styling based on location and variant
   const getButtonVariant = () => {
-    if (location === "hero") return "navy";
-    if (location === "footer") return "outline-red";
+    if (isHero) return "vibrant-red"; // Always use vibrant-red for hero location
+    if (isFooter) return "outline-red";
     return buttonVariant;
   };
 
@@ -108,7 +110,7 @@ const NewsletterForm = ({
           disabled={isLoading}
           variant={getButtonVariant()}
           size="xl-wide"
-          className="font-medium min-w-[140px] shadow-sm transition-all text-white"
+          className={`font-medium min-w-[140px] shadow-sm transition-all text-white ${isHero ? "!bg-red-600 hover:!bg-red-700" : ""}`}
         >
           {isLoading ? "Subscribing..." : buttonText}
         </Button>

@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -78,7 +77,7 @@ const Index = () => {
             <NewsletterForm 
               className="max-w-lg mx-auto"
               buttonText="Let's Kill Churn →"
-              buttonVariant="vibrant-red"
+              location="hero"
             />
             
             <div className="mt-6 text-sm text-gray-300">
@@ -260,6 +259,7 @@ const Index = () => {
               className="max-w-lg mx-auto" 
               buttonText="Let's Kill Churn →"
               buttonVariant="white"
+              location="footer"
             />
           </div>
         </div>
