@@ -2,7 +2,6 @@
 import { ReactNode } from "react";
 import Header from "@/components/Header";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 
 interface LayoutProps {
   children: ReactNode;
@@ -22,18 +21,44 @@ const Layout = ({ children }: LayoutProps) => {
       <footer className="bg-navy-dark text-white py-12">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1">
-            <div>
+            <div className="text-center">
               <h3 className="text-xl font-serif font-bold mb-4">
                 <span className="underline-red">Churn</span> Is Dead
               </h3>
               <p className="text-gray-300 mb-4">
-                Customer success strategies and practical frameworks for SaaS leaders.
+                © {currentYear} Churn Is Dead. All rights reserved.
               </p>
             </div>
           </div>
           
-          <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; {currentYear} Churn Is Dead. All rights reserved.</p>
+          <div className="flex justify-center gap-6">
+            <a 
+              href="https://www.linkedin.com/in/kuber-s-79521946/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-gray-300 hover:text-white transition-colors"
+            >
+              LinkedIn
+            </a>
+            <button 
+              onClick={() => {
+                const contactDialog = document.querySelector("[data-state='open']");
+                if (!contactDialog) {
+                  const contactButtons = Array.from(document.querySelectorAll('button')).filter(
+                    button => button.textContent?.includes('Contact')
+                  );
+                  if (contactButtons.length > 0) {
+                    contactButtons[0].click();
+                  }
+                }
+              }} 
+              className="text-gray-300 hover:text-white transition-colors bg-transparent border-none p-0 cursor-pointer"
+            >
+              Contact
+            </button>
+            <a href="#" className="text-gray-300 hover:text-white transition-colors">
+              Privacy
+            </a>
           </div>
         </div>
       </footer>
