@@ -32,8 +32,9 @@ const resources: PlaybookResource[] = [
     ctaLink: "https://www.notion.so/Kickoff-Re-Discovery-Checklist-1f95d0709c9980cfb35ae653901a6661?pvs=4",
     icon: "📋",
     featuredIn: {
-      title: "Linked to next Tuesday's issue — going live soon",
-      comingSoon: true
+      title: "The Perfect Kickoff Call",
+      link: "/newsletter/the-perfect-kickoff-call",
+      comingSoon: false
     },
   },
   {
