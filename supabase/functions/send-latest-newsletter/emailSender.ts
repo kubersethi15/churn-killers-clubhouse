@@ -53,3 +53,38 @@ export const sendNewsletterBatch = async (
   }
 };
 
+/**
+ * Send test newsletter to a single email address
+ */
+export const sendTestNewsletter = async (
+  emailAddress: string, 
+  subject: string, 
+  htmlContent: string
+) => {
+  try {
+    const resend = getResendClient();
+    
+    // Send the test email using Resend
+    const emailResponse = await resend.emails.send({
+      from: "Churn Is Dead <newsletter@churnisdead.com>",
+      to: [emailAddress], // Single recipient for testing
+      subject: `[TEST] ${subject}`,
+      reply_to: "support@churnisdead.com",
+      headers: {
+        "X-Entity-Ref-ID": `newsletter-test-${Date.now()}`
+      },
+      html: htmlContent,
+    });
+
+    if (emailResponse.error) {
+      console.error(`Test email error:`, emailResponse.error);
+      throw emailResponse.error;
+    }
+    
+    console.log(`Test email sent successfully to ${emailAddress}`);
+    return { success: true, email: emailAddress };
+  } catch (error) {
+    console.error(`Error sending test email:`, error);
+    throw error;
+  }
+};

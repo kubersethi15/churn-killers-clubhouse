@@ -3,7 +3,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { formatContentForEmail } from "./formatUtils.ts";
 import { generateNewsletterEmailTemplate, replacePlaceholders } from "./emailTemplate.ts";
-import { sendNewsletterBatch } from "./emailSender.ts";
+import { sendNewsletterBatch, sendTestNewsletter } from "./emailSender.ts";
 
 // Initialize Supabase client
 const supabaseUrl = Deno.env.get("SUPABASE_URL");
@@ -30,6 +30,20 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    // Check if this is a test email request
+    let testEmailAddress: string | null = null;
+    let requestBody = {};
+    
+    try {
+      requestBody = await req.json();
+      if (requestBody && typeof requestBody === 'object' && 'testEmail' in requestBody) {
+        testEmailAddress = requestBody.testEmail as string;
+        console.log(`Test email requested for: ${testEmailAddress}`);
+      }
+    } catch (e) {
+      // Request has no body or invalid JSON, proceed normally
+    }
+
     // 1. Fetch the latest newsletter
     const { data: latestNewsletter, error: newsletterError } = await supabase
       .from("newsletters")
@@ -61,6 +75,56 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     console.log("Latest newsletter found:", latestNewsletter.title);
+
+    // If this is a test email, send it directly without fetching all subscribers
+    if (testEmailAddress) {
+      // 3. Format the newsletter for email
+      const formattedDate = new Date(latestNewsletter.published_date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      // Format the content for email
+      const fullContent = latestNewsletter.content;
+      const intro = fullContent.split('\n\n')[0]; // First paragraph as intro
+      const mainContent = formatContentForEmail(fullContent.split('\n\n').slice(1).join('\n\n')); // Rest of content
+
+      // Create email template
+      const emailTemplate = generateNewsletterEmailTemplate(
+        latestNewsletter.title,
+        formattedDate,
+        latestNewsletter.read_time,
+        intro,
+        mainContent,
+        latestNewsletter.slug,
+        latestNewsletter.category
+      );
+
+      // Customize the email
+      const customizedEmail = replacePlaceholders(emailTemplate, {
+        email: testEmailAddress
+      });
+      
+      // Send the test email
+      const result = await sendTestNewsletter(
+        testEmailAddress, 
+        latestNewsletter.title, 
+        customizedEmail
+      );
+      
+      return new Response(
+        JSON.stringify({
+          success: true,
+          message: `Test newsletter sent to ${testEmailAddress}`,
+          newsletterTitle: latestNewsletter.title,
+        }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
 
     // 2. Fetch all active subscribers
     const { data: subscribers, error: subscribersError } = await supabase
@@ -194,4 +258,3 @@ const handler = async (req: Request): Promise<Response> => {
 };
 
 serve(handler);
-
