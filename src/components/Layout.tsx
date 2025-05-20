@@ -56,9 +56,6 @@ const Layout = ({ children }: LayoutProps) => {
             >
               Contact
             </button>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">
-              Privacy
-            </a>
           </div>
         </div>
       </footer>
