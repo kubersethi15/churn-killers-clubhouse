@@ -1,4 +1,3 @@
-
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 
@@ -57,16 +56,30 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Convert 10:00 PM AEST on Tuesday to cron expression
-    // Note: AEST is UTC+10, so 10:00 PM AEST is 12:00 PM UTC (noon)
-    const cronExpression = "0 12 * * 2"; // At 12:00 UTC on Tuesday (10:00 PM AEST)
+    // Get today's date
+    const now = new Date();
+    const tonight = new Date();
+    tonight.setHours(23, 0, 0, 0); // Set to 11:00 PM today
     
-    // Schedule the cron job to run the edge function
-    const { error: scheduleCronError } = await supabase.rpc('setup_newsletter_cron_job');
-    if (scheduleCronError) {
-      console.error("Error setting up cron job:", scheduleCronError);
+    // Format time for cron expression (minutes hours * * *)
+    // We're assuming it's still possible to schedule for today
+    // Otherwise, this will schedule for 11:00 PM tomorrow
+    const hours = tonight.getHours();
+    const minutes = tonight.getMinutes();
+    
+    // One-time cron job for tonight at 11:00 PM
+    const tonightCronExpression = `${minutes} ${hours} ${tonight.getDate()} ${tonight.getMonth() + 1} *`;
+    
+    // Schedule the one-time cron job to run the edge function tonight at 11:00 PM
+    const { error: scheduleTonightError } = await supabase.rpc('setup_newsletter_once', {
+      job_name: 'send-latest-newsletter-tonight',
+      cron_schedule: tonightCronExpression
+    });
+    
+    if (scheduleTonightError) {
+      console.error("Error setting up one-time cron job:", scheduleTonightError);
       return new Response(
-        JSON.stringify({ error: "Failed to set up cron job", details: scheduleCronError }),
+        JSON.stringify({ error: "Failed to set up one-time cron job", details: scheduleTonightError }),
         {
           status: 500,
           headers: { "Content-Type": "application/json", ...corsHeaders },
@@ -74,8 +87,47 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Get next Tuesday at 10:00 PM AEST
-    const now = new Date();
+    // Also set up the weekly schedule for future newsletters
+    // Convert 10:00 PM AEST on Tuesday to cron expression
+    // Note: AEST is UTC+10, so 10:00 PM AEST is 12:00 PM UTC (noon)
+    const weeklyCronExpression = "0 12 * * 2"; // At 12:00 UTC on Tuesday (10:00 PM AEST)
+    
+    // Schedule the weekly cron job
+    const { error: scheduleWeeklyError } = await supabase.rpc('setup_newsletter_cron_job');
+    if (scheduleWeeklyError) {
+      console.error("Error setting up weekly cron job:", scheduleWeeklyError);
+      return new Response(
+        JSON.stringify({ error: "Failed to set up weekly cron job", details: scheduleWeeklyError }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    // Unschedule the test job if it exists
+    const { error: unscheduleError } = await supabase.rpc('unschedule_job', {
+      job_name: 'send-latest-newsletter-test-cron'
+    });
+    
+    if (unscheduleError) {
+      console.error("Warning: Could not unschedule test job:", unscheduleError);
+      // Continue since this is not critical
+    }
+    
+    // Format tonight's date for display
+    const formattedTonight = tonight.toLocaleString('en-US', {
+      weekday: 'long',
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+      timeZone: 'Australia/Sydney'
+    });
+
+    // Get next Tuesday at 10:00 PM AEST for the weekly schedule
     const nextTuesday = new Date();
     nextTuesday.setDate(now.getDate() + (2 + 7 - now.getDay()) % 7); // Get next Tuesday
     nextTuesday.setHours(22, 0, 0, 0); // Set to 10:00 PM
@@ -94,20 +146,25 @@ const handler = async (req: Request): Promise<Response> => {
       hour: 'numeric',
       minute: 'numeric',
       hour12: true,
-      timeZone: 'Australia/Sydney' // Use AEST timezone
+      timeZone: 'Australia/Sydney'
     });
 
     return new Response(
       JSON.stringify({
         success: true,
         message: "Newsletter scheduling successfully set up with Supabase pg_cron!",
-        nextScheduledRun: {
-          scheduledTime: formattedNextTuesday,
-          timestamp: nextTuesday.toISOString()
+        immediateSchedule: {
+          description: "Tonight's one-time run",
+          scheduledTime: formattedTonight,
+          timestamp: tonight.toISOString()
         },
         recurringSchedule: {
           description: "Every Tuesday at 10:00 PM AEST",
-          cronExpression: cronExpression
+          cronExpression: weeklyCronExpression,
+          nextScheduledRun: formattedNextTuesday
+        },
+        removedSchedule: {
+          description: "Testing cron job (every 15 minutes) has been removed"
         },
         endpoint: `${supabaseUrl}/functions/v1/send-latest-newsletter`
       }),
