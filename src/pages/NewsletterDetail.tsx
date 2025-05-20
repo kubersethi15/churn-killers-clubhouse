@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
 import { ArrowLeft } from "lucide-react";
 import NewsletterForm from "@/components/NewsletterForm";
+import { useToast } from "@/components/ui/use-toast";
 
 type Newsletter = {
   id: string;
@@ -16,6 +17,7 @@ type Newsletter = {
   published_date: string;
   read_time: string;
   category: string | null;
+  slug: string;
 };
 
 const NewsletterDetail = () => {
@@ -23,11 +25,14 @@ const NewsletterDetail = () => {
   const [newsletter, setNewsletter] = useState<Newsletter | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchNewsletter = async () => {
       setLoading(true);
       try {
+        console.log(`Fetching newsletter with slug: "${slug}"`);
+        
         const { data, error } = await supabase
           .from("newsletters")
           .select("*")
@@ -36,10 +41,32 @@ const NewsletterDetail = () => {
 
         if (error) {
           console.error("Error fetching newsletter:", error);
+          
+          // Log the error details for debugging
+          if (error.code === "PGRST116") {
+            // This error means no rows were found
+            toast({
+              title: "Newsletter not found",
+              description: `Could not find newsletter with slug: "${slug}"`,
+              variant: "destructive",
+            });
+            
+            // Let's check if there are any newsletters with similar slugs for debugging
+            const { data: allNewsletters } = await supabase
+              .from("newsletters")
+              .select("slug, title")
+              .order("published_date", { ascending: false });
+              
+            if (allNewsletters && allNewsletters.length > 0) {
+              console.log("Available newsletters:", allNewsletters);
+            }
+          }
+          
           setError("Newsletter not found");
           return;
         }
 
+        console.log("Newsletter found:", data);
         setNewsletter(data as Newsletter);
         document.title = `${data.title} | Churn Is Dead`;
       } catch (err) {
@@ -53,7 +80,7 @@ const NewsletterDetail = () => {
     if (slug) {
       fetchNewsletter();
     }
-  }, [slug]);
+  }, [slug, toast]);
 
   const formatDate = (dateString: string) => {
     return format(new Date(dateString), "MMMM d, yyyy");
@@ -150,6 +177,9 @@ const NewsletterDetail = () => {
               <h1 className="text-3xl md:text-5xl font-serif font-black mb-6">
                 {error}
               </h1>
+              <p className="mb-6 text-gray-300">
+                The newsletter you're looking for could not be found. It may have been removed or the link might be incorrect.
+              </p>
               <Button asChild>
                 <Link to="/newsletters">Browse All Newsletters</Link>
               </Button>
@@ -232,9 +262,6 @@ const NewsletterDetail = () => {
               </a>
               <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 Contact
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                Privacy
               </a>
             </div>
           </div>
