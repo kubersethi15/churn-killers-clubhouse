@@ -68,6 +68,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_newsletter_invoke_function: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       enable_pg_cron: {
         Args: Record<PropertyKey, never>
         Returns: undefined
@@ -76,8 +80,20 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
+      setup_newsletter_once: {
+        Args: { job_name: string; cron_schedule: string }
+        Returns: undefined
+      }
       setup_newsletter_test_cron_job: {
         Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      setup_newsletter_weekly: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      unschedule_job: {
+        Args: { job_name: string }
         Returns: undefined
       }
     }

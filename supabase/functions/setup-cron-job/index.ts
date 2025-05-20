@@ -19,7 +19,7 @@ const corsHeaders = {
 };
 
 const handler = async (req: Request): Promise<Response> => {
-  console.log("Setup cron job function triggered");
+  console.log("Setup cron job function triggered", new Date().toISOString());
   
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -95,6 +95,12 @@ const handler = async (req: Request): Promise<Response> => {
     const tonight = new Date();
     tonight.setHours(23, 0, 0, 0); // Set to 11:00 PM tonight
     
+    // Add 5 minutes to current time if it's past 11 PM already
+    const now = new Date();
+    if (now.getHours() >= 23) {
+      tonight.setDate(tonight.getDate() + 1); // Schedule for tomorrow instead
+    }
+    
     // Format time for cron expression (minutes hours day month day-of-week)
     const hours = tonight.getHours();
     const minutes = tonight.getMinutes();
@@ -125,11 +131,6 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Schedule the weekly newsletter for Tuesday at 10:00 PM AEST (12:00 PM UTC)
     // Note: AEST is UTC+10, so 10:00 PM AEST is 12:00 PM UTC (noon)
-    const weeklyCronExpression = "0 12 * * 2"; // At 12:00 UTC on Tuesday (10:00 PM AEST)
-    
-    console.log(`Scheduling weekly job for ${weeklyCronExpression}`);
-    
-    // Schedule the weekly job
     const { error: scheduleWeeklyError } = await supabase.rpc('setup_newsletter_weekly');
     
     if (scheduleWeeklyError) {
@@ -167,7 +168,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Get next Tuesday at 10:00 PM AEST for the weekly schedule
     const nextTuesday = new Date();
-    nextTuesday.setDate(new Date().getDate() + (2 + 7 - new Date().getDay()) % 7); // Get next Tuesday
+    nextTuesday.setDate(nextTuesday.getDate() + (2 + 7 - nextTuesday.getDay()) % 7); // Get next Tuesday
     nextTuesday.setHours(22, 0, 0, 0); // Set to 10:00 PM
     
     // If today is Tuesday and it's before 10 PM, use today
@@ -200,7 +201,7 @@ const handler = async (req: Request): Promise<Response> => {
         },
         recurringSchedule: {
           description: "Every Tuesday at 10:00 PM AEST",
-          cronExpression: weeklyCronExpression,
+          cronExpression: "0 12 * * 2", // At 12:00 UTC on Tuesday
           nextScheduledRun: formattedNextTuesday
         },
         removedSchedule: {

@@ -22,7 +22,8 @@ const corsHeaders = {
 };
 
 const handler = async (req: Request): Promise<Response> => {
-  console.log("Send latest newsletter function triggered");
+  const triggerTime = new Date().toISOString();
+  console.log(`Send latest newsletter function triggered at ${triggerTime}`);
   console.log("Request method:", req.method);
   console.log("Request headers:", Object.fromEntries(req.headers.entries()));
   
@@ -49,7 +50,7 @@ const handler = async (req: Request): Promise<Response> => {
           console.log(`Test email requested for: ${testEmailAddress}`);
         }
       } else {
-        console.log("No request body provided");
+        console.log("No request body provided - treating as regular newsletter sending");
       }
     } catch (e) {
       console.error("Error parsing request body:", e);
@@ -87,7 +88,7 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    console.log("Latest newsletter found:", latestNewsletter.title);
+    console.log(`Latest newsletter found: "${latestNewsletter.title}" (ID: ${latestNewsletter.id})`);
 
     // If this is a test email, send it directly without fetching all subscribers
     if (testEmailAddress) {
@@ -122,23 +123,39 @@ const handler = async (req: Request): Promise<Response> => {
       
       // Send the test email
       console.log("Sending test email to:", testEmailAddress);
-      const result = await sendTestNewsletter(
-        testEmailAddress, 
-        latestNewsletter.title, 
-        customizedEmail
-      );
-      
-      return new Response(
-        JSON.stringify({
-          success: true,
-          message: `Test newsletter sent to ${testEmailAddress}`,
-          newsletterTitle: latestNewsletter.title,
-        }),
-        {
-          status: 200,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
-        }
-      );
+      try {
+        const result = await sendTestNewsletter(
+          testEmailAddress, 
+          latestNewsletter.title, 
+          customizedEmail
+        );
+        
+        return new Response(
+          JSON.stringify({
+            success: true,
+            message: `Test newsletter sent to ${testEmailAddress}`,
+            newsletterTitle: latestNewsletter.title,
+            timestamp: triggerTime
+          }),
+          {
+            status: 200,
+            headers: { "Content-Type": "application/json", ...corsHeaders },
+          }
+        );
+      } catch (sendError) {
+        console.error("Error sending test email:", sendError);
+        return new Response(
+          JSON.stringify({ 
+            error: "Failed to send test email", 
+            details: sendError.message || sendError,
+            timestamp: triggerTime
+          }),
+          {
+            status: 500,
+            headers: { "Content-Type": "application/json", ...corsHeaders },
+          }
+        );
+      }
     }
 
     // 2. Fetch all active subscribers
@@ -162,7 +179,10 @@ const handler = async (req: Request): Promise<Response> => {
     if (!subscribers.length) {
       console.log("No active subscribers found");
       return new Response(
-        JSON.stringify({ message: "No active subscribers found" }),
+        JSON.stringify({ 
+          message: "No active subscribers found",
+          timestamp: triggerTime
+        }),
         {
           status: 200,
           headers: { "Content-Type": "application/json", ...corsHeaders },
@@ -247,7 +267,7 @@ const handler = async (req: Request): Promise<Response> => {
       }
     }
 
-    console.log(`Newsletter sending complete. Success: ${successCount}, Failures: ${failureCount}`);
+    console.log(`Newsletter sending complete at ${new Date().toISOString()}. Success: ${successCount}, Failures: ${failureCount}`);
 
     return new Response(
       JSON.stringify({
@@ -255,6 +275,8 @@ const handler = async (req: Request): Promise<Response> => {
         message: `Newsletter "${latestNewsletter.title}" sent to ${successCount} subscribers`,
         failureCount,
         errors: errors.length ? errors : null,
+        startTime: triggerTime,
+        endTime: new Date().toISOString()
       }),
       {
         status: 200,
@@ -268,6 +290,7 @@ const handler = async (req: Request): Promise<Response> => {
         error: error.message,
         stack: error.stack,
         name: error.name,
+        timestamp: triggerTime
       }),
       {
         status: 500,
