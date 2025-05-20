@@ -9,6 +9,7 @@ import PastNewsletters from "./pages/PastNewsletters";
 import NotFound from "./pages/NotFound";
 import NewsletterDetail from "./pages/NewsletterDetail";
 import About from "./pages/About";
+import Playbook from "./pages/Playbook";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/newsletters" element={<PastNewsletters />} />
           <Route path="/newsletter/:slug" element={<NewsletterDetail />} />
           <Route path="/about" element={<About />} />
+          <Route path="/playbook" element={<Playbook />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

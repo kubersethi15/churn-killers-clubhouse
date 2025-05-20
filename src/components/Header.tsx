@@ -75,6 +75,9 @@ const Header = () => {
           <Link to="/newsletters" className="text-navy-dark hover:text-red-600 font-medium transition-colors">
             Newsletters
           </Link>
+          <Link to="/playbook" className="text-navy-dark hover:text-red-600 font-medium transition-colors">
+            Playbook Vault
+          </Link>
           <Link to="/about" className="text-navy-dark hover:text-red-600 font-medium transition-colors">
             About
           </Link>
@@ -112,6 +115,13 @@ const Header = () => {
               onClick={() => setIsMenuOpen(false)}
             >
               Newsletters
+            </Link>
+            <Link 
+              to="/playbook" 
+              className="text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Playbook Vault
             </Link>
             <Link 
               to="/about" 
