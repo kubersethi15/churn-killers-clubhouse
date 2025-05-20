@@ -1,9 +1,9 @@
-
 import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import NewsletterForm from "@/components/NewsletterForm";
 import { MessageSquare, User, Briefcase, Award, CheckCircle, XCircle } from "lucide-react";
 import ContactDialog from "@/components/ContactDialog";
+import Footer from "@/components/Footer";
 
 const About = () => {
   const [isContactOpen, setIsContactOpen] = useState(false);
@@ -140,42 +140,10 @@ const About = () => {
         </div>
       </section>
       
-      {/* Footer - Newsletter form removed */}
-      <footer className="py-12 bg-navy-dark text-white">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-col md:flex-row justify-between items-center pt-8">
-            <div className="mb-6 md:mb-0">
-              <h2 className="text-xl font-serif font-black mb-2">
-                <span className="underline-red">Churn</span> Is Dead
-              </h2>
-              <p className="text-sm text-gray-300">
-                © 2025 Churn Is Dead. All rights reserved.
-              </p>
-            </div>
-            
-            <div className="flex gap-6">
-              <a 
-                href="https://www.linkedin.com/in/kuber-s-79521946/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-gray-300 hover:text-white transition-colors"
-              >
-                LinkedIn
-              </a>
-              <button 
-                onClick={() => setIsContactOpen(true)} 
-                className="text-gray-300 hover:text-white transition-colors bg-transparent border-none p-0 cursor-pointer"
-                aria-label="Contact Us"
-              >
-                Contact
-              </button>
-            </div>
-          </div>
-        </div>
-      </footer>
+      {/* Use the consistent Footer component */}
+      <Footer />
       
-      {/* Contact Dialog */}
-      <ContactDialog open={isContactOpen} onOpenChange={setIsContactOpen} />
+      {/* Contact Dialog - we can remove this since it's now in the Footer component */}
     </div>
   );
 };
