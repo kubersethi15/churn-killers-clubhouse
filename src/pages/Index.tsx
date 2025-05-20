@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -248,7 +247,7 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Extra spacing before final CTA (added 40px to padding) */}
+      {/* Extra spacing before final CTA */}
       <section className="py-24 md:py-32 bg-red-600 text-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
@@ -297,9 +296,6 @@ const Index = () => {
               >
                 Contact
               </button>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                Privacy
-              </a>
             </div>
           </div>
         </div>
