@@ -14,6 +14,13 @@ const getResendClient = () => {
 };
 
 /**
+ * Clean string for use in email subject (remove newlines and excessive spaces)
+ */
+const cleanSubjectLine = (subject: string): string => {
+  return subject.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
+};
+
+/**
  * Send newsletter to a batch of subscribers
  */
 export const sendNewsletterBatch = async (
@@ -24,13 +31,14 @@ export const sendNewsletterBatch = async (
 ) => {
   try {
     const resend = getResendClient();
+    const cleanedSubject = cleanSubjectLine(subject);
     
     // Send the email using Resend
     const emailResponse = await resend.emails.send({
       from: "Churn Is Dead <newsletter@churnisdead.com>",
       to: ["newsletter@churnisdead.com"], // Adding a default 'to' address
       bcc: emailAddresses, // Use BCC for privacy
-      subject: subject,
+      subject: cleanedSubject,
       reply_to: "support@churnisdead.com",
       headers: {
         "List-Unsubscribe": "<mailto:unsubscribe@churnisdead.com?subject=unsubscribe>",
@@ -63,12 +71,13 @@ export const sendTestNewsletter = async (
 ) => {
   try {
     const resend = getResendClient();
+    const cleanedSubject = cleanSubjectLine(subject);
     
     // Send the test email using Resend
     const emailResponse = await resend.emails.send({
       from: "Churn Is Dead <newsletter@churnisdead.com>",
       to: [emailAddress], // Single recipient for testing
-      subject: `[TEST] ${subject}`,
+      subject: `[TEST] ${cleanedSubject}`,
       reply_to: "support@churnisdead.com",
       headers: {
         "X-Entity-Ref-ID": `newsletter-test-${Date.now()}`
