@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import NewsletterForm from "@/components/NewsletterForm";
@@ -139,27 +140,10 @@ const About = () => {
         </div>
       </section>
       
-      {/* Footer */}
+      {/* Footer - Newsletter form removed */}
       <footer className="py-12 bg-navy-dark text-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-col items-center mb-8" id="footer-newsletter">
-            <div className="max-w-lg w-full">
-              <NewsletterForm 
-                location="footer" 
-                className="w-full" 
-                title="Join the movement."
-                description="No fluff. Just value, trust, and tactical execution — delivered weekly."
-                buttonVariant="outline-red"
-                textColor="text-white"
-              />
-              {/* Changed text alignment from center to left for social proof */}
-              <p className="text-sm mt-3 text-white font-medium text-left">
-                <span className="bg-red-600/20 px-3 py-1 rounded-full">Join <strong>2,000+ CS leaders</strong> getting fresh insights every Tuesday</span>
-              </p>
-            </div>
-          </div>
-          
-          <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-800">
+          <div className="flex flex-col md:flex-row justify-between items-center pt-8">
             <div className="mb-6 md:mb-0">
               <h2 className="text-xl font-serif font-black mb-2">
                 <span className="underline-red">Churn</span> Is Dead
