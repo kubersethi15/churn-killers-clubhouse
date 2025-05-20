@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, NavLink } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import NewsletterForm from "./NewsletterForm";
 import ContactDialog from "./ContactDialog";
@@ -58,6 +58,13 @@ const Header = () => {
     }
   };
 
+  // Custom NavLink style function to highlight active routes
+  const getNavLinkClass = ({ isActive }: { isActive: boolean }) => {
+    return isActive 
+      ? "text-red-600 font-medium transition-colors" 
+      : "text-navy-dark hover:text-red-600 font-medium transition-colors";
+  };
+
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white ${
@@ -72,15 +79,15 @@ const Header = () => {
         </Link>
         
         <nav className="hidden md:flex items-center gap-8">
-          <Link to="/newsletters" className="text-navy-dark hover:text-red-600 font-medium transition-colors">
+          <NavLink to="/newsletters" className={getNavLinkClass}>
             Newsletters
-          </Link>
-          <Link to="/playbook" className="text-navy-dark hover:text-red-600 font-medium transition-colors">
+          </NavLink>
+          <NavLink to="/playbook" className={getNavLinkClass}>
             Playbook Vault
-          </Link>
-          <Link to="/about" className="text-navy-dark hover:text-red-600 font-medium transition-colors">
+          </NavLink>
+          <NavLink to="/about" className={getNavLinkClass}>
             About
-          </Link>
+          </NavLink>
           <Link 
             to="#" 
             className="text-navy-dark hover:text-red-600 font-medium transition-colors"
@@ -112,27 +119,39 @@ const Header = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-100 p-4">
           <nav className="flex flex-col space-y-4">
-            <Link 
+            <NavLink 
               to="/newsletters" 
-              className="text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
+              className={({ isActive }) => 
+                isActive 
+                  ? "text-red-600 font-medium transition-colors px-2 py-1" 
+                  : "text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
+              }
               onClick={() => setIsMenuOpen(false)}
             >
               Newsletters
-            </Link>
-            <Link 
+            </NavLink>
+            <NavLink 
               to="/playbook" 
-              className="text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
+              className={({ isActive }) => 
+                isActive 
+                  ? "text-red-600 font-medium transition-colors px-2 py-1" 
+                  : "text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
+              }
               onClick={() => setIsMenuOpen(false)}
             >
               Playbook Vault
-            </Link>
-            <Link 
+            </NavLink>
+            <NavLink 
               to="/about" 
-              className="text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
+              className={({ isActive }) => 
+                isActive 
+                  ? "text-red-600 font-medium transition-colors px-2 py-1" 
+                  : "text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
+              }
               onClick={() => setIsMenuOpen(false)}
             >
               About
-            </Link>
+            </NavLink>
             <Link 
               to="#" 
               className="text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
