@@ -4,17 +4,21 @@ import Layout from "@/components/Layout";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Separator } from "@/components/ui/separator";
+import NewsletterForm from "@/components/NewsletterForm";
 
 interface PlaybookResource {
   id: string;
   title: string;
   description: string;
   ctaText: string;
-  ctaLink: string;
+  ctaLink?: string;
+  disabled?: boolean;
   icon?: string;
   featuredIn?: {
     title: string;
-    link: string;
+    link?: string;
+    comingSoon?: boolean;
   };
 }
 
@@ -27,11 +31,22 @@ const resources: PlaybookResource[] = [
     ctaLink: "https://www.notion.so/Kickoff-Re-Discovery-Checklist-1f95d0709c9980cfb35ae653901a6661?pvs=4",
     icon: "📋",
     featuredIn: {
-      title: "The Perfect Kickoff Call",
-      link: "#", // This will be updated once the newsletter is posted
+      title: "Linked to next Tuesday's issue — going live soon",
+      comingSoon: true
     },
   },
-  // More resources can be added here later
+  {
+    id: "expansion-playbook",
+    title: "Expansion Playbook — Coming Soon",
+    description: "A lightweight framework to help you identify and nurture expansion signals across the customer journey.",
+    ctaText: "Coming Soon",
+    disabled: true,
+    icon: "🛠",
+    featuredIn: {
+      title: "Coming next week in the Churn Is Dead newsletter",
+      comingSoon: true
+    },
+  },
 ];
 
 const PlaybookVault = () => {
@@ -51,10 +66,34 @@ const PlaybookVault = () => {
         </div>
       </section>
 
+      {/* Newsletter CTA Section */}
+      <section className="bg-white py-12 md:py-16">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-2xl md:text-3xl font-serif font-bold text-navy-dark mb-3">
+              📩 Want more tools like this every week?
+            </h2>
+            <p className="text-lg md:text-xl text-navy-dark/80 mb-6">
+              Subscribe to the <em>Churn Is Dead</em> newsletter for bold, tactical CS insights — every Tuesday night.
+            </p>
+            <div className="max-w-md mx-auto">
+              <NewsletterForm 
+                buttonVariant="vibrant-red"
+                buttonText="Subscribe Now"
+                className="max-w-md mx-auto"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="container mx-auto px-4 md:px-6 mt-12">
+          <Separator className="bg-gray-200" />
+        </div>
+      </section>
+
       {/* Resource Grid Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {resources.map((resource) => (
               <Card key={resource.id} className="bg-white border shadow-md hover:shadow-lg transition-shadow duration-300">
                 <CardHeader className="pb-2">
@@ -71,25 +110,42 @@ const PlaybookVault = () => {
                   <p className="text-navy-dark/80">{resource.description}</p>
                 </CardContent>
                 <CardFooter className="flex flex-col items-start">
-                  <Button 
-                    variant="vibrant-red" 
-                    className="mb-2"
-                    asChild
-                  >
-                    <a href={resource.ctaLink} target="_blank" rel="noopener noreferrer">
-                      {resource.ctaText} <ExternalLink className="ml-1 h-4 w-4" />
-                    </a>
-                  </Button>
+                  {resource.ctaLink ? (
+                    <Button 
+                      variant="vibrant-red" 
+                      className="mb-2"
+                      asChild
+                      disabled={resource.disabled}
+                    >
+                      <a href={resource.ctaLink} target="_blank" rel="noopener noreferrer">
+                        {resource.ctaText} {!resource.disabled && <ExternalLink className="ml-1 h-4 w-4" />}
+                      </a>
+                    </Button>
+                  ) : (
+                    <Button 
+                      variant="vibrant-red" 
+                      className="mb-2 opacity-60 cursor-not-allowed"
+                      disabled
+                    >
+                      {resource.ctaText}
+                    </Button>
+                  )}
                   
                   {resource.featuredIn && (
                     <div className="text-sm text-gray-600 pt-2">
-                      🔗 Featured in:{" "}
-                      <Link 
-                        to={resource.featuredIn.link}
-                        className="text-red-600 hover:text-red-700 underline-red"
-                      >
-                        {resource.featuredIn.title}
-                      </Link>
+                      📬 {resource.featuredIn.comingSoon ? (
+                        <span className="italic">{resource.featuredIn.title}</span>
+                      ) : (
+                        <>
+                          Featured in:{" "}
+                          <Link 
+                            to={resource.featuredIn.link || "#"}
+                            className="text-red-600 hover:text-red-700 underline-red"
+                          >
+                            {resource.featuredIn.title}
+                          </Link>
+                        </>
+                      )}
                     </div>
                   )}
                 </CardFooter>
