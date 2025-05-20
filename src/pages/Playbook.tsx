@@ -5,6 +5,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
+import NewsletterForm from "@/components/NewsletterForm";
 
 interface PlaybookResource {
   id: string;
@@ -141,6 +142,30 @@ const PlaybookVault = () => {
               </p>
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Newsletter CTA Section */}
+      <section className="bg-white py-12 md:py-16">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-2xl md:text-3xl font-serif font-bold text-navy-dark mb-3">
+              📩 Want more tools like this every week?
+            </h2>
+            <p className="text-lg md:text-xl text-navy-dark/80 mb-6">
+              Subscribe to the <em>Churn Is Dead</em> newsletter for bold, tactical CS insights — every Tuesday night.
+            </p>
+            <div className="max-w-md mx-auto">
+              <NewsletterForm 
+                buttonVariant="vibrant-red"
+                buttonText="Subscribe Now"
+                className="max-w-md mx-auto"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="container mx-auto px-4 md:px-6 mt-12">
+          <Separator className="bg-gray-200" />
         </div>
       </section>
     </Layout>
