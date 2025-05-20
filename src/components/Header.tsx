@@ -81,13 +81,16 @@ const Header = () => {
           <Link to="/about" className="text-navy-dark hover:text-red-600 font-medium transition-colors">
             About
           </Link>
-          <Button 
-            variant="ghost"
+          <Link 
+            to="#" 
             className="text-navy-dark hover:text-red-600 font-medium transition-colors"
-            onClick={openContactModal}
+            onClick={(e) => {
+              e.preventDefault();
+              openContactModal();
+            }}
           >
             Contact
-          </Button>
+          </Link>
         </nav>
         
         <Button 
@@ -130,16 +133,16 @@ const Header = () => {
             >
               About
             </Link>
-            <Button 
-              variant="ghost"
-              className="text-navy-dark hover:text-red-600 font-medium transition-colors w-full text-left"
+            <Link 
+              to="#" 
+              className="text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
               onClick={() => {
                 setIsMenuOpen(false);
                 setIsContactOpen(true);
               }}
             >
               Contact
-            </Button>
+            </Link>
           </nav>
         </div>
       )}

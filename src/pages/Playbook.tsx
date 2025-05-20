@@ -24,7 +24,7 @@ const resources: PlaybookResource[] = [
     title: "Kickoff Re-Discovery Checklist",
     description: "A tactical checklist to align internally, validate goals, and earn trust before the first customer call.",
     ctaText: "View in Notion",
-    ctaLink: "https://www.notion.so/", // Replace with your actual Notion link
+    ctaLink: "https://www.notion.so/Kickoff-Re-Discovery-Checklist-1f95d0709c9980cfb35ae653901a6661?pvs=4",
     icon: "📋",
     featuredIn: {
       title: "The Perfect Kickoff Call",
