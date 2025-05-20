@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -29,83 +28,117 @@ const NewsletterDetail = () => {
 
   useEffect(() => {
     const fetchNewsletter = async () => {
+      if (!slug) {
+        setError("No slug provided");
+        setLoading(false);
+        return;
+      }
+
       setLoading(true);
       try {
         console.log(`Fetching newsletter with slug: "${slug}"`);
         
-        // Try to find the newsletter with exact slug first
-        let { data, error } = await supabase
+        // First, fetch all newsletters to debug what's available
+        const { data: allNewsletters, error: listError } = await supabase
+          .from("newsletters")
+          .select("id, title, slug");
+          
+        if (listError) {
+          console.error("Error fetching newsletters list:", listError);
+        } else {
+          console.log("All available newsletters:", allNewsletters);
+          
+          // Log the exact slugs for comparison
+          allNewsletters?.forEach((nl) => {
+            console.log(`Newsletter: ${nl.title}, Slug: "${nl.slug}", Length: ${nl.slug.length}`);
+            
+            // Check for hidden characters by logging character codes
+            const charCodes = Array.from(nl.slug).map(c => c.charCodeAt(0));
+            console.log(`Character codes for slug "${nl.slug}":`, charCodes);
+          });
+        }
+        
+        // Try to find the newsletter with various slug normalization approaches
+        let matchingNewsletter = null;
+        let data = null;
+        
+        // First approach: exact match
+        const { data: exactMatch, error: exactError } = await supabase
           .from("newsletters")
           .select("*")
           .eq("slug", slug)
           .maybeSingle();
           
-        // If not found, try with normalized slug (trim whitespace and newlines)
-        if (!data && error && error.code === "PGRST116") {
-          console.log("Newsletter not found with exact slug, trying with normalized slugs");
+        if (exactMatch) {
+          console.log("Found newsletter with exact slug match");
+          data = exactMatch;
+        } else {
+          console.log("No exact match found, trying with normalized slugs");
           
-          // Fetch all newsletters
-          const { data: allNewsletters } = await supabase
-            .from("newsletters")
-            .select("slug, title, id");
+          if (allNewsletters) {
+            // Try different normalization techniques
+            const normalizedSlug = slug.trim().toLowerCase().replace(/[\n\r\s]+/g, '-');
+            console.log(`Normalized requested slug: "${normalizedSlug}"`);
             
-          console.log("Available newsletters:", allNewsletters);
-          
-          // Find a newsletter where the normalized slug matches
-          const matchingNewsletter = allNewsletters?.find(newsletter => 
-            newsletter.slug?.trim() === slug || 
-            newsletter.slug?.replace(/[\n\r]/g, '') === slug
-          );
-          
-          if (matchingNewsletter) {
-            console.log("Found matching newsletter with normalized slug:", matchingNewsletter);
-            
-            // Fetch the full newsletter details
-            const { data: fullNewsletter, error: fetchError } = await supabase
-              .from("newsletters")
-              .select("*")
-              .eq("id", matchingNewsletter.id)
-              .single();
+            // Find a newsletter where any normalization matches
+            matchingNewsletter = allNewsletters.find(newsletter => {
+              const dbSlug = newsletter.slug || '';
               
-            if (fullNewsletter && !fetchError) {
-              data = fullNewsletter;
-              error = null;
-            } else {
-              console.error("Error fetching full newsletter details:", fetchError);
-            }
-          }
-        }
-
-        if (!data) {
-          console.error("Newsletter not found:", error);
-          
-          // Log the error details for debugging
-          if (error?.code === "PGRST116") {
-            // This error means no rows were found
-            toast({
-              title: "Newsletter not found",
-              description: `Could not find newsletter with slug: "${slug}"`,
-              variant: "destructive",
+              // Try multiple normalization approaches for comparison
+              const normalizedDbSlug = dbSlug.trim().toLowerCase().replace(/[\n\r\s]+/g, '-');
+              const simpleDbSlug = dbSlug.trim().toLowerCase().replace(/[\n\r\s]+/g, '');
+              
+              const isExactMatch = dbSlug === slug;
+              const isTrimMatch = dbSlug.trim() === slug.trim();
+              const isNormalizedMatch = normalizedDbSlug === normalizedSlug;
+              const isSimpleMatch = simpleDbSlug === slug.replace(/[\n\r\s]+/g, '').toLowerCase();
+              
+              console.log(`Comparing "${dbSlug}" with "${slug}":`, {
+                exact: isExactMatch,
+                trimmed: isTrimMatch,
+                normalized: isNormalizedMatch,
+                simple: isSimpleMatch
+              });
+              
+              return isExactMatch || isTrimMatch || isNormalizedMatch || isSimpleMatch;
             });
             
-            // Let's check if there are any newsletters with similar slugs for debugging
-            const { data: allNewsletters } = await supabase
-              .from("newsletters")
-              .select("slug, title")
-              .order("published_date", { ascending: false });
+            if (matchingNewsletter) {
+              console.log("Found matching newsletter:", matchingNewsletter);
               
-            if (allNewsletters && allNewsletters.length > 0) {
-              console.log("Available newsletters:", allNewsletters);
+              // Fetch the full newsletter details
+              const { data: fullNewsletter, error: fetchError } = await supabase
+                .from("newsletters")
+                .select("*")
+                .eq("id", matchingNewsletter.id)
+                .single();
+                
+              if (fullNewsletter && !fetchError) {
+                data = fullNewsletter;
+              } else {
+                console.error("Error fetching full newsletter details:", fetchError);
+              }
+            } else {
+              console.log("No matching newsletter found with any normalization approach");
             }
           }
-          
-          setError("Newsletter not found");
-          return;
         }
 
-        console.log("Newsletter found:", data);
-        setNewsletter(data as Newsletter);
-        document.title = `${data.title} | Churn Is Dead`;
+        if (data) {
+          console.log("Newsletter found:", data);
+          setNewsletter(data as Newsletter);
+          document.title = `${data.title} | Churn Is Dead`;
+          setError(null);
+        } else {
+          console.error("Newsletter not found with slug:", slug);
+          setError("Newsletter not found");
+          
+          toast({
+            title: "Newsletter not found",
+            description: `Could not find newsletter with slug: "${slug}"`,
+            variant: "destructive",
+          });
+        }
       } catch (err) {
         console.error("Unexpected error:", err);
         setError("Something went wrong");
