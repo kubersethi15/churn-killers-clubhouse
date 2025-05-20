@@ -23,6 +23,8 @@ const corsHeaders = {
 
 const handler = async (req: Request): Promise<Response> => {
   console.log("Send latest newsletter function triggered");
+  console.log("Request method:", req.method);
+  console.log("Request headers:", Object.fromEntries(req.headers.entries()));
   
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -35,16 +37,27 @@ const handler = async (req: Request): Promise<Response> => {
     let requestBody = {};
     
     try {
-      requestBody = await req.json();
-      if (requestBody && typeof requestBody === 'object' && 'testEmail' in requestBody) {
-        testEmailAddress = requestBody.testEmail as string;
-        console.log(`Test email requested for: ${testEmailAddress}`);
+      const bodyText = await req.text();
+      console.log("Raw request body:", bodyText);
+      
+      if (bodyText) {
+        requestBody = JSON.parse(bodyText);
+        console.log("Parsed request body:", requestBody);
+        
+        if (requestBody && typeof requestBody === 'object' && 'testEmail' in requestBody) {
+          testEmailAddress = requestBody.testEmail as string;
+          console.log(`Test email requested for: ${testEmailAddress}`);
+        }
+      } else {
+        console.log("No request body provided");
       }
     } catch (e) {
+      console.error("Error parsing request body:", e);
       // Request has no body or invalid JSON, proceed normally
     }
 
     // 1. Fetch the latest newsletter
+    console.log("Fetching latest newsletter");
     const { data: latestNewsletter, error: newsletterError } = await supabase
       .from("newsletters")
       .select("*")
@@ -55,7 +68,7 @@ const handler = async (req: Request): Promise<Response> => {
     if (newsletterError) {
       console.error("Error fetching latest newsletter:", newsletterError);
       return new Response(
-        JSON.stringify({ error: "Failed to fetch latest newsletter" }),
+        JSON.stringify({ error: "Failed to fetch latest newsletter", details: newsletterError }),
         {
           status: 500,
           headers: { "Content-Type": "application/json", ...corsHeaders },
@@ -78,7 +91,8 @@ const handler = async (req: Request): Promise<Response> => {
 
     // If this is a test email, send it directly without fetching all subscribers
     if (testEmailAddress) {
-      // 3. Format the newsletter for email
+      console.log("Processing test email request");
+      // Format the newsletter for email
       const formattedDate = new Date(latestNewsletter.published_date).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
@@ -107,6 +121,7 @@ const handler = async (req: Request): Promise<Response> => {
       });
       
       // Send the test email
+      console.log("Sending test email to:", testEmailAddress);
       const result = await sendTestNewsletter(
         testEmailAddress, 
         latestNewsletter.title, 
@@ -127,6 +142,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     // 2. Fetch all active subscribers
+    console.log("Fetching active subscribers");
     const { data: subscribers, error: subscribersError } = await supabase
       .from("subscribers")
       .select("email")
@@ -135,7 +151,7 @@ const handler = async (req: Request): Promise<Response> => {
     if (subscribersError) {
       console.error("Error fetching subscribers:", subscribersError);
       return new Response(
-        JSON.stringify({ error: "Failed to fetch subscribers" }),
+        JSON.stringify({ error: "Failed to fetch subscribers", details: subscribersError }),
         {
           status: 500,
           headers: { "Content-Type": "application/json", ...corsHeaders },
@@ -157,6 +173,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log(`Found ${subscribers.length} active subscribers`);
 
     // 3. Format the newsletter for email
+    console.log("Formatting newsletter content for email");
     const formattedDate = new Date(latestNewsletter.published_date).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
@@ -195,7 +212,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // 4. Send newsletter to each batch of subscribers
     for (const [batchIndex, batch] of batches.entries()) {
-      console.log(`Processing batch ${batchIndex + 1} of ${batches.length}`);
+      console.log(`Processing batch ${batchIndex + 1} of ${batches.length} with ${batch.length} subscribers`);
       
       // Create array of email addresses for this batch
       const emailAddresses = batch.map(subscriber => subscriber.email);
@@ -207,6 +224,7 @@ const handler = async (req: Request): Promise<Response> => {
         });
         
         // Send the email batch
+        console.log(`Sending batch ${batchIndex + 1} with ${emailAddresses.length} recipients`);
         await sendNewsletterBatch(
           emailAddresses, 
           latestNewsletter.title, 
@@ -215,9 +233,11 @@ const handler = async (req: Request): Promise<Response> => {
         );
         
         successCount += batch.length;
+        console.log(`Batch ${batchIndex + 1} sent successfully. Running total: ${successCount} emails sent`);
         
         // Add a small delay between batches to avoid rate limits
         if (batchIndex < batches.length - 1) {
+          console.log(`Adding delay before next batch`);
           await new Promise(resolve => setTimeout(resolve, 2000));
         }
       } catch (error) {

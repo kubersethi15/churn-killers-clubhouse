@@ -1,3 +1,4 @@
+
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 
@@ -56,21 +57,56 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Get today's date
-    const now = new Date();
-    const tonight = new Date();
-    tonight.setHours(23, 0, 0, 0); // Set to 11:00 PM today
+    // Unschedule existing jobs to avoid duplicates
+    const { error: unscheduleNightlyError } = await supabase.rpc('unschedule_job', {
+      job_name: 'send-latest-newsletter-tonight'
+    });
     
-    // Format time for cron expression (minutes hours * * *)
-    // We're assuming it's still possible to schedule for today
-    // Otherwise, this will schedule for 11:00 PM tomorrow
+    if (unscheduleNightlyError) {
+      console.log("Warning: Could not unschedule tonight's job (might not exist yet):", unscheduleNightlyError);
+      // Continue since this is not critical
+    }
+    
+    const { error: unscheduleWeeklyError } = await supabase.rpc('unschedule_job', {
+      job_name: 'send-latest-newsletter-weekly'
+    });
+    
+    if (unscheduleWeeklyError) {
+      console.log("Warning: Could not unschedule weekly job (might not exist yet):", unscheduleWeeklyError);
+      // Continue since this is not critical
+    }
+
+    // Create a PostgreSQL function to directly invoke the edge function
+    const { error: createFunctionError } = await supabase.rpc('create_newsletter_invoke_function');
+    
+    if (createFunctionError) {
+      console.error("Error creating PostgreSQL function to invoke edge function:", createFunctionError);
+      return new Response(
+        JSON.stringify({ error: "Failed to create PostgreSQL function", details: createFunctionError }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    // Schedule tonight's job for 11:00 PM (should be same day)
+    // Get today's date at 11:00 PM
+    const tonight = new Date();
+    tonight.setHours(23, 0, 0, 0); // Set to 11:00 PM tonight
+    
+    // Format time for cron expression (minutes hours day month day-of-week)
     const hours = tonight.getHours();
     const minutes = tonight.getMinutes();
+    const day = tonight.getDate();
+    const month = tonight.getMonth() + 1; // JavaScript months are 0-indexed
     
-    // One-time cron job for tonight at 11:00 PM
-    const tonightCronExpression = `${minutes} ${hours} ${tonight.getDate()} ${tonight.getMonth() + 1} *`;
+    // Nightly once-off cron expression
+    const tonightCronExpression = `${minutes} ${hours} ${day} ${month} *`;
     
-    // Schedule the one-time cron job to run the edge function tonight at 11:00 PM
+    console.log(`Scheduling one-time job for tonight at ${hours}:${minutes} (${tonightCronExpression})`);
+    
+    // Schedule the one-time job for tonight
     const { error: scheduleTonightError } = await supabase.rpc('setup_newsletter_once', {
       job_name: 'send-latest-newsletter-tonight',
       cron_schedule: tonightCronExpression
@@ -87,13 +123,15 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Also set up the weekly schedule for future newsletters
-    // Convert 10:00 PM AEST on Tuesday to cron expression
+    // Schedule the weekly newsletter for Tuesday at 10:00 PM AEST (12:00 PM UTC)
     // Note: AEST is UTC+10, so 10:00 PM AEST is 12:00 PM UTC (noon)
     const weeklyCronExpression = "0 12 * * 2"; // At 12:00 UTC on Tuesday (10:00 PM AEST)
     
-    // Schedule the weekly cron job
-    const { error: scheduleWeeklyError } = await supabase.rpc('setup_newsletter_cron_job');
+    console.log(`Scheduling weekly job for ${weeklyCronExpression}`);
+    
+    // Schedule the weekly job
+    const { error: scheduleWeeklyError } = await supabase.rpc('setup_newsletter_weekly');
+    
     if (scheduleWeeklyError) {
       console.error("Error setting up weekly cron job:", scheduleWeeklyError);
       return new Response(
@@ -106,12 +144,12 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     // Unschedule the test job if it exists
-    const { error: unscheduleError } = await supabase.rpc('unschedule_job', {
+    const { error: unscheduleTestError } = await supabase.rpc('unschedule_job', {
       job_name: 'send-latest-newsletter-test-cron'
     });
     
-    if (unscheduleError) {
-      console.error("Warning: Could not unschedule test job:", unscheduleError);
+    if (unscheduleTestError) {
+      console.log("Warning: Could not unschedule test job (might not exist yet):", unscheduleTestError);
       // Continue since this is not critical
     }
     
@@ -129,12 +167,12 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Get next Tuesday at 10:00 PM AEST for the weekly schedule
     const nextTuesday = new Date();
-    nextTuesday.setDate(now.getDate() + (2 + 7 - now.getDay()) % 7); // Get next Tuesday
+    nextTuesday.setDate(new Date().getDate() + (2 + 7 - new Date().getDay()) % 7); // Get next Tuesday
     nextTuesday.setHours(22, 0, 0, 0); // Set to 10:00 PM
     
     // If today is Tuesday and it's before 10 PM, use today
-    if (now.getDay() === 2 && now.getHours() < 22) {
-      nextTuesday.setDate(now.getDate());
+    if (new Date().getDay() === 2 && new Date().getHours() < 22) {
+      nextTuesday.setDate(new Date().getDate());
     }
     
     // Format date for display
@@ -149,6 +187,7 @@ const handler = async (req: Request): Promise<Response> => {
       timeZone: 'Australia/Sydney'
     });
 
+    // Return success information
     return new Response(
       JSON.stringify({
         success: true,
@@ -156,7 +195,8 @@ const handler = async (req: Request): Promise<Response> => {
         immediateSchedule: {
           description: "Tonight's one-time run",
           scheduledTime: formattedTonight,
-          timestamp: tonight.toISOString()
+          timestamp: tonight.toISOString(),
+          cronExpression: tonightCronExpression
         },
         recurringSchedule: {
           description: "Every Tuesday at 10:00 PM AEST",
@@ -164,7 +204,7 @@ const handler = async (req: Request): Promise<Response> => {
           nextScheduledRun: formattedNextTuesday
         },
         removedSchedule: {
-          description: "Testing cron job (every 15 minutes) has been removed"
+          description: "Testing cron job has been removed"
         },
         endpoint: `${supabaseUrl}/functions/v1/send-latest-newsletter`
       }),
