@@ -33,17 +33,54 @@ const NewsletterDetail = () => {
       try {
         console.log(`Fetching newsletter with slug: "${slug}"`);
         
-        const { data, error } = await supabase
+        // Try to find the newsletter with exact slug first
+        let { data, error } = await supabase
           .from("newsletters")
           .select("*")
           .eq("slug", slug)
-          .single();
+          .maybeSingle();
+          
+        // If not found, try with normalized slug (trim whitespace and newlines)
+        if (!data && error && error.code === "PGRST116") {
+          console.log("Newsletter not found with exact slug, trying with normalized slugs");
+          
+          // Fetch all newsletters
+          const { data: allNewsletters } = await supabase
+            .from("newsletters")
+            .select("slug, title, id");
+            
+          console.log("Available newsletters:", allNewsletters);
+          
+          // Find a newsletter where the normalized slug matches
+          const matchingNewsletter = allNewsletters?.find(newsletter => 
+            newsletter.slug?.trim() === slug || 
+            newsletter.slug?.replace(/[\n\r]/g, '') === slug
+          );
+          
+          if (matchingNewsletter) {
+            console.log("Found matching newsletter with normalized slug:", matchingNewsletter);
+            
+            // Fetch the full newsletter details
+            const { data: fullNewsletter, error: fetchError } = await supabase
+              .from("newsletters")
+              .select("*")
+              .eq("id", matchingNewsletter.id)
+              .single();
+              
+            if (fullNewsletter && !fetchError) {
+              data = fullNewsletter;
+              error = null;
+            } else {
+              console.error("Error fetching full newsletter details:", fetchError);
+            }
+          }
+        }
 
-        if (error) {
-          console.error("Error fetching newsletter:", error);
+        if (!data) {
+          console.error("Newsletter not found:", error);
           
           // Log the error details for debugging
-          if (error.code === "PGRST116") {
+          if (error?.code === "PGRST116") {
             // This error means no rows were found
             toast({
               title: "Newsletter not found",
