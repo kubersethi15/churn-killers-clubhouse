@@ -12,6 +12,9 @@ type NewsletterContentProps = {
 };
 
 const NewsletterContent = ({ newsletter, formatContent }: NewsletterContentProps) => {
+  // Check if this is the specific newsletter we want to add the playbook link to
+  const isKickoffNewsletter = newsletter.slug.includes("the-perfect-kickoff-call");
+
   return (
     <section className="py-16 md:py-24">
       <div className="container mx-auto px-4 md:px-6">
@@ -30,6 +33,19 @@ const NewsletterContent = ({ newsletter, formatContent }: NewsletterContentProps
               __html: formatContent(newsletter.content.split('\n\n').slice(1).join('\n\n')) 
             }} 
           />
+          
+          {/* Playbook Vault CTA - Only show for the specific newsletter */}
+          {isKickoffNewsletter && (
+            <div className="my-10 p-6 bg-gray-50 rounded-lg border border-gray-100">
+              <h2 className="text-xl font-bold mb-4">🛠 Want the exact tool I use before every kickoff?</h2>
+              <p className="mb-6">
+                Grab the <strong>Kickoff Re-Discovery Checklist</strong> — my pre-call system to align internally, validate goals, and earn trust before the first customer call.
+              </p>
+              <Button variant="vibrant-red" asChild>
+                <Link to="/playbook">👉 Access the Playbook Vault</Link>
+              </Button>
+            </div>
+          )}
           
           <div className="my-12 p-6 bg-gray-50 rounded-lg border border-gray-100">
             <h3 className="text-xl font-bold mb-4">Want more like this?</h3>
