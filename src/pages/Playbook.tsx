@@ -38,6 +38,19 @@ const resources: PlaybookResource[] = [
     },
   },
   {
+    id: "kickoff-agenda-blueprint",
+    title: "Kickoff Agenda Blueprint",
+    description: "A tactical agenda to lead high-trust kickoff calls across doers, managers, and execs.",
+    ctaText: "View in Notion",
+    ctaLink: "https://www.notion.so/Kickoff-Agenda-Blueprint-1f95d0709c9980e1a233cdd529187a6e?pvs=4",
+    icon: "📝",
+    featuredIn: {
+      title: "The Perfect Kickoff Call",
+      link: "/newsletter/the-perfect-kickoff-call",
+      comingSoon: false
+    },
+  },
+  {
     id: "expansion-playbook",
     title: "Expansion Playbook — Coming Soon",
     description: "A lightweight framework to help you identify and nurture expansion signals across the customer journey.",
