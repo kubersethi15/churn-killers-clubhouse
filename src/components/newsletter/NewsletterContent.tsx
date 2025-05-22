@@ -51,7 +51,7 @@ const NewsletterContent = ({ newsletter, formatContent }: NewsletterContentProps
           {/* Timeline Negotiator CTA */}
           {isTimelineNewsletter && (
             <div className="my-10 p-6 bg-gray-50 rounded-lg border border-gray-100">
-              <h2 className="text-xl font-bold mb-4">🗓️ Want the framework I use to negotiate realistic timelines?</h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-4">🗓️ The 3-Part Timeline Negotiator</h2>
               <p className="mb-6">
                 Grab the <strong>Timeline Negotiator</strong> — my framework for negotiating realistic timelines that build trust with customers and internal stakeholders.
               </p>
