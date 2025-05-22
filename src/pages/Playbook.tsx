@@ -58,9 +58,9 @@ const resources: PlaybookResource[] = [
     ctaLink: "https://www.notion.so/Timeline-Negotiator-1f95d0709c99808e8926eaeff56ef138?pvs=4",
     icon: "🗓️",
     featuredIn: {
-      title: "Realistic Timeline Negotiation",
-      link: "/newsletter/realistic-timeline-negotiation",
-      comingSoon: true
+      title: "Their Timeline, Not Yours",
+      link: "/newsletter/their-timeline-not-yours",
+      comingSoon: false
     },
   },
   {
