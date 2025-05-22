@@ -51,6 +51,19 @@ const resources: PlaybookResource[] = [
     },
   },
   {
+    id: "timeline-negotiator",
+    title: "Timeline Negotiator",
+    description: "A framework for negotiating realistic timelines that build trust with customers and internal stakeholders.",
+    ctaText: "View in Notion",
+    ctaLink: "https://www.notion.so/Timeline-Negotiator-1f95d0709c99808e8926eaeff56ef138?pvs=4",
+    icon: "🗓️",
+    featuredIn: {
+      title: "Realistic Timeline Negotiation",
+      link: "/newsletter/realistic-timeline-negotiation",
+      comingSoon: true
+    },
+  },
+  {
     id: "expansion-playbook",
     title: "Expansion Playbook — Coming Soon",
     description: "A lightweight framework to help you identify and nurture expansion signals across the customer journey.",
