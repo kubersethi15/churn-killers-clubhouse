@@ -12,8 +12,9 @@ type NewsletterContentProps = {
 };
 
 const NewsletterContent = ({ newsletter, formatContent }: NewsletterContentProps) => {
-  // Check if this is the specific newsletter we want to add the playbook link to
+  // Check if this is one of the specific newsletters we want to add the playbook link to
   const isKickoffNewsletter = newsletter.slug.includes("the-perfect-kickoff-call");
+  const isTimelineNewsletter = newsletter.slug.includes("their-timeline-not-yours");
 
   return (
     <section className="py-16 md:py-24">
@@ -34,12 +35,25 @@ const NewsletterContent = ({ newsletter, formatContent }: NewsletterContentProps
             }} 
           />
           
-          {/* Playbook Vault CTA - Only show for the specific newsletter */}
+          {/* Playbook Vault CTA - Only show for specific newsletters */}
           {isKickoffNewsletter && (
             <div className="my-10 p-6 bg-gray-50 rounded-lg border border-gray-100">
               <h2 className="text-xl font-bold mb-4">🛠 Want the exact tool I use before every kickoff?</h2>
               <p className="mb-6">
                 Grab the <strong>Kickoff Re-Discovery Checklist</strong> — my pre-call system to align internally, validate goals, and earn trust before the first customer call.
+              </p>
+              <Button variant="vibrant-red" asChild>
+                <Link to="/playbook">👉 Access the Playbook Vault</Link>
+              </Button>
+            </div>
+          )}
+
+          {/* Timeline Negotiator CTA */}
+          {isTimelineNewsletter && (
+            <div className="my-10 p-6 bg-gray-50 rounded-lg border border-gray-100">
+              <h2 className="text-xl font-bold mb-4">🗓️ Want the framework I use to negotiate realistic timelines?</h2>
+              <p className="mb-6">
+                Grab the <strong>Timeline Negotiator</strong> — my framework for negotiating realistic timelines that build trust with customers and internal stakeholders.
               </p>
               <Button variant="vibrant-red" asChild>
                 <Link to="/playbook">👉 Access the Playbook Vault</Link>
