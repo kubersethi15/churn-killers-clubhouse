@@ -15,7 +15,8 @@ const supabase = createClient(supabaseUrl!, supabaseServiceKey!);
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": 
-    "authorization, x-client-info, apikey, content-type",
+    "authorization, x-client-info, apikey, content-type, x-app-version",
+  "Access-Control-Allow-Methods": "POST, OPTIONS"
 };
 
 const handler = async (req: Request): Promise<Response> => {
@@ -27,59 +28,17 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    // Test database connection first
-    console.log("Testing database connection...");
-    const { data: testData, error: testError } = await supabase.from('newsletters')
-      .select('id')
-      .limit(1);
+    console.log("Setting up weekly newsletter cron job...");
 
-    if (testError) {
-      console.error("Database connection failed:", testError);
-      return new Response(
-        JSON.stringify({ error: "Database connection failed", details: testError }),
-        {
-          status: 500,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
-        }
-      );
-    }
+    // Use the existing database function to setup the cron job
+    const { data, error } = await supabase.rpc('setup_newsletter_weekly_11pm');
 
-    console.log("Database connection successful");
-
-    // Execute raw SQL to setup everything directly
-    console.log("Setting up cron job with direct SQL...");
-    
-    const setupSQL = `
-      -- Enable extensions
-      CREATE EXTENSION IF NOT EXISTS pg_cron;
-      CREATE EXTENSION IF NOT EXISTS pg_net;
-      
-      -- Drop existing jobs first
-      SELECT cron.unschedule('send-latest-newsletter-weekly') WHERE EXISTS (
-        SELECT 1 FROM cron.job WHERE jobname = 'send-latest-newsletter-weekly'
-      );
-      
-      -- Create the new weekly job (Tuesday at 13:00 UTC = 11:00 PM AEST)
-      SELECT cron.schedule(
-        'send-latest-newsletter-weekly',
-        '0 13 * * 2',
-        'SELECT net.http_post(
-          url:=''https://xtwxemlxzbnadkkrvozr.supabase.co/functions/v1/send-latest-newsletter'',
-          headers:=''{\"Content-Type\": \"application/json\", \"Authorization\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh0d3hlbWx4emJuYWRra3J2b3pyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NzQ1NTM0MCwiZXhwIjoyMDYzMDMxMzQwfQ.vFNEGPJBpXJNWGVhMnWwxFxMDEiWQ9PWKrHaQK6HgW0\"}''::jsonb,
-          body:=''{\"scheduled\": true}''::jsonb
-        );'
-      );
-    `;
-
-    // Execute the SQL directly
-    const { error: sqlError } = await supabase.rpc('sql', { query: setupSQL });
-    
-    if (sqlError) {
-      console.error("SQL execution failed:", sqlError);
+    if (error) {
+      console.error("Error setting up cron job:", error);
       return new Response(
         JSON.stringify({ 
           error: "Failed to setup cron job", 
-          details: sqlError,
+          details: error,
           timestamp: new Date().toISOString()
         }),
         {
