@@ -1,4 +1,5 @@
 
+import { useEffect } from "react";
 import { ExternalLink } from "lucide-react";
 import Header from "@/components/Header";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
@@ -91,6 +92,11 @@ const resources: PlaybookResource[] = [
 ];
 
 const PlaybookVault = () => {
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
