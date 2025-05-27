@@ -67,7 +67,7 @@ const resources: PlaybookResource[] = [
     title: "Value Story Slide",
     description: "A 1-slide QBR format that ties usage → outcomes → business value, with example metrics by persona and how to quantify impact even without hard ROI numbers.",
     ctaText: "View in Notion",
-    ctaLink: "https://www.notion.so/Value-Story-Slide-1f95d0709c998099a61dc4c4e1234567?pvs=4",
+    ctaLink: "https://www.notion.so/The-Value-Story-Slide-2005d0709c99805f8f77c22747e82315?pvs=4",
     icon: "📊",
     featuredIn: {
       title: "Usage Is Not Success",
