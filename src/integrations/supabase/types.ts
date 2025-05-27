@@ -76,6 +76,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
+      invoke_newsletter_function: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
       setup_newsletter_cron_job: {
         Args: Record<PropertyKey, never>
         Returns: undefined

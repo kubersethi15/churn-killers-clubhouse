@@ -28,25 +28,43 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    console.log("Setting up weekly newsletter cron job directly...");
+    console.log("Checking cron job status...");
 
-    // Directly setup the cron job without trying to enable extensions
-    // (extensions should already be available in Supabase)
-    const { data, error } = await supabase.rpc('setup_newsletter_weekly_11pm');
+    // Check if the cron job already exists
+    const { data: jobs, error: jobsError } = await supabase
+      .from('cron.job')
+      .select('*')
+      .eq('jobname', 'send-latest-newsletter-weekly');
 
-    if (error) {
-      console.error("Error setting up cron job:", error);
-      return new Response(
-        JSON.stringify({ 
-          error: "Failed to setup cron job", 
-          details: error,
-          timestamp: new Date().toISOString()
-        }),
-        {
-          status: 500,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
-        }
-      );
+    if (jobsError) {
+      console.error("Error checking cron jobs:", jobsError);
+      // If we can't check, assume it needs to be created
+    }
+
+    const jobExists = jobs && jobs.length > 0;
+    
+    if (jobExists) {
+      console.log("Cron job already exists and is configured");
+    } else {
+      console.log("Setting up cron job...");
+      
+      // Try to set up the cron job using the database function
+      const { data, error } = await supabase.rpc('setup_newsletter_weekly_11pm');
+
+      if (error) {
+        console.error("Error setting up cron job:", error);
+        return new Response(
+          JSON.stringify({ 
+            error: "Failed to setup cron job", 
+            details: error,
+            timestamp: new Date().toISOString()
+          }),
+          {
+            status: 500,
+            headers: { "Content-Type": "application/json", ...corsHeaders },
+          }
+        );
+      }
     }
 
     console.log("Cron job setup completed successfully");
