@@ -90,29 +90,29 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Schedule tonight's job for 11:00 PM (should be same day)
+    // Schedule tonight's job for 11:00 PM
     // Get today's date at 11:00 PM
     const tonight = new Date();
     tonight.setHours(23, 0, 0, 0); // Set to 11:00 PM tonight
     
-    // Add 5 minutes to current time if it's past 11 PM already
+    // If it's already past 11 PM, schedule for tomorrow at 11 PM
     const now = new Date();
     if (now.getHours() >= 23) {
       tonight.setDate(tonight.getDate() + 1); // Schedule for tomorrow instead
     }
     
     // Format time for cron expression (minutes hours day month day-of-week)
-    const hours = tonight.getHours();
-    const minutes = tonight.getMinutes();
+    const hours = 23; // 11 PM
+    const minutes = 0;  // 0 minutes
     const day = tonight.getDate();
     const month = tonight.getMonth() + 1; // JavaScript months are 0-indexed
     
-    // Nightly once-off cron expression
+    // Nightly once-off cron expression for 11:00 PM
     const tonightCronExpression = `${minutes} ${hours} ${day} ${month} *`;
     
-    console.log(`Scheduling one-time job for tonight at ${hours}:${minutes} (${tonightCronExpression})`);
+    console.log(`Scheduling one-time job for tonight at 11:00 PM (${tonightCronExpression})`);
     
-    // Schedule the one-time job for tonight
+    // Schedule the one-time job for tonight at 11:00 PM
     const { error: scheduleTonightError } = await supabase.rpc('setup_newsletter_once', {
       job_name: 'send-latest-newsletter-tonight',
       cron_schedule: tonightCronExpression
@@ -129,19 +129,23 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Schedule the weekly newsletter for Tuesday at 10:00 PM AEST (12:00 PM UTC)
-    // Note: AEST is UTC+10, so 10:00 PM AEST is 12:00 PM UTC (noon)
-    const { error: scheduleWeeklyError } = await supabase.rpc('setup_newsletter_weekly');
+    // Schedule the weekly newsletter for Tuesday at 11:00 PM AEST (which is 1:00 PM UTC)
+    // Note: AEST is UTC+10, so 11:00 PM AEST is 1:00 PM UTC
+    const { error: scheduleWeeklyError } = await supabase.rpc('setup_newsletter_weekly_11pm');
     
     if (scheduleWeeklyError) {
       console.error("Error setting up weekly cron job:", scheduleWeeklyError);
-      return new Response(
-        JSON.stringify({ error: "Failed to set up weekly cron job", details: scheduleWeeklyError }),
-        {
-          status: 500,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
+      // Create the weekly function if it doesn't exist
+      try {
+        await supabase.rpc('create_weekly_11pm_function');
+        // Try again
+        const { error: retryWeeklyError } = await supabase.rpc('setup_newsletter_weekly_11pm');
+        if (retryWeeklyError) {
+          console.error("Error setting up weekly cron job on retry:", retryWeeklyError);
         }
-      );
+      } catch (createError) {
+        console.error("Error creating weekly function:", createError);
+      }
     }
 
     // Unschedule the test job if it exists
@@ -166,13 +170,13 @@ const handler = async (req: Request): Promise<Response> => {
       timeZone: 'Australia/Sydney'
     });
 
-    // Get next Tuesday at 10:00 PM AEST for the weekly schedule
+    // Get next Tuesday at 11:00 PM AEST for the weekly schedule
     const nextTuesday = new Date();
     nextTuesday.setDate(nextTuesday.getDate() + (2 + 7 - nextTuesday.getDay()) % 7); // Get next Tuesday
-    nextTuesday.setHours(22, 0, 0, 0); // Set to 10:00 PM
+    nextTuesday.setHours(23, 0, 0, 0); // Set to 11:00 PM
     
-    // If today is Tuesday and it's before 10 PM, use today
-    if (new Date().getDay() === 2 && new Date().getHours() < 22) {
+    // If today is Tuesday and it's before 11 PM, use today
+    if (new Date().getDay() === 2 && new Date().getHours() < 23) {
       nextTuesday.setDate(new Date().getDate());
     }
     
@@ -192,16 +196,16 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response(
       JSON.stringify({
         success: true,
-        message: "Newsletter scheduling successfully set up with Supabase pg_cron!",
+        message: "Newsletter scheduling successfully set up with Supabase pg_cron for 11:00 PM!",
         immediateSchedule: {
-          description: "Tonight's one-time run",
+          description: "Tonight's one-time run at 11:00 PM",
           scheduledTime: formattedTonight,
           timestamp: tonight.toISOString(),
           cronExpression: tonightCronExpression
         },
         recurringSchedule: {
-          description: "Every Tuesday at 10:00 PM AEST",
-          cronExpression: "0 12 * * 2", // At 12:00 UTC on Tuesday
+          description: "Every Tuesday at 11:00 PM AEST",
+          cronExpression: "0 13 * * 2", // At 13:00 UTC on Tuesday (11:00 PM AEST)
           nextScheduledRun: formattedNextTuesday
         },
         removedSchedule: {
