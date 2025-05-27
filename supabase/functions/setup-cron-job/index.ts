@@ -27,15 +27,16 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    // Test database connection to ensure everything is working
-    const { data, error } = await supabase.from('newsletters')
+    // Test database connection first
+    console.log("Testing database connection...");
+    const { data: testData, error: testError } = await supabase.from('newsletters')
       .select('id')
       .limit(1);
 
-    if (error) {
-      console.error("Error connecting to database:", error);
+    if (testError) {
+      console.error("Database connection failed:", testError);
       return new Response(
-        JSON.stringify({ error: "Database connection error", details: error }),
+        JSON.stringify({ error: "Database connection failed", details: testError }),
         {
           status: 500,
           headers: { "Content-Type": "application/json", ...corsHeaders },
@@ -43,92 +44,84 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Enable required extensions using direct SQL
-    console.log("Enabling required extensions...");
-    
-    // Enable pg_cron and pg_net extensions directly
-    const { error: extensionError } = await supabase.rpc('sql', {
-      query: `
-        CREATE EXTENSION IF NOT EXISTS pg_cron;
-        CREATE EXTENSION IF NOT EXISTS pg_net;
-      `
-    });
+    console.log("Database connection successful");
 
-    if (extensionError) {
-      console.error("Error enabling extensions:", extensionError);
-      // Continue anyway, extensions might already be enabled
+    // Enable extensions
+    console.log("Enabling pg_cron and pg_net extensions...");
+    try {
+      const { error: enableError } = await supabase.rpc('enable_pg_cron');
+      if (enableError) {
+        console.error("Error enabling extensions:", enableError);
+      } else {
+        console.log("Extensions enabled successfully");
+      }
+    } catch (e) {
+      console.error("Exception enabling extensions:", e);
     }
 
-    // Create the newsletter invoke function directly with SQL
+    // Create the invoke function
     console.log("Creating newsletter invoke function...");
-    const { error: functionError } = await supabase.rpc('sql', {
-      query: `
-        CREATE OR REPLACE FUNCTION public.invoke_newsletter_function()
-        RETURNS text
-        LANGUAGE plpgsql
-        SECURITY DEFINER
-        SET search_path = public, pg_catalog
-        AS $func$
-        DECLARE
-          request_id text;
-        BEGIN
-          SELECT net.http_post(
-            url:='https://xtwxemlxzbnadkkrvozr.supabase.co/functions/v1/send-latest-newsletter',
-            headers:='{"Content-Type": "application/json"}'::jsonb,
-            body:='{}'::jsonb
-          ) INTO request_id;
-          
-          RETURN request_id;
-        END;
-        $func$;
-      `
-    });
-
-    if (functionError) {
-      console.error("Error creating PostgreSQL function:", functionError);
-      // Try alternative approach without the function
+    try {
+      const { error: createError } = await supabase.rpc('create_newsletter_invoke_function');
+      if (createError) {
+        console.error("Error creating invoke function:", createError);
+      } else {
+        console.log("Invoke function created successfully");
+      }
+    } catch (e) {
+      console.error("Exception creating invoke function:", e);
     }
 
-    // Clear existing newsletter jobs
+    // Clear existing jobs
     console.log("Clearing existing newsletter cron jobs...");
     const existingJobs = [
       'send-latest-newsletter-tonight',
-      'send-latest-newsletter-weekly',
+      'send-latest-newsletter-weekly', 
       'send-latest-newsletter-test-cron',
       'send-latest-newsletter-every-15min'
     ];
 
     for (const jobName of existingJobs) {
       try {
-        const { error: unscheduleError } = await supabase.rpc('sql', {
-          query: `SELECT cron.unschedule('${jobName}');`
-        });
+        const { error: unscheduleError } = await supabase.rpc('unschedule_job', { job_name: jobName });
         if (!unscheduleError) {
-          console.log(`Unscheduled job: ${jobName}`);
+          console.log(`Successfully unscheduled job: ${jobName}`);
         }
       } catch (error) {
-        console.log(`Job ${jobName} might not exist, continuing...`);
+        console.log(`Job ${jobName} might not exist or already unscheduled`);
       }
     }
 
-    // Setup the weekly recurring job for Tuesday at 11:00 PM AEST (1:00 PM UTC)
-    console.log("Setting up weekly recurring newsletter job...");
-    
-    // Create the weekly cron job directly using SQL
-    const { error: weeklyJobError } = await supabase.rpc('sql', {
-      query: `
-        SELECT cron.schedule(
-          'send-latest-newsletter-weekly',
-          '0 13 * * 2',
-          'SELECT public.invoke_newsletter_function();'
+    // Setup the weekly cron job using the database function
+    console.log("Setting up weekly newsletter cron job...");
+    try {
+      const { error: weeklyJobError } = await supabase.rpc('setup_newsletter_weekly_11pm');
+      
+      if (weeklyJobError) {
+        console.error("Error setting up weekly job:", weeklyJobError);
+        return new Response(
+          JSON.stringify({ 
+            error: "Failed to setup weekly cron job", 
+            details: weeklyJobError,
+            timestamp: new Date().toISOString()
+          }),
+          {
+            status: 500,
+            headers: { "Content-Type": "application/json", ...corsHeaders },
+          }
         );
-      `
-    });
+      }
 
-    if (weeklyJobError) {
-      console.error("Error creating weekly cron job:", weeklyJobError);
+      console.log("Weekly newsletter job scheduled successfully");
+
+    } catch (setupError) {
+      console.error("Exception during cron job setup:", setupError);
       return new Response(
-        JSON.stringify({ error: "Failed to create cron job", details: weeklyJobError }),
+        JSON.stringify({ 
+          error: "Exception during cron job setup", 
+          details: setupError.message,
+          timestamp: new Date().toISOString()
+        }),
         {
           status: 500,
           headers: { "Content-Type": "application/json", ...corsHeaders },
@@ -136,9 +129,7 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    console.log("Weekly newsletter job scheduled successfully");
-
-    // Get next Tuesday at 11:00 PM AEST for display
+    // Calculate next Tuesday at 11:00 PM AEST for display
     const nextTuesday = new Date();
     const daysUntilTuesday = (2 + 7 - nextTuesday.getDay()) % 7;
     nextTuesday.setDate(nextTuesday.getDate() + (daysUntilTuesday || 7));
@@ -161,21 +152,7 @@ const handler = async (req: Request): Promise<Response> => {
       timeZone: 'Australia/Sydney'
     });
 
-    // Verify the job was created by checking cron.job table
-    let jobVerification = "Job created successfully";
-    try {
-      const { data: jobCheck, error: jobCheckError } = await supabase
-        .from('cron.job')
-        .select('jobname, schedule, command')
-        .eq('jobname', 'send-latest-newsletter-weekly');
-
-      if (!jobCheckError && jobCheck && jobCheck.length > 0) {
-        jobVerification = `Job verified: ${jobCheck[0].jobname} scheduled for ${jobCheck[0].schedule}`;
-        console.log("Job verification successful:", jobCheck[0]);
-      }
-    } catch (verifyError) {
-      console.log("Could not verify job creation, but job was likely created");
-    }
+    console.log("Cron job setup completed successfully");
 
     return new Response(
       JSON.stringify({
@@ -184,8 +161,7 @@ const handler = async (req: Request): Promise<Response> => {
         recurringSchedule: {
           description: "Every Tuesday at 11:00 PM AEST (1:00 PM UTC)",
           cronExpression: "0 13 * * 2",
-          nextScheduledRun: formattedNextTuesday,
-          verification: jobVerification
+          nextScheduledRun: formattedNextTuesday
         },
         cleanupInfo: {
           description: "All previous cron jobs have been cleared and recreated",
@@ -199,13 +175,14 @@ const handler = async (req: Request): Promise<Response> => {
         headers: { "Content-Type": "application/json", ...corsHeaders },
       }
     );
+
   } catch (error: any) {
     console.error("Unexpected error in setup-cron-job function:", error);
     return new Response(
       JSON.stringify({
-        error: error.message,
+        error: "Unexpected error occurred",
+        message: error.message || "Unknown error",
         stack: error.stack,
-        name: error.name,
         timestamp: new Date().toISOString()
       }),
       {
