@@ -9,15 +9,8 @@
 export const formatContentForEmail = (content: string) => {
   if (!content) return "";
 
-  // Step 1: Clean up incomplete bold formatting first, before other processing
+  // Step 1: Process headers with markdown-like syntax
   let formattedContent = content
-    // Remove incomplete bold markers at the start of lines (like **Why Your Most Active...)
-    .replace(/^\*\*([^*\n]+?)(\n|$)/gm, '$1')
-    // Remove any other incomplete bold markers
-    .replace(/\*\*([^*\n]+?)(\n\n|\n(?=\n)|$)/g, '$1');
-
-  // Step 2: Process headers with markdown-like syntax
-  formattedContent = formattedContent
     // Format H1 (#) - Added this line to handle single # headings
     .replace(/^# (.*?)(\n|$)/gm, '<h1 style="font-size: 26px; margin-top: 30px; margin-bottom: 20px; font-weight: bold; color: #172554;">$1</h1>')
     // Format H2 (##)
@@ -27,21 +20,25 @@ export const formatContentForEmail = (content: string) => {
     // Format H4 (####)
     .replace(/^#### (.*?)(\n|$)/gm, '<h4 style="font-size: 16px; margin-top: 18px; margin-bottom: 10px; font-weight: bold; color: #172554;">$1</h4>');
 
-  // Step 3: Process block elements
+  // Step 2: Process block elements
   formattedContent = formattedContent
     // Format blockquotes
     .replace(/> (.*?)(\n|$)/g, '<blockquote style="border-left: 4px solid #172554; padding-left: 15px; font-style: italic; margin: 20px 0; color: #4b5563;">$1</blockquote>')
     // Format horizontal rule
     .replace(/---+/g, '<hr style="margin: 25px 0; border: 0; border-top: 1px solid #e5e7eb;" />');
 
-  // Step 4: Process text formatting - only complete pairs
+  // Step 3: Process text formatting - improved to handle incomplete formatting
   formattedContent = formattedContent
     // Bold text - only match complete pairs of **
     .replace(/\*\*([^*]+?)\*\*/g, '<strong>$1</strong>')
+    // Clean up any remaining incomplete bold formatting - handle cases where ** appears at start but no closing **
+    .replace(/^\*\*([^*\n]+?)(\n\n|\n(?!\n)|$)/gm, '<strong>$1</strong>')
+    // Also handle mid-text incomplete bold formatting
+    .replace(/\*\*([^*\n]+?)(\n\n|\n(?=\n)|$)/g, '<strong>$1</strong>')
     // Italic text - only match complete pairs of *
     .replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em>$1</em>');
 
-  // Step 5: Process lists
+  // Step 4: Process lists
   formattedContent = formattedContent
     // Convert unordered lists
     .replace(/^\* (.*?)$/gm, '<li style="margin-left: 20px; margin-bottom: 8px;">$1</li>')
@@ -53,7 +50,7 @@ export const formatContentForEmail = (content: string) => {
     .replace(/<li style="margin-left: 20px; margin-bottom: 8px;">(.*?)(<\/li>[\s\n]*<li style="margin-left: 20px; margin-bottom: 8px;">.*?)*<\/li>/gs, '<ul style="margin: 15px 0;">$&</ul>')
     .replace(/<li style="margin-left: 20px; margin-bottom: 8px;">(.*?)(<\/li>[\s\n]*<li style="margin-left: 20px; margin-bottom: 8px;">.*?)*<\/li>/gs, '<ol style="margin: 15px 0;">$&</ol>');
 
-  // Step 6: Process paragraphs - split by newlines and wrap in paragraph tags if not already processed
+  // Step 5: Process paragraphs - split by newlines and wrap in paragraph tags if not already processed
   const paragraphs = formattedContent.split('\n\n');
   formattedContent = paragraphs.map(paragraph => {
     // Skip already processed elements (tags)
