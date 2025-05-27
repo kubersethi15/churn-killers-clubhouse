@@ -1,4 +1,3 @@
-
 /**
  * Utility functions for formatting newsletter content for email
  */
@@ -11,12 +10,14 @@ export const formatContentForEmail = (content: string) => {
 
   // Step 1: Process headers with markdown-like syntax
   let formattedContent = content
+    // Format H1 (#) - Added this line to handle single # headings
+    .replace(/^# (.*?)(\n|$)/gm, '<h1 style="font-size: 26px; margin-top: 30px; margin-bottom: 20px; font-weight: bold; color: #172554;">$1</h1>')
     // Format H2 (##)
-    .replace(/## (.*?)(\n|$)/g, '<h2 style="font-size: 22px; margin-top: 25px; margin-bottom: 15px; font-weight: bold; color: #172554;">$1</h2>')
+    .replace(/^## (.*?)(\n|$)/gm, '<h2 style="font-size: 22px; margin-top: 25px; margin-bottom: 15px; font-weight: bold; color: #172554;">$1</h2>')
     // Format H3 (###)
-    .replace(/### (.*?)(\n|$)/g, '<h3 style="font-size: 18px; margin-top: 20px; margin-bottom: 10px; font-weight: bold; color: #172554;">$1</h3>')
+    .replace(/^### (.*?)(\n|$)/gm, '<h3 style="font-size: 18px; margin-top: 20px; margin-bottom: 10px; font-weight: bold; color: #172554;">$1</h3>')
     // Format H4 (####)
-    .replace(/#### (.*?)(\n|$)/g, '<h4 style="font-size: 16px; margin-top: 18px; margin-bottom: 10px; font-weight: bold; color: #172554;">$1</h4>');
+    .replace(/^#### (.*?)(\n|$)/gm, '<h4 style="font-size: 16px; margin-top: 18px; margin-bottom: 10px; font-weight: bold; color: #172554;">$1</h4>');
 
   // Step 2: Process block elements
   formattedContent = formattedContent
@@ -70,4 +71,3 @@ export const formatContentForEmail = (content: string) => {
 
   return formattedContent;
 };
-
