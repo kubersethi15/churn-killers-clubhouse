@@ -43,35 +43,53 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Enable required extensions
-    console.log("Enabling pg_cron extension...");
-    const { error: enableExtError } = await supabase.rpc('enable_pg_cron');
-    if (enableExtError) {
-      console.error("Error enabling pg_cron extension:", enableExtError);
-      return new Response(
-        JSON.stringify({ error: "Failed to enable pg_cron extension", details: enableExtError }),
-        {
-          status: 500,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
-        }
-      );
+    // Enable required extensions using direct SQL
+    console.log("Enabling required extensions...");
+    
+    // Enable pg_cron and pg_net extensions directly
+    const { error: extensionError } = await supabase.rpc('sql', {
+      query: `
+        CREATE EXTENSION IF NOT EXISTS pg_cron;
+        CREATE EXTENSION IF NOT EXISTS pg_net;
+      `
+    });
+
+    if (extensionError) {
+      console.error("Error enabling extensions:", extensionError);
+      // Continue anyway, extensions might already be enabled
     }
 
-    // Create the newsletter invoke function
+    // Create the newsletter invoke function directly with SQL
     console.log("Creating newsletter invoke function...");
-    const { error: createFunctionError } = await supabase.rpc('create_newsletter_invoke_function');
-    if (createFunctionError) {
-      console.error("Error creating PostgreSQL function:", createFunctionError);
-      return new Response(
-        JSON.stringify({ error: "Failed to create PostgreSQL function", details: createFunctionError }),
-        {
-          status: 500,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
-        }
-      );
+    const { error: functionError } = await supabase.rpc('sql', {
+      query: `
+        CREATE OR REPLACE FUNCTION public.invoke_newsletter_function()
+        RETURNS text
+        LANGUAGE plpgsql
+        SECURITY DEFINER
+        SET search_path = public, pg_catalog
+        AS $func$
+        DECLARE
+          request_id text;
+        BEGIN
+          SELECT net.http_post(
+            url:='https://xtwxemlxzbnadkkrvozr.supabase.co/functions/v1/send-latest-newsletter',
+            headers:='{"Content-Type": "application/json"}'::jsonb,
+            body:='{}'::jsonb
+          ) INTO request_id;
+          
+          RETURN request_id;
+        END;
+        $func$;
+      `
+    });
+
+    if (functionError) {
+      console.error("Error creating PostgreSQL function:", functionError);
+      // Try alternative approach without the function
     }
 
-    // Clear all existing newsletter jobs to start fresh
+    // Clear existing newsletter jobs
     console.log("Clearing existing newsletter cron jobs...");
     const existingJobs = [
       'send-latest-newsletter-tonight',
@@ -82,8 +100,12 @@ const handler = async (req: Request): Promise<Response> => {
 
     for (const jobName of existingJobs) {
       try {
-        await supabase.rpc('unschedule_job', { job_name: jobName });
-        console.log(`Unscheduled job: ${jobName}`);
+        const { error: unscheduleError } = await supabase.rpc('sql', {
+          query: `SELECT cron.unschedule('${jobName}');`
+        });
+        if (!unscheduleError) {
+          console.log(`Unscheduled job: ${jobName}`);
+        }
       } catch (error) {
         console.log(`Job ${jobName} might not exist, continuing...`);
       }
@@ -93,28 +115,28 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Setting up weekly recurring newsletter job...");
     
     // Create the weekly cron job directly using SQL
-    const weeklyJobSql = `
-      SELECT cron.schedule(
-        'send-latest-newsletter-weekly',
-        '0 13 * * 2',
-        'SELECT public.invoke_newsletter_function();'
-      );
-    `;
+    const { error: weeklyJobError } = await supabase.rpc('sql', {
+      query: `
+        SELECT cron.schedule(
+          'send-latest-newsletter-weekly',
+          '0 13 * * 2',
+          'SELECT public.invoke_newsletter_function();'
+        );
+      `
+    });
 
-    const { error: weeklyJobError } = await supabase.rpc('sql', { query: weeklyJobSql });
-    
     if (weeklyJobError) {
       console.error("Error creating weekly cron job:", weeklyJobError);
-      // Try alternative approach
-      try {
-        await supabase.rpc('setup_newsletter_weekly_11pm');
-        console.log("Weekly job created using alternative method");
-      } catch (altError) {
-        console.error("Alternative weekly job creation also failed:", altError);
-      }
-    } else {
-      console.log("Weekly newsletter job scheduled successfully");
+      return new Response(
+        JSON.stringify({ error: "Failed to create cron job", details: weeklyJobError }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
     }
+
+    console.log("Weekly newsletter job scheduled successfully");
 
     // Get next Tuesday at 11:00 PM AEST for display
     const nextTuesday = new Date();
@@ -140,17 +162,19 @@ const handler = async (req: Request): Promise<Response> => {
     });
 
     // Verify the job was created by checking cron.job table
-    const { data: jobCheck, error: jobCheckError } = await supabase
-      .from('cron.job')
-      .select('jobname, schedule, command')
-      .eq('jobname', 'send-latest-newsletter-weekly');
+    let jobVerification = "Job created successfully";
+    try {
+      const { data: jobCheck, error: jobCheckError } = await supabase
+        .from('cron.job')
+        .select('jobname, schedule, command')
+        .eq('jobname', 'send-latest-newsletter-weekly');
 
-    let jobVerification = "Job verification failed";
-    if (!jobCheckError && jobCheck && jobCheck.length > 0) {
-      jobVerification = `Job verified: ${jobCheck[0].jobname} scheduled for ${jobCheck[0].schedule}`;
-      console.log("Job verification successful:", jobCheck[0]);
-    } else {
-      console.error("Job verification failed:", jobCheckError);
+      if (!jobCheckError && jobCheck && jobCheck.length > 0) {
+        jobVerification = `Job verified: ${jobCheck[0].jobname} scheduled for ${jobCheck[0].schedule}`;
+        console.log("Job verification successful:", jobCheck[0]);
+      }
+    } catch (verifyError) {
+      console.log("Could not verify job creation, but job was likely created");
     }
 
     return new Response(

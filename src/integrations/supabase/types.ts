@@ -92,6 +92,14 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
+      setup_newsletter_weekly_11pm: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      sql: {
+        Args: { query: string }
+        Returns: undefined
+      }
       unschedule_job: {
         Args: { job_name: string }
         Returns: undefined
