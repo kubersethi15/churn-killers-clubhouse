@@ -90,6 +90,43 @@ const AdminPanel = () => {
     }
   };
 
+  const setupCronJob = async () => {
+    if (!confirm("This will setup the weekly newsletter cron job. Continue?")) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      console.log("Setting up cron job");
+      
+      const { data, error } = await supabase.functions.invoke('setup-cron-job', {
+        body: {},
+      });
+
+      console.log("Cron setup response data:", data);
+      console.log("Cron setup response error:", error);
+
+      if (error) {
+        console.error("Supabase function error:", error);
+        throw new Error(error.message || "Failed to setup cron job");
+      }
+
+      toast({
+        title: "Cron job setup complete!",
+        description: "Weekly newsletter scheduling has been configured",
+      });
+    } catch (error: any) {
+      console.error("Error setting up cron job:", error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to setup cron job",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="fixed bottom-4 right-4 bg-white border border-gray-200 rounded-lg shadow-lg p-4 w-80 z-50">
       <h3 className="text-lg font-semibold mb-4 text-navy-dark">Admin Panel</h3>
@@ -123,6 +160,15 @@ const AdminPanel = () => {
           className="w-full"
         >
           {loading ? "Sending..." : "Send to All Subscribers"}
+        </Button>
+
+        <Button
+          onClick={setupCronJob}
+          disabled={loading}
+          variant="outline"
+          className="w-full border-green-600 text-green-600 hover:bg-green-50"
+        >
+          {loading ? "Setting up..." : "Setup Cron Job"}
         </Button>
       </div>
     </div>
