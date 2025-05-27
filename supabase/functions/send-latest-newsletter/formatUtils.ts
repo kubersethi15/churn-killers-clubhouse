@@ -31,8 +31,10 @@ export const formatContentForEmail = (content: string) => {
   formattedContent = formattedContent
     // Bold text - only match complete pairs of **
     .replace(/\*\*([^*]+?)\*\*/g, '<strong>$1</strong>')
-    // Clean up any remaining incomplete bold formatting by removing single ** at line starts
-    .replace(/^\*\*([^*]+?)(\n|$)/gm, '<strong>$1</strong>')
+    // Clean up any remaining incomplete bold formatting - handle cases where ** appears at start but no closing **
+    .replace(/^\*\*([^*\n]+?)(\n\n|\n(?!\n)|$)/gm, '<strong>$1</strong>')
+    // Also handle mid-text incomplete bold formatting
+    .replace(/\*\*([^*\n]+?)(\n\n|\n(?=\n)|$)/g, '<strong>$1</strong>')
     // Italic text - only match complete pairs of *
     .replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em>$1</em>');
 
