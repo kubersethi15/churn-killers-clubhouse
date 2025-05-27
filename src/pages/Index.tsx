@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Header from "@/components/Header";
 import NewsletterForm from "@/components/NewsletterForm";
 import TestimonialCard from "@/components/TestimonialCard";
@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
 import ContactDialog from "@/components/ContactDialog";
 import Footer from "@/components/Footer";
+import AdminPanel from "@/components/AdminPanel";
 
 type Newsletter = {
   id: string;
@@ -24,6 +25,8 @@ const Index = () => {
   const [latestNewsletter, setLatestNewsletter] = useState<Newsletter | null>(null);
   const [loading, setLoading] = useState(true);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [searchParams] = useSearchParams();
+  const showAdmin = searchParams.get('admin') === 'true';
 
   useEffect(() => {
     document.title = "Churn Is Dead | Bold Customer Success Strategies";
@@ -270,6 +273,9 @@ const Index = () => {
       
       {/* Use the consistent Footer component */}
       <Footer />
+      
+      {/* Hidden Admin Panel */}
+      {showAdmin && <AdminPanel />}
     </div>
   );
 };
