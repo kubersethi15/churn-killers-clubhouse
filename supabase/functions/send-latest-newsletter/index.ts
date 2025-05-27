@@ -1,4 +1,3 @@
-
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { formatContentForEmail } from "./formatUtils.ts";
@@ -18,7 +17,7 @@ const supabase = createClient(supabaseUrl!, supabaseServiceKey!);
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
+    "authorization, x-client-info, apikey, content-type, x-app-version",
 };
 
 const handler = async (req: Request): Promise<Response> => {
