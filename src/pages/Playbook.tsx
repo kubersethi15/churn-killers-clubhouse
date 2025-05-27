@@ -1,5 +1,5 @@
 
-import { ExternalLink, Download } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import Header from "@/components/Header";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,6 @@ interface PlaybookResource {
   description: string;
   ctaText: string;
   ctaLink?: string;
-  pdfLink?: string;
   disabled?: boolean;
   icon?: string;
   featuredIn?: {
@@ -31,7 +30,6 @@ const resources: PlaybookResource[] = [
     description: "A tactical checklist to align internally, validate goals, and earn trust before the first customer call.",
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/Kickoff-Re-Discovery-Checklist-1f95d0709c9980cfb35ae653901a6661?pvs=4",
-    pdfLink: "/pdfs/kickoff-checklist.pdf",
     icon: "📋",
     featuredIn: {
       title: "The Perfect Kickoff Call",
@@ -45,7 +43,6 @@ const resources: PlaybookResource[] = [
     description: "A tactical agenda to lead high-trust kickoff calls across doers, managers, and execs.",
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/Kickoff-Agenda-Blueprint-1f95d0709c9980e1a233cdd529187a6e?pvs=4",
-    pdfLink: "/pdfs/kickoff-agenda-blueprint.pdf",
     icon: "📝",
     featuredIn: {
       title: "The Perfect Kickoff Call",
@@ -59,7 +56,6 @@ const resources: PlaybookResource[] = [
     description: "A framework for negotiating realistic timelines that build trust with customers and internal stakeholders.",
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/Timeline-Negotiator-1f95d0709c99808e8926eaeff56ef138?pvs=4",
-    pdfLink: "/pdfs/timeline-negotiator.pdf",
     icon: "🗓️",
     featuredIn: {
       title: "Their Timeline, Not Yours",
@@ -73,7 +69,6 @@ const resources: PlaybookResource[] = [
     description: "A 1-slide QBR format that ties usage → outcomes → business value, with example metrics by persona and how to quantify impact even without hard ROI numbers.",
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/The-Value-Story-Slide-2005d0709c99805f8f77c22747e82315?pvs=4",
-    pdfLink: "/pdfs/value-story-slide.pdf",
     icon: "📊",
     featuredIn: {
       title: "Usage Is Not Success",
@@ -157,18 +152,6 @@ const PlaybookVault = () => {
                           disabled
                         >
                           {resource.ctaText}
-                        </Button>
-                      )}
-                      
-                      {resource.pdfLink && !resource.disabled && (
-                        <Button 
-                          variant="outline" 
-                          asChild
-                        >
-                          <a href={resource.pdfLink} download>
-                            <Download className="mr-1 h-4 w-4" />
-                            PDF
-                          </a>
                         </Button>
                       )}
                     </div>
