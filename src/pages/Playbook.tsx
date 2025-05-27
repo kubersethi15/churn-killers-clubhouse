@@ -1,4 +1,3 @@
-
 import { ExternalLink } from "lucide-react";
 import Header from "@/components/Header";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
@@ -60,6 +59,19 @@ const resources: PlaybookResource[] = [
     featuredIn: {
       title: "Their Timeline, Not Yours",
       link: "/newsletter/their-timeline-not-yours",
+      comingSoon: false
+    },
+  },
+  {
+    id: "value-story-slide",
+    title: "Value Story Slide",
+    description: "A 1-slide QBR format that ties usage → outcomes → business value, with example metrics by persona and how to quantify impact even without hard ROI numbers.",
+    ctaText: "View in Notion",
+    ctaLink: "https://www.notion.so/Value-Story-Slide-1f95d0709c998099a61dc4c4e1234567?pvs=4",
+    icon: "📊",
+    featuredIn: {
+      title: "Usage Is Not Success",
+      link: "/newsletter/usage-is-not-success",
       comingSoon: false
     },
   },
