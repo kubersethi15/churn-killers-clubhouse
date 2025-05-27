@@ -15,6 +15,7 @@ const NewsletterContent = ({ newsletter, formatContent }: NewsletterContentProps
   // Check if this is one of the specific newsletters we want to add the playbook link to
   const isKickoffNewsletter = newsletter.slug.includes("the-perfect-kickoff-call");
   const isTimelineNewsletter = newsletter.slug.includes("their-timeline-not-yours");
+  const isUsageNewsletter = newsletter.slug.includes("usage-is-not-success");
 
   return (
     <section className="py-16 md:py-24">
@@ -54,6 +55,19 @@ const NewsletterContent = ({ newsletter, formatContent }: NewsletterContentProps
               <h2 className="text-2xl md:text-3xl font-bold mb-4">🗓️ The 3-Part Timeline Negotiator</h2>
               <p className="mb-6">
                 Grab the <strong>Timeline Negotiator</strong> — my framework for negotiating realistic timelines that build trust with customers and internal stakeholders.
+              </p>
+              <Button variant="vibrant-red" asChild>
+                <Link to="/playbook">👉 Access the Playbook Vault</Link>
+              </Button>
+            </div>
+          )}
+
+          {/* Value Story Slide CTA */}
+          {isUsageNewsletter && (
+            <div className="my-10 p-6 bg-gray-50 rounded-lg border border-gray-100">
+              <h2 className="text-2xl md:text-3xl font-bold mb-4">📊 The Value Story Slide</h2>
+              <p className="mb-6">
+                Grab the <strong>Value Story Slide</strong> — a 1-slide QBR format that ties usage → outcomes → business value, with example metrics by persona and how to quantify impact even without hard ROI numbers.
               </p>
               <Button variant="vibrant-red" asChild>
                 <Link to="/playbook">👉 Access the Playbook Vault</Link>
