@@ -14,8 +14,15 @@ export const formatDate = (dateString: string) => {
 export const formatContent = (content: string) => {
   if (!content) return "";
 
-  // Step 1: Process headers with markdown-like syntax
+  // Step 1: Clean up incomplete bold formatting first, before other processing
   let formattedContent = content
+    // Remove incomplete bold markers at the start of lines (like **Why Your Most Active...)
+    .replace(/^\*\*([^*\n]+?)(\n|$)/gm, '$1')
+    // Remove any other incomplete bold markers
+    .replace(/\*\*([^*\n]+?)(\n\n|\n(?=\n)|$)/g, '$1');
+
+  // Step 2: Process headers with markdown-like syntax
+  formattedContent = formattedContent
     // Format H1 (#) - Added this line to handle single # headings
     .replace(/^# (.*?)(\n|$)/gm, '<h1 class="text-3xl font-bold mt-10 mb-6">$1</h1>')
     // Format H2 (##)
@@ -25,25 +32,21 @@ export const formatContent = (content: string) => {
     // Format H4 (####)
     .replace(/^#### (.*?)(\n|$)/gm, '<h4 class="text-lg font-bold mt-5 mb-2">$1</h4>');
 
-  // Step 2: Process block elements
+  // Step 3: Process block elements
   formattedContent = formattedContent
     // Format blockquotes
     .replace(/> (.*?)(\n|$)/g, '<blockquote class="border-l-4 border-navy pl-4 italic my-6 text-gray-700">$1</blockquote>')
     // Format horizontal rule
     .replace(/---+/g, '<hr class="my-8 border-t border-gray-200" />');
 
-  // Step 3: Process text formatting - improved to handle incomplete formatting
+  // Step 4: Process text formatting - only complete pairs
   formattedContent = formattedContent
     // Bold text - only match complete pairs of **
     .replace(/\*\*([^*]+?)\*\*/g, '<strong>$1</strong>')
-    // Clean up any remaining incomplete bold formatting - handle cases where ** appears at start but no closing **
-    .replace(/^\*\*([^*\n]+?)(\n\n|\n(?!\n)|$)/gm, '<strong>$1</strong>')
-    // Also handle mid-text incomplete bold formatting
-    .replace(/\*\*([^*\n]+?)(\n\n|\n(?=\n)|$)/g, '<strong>$1</strong>')
     // Italic text - only match complete pairs of *
     .replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em>$1</em>');
 
-  // Step 4: Process lists
+  // Step 5: Process lists
   formattedContent = formattedContent
     // Convert unordered lists
     .replace(/^\* (.*?)$/gm, '<li class="ml-6 list-disc mb-2">$1</li>')
@@ -55,7 +58,7 @@ export const formatContent = (content: string) => {
     .replace(/<li class="ml-6 list-disc mb-2">(.*?)(<\/li>[\s\n]*<li class="ml-6 list-disc mb-2">.*?)*<\/li>/gs, '<ul class="my-4">$&</ul>')
     .replace(/<li class="ml-6 list-decimal mb-2">(.*?)(<\/li>[\s\n]*<li class="ml-6 list-decimal mb-2">.*?)*<\/li>/gs, '<ol class="my-4">$&</ol>');
 
-  // Step 5: Process paragraphs - split by newlines and wrap in paragraph tags if not already processed
+  // Step 6: Process paragraphs - split by newlines and wrap in paragraph tags if not already processed
   const paragraphs = formattedContent.split('\n\n');
   formattedContent = paragraphs.map(paragraph => {
     // Skip already processed elements (tags)
