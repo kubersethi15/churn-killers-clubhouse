@@ -22,11 +22,22 @@ const AdminPanel = () => {
 
     setLoading(true);
     try {
+      console.log("Sending test newsletter to:", testEmail);
+      
       const { data, error } = await supabase.functions.invoke('send-latest-newsletter', {
-        body: { testEmail }
+        body: JSON.stringify({ testEmail }),
+        headers: {
+          'Content-Type': 'application/json',
+        }
       });
 
-      if (error) throw error;
+      console.log("Response data:", data);
+      console.log("Response error:", error);
+
+      if (error) {
+        console.error("Supabase function error:", error);
+        throw new Error(error.message || "Failed to invoke function");
+      }
 
       toast({
         title: "Test email sent!",
@@ -52,9 +63,22 @@ const AdminPanel = () => {
 
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke('send-latest-newsletter');
+      console.log("Sending newsletter to all subscribers");
+      
+      const { data, error } = await supabase.functions.invoke('send-latest-newsletter', {
+        body: JSON.stringify({}),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
 
-      if (error) throw error;
+      console.log("Response data:", data);
+      console.log("Response error:", error);
+
+      if (error) {
+        console.error("Supabase function error:", error);
+        throw new Error(error.message || "Failed to invoke function");
+      }
 
       toast({
         title: "Newsletter sent!",
@@ -93,7 +117,7 @@ const AdminPanel = () => {
               variant="outline"
               size="sm"
             >
-              Test
+              {loading ? "..." : "Test"}
             </Button>
           </div>
         </div>
