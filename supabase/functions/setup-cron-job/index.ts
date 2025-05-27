@@ -28,29 +28,10 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    console.log("Enabling required extensions first...");
+    console.log("Setting up weekly newsletter cron job directly...");
 
-    // First, enable the required extensions
-    const { error: enableError } = await supabase.rpc('enable_pg_cron');
-
-    if (enableError) {
-      console.error("Error enabling extensions:", enableError);
-      return new Response(
-        JSON.stringify({ 
-          error: "Failed to enable required extensions", 
-          details: enableError,
-          timestamp: new Date().toISOString()
-        }),
-        {
-          status: 500,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
-        }
-      );
-    }
-
-    console.log("Extensions enabled successfully, now setting up cron job...");
-
-    // Now setup the cron job
+    // Directly setup the cron job without trying to enable extensions
+    // (extensions should already be available in Supabase)
     const { data, error } = await supabase.rpc('setup_newsletter_weekly_11pm');
 
     if (error) {
