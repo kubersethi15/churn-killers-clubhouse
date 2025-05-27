@@ -1,3 +1,4 @@
+
 import { format } from "date-fns";
 
 /**
@@ -31,12 +32,14 @@ export const formatContent = (content: string) => {
     // Format horizontal rule
     .replace(/---+/g, '<hr class="my-8 border-t border-gray-200" />');
 
-  // Step 3: Process text formatting
+  // Step 3: Process text formatting - improved to handle incomplete formatting
   formattedContent = formattedContent
-    // Bold text
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    // Italic text
-    .replace(/\*(.*?)\*/g, '<em>$1</em>');
+    // Bold text - only match complete pairs of **
+    .replace(/\*\*([^*]+?)\*\*/g, '<strong>$1</strong>')
+    // Clean up any remaining incomplete bold formatting by removing single ** at line starts
+    .replace(/^\*\*([^*]+?)(\n|$)/gm, '<strong>$1</strong>')
+    // Italic text - only match complete pairs of *
+    .replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em>$1</em>');
 
   // Step 4: Process lists
   formattedContent = formattedContent

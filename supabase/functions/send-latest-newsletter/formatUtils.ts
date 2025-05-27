@@ -1,3 +1,4 @@
+
 /**
  * Utility functions for formatting newsletter content for email
  */
@@ -26,12 +27,14 @@ export const formatContentForEmail = (content: string) => {
     // Format horizontal rule
     .replace(/---+/g, '<hr style="margin: 25px 0; border: 0; border-top: 1px solid #e5e7eb;" />');
 
-  // Step 3: Process text formatting
+  // Step 3: Process text formatting - improved to handle incomplete formatting
   formattedContent = formattedContent
-    // Bold text
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    // Italic text
-    .replace(/\*(.*?)\*/g, '<em>$1</em>');
+    // Bold text - only match complete pairs of **
+    .replace(/\*\*([^*]+?)\*\*/g, '<strong>$1</strong>')
+    // Clean up any remaining incomplete bold formatting by removing single ** at line starts
+    .replace(/^\*\*([^*]+?)(\n|$)/gm, '<strong>$1</strong>')
+    // Italic text - only match complete pairs of *
+    .replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em>$1</em>');
 
   // Step 4: Process lists
   formattedContent = formattedContent
