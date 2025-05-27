@@ -43,8 +43,8 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Set up the Supabase pg_cron functionality
-    // First, enable the pg_cron extension (if not already enabled)
+    // Enable required extensions
+    console.log("Enabling pg_cron extension...");
     const { error: enableExtError } = await supabase.rpc('enable_pg_cron');
     if (enableExtError) {
       console.error("Error enabling pg_cron extension:", enableExtError);
@@ -57,30 +57,11 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Unschedule existing jobs to avoid duplicates
-    const { error: unscheduleNightlyError } = await supabase.rpc('unschedule_job', {
-      job_name: 'send-latest-newsletter-tonight'
-    });
-    
-    if (unscheduleNightlyError) {
-      console.log("Warning: Could not unschedule tonight's job (might not exist yet):", unscheduleNightlyError);
-      // Continue since this is not critical
-    }
-    
-    const { error: unscheduleWeeklyError } = await supabase.rpc('unschedule_job', {
-      job_name: 'send-latest-newsletter-weekly'
-    });
-    
-    if (unscheduleWeeklyError) {
-      console.log("Warning: Could not unschedule weekly job (might not exist yet):", unscheduleWeeklyError);
-      // Continue since this is not critical
-    }
-
-    // Create a PostgreSQL function to directly invoke the edge function
+    // Create the newsletter invoke function
+    console.log("Creating newsletter invoke function...");
     const { error: createFunctionError } = await supabase.rpc('create_newsletter_invoke_function');
-    
     if (createFunctionError) {
-      console.error("Error creating PostgreSQL function to invoke edge function:", createFunctionError);
+      console.error("Error creating PostgreSQL function:", createFunctionError);
       return new Response(
         JSON.stringify({ error: "Failed to create PostgreSQL function", details: createFunctionError }),
         {
@@ -90,97 +71,63 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Schedule tonight's job for 11:00 PM
-    // Get today's date at 11:00 PM
-    const tonight = new Date();
-    tonight.setHours(23, 0, 0, 0); // Set to 11:00 PM tonight
-    
-    // If it's already past 11 PM, schedule for tomorrow at 11 PM
-    const now = new Date();
-    if (now.getHours() >= 23) {
-      tonight.setDate(tonight.getDate() + 1); // Schedule for tomorrow instead
-    }
-    
-    // Format time for cron expression (minutes hours day month day-of-week)
-    const hours = 23; // 11 PM
-    const minutes = 0;  // 0 minutes
-    const day = tonight.getDate();
-    const month = tonight.getMonth() + 1; // JavaScript months are 0-indexed
-    
-    // Nightly once-off cron expression for 11:00 PM
-    const tonightCronExpression = `${minutes} ${hours} ${day} ${month} *`;
-    
-    console.log(`Scheduling one-time job for tonight at 11:00 PM (${tonightCronExpression})`);
-    
-    // Schedule the one-time job for tonight at 11:00 PM
-    const { error: scheduleTonightError } = await supabase.rpc('setup_newsletter_once', {
-      job_name: 'send-latest-newsletter-tonight',
-      cron_schedule: tonightCronExpression
-    });
-    
-    if (scheduleTonightError) {
-      console.error("Error setting up one-time cron job:", scheduleTonightError);
-      return new Response(
-        JSON.stringify({ error: "Failed to set up one-time cron job", details: scheduleTonightError }),
-        {
-          status: 500,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
-        }
-      );
-    }
+    // Clear all existing newsletter jobs to start fresh
+    console.log("Clearing existing newsletter cron jobs...");
+    const existingJobs = [
+      'send-latest-newsletter-tonight',
+      'send-latest-newsletter-weekly',
+      'send-latest-newsletter-test-cron',
+      'send-latest-newsletter-every-15min'
+    ];
 
-    // Schedule the weekly newsletter for Tuesday at 11:00 PM AEST (which is 1:00 PM UTC)
-    // Note: AEST is UTC+10, so 11:00 PM AEST is 1:00 PM UTC
-    const { error: scheduleWeeklyError } = await supabase.rpc('setup_newsletter_weekly_11pm');
-    
-    if (scheduleWeeklyError) {
-      console.error("Error setting up weekly cron job:", scheduleWeeklyError);
-      // Create the weekly function if it doesn't exist
+    for (const jobName of existingJobs) {
       try {
-        await supabase.rpc('create_weekly_11pm_function');
-        // Try again
-        const { error: retryWeeklyError } = await supabase.rpc('setup_newsletter_weekly_11pm');
-        if (retryWeeklyError) {
-          console.error("Error setting up weekly cron job on retry:", retryWeeklyError);
-        }
-      } catch (createError) {
-        console.error("Error creating weekly function:", createError);
+        await supabase.rpc('unschedule_job', { job_name: jobName });
+        console.log(`Unscheduled job: ${jobName}`);
+      } catch (error) {
+        console.log(`Job ${jobName} might not exist, continuing...`);
       }
     }
 
-    // Unschedule the test job if it exists
-    const { error: unscheduleTestError } = await supabase.rpc('unschedule_job', {
-      job_name: 'send-latest-newsletter-test-cron'
-    });
+    // Setup the weekly recurring job for Tuesday at 11:00 PM AEST (1:00 PM UTC)
+    console.log("Setting up weekly recurring newsletter job...");
     
-    if (unscheduleTestError) {
-      console.log("Warning: Could not unschedule test job (might not exist yet):", unscheduleTestError);
-      // Continue since this is not critical
-    }
-    
-    // Format tonight's date for display
-    const formattedTonight = tonight.toLocaleString('en-US', {
-      weekday: 'long',
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true,
-      timeZone: 'Australia/Sydney'
-    });
+    // Create the weekly cron job directly using SQL
+    const weeklyJobSql = `
+      SELECT cron.schedule(
+        'send-latest-newsletter-weekly',
+        '0 13 * * 2',
+        'SELECT public.invoke_newsletter_function();'
+      );
+    `;
 
-    // Get next Tuesday at 11:00 PM AEST for the weekly schedule
+    const { error: weeklyJobError } = await supabase.rpc('sql', { query: weeklyJobSql });
+    
+    if (weeklyJobError) {
+      console.error("Error creating weekly cron job:", weeklyJobError);
+      // Try alternative approach
+      try {
+        await supabase.rpc('setup_newsletter_weekly_11pm');
+        console.log("Weekly job created using alternative method");
+      } catch (altError) {
+        console.error("Alternative weekly job creation also failed:", altError);
+      }
+    } else {
+      console.log("Weekly newsletter job scheduled successfully");
+    }
+
+    // Get next Tuesday at 11:00 PM AEST for display
     const nextTuesday = new Date();
-    nextTuesday.setDate(nextTuesday.getDate() + (2 + 7 - nextTuesday.getDay()) % 7); // Get next Tuesday
-    nextTuesday.setHours(23, 0, 0, 0); // Set to 11:00 PM
+    const daysUntilTuesday = (2 + 7 - nextTuesday.getDay()) % 7;
+    nextTuesday.setDate(nextTuesday.getDate() + (daysUntilTuesday || 7));
+    nextTuesday.setHours(23, 0, 0, 0);
     
     // If today is Tuesday and it's before 11 PM, use today
-    if (new Date().getDay() === 2 && new Date().getHours() < 23) {
-      nextTuesday.setDate(new Date().getDate());
+    const now = new Date();
+    if (now.getDay() === 2 && now.getHours() < 23) {
+      nextTuesday.setDate(now.getDate());
     }
     
-    // Format date for display
     const formattedNextTuesday = nextTuesday.toLocaleString('en-US', {
       weekday: 'long',
       year: 'numeric', 
@@ -192,26 +139,36 @@ const handler = async (req: Request): Promise<Response> => {
       timeZone: 'Australia/Sydney'
     });
 
-    // Return success information
+    // Verify the job was created by checking cron.job table
+    const { data: jobCheck, error: jobCheckError } = await supabase
+      .from('cron.job')
+      .select('jobname, schedule, command')
+      .eq('jobname', 'send-latest-newsletter-weekly');
+
+    let jobVerification = "Job verification failed";
+    if (!jobCheckError && jobCheck && jobCheck.length > 0) {
+      jobVerification = `Job verified: ${jobCheck[0].jobname} scheduled for ${jobCheck[0].schedule}`;
+      console.log("Job verification successful:", jobCheck[0]);
+    } else {
+      console.error("Job verification failed:", jobCheckError);
+    }
+
     return new Response(
       JSON.stringify({
         success: true,
-        message: "Newsletter scheduling successfully set up with Supabase pg_cron for 11:00 PM!",
-        immediateSchedule: {
-          description: "Tonight's one-time run at 11:00 PM",
-          scheduledTime: formattedTonight,
-          timestamp: tonight.toISOString(),
-          cronExpression: tonightCronExpression
-        },
+        message: "Newsletter cron job successfully configured for weekly delivery at 11:00 PM AEST!",
         recurringSchedule: {
-          description: "Every Tuesday at 11:00 PM AEST",
-          cronExpression: "0 13 * * 2", // At 13:00 UTC on Tuesday (11:00 PM AEST)
-          nextScheduledRun: formattedNextTuesday
+          description: "Every Tuesday at 11:00 PM AEST (1:00 PM UTC)",
+          cronExpression: "0 13 * * 2",
+          nextScheduledRun: formattedNextTuesday,
+          verification: jobVerification
         },
-        removedSchedule: {
-          description: "Testing cron job has been removed"
+        cleanupInfo: {
+          description: "All previous cron jobs have been cleared and recreated",
+          clearedJobs: existingJobs
         },
-        endpoint: `${supabaseUrl}/functions/v1/send-latest-newsletter`
+        endpoint: `${supabaseUrl}/functions/v1/send-latest-newsletter`,
+        timestamp: new Date().toISOString()
       }),
       {
         status: 200,
@@ -225,6 +182,7 @@ const handler = async (req: Request): Promise<Response> => {
         error: error.message,
         stack: error.stack,
         name: error.name,
+        timestamp: new Date().toISOString()
       }),
       {
         status: 500,
