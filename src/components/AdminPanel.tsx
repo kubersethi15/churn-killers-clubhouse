@@ -25,10 +25,7 @@ const AdminPanel = () => {
       console.log("Sending test newsletter to:", testEmail);
       
       const { data, error } = await supabase.functions.invoke('send-latest-newsletter', {
-        body: JSON.stringify({ testEmail }),
-        headers: {
-          'Content-Type': 'application/json',
-        }
+        body: { testEmail },
       });
 
       console.log("Response data:", data);
@@ -66,10 +63,7 @@ const AdminPanel = () => {
       console.log("Sending newsletter to all subscribers");
       
       const { data, error } = await supabase.functions.invoke('send-latest-newsletter', {
-        body: JSON.stringify({}),
-        headers: {
-          'Content-Type': 'application/json',
-        }
+        body: {},
       });
 
       console.log("Response data:", data);
