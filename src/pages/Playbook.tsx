@@ -99,34 +99,21 @@ const PlaybookVault = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const handlePdfDownload = async (pdfPath: string, title: string) => {
-    console.log("Attempting to download PDF:", pdfPath);
+  const handlePdfDownload = (pdfPath: string, title: string) => {
+    console.log("Initiating PDF download:", pdfPath);
     
-    try {
-      // First, check if the file exists
-      const response = await fetch(pdfPath);
-      console.log("Fetch response status:", response.status);
-      
-      if (!response.ok) {
-        console.error("Failed to fetch PDF:", response.status, response.statusText);
-        alert(`Error: Could not find the PDF file. Status: ${response.status}`);
-        return;
-      }
-      
-      // If file exists, proceed with download
-      const link = document.createElement('a');
-      link.href = pdfPath;
-      link.download = `${title.toLowerCase().replace(/\s+/g, '-')}.pdf`;
-      link.target = '_blank'; // Add this for better browser compatibility
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      console.log("PDF download initiated successfully");
-    } catch (error) {
-      console.error("Error downloading PDF:", error);
-      alert("Error: Could not download the PDF file. Please check the console for details.");
-    }
+    // Create a temporary link element and trigger download
+    const link = document.createElement('a');
+    link.href = pdfPath;
+    link.download = `${title.toLowerCase().replace(/\s+/g, '-')}.pdf`;
+    link.target = '_blank';
+    
+    // Append to body, click, and remove
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    console.log("PDF download triggered successfully");
   };
 
   return (
