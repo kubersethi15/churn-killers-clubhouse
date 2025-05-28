@@ -1,6 +1,6 @@
 
 import { useEffect } from "react";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Download } from "lucide-react";
 import Header from "@/components/Header";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ interface PlaybookResource {
   ctaLink?: string;
   disabled?: boolean;
   icon?: string;
+  pdfPath?: string;
   featuredIn?: {
     title: string;
     link?: string;
@@ -71,6 +72,7 @@ const resources: PlaybookResource[] = [
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/The-Value-Story-Slide-2005d0709c99805f8f77c22747e82315?pvs=4",
     icon: "📊",
+    pdfPath: "/pdfs/value-story-slide.pdf",
     featuredIn: {
       title: "Usage Is Not Success",
       link: "/newsletter/usage-is-not-success",
@@ -96,6 +98,15 @@ const PlaybookVault = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const handlePdfDownload = (pdfPath: string, title: string) => {
+    const link = document.createElement('a');
+    link.href = pdfPath;
+    link.download = `${title.toLowerCase().replace(/\s+/g, '-')}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -158,6 +169,16 @@ const PlaybookVault = () => {
                           disabled
                         >
                           {resource.ctaText}
+                        </Button>
+                      )}
+                      
+                      {resource.pdfPath && (
+                        <Button 
+                          variant="outline-red"
+                          onClick={() => handlePdfDownload(resource.pdfPath!, resource.title)}
+                        >
+                          <Download className="mr-1 h-4 w-4" />
+                          Download PDF
                         </Button>
                       )}
                     </div>
