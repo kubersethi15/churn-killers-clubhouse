@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useSearchParams } from "react-router-dom";
@@ -167,7 +168,7 @@ const Index = () => {
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">
-              CS is broken. Let's fix it — together.
+              CS is broken. Let's fix it together.
             </h2>
             <div className="text-lg text-gray-200 mb-8 space-y-4">
               <p>You're not crazy.</p>
@@ -176,7 +177,7 @@ const Index = () => {
               <p>Teams are chasing renewals instead of value.</p>
             </div>
             <p className="text-lg text-gray-200 mb-8">
-              Churn Is Dead is your weekly roadmap to a better way — with battle-tested frameworks, bold plays, and no-BS execution tactics that work.
+              Churn Is Dead is your weekly roadmap to a better way with battle-tested frameworks, bold plays, and no-BS execution tactics that work.
             </p>
             <Button 
               variant="vibrant-red" 
