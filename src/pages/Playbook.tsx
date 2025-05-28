@@ -72,7 +72,7 @@ const resources: PlaybookResource[] = [
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/The-Value-Story-Slide-2005d0709c99805f8f77c22747e82315?pvs=4",
     icon: "📊",
-    pdfPath: "/pdfs/value-story-slide.pdf",
+    pdfPath: "https://raw.githubusercontent.com/kubersethi15/churn-is-dead-site/main/public/pdfs/value-story-slide.pdf",
     featuredIn: {
       title: "Usage Is Not Success",
       link: "/newsletter/usage-is-not-success",
