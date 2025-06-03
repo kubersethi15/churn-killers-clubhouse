@@ -43,10 +43,12 @@ export const formatContent = (content: string) => {
     // Italic text - only match complete pairs of *
     .replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em>$1</em>');
 
-  // Step 4: Process lists
+  // Step 4: Process lists - Updated to handle both * and - bullet points
   formattedContent = formattedContent
-    // Convert unordered lists
+    // Convert unordered lists with asterisk
     .replace(/^\* (.*?)$/gm, '<li class="ml-6 list-disc mb-2">$1</li>')
+    // Convert unordered lists with dash
+    .replace(/^- (.*?)$/gm, '<li class="ml-6 list-disc mb-2">$1</li>')
     // Convert ordered lists
     .replace(/^\d+\. (.*?)$/gm, '<li class="ml-6 list-decimal mb-2">$1</li>');
 
