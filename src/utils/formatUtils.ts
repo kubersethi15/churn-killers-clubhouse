@@ -46,19 +46,19 @@ export const formatContent = (content: string) => {
     // Italic text - only match complete pairs of *
     .replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em>$1</em>');
 
-  // Step 5: Process lists - Updated to handle both * and - bullet points
+  // Step 5: Process lists - Updated to handle both * and - bullet points with better spacing
   formattedContent = formattedContent
     // Convert unordered lists with asterisk
-    .replace(/^\* (.*?)$/gm, '<li class="ml-6 list-disc mb-2">$1</li>')
+    .replace(/^\* (.*?)$/gm, '<li class="ml-6 list-disc mb-3">$1</li>')
     // Convert unordered lists with dash
-    .replace(/^- (.*?)$/gm, '<li class="ml-6 list-disc mb-2">$1</li>')
-    // Convert ordered lists
-    .replace(/^\d+\. (.*?)$/gm, '<li class="ml-6 list-decimal mb-2">$1</li>');
+    .replace(/^- (.*?)$/gm, '<li class="ml-6 list-disc mb-3">$1</li>')
+    // Convert ordered lists - improved spacing
+    .replace(/^\d+\.\s+(.*?)$/gm, '<li class="ml-6 list-decimal mb-4 leading-relaxed">$1</li>');
 
-  // Cleanup: Wrap lists in appropriate tags
+  // Cleanup: Wrap lists in appropriate tags with better spacing
   formattedContent = formattedContent
-    .replace(/<li class="ml-6 list-disc mb-2">(.*?)(<\/li>[\s\n]*<li class="ml-6 list-disc mb-2">.*?)*<\/li>/gs, '<ul class="my-4">$&</ul>')
-    .replace(/<li class="ml-6 list-decimal mb-2">(.*?)(<\/li>[\s\n]*<li class="ml-6 list-decimal mb-2">.*?)*<\/li>/gs, '<ol class="my-4">$&</ol>');
+    .replace(/<li class="ml-6 list-disc mb-3">(.*?)(<\/li>[\s\n]*<li class="ml-6 list-disc mb-3">.*?)*<\/li>/gs, '<ul class="my-6 space-y-2">$&</ul>')
+    .replace(/<li class="ml-6 list-decimal mb-4 leading-relaxed">(.*?)(<\/li>[\s\n]*<li class="ml-6 list-decimal mb-4 leading-relaxed">.*?)*<\/li>/gs, '<ol class="my-6 space-y-3">$&</ol>');
 
   // Step 6: Process paragraphs - split by newlines and wrap in paragraph tags if not already processed
   const paragraphs = formattedContent.split('\n\n');
