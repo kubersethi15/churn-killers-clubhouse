@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
@@ -8,7 +8,38 @@ import { supabase } from "@/integrations/supabase/client";
 const AdminPanel = () => {
   const [testEmail, setTestEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [cronSetup, setCronSetup] = useState(false);
   const { toast } = useToast();
+
+  // Automatically set up the cron job when component loads
+  useEffect(() => {
+    const setupAutomaticCron = async () => {
+      try {
+        console.log("Auto-setting up cron job for weekly newsletter delivery");
+        
+        const { data, error } = await supabase.functions.invoke('setup-cron-job', {
+          body: {},
+        });
+
+        if (error) {
+          console.error("Auto cron setup error:", error);
+          return;
+        }
+
+        console.log("Auto cron setup successful:", data);
+        setCronSetup(true);
+        
+        toast({
+          title: "Newsletter Automation Active!",
+          description: "Newsletter will be sent tonight at 11 PM AEST and every Tuesday thereafter",
+        });
+      } catch (error: any) {
+        console.error("Error in auto cron setup:", error);
+      }
+    };
+
+    setupAutomaticCron();
+  }, [toast]);
 
   const sendTestNewsletter = async () => {
     if (!testEmail) {
@@ -111,6 +142,7 @@ const AdminPanel = () => {
         throw new Error(error.message || "Failed to setup cron job");
       }
 
+      setCronSetup(true);
       toast({
         title: "Cron job setup complete!",
         description: "Weekly newsletter scheduling has been configured",
@@ -130,6 +162,13 @@ const AdminPanel = () => {
   return (
     <div className="fixed bottom-4 right-4 bg-white border border-gray-200 rounded-lg shadow-lg p-4 w-80 z-50">
       <h3 className="text-lg font-semibold mb-4 text-navy-dark">Admin Panel</h3>
+      
+      {cronSetup && (
+        <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+          <p className="text-sm text-green-800 font-medium">✅ Newsletter Automation Active</p>
+          <p className="text-xs text-green-600 mt-1">Sending tonight at 11 PM AEST and every Tuesday thereafter</p>
+        </div>
+      )}
       
       <div className="space-y-4">
         <div>
@@ -166,9 +205,9 @@ const AdminPanel = () => {
           onClick={setupCronJob}
           disabled={loading}
           variant="outline"
-          className="w-full border-green-600 text-green-600 hover:bg-green-50"
+          className={`w-full ${cronSetup ? 'border-green-600 text-green-600 hover:bg-green-50' : 'border-gray-300'}`}
         >
-          {loading ? "Setting up..." : "Setup Cron Job"}
+          {loading ? "Setting up..." : cronSetup ? "✅ Cron Job Active" : "Setup Cron Job"}
         </Button>
       </div>
     </div>
