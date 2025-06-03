@@ -38,17 +38,19 @@ export const formatContentForEmail = (content: string) => {
     // Italic text - only match complete pairs of *
     .replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em>$1</em>');
 
-  // Step 4: Process lists
+  // Step 4: Process lists - Updated to handle both * and - bullet points with better spacing
   formattedContent = formattedContent
-    // Convert unordered lists
-    .replace(/^\* (.*?)$/gm, '<li style="margin-left: 20px; margin-bottom: 8px;">$1</li>')
-    // Convert ordered lists
-    .replace(/^\d+\. (.*?)$/gm, '<li style="margin-left: 20px; margin-bottom: 8px;">$1</li>');
+    // Convert unordered lists with asterisk
+    .replace(/^\* (.*?)$/gm, '<li style="margin-left: 20px; margin-bottom: 12px;">$1</li>')
+    // Convert unordered lists with dash
+    .replace(/^- (.*?)$/gm, '<li style="margin-left: 20px; margin-bottom: 12px;">$1</li>')
+    // Convert ordered lists - improved spacing with better regex
+    .replace(/^\d+\.\s+(.*?)$/gm, '<li style="margin-left: 20px; margin-bottom: 16px; line-height: 1.6;">$1</li>');
 
-  // Cleanup: Wrap lists in appropriate tags
+  // Cleanup: Wrap lists in appropriate tags with better spacing
   formattedContent = formattedContent
-    .replace(/<li style="margin-left: 20px; margin-bottom: 8px;">(.*?)(<\/li>[\s\n]*<li style="margin-left: 20px; margin-bottom: 8px;">.*?)*<\/li>/gs, '<ul style="margin: 15px 0;">$&</ul>')
-    .replace(/<li style="margin-left: 20px; margin-bottom: 8px;">(.*?)(<\/li>[\s\n]*<li style="margin-left: 20px; margin-bottom: 8px;">.*?)*<\/li>/gs, '<ol style="margin: 15px 0;">$&</ol>');
+    .replace(/<li style="margin-left: 20px; margin-bottom: 12px;">(.*?)(<\/li>[\s\n]*<li style="margin-left: 20px; margin-bottom: 12px;">.*?)*<\/li>/gs, '<ul style="margin: 20px 0; padding-left: 0;">$&</ul>')
+    .replace(/<li style="margin-left: 20px; margin-bottom: 16px; line-height: 1.6;">(.*?)(<\/li>[\s\n]*<li style="margin-left: 20px; margin-bottom: 16px; line-height: 1.6;">.*?)*<\/li>/gs, '<ol style="margin: 20px 0; padding-left: 0;">$&</ol>');
 
   // Step 5: Process paragraphs - split by newlines and wrap in paragraph tags if not already processed
   const paragraphs = formattedContent.split('\n\n');
