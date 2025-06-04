@@ -3,15 +3,23 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { ExternalLink } from "lucide-react";
 import NewsletterForm from "@/components/NewsletterForm";
 import { Newsletter } from "@/types/newsletter";
+
+type VaultResource = {
+  title: string;
+  description: string;
+  notionLink: string;
+};
 
 type NewsletterContentProps = {
   newsletter: Newsletter;
   formatContent: (content: string) => string;
+  vaultResources?: VaultResource[];
 };
 
-const NewsletterContent = ({ newsletter, formatContent }: NewsletterContentProps) => {
+const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: NewsletterContentProps) => {
   // Check if this is one of the specific newsletters we want to add the playbook link to
   const isKickoffNewsletter = newsletter.slug.includes("the-perfect-kickoff-call");
   const isTimelineNewsletter = newsletter.slug.includes("their-timeline-not-yours");
@@ -36,6 +44,39 @@ const NewsletterContent = ({ newsletter, formatContent }: NewsletterContentProps
             }} 
           />
           
+          {/* Vault Resources Section - Right after content ends */}
+          {vaultResources.length > 0 && (
+            <div className="my-12 p-8 bg-gray-50 rounded-lg border border-gray-100">
+              <h3 className="text-2xl font-serif font-bold text-navy-dark mb-6 text-center">
+                📂 Related Vault Resources
+              </h3>
+              <div className="space-y-4">
+                {vaultResources.map((resource, index) => (
+                  <div key={index} className="bg-white p-6 rounded-lg shadow-md border">
+                    <h4 className="text-xl font-semibold text-navy-dark mb-2">
+                      {resource.title}
+                    </h4>
+                    <p className="text-gray-600 mb-4">
+                      {resource.description}
+                    </p>
+                    <div className="flex gap-3">
+                      <Button variant="vibrant-red" asChild>
+                        <a href={resource.notionLink} target="_blank" rel="noopener noreferrer">
+                          View in Notion <ExternalLink className="ml-1 h-4 w-4" />
+                        </a>
+                      </Button>
+                      <Button variant="outline" asChild>
+                        <Link to="/playbook">
+                          View All Vault Resources
+                        </Link>
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Playbook Vault CTA - Only show for specific newsletters */}
           {isKickoffNewsletter && (
             <div className="my-10 p-6 bg-gray-50 rounded-lg border border-gray-100">
