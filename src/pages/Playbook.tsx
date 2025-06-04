@@ -27,6 +27,19 @@ interface PlaybookResource {
 
 const resources: PlaybookResource[] = [
   {
+    id: "customer-predictability-index",
+    title: "Customer Predictability Index (CPI) Framework",
+    description: "A tiered framework to assess and improve customer predictability across trust, engagement, and outcomes.",
+    ctaText: "View in Notion",
+    ctaLink: "https://www.notion.so/Customer-Predictability-Index-CPI-Framework-Tiered-Guide-2015d0709c9980b18354e3512b86ebff",
+    icon: "📊",
+    featuredIn: {
+      title: "The Customer Predictability Revolution",
+      link: "/newsletter/the-customer-predictability-revolution",
+      comingSoon: false
+    },
+  },
+  {
     id: "kickoff-checklist",
     title: "Kickoff Re-Discovery Checklist",
     description: "A tactical checklist to align internally, validate goals, and earn trust before the first customer call.",
