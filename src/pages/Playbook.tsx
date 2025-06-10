@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { ExternalLink, Download } from "lucide-react";
 import Header from "@/components/Header";
@@ -36,6 +35,19 @@ const resources: PlaybookResource[] = [
     featuredIn: {
       title: "The Customer Predictability Revolution",
       link: "/newsletter/the-customer-predictability-revolution",
+      comingSoon: false
+    },
+  },
+  {
+    id: "customer-momentum-framework",
+    title: "Customer Momentum Framework",
+    description: "A strategic framework to identify, track, and accelerate customer momentum across the entire lifecycle.",
+    ctaText: "View in Notion",
+    ctaLink: "https://www.notion.so/Customer-Momentum-Framework-Strategic-Guide-1f95d0709c99808a8234f4d529187b7e",
+    icon: "🚀",
+    featuredIn: {
+      title: "Customer Momentum Framework",
+      link: "/newsletter/customer-momentum-framework",
       comingSoon: false
     },
   },

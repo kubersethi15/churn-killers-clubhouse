@@ -16,12 +16,21 @@ const NewsletterDetail = () => {
 
   // Check if this newsletter has associated vault resources
   const getVaultResources = (slug: string | undefined) => {
-    if (slug === "customer-predictability-revolution") {
+    if (slug === "customer-predictability-revolution" || slug === "the-customer-predictability-revolution") {
       return [
         {
           title: "Customer Predictability Index (CPI) Framework",
           description: "A tiered framework to assess and improve customer predictability across trust, engagement, and outcomes.",
           notionLink: "https://www.notion.so/Customer-Predictability-Index-CPI-Framework-Tiered-Guide-2015d0709c9980b18354e3512b86ebff"
+        }
+      ];
+    }
+    if (slug === "customer-momentum-framework" || slug === "the-customer-momentum-framework") {
+      return [
+        {
+          title: "Customer Momentum Framework",
+          description: "A strategic framework to identify, track, and accelerate customer momentum across the entire lifecycle.",
+          notionLink: "https://www.notion.so/Customer-Momentum-Framework-Strategic-Guide-1f95d0709c99808a8234f4d529187b7e"
         }
       ];
     }
