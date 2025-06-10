@@ -46,9 +46,8 @@ const resources: PlaybookResource[] = [
     ctaLink: "https://www.notion.so/Customer-Momentum-Framework-Strategic-Guide-1f95d0709c99808a8234f4d529187b7e",
     icon: "🚀",
     featuredIn: {
-      title: "Customer Momentum Framework",
-      link: "/newsletter/customer-momentum-framework",
-      comingSoon: false
+      title: "Customer Momentum Framework Newsletter",
+      comingSoon: true
     },
   },
   {
