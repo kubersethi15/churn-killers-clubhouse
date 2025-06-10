@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { ExternalLink, Download } from "lucide-react";
 import Header from "@/components/Header";
@@ -43,7 +44,7 @@ const resources: PlaybookResource[] = [
     title: "Customer Momentum Framework",
     description: "A strategic framework to identify, track, and accelerate customer momentum across the entire lifecycle.",
     ctaText: "View in Notion",
-    ctaLink: "https://www.notion.so/Customer-Momentum-Framework-Strategic-Guide-1f95d0709c99808a8234f4d529187b7e",
+    ctaLink: "https://www.notion.so/Customer-Momentum-Framework-20a5d0709c9980259ea4c3fdcc0b38b1",
     icon: "🚀",
     featuredIn: {
       title: "Customer Momentum Framework Newsletter",
