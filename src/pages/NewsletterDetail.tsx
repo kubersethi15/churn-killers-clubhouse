@@ -25,12 +25,12 @@ const NewsletterDetail = () => {
         }
       ];
     }
-    if (slug === "customer-momentum-framework" || slug === "the-customer-momentum-framework") {
+    if (slug === "customer-momentum-framework" || slug === "the-customer-momentum-framework" || slug === "customer-momentum-over-health-score") {
       return [
         {
           title: "Customer Momentum Framework",
           description: "A strategic framework to identify, track, and accelerate customer momentum across the entire lifecycle.",
-          notionLink: "https://www.notion.so/Customer-Momentum-Framework-Strategic-Guide-1f95d0709c99808a8234f4d529187b7e"
+          notionLink: "https://www.notion.so/Customer-Momentum-Framework-20a5d0709c9980259ea4c3fdcc0b38b1"
         }
       ];
     }
