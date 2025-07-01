@@ -24,6 +24,9 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
   const isKickoffNewsletter = newsletter.slug.includes("the-perfect-kickoff-call");
   const isTimelineNewsletter = newsletter.slug.includes("their-timeline-not-yours");
   const isUsageNewsletter = newsletter.slug.includes("usage-is-not-success");
+  const isQuestionNewsletter = newsletter.slug.includes("the-question-that-s-breaking-your-cs-team") || 
+                               newsletter.slug.includes("the-question-thats-breaking-your-cs-team") ||
+                               newsletter.slug.includes("question-breaking-cs-team");
 
   return (
     <section className="py-16 md:py-24">
@@ -109,6 +112,19 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
               <h2 className="text-2xl md:text-3xl font-bold mb-4">📊 The Value Story Slide</h2>
               <p className="mb-6">
                 Grab the <strong>Value Story Slide</strong> — a 1-slide QBR format that ties usage → outcomes → business value, with example metrics by persona and how to quantify impact even without hard ROI numbers.
+              </p>
+              <Button variant="vibrant-red" asChild>
+                <Link to="/playbook">👉 Access the Playbook Vault</Link>
+              </Button>
+            </div>
+          )}
+
+          {/* Question Breaking CS Team CTA */}
+          {isQuestionNewsletter && (
+            <div className="my-10 p-6 bg-gray-50 rounded-lg border border-gray-100">
+              <h2 className="text-2xl md:text-3xl font-bold mb-4">🚀 The CO-OP Framework</h2>
+              <p className="mb-6">
+                Grab the <strong>CO-OP Framework</strong> — the exact system that helped save that $2M renewal and is now being used by 10+ enterprise CS teams to increase renewal predictability and expansion velocity.
               </p>
               <Button variant="vibrant-red" asChild>
                 <Link to="/playbook">👉 Access the Playbook Vault</Link>
