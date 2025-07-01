@@ -51,36 +51,67 @@ export const useNewsletter = (slug: string | undefined) => {
         }
 
         if (allNewsletters) {
-          // Try different normalization approaches
-          const normalizeSlug = (s: string) => s.trim().toLowerCase().replace(/[\n\r\s]+/g, '-');
-          const normalizedRequestedSlug = normalizeSlug(slug);
-          
-          // Remove common prefixes like "the-" for comparison
-          const removeCommonPrefixes = (s: string) => {
-            return s.replace(/^(the-|a-|an-)/, '');
+          // Enhanced normalization function
+          const normalizeSlug = (s: string) => {
+            return s.trim()
+              .toLowerCase()
+              .replace(/[\n\r\s]+/g, '-')
+              .replace(/[^a-z0-9-]/g, '') // Remove special characters except hyphens
+              .replace(/-+/g, '-') // Replace multiple hyphens with single
+              .replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
           };
           
+          const normalizedRequestedSlug = normalizeSlug(slug);
+          
+          // Enhanced matching strategies
           const matchingNewsletter = allNewsletters.find(newsletter => {
             const dbSlug = newsletter.slug || '';
             const normalizedDbSlug = normalizeSlug(dbSlug);
             
-            // Try multiple matching strategies
-            const strategies = [
-              // Exact normalized match
-              () => normalizedDbSlug === normalizedRequestedSlug,
-              // Match with common prefixes removed
-              () => removeCommonPrefixes(normalizedDbSlug) === removeCommonPrefixes(normalizedRequestedSlug),
-              // Match if one contains the other (after removing prefixes)
-              () => {
-                const dbWithoutPrefix = removeCommonPrefixes(normalizedDbSlug);
-                const requestedWithoutPrefix = removeCommonPrefixes(normalizedRequestedSlug);
-                return dbWithoutPrefix === requestedWithoutPrefix || 
-                       dbWithoutPrefix.includes(requestedWithoutPrefix) ||
-                       requestedWithoutPrefix.includes(dbWithoutPrefix);
-              }
-            ];
+            // Strategy 1: Exact normalized match
+            if (normalizedDbSlug === normalizedRequestedSlug) {
+              console.log("Match found with strategy 1 - exact normalized");
+              return true;
+            }
             
-            return strategies.some(strategy => strategy());
+            // Strategy 2: Remove common words and prefixes
+            const removeCommonWords = (s: string) => {
+              return s.replace(/^(the-|a-|an-|that-|thats-)/g, '')
+                    .replace(/-the-|-a-|-an-|-that-|-thats-/g, '-')
+                    .replace(/-+/g, '-')
+                    .replace(/^-|-$/g, '');
+            };
+            
+            const dbWithoutCommon = removeCommonWords(normalizedDbSlug);
+            const requestedWithoutCommon = removeCommonWords(normalizedRequestedSlug);
+            
+            if (dbWithoutCommon === requestedWithoutCommon) {
+              console.log("Match found with strategy 2 - common words removed");
+              return true;
+            }
+            
+            // Strategy 3: Partial matching (one contains the other)
+            if (dbWithoutCommon.length > 5 && requestedWithoutCommon.length > 5) {
+              if (dbWithoutCommon.includes(requestedWithoutCommon) || 
+                  requestedWithoutCommon.includes(dbWithoutCommon)) {
+                console.log("Match found with strategy 3 - partial match");
+                return true;
+              }
+            }
+            
+            // Strategy 4: Word-based matching (split by hyphens and match significant words)
+            const dbWords = normalizedDbSlug.split('-').filter(word => word.length > 2);
+            const requestedWords = normalizedRequestedSlug.split('-').filter(word => word.length > 2);
+            
+            if (dbWords.length >= 3 && requestedWords.length >= 3) {
+              const matchingWords = dbWords.filter(word => requestedWords.includes(word));
+              if (matchingWords.length >= Math.min(3, Math.min(dbWords.length, requestedWords.length) * 0.6)) {
+                console.log("Match found with strategy 4 - word-based matching");
+                return true;
+              }
+            }
+            
+            return false;
           });
           
           if (matchingNewsletter) {
@@ -90,6 +121,7 @@ export const useNewsletter = (slug: string | undefined) => {
             setError(null);
           } else {
             console.error("Newsletter not found with slug:", slug);
+            console.log("Available newsletters:", allNewsletters.map(n => ({ title: n.title, slug: n.slug })));
             setError("Newsletter not found");
             
             toast({
