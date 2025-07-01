@@ -31,6 +31,11 @@ const NewsletterDetail = () => {
           title: "Customer Momentum Framework",
           description: "A strategic framework to identify, track, and accelerate customer momentum across the entire lifecycle.",
           notionLink: "https://www.notion.so/Customer-Momentum-Framework-20a5d0709c9980259ea4c3fdcc0b38b1"
+        },
+        {
+          title: "CO-OP Framework", 
+          description: "The exact system that helped save that $2M renewal and is now being used by 10+ enterprise CS teams to increase renewal predictability and expansion velocity.",
+          notionLink: "https://www.notion.so/CO-OP-Framework-2235d0709c998059a8a4dc2c18393b25?source=copy_link"
         }
       ];
     }
