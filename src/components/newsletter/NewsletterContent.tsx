@@ -26,7 +26,8 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
   const isUsageNewsletter = newsletter.slug.includes("usage-is-not-success");
   const isQuestionNewsletter = newsletter.slug.includes("the-question-that-s-breaking-your-cs-team") || 
                                newsletter.slug.includes("the-question-thats-breaking-your-cs-team") ||
-                               newsletter.slug.includes("question-breaking-cs-team");
+                               newsletter.slug.includes("question-breaking-cs-team") ||
+                               newsletter.slug.includes("co-op-renewal-framework");
 
   return (
     <section className="py-16 md:py-24">
@@ -76,6 +77,36 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+          )}
+
+          {/* CO-OP Framework Playbook Vault Card - Before Reader Spotlight */}
+          {isQuestionNewsletter && (
+            <div className="my-12 p-8 bg-gradient-to-br from-red-50 to-orange-50 rounded-lg border border-red-100">
+              <div className="text-center">
+                <h3 className="text-2xl font-serif font-bold text-navy-dark mb-4">
+                  🚀 Get the Complete CO-OP Framework
+                </h3>
+                <p className="text-lg text-gray-700 mb-6">
+                  The exact system that helped save that $2M renewal and is now being used by 10+ enterprise CS teams to increase renewal predictability and expansion velocity.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button variant="vibrant-red" asChild>
+                    <a 
+                      href="https://www.notion.so/CO-OP-Framework-2235d0709c998059a8a4dc2c18393b25?source=copy_link" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                    >
+                      View CO-OP Framework <ExternalLink className="ml-1 h-4 w-4" />
+                    </a>
+                  </Button>
+                  <Button variant="outline" asChild>
+                    <Link to="/playbook">
+                      Browse All Playbook Resources →
+                    </Link>
+                  </Button>
+                </div>
               </div>
             </div>
           )}
