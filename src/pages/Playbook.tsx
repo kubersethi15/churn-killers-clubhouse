@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { ExternalLink, Download } from "lucide-react";
 import Header from "@/components/Header";
@@ -49,6 +48,19 @@ const resources: PlaybookResource[] = [
     featuredIn: {
       title: "Customer Momentum Framework Newsletter",
       comingSoon: true
+    },
+  },
+  {
+    id: "co-op-framework",
+    title: "CO-OP Framework",
+    description: "The exact system that helped save that $2M renewal and is now being used by 10+ enterprise CS teams to increase renewal predictability and expansion velocity.",
+    ctaText: "View in Notion",
+    ctaLink: "https://www.notion.so/CO-OP-Framework-2235d0709c998059a8a4dc2c18393b25?source=copy_link",
+    icon: "🚀",
+    featuredIn: {
+      title: "The Question That's Breaking Your CS Team",
+      link: "/newsletter/the-question-thats-breaking-your-cs-team",
+      comingSoon: false
     },
   },
   {
