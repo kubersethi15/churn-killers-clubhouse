@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import NewsletterDetail from "./pages/NewsletterDetail";
 import About from "./pages/About";
 import Playbook from "./pages/Playbook";
+import AdminPanel from "./components/AdminPanel";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/playbook" element={<Playbook />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <AdminPanel />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
