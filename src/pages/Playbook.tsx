@@ -169,15 +169,6 @@ const PlaybookVault = () => {
     console.log("PDF download triggered successfully");
   };
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    });
-  };
-
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -208,18 +199,13 @@ const PlaybookVault = () => {
               {sortedResources.map((resource) => (
                 <Card key={resource.id} className="bg-white border shadow-md hover:shadow-lg transition-shadow duration-300">
                   <CardHeader className="pb-2">
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-start">
-                        {resource.icon && (
-                          <span className="text-2xl mr-3">{resource.icon}</span>
-                        )}
-                        <h3 className="text-xl font-serif font-bold text-navy-dark">
-                          {resource.title}
-                        </h3>
-                      </div>
-                      <div className="text-sm text-gray-500 ml-4">
-                        {formatDate(resource.datePosted)}
-                      </div>
+                    <div className="flex items-start">
+                      {resource.icon && (
+                        <span className="text-2xl mr-3">{resource.icon}</span>
+                      )}
+                      <h3 className="text-xl font-serif font-bold text-navy-dark">
+                        {resource.title}
+                      </h3>
                     </div>
                   </CardHeader>
                   <CardContent>
