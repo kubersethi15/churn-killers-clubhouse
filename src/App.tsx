@@ -26,9 +26,9 @@ const App = () => (
           <Route path="/newsletter/:slug" element={<NewsletterDetail />} />
           <Route path="/about" element={<About />} />
           <Route path="/playbook" element={<Playbook />} />
+          <Route path="/admin" element={<AdminPanel />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-        <AdminPanel />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
