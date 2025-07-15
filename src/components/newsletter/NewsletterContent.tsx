@@ -46,7 +46,30 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
             dangerouslySetInnerHTML={{ 
               __html: formatContent(newsletter.content.split('\n\n').slice(1).join('\n\n')) 
             }} 
+            style={{
+              '--list-item-spacing': '12px'
+            } as React.CSSProperties}
           />
+          
+          {/* Custom CSS for bullet point alignment */}
+          <style jsx>{`
+            .article-content ul {
+              list-style-type: disc;
+              margin-left: 0;
+              padding-left: 20px;
+            }
+            
+            .article-content li {
+              margin-bottom: 12px;
+              line-height: 1.6;
+              padding-left: 0;
+              text-align: left;
+            }
+            
+            .article-content li::marker {
+              color: #374151;
+            }
+          `}</style>
           
           {/* Vault Resources Section - Right after content ends */}
           {vaultResources.length > 0 && (
