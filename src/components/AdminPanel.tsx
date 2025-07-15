@@ -85,20 +85,20 @@ const AdminPanel = () => {
   };
 
   const sendToAllSubscribers = async () => {
-    if (!confirm("Are you sure you want to send the newsletter to ALL subscribers now?")) {
+    if (!confirm("🚨 FINAL CONFIRMATION: This will send the latest newsletter to ALL subscribers RIGHT NOW. Are you absolutely sure?")) {
       return;
     }
 
     setLoading(true);
     try {
-      console.log("Sending newsletter to all subscribers");
+      console.log("🚀 SENDING NEWSLETTER TO ALL SUBSCRIBERS NOW!");
       
       const { data, error } = await supabase.functions.invoke('send-latest-newsletter', {
         body: {},
       });
 
-      console.log("Response data:", data);
-      console.log("Response error:", error);
+      console.log("Newsletter send response data:", data);
+      console.log("Newsletter send response error:", error);
 
       if (error) {
         console.error("Supabase function error:", error);
@@ -106,13 +106,13 @@ const AdminPanel = () => {
       }
 
       toast({
-        title: "Newsletter sent!",
-        description: "Newsletter has been sent to all subscribers",
+        title: "🎉 Newsletter Sent Successfully!",
+        description: data?.message || "Newsletter has been sent to all subscribers",
       });
     } catch (error: any) {
       console.error("Error sending newsletter:", error);
       toast({
-        title: "Error",
+        title: "❌ Error",
         description: error.message || "Failed to send newsletter",
         variant: "destructive",
       });
@@ -171,6 +171,20 @@ const AdminPanel = () => {
       )}
       
       <div className="space-y-4">
+        {/* PROMINENT SEND NOW BUTTON */}
+        <div className="p-4 bg-red-50 border-2 border-red-200 rounded-lg">
+          <h4 className="font-bold text-red-800 mb-2">🚀 Send Latest Newsletter</h4>
+          <p className="text-sm text-red-700 mb-3">Send the latest newsletter to ALL subscribers immediately</p>
+          <Button
+            onClick={sendToAllSubscribers}
+            disabled={loading}
+            variant="vibrant-red"
+            className="w-full font-bold text-lg py-3"
+          >
+            {loading ? "🔄 Sending..." : "📧 SEND TO ALL SUBSCRIBERS NOW"}
+          </Button>
+        </div>
+
         <div>
           <label className="block text-sm font-medium mb-2">Test Email</label>
           <div className="flex gap-2">
@@ -191,15 +205,6 @@ const AdminPanel = () => {
             </Button>
           </div>
         </div>
-
-        <Button
-          onClick={sendToAllSubscribers}
-          disabled={loading}
-          variant="vibrant-red"
-          className="w-full"
-        >
-          {loading ? "Sending..." : "Send to All Subscribers"}
-        </Button>
 
         <Button
           onClick={setupCronJob}
