@@ -1,4 +1,3 @@
-
 import { format } from "date-fns";
 
 /**
@@ -46,19 +45,17 @@ export const formatContent = (content: string) => {
     // Italic text - only match complete pairs of *
     .replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em>$1</em>');
 
-  // Step 5: Process lists - Updated to handle both * and - bullet points with better spacing and consistent formatting
+  // Step 5: Process lists - Enhanced to handle ALL bullet point variations consistently
   formattedContent = formattedContent
-    // Convert unordered lists with asterisk - ensure consistent spacing
-    .replace(/^\* (.*?)$/gm, '<li class="ml-6 list-disc mb-3 text-left">$1</li>')
-    // Convert unordered lists with dash - ensure consistent spacing
-    .replace(/^- (.*?)$/gm, '<li class="ml-6 list-disc mb-3 text-left">$1</li>')
-    // Convert ordered lists - improved spacing
-    .replace(/^\d+\.\s+(.*?)$/gm, '<li class="ml-6 list-decimal mb-4 leading-relaxed text-left">$1</li>');
+    // Convert all variations of bullet points to consistent format
+    .replace(/^[\-\*\•]\s+(.*?)$/gm, '<li class="article-list-item">$1</li>')
+    // Convert ordered lists
+    .replace(/^\d+\.\s+(.*?)$/gm, '<li class="article-ordered-item">$1</li>');
 
-  // Cleanup: Wrap lists in appropriate tags with better spacing
+  // Cleanup: Wrap lists in appropriate tags with proper spacing
   formattedContent = formattedContent
-    .replace(/<li class="ml-6 list-disc mb-3 text-left">(.*?)(<\/li>[\s\n]*<li class="ml-6 list-disc mb-3 text-left">.*?)*<\/li>/gs, '<ul class="my-6 space-y-2 pl-0">$&</ul>')
-    .replace(/<li class="ml-6 list-decimal mb-4 leading-relaxed text-left">(.*?)(<\/li>[\s\n]*<li class="ml-6 list-decimal mb-4 leading-relaxed text-left">.*?)*<\/li>/gs, '<ol class="my-6 space-y-3 pl-0">$&</ol>');
+    .replace(/<li class="article-list-item">(.*?)(<\/li>[\s\n]*<li class="article-list-item">.*?)*<\/li>/gs, '<ul class="article-bullet-list">$&</ul>')
+    .replace(/<li class="article-ordered-item">(.*?)(<\/li>[\s\n]*<li class="article-ordered-item">.*?)*<\/li>/gs, '<ol class="article-numbered-list">$&</ol>');
 
   // Step 6: Process paragraphs - split by newlines and wrap in paragraph tags if not already processed
   const paragraphs = formattedContent.split('\n\n');

@@ -132,7 +132,55 @@
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   }
 
-  /* Newsletter article content styles - Enhanced for consistent bullet alignment */
+  /* Enhanced Newsletter article content styles - Perfect bullet alignment */
+  .article-content .article-bullet-list {
+    margin: 1.5rem 0;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .article-content .article-list-item {
+    position: relative;
+    margin-bottom: 0.75rem;
+    padding-left: 1.5rem;
+    line-height: 1.6;
+    text-align: left;
+  }
+
+  .article-content .article-list-item:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #374151;
+    font-weight: bold;
+  }
+
+  .article-content .article-numbered-list {
+    margin: 1.5rem 0;
+    padding-left: 0;
+    counter-reset: list-counter;
+  }
+
+  .article-content .article-ordered-item {
+    position: relative;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    line-height: 1.6;
+    text-align: left;
+    counter-increment: list-counter;
+  }
+
+  .article-content .article-ordered-item:before {
+    content: counter(list-counter) ".";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #374151;
+    font-weight: bold;
+  }
+
+  /* Legacy support for old bullet formats */
   .article-content ul {
     list-style-type: disc;
     margin-left: 0;
