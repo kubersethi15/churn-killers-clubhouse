@@ -28,6 +28,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
                                newsletter.slug.includes("the-question-thats-breaking-your-cs-team") ||
                                newsletter.slug.includes("question-breaking-cs-team") ||
                                newsletter.slug.includes("co-op-renewal-framework");
+  const isExpansionNewsletter = newsletter.slug.includes("the-expansion-moment-hiding-in-plain-sight");
 
   return (
     <section className="py-16 md:py-24">
@@ -159,6 +160,19 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
               <h2 className="text-2xl md:text-3xl font-bold mb-4">🚀 The CO-OP Framework</h2>
               <p className="mb-6">
                 Grab the <strong>CO-OP Framework</strong> — the exact system that helped save that $2M renewal and is now being used by 10+ enterprise CS teams to increase renewal predictability and expansion velocity.
+              </p>
+              <Button variant="vibrant-red" asChild>
+                <Link to="/playbook">👉 Access the Playbook Vault</Link>
+              </Button>
+            </div>
+          )}
+
+          {/* Expansion Moment CTA */}
+          {isExpansionNewsletter && (
+            <div className="my-10 p-6 bg-gray-50 rounded-lg border border-gray-100">
+              <h2 className="text-2xl md:text-3xl font-bold mb-4">📈 The Expansion Signal Tracker</h2>
+              <p className="mb-6">
+                Grab the <strong>Expansion Signal Tracker</strong> — my framework for identifying and capturing expansion moments that are hiding in plain sight within your customer interactions.
               </p>
               <Button variant="vibrant-red" asChild>
                 <Link to="/playbook">👉 Access the Playbook Vault</Link>
