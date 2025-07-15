@@ -51,26 +51,6 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
             } as React.CSSProperties}
           />
           
-          {/* Custom CSS for bullet point alignment */}
-          <style jsx>{`
-            .article-content ul {
-              list-style-type: disc;
-              margin-left: 0;
-              padding-left: 20px;
-            }
-            
-            .article-content li {
-              margin-bottom: 12px;
-              line-height: 1.6;
-              padding-left: 0;
-              text-align: left;
-            }
-            
-            .article-content li::marker {
-              color: #374151;
-            }
-          `}</style>
-          
           {/* Vault Resources Section - Right after content ends */}
           {vaultResources.length > 0 && (
             <div className="my-12 p-8 bg-gray-50 rounded-lg border border-gray-100">
