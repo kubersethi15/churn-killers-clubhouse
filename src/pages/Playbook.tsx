@@ -118,14 +118,15 @@ const resources: PlaybookResource[] = [
   },
   {
     id: "expansion-playbook",
-    title: "Expansion Playbook — Coming Soon",
+    title: "Expansion Playbook",
     description: "A lightweight framework to help you identify and nurture expansion signals across the customer journey.",
-    ctaText: "Coming Soon",
-    disabled: true,
-    icon: "🛠",
+    ctaText: "View in Notion",
+    ctaLink: "https://www.notion.so/The-Expansion-Playbook-2315d0709c998007a494d0f646389297?source=copy_link",
+    icon: "📈",
     featuredIn: {
-      title: "Coming next week in the Churn Is Dead newsletter",
-      comingSoon: true
+      title: "The Expansion Moment Hiding in Plain Sight",
+      link: "/newsletter/the-expansion-moment-hiding-in-plain-sight",
+      comingSoon: false
     },
   },
 ];
