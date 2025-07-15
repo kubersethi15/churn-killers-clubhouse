@@ -45,17 +45,18 @@ export const formatContent = (content: string) => {
     // Italic text - only match complete pairs of *
     .replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em>$1</em>');
 
-  // Step 5: Process lists - Enhanced to handle ALL bullet point variations consistently
+  // Step 5: Process lists - MINIMAL formatting, let browser handle alignment
   formattedContent = formattedContent
-    // Convert all variations of bullet points to consistent format
-    .replace(/^[\-\*\•]\s+(.*?)$/gm, '<li class="article-list-item">$1</li>')
+    // Convert unordered lists - simple approach
+    .replace(/^[\-\*\•]\s+(.*?)$/gm, '<li>$1</li>')
     // Convert ordered lists
-    .replace(/^\d+\.\s+(.*?)$/gm, '<li class="article-ordered-item">$1</li>');
+    .replace(/^\d+\.\s+(.*?)$/gm, '<li>$1</li>');
 
-  // Cleanup: Wrap lists in appropriate tags with proper spacing
+  // Cleanup: Wrap lists in appropriate tags
   formattedContent = formattedContent
-    .replace(/<li class="article-list-item">(.*?)(<\/li>[\s\n]*<li class="article-list-item">.*?)*<\/li>/gs, '<ul class="article-bullet-list">$&</ul>')
-    .replace(/<li class="article-ordered-item">(.*?)(<\/li>[\s\n]*<li class="article-ordered-item">.*?)*<\/li>/gs, '<ol class="article-numbered-list">$&</ol>');
+    .replace(/(<li>.*?<\/li>[\s\n]*)+/gs, (match) => {
+      return `<ul class="list-disc ml-6 my-4 space-y-2">${match}</ul>`;
+    });
 
   // Step 6: Process paragraphs - split by newlines and wrap in paragraph tags if not already processed
   const paragraphs = formattedContent.split('\n\n');
