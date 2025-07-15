@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { ExternalLink, Download } from "lucide-react";
 import Header from "@/components/Header";
@@ -17,6 +18,7 @@ interface PlaybookResource {
   disabled?: boolean;
   icon?: string;
   pdfPath?: string;
+  datePosted: string; // Added date field
   featuredIn?: {
     title: string;
     link?: string;
@@ -26,15 +28,45 @@ interface PlaybookResource {
 
 const resources: PlaybookResource[] = [
   {
-    id: "customer-predictability-index",
-    title: "Customer Predictability Index (CPI) Framework",
-    description: "A tiered framework to assess and improve customer predictability across trust, engagement, and outcomes.",
+    id: "expansion-playbook",
+    title: "Expansion Playbook",
+    description: "A lightweight framework to help you identify and nurture expansion signals across the customer journey.",
     ctaText: "View in Notion",
-    ctaLink: "https://www.notion.so/Customer-Predictability-Index-CPI-Framework-Tiered-Guide-2015d0709c9980b18354e3512b86ebff",
-    icon: "📊",
+    ctaLink: "https://www.notion.so/The-Expansion-Playbook-2315d0709c998007a494d0f646389297?source=copy_link",
+    icon: "📈",
+    datePosted: "2025-01-15", // Latest
     featuredIn: {
-      title: "The Customer Predictability Revolution",
-      link: "/newsletter/the-customer-predictability-revolution",
+      title: "The Expansion Moment Hiding in Plain Sight",
+      link: "/newsletter/the-expansion-moment-hiding-in-plain-sight",
+      comingSoon: false
+    },
+  },
+  {
+    id: "value-story-slide",
+    title: "Value Story Slide",
+    description: "A 1-slide QBR format that ties usage → outcomes → business value, with example metrics by persona and how to quantify impact even without hard ROI numbers.",
+    ctaText: "View in Notion",
+    ctaLink: "https://www.notion.so/The-Value-Story-Slide-2005d0709c99805f8f77c22747e82315?pvs=4",
+    icon: "📊",
+    pdfPath: "https://raw.githubusercontent.com/kubersethi15/churn-is-dead-site/main/public/pdfs/value-story-slide.pdf",
+    datePosted: "2025-01-08",
+    featuredIn: {
+      title: "Usage Is Not Success",
+      link: "/newsletter/usage-is-not-success",
+      comingSoon: false
+    },
+  },
+  {
+    id: "timeline-negotiator",
+    title: "Timeline Negotiator",
+    description: "A framework for negotiating realistic timelines that build trust with customers and internal stakeholders.",
+    ctaText: "View in Notion",
+    ctaLink: "https://www.notion.so/Timeline-Negotiator-1f95d0709c99808e8926eaeff56ef138?pvs=4",
+    icon: "🗓️",
+    datePosted: "2025-01-01",
+    featuredIn: {
+      title: "Their Timeline, Not Yours",
+      link: "/newsletter/their-timeline-not-yours",
       comingSoon: false
     },
   },
@@ -45,22 +77,10 @@ const resources: PlaybookResource[] = [
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/Customer-Momentum-Framework-20a5d0709c9980259ea4c3fdcc0b38b1",
     icon: "🚀",
+    datePosted: "2024-12-25",
     featuredIn: {
       title: "Customer Momentum Framework Newsletter",
       comingSoon: true
-    },
-  },
-  {
-    id: "co-op-framework",
-    title: "CO-OP Framework",
-    description: "The exact system that helped save that $2M renewal and is now being used by 10+ enterprise CS teams to increase renewal predictability and expansion velocity.",
-    ctaText: "View in Notion",
-    ctaLink: "https://www.notion.so/CO-OP-Framework-2235d0709c998059a8a4dc2c18393b25?source=copy_link",
-    icon: "🚀",
-    featuredIn: {
-      title: "The Question That's Breaking Your CS Team",
-      link: "/newsletter/the-question-thats-breaking-your-cs-team",
-      comingSoon: false
     },
   },
   {
@@ -70,6 +90,7 @@ const resources: PlaybookResource[] = [
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/Kickoff-Re-Discovery-Checklist-1f95d0709c9980cfb35ae653901a6661?pvs=4",
     icon: "📋",
+    datePosted: "2024-12-18",
     featuredIn: {
       title: "The Perfect Kickoff Call",
       link: "/newsletter/the-perfect-kickoff-call",
@@ -83,6 +104,7 @@ const resources: PlaybookResource[] = [
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/Kickoff-Agenda-Blueprint-1f95d0709c9980e1a233cdd529187a6e?pvs=4",
     icon: "📝",
+    datePosted: "2024-12-18",
     featuredIn: {
       title: "The Perfect Kickoff Call",
       link: "/newsletter/the-perfect-kickoff-call",
@@ -90,46 +112,39 @@ const resources: PlaybookResource[] = [
     },
   },
   {
-    id: "timeline-negotiator",
-    title: "Timeline Negotiator",
-    description: "A framework for negotiating realistic timelines that build trust with customers and internal stakeholders.",
+    id: "co-op-framework",
+    title: "CO-OP Framework",
+    description: "The exact system that helped save that $2M renewal and is now being used by 10+ enterprise CS teams to increase renewal predictability and expansion velocity.",
     ctaText: "View in Notion",
-    ctaLink: "https://www.notion.so/Timeline-Negotiator-1f95d0709c99808e8926eaeff56ef138?pvs=4",
-    icon: "🗓️",
+    ctaLink: "https://www.notion.so/CO-OP-Framework-2235d0709c998059a8a4dc2c18393b25?source=copy_link",
+    icon: "🚀",
+    datePosted: "2024-12-11",
     featuredIn: {
-      title: "Their Timeline, Not Yours",
-      link: "/newsletter/their-timeline-not-yours",
+      title: "The Question That's Breaking Your CS Team",
+      link: "/newsletter/the-question-thats-breaking-your-cs-team",
       comingSoon: false
     },
   },
   {
-    id: "value-story-slide",
-    title: "Value Story Slide",
-    description: "A 1-slide QBR format that ties usage → outcomes → business value, with example metrics by persona and how to quantify impact even without hard ROI numbers.",
+    id: "customer-predictability-index",
+    title: "Customer Predictability Index (CPI) Framework",
+    description: "A tiered framework to assess and improve customer predictability across trust, engagement, and outcomes.",
     ctaText: "View in Notion",
-    ctaLink: "https://www.notion.so/The-Value-Story-Slide-2005d0709c99805f8f77c22747e82315?pvs=4",
+    ctaLink: "https://www.notion.so/Customer-Predictability-Index-CPI-Framework-Tiered-Guide-2015d0709c9980b18354e3512b86ebff",
     icon: "📊",
-    pdfPath: "https://raw.githubusercontent.com/kubersethi15/churn-is-dead-site/main/public/pdfs/value-story-slide.pdf",
+    datePosted: "2024-12-04",
     featuredIn: {
-      title: "Usage Is Not Success",
-      link: "/newsletter/usage-is-not-success",
-      comingSoon: false
-    },
-  },
-  {
-    id: "expansion-playbook",
-    title: "Expansion Playbook",
-    description: "A lightweight framework to help you identify and nurture expansion signals across the customer journey.",
-    ctaText: "View in Notion",
-    ctaLink: "https://www.notion.so/The-Expansion-Playbook-2315d0709c998007a494d0f646389297?source=copy_link",
-    icon: "📈",
-    featuredIn: {
-      title: "The Expansion Moment Hiding in Plain Sight",
-      link: "/newsletter/the-expansion-moment-hiding-in-plain-sight",
+      title: "The Customer Predictability Revolution",
+      link: "/newsletter/the-customer-predictability-revolution",
       comingSoon: false
     },
   },
 ];
+
+// Sort resources by date (latest first)
+const sortedResources = [...resources].sort((a, b) => 
+  new Date(b.datePosted).getTime() - new Date(a.datePosted).getTime()
+);
 
 const PlaybookVault = () => {
   // Scroll to top when component mounts
@@ -152,6 +167,15 @@ const PlaybookVault = () => {
     document.body.removeChild(link);
     
     console.log("PDF download triggered successfully");
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
   };
 
   return (
@@ -181,16 +205,21 @@ const PlaybookVault = () => {
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {resources.map((resource) => (
+              {sortedResources.map((resource) => (
                 <Card key={resource.id} className="bg-white border shadow-md hover:shadow-lg transition-shadow duration-300">
                   <CardHeader className="pb-2">
-                    <div className="flex items-start">
-                      {resource.icon && (
-                        <span className="text-2xl mr-3">{resource.icon}</span>
-                      )}
-                      <h3 className="text-xl font-serif font-bold text-navy-dark">
-                        {resource.title}
-                      </h3>
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-start">
+                        {resource.icon && (
+                          <span className="text-2xl mr-3">{resource.icon}</span>
+                        )}
+                        <h3 className="text-xl font-serif font-bold text-navy-dark">
+                          {resource.title}
+                        </h3>
+                      </div>
+                      <div className="text-sm text-gray-500 ml-4">
+                        {formatDate(resource.datePosted)}
+                      </div>
                     </div>
                   </CardHeader>
                   <CardContent>
@@ -252,7 +281,7 @@ const PlaybookVault = () => {
             </div>
 
             {/* Empty State: Show this when no resources are available */}
-            {resources.length === 0 && (
+            {sortedResources.length === 0 && (
               <div className="text-center py-12">
                 <p className="text-lg text-gray-500">
                   More resources coming soon! Check back regularly for updates.
