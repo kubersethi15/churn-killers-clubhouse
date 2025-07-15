@@ -46,19 +46,19 @@ export const formatContent = (content: string) => {
     // Italic text - only match complete pairs of *
     .replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em>$1</em>');
 
-  // Step 5: Process lists - Updated to handle both * and - bullet points with better spacing
+  // Step 5: Process lists - Updated to handle both * and - bullet points with better spacing and consistent formatting
   formattedContent = formattedContent
-    // Convert unordered lists with asterisk
-    .replace(/^\* (.*?)$/gm, '<li class="ml-6 list-disc mb-3">$1</li>')
-    // Convert unordered lists with dash
-    .replace(/^- (.*?)$/gm, '<li class="ml-6 list-disc mb-3">$1</li>')
+    // Convert unordered lists with asterisk - ensure consistent spacing
+    .replace(/^\* (.*?)$/gm, '<li class="ml-6 list-disc mb-3 text-left">$1</li>')
+    // Convert unordered lists with dash - ensure consistent spacing
+    .replace(/^- (.*?)$/gm, '<li class="ml-6 list-disc mb-3 text-left">$1</li>')
     // Convert ordered lists - improved spacing
-    .replace(/^\d+\.\s+(.*?)$/gm, '<li class="ml-6 list-decimal mb-4 leading-relaxed">$1</li>');
+    .replace(/^\d+\.\s+(.*?)$/gm, '<li class="ml-6 list-decimal mb-4 leading-relaxed text-left">$1</li>');
 
   // Cleanup: Wrap lists in appropriate tags with better spacing
   formattedContent = formattedContent
-    .replace(/<li class="ml-6 list-disc mb-3">(.*?)(<\/li>[\s\n]*<li class="ml-6 list-disc mb-3">.*?)*<\/li>/gs, '<ul class="my-6 space-y-2">$&</ul>')
-    .replace(/<li class="ml-6 list-decimal mb-4 leading-relaxed">(.*?)(<\/li>[\s\n]*<li class="ml-6 list-decimal mb-4 leading-relaxed">.*?)*<\/li>/gs, '<ol class="my-6 space-y-3">$&</ol>');
+    .replace(/<li class="ml-6 list-disc mb-3 text-left">(.*?)(<\/li>[\s\n]*<li class="ml-6 list-disc mb-3 text-left">.*?)*<\/li>/gs, '<ul class="my-6 space-y-2 pl-0">$&</ul>')
+    .replace(/<li class="ml-6 list-decimal mb-4 leading-relaxed text-left">(.*?)(<\/li>[\s\n]*<li class="ml-6 list-decimal mb-4 leading-relaxed text-left">.*?)*<\/li>/gs, '<ol class="my-6 space-y-3 pl-0">$&</ol>');
 
   // Step 6: Process paragraphs - split by newlines and wrap in paragraph tags if not already processed
   const paragraphs = formattedContent.split('\n\n');
