@@ -18,7 +18,7 @@ interface PlaybookResource {
   disabled?: boolean;
   icon?: string;
   pdfPath?: string;
-  datePosted: string; // Added date field
+  datePosted: string;
   featuredIn?: {
     title: string;
     link?: string;
@@ -34,7 +34,7 @@ const resources: PlaybookResource[] = [
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/The-Expansion-Playbook-2315d0709c998007a494d0f646389297?source=copy_link",
     icon: "📈",
-    datePosted: "2025-01-15", // Latest
+    datePosted: "2025-01-14", // The Expansion Moment Hiding in Plain Sight newsletter date
     featuredIn: {
       title: "The Expansion Moment Hiding in Plain Sight",
       link: "/newsletter/the-expansion-moment-hiding-in-plain-sight",
@@ -49,7 +49,7 @@ const resources: PlaybookResource[] = [
     ctaLink: "https://www.notion.so/The-Value-Story-Slide-2005d0709c99805f8f77c22747e82315?pvs=4",
     icon: "📊",
     pdfPath: "https://raw.githubusercontent.com/kubersethi15/churn-is-dead-site/main/public/pdfs/value-story-slide.pdf",
-    datePosted: "2025-01-08",
+    datePosted: "2025-01-07", // Usage Is Not Success newsletter date
     featuredIn: {
       title: "Usage Is Not Success",
       link: "/newsletter/usage-is-not-success",
@@ -63,7 +63,7 @@ const resources: PlaybookResource[] = [
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/Timeline-Negotiator-1f95d0709c99808e8926eaeff56ef138?pvs=4",
     icon: "🗓️",
-    datePosted: "2025-01-01",
+    datePosted: "2024-12-31", // Their Timeline, Not Yours newsletter date
     featuredIn: {
       title: "Their Timeline, Not Yours",
       link: "/newsletter/their-timeline-not-yours",
@@ -77,7 +77,7 @@ const resources: PlaybookResource[] = [
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/Customer-Momentum-Framework-20a5d0709c9980259ea4c3fdcc0b38b1",
     icon: "🚀",
-    datePosted: "2024-12-25",
+    datePosted: "2024-12-24", // Customer Momentum Framework Newsletter date (coming soon)
     featuredIn: {
       title: "Customer Momentum Framework Newsletter",
       comingSoon: true
@@ -90,7 +90,7 @@ const resources: PlaybookResource[] = [
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/Kickoff-Re-Discovery-Checklist-1f95d0709c9980cfb35ae653901a6661?pvs=4",
     icon: "📋",
-    datePosted: "2024-12-18",
+    datePosted: "2024-12-17", // The Perfect Kickoff Call newsletter date
     featuredIn: {
       title: "The Perfect Kickoff Call",
       link: "/newsletter/the-perfect-kickoff-call",
@@ -104,7 +104,7 @@ const resources: PlaybookResource[] = [
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/Kickoff-Agenda-Blueprint-1f95d0709c9980e1a233cdd529187a6e?pvs=4",
     icon: "📝",
-    datePosted: "2024-12-18",
+    datePosted: "2024-12-17", // The Perfect Kickoff Call newsletter date (same newsletter)
     featuredIn: {
       title: "The Perfect Kickoff Call",
       link: "/newsletter/the-perfect-kickoff-call",
@@ -118,7 +118,7 @@ const resources: PlaybookResource[] = [
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/CO-OP-Framework-2235d0709c998059a8a4dc2c18393b25?source=copy_link",
     icon: "🚀",
-    datePosted: "2024-12-11",
+    datePosted: "2024-12-10", // The Question That's Breaking Your CS Team newsletter date
     featuredIn: {
       title: "The Question That's Breaking Your CS Team",
       link: "/newsletter/the-question-thats-breaking-your-cs-team",
@@ -132,7 +132,7 @@ const resources: PlaybookResource[] = [
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/Customer-Predictability-Index-CPI-Framework-Tiered-Guide-2015d0709c9980b18354e3512b86ebff",
     icon: "📊",
-    datePosted: "2024-12-04",
+    datePosted: "2024-12-03", // The Customer Predictability Revolution newsletter date
     featuredIn: {
       title: "The Customer Predictability Revolution",
       link: "/newsletter/the-customer-predictability-revolution",
