@@ -15,17 +15,19 @@ export const formatContent = (content: string) => {
 
   // Normalize line endings and whitespace
   const normalized = content.replace(/\r\n/g, '\n').replace(/\u00A0/g, ' ');
+  // Fix cases where HR and heading are on the same line like "--- ## Heading"
+  const preprocessed = normalized.replace(/---\s+(?=#+\s)/g, '---\n');
 
   // Step 1: Process headers with markdown-like syntax
-  let formattedContent = normalized
-    // Format H1 (#) - Added this line to handle single # headings
-    .replace(/^# (.*?)(\n|$)/gm, '<h1 class="text-3xl font-bold mt-10 mb-6">$1</h1>')
+  let formattedContent = preprocessed
+    // Format H1 (#)
+    .replace(/^\s*#\s+(.*?)(\n|$)/gm, '<h1 class="text-3xl font-bold mt-10 mb-6">$1</h1>')
     // Format H2 (##)
-    .replace(/^## (.*?)(\n|$)/gm, '<h2 class="text-2xl font-bold mt-8 mb-4">$1</h2>')
+    .replace(/^\s*##\s+(.*?)(\n|$)/gm, '<h2 class="text-2xl font-bold mt-8 mb-4">$1</h2>')
     // Format H3 (###)
-    .replace(/^### (.*?)(\n|$)/gm, '<h3 class="text-xl font-bold mt-6 mb-3">$1</h3>')
+    .replace(/^\s*###\s+(.*?)(\n|$)/gm, '<h3 class="text-xl font-bold mt-6 mb-3">$1</h3>')
     // Format H4 (####)
-    .replace(/^#### (.*?)(\n|$)/gm, '<h4 class="text-lg font-bold mt-5 mb-2">$1</h4>');
+    .replace(/^\s*####\s+(.*?)(\n|$)/gm, '<h4 class="text-lg font-bold mt-5 mb-2">$1</h4>');
 
   // Step 2: Process tables before other formatting
   formattedContent = processMarkdownTables(formattedContent);
@@ -33,7 +35,7 @@ export const formatContent = (content: string) => {
   // Step 3: Process block elements
   formattedContent = formattedContent
     // Format blockquotes
-    .replace(/> (.*?)(\n|$)/g, '<blockquote class="border-l-4 border-navy pl-4 italic my-6 text-gray-700">$1</blockquote>')
+    .replace(/^\s*>\s+(.*?)(\n|$)/gm, '<blockquote class="border-l-4 border-navy pl-4 italic my-6 text-gray-700">$1</blockquote>')
     // Format horizontal rule
     .replace(/^\s*---+\s*$/gm, '<hr class="my-8 border-t border-gray-200" />');
 
