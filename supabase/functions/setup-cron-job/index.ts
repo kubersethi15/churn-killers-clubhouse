@@ -69,15 +69,15 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Cron job setup completed successfully");
 
-    // Calculate next Tuesday at 11:00 PM AEST for display
+    // Calculate next Tuesday at 6:00 PM AEST for display
     const nextTuesday = new Date();
     const daysUntilTuesday = (2 + 7 - nextTuesday.getDay()) % 7;
     nextTuesday.setDate(nextTuesday.getDate() + (daysUntilTuesday || 7));
-    nextTuesday.setHours(23, 0, 0, 0);
+    nextTuesday.setHours(18, 0, 0, 0);
     
     // If today is Tuesday and it's before 11 PM, use today
     const now = new Date();
-    if (now.getDay() === 2 && now.getHours() < 23) {
+    if (now.getDay() === 2 && now.getHours() < 18) {
       nextTuesday.setDate(now.getDate());
     }
     
@@ -95,10 +95,10 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response(
       JSON.stringify({
         success: true,
-        message: "Newsletter cron job successfully configured for weekly delivery at 11:00 PM AEST!",
+        message: "Newsletter cron job successfully configured for weekly delivery at 6:00 PM AEST!",
         recurringSchedule: {
-          description: "Every Tuesday at 11:00 PM AEST (1:00 PM UTC)",
-          cronExpression: "0 13 * * 2",
+          description: "Every Tuesday at 6:00 PM AEST (8:00 AM UTC)",
+          cronExpression: "0 8 * * 2",
           nextScheduledRun: formattedNextTuesday
         },
         endpoint: `${supabaseUrl}/functions/v1/send-latest-newsletter`,
