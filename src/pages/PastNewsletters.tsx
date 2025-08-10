@@ -102,7 +102,12 @@ const PastNewsletters = () => {
     const fetchNewsletters = async () => {
       setLoading(true);
       try {
-        let query = supabase.from("newsletters").select("*").order("published_date", { ascending: sortOrder === "asc" });
+        const nowIso = new Date().toISOString();
+        let query = supabase
+          .from("newsletters")
+          .select("*")
+          .lte("published_date", nowIso)
+          .order("published_date", { ascending: sortOrder === "asc" });
         
         if (activeFilter !== "All") {
           query = query.eq("category", activeFilter);

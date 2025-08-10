@@ -39,9 +39,10 @@ const Index = () => {
         const { data, error } = await supabase
           .from("newsletters")
           .select("*")
+          .lte("published_date", new Date().toISOString())
           .order("published_date", { ascending: false })
           .limit(1)
-          .single();
+          .maybeSingle();
 
         if (error) {
           console.error("Error fetching newsletters:", error);

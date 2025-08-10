@@ -27,6 +27,7 @@ export const useNewsletter = (slug: string | undefined) => {
           .from("newsletters")
           .select("*")
           .eq("slug", slug)
+          .lte("published_date", new Date().toISOString())
           .maybeSingle();
           
         if (exactMatch) {
@@ -43,7 +44,8 @@ export const useNewsletter = (slug: string | undefined) => {
         
         const { data: allNewsletters, error: listError } = await supabase
           .from("newsletters")
-          .select("*");
+          .select("*")
+          .lte("published_date", new Date().toISOString());
           
         if (listError) {
           console.error("Error fetching newsletters list:", listError);
