@@ -13,8 +13,11 @@ export const formatDate = (dateString: string) => {
 export const formatContent = (content: string) => {
   if (!content) return "";
 
+  // Normalize line endings and whitespace
+  const normalized = content.replace(/\r\n/g, '\n').replace(/\u00A0/g, ' ');
+
   // Step 1: Process headers with markdown-like syntax
-  let formattedContent = content
+  let formattedContent = normalized
     // Format H1 (#) - Added this line to handle single # headings
     .replace(/^# (.*?)(\n|$)/gm, '<h1 class="text-3xl font-bold mt-10 mb-6">$1</h1>')
     // Format H2 (##)
@@ -32,7 +35,7 @@ export const formatContent = (content: string) => {
     // Format blockquotes
     .replace(/> (.*?)(\n|$)/g, '<blockquote class="border-l-4 border-navy pl-4 italic my-6 text-gray-700">$1</blockquote>')
     // Format horizontal rule
-    .replace(/---+/g, '<hr class="my-8 border-t border-gray-200" />');
+    .replace(/^\s*---+\s*$/gm, '<hr class="my-8 border-t border-gray-200" />');
 
   // Step 4: Process text formatting - improved to handle incomplete formatting
   formattedContent = formattedContent
@@ -45,41 +48,41 @@ export const formatContent = (content: string) => {
     // Italic text - only match complete pairs of *
     .replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em>$1</em>');
 
-  // Step 5: Process lists - MINIMAL formatting, let browser handle alignment
-  formattedContent = formattedContent
-    // Convert unordered lists - simple approach
-    .replace(/^[\-\*\•]\s+(.*?)$/gm, '<li>$1</li>')
-    // Convert ordered lists
-    .replace(/^\d+\.\s+(.*?)$/gm, '<li>$1</li>');
+  // Step 5: Process lists - handle ordered and unordered blocks
+  // Ordered list blocks
+  formattedContent = formattedContent.replace(/(^|\n)(\d+\.\s+[^\n]+(?:\n\d+\.\s+[^\n]+)*)/gm, (_m, p1, block) => {
+    const items = block.split('\n').map(line => line.replace(/^\d+\.\s+/, '').trim());
+    return `${p1}<ol class="list-decimal ml-6 my-4 space-y-2">${items.map(i => `<li>${i}</li>`).join('')}</ol>`;
+  });
+  // Unordered list blocks
+  formattedContent = formattedContent.replace(/(^|\n)([-*]\s+[^\n]+(?:\n[-*]\s+[^\n]+)*)/gm, (_m, p1, block) => {
+    const items = block.split('\n').map(line => line.replace(/^[-*]\s+/, '').trim());
+    return `${p1}<ul class="list-disc ml-6 my-4 space-y-2">${items.map(i => `<li>${i}</li>`).join('')}</ul>`;
+  });
 
-  // Cleanup: Wrap lists in appropriate tags
-  formattedContent = formattedContent
-    .replace(/(<li>.*?<\/li>[\s\n]*)+/gs, (match) => {
-      return `<ul class="list-disc ml-6 my-4 space-y-2">${match}</ul>`;
-    });
-
-  // Step 6: Process paragraphs - split by newlines and wrap in paragraph tags if not already processed
-  const paragraphs = formattedContent.split('\n\n');
+  // Step 6: Process paragraphs - split on blank lines and preserve single line breaks
+  const paragraphs = formattedContent.split(/\n{2,}/);
   formattedContent = paragraphs.map(paragraph => {
-    // Skip already processed elements (tags)
-    if (paragraph.trim().startsWith('<') && paragraph.trim().endsWith('>')) {
+    const trimmed = paragraph.trim();
+    if (trimmed === '') return '';
+
+    // Skip wrapping if block-level tags present
+    if (/(<\/?(h[1-6]|ul|ol|li|blockquote|table|hr)[\s>])/i.test(trimmed)) {
       return paragraph;
     }
-    
-    // Skip empty paragraphs
-    if (paragraph.trim() === '') {
-      return '';
-    }
-    
+
     // Process pull quotes with a special syntax [QUOTE] text [/QUOTE]
-    if (paragraph.includes('[QUOTE]') && paragraph.includes('[/QUOTE]')) {
-      return paragraph
-        .replace(/\[QUOTE\](.*?)\[\/QUOTE\]/g, 
+    if (trimmed.includes('[QUOTE]') && trimmed.includes('[/QUOTE]')) {
+      return trimmed
+        .replace(/\[QUOTE\](.*?)\[\/QUOTE\]/g,
           '<div class="my-8 px-6 py-4 bg-gray-50 border-l-4 border-navy-light italic text-xl text-gray-700 font-serif">$1</div>');
     }
-    
+
+    // Convert single line breaks to <br />
+    const withBreaks = trimmed.replace(/\n/g, '<br />');
+
     // Wrap normal paragraphs
-    return `<p class="mb-6 leading-relaxed">${paragraph}</p>`;
+    return `<p class="mb-6 leading-relaxed">${withBreaks}</p>`;
   }).join('');
 
   return formattedContent;

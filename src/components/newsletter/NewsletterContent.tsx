@@ -34,25 +34,12 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
     <section className="py-16 md:py-24">
       <div className="container mx-auto px-4 md:px-6">
         <div className="max-w-3xl mx-auto prose prose-lg">
-          {/* Article intro section - now with bold text */}
-        <div 
-          className="text-xl font-bold text-gray-700 mb-10 leading-relaxed"
-          dangerouslySetInnerHTML={{
-            __html: formatContent(newsletter.content.split('\n\n')[0])
-          }}
-        />
-          
-          <Separator className="my-8" />
-          
-          {/* Article main content with enhanced formatting */}
+          {/* Article content - full content rendered with formatter */}
           <div 
-            className="article-content" 
+            className="article-content"
             dangerouslySetInnerHTML={{ 
-              __html: formatContent(newsletter.content.split('\n\n').slice(1).join('\n\n')) 
+              __html: formatContent(newsletter.content)
             }} 
-            style={{
-              '--list-item-spacing': '12px'
-            } as React.CSSProperties}
           />
           
           {/* Vault Resources Section - Right after content ends */}
