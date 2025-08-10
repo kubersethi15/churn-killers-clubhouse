@@ -4,12 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { isPreviewMode, enablePreviewMode, disablePreviewMode } from "@/utils/preview";
 
 const AdminPanel = () => {
   const [testEmail, setTestEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [cronSetup, setCronSetup] = useState(false);
-  const { toast } = useToast();
+const { toast } = useToast();
+  const [preview, setPreview] = useState(false);
 
   // Automatically set up the cron job when component loads
   useEffect(() => {
@@ -40,6 +42,10 @@ const AdminPanel = () => {
 
     setupAutomaticCron();
   }, [toast]);
+
+  useEffect(() => {
+    setPreview(isPreviewMode());
+  }, []);
 
   const sendTestNewsletter = async () => {
     if (!testEmail) {
@@ -159,9 +165,40 @@ const AdminPanel = () => {
     }
   };
 
+  const handleEnablePreview = () => {
+    enablePreviewMode(6);
+    setPreview(true);
+    toast({
+      title: "Preview mode enabled",
+      description: "Future-dated posts are visible only to you for 6 hours.",
+    });
+    setTimeout(() => window.location.reload(), 300);
+  };
+
+  const handleDisablePreview = () => {
+    disablePreviewMode();
+    setPreview(false);
+    toast({ title: "Preview mode disabled" });
+    setTimeout(() => window.location.reload(), 300);
+  };
+
   return (
     <div className="fixed bottom-4 right-4 bg-white border border-gray-200 rounded-lg shadow-lg p-4 w-80 z-50">
       <h3 className="text-lg font-semibold mb-4 text-navy-dark">Admin Panel</h3>
+      
+      <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm font-medium text-blue-800">Preview Mode {preview ? 'On' : 'Off'}</p>
+            <p className="text-xs text-blue-700">When enabled, future-dated posts are visible only in this browser.</p>
+          </div>
+          {preview ? (
+            <Button size="sm" variant="outline" onClick={handleDisablePreview}>Disable</Button>
+          ) : (
+            <Button size="sm" onClick={handleEnablePreview}>Enable</Button>
+          )}
+        </div>
+      </div>
       
       {cronSetup && (
         <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">

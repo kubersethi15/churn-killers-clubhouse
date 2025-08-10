@@ -6,6 +6,7 @@ import NewsletterCard from "@/components/NewsletterCard";
 import NewsletterForm from "@/components/NewsletterForm";
 import ContactDialog from "@/components/ContactDialog";
 import { supabase } from "@/integrations/supabase/client";
+import { isPreviewMode } from "@/utils/preview";
 import { format } from "date-fns";
 import { Handshake, DollarSign, Target, ChevronDown, ChevronUp } from "lucide-react";
 import {
@@ -106,8 +107,10 @@ const PastNewsletters = () => {
         let query = supabase
           .from("newsletters")
           .select("*")
-          .lte("published_date", nowIso)
           .order("published_date", { ascending: sortOrder === "asc" });
+        if (!isPreviewMode()) {
+          query = query.lte("published_date", nowIso);
+        }
         
         if (activeFilter !== "All") {
           query = query.eq("category", activeFilter);

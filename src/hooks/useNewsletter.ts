@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Newsletter } from "@/types/newsletter";
+import { isPreviewMode } from "@/utils/preview";
 
 export const useNewsletter = (slug: string | undefined) => {
   const [newsletter, setNewsletter] = useState<Newsletter | null>(null);
@@ -23,12 +24,14 @@ export const useNewsletter = (slug: string | undefined) => {
         console.log(`Fetching newsletter with slug: "${slug}"`);
         
         // First, try exact match
-        const { data: exactMatch, error: exactError } = await supabase
+        let exactQuery = supabase
           .from("newsletters")
           .select("*")
-          .eq("slug", slug)
-          .lte("published_date", new Date().toISOString())
-          .maybeSingle();
+          .eq("slug", slug);
+        if (!isPreviewMode()) {
+          exactQuery = exactQuery.lte("published_date", new Date().toISOString());
+        }
+        const { data: exactMatch, error: exactError } = await exactQuery.maybeSingle();
           
         if (exactMatch) {
           console.log("Found newsletter with exact slug match");
@@ -42,10 +45,13 @@ export const useNewsletter = (slug: string | undefined) => {
         // If no exact match, try fuzzy matching
         console.log("No exact match found, trying fuzzy matching");
         
-        const { data: allNewsletters, error: listError } = await supabase
+        let listQuery = supabase
           .from("newsletters")
-          .select("*")
-          .lte("published_date", new Date().toISOString());
+          .select("*");
+        if (!isPreviewMode()) {
+          listQuery = listQuery.lte("published_date", new Date().toISOString());
+        }
+        const { data: allNewsletters, error: listError } = await listQuery;
           
         if (listError) {
           console.error("Error fetching newsletters list:", listError);

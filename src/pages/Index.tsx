@@ -11,6 +11,7 @@ import { format } from "date-fns";
 import ContactDialog from "@/components/ContactDialog";
 import Footer from "@/components/Footer";
 import AdminPanel from "@/components/AdminPanel";
+import { isPreviewMode } from "@/utils/preview";
 
 type Newsletter = {
   id: string;
@@ -36,13 +37,15 @@ const Index = () => {
   useEffect(() => {
     const fetchLatestNewsletter = async () => {
       try {
-        const { data, error } = await supabase
+        let query = supabase
           .from("newsletters")
           .select("*")
-          .lte("published_date", new Date().toISOString())
           .order("published_date", { ascending: false })
-          .limit(1)
-          .maybeSingle();
+          .limit(1);
+        if (!isPreviewMode()) {
+          query = query.lte("published_date", new Date().toISOString());
+        }
+        const { data, error } = await query.maybeSingle();
 
         if (error) {
           console.error("Error fetching newsletters:", error);
