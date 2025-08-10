@@ -12,6 +12,7 @@ import ContactDialog from "@/components/ContactDialog";
 import Footer from "@/components/Footer";
 import AdminPanel from "@/components/AdminPanel";
 import { isPreviewMode } from "@/utils/preview";
+import { formatContent as formatNewsletterContent } from "@/utils/formatUtils";
 
 type Newsletter = {
   id: string;
@@ -130,9 +131,10 @@ const Index = () => {
                           <span>•</span>
                           <span>{latestNewsletter.read_time}</span>
                         </div>
-                        <p className="text-gray-700 text-lg mb-6 leading-relaxed">
-                          {latestNewsletter.excerpt}
-                        </p>
+                        <div
+                          className="text-gray-700 text-lg mb-6 leading-relaxed article-content"
+                          dangerouslySetInnerHTML={{ __html: (latestNewsletter.excerpt ? formatNewsletterContent(latestNewsletter.excerpt) : '') }}
+                        />
                         <Button 
                           className="bg-red-600 hover:bg-red-700 text-white"
                           asChild
