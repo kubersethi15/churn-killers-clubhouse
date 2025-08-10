@@ -35,9 +35,12 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
       <div className="container mx-auto px-4 md:px-6">
         <div className="max-w-3xl mx-auto prose prose-lg">
           {/* Article intro section - now with bold text */}
-          <div className="text-xl font-bold text-gray-700 mb-10 leading-relaxed">
-            {newsletter.content.split('\n\n')[0]}
-          </div>
+        <div 
+          className="text-xl font-bold text-gray-700 mb-10 leading-relaxed"
+          dangerouslySetInnerHTML={{
+            __html: formatContent(newsletter.content.split('\n\n')[0])
+          }}
+        />
           
           <Separator className="my-8" />
           
