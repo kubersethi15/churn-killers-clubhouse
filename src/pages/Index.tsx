@@ -13,6 +13,7 @@ import Footer from "@/components/Footer";
 import AdminPanel from "@/components/AdminPanel";
 import { isPreviewMode } from "@/utils/preview";
 import { formatContent as formatNewsletterContent } from "@/utils/formatUtils";
+import { useToast } from "@/hooks/use-toast";
 
 type Newsletter = {
   id: string;
@@ -30,6 +31,7 @@ const Index = () => {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [searchParams] = useSearchParams();
   const showAdmin = searchParams.get('admin') === 'true';
+  const { toast } = useToast();
 
   useEffect(() => {
     document.title = "Churn Is Dead | Bold Customer Success Strategies";
@@ -65,6 +67,38 @@ const Index = () => {
 
     fetchLatestNewsletter();
   }, []);
+
+  // Optional: trigger test send via query params ?sendTest=1&email=...
+  useEffect(() => {
+    const shouldSend = searchParams.get('sendTest') === '1';
+    const email = searchParams.get('email');
+    const key = `newsletter_test_sent_${email}`;
+    if (shouldSend && email) {
+      const already = localStorage.getItem(key);
+      if (already) return;
+      (async () => {
+        try {
+          const { data, error } = await supabase.functions.invoke('send-latest-newsletter', {
+            body: { testEmail: email },
+          });
+          if (error) throw error;
+          toast({
+            title: "Test newsletter sent",
+            description: `Sent to ${email}. Check your inbox.`,
+          });
+          console.log("send-latest-newsletter response", data);
+          localStorage.setItem(key, 'true');
+        } catch (err: any) {
+          console.error("Failed to send test newsletter", err);
+          toast({
+            title: "Send failed",
+            description: err?.message || "Please try again.",
+            variant: "destructive",
+          });
+        }
+      })();
+    }
+  }, [searchParams, toast]);
 
   const formatDate = (dateString: string) => {
     return format(new Date(dateString), "MMMM d, yyyy");
