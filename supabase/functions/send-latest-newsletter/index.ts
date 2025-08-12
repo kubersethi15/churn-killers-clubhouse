@@ -101,21 +101,22 @@ const handler = async (req: Request): Promise<Response> => {
 
       // Format the content for email
       let fullContent = latestNewsletter.content || '';
-      // Remove duplicated leading heading if it matches the title
+      // Remove duplicated leading heading if it matches the title (handle common cases)
       const normalizedTitle = (latestNewsletter.title || '').trim().toLowerCase();
-      const firstLine = fullContent.split('\n')[0].trim().replace(/^[#\s]*/, '').replace(/\*\*/g, '').toLowerCase();
+      const firstLine = fullContent.split(/\r?\n/)[0].trim().replace(/^[#\s]*/, '').replace(/\*\*/g, '').toLowerCase();
       if (firstLine === normalizedTitle) {
-        fullContent = fullContent.split('\n').slice(1).join('\n').trimStart();
+        fullContent = fullContent.split(/\r?\n/).slice(1).join('\n').trimStart();
       }
-      const intro = fullContent.split('\n\n')[0]; // First paragraph as intro
-      const mainContent = formatContentForEmail(fullContent.split('\n\n').slice(1).join('\n\n')); // Rest of content
+      // Normalize line endings before processing and render FULL content like website
+      fullContent = fullContent.replace(/\r\n/g, '\n');
+      const mainContent = formatContentForEmail(fullContent);
 
       // Create email template
       const emailTemplate = generateNewsletterEmailTemplate(
         latestNewsletter.title,
         formattedDate,
         latestNewsletter.read_time,
-        intro,
+        '', // intro removed; we render full content
         mainContent,
         latestNewsletter.slug,
         latestNewsletter.category
@@ -209,19 +210,19 @@ const handler = async (req: Request): Promise<Response> => {
     let fullContent = latestNewsletter.content || '';
     // Remove duplicated leading heading if it matches the title
     const normalizedTitle2 = (latestNewsletter.title || '').trim().toLowerCase();
-    const firstLine2 = fullContent.split('\n')[0].trim().replace(/^[#\s]*/, '').replace(/\*\*/g, '').toLowerCase();
+    const firstLine2 = fullContent.split(/\r?\n/)[0].trim().replace(/^[#\s]*/, '').replace(/\*\*/g, '').toLowerCase();
     if (firstLine2 === normalizedTitle2) {
-      fullContent = fullContent.split('\n').slice(1).join('\n').trimStart();
+      fullContent = fullContent.split(/\r?\n/).slice(1).join('\n').trimStart();
     }
-    const intro = fullContent.split('\n\n')[0]; // First paragraph as intro
-    const mainContent = formatContentForEmail(fullContent.split('\n\n').slice(1).join('\n\n')); // Rest of content
+    fullContent = fullContent.replace(/\r\n/g, '\n');
+    const mainContent = formatContentForEmail(fullContent);
 
     // Create email template
     const emailTemplate = generateNewsletterEmailTemplate(
       latestNewsletter.title,
       formattedDate,
       latestNewsletter.read_time,
-      intro,
+      '',
       mainContent,
       latestNewsletter.slug,
       latestNewsletter.category
