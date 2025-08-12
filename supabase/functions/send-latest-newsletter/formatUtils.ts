@@ -9,23 +9,26 @@
 export const formatContentForEmail = (content: string) => {
   if (!content) return "";
 
-  // Step 1: Process headers with markdown-like syntax
+  // Normalize line endings and fix HR-heading adjacency like '--- ##'
+  content = content.replace(/\r\n/g, '\n').replace(/---\s*##/g, '---\n\n##');
+
+  // Step 1: Process headers with markdown-like syntax (allow leading spaces)
   let formattedContent = content
-    // Format H1 (#) - Added this line to handle single # headings
-    .replace(/^# (.*?)(\n|$)/gm, '<h1 style="font-size: 26px; margin-top: 30px; margin-bottom: 20px; font-weight: bold; color: #172554;">$1</h1>')
+    // Format H1 (#)
+    .replace(/^\s*#\s+(.*?)(\n|$)/gm, '<h1 style="font-size: 26px; margin-top: 30px; margin-bottom: 20px; font-weight: bold; color: #172554;">$1</h1>')
     // Format H2 (##)
-    .replace(/^## (.*?)(\n|$)/gm, '<h2 style="font-size: 22px; margin-top: 25px; margin-bottom: 15px; font-weight: bold; color: #172554;">$1</h2>')
+    .replace(/^\s*##\s+(.*?)(\n|$)/gm, '<h2 style="font-size: 22px; margin-top: 25px; margin-bottom: 15px; font-weight: bold; color: #172554;">$1</h2>')
     // Format H3 (###)
-    .replace(/^### (.*?)(\n|$)/gm, '<h3 style="font-size: 18px; margin-top: 20px; margin-bottom: 10px; font-weight: bold; color: #172554;">$1</h3>')
+    .replace(/^\s*###\s+(.*?)(\n|$)/gm, '<h3 style="font-size: 18px; margin-top: 20px; margin-bottom: 10px; font-weight: bold; color: #172554;">$1</h3>')
     // Format H4 (####)
-    .replace(/^#### (.*?)(\n|$)/gm, '<h4 style="font-size: 16px; margin-top: 18px; margin-bottom: 10px; font-weight: bold; color: #172554;">$1</h4>');
+    .replace(/^\s*####\s+(.*?)(\n|$)/gm, '<h4 style="font-size: 16px; margin-top: 18px; margin-bottom: 10px; font-weight: bold; color: #172554;">$1</h4>');
 
   // Step 2: Process block elements
   formattedContent = formattedContent
-    // Format blockquotes
-    .replace(/> (.*?)(\n|$)/g, '<blockquote style="border-left: 4px solid #172554; padding-left: 15px; font-style: italic; margin: 20px 0; color: #4b5563;">$1</blockquote>')
-    // Format horizontal rule
-    .replace(/---+/g, '<hr style="margin: 25px 0; border: 0; border-top: 1px solid #e5e7eb;" />');
+    // Format blockquotes (allow leading spaces)
+    .replace(/^\s*>\s+(.*?)(\n|$)/gm, '<blockquote style="border-left: 4px solid #172554; padding-left: 15px; font-style: italic; margin: 20px 0; color: #4b5563;">$1</blockquote>')
+    // Format horizontal rule (line with only hyphens)
+    .replace(/^\s*---+\s*$/gm, '<hr style="margin: 25px 0; border: 0; border-top: 1px solid #e5e7eb;" />');
 
   // Step 3: Process text formatting - improved to handle incomplete formatting
   formattedContent = formattedContent

@@ -100,7 +100,13 @@ const handler = async (req: Request): Promise<Response> => {
       });
 
       // Format the content for email
-      const fullContent = latestNewsletter.content;
+      let fullContent = latestNewsletter.content || '';
+      // Remove duplicated leading heading if it matches the title
+      const normalizedTitle = (latestNewsletter.title || '').trim().toLowerCase();
+      const firstLine = fullContent.split('\n')[0].trim().replace(/^[#\s]*/, '').replace(/\*\*/g, '').toLowerCase();
+      if (firstLine === normalizedTitle) {
+        fullContent = fullContent.split('\n').slice(1).join('\n').trimStart();
+      }
       const intro = fullContent.split('\n\n')[0]; // First paragraph as intro
       const mainContent = formatContentForEmail(fullContent.split('\n\n').slice(1).join('\n\n')); // Rest of content
 
@@ -200,7 +206,13 @@ const handler = async (req: Request): Promise<Response> => {
     });
 
     // Format the content for email
-    const fullContent = latestNewsletter.content;
+    let fullContent = latestNewsletter.content || '';
+    // Remove duplicated leading heading if it matches the title
+    const normalizedTitle2 = (latestNewsletter.title || '').trim().toLowerCase();
+    const firstLine2 = fullContent.split('\n')[0].trim().replace(/^[#\s]*/, '').replace(/\*\*/g, '').toLowerCase();
+    if (firstLine2 === normalizedTitle2) {
+      fullContent = fullContent.split('\n').slice(1).join('\n').trimStart();
+    }
     const intro = fullContent.split('\n\n')[0]; // First paragraph as intro
     const mainContent = formatContentForEmail(fullContent.split('\n\n').slice(1).join('\n\n')); // Rest of content
 
