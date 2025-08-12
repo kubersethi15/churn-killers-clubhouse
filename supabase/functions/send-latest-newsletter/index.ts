@@ -215,8 +215,17 @@ const handler = async (req: Request): Promise<Response> => {
       latestNewsletter.category
     );
 
-    // Group sending into batches of 50 to avoid rate limits
-    const batchSize = 50;
+    // Determine batch size (allow override via request body, default 50; cap at 50, min 1)
+    let batchSize = 50;
+    if (requestBody && typeof requestBody === 'object' && 'batchSize' in (requestBody as any)) {
+      const candidate = Number((requestBody as any).batchSize);
+      if (Number.isFinite(candidate) && candidate >= 1 && candidate <= 50) {
+        batchSize = Math.floor(candidate);
+      } else {
+        console.warn(`Invalid batchSize provided: ${(requestBody as any).batchSize}, using 50`);
+      }
+    }
+    // Group sending into batches of size 'batchSize' to avoid rate limits
     const batches = [];
     
     for (let i = 0; i < subscribers.length; i += batchSize) {
