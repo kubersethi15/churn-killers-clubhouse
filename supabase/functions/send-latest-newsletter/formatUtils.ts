@@ -9,8 +9,9 @@
 export const formatContentForEmail = (content: string) => {
   if (!content) return "";
 
-  // Normalize line endings and fix HR-heading adjacency like '--- ##'
-  content = content.replace(/\r\n/g, '\n').replace(/---\s*##/g, '---\n\n##');
+  // Normalize line endings and force any inline '---' into standalone HR with spacing
+  content = content.replace(/\r\n/g, '\n')
+                   .replace(/\s*---+\s*/g, '\n\n---\n\n');
 
   // Step 1: Process headers with markdown-like syntax (allow leading spaces)
   let formattedContent = content
