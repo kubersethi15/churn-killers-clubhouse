@@ -30,12 +30,6 @@ export const generateNewsletterEmailTemplate = (
       }
       
       <div style="font-size: 16px; line-height: 1.5; margin: 20px 0; color: #333;">
-        <p style="font-size: 18px; line-height: 1.6; margin-bottom: 25px; color: #111827;">
-          ${intro}
-        </p>
-        
-        <div style="border-top: 1px solid #e5e7eb; margin: 25px 0;"></div>
-        
         <div style="font-size: 16px; line-height: 1.6;">
           ${mainContent}
         </div>

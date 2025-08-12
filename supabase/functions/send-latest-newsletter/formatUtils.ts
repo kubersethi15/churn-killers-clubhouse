@@ -11,7 +11,23 @@ export const formatContentForEmail = (content: string) => {
 
   // Normalize line endings and force any inline '---' into standalone HR with spacing
   content = content.replace(/\r\n/g, '\n')
-                   .replace(/\s*---+\s*/g, '\n\n---\n\n');
+                   .replace(/\s*---+\s*/g, '\n\n---\n\n')
+                   .replace(/\n{3,}/g, '\n\n');
+
+  // Remove leading title + subtitle block if present (e.g., Title line followed by **(...)** or **...**)
+  {
+    const lines = content.split('\n');
+    // drop leading empty lines
+    while (lines.length && lines[0].trim() === '') lines.shift();
+    if (lines.length >= 2) {
+      const first = lines[0].trim();
+      const second = lines[1].trim();
+      if (first && (/^\*\*\(.*\)\*\*$/.test(second) || /^\*\*.*\*\*$/.test(second))) {
+        lines.splice(0, 2);
+        content = lines.join('\n');
+      }
+    }
+  }
 
   // Step 1: Process headers with markdown-like syntax (allow leading spaces)
   let formattedContent = content
