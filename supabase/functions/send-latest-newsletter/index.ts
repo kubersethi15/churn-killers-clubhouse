@@ -34,6 +34,7 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     // Check if this is a test email request
     let testEmailAddress: string | null = null;
+    let batchSize = 40; // Default batch size reduced from 50 to avoid Resend limits
     let requestBody = {};
     
     try {
@@ -44,9 +45,15 @@ const handler = async (req: Request): Promise<Response> => {
         requestBody = JSON.parse(bodyText);
         console.log("Parsed request body:", requestBody);
         
-        if (requestBody && typeof requestBody === 'object' && 'testEmail' in requestBody) {
-          testEmailAddress = requestBody.testEmail as string;
-          console.log(`Test email requested for: ${testEmailAddress}`);
+        if (requestBody && typeof requestBody === 'object') {
+          if ('testEmail' in requestBody) {
+            testEmailAddress = requestBody.testEmail as string;
+            console.log(`Test email requested for: ${testEmailAddress}`);
+          }
+          if ('batchSize' in requestBody) {
+            batchSize = Math.min(40, Number(requestBody.batchSize) || 40); // Cap at 40 max
+            console.log(`Custom batch size: ${batchSize}`);
+          }
         }
       } else {
         console.log("No request body provided - treating as regular newsletter sending");
@@ -228,17 +235,7 @@ const handler = async (req: Request): Promise<Response> => {
       latestNewsletter.category
     );
 
-    // Determine batch size (allow override via request body, default 50; cap at 50, min 1)
-    let batchSize = 50;
-    if (requestBody && typeof requestBody === 'object' && 'batchSize' in (requestBody as any)) {
-      const candidate = Number((requestBody as any).batchSize);
-      if (Number.isFinite(candidate) && candidate >= 1 && candidate <= 50) {
-        batchSize = Math.floor(candidate);
-      } else {
-        console.warn(`Invalid batchSize provided: ${(requestBody as any).batchSize}, using 50`);
-      }
-    }
-    // Group sending into batches of size 'batchSize' to avoid rate limits
+    // Group sending into batches to avoid rate limits
     const batches = [];
     
     for (let i = 0; i < subscribers.length; i += batchSize) {
