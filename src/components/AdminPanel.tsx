@@ -13,36 +13,6 @@ const AdminPanel = () => {
 const { toast } = useToast();
   const [preview, setPreview] = useState(false);
 
-  // Automatically set up the cron job when component loads
-  useEffect(() => {
-    const setupAutomaticCron = async () => {
-      try {
-        console.log("Auto-setting up cron job for weekly newsletter delivery");
-        
-        const { data, error } = await supabase.functions.invoke('setup-cron-job', {
-          body: {},
-        });
-
-        if (error) {
-          console.error("Auto cron setup error:", error);
-          return;
-        }
-
-        console.log("Auto cron setup successful:", data);
-        setCronSetup(true);
-        
-        toast({
-          title: "Newsletter Automation Active!",
-          description: "Newsletter will be sent tonight at 11 PM AEST and every Tuesday thereafter",
-        });
-      } catch (error: any) {
-        console.error("Error in auto cron setup:", error);
-      }
-    };
-
-    setupAutomaticCron();
-  }, [toast]);
-
   useEffect(() => {
     setPreview(isPreviewMode());
   }, []);
