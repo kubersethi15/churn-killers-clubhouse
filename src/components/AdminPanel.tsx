@@ -165,6 +165,44 @@ const { toast } = useToast();
     }
   };
 
+  const cancelCronJob = async () => {
+    if (!confirm("Cancel the weekly newsletter cron job? No more newsletters will be sent automatically.")) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      console.log("Cancelling cron job");
+      
+      const { data, error } = await supabase.functions.invoke('setup-cron-job', {
+        body: { action: 'unschedule' },
+      });
+
+      console.log("Cron cancel response data:", data);
+      console.log("Cron cancel response error:", error);
+
+      if (error) {
+        console.error("Supabase function error:", error);
+        throw new Error(error.message || "Failed to cancel cron job");
+      }
+
+      setCronSetup(false);
+      toast({
+        title: "Cron job cancelled",
+        description: "Weekly newsletter scheduling has been stopped",
+      });
+    } catch (error: any) {
+      console.error("Error cancelling cron job:", error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to cancel cron job",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleEnablePreview = () => {
     enablePreviewMode(6);
     setPreview(true);
@@ -243,14 +281,25 @@ const { toast } = useToast();
           </div>
         </div>
 
-        <Button
-          onClick={setupCronJob}
-          disabled={loading}
-          variant="outline"
-          className={`w-full ${cronSetup ? 'border-green-600 text-green-600 hover:bg-green-50' : 'border-gray-300'}`}
-        >
-          {loading ? "Setting up..." : cronSetup ? "✅ Cron Job Active" : "Setup Cron Job"}
-        </Button>
+        {cronSetup ? (
+          <Button
+            onClick={cancelCronJob}
+            disabled={loading}
+            variant="destructive"
+            className="w-full"
+          >
+            {loading ? "Cancelling..." : "❌ Cancel Weekly Newsletter"}
+          </Button>
+        ) : (
+          <Button
+            onClick={setupCronJob}
+            disabled={loading}
+            variant="outline"
+            className="w-full"
+          >
+            {loading ? "Setting up..." : "Setup Cron Job"}
+          </Button>
+        )}
       </div>
     </div>
   );

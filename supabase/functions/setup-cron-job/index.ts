@@ -28,6 +28,54 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    // Check if this is an unschedule request
+    let shouldUnschedule = false;
+    
+    try {
+      const bodyText = await req.text();
+      if (bodyText) {
+        const requestBody = JSON.parse(bodyText);
+        shouldUnschedule = requestBody?.action === 'unschedule';
+      }
+    } catch (e) {
+      console.log("No valid request body, treating as schedule request");
+    }
+
+    if (shouldUnschedule) {
+      console.log("Unscheduling cron job...");
+      
+      const { error } = await supabase.rpc('unschedule_job', {
+        job_name: 'send-latest-newsletter-weekly'
+      });
+
+      if (error) {
+        console.error("Error unscheduling cron job:", error);
+        return new Response(
+          JSON.stringify({ 
+            error: "Failed to unschedule cron job", 
+            details: error,
+            timestamp: new Date().toISOString()
+          }),
+          {
+            status: 500,
+            headers: { "Content-Type": "application/json", ...corsHeaders },
+          }
+        );
+      }
+
+      return new Response(
+        JSON.stringify({
+          success: true,
+          message: "Newsletter cron job successfully cancelled",
+          timestamp: new Date().toISOString()
+        }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
     console.log("Checking cron job status...");
 
     // Check if the cron job already exists
