@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)"
@@ -73,46 +73,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      create_newsletter_invoke_function: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      enable_pg_cron: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      invoke_newsletter_function: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      setup_newsletter_cron_job: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
+      create_newsletter_invoke_function: { Args: never; Returns: undefined }
+      enable_pg_cron: { Args: never; Returns: undefined }
+      invoke_newsletter_function: { Args: never; Returns: string }
+      setup_newsletter_cron_job: { Args: never; Returns: undefined }
       setup_newsletter_once: {
-        Args: { job_name: string; cron_schedule: string }
+        Args: { cron_schedule: string; job_name: string }
         Returns: undefined
       }
-      setup_newsletter_test_cron_job: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      setup_newsletter_weekly: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      setup_newsletter_weekly_11pm: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      sql: {
-        Args: { query: string }
-        Returns: undefined
-      }
-      unschedule_job: {
-        Args: { job_name: string }
-        Returns: undefined
-      }
+      setup_newsletter_test_cron_job: { Args: never; Returns: undefined }
+      setup_newsletter_weekly: { Args: never; Returns: undefined }
+      setup_newsletter_weekly_11pm: { Args: never; Returns: undefined }
+      sql: { Args: { query: string }; Returns: undefined }
+      unschedule_job: { Args: { job_name: string }; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
