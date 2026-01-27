@@ -352,31 +352,45 @@ const CSAnalyzer = () => {
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {analysisOptions.map((option) => (
-                      <Card 
-                        key={option.id}
-                        className="cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-red/50 hover:-translate-y-1"
-                        onClick={() => handleTypeSelect(option.id)}
-                      >
-                        <CardHeader>
-                          <div className="w-14 h-14 rounded-xl bg-red/10 flex items-center justify-center text-red mb-3">
-                            {option.icon}
-                          </div>
-                          <CardTitle className="text-xl font-serif">{option.title}</CardTitle>
-                          <CardDescription>{option.description}</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <div className="space-y-2">
-                            {option.examples.map((example, i) => (
-                              <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
-                                <CheckCircle className="w-3 h-3 text-green-500" />
-                                {example}
+                    {analysisOptions.map((option) => {
+                      const isEnabled = option.id === "call-transcript";
+                      return (
+                        <Card 
+                          key={option.id}
+                          className={`transition-all duration-300 ${
+                            isEnabled 
+                              ? "cursor-pointer hover:shadow-lg hover:border-red/50 hover:-translate-y-1" 
+                              : "opacity-60 cursor-not-allowed"
+                          }`}
+                          onClick={() => isEnabled && handleTypeSelect(option.id)}
+                        >
+                          <CardHeader>
+                            <div className="flex items-start justify-between">
+                              <div className="w-14 h-14 rounded-xl bg-red/10 flex items-center justify-center text-red mb-3">
+                                {option.icon}
                               </div>
-                            ))}
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
+                              {!isEnabled && (
+                                <span className="text-xs font-medium bg-muted text-muted-foreground px-2 py-1 rounded-full">
+                                  Coming Soon
+                                </span>
+                              )}
+                            </div>
+                            <CardTitle className="text-xl font-serif">{option.title}</CardTitle>
+                            <CardDescription>{option.description}</CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="space-y-2">
+                              {option.examples.map((example, i) => (
+                                <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
+                                  <CheckCircle className="w-3 h-3 text-green-500" />
+                                  {example}
+                                </div>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      );
+                    })}
                   </div>
 
                   {/* Benefits Section */}
