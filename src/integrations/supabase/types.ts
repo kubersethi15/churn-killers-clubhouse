@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      analyses: {
+        Row: {
+          analysis_type: string
+          created_at: string
+          id: string
+          input_text: string
+          results: Json
+          title: string
+          user_id: string
+        }
+        Insert: {
+          analysis_type: string
+          created_at?: string
+          id?: string
+          input_text: string
+          results: Json
+          title: string
+          user_id: string
+        }
+        Update: {
+          analysis_type?: string
+          created_at?: string
+          id?: string
+          input_text?: string
+          results?: Json
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       newsletters: {
         Row: {
           category: string | null
@@ -44,6 +74,36 @@ export type Database = {
           read_time?: string
           slug?: string
           title?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          company: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          role: Database["public"]["Enums"]["cs_role"] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["cs_role"] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["cs_role"] | null
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -88,7 +148,7 @@ export type Database = {
       unschedule_job: { Args: { job_name: string }; Returns: undefined }
     }
     Enums: {
-      [_ in never]: never
+      cs_role: "csm" | "cs_manager" | "cs_director" | "vp_cs" | "cro" | "other"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -215,6 +275,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      cs_role: ["csm", "cs_manager", "cs_director", "vp_cs", "cro", "other"],
+    },
   },
 } as const
