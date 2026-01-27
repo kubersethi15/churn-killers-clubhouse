@@ -16,9 +16,13 @@ import {
   ArrowRight,
   Sparkles,
   CheckCircle,
-  Mail
+  Mail,
+  RotateCcw,
+  Copy
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import ReactMarkdown from "react-markdown";
 
 type AnalysisType = "call-transcript" | "qbr-deck" | "success-plan" | "health-assessment" | null;
 
@@ -96,8 +100,9 @@ const CSAnalyzer = () => {
   const [content, setContent] = useState("");
   const [email, setEmail] = useState("");
   const [fileName, setFileName] = useState<string | null>(null);
-  const [step, setStep] = useState<"select" | "input" | "email" | "analyzing">("select");
+  const [step, setStep] = useState<"select" | "input" | "email" | "analyzing" | "results">("select");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisResult, setAnalysisResult] = useState<string | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -170,15 +175,59 @@ const CSAnalyzer = () => {
     setStep("analyzing");
     setIsAnalyzing(true);
 
-    // TODO: This will be replaced with actual LLM call
-    // For now, simulate analysis
-    setTimeout(() => {
-      toast({
-        title: "Analysis coming soon!",
-        description: "We're building the AI analysis engine. You'll be notified when it's ready.",
+    try {
+      const { data, error } = await supabase.functions.invoke('cs-analyzer', {
+        body: {
+          analysisType: selectedType,
+          content: content,
+          email: email,
+        },
       });
+
+      if (error) {
+        throw error;
+      }
+
+      if (data?.analysis) {
+        setAnalysisResult(data.analysis);
+        setStep("results");
+        toast({
+          title: "Analysis complete!",
+          description: "Your personalized insights are ready.",
+        });
+      } else {
+        throw new Error("No analysis returned");
+      }
+    } catch (error: any) {
+      console.error("Analysis error:", error);
+      toast({
+        title: "Analysis failed",
+        description: error?.message || "Please try again later.",
+        variant: "destructive",
+      });
+      setStep("email");
+    } finally {
       setIsAnalyzing(false);
-    }, 2000);
+    }
+  };
+
+  const handleStartOver = () => {
+    setSelectedType(null);
+    setContent("");
+    setEmail("");
+    setFileName(null);
+    setAnalysisResult(null);
+    setStep("select");
+  };
+
+  const handleCopyAnalysis = () => {
+    if (analysisResult) {
+      navigator.clipboard.writeText(analysisResult);
+      toast({
+        title: "Copied!",
+        description: "Analysis copied to clipboard",
+      });
+    }
   };
 
   return (
@@ -458,6 +507,66 @@ const CSAnalyzer = () => {
                   Our AI is reviewing your {selectedOption?.title.toLowerCase()} and generating 
                   personalized insights. This usually takes about 30 seconds.
                 </p>
+              </div>
+            )}
+
+            {/* Results State */}
+            {step === "results" && analysisResult && (
+              <div className="animate-fade-in">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-serif font-bold text-navy-dark">
+                        Your {selectedOption?.title} Analysis
+                      </h2>
+                      <p className="text-sm text-muted-foreground">
+                        Generated for {email}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleCopyAnalysis}
+                    >
+                      <Copy className="w-4 h-4 mr-2" />
+                      Copy
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleStartOver}
+                    >
+                      <RotateCcw className="w-4 h-4 mr-2" />
+                      Analyze Another
+                    </Button>
+                  </div>
+                </div>
+
+                <Card>
+                  <CardContent className="p-6 md:p-8">
+                    <div className="prose prose-sm md:prose-base max-w-none prose-headings:font-serif prose-headings:text-navy-dark prose-strong:text-navy-dark prose-li:marker:text-red">
+                      <ReactMarkdown>{analysisResult}</ReactMarkdown>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <div className="mt-8 text-center">
+                  <p className="text-muted-foreground mb-4">
+                    Want more CS insights delivered to your inbox?
+                  </p>
+                  <Button
+                    variant="outline"
+                    className="border-navy-dark text-navy-dark hover:bg-navy-dark hover:text-white"
+                    onClick={() => window.location.href = "/"}
+                  >
+                    Subscribe to Churn Is Dead Newsletter
+                  </Button>
+                </div>
               </div>
             )}
 
