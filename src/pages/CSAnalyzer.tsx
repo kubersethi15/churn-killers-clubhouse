@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { AnalysisReport } from "@/components/cs-analyzer/AnalysisReport";
 import { 
   FileText, 
   Presentation, 
@@ -22,7 +23,6 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import ReactMarkdown from "react-markdown";
 
 type AnalysisType = "call-transcript" | "qbr-deck" | "success-plan" | "health-assessment" | null;
 
@@ -571,13 +571,7 @@ const CSAnalyzer = () => {
                   </div>
                 </div>
 
-                <Card>
-                  <CardContent className="p-6 md:p-8">
-                    <div className="prose prose-sm md:prose-base max-w-none prose-headings:font-serif prose-headings:text-navy-dark prose-strong:text-navy-dark prose-li:marker:text-red">
-                      <ReactMarkdown>{analysisResult}</ReactMarkdown>
-                    </div>
-                  </CardContent>
-                </Card>
+                <AnalysisReport analysisResult={analysisResult} />
 
                 <div className="mt-8 text-center">
                   <p className="text-muted-foreground mb-4">
