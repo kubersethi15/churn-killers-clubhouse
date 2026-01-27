@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import NewsletterDetail from "./pages/NewsletterDetail";
 import About from "./pages/About";
 import Playbook from "./pages/Playbook";
+import CSAnalyzer from "./pages/CSAnalyzer";
 import AdminPanel from "./components/AdminPanel";
 
 const queryClient = new QueryClient();
@@ -26,6 +26,7 @@ const App = () => (
           <Route path="/newsletter/:slug" element={<NewsletterDetail />} />
           <Route path="/about" element={<About />} />
           <Route path="/playbook" element={<Playbook />} />
+          <Route path="/cs-analyzer" element={<CSAnalyzer />} />
           <Route path="/admin" element={<AdminPanel />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -79,6 +79,9 @@ const Header = () => {
         </Link>
         
         <nav className="hidden md:flex items-center gap-8">
+          <NavLink to="/cs-analyzer" className={getNavLinkClass}>
+            CS Analyzer
+          </NavLink>
           <NavLink to="/newsletters" className={getNavLinkClass}>
             Newsletters
           </NavLink>
@@ -119,6 +122,17 @@ const Header = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-100 p-4">
           <nav className="flex flex-col space-y-4">
+            <NavLink 
+              to="/cs-analyzer" 
+              className={({ isActive }) => 
+                isActive 
+                  ? "text-red-600 font-medium transition-colors px-2 py-1" 
+                  : "text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
+              }
+              onClick={() => setIsMenuOpen(false)}
+            >
+              CS Analyzer
+            </NavLink>
             <NavLink 
               to="/newsletters" 
               className={({ isActive }) => 
