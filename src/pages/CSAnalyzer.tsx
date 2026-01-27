@@ -108,7 +108,7 @@ const CSAnalyzer = () => {
   const [selectedSavedAnalysis, setSelectedSavedAnalysis] = useState<Analysis | null>(null);
   const { toast } = useToast();
   const { user } = useAuth();
-  const { saveAnalysis } = useAnalyses();
+  const { saveAnalysis, fetchAnalyses } = useAnalyses();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -204,11 +204,15 @@ const CSAnalyzer = () => {
         // Auto-save for logged-in users
         if (user) {
           const title = generateTitle(selectedType, content);
-          await saveAnalysis(title, selectedType || "unknown", content, data.analysis);
-          toast({
-            title: "Analysis saved",
-            description: "You can access this analysis anytime from the sidebar.",
-          });
+          const { error } = await saveAnalysis(title, selectedType || "unknown", content, data.analysis);
+          if (!error) {
+            // Trigger a refresh of the sidebar's analysis list
+            window.dispatchEvent(new CustomEvent('analysis-saved'));
+            toast({
+              title: "Analysis saved",
+              description: "You can access this analysis anytime from the sidebar.",
+            });
+          }
         }
       } else {
         throw new Error("No analysis returned");

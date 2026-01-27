@@ -46,6 +46,13 @@ export const useAnalyses = () => {
 
   useEffect(() => {
     fetchAnalyses();
+    
+    // Listen for analysis-saved events to refresh the list
+    const handleAnalysisSaved = () => {
+      fetchAnalyses();
+    };
+    window.addEventListener('analysis-saved', handleAnalysisSaved);
+    return () => window.removeEventListener('analysis-saved', handleAnalysisSaved);
   }, [fetchAnalyses]);
 
   const saveAnalysis = async (
