@@ -176,17 +176,41 @@ const CSAnalyzer = () => {
     setIsAnalyzing(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke('cs-analyzer', {
-        body: {
-          analysisType: selectedType,
-          content: content,
-          email: email,
-        },
-      });
+      const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+      const retryDelays = [500, 1500, 3000];
 
-      if (error) {
-        throw error;
-      }
+      const invokeWithRetry = async () => {
+        let lastErr: any;
+        for (let attempt = 0; attempt < retryDelays.length; attempt++) {
+          try {
+            const { data, error } = await supabase.functions.invoke("cs-analyzer", {
+              body: {
+                analysisType: selectedType,
+                content,
+                email,
+              },
+            });
+
+            if (error) throw error;
+            return data;
+          } catch (err: any) {
+            lastErr = err;
+            const msg = String(err?.message || "");
+            const name = String(err?.name || "");
+            const isTransientFetch = name.includes("FunctionsFetchError") || msg.includes("Failed to fetch");
+            if (!isTransientFetch || attempt === retryDelays.length - 1) throw err;
+
+            toast({
+              title: "Retrying…",
+              description: "Connection hiccup—retrying the analysis.",
+            });
+            await sleep(retryDelays[attempt]);
+          }
+        }
+        throw lastErr;
+      };
+
+      const data = await invokeWithRetry();
 
       if (data?.analysis) {
         setAnalysisResult(data.analysis);

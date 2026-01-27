@@ -3,6 +3,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
 
 // ============================================================================
@@ -15,6 +16,8 @@ const ANALYSIS_PROMPTS = {
     systemPrompt: `You are an expert Customer Success analyst specializing in conversation analysis. 
 Your role is to analyze customer calls and provide actionable insights.
 
+Be concise and specific. Prefer bullets. Avoid generic advice.
+
 Focus on:
 - Customer sentiment and engagement level
 - Key concerns or pain points mentioned
@@ -23,7 +26,7 @@ Focus on:
 - Action items and follow-ups needed
 - Communication effectiveness of the CS rep`,
     
-    userPromptPrefix: `Analyze this customer call transcript and provide:
+    userPromptPrefix: `Analyze this customer call transcript and provide (keep the full response under ~600 words):
 
 1. **Executive Summary** (2-3 sentences)
 2. **Sentiment Analysis** (Positive/Neutral/Negative with reasoning)
@@ -33,14 +36,16 @@ Focus on:
 6. **Recommended Next Steps** (specific actions)
 7. **CS Rep Performance** (what went well, areas to improve)
 
-TRANSCRIPT:
-`
+TRANSCRIPT (verbatim):
+\n\n\`\`\`text\n`
   },
 
   // 📊 QBR DECK ANALYSIS  
   "qbr-deck": {
     systemPrompt: `You are an expert Customer Success strategist who has reviewed hundreds of QBR presentations.
 Your role is to evaluate QBR content and suggest improvements based on best practices.
+
+Be concise and specific. Prefer bullets. Avoid generic advice.
 
 Focus on:
 - Value articulation and ROI storytelling
@@ -50,7 +55,7 @@ Focus on:
 - Forward-looking roadmap clarity
 - Call-to-action effectiveness`,
 
-    userPromptPrefix: `Analyze this QBR (Quarterly Business Review) content and provide:
+    userPromptPrefix: `Analyze this QBR (Quarterly Business Review) content and provide (keep the full response under ~600 words):
 
 1. **Overall Score** (1-10 with brief justification)
 2. **Strengths** (what's working well)
@@ -60,14 +65,16 @@ Focus on:
 6. **Executive Readiness** (would this resonate with C-suite?)
 7. **Recommended Enhancements** (prioritized list)
 
-QBR CONTENT:
-`
+QBR CONTENT (verbatim):
+\n\n\`\`\`text\n`
   },
 
   // 🎯 SUCCESS PLAN ANALYSIS
   "success-plan": {
     systemPrompt: `You are an expert in Customer Success planning and outcome-driven methodologies.
 Your role is to evaluate success plans and ensure they drive real customer value.
+
+Be concise and specific. Prefer bullets. Avoid generic advice.
 
 Focus on:
 - Goal clarity and measurability (SMART criteria)
@@ -77,7 +84,7 @@ Focus on:
 - Risk mitigation planning
 - Success metric definition`,
 
-    userPromptPrefix: `Analyze this Success Plan and provide:
+    userPromptPrefix: `Analyze this Success Plan and provide (keep the full response under ~600 words):
 
 1. **Plan Quality Score** (1-10 with justification)
 2. **Goal Assessment** (are objectives SMART?)
@@ -88,14 +95,16 @@ Focus on:
 7. **Improvement Recommendations** (specific enhancements)
 8. **Missing Best Practices** (what should be added)
 
-SUCCESS PLAN:
-`
+SUCCESS PLAN (verbatim):
+\n\n\`\`\`text\n`
   },
 
   // 💊 HEALTH ASSESSMENT ANALYSIS
   "health-assessment": {
     systemPrompt: `You are an expert in customer health scoring and predictive analytics for Customer Success.
 Your role is to analyze health indicators and predict customer trajectory.
+
+Be concise and specific. Prefer bullets. Avoid generic advice.
 
 Focus on:
 - Usage patterns and adoption trends
@@ -105,7 +114,7 @@ Focus on:
 - Renewal/expansion likelihood
 - Intervention recommendations`,
 
-    userPromptPrefix: `Analyze this customer health data and provide:
+    userPromptPrefix: `Analyze this customer health data and provide (keep the full response under ~600 words):
 
 1. **Health Score** (Critical/At-Risk/Healthy/Thriving with reasoning)
 2. **Key Indicators Summary** (top positive and negative signals)
@@ -115,8 +124,8 @@ Focus on:
 6. **30-60-90 Day Recommendations** (intervention plan)
 7. **Expansion Potential** (if health is positive)
 
-HEALTH DATA:
-`
+HEALTH DATA (verbatim):
+\n\n\`\`\`text\n`
   }
 };
 
@@ -160,31 +169,46 @@ serve(async (req) => {
       );
     }
 
+    const startedAt = Date.now();
     console.log(`Processing ${analysisType} analysis for ${email || 'anonymous'}`);
 
+    // Keep payloads bounded to reduce latency/timeouts.
+    const normalizedContent = String(content);
+    const clippedContent = normalizedContent.length > 35_000
+      ? normalizedContent.slice(0, 35_000) + "\n\n[TRUNCATED: input exceeded 35k chars]"
+      : normalizedContent;
+
+    const userPrompt = `${prompts.userPromptPrefix}${clippedContent}\n\`\`\``;
+
+    // Abort OpenAI call if it takes too long (helps avoid browser timeouts)
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort("OpenAI request timed out"), 25_000);
+
     // Call OpenAI API
-    const openaiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini', // Cost-effective model, change to 'gpt-4o' for better quality
-        messages: [
-          {
-            role: 'system',
-            content: prompts.systemPrompt
-          },
-          {
-            role: 'user',
-            content: prompts.userPromptPrefix + content
-          }
-        ],
-        temperature: 0.7,
-        max_tokens: 2000,
-      }),
-    });
+    let openaiResponse: Response;
+    try {
+      openaiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${OPENAI_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          messages: [
+            { role: 'system', content: prompts.systemPrompt },
+            { role: 'user', content: userPrompt },
+          ],
+          // Lower randomness for more consistent structure
+          temperature: 0.4,
+          // Smaller output to reduce latency/timeouts
+          max_tokens: 900,
+        }),
+        signal: controller.signal,
+      });
+    } finally {
+      clearTimeout(timeout);
+    }
 
     if (!openaiResponse.ok) {
       const errorText = await openaiResponse.text();
@@ -206,7 +230,7 @@ serve(async (req) => {
       );
     }
 
-    console.log(`Analysis completed successfully for ${analysisType}`);
+    console.log(`Analysis completed successfully for ${analysisType} in ${Date.now() - startedAt}ms`);
 
     return new Response(
       JSON.stringify({ 
