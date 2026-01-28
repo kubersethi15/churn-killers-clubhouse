@@ -5,16 +5,31 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Mail, Lock, User, ArrowLeft, Check, X } from "lucide-react";
+import { Loader2, Mail, Lock, User, ArrowLeft, Check, X, Eye, EyeOff, MessageSquare, BookText, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
+
+type CSRole = "csm" | "cs_manager" | "cs_director" | "vp_cs" | "cro" | "other";
+
+const roleLabels: Record<CSRole, string> = {
+  csm: "Customer Success Manager",
+  cs_manager: "CS Manager",
+  cs_director: "CS Director",
+  vp_cs: "VP of Customer Success",
+  cro: "CRO / Revenue Leader",
+  other: "Other",
+};
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
+  const [selectedRole, setSelectedRole] = useState<CSRole | "">("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [magicLinkSent, setMagicLinkSent] = useState(false);
   const [touched, setTouched] = useState({ password: false, confirmPassword: false });
@@ -40,8 +55,15 @@ const Auth = () => {
   const passwordChecks = useMemo(() => ({
     minLength: password.length >= 6,
     hasUppercase: /[A-Z]/.test(password),
+    hasLowercase: /[a-z]/.test(password),
     hasNumber: /[0-9]/.test(password),
+    hasSpecial: /[!@#$%^&*(),.?":{}|<>]/.test(password),
   }), [password]);
+
+  const passedChecks = Object.values(passwordChecks).filter(Boolean).length;
+  const strengthLabel = passedChecks <= 2 ? "Weak" : passedChecks <= 3 ? "Fair" : passedChecks <= 4 ? "Good" : "Strong";
+  const strengthColor = passedChecks <= 2 ? "bg-red-500" : passedChecks <= 3 ? "bg-yellow-500" : passedChecks <= 4 ? "bg-blue-500" : "bg-green-500";
+  const strengthTextColor = passedChecks <= 2 ? "text-red-500" : passedChecks <= 3 ? "text-yellow-600" : passedChecks <= 4 ? "text-blue-600" : "text-green-600";
 
   const isPasswordValid = passwordChecks.minLength;
   const passwordsMatch = password === confirmPassword && confirmPassword.length > 0;
@@ -93,7 +115,7 @@ const Auth = () => {
 
     setIsLoading(true);
 
-    const { error } = await signUp(email, password, displayName);
+    const { error } = await signUp(email, password, displayName, selectedRole || undefined);
 
     if (error) {
       toast({
@@ -152,214 +174,322 @@ const Auth = () => {
         </Link>
       </div>
 
-      {/* Main content */}
+      {/* Main content - Split layout on desktop */}
       <div className="flex-1 flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-md">
-
-          <Card className="border-0 shadow-2xl">
-            <CardHeader className="text-center pb-4">
-              <CardTitle className="text-2xl font-serif">Join Churn Is Dead</CardTitle>
-              <CardDescription>
-                Free newsletter + AI tools
-              </CardDescription>
-            </CardHeader>
-
-            <CardContent>
-              {magicLinkSent ? (
-                <div className="text-center py-8">
-                  <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
-                    <Mail className="w-8 h-8 text-green-600" />
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2">Check your email</h3>
-                  <p className="text-muted-foreground mb-4">
-                    We've sent a magic link to <strong>{email}</strong>
-                  </p>
-                  <Button
-                    variant="ghost"
-                    onClick={() => setMagicLinkSent(false)}
-                    className="text-red hover:text-red-dark"
-                  >
-                    Use a different email
-                  </Button>
+        <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          
+          {/* Left side - Value proposition (hidden on mobile) */}
+          <div className="hidden lg:block text-white">
+            <h1 className="text-4xl font-serif font-bold mb-4">
+              Join <span className="text-red-400">Churn Is Dead</span>
+            </h1>
+            <p className="text-xl text-gray-300 mb-8">
+              Create your account to unlock AI-powered CS tools and tactical frameworks.
+            </p>
+            <ul className="space-y-4">
+              <li className="flex items-center gap-3 text-gray-200">
+                <div className="w-8 h-8 rounded-full bg-red/20 flex items-center justify-center flex-shrink-0">
+                  <MessageSquare className="w-4 h-4 text-red-400" />
                 </div>
-              ) : (
-                <Tabs defaultValue="signin" className="w-full">
-                  <TabsList className="grid w-full grid-cols-2 mb-6">
-                    <TabsTrigger value="signin">Sign In</TabsTrigger>
-                    <TabsTrigger value="signup">Sign Up</TabsTrigger>
-                  </TabsList>
+                <span>CS Analyzer — AI-powered call transcript insights</span>
+              </li>
+              <li className="flex items-center gap-3 text-gray-200">
+                <div className="w-8 h-8 rounded-full bg-red/20 flex items-center justify-center flex-shrink-0">
+                  <BookText className="w-4 h-4 text-red-400" />
+                </div>
+                <span>Weekly newsletter with tactical CS plays</span>
+              </li>
+              <li className="flex items-center gap-3 text-gray-200">
+                <div className="w-8 h-8 rounded-full bg-red/20 flex items-center justify-center flex-shrink-0">
+                  <Sparkles className="w-4 h-4 text-red-400" />
+                </div>
+                <span>Playbook Vault — templates & frameworks</span>
+              </li>
+            </ul>
+          </div>
 
-                  <TabsContent value="signin" className="space-y-4">
-                    <form onSubmit={handleSignIn} className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="signin-email">Email</Label>
-                        <div className="relative">
-                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                          <Input
-                            id="signin-email"
-                            type="email"
-                            placeholder="you@company.com"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="pl-10"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="signin-password">Password</Label>
-                        <div className="relative">
-                          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                          <Input
-                            id="signin-password"
-                            type="password"
-                            placeholder="••••••••"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="pl-10"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <Button
-                        type="submit"
-                        className="w-full bg-red hover:bg-red-dark text-white"
-                        disabled={isLoading}
-                      >
-                        {isLoading ? (
-                          <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Signing in...
-                          </>
-                        ) : (
-                          "Sign In"
-                        )}
-                      </Button>
-                    </form>
+          {/* Right side - Form */}
+          <div className="w-full max-w-md mx-auto lg:mx-0">
+            <Card className="border-0 shadow-2xl">
+              <CardHeader className="text-center pb-4">
+                <CardTitle className="text-2xl font-serif">Join Churn Is Dead</CardTitle>
+                <CardDescription>
+                  Free newsletter + AI tools
+                </CardDescription>
+              </CardHeader>
 
-                  </TabsContent>
+              <CardContent>
+                {magicLinkSent ? (
+                  <div className="text-center py-8">
+                    <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
+                      <Mail className="w-8 h-8 text-green-600" />
+                    </div>
+                    <h3 className="text-lg font-semibold mb-2">Check your email</h3>
+                    <p className="text-muted-foreground mb-4">
+                      We've sent a magic link to <strong>{email}</strong>
+                    </p>
+                    <Button
+                      variant="ghost"
+                      onClick={() => setMagicLinkSent(false)}
+                      className="text-red hover:text-red-dark"
+                    >
+                      Use a different email
+                    </Button>
+                  </div>
+                ) : (
+                  <Tabs defaultValue="signup" className="w-full">
+                    <TabsList className="grid w-full grid-cols-2 mb-6">
+                      <TabsTrigger value="signin">Sign In</TabsTrigger>
+                      <TabsTrigger value="signup">Sign Up</TabsTrigger>
+                    </TabsList>
 
-                  <TabsContent value="signup" className="space-y-4">
-                    <form onSubmit={handleSignUp} className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="signup-name">Name</Label>
-                        <div className="relative">
-                          <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                          <Input
-                            id="signup-name"
-                            type="text"
-                            placeholder="Your name"
-                            value={displayName}
-                            onChange={(e) => setDisplayName(e.target.value)}
-                            className="pl-10"
-                          />
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="signup-email">Email</Label>
-                        <div className="relative">
-                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                          <Input
-                            id="signup-email"
-                            type="email"
-                            placeholder="you@company.com"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="pl-10"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="signup-password">Password</Label>
-                        <div className="relative">
-                          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                          <Input
-                            id="signup-password"
-                            type="password"
-                            placeholder="••••••••"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            onBlur={() => setTouched(t => ({ ...t, password: true }))}
-                            className={`pl-10 ${touched.password && !isPasswordValid ? 'border-destructive focus-visible:ring-destructive' : ''}`}
-                            minLength={6}
-                            required
-                          />
-                        </div>
-                        {/* Password requirements */}
-                        <div className="space-y-1 pt-1">
-                          <div className={`flex items-center gap-2 text-xs ${passwordChecks.minLength ? 'text-green-600' : 'text-muted-foreground'}`}>
-                            {passwordChecks.minLength ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
-                            At least 6 characters
+                    <TabsContent value="signin" className="space-y-4">
+                      <form onSubmit={handleSignIn} className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="signin-email">Email</Label>
+                          <div className="relative">
+                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input
+                              id="signin-email"
+                              type="email"
+                              placeholder="you@company.com"
+                              value={email}
+                              onChange={(e) => setEmail(e.target.value)}
+                              className="pl-10"
+                              required
+                            />
                           </div>
                         </div>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="signup-confirm-password">Confirm Password</Label>
-                        <div className="relative">
-                          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                          <Input
-                            id="signup-confirm-password"
-                            type="password"
-                            placeholder="••••••••"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            onBlur={() => setTouched(t => ({ ...t, confirmPassword: true }))}
-                            className={`pl-10 ${touched.confirmPassword && !passwordsMatch && confirmPassword.length > 0 ? 'border-destructive focus-visible:ring-destructive' : ''}`}
-                            required
-                          />
-                          {/* Match indicator */}
-                          {confirmPassword.length > 0 && (
-                            <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                              {passwordsMatch ? (
-                                <Check className="h-4 w-4 text-green-600" />
-                              ) : (
-                                <X className="h-4 w-4 text-destructive" />
-                              )}
+                        <div className="space-y-2">
+                          <Label htmlFor="signin-password">Password</Label>
+                          <div className="relative">
+                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input
+                              id="signin-password"
+                              type={showPassword ? "text" : "password"}
+                              placeholder="••••••••"
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                              className="pl-10 pr-10"
+                              required
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowPassword(!showPassword)}
+                              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                            >
+                              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                            </button>
+                          </div>
+                        </div>
+                        <Button
+                          type="submit"
+                          className="w-full bg-red hover:bg-red-dark text-white"
+                          disabled={isLoading}
+                        >
+                          {isLoading ? (
+                            <>
+                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                              Signing in...
+                            </>
+                          ) : (
+                            "Sign In"
+                          )}
+                        </Button>
+                      </form>
+
+                    </TabsContent>
+
+                    <TabsContent value="signup" className="space-y-4">
+                      <form onSubmit={handleSignUp} className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="signup-name">Full Name</Label>
+                          <div className="relative">
+                            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input
+                              id="signup-name"
+                              type="text"
+                              placeholder="Enter your full name"
+                              value={displayName}
+                              onChange={(e) => setDisplayName(e.target.value)}
+                              className="pl-10"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="signup-role">I am a...</Label>
+                          <Select value={selectedRole} onValueChange={(value) => setSelectedRole(value as CSRole)}>
+                            <SelectTrigger className="w-full bg-background">
+                              <SelectValue placeholder="Select your role" />
+                            </SelectTrigger>
+                            <SelectContent className="bg-background border shadow-lg z-50">
+                              {Object.entries(roleLabels).map(([value, label]) => (
+                                <SelectItem key={value} value={value}>
+                                  {label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="signup-email">Email</Label>
+                          <div className="relative">
+                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input
+                              id="signup-email"
+                              type="email"
+                              placeholder="you@company.com"
+                              value={email}
+                              onChange={(e) => setEmail(e.target.value)}
+                              className="pl-10"
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="signup-password">Password</Label>
+                          <div className="relative">
+                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input
+                              id="signup-password"
+                              type={showPassword ? "text" : "password"}
+                              placeholder="••••••••"
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                              onBlur={() => setTouched(t => ({ ...t, password: true }))}
+                              className={`pl-10 pr-10 ${touched.password && !isPasswordValid ? 'border-destructive focus-visible:ring-destructive' : ''}`}
+                              minLength={6}
+                              required
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowPassword(!showPassword)}
+                              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                            >
+                              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                            </button>
+                          </div>
+
+                          {/* Password strength indicator */}
+                          {password.length > 0 && (
+                            <div className="space-y-2 pt-1">
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs text-muted-foreground">Password strength</span>
+                                <span className={`text-xs font-medium ${strengthTextColor}`}>{strengthLabel}</span>
+                              </div>
+                              <div className="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
+                                <div 
+                                  className={`h-full transition-all duration-300 ${strengthColor}`}
+                                  style={{ width: `${(passedChecks / 5) * 100}%` }}
+                                />
+                              </div>
+                              
+                              {/* Password requirements checklist */}
+                              <div className="space-y-1 pt-1 text-xs">
+                                <p className="text-muted-foreground font-medium">Password must contain:</p>
+                                <div className={`flex items-center gap-2 ${passwordChecks.minLength ? 'text-green-600' : 'text-muted-foreground'}`}>
+                                  {passwordChecks.minLength ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
+                                  At least 6 characters
+                                </div>
+                                <div className={`flex items-center gap-2 ${passwordChecks.hasUppercase ? 'text-green-600' : 'text-muted-foreground'}`}>
+                                  {passwordChecks.hasUppercase ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
+                                  Contains uppercase letter
+                                </div>
+                                <div className={`flex items-center gap-2 ${passwordChecks.hasLowercase ? 'text-green-600' : 'text-muted-foreground'}`}>
+                                  {passwordChecks.hasLowercase ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
+                                  Contains lowercase letter
+                                </div>
+                                <div className={`flex items-center gap-2 ${passwordChecks.hasNumber ? 'text-green-600' : 'text-muted-foreground'}`}>
+                                  {passwordChecks.hasNumber ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
+                                  Contains number
+                                </div>
+                                <div className={`flex items-center gap-2 ${passwordChecks.hasSpecial ? 'text-green-600' : 'text-muted-foreground'}`}>
+                                  {passwordChecks.hasSpecial ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
+                                  Contains special character
+                                </div>
+                              </div>
                             </div>
                           )}
                         </div>
-                        {touched.confirmPassword && !passwordsMatch && confirmPassword.length > 0 && (
-                          <p className="text-xs text-destructive">
-                            Passwords don't match
-                          </p>
-                        )}
-                      </div>
-                      <Button
-                        type="submit"
-                        className="w-full bg-red hover:bg-red-dark text-white"
-                        disabled={isLoading || !canSubmitSignUp}
-                      >
-                        {isLoading ? (
-                          <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Creating account...
-                          </>
-                        ) : (
-                          "Create Account"
-                        )}
-                      </Button>
-                    </form>
-                  </TabsContent>
-                </Tabs>
-              )}
-            </CardContent>
 
-            <CardFooter className="text-center text-sm text-muted-foreground border-t pt-6">
-              <p className="w-full">
-                By continuing, you agree to our Terms of Service and Privacy Policy.
-              </p>
-            </CardFooter>
-          </Card>
+                        <div className="space-y-2">
+                          <Label htmlFor="signup-confirm-password">Confirm Password</Label>
+                          <div className="relative">
+                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input
+                              id="signup-confirm-password"
+                              type={showConfirmPassword ? "text" : "password"}
+                              placeholder="Confirm your password"
+                              value={confirmPassword}
+                              onChange={(e) => setConfirmPassword(e.target.value)}
+                              onBlur={() => setTouched(t => ({ ...t, confirmPassword: true }))}
+                              className={`pl-10 pr-16 ${touched.confirmPassword && !passwordsMatch && confirmPassword.length > 0 ? 'border-destructive focus-visible:ring-destructive' : ''}`}
+                              required
+                            />
+                            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                              {/* Match indicator */}
+                              {confirmPassword.length > 0 && (
+                                passwordsMatch ? (
+                                  <Check className="h-4 w-4 text-green-600" />
+                                ) : (
+                                  <X className="h-4 w-4 text-destructive" />
+                                )
+                              )}
+                              <button
+                                type="button"
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                className="text-muted-foreground hover:text-foreground transition-colors ml-1"
+                              >
+                                {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                              </button>
+                            </div>
+                          </div>
+                          {touched.confirmPassword && !passwordsMatch && confirmPassword.length > 0 && (
+                            <p className="text-xs text-destructive">
+                              Passwords don't match
+                            </p>
+                          )}
+                        </div>
 
-          {/* Continue without account */}
-          <div className="text-center mt-6">
-            <Link
-              to="/"
-              className="text-white/70 hover:text-white text-sm transition-colors"
-            >
-              Back to site
-            </Link>
+                        <Button
+                          type="submit"
+                          className="w-full bg-red hover:bg-red-dark text-white"
+                          disabled={isLoading || !canSubmitSignUp}
+                        >
+                          {isLoading ? (
+                            <>
+                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                              Creating account...
+                            </>
+                          ) : (
+                            "Create Account"
+                          )}
+                        </Button>
+                      </form>
+                    </TabsContent>
+                  </Tabs>
+                )}
+              </CardContent>
+
+              <CardFooter className="flex-col space-y-3 text-center text-sm text-muted-foreground border-t pt-6">
+                <p className="w-full">
+                  By continuing, you agree to our Terms of Service and Privacy Policy.
+                </p>
+              </CardFooter>
+            </Card>
+
+            {/* Back to site link */}
+            <div className="text-center mt-6">
+              <Link
+                to="/"
+                className="text-white/70 hover:text-white text-sm transition-colors"
+              >
+                Back to site
+              </Link>
+            </div>
           </div>
         </div>
       </div>
