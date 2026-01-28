@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Users, Crown, HelpCircle, UserX, AlertCircle } from "lucide-react";
+import { Users, Crown, HelpCircle, UserX, AlertCircle, Zap, Quote } from "lucide-react";
 import { parseStakeholders, getPostureType } from "./utils";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
@@ -22,7 +22,7 @@ interface StakeholderSectionProps {
 const postureConfig: Record<PostureType, { icon: typeof Crown; label: string; bgColor: string }> = {
   green: { 
     icon: Crown, 
-    label: "Supporter", 
+    label: "Champion", 
     bgColor: "bg-emerald-500",
   },
   amber: { 
@@ -40,6 +40,21 @@ const postureConfig: Record<PostureType, { icon: typeof Crown; label: string; bg
     label: "Unknown", 
     bgColor: "bg-slate-400",
   },
+};
+
+const powerConfig: Record<string, { color: string; textColor: string }> = {
+  high: { color: "bg-red-100 border-red-200", textColor: "text-red-700" },
+  medium: { color: "bg-amber-100 border-amber-200", textColor: "text-amber-700" },
+  low: { color: "bg-slate-100 border-slate-200", textColor: "text-slate-600" },
+  unknown: { color: "bg-slate-50 border-slate-200", textColor: "text-slate-500" },
+};
+
+const getPowerLevel = (power: string): string => {
+  const lower = power.toLowerCase();
+  if (lower.includes("high")) return "high";
+  if (lower.includes("medium") || lower.includes("moderate")) return "medium";
+  if (lower.includes("low")) return "low";
+  return "unknown";
 };
 
 // Extract decision dynamics and missing stakeholders from content
@@ -106,14 +121,16 @@ export const StakeholderSection = ({ content }: StakeholderSectionProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
-        {/* Stakeholders Table */}
+        {/* Stakeholders Table - Full width with all columns */}
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow className={reportLayout.tableHeader}>
-                <TableHead className={cn("min-w-[150px]", reportTypography.labelSmall)}>Name</TableHead>
-                <TableHead className={cn("min-w-[200px]", reportTypography.labelSmall)}>Role</TableHead>
-                <TableHead className={cn("w-32 text-center", reportTypography.labelSmall)}>Posture</TableHead>
+                <TableHead className={cn("min-w-[140px]", reportTypography.labelSmall)}>Stakeholder</TableHead>
+                <TableHead className={cn("min-w-[160px]", reportTypography.labelSmall)}>Role</TableHead>
+                <TableHead className={cn("w-28 text-center", reportTypography.labelSmall)}>Posture</TableHead>
+                <TableHead className={cn("w-24 text-center", reportTypography.labelSmall)}>Power</TableHead>
+                <TableHead className={cn("min-w-[200px]", reportTypography.labelSmall)}>Evidence</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -122,6 +139,8 @@ export const StakeholderSection = ({ content }: StakeholderSectionProps) => {
                 const config = postureConfig[posture];
                 const colors = reportColors[posture];
                 const Icon = config.icon;
+                const powerLevel = getPowerLevel(s.power);
+                const powerColors = powerConfig[powerLevel];
                 
                 return (
                   <TableRow key={idx} className={reportLayout.tableRow}>
@@ -144,6 +163,28 @@ export const StakeholderSection = ({ content }: StakeholderSectionProps) => {
                         <Icon className="w-3 h-3 mr-1" />
                         {config.label}
                       </Badge>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Badge 
+                        variant="outline" 
+                        className={cn(
+                          reportLayout.badge, 
+                          powerColors.color,
+                          powerColors.textColor,
+                          "border"
+                        )}
+                      >
+                        {powerLevel === "unknown" ? "—" : powerLevel.charAt(0).toUpperCase() + powerLevel.slice(1)}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      {s.evidence ? (
+                        <p className={cn(reportTypography.bodyMuted, "text-xs italic line-clamp-2")}>
+                          "{s.evidence}"
+                        </p>
+                      ) : (
+                        <span className="text-slate-400 text-xs">No evidence cited</span>
+                      )}
                     </TableCell>
                   </TableRow>
                 );
