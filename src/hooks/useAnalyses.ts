@@ -111,6 +111,29 @@ export const useAnalyses = () => {
     return { error: null };
   };
 
+  const renameAnalysis = async (id: string, newTitle: string): Promise<{ error: Error | null }> => {
+    if (!user) {
+      return { error: new Error("Not authenticated") };
+    }
+
+    const { error: updateError } = await supabase
+      .from("analyses")
+      .update({ title: newTitle })
+      .eq("id", id)
+      .eq("user_id", user.id);
+
+    if (updateError) {
+      return { error: updateError as Error };
+    }
+
+    // Update local state
+    setAnalyses((prev) =>
+      prev.map((a) => (a.id === id ? { ...a, title: newTitle } : a))
+    );
+
+    return { error: null };
+  };
+
   const getAnalysis = async (id: string): Promise<{ data: Analysis | null; error: Error | null }> => {
     if (!user) {
       return { data: null, error: new Error("Not authenticated") };
@@ -137,6 +160,7 @@ export const useAnalyses = () => {
     fetchAnalyses,
     saveAnalysis,
     deleteAnalysis,
+    renameAnalysis,
     getAnalysis,
   };
 };
