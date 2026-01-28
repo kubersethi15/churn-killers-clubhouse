@@ -74,9 +74,9 @@ export const AnalysisHistoryDrawer = ({
     setDeletingId(null);
   };
 
-  const handleSelectAndClose = (analysis: Analysis) => {
+  const handleSelect = (analysis: Analysis) => {
     onSelectAnalysis(analysis);
-    setIsOpen(false);
+    // Keep drawer open for browsing - don't close on selection
   };
 
   const handleNewAndClose = () => {
@@ -148,7 +148,7 @@ export const AnalysisHistoryDrawer = ({
               {analyses.map((analysis) => (
                 <button
                   key={analysis.id}
-                  onClick={() => handleSelectAndClose(analysis)}
+                  onClick={() => handleSelect(analysis)}
                   className={`
                     w-full text-left p-3 rounded-lg transition-colors group
                     ${selectedAnalysisId === analysis.id 
