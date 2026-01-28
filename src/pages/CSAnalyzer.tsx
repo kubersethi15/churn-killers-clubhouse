@@ -796,7 +796,11 @@ const CSAnalyzer = () => {
                     
                     <TabsContent value="analysis" className="mt-0">
                       <div id="analysis-report-content">
-                        <AnalysisReport analysisResult={analysisResult} />
+                        <AnalysisReport 
+                          analysisResult={analysisResult} 
+                          title={selectedSavedAnalysis?.title || (selectedOption ? `${selectedOption.title} Analysis` : undefined)}
+                          createdAt={selectedSavedAnalysis?.created_at}
+                        />
                       </div>
                     </TabsContent>
                     

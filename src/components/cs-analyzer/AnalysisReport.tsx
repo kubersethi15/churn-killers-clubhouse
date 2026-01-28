@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import ReactMarkdown from "react-markdown";
+import { FileText } from "lucide-react";
 
 import { parseIntoSections } from "./report/utils";
 import { SnapshotSection } from "./report/SnapshotSection";
@@ -12,6 +13,8 @@ import { GenericSection } from "./report/GenericSection";
 
 interface AnalysisReportProps {
   analysisResult: string;
+  title?: string;
+  createdAt?: string;
 }
 
 // Determine which component to render based on section title
@@ -52,14 +55,44 @@ const renderSection = (title: string, content: string, idx: number) => {
   return <GenericSection key={idx} title={title} content={content} />;
 };
 
-export const AnalysisReport = ({ analysisResult }: AnalysisReportProps) => {
+export const AnalysisReport = ({ analysisResult, title, createdAt }: AnalysisReportProps) => {
   const sections = useMemo(() => parseIntoSections(analysisResult), [analysisResult]);
+  
+  const ReportHeader = () => (
+    title ? (
+      <div className="mb-6 pb-4 border-b border-report-border">
+        <div className="flex items-start gap-3">
+          <div className="p-2.5 rounded-lg bg-navy-dark/10 shrink-0">
+            <FileText className="w-5 h-5 text-navy-dark" />
+          </div>
+          <div className="min-w-0">
+            <h1 className="text-xl md:text-2xl font-serif font-bold text-navy-dark truncate">
+              {title}
+            </h1>
+            {createdAt && (
+              <p className="text-sm text-muted-foreground mt-0.5">
+                {new Date(createdAt).toLocaleDateString('en-US', { 
+                  weekday: 'long',
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    ) : null
+  );
   
   if (sections.length === 0) {
     // Fallback to raw markdown if parsing fails
     return (
       <Card>
         <CardContent className="p-6 md:p-8">
+          <ReportHeader />
           <div className="prose prose-sm md:prose-base max-w-none prose-headings:font-serif prose-headings:text-navy-dark prose-strong:text-navy-dark">
             <ReactMarkdown>{analysisResult}</ReactMarkdown>
           </div>
@@ -70,6 +103,7 @@ export const AnalysisReport = ({ analysisResult }: AnalysisReportProps) => {
   
   return (
     <div className="space-y-6">
+      <ReportHeader />
       {sections.map((section, idx) => renderSection(section.title, section.content, idx))}
     </div>
   );
