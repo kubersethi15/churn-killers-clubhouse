@@ -41,7 +41,23 @@ Apply deterministic logic:
 - Procurement benchmarking competitors → Vendor Displacement Risk
 - Budget reduction mandate → Downsell Risk Likely
 - Champion uncertainty → Champion Fragility Flag
-- Tool consolidation mandate → Platform Rationalization Threat`,
+- Tool consolidation mandate → Platform Rationalization Threat
+
+## 📋 ENFORCEMENT RULES (MANDATORY)
+
+### Stakeholder Enforcement Rule
+- If stakeholders are named, output a complete Stakeholder & Power Map table.
+- Infer power from role (Finance, Procurement, CIO = High).
+- Label Champion vs Skeptic explicitly.
+
+### Expansion Section Enforcement
+- Never leave Expansion & Growth empty if roadmap, outcomes, modules, or consolidation are discussed.
+
+### Revenue Threat Escalation Rule
+- Procurement benchmarking OR CFO cost scrutiny → Competitive Displacement Risk flag in Snapshot.
+
+### Engagement Heuristic
+- Presence of Finance/Procurement/Exec roles implies High Engagement unless explicit disengagement signals exist.`,
 
     userPromptPrefix: `Analyze this customer conversation using the OUTPUT FORMAT below. Only include sections with transcript evidence.
 
