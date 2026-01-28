@@ -318,39 +318,55 @@ const CSAnalyzer = () => {
   };
 
   const generateTitle = (type: AnalysisType, inputContent: string, analysisOutput?: string): string => {
-    // Try to extract a meaningful title from the analysis output
-    if (analysisOutput) {
-      // Look for company name patterns in the analysis
-      const companyMatch = analysisOutput.match(/(?:Company|Account|Customer|Client)[:：]\s*\*?\*?([A-Za-z0-9\s&.-]+?)(?:\*?\*?[\n,|]|$)/i);
-      if (companyMatch && companyMatch[1].trim().length > 2) {
-        return companyMatch[1].trim().slice(0, 50);
-      }
-      
-      // Look for a title/header at the start
-      const headerMatch = analysisOutput.match(/^#+\s*(.+?)(?:\n|$)/m);
-      if (headerMatch && headerMatch[1].trim().length > 3) {
-        return headerMatch[1].trim().slice(0, 50);
-      }
-      
-      // Look for stakeholder/contact names
-      const nameMatch = analysisOutput.match(/(?:Stakeholder|Contact|Champion|Executive|Decision Maker)[:：]\s*\*?\*?([A-Za-z\s.-]+?)(?:\*?\*?[\n,|]|$)/i);
-      if (nameMatch && nameMatch[1].trim().length > 2) {
-        const typeLabel = analysisOptions.find(o => o.id === type)?.title || "Analysis";
-        return `${nameMatch[1].trim().slice(0, 30)} - ${typeLabel}`;
-      }
-    }
-    
-    // Fallback: Extract from input content
-    // Look for speaker names in transcripts
-    const speakerMatch = inputContent.match(/(?:\[[\d:]+\])?\s*([A-Za-z]+(?:\s[A-Za-z]+)?)\s*:/);
-    if (speakerMatch && speakerMatch[1].trim().length > 2) {
-      const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      return `${speakerMatch[1].trim()} Call - ${date}`;
-    }
-    
-    // Last resort: use date and type
-    const typeLabel = analysisOptions.find(o => o.id === type)?.title || "Analysis";
     const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const typeLabel = analysisOptions.find(o => o.id === type)?.title || "Analysis";
+    
+    if (analysisOutput) {
+      // Look for Account Posture in Executive Snapshot (most meaningful indicator)
+      const postureMatch = analysisOutput.match(/Account Posture[:\s]*\*?\*?(Green|Amber|Red)/i);
+      const threatMatch = analysisOutput.match(/Revenue Threat Level[:\s]*\*?\*?([^\n*]+)/i);
+      
+      // Look for company/customer name patterns
+      const companyPatterns = [
+        /Customer(?:\/Company)?[:\s]*\*?\*?([A-Za-z0-9\s&.-]{3,30})(?:\*?\*?[\n,|]|$)/i,
+        /Account[:\s]*\*?\*?([A-Za-z0-9\s&.-]{3,30})(?:\*?\*?[\n,|]|$)/i,
+      ];
+      
+      for (const pattern of companyPatterns) {
+        const match = analysisOutput.match(pattern);
+        if (match && match[1].trim().length > 2 && !match[1].includes("Posture")) {
+          const company = match[1].trim().slice(0, 25);
+          if (postureMatch) {
+            return `${company} - ${postureMatch[1]}`;
+          }
+          return `${company} - ${date}`;
+        }
+      }
+      
+      // Use posture + threat for title if available
+      if (postureMatch && threatMatch) {
+        const threat = threatMatch[1].trim().slice(0, 20);
+        return `${postureMatch[1]} Account - ${threat}`;
+      }
+      
+      if (postureMatch) {
+        return `${postureMatch[1]} Account - ${date}`;
+      }
+    }
+    
+    // Extract from input content - look for company mentions
+    const inputCompanyMatch = inputContent.match(/(?:at|with|for)\s+([A-Z][A-Za-z0-9\s&.-]{2,25})(?:,|\.|:|\s+(?:today|this|we))/i);
+    if (inputCompanyMatch) {
+      return `${inputCompanyMatch[1].trim()} - ${date}`;
+    }
+    
+    // Look for speaker names/roles in transcripts
+    const roleMatch = inputContent.match(/^(Head of [A-Za-z]+|VP of [A-Za-z]+|Director of [A-Za-z]+|[A-Z][a-z]+ Director|Finance Director|CSM|CEO|CFO|CIO)[:\s]/m);
+    if (roleMatch) {
+      return `${typeLabel} - ${date}`;
+    }
+    
+    // Last resort: use type and date
     return `${typeLabel} - ${date}`;
   };
 
