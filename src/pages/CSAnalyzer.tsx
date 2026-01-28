@@ -20,8 +20,8 @@ import {
   CheckCircle,
   RotateCcw,
   Copy,
-  LogIn,
   Save,
+  LogIn,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -292,17 +292,12 @@ const CSAnalyzer = () => {
                 </div>
               </div>
 
-              {!user && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-white hover:bg-white/10"
-                  onClick={() => navigate("/auth", { state: { from: "/cs-analyzer" } })}
-                >
-                  <LogIn className="w-4 h-4 mr-2" />
-                  Sign in to save
-                </Button>
-              )}
+              <Link 
+                to="/" 
+                className="text-white/70 hover:text-white text-sm transition-colors hidden md:block"
+              >
+                ← Back to Churn Is Dead
+              </Link>
             </div>
           </header>
 

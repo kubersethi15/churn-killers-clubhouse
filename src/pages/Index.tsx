@@ -203,20 +203,100 @@ const Index = () => {
         </div>
       </section>
       
+      {/* CS Analyzer Promo Section */}
+      <section className="py-20 md:py-28 bg-gradient-to-br from-navy-dark via-navy to-navy-light text-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-red/20 rounded-full mb-6">
+                  <MessageSquare className="w-4 h-4 text-red-400" />
+                  <span className="text-sm font-medium text-red-300">Free AI Tool</span>
+                </div>
+                <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4">
+                  CS Analyzer
+                </h2>
+                <p className="text-lg text-gray-300 mb-6">
+                  Paste your call transcripts and get instant, AI-powered insights. 
+                  Identify risks, uncover opportunities, and get actionable next steps in seconds.
+                </p>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-center gap-3 text-gray-200">
+                    <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+                    Instant risk & opportunity detection
+                  </li>
+                  <li className="flex items-center gap-3 text-gray-200">
+                    <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+                    Stakeholder mapping & sentiment analysis
+                  </li>
+                  <li className="flex items-center gap-3 text-gray-200">
+                    <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+                    Ready-to-use follow-up questions
+                  </li>
+                </ul>
+                <Button 
+                  size="lg"
+                  className="bg-red-600 hover:bg-red-700 text-white font-medium"
+                  asChild
+                >
+                  <Link to="/cs-analyzer">
+                    Try CS Analyzer Free →
+                  </Link>
+                </Button>
+              </div>
+              <div className="hidden md:block">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-red/20 flex items-center justify-center">
+                        <MessageSquare className="w-5 h-5 text-red-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-white">Call Transcript Analysis</p>
+                        <p className="text-sm text-gray-400">AI-powered insights</p>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="h-3 bg-white/20 rounded-full w-full" />
+                      <div className="h-3 bg-white/20 rounded-full w-4/5" />
+                      <div className="h-3 bg-white/20 rounded-full w-3/5" />
+                    </div>
+                    <div className="grid grid-cols-3 gap-3 pt-2">
+                      <div className="bg-green-500/20 rounded-lg p-3 text-center">
+                        <p className="text-xs text-green-300">Health</p>
+                        <p className="text-lg font-bold text-green-400">Good</p>
+                      </div>
+                      <div className="bg-yellow-500/20 rounded-lg p-3 text-center">
+                        <p className="text-xs text-yellow-300">Risk</p>
+                        <p className="text-lg font-bold text-yellow-400">Low</p>
+                      </div>
+                      <div className="bg-blue-500/20 rounded-lg p-3 text-center">
+                        <p className="text-xs text-blue-300">Actions</p>
+                        <p className="text-lg font-bold text-blue-400">4</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Rallying Cry Section */}
-      <section className="py-20 md:py-28 bg-navy-dark text-white">
+      <section className="py-20 md:py-28 bg-cream">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6 text-navy-dark">
               CS is broken. Let's fix it together.
             </h2>
-            <div className="text-lg text-gray-200 mb-8 space-y-4">
+            <div className="text-lg text-gray-700 mb-8 space-y-4">
               <p>You're not crazy.</p>
               <p>QBR decks gather dust.</p>
               <p>Check-ins don't drive outcomes.</p>
               <p>Teams are chasing renewals instead of value.</p>
             </div>
-            <p className="text-lg text-gray-200 mb-8">
+            <p className="text-lg text-gray-700 mb-8">
               Churn Is Dead is your weekly roadmap to a better way with battle-tested frameworks, bold plays, and no-BS execution tactics that work.
             </p>
             <Button 

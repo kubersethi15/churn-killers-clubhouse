@@ -1,10 +1,18 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Link, useLocation, NavLink } from "react-router-dom";
+import { Link, useLocation, NavLink, useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import NewsletterForm from "./NewsletterForm";
 import ContactDialog from "./ContactDialog";
+import { useAuth } from "@/contexts/AuthContext";
+import { LogIn, User, LogOut, ChevronDown } from "lucide-react";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -12,6 +20,8 @@ const Header = () => {
   const [isSubscribeOpen, setIsSubscribeOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, profile, signOut } = useAuth();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -29,34 +39,20 @@ const Header = () => {
   }, []);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const openSubscribeModal = () => setIsSubscribeOpen(true);
   const openContactModal = () => setIsContactOpen(true);
   
-  const scrollToNewsletter = (e: React.MouseEvent) => {
-    e.preventDefault();
-    
-    // If we're not on the homepage, go to homepage first
-    if (location.pathname !== "/") {
-      window.location.href = "/#newsletter-section";
-      return;
-    }
-    
-    // Smooth scroll to newsletter section
-    const newsletterSection = document.getElementById("newsletter-section");
-    if (newsletterSection) {
-      newsletterSection.scrollIntoView({ behavior: "smooth" });
-    }
-    
-    // Close the menu if it's open
-    if (isMenuOpen) {
-      setIsMenuOpen(false);
-    }
-    
-    // Close the dialog if it's open
-    if (isSubscribeOpen) {
-      setIsSubscribeOpen(false);
-    }
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
   };
+
+  const displayName = profile?.display_name || user?.email?.split("@")[0] || "User";
+  const initials = displayName
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
 
   // Custom NavLink style function to highlight active routes
   const getNavLinkClass = ({ isActive }: { isActive: boolean }) => {
@@ -78,7 +74,7 @@ const Header = () => {
           </h1>
         </Link>
         
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-6">
           <NavLink to="/cs-analyzer" className={getNavLinkClass}>
             CS Analyzer
           </NavLink>
@@ -101,21 +97,82 @@ const Header = () => {
           >
             Contact
           </Link>
+
+          {/* Auth section */}
+          <div className="pl-4 border-l border-gray-200">
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="gap-2">
+                    <div className="w-7 h-7 rounded-full bg-red/10 flex items-center justify-center text-red text-xs font-medium">
+                      {initials}
+                    </div>
+                    <span className="hidden lg:inline text-navy-dark">{displayName}</span>
+                    <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <div className="px-2 py-1.5">
+                    <p className="text-sm font-medium">{displayName}</p>
+                    <p className="text-xs text-muted-foreground">{user.email}</p>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/cs-analyzer" className="cursor-pointer">
+                      <User className="h-4 w-4 mr-2" />
+                      My Analyses
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut} className="text-destructive cursor-pointer">
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => navigate("/auth")}
+                className="gap-2"
+              >
+                <LogIn className="h-4 w-4" />
+                Sign In
+              </Button>
+            )}
+          </div>
         </nav>
         
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="md:hidden"
-          onClick={toggleMenu}
-        >
-          <span className="sr-only">Menu</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
-            <line x1="4" x2="20" y1="12" y2="12" />
-            <line x1="4" x2="20" y1="6" y2="6" />
-            <line x1="4" x2="20" y1="18" y2="18" />
-          </svg>
-        </Button>
+        <div className="flex items-center gap-2 md:hidden">
+          {/* Mobile auth button */}
+          {user ? (
+            <div className="w-8 h-8 rounded-full bg-red/10 flex items-center justify-center text-red text-xs font-medium">
+              {initials}
+            </div>
+          ) : (
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={() => navigate("/auth")}
+            >
+              <LogIn className="h-4 w-4" />
+            </Button>
+          )}
+          
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={toggleMenu}
+          >
+            <span className="sr-only">Menu</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
+              <line x1="4" x2="20" y1="12" y2="12" />
+              <line x1="4" x2="20" y1="6" y2="6" />
+              <line x1="4" x2="20" y1="18" y2="18" />
+            </svg>
+          </Button>
+        </div>
       </div>
 
       {/* Mobile menu */}
@@ -176,6 +233,36 @@ const Header = () => {
             >
               Contact
             </Link>
+            
+            {/* Mobile auth options */}
+            <div className="border-t border-gray-100 pt-4 mt-2">
+              {user ? (
+                <>
+                  <div className="px-2 py-1 mb-2">
+                    <p className="text-sm font-medium text-navy-dark">{displayName}</p>
+                    <p className="text-xs text-muted-foreground">{user.email}</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      handleSignOut();
+                    }}
+                    className="text-destructive hover:text-destructive/80 font-medium transition-colors px-2 py-1 w-full text-left"
+                  >
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <Link
+                  to="/auth"
+                  className="text-red-600 font-medium transition-colors px-2 py-1 flex items-center gap-2"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <LogIn className="h-4 w-4" />
+                  Sign In
+                </Link>
+              )}
+            </div>
           </nav>
         </div>
       )}
