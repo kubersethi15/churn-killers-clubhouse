@@ -32,7 +32,7 @@ const Auth = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [magicLinkSent, setMagicLinkSent] = useState(false);
-  const [activeTab, setActiveTab] = useState("signup");
+  const [activeTab, setActiveTab] = useState("signin");
   const [touched, setTouched] = useState({ password: false, confirmPassword: false });
   const { signIn, signUp, signInWithMagicLink, resetPassword, user, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
