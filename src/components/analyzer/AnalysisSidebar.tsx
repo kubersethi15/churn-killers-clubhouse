@@ -16,9 +16,8 @@ import {
   Pencil,
   Check,
   X,
-  PanelLeftClose,
-  PanelLeft,
-  Sparkles,
+  ChevronsLeft,
+  ChevronsRight,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
@@ -142,49 +141,32 @@ export const AnalysisSidebar = ({
   return (
     <aside
       className={cn(
-        "bg-sidebar border-r border-sidebar-border flex flex-col transition-all duration-300 ease-in-out",
-        isCollapsed ? "w-14" : "w-72"
+        "bg-navy-dark flex flex-col transition-all duration-300 ease-in-out shrink-0",
+        isCollapsed ? "w-14" : "w-64"
       )}
     >
-      {/* Sidebar Header */}
-      <div className="flex items-center justify-between p-3 border-b border-sidebar-border h-14">
+      {/* Sidebar Header - matches main header height */}
+      <div className="flex items-center justify-between px-3 h-14 border-b border-white/10">
         {!isCollapsed && (
-          <div className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-red" />
-            <span className="font-serif font-semibold text-sm">History</span>
-          </div>
+          <span className="text-white/80 text-sm font-medium tracking-wide uppercase">
+            History
+          </span>
         )}
         <Button
           variant="ghost"
           size="icon"
           onClick={onToggleCollapse}
           className={cn(
-            "h-8 w-8 hover:bg-sidebar-accent",
+            "h-8 w-8 text-white/60 hover:text-white hover:bg-white/10",
             isCollapsed && "mx-auto"
           )}
           title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
           {isCollapsed ? (
-            <PanelLeft className="h-4 w-4" />
+            <ChevronsRight className="h-4 w-4" />
           ) : (
-            <PanelLeftClose className="h-4 w-4" />
+            <ChevronsLeft className="h-4 w-4" />
           )}
-        </Button>
-      </div>
-
-      {/* New Analysis Button */}
-      <div className={cn("p-2", isCollapsed && "px-1")}>
-        <Button
-          onClick={onNewAnalysis}
-          className={cn(
-            "bg-red hover:bg-red-dark text-white",
-            isCollapsed ? "w-10 h-10 p-0" : "w-full"
-          )}
-          size={isCollapsed ? "icon" : "sm"}
-          title="New Analysis"
-        >
-          <Plus className="h-4 w-4" />
-          {!isCollapsed && <span className="ml-2">New Analysis</span>}
         </Button>
       </div>
 
@@ -192,55 +174,55 @@ export const AnalysisSidebar = ({
       <ScrollArea className="flex-1">
         {!user ? (
           <div className={cn("p-4 text-center", isCollapsed && "hidden")}>
-            <p className="text-sm text-muted-foreground mb-4">
+            <p className="text-sm text-white/50 mb-4">
               Sign in to save and view your analysis history
             </p>
             <Button
               variant="outline"
               size="sm"
               onClick={() => navigate("/auth", { state: { from: "/cs-analyzer" } })}
-              className="w-full"
+              className="w-full border-white/20 text-white hover:bg-white/10"
             >
               Sign In
             </Button>
           </div>
         ) : isLoading ? (
           <div className="flex items-center justify-center py-8">
-            <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+            <Loader2 className="h-5 w-5 animate-spin text-white/40" />
           </div>
         ) : analyses.length === 0 ? (
           <div className={cn("p-4 text-center", isCollapsed && "hidden")}>
-            <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mx-auto mb-3">
-              <FileText className="h-6 w-6 text-muted-foreground" />
+            <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-3">
+              <FileText className="h-6 w-6 text-white/40" />
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-white/50">
               No analyses yet. Start by creating a new analysis.
             </p>
           </div>
         ) : (
-          <div className={cn("p-2 space-y-1", isCollapsed && "p-1")}>
+          <div className={cn("px-2 py-1 space-y-0.5", isCollapsed && "px-1")}>
             {analyses.map((analysis) => (
               <div
                 key={analysis.id}
                 onClick={() => handleSelect(analysis)}
                 className={cn(
-                  "w-full text-left rounded-lg transition-colors group cursor-pointer",
+                  "w-full text-left rounded-md transition-colors group cursor-pointer",
                   selectedAnalysisId === analysis.id
-                    ? "bg-red/10 border border-red/20"
-                    : "hover:bg-sidebar-accent",
-                  isCollapsed ? "p-2 flex justify-center" : "p-3"
+                    ? "bg-white/15"
+                    : "hover:bg-white/10",
+                  isCollapsed ? "p-2 flex justify-center" : "px-3 py-2"
                 )}
                 title={isCollapsed ? analysis.title : undefined}
               >
                 {isCollapsed ? (
-                  <span className="text-muted-foreground">
+                  <span className="text-white/60">
                     {analysisTypeIcons[analysis.analysis_type] || (
                       <FileText className="h-4 w-4" />
                     )}
                   </span>
                 ) : (
-                  <div className="flex items-start gap-3">
-                    <span className="text-muted-foreground mt-0.5 shrink-0">
+                  <div className="flex items-start gap-2.5">
+                    <span className="text-white/50 mt-0.5 shrink-0">
                       {analysisTypeIcons[analysis.analysis_type] || (
                         <FileText className="h-4 w-4" />
                       )}
@@ -255,26 +237,26 @@ export const AnalysisSidebar = ({
                             value={editingTitle}
                             onChange={(e) => setEditingTitle(e.target.value)}
                             onKeyDown={(e) => handleKeyDown(e, analysis.id)}
-                            className="h-7 text-sm py-1 px-2"
+                            className="h-7 text-sm py-1 px-2 bg-white/10 border-white/20 text-white"
                             autoFocus
                           />
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-7 w-7 shrink-0"
+                            className="h-7 w-7 shrink-0 text-white hover:bg-white/10"
                             onClick={(e) => saveEdit(e, analysis.id)}
                             disabled={isSaving}
                           >
                             {isSaving ? (
                               <Loader2 className="h-3 w-3 animate-spin" />
                             ) : (
-                              <Check className="h-3 w-3 text-green-600" />
+                              <Check className="h-3 w-3 text-green-400" />
                             )}
                           </Button>
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-7 w-7 shrink-0"
+                            className="h-7 w-7 shrink-0 text-white hover:bg-white/10"
                             onClick={cancelEditing}
                           >
                             <X className="h-3 w-3" />
@@ -282,10 +264,10 @@ export const AnalysisSidebar = ({
                         </div>
                       ) : (
                         <>
-                          <p className="text-sm font-medium truncate">
+                          <p className="text-sm font-medium text-white/90 truncate leading-tight">
                             {analysis.title}
                           </p>
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-xs text-white/40 mt-0.5">
                             {formatDistanceToNow(new Date(analysis.created_at), {
                               addSuffix: true,
                             })}
@@ -298,7 +280,7 @@ export const AnalysisSidebar = ({
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-7 w-7 text-muted-foreground hover:text-foreground"
+                          className="h-6 w-6 text-white/40 hover:text-white hover:bg-white/10"
                           onClick={(e) => startEditing(e, analysis)}
                         >
                           <Pencil className="h-3 w-3" />
@@ -306,7 +288,7 @@ export const AnalysisSidebar = ({
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                          className="h-6 w-6 text-white/40 hover:text-red-light hover:bg-white/10"
                           onClick={(e) => handleDelete(e, analysis.id)}
                           disabled={deletingId === analysis.id}
                         >
