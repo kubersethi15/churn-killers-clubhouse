@@ -662,7 +662,6 @@ const CSAnalyzer = () => {
               </div>
             )}
           </div>
-        </div>
       </main>
     </div>
   );
