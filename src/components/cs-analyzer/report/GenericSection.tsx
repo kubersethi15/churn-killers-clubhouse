@@ -71,6 +71,36 @@ const getSectionConfig = (title: string) => {
   };
 };
 
+// Parse inline bold markers and render as JSX
+const renderInlineText = (text: string): React.ReactNode => {
+  // Match **bold** patterns
+  const parts: React.ReactNode[] = [];
+  let lastIndex = 0;
+  const regex = /\*\*([^*]+)\*\*/g;
+  let match;
+  
+  while ((match = regex.exec(text)) !== null) {
+    // Add text before the bold
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
+    }
+    // Add bold text
+    parts.push(
+      <span key={match.index} className="font-semibold text-report-heading">
+        {match[1]}
+      </span>
+    );
+    lastIndex = match.index + match[0].length;
+  }
+  
+  // Add remaining text
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+  
+  return parts.length > 0 ? parts : text;
+};
+
 // Parse subsections from content (e.g., "**What Worked**" followed by bullets)
 const parseSubsections = (content: string): { title: string; items: string[] }[] => {
   const subsections: { title: string; items: string[] }[] = [];
@@ -80,8 +110,8 @@ const parseSubsections = (content: string): { title: string; items: string[] }[]
   for (const line of lines) {
     const trimmedLine = line.trim();
     
-    // Match subsection headers: **Subsection Title**
-    const subsectionMatch = trimmedLine.match(/^\*\*([^*]+)\*\*\s*$/);
+    // Match subsection headers: **Subsection Title** (must be standalone, not followed by content)
+    const subsectionMatch = trimmedLine.match(/^\*\*([^*:]+)\*\*\s*$/);
     if (subsectionMatch) {
       if (currentSubsection && currentSubsection.items.length > 0) {
         subsections.push(currentSubsection);
@@ -164,7 +194,9 @@ export const GenericSection = ({ title, content }: GenericSectionProps) => {
                     {subsection.items.map((item, itemIdx) => (
                       <div key={itemIdx} className={reportLayout.listItemCard}>
                         <span className={cn(reportLayout.bullet, subConfig.bullet)} />
-                        <span className={cn("leading-relaxed", reportTypography.bodyText)}>{item}</span>
+                        <span className={cn("leading-relaxed", reportTypography.bodyText)}>
+                          {renderInlineText(item)}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -184,7 +216,7 @@ export const GenericSection = ({ title, content }: GenericSectionProps) => {
                   <div key={idx} className={reportLayout.listItem}>
                     <span className={cn(reportLayout.bullet, reportLayout.bulletNavy)} />
                     <span className={cn("leading-relaxed", reportTypography.bodyText)}>
-                      {bulletMatch[1]}
+                      {renderInlineText(bulletMatch[1])}
                     </span>
                   </div>
                 );
