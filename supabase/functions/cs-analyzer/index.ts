@@ -374,7 +374,7 @@ Focus on:
 - Forward-looking roadmap clarity
 - Call-to-action effectiveness`,
 
-    userPromptPrefix: `Analyze this QBR (Quarterly Business Review) content and provide (keep the full response under ~600 words):
+    userPromptPrefix: `Analyze this QBR (Quarterly Business Review) content and provide a comprehensive analysis:
 
 1. **Overall Score** (1-10 with brief justification)
 2. **Strengths** (what's working well)
@@ -403,7 +403,7 @@ Focus on:
 - Risk mitigation planning
 - Success metric definition`,
 
-    userPromptPrefix: `Analyze this Success Plan and provide (keep the full response under ~600 words):
+    userPromptPrefix: `Analyze this Success Plan and provide a comprehensive analysis:
 
 1. **Plan Quality Score** (1-10 with justification)
 2. **Goal Assessment** (are objectives SMART?)
@@ -433,7 +433,7 @@ Focus on:
 - Renewal/expansion likelihood
 - Intervention recommendations`,
 
-    userPromptPrefix: `Analyze this customer health data and provide (keep the full response under ~600 words):
+    userPromptPrefix: `Analyze this customer health data and provide a comprehensive analysis:
 
 1. **Health Score** (Critical/At-Risk/Healthy/Thriving with reasoning)
 2. **Key Indicators Summary** (top positive and negative signals)
@@ -531,7 +531,7 @@ serve(async (req) => {
           // Lower randomness for more consistent structure
           temperature: 0.3,
           // Larger output for comprehensive enterprise analysis
-          max_tokens: 3000,
+          max_tokens: 4500,
         }),
         signal: controller.signal,
       });
