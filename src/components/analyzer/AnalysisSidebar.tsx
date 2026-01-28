@@ -1,3 +1,4 @@
+// Analysis sidebar component with grouping support
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
