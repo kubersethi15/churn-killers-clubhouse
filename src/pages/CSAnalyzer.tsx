@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AnalysisReport } from "@/components/cs-analyzer/AnalysisReport";
 import { AnalysisSidebar } from "@/components/analyzer/AnalysisSidebar";
 import { useAuth } from "@/contexts/AuthContext";
@@ -16,6 +17,8 @@ import {
   ArrowLeft, 
   ArrowRight,
   Sparkles,
+  FileText as FileTextIcon,
+  BarChart3,
   CheckCircle,
   RotateCcw,
   Copy,
@@ -747,9 +750,52 @@ const CSAnalyzer = () => {
                     </DropdownMenu>
                   </div>
 
-                  <div id="analysis-report-content">
-                    <AnalysisReport analysisResult={analysisResult} />
-                  </div>
+                  {/* Tabs for Analysis and Transcript */}
+                  <Tabs defaultValue="analysis" className="w-full">
+                    <TabsList className="grid w-full max-w-md grid-cols-2 mb-6">
+                      <TabsTrigger value="analysis" className="gap-2">
+                        <BarChart3 className="w-4 h-4" />
+                        Analysis
+                      </TabsTrigger>
+                      <TabsTrigger value="transcript" className="gap-2">
+                        <FileTextIcon className="w-4 h-4" />
+                        Transcript
+                      </TabsTrigger>
+                    </TabsList>
+                    
+                    <TabsContent value="analysis" className="mt-0">
+                      <div id="analysis-report-content">
+                        <AnalysisReport analysisResult={analysisResult} />
+                      </div>
+                    </TabsContent>
+                    
+                    <TabsContent value="transcript" className="mt-0">
+                      <Card className="border border-report-border">
+                        <CardHeader className="border-b border-report-border bg-report-surface/50">
+                          <div className="flex items-center gap-3">
+                            <div className="p-2 rounded-lg bg-navy-dark/10">
+                              <FileTextIcon className="w-5 h-5 text-navy-dark" />
+                            </div>
+                            <div>
+                              <CardTitle className="font-serif text-lg font-bold text-report-heading">
+                                Original {selectedOption?.title || "Content"}
+                              </CardTitle>
+                              <CardDescription className="text-sm text-report-muted">
+                                The source material used for this analysis
+                              </CardDescription>
+                            </div>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="p-6">
+                          <div className="bg-muted/30 rounded-lg p-4 max-h-[600px] overflow-y-auto">
+                            <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-report-text">
+                              {content || selectedSavedAnalysis?.input_text || "No transcript available"}
+                            </pre>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </TabsContent>
+                  </Tabs>
 
               </div>
             )}
