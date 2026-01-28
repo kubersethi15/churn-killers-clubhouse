@@ -35,15 +35,20 @@ export const ActionPlanSection = ({ content }: ActionPlanSectionProps) => {
   if (actions.length === 0) {
     return (
       <Card className={reportLayout.card}>
-        <CardHeader className="pb-4">
+        <CardHeader className={reportLayout.cardHeader}>
           <CardTitle className={cn("flex items-center gap-3", reportTypography.sectionTitle)}>
             <div className={cn(reportLayout.iconContainer, sectionIconColors.action)}>
               <Target className="w-5 h-5" />
             </div>
-            14-Day Strategic Action Plan
+            <div className="flex-1">
+              <span>14-Day Strategic Action Plan</span>
+              <p className={cn(reportTypography.sectionSubtitle, "mt-0.5")}>
+                Priority actions for the next two weeks
+              </p>
+            </div>
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className={reportLayout.cardContent}>
           <div className={cn("prose prose-sm max-w-none", reportTypography.bodyText)}>
             <ReactMarkdown>{content}</ReactMarkdown>
           </div>
@@ -59,9 +64,14 @@ export const ActionPlanSection = ({ content }: ActionPlanSectionProps) => {
           <div className={cn(reportLayout.iconContainer, sectionIconColors.action)}>
             <Target className="w-5 h-5" />
           </div>
-          14-Day Strategic Action Plan
+          <div className="flex-1">
+            <span>14-Day Strategic Action Plan</span>
+            <p className={cn(reportTypography.sectionSubtitle, "mt-0.5")}>
+              Priority actions for the next two weeks
+            </p>
+          </div>
           <Badge variant="secondary" className={cn("ml-auto", reportLayout.badgeCount)}>
-            {actions.length} Actions
+            {actions.length} action{actions.length !== 1 ? 's' : ''}
           </Badge>
         </CardTitle>
       </CardHeader>
@@ -95,7 +105,7 @@ export const ActionPlanSection = ({ content }: ActionPlanSectionProps) => {
                     key={idx} 
                     className={cn(
                       reportLayout.tableRow,
-                      idx === 0 && "bg-red-50/50"
+                      idx === 0 && "bg-report-surface/50"
                     )}
                   >
                     <TableCell className="text-center">
@@ -108,7 +118,7 @@ export const ActionPlanSection = ({ content }: ActionPlanSectionProps) => {
                     </TableCell>
                     <TableCell>
                       <div className="space-y-1">
-                        <p className={cn("font-sans font-medium leading-snug text-report-heading")}>
+                        <p className="font-sans font-medium leading-snug text-report-heading">
                           {action.action}
                         </p>
                         {action.reason && (

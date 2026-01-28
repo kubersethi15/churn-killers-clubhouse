@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Users, Crown, HelpCircle, UserX, AlertCircle, Zap, Quote } from "lucide-react";
+import { Users, Crown, HelpCircle, UserX, AlertCircle } from "lucide-react";
 import { parseStakeholders, getPostureType } from "./utils";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
@@ -90,15 +90,20 @@ export const StakeholderSection = ({ content }: StakeholderSectionProps) => {
   if (stakeholders.length === 0) {
     return (
       <Card className={reportLayout.card}>
-        <CardHeader className="pb-4">
+        <CardHeader className={reportLayout.cardHeader}>
           <CardTitle className={cn("flex items-center gap-3", reportTypography.sectionTitle)}>
             <div className={cn(reportLayout.iconContainer, sectionIconColors.stakeholder)}>
               <Users className="w-5 h-5" />
             </div>
-            Stakeholders & Power Map
+            <div className="flex-1">
+              <span>Stakeholders & Power Map</span>
+              <p className={cn(reportTypography.sectionSubtitle, "mt-0.5")}>
+                Key stakeholders and influence dynamics
+              </p>
+            </div>
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className={reportLayout.cardContent}>
           <div className={cn("prose prose-sm max-w-none", reportTypography.bodyText)}>
             <ReactMarkdown>{content}</ReactMarkdown>
           </div>
@@ -114,14 +119,19 @@ export const StakeholderSection = ({ content }: StakeholderSectionProps) => {
           <div className={cn(reportLayout.iconContainer, sectionIconColors.stakeholder)}>
             <Users className="w-5 h-5" />
           </div>
-          Stakeholders & Power Map
+          <div className="flex-1">
+            <span>Stakeholders & Power Map</span>
+            <p className={cn(reportTypography.sectionSubtitle, "mt-0.5")}>
+              Key stakeholders and influence dynamics
+            </p>
+          </div>
           <Badge variant="secondary" className={cn("ml-auto", reportLayout.badgeCount)}>
-            {stakeholders.length} Identified
+            {stakeholders.length} identified
           </Badge>
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
-        {/* Stakeholders Table - Full width with all columns */}
+        {/* Stakeholders Table */}
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
@@ -195,7 +205,7 @@ export const StakeholderSection = ({ content }: StakeholderSectionProps) => {
         
         {/* Additional Info Sections */}
         {(decisionDynamics.length > 0 || missingStakeholders.length > 0) && (
-          <div className="border-t border-report-border p-5 grid md:grid-cols-2 gap-6">
+          <div className="border-t border-report-border p-5 grid md:grid-cols-2 gap-5">
             {/* Decision Dynamics */}
             {decisionDynamics.length > 0 && (
               <div>
@@ -203,14 +213,14 @@ export const StakeholderSection = ({ content }: StakeholderSectionProps) => {
                   <Crown className="w-4 h-4 text-amber-500" />
                   Decision Dynamics
                 </h4>
-                <ul className="space-y-2">
+                <div className="space-y-2">
                   {decisionDynamics.map((item, idx) => (
-                    <li key={idx} className={cn("flex items-start gap-2", reportTypography.bodyMuted)}>
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5 shrink-0" />
-                      {item}
-                    </li>
+                    <div key={idx} className={reportLayout.listItem}>
+                      <span className={cn(reportLayout.bullet, "bg-amber-400")} />
+                      <span className={reportTypography.bodyMuted}>{item}</span>
+                    </div>
                   ))}
-                </ul>
+                </div>
               </div>
             )}
             

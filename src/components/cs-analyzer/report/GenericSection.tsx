@@ -6,7 +6,6 @@ import {
   Target,
   Shield,
   FileText,
-  ChevronRight,
   Award,
   AlertCircle,
   Lightbulb,
@@ -26,49 +25,49 @@ const getSectionConfig = (title: string) => {
     return { 
       icon: CheckCircle2, 
       color: "bg-navy-dark/10 text-navy-dark",
-      borderColor: "border-l-navy"
+      subtitle: "Evidence-based facts from the conversation"
     };
   }
   if (lower.includes("sentiment") || lower.includes("engagement")) {
     return { 
       icon: MessageSquare, 
       color: "bg-navy-dark/10 text-navy-dark",
-      borderColor: "border-l-navy-light"
+      subtitle: "Customer sentiment and engagement signals"
     };
   }
   if (lower.includes("value") || lower.includes("outcome")) {
     return { 
       icon: TrendingUp, 
       color: "bg-emerald-100 text-emerald-600",
-      borderColor: "border-l-emerald-500"
+      subtitle: "Value delivered and outcomes achieved"
     };
   }
   if (lower.includes("renewal") || lower.includes("decision") || lower.includes("readiness")) {
     return { 
       icon: Target, 
       color: "bg-amber-100 text-amber-600",
-      borderColor: "border-l-amber-500"
+      subtitle: "Deal cycle and renewal readiness"
     };
   }
   if (lower.includes("effectiveness") || lower.includes("rep") || lower.includes("coaching")) {
     return { 
       icon: Award, 
       color: "bg-navy-dark/10 text-navy-dark",
-      borderColor: "border-l-navy-dark"
+      subtitle: "CS rep performance coaching"
     };
   }
   if (lower.includes("objection") || lower.includes("counter") || lower.includes("narrative")) {
     return { 
       icon: Shield, 
       color: "bg-amber-100 text-amber-600",
-      borderColor: "border-l-amber-500"
+      subtitle: "Counter-narratives for objections"
     };
   }
   
   return { 
     icon: FileText, 
     color: "bg-navy-dark/10 text-navy-dark",
-    borderColor: "border-l-navy"
+    subtitle: null
   };
 };
 
@@ -109,15 +108,15 @@ const parseSubsections = (content: string): { title: string; items: string[] }[]
 const getSubsectionConfig = (title: string) => {
   const lower = title.toLowerCase();
   if (lower.includes("worked") || lower.includes("positive") || lower.includes("strength")) {
-    return { icon: CheckCircle2, color: "text-emerald-600" };
+    return { icon: CheckCircle2, color: "text-emerald-600", bullet: "bg-emerald-500" };
   }
   if (lower.includes("differently") || lower.includes("improve") || lower.includes("top 1%")) {
-    return { icon: Lightbulb, color: "text-amber-600" };
+    return { icon: Lightbulb, color: "text-amber-600", bullet: "bg-amber-500" };
   }
   if (lower.includes("missed") || lower.includes("gap") || lower.includes("weak")) {
-    return { icon: AlertCircle, color: "text-red-600" };
+    return { icon: AlertCircle, color: "text-red-600", bullet: "bg-red-500" };
   }
-  return { icon: ChevronRight, color: "text-navy-dark/50" };
+  return { icon: FileText, color: "text-navy-dark/50", bullet: "bg-navy-dark/40" };
 };
 
 export const GenericSection = ({ title, content }: GenericSectionProps) => {
@@ -132,16 +131,21 @@ export const GenericSection = ({ title, content }: GenericSectionProps) => {
   const hasStructuredContent = subsections.length > 0;
   
   return (
-    <Card className={cn(reportLayout.card, "border-l-4", config.borderColor)}>
-      <CardHeader className="pb-3">
+    <Card className={reportLayout.card}>
+      <CardHeader className={reportLayout.cardHeader}>
         <CardTitle className={cn("flex items-center gap-3", reportTypography.sectionTitle)}>
           <div className={cn(reportLayout.iconContainer, config.color)}>
             <Icon className="w-5 h-5" />
           </div>
-          {cleanTitle}
+          <div className="flex-1">
+            <span>{cleanTitle}</span>
+            {config.subtitle && (
+              <p className={cn(reportTypography.sectionSubtitle, "mt-0.5")}>{config.subtitle}</p>
+            )}
+          </div>
         </CardTitle>
       </CardHeader>
-      <CardContent className="pt-0">
+      <CardContent className={reportLayout.cardContent}>
         {hasStructuredContent ? (
           <div className="space-y-5">
             {subsections.map((subsection, idx) => {
@@ -156,13 +160,10 @@ export const GenericSection = ({ title, content }: GenericSectionProps) => {
                       {subsection.title}
                     </h4>
                   </div>
-                  <div className="space-y-2 pl-1">
+                  <div className="space-y-2">
                     {subsection.items.map((item, itemIdx) => (
-                      <div 
-                        key={itemIdx}
-                        className="flex items-start gap-3 p-3 rounded-lg bg-report-surface/50"
-                      >
-                        <ChevronRight className="w-4 h-4 text-navy-dark/40 mt-0.5 flex-shrink-0" />
+                      <div key={itemIdx} className={reportLayout.listItemCard}>
+                        <span className={cn(reportLayout.bullet, subConfig.bullet)} />
                         <span className={cn("leading-relaxed", reportTypography.bodyText)}>{item}</span>
                       </div>
                     ))}
@@ -180,11 +181,8 @@ export const GenericSection = ({ title, content }: GenericSectionProps) => {
               const bulletMatch = trimmedLine.match(/^[-•]\s*(.+)$/);
               if (bulletMatch) {
                 return (
-                  <div 
-                    key={idx}
-                    className="flex items-start gap-3 py-1.5"
-                  >
-                    <ChevronRight className="w-4 h-4 text-navy-dark/40 mt-0.5 flex-shrink-0" />
+                  <div key={idx} className={reportLayout.listItem}>
+                    <span className={cn(reportLayout.bullet, reportLayout.bulletNavy)} />
                     <span className={cn("leading-relaxed", reportTypography.bodyText)}>
                       {bulletMatch[1]}
                     </span>
