@@ -23,8 +23,8 @@ const NewsletterForm = ({
   title,
   description, 
   buttonVariant = "outline-red",
-  textColor = "text-gray-700", // Default text color
-  buttonText = "Let's Kill Churn →",  // Changed default to unified CTA
+  textColor = "text-gray-700",
+  buttonText = "Subscribe",
   subscribeText
 }: NewsletterFormProps) => {
   const [email, setEmail] = useState("");

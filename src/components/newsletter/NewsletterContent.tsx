@@ -131,12 +131,12 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
                   target="_blank" 
                   rel="noopener noreferrer"
                 >
-                  View CO-OP Framework <ExternalLink className="ml-1 h-4 w-4" />
+                  View in Notion <ExternalLink className="ml-1 h-4 w-4" />
                 </a>
               </Button>
               <Button variant="outline" asChild>
                 <Link to="/playbook">
-                  Browse All Playbook Resources →
+                  All Resources
                 </Link>
               </Button>
             </div>
@@ -152,7 +152,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
             Grab the <strong>Kickoff Re-Discovery Checklist</strong> — my pre-call system to align internally, validate goals, and earn trust before the first customer call.
           </p>
           <Button variant="vibrant-red" asChild>
-            <Link to="/playbook">👉 Access the Playbook Vault</Link>
+            <Link to="/playbook">Get Template</Link>
           </Button>
         </div>
       )}
@@ -165,7 +165,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
             Grab the <strong>Timeline Negotiator</strong> — my framework for negotiating realistic timelines that build trust with customers and internal stakeholders.
           </p>
           <Button variant="vibrant-red" asChild>
-            <Link to="/playbook">👉 Access the Playbook Vault</Link>
+            <Link to="/playbook">Get Template</Link>
           </Button>
         </div>
       )}
@@ -178,7 +178,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
             Grab the <strong>Value Story Slide</strong> — a 1-slide QBR format that ties usage → outcomes → business value, with example metrics by persona and how to quantify impact even without hard ROI numbers.
           </p>
           <Button variant="vibrant-red" asChild>
-            <Link to="/playbook">👉 Access the Playbook Vault</Link>
+            <Link to="/playbook">Get Template</Link>
           </Button>
         </div>
       )}
@@ -191,7 +191,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
             Grab the <strong>CO-OP Framework</strong> — the exact system that helped save that $2M renewal and is now being used by 10+ enterprise CS teams to increase renewal predictability and expansion velocity.
           </p>
           <Button variant="vibrant-red" asChild>
-            <Link to="/playbook">👉 Access the Playbook Vault</Link>
+            <Link to="/playbook">Get Template</Link>
           </Button>
         </div>
       )}
@@ -204,7 +204,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
             Grab the <strong>Expansion Signal Tracker</strong> — my framework for identifying and capturing expansion moments that are hiding in plain sight within your customer interactions.
           </p>
           <Button variant="vibrant-red" asChild>
-            <Link to="/playbook">👉 Access the Playbook Vault</Link>
+            <Link to="/playbook">Get Template</Link>
           </Button>
         </div>
       )}
@@ -219,7 +219,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
       
       <div className="mt-12 pt-8 border-t border-gray-200">
         <Button asChild>
-          <Link to="/newsletters">← Browse All Newsletters</Link>
+          <Link to="/newsletters">All Issues</Link>
         </Button>
       </div>
     </>
