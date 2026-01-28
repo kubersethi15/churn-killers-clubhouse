@@ -1,13 +1,13 @@
-
 import { useEffect } from "react";
 import { ExternalLink, Download } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
-import NewsletterForm from "@/components/NewsletterForm";
 import Footer from "@/components/Footer";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface PlaybookResource {
   id: string;
@@ -147,10 +147,20 @@ const sortedResources = [...resources].sort((a, b) =>
 );
 
 const PlaybookVault = () => {
+  const { user, isLoading: authLoading } = useAuth();
+  const navigate = useNavigate();
+
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Redirect to auth if not logged in
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate('/auth', { state: { from: '/playbook' } });
+    }
+  }, [user, authLoading, navigate]);
 
   const handlePdfDownload = (pdfPath: string, title: string) => {
     console.log("Initiating PDF download:", pdfPath);
@@ -168,6 +178,20 @@ const PlaybookVault = () => {
     
     console.log("PDF download triggered successfully");
   };
+
+  // Show loading while checking auth
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600"></div>
+      </div>
+    );
+  }
+
+  // Don't render if not authenticated (will redirect)
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -277,29 +301,6 @@ const PlaybookVault = () => {
           </div>
         </section>
 
-        {/* Newsletter CTA Section */}
-        <section className="bg-white py-12 md:py-16">
-          <div className="container mx-auto px-4 md:px-6">
-            <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold text-navy-dark mb-3">
-                📩 Want more tools like this every week?
-              </h2>
-              <p className="text-lg md:text-xl text-navy-dark/80 mb-6">
-                Subscribe to the <em>Churn Is Dead</em> newsletter for bold, tactical CS insights — every Tuesday night.
-              </p>
-              <div className="max-w-md mx-auto">
-                <NewsletterForm 
-                  buttonVariant="vibrant-red"
-                  buttonText="Subscribe Now"
-                  className="max-w-md mx-auto"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="container mx-auto px-4 md:px-6 mt-12">
-            <Separator className="bg-gray-200" />
-          </div>
-        </section>
       </div>
       
       {/* Use the consistent Footer component */}
