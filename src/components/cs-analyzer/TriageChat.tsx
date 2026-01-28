@@ -14,7 +14,10 @@ import {
   Loader2,
   ArrowRight,
   RefreshCw,
+  Edit2,
+  Check,
 } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -30,8 +33,14 @@ interface Message {
 interface Classification {
   contentType: string | null;
   scenario: string | null;
+  scenarioLabel: string | null;
   customer: string | null;
   confidence: "high" | "medium" | "low";
+}
+
+interface CustomPrompt {
+  systemPrompt: string;
+  userPromptPrefix: string;
 }
 
 interface TriageChatProps {
@@ -39,23 +48,24 @@ interface TriageChatProps {
     contentType: string;
     callCategory: string | null;
     content: string;
+    customPrompt?: CustomPrompt;
   }) => void;
 }
 
 const INITIAL_MESSAGE: Message = {
   id: "welcome",
   role: "assistant",
-  content: `**Welcome to CS Analyzer** 👋
+  content: `**Welcome to CS Analyzer**
 
 I can help you analyze your customer success content. Just paste your content below and I'll:
 
 1. **Detect the type** (call transcript, QBR, success plan, health data)
-2. **Classify the scenario** (for transcripts: Value, Risk, or Internal)
+2. **Classify the scenario** (for transcripts: Value, Risk, Internal, or Other)
 3. **Extract context** (customer, stakeholders, key signals)
 
 **Paste your content to get started**, or ask me a question about what I can analyze.
 
-*Currently, only Call Transcripts are fully supported. Other types are coming soon!*`,
+*For "Other" scenarios, I'll generate a custom analysis prompt tailored to your specific call type.*`,
 };
 
 export const TriageChat = ({ onAnalysisReady }: TriageChatProps) => {
@@ -64,6 +74,8 @@ export const TriageChat = ({ onAnalysisReady }: TriageChatProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [lastClassification, setLastClassification] = useState<Classification | null>(null);
   const [originalContent, setOriginalContent] = useState<string>("");
+  const [editableScenarioLabel, setEditableScenarioLabel] = useState<string>("");
+  const [isEditingLabel, setIsEditingLabel] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -142,6 +154,10 @@ export const TriageChat = ({ onAnalysisReady }: TriageChatProps) => {
 
         if (data.classification) {
           setLastClassification(data.classification);
+          // Set editable scenario label for "other" scenarios
+          if (data.classification.scenario === 'other' && data.classification.scenarioLabel) {
+            setEditableScenarioLabel(data.classification.scenarioLabel);
+          }
         }
       }
     } catch (error) {
@@ -155,6 +171,70 @@ export const TriageChat = ({ onAnalysisReady }: TriageChatProps) => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Generate dynamic prompt for "other" scenarios
+  const generateCustomPrompt = (scenarioLabel: string): CustomPrompt => {
+    const systemPrompt = `You are an expert Customer Success analyst specializing in analyzing "${scenarioLabel}" conversations.
+Your role is to extract actionable insights from this specific type of customer interaction.
+
+## Core Objectives
+Based on the "${scenarioLabel}" context, you will:
+- Identify key themes, decisions, and action items
+- Extract stakeholder information and their positions
+- Highlight opportunities, risks, and next steps
+- Provide strategic recommendations
+
+## Job-Safety Rules
+- Never invent facts, metrics, or information not in the transcript
+- Evidence-first: Every claim must include a quote or precise paraphrase
+- If missing info, explicitly say: "Not enough information in transcript"
+- Separate Observed vs Inferred insights
+- Be specific and actionable, not generic`;
+
+    const userPromptPrefix = `Analyze this "${scenarioLabel}" conversation and provide a comprehensive analysis.
+
+## REQUIRED OUTPUT FORMAT
+
+### 0) Executive Snapshot
+- **Scenario Type:** ${scenarioLabel}
+- **Overall Assessment:** Positive / Neutral / Concerning
+- **Urgency Level:** Low / Medium / High
+- **One-line Summary:** [Key takeaway from this conversation]
+
+### 1) Key Themes & Topics Discussed
+List the main themes with evidence from the transcript.
+
+### 2) Stakeholder Analysis
+| Stakeholder | Role | Position/Sentiment | Key Quotes |
+|-------------|------|-------------------|------------|
+
+### 3) Decisions & Commitments Made
+What was agreed upon or decided during this conversation?
+
+### 4) Opportunities Identified
+What opportunities emerged from this discussion?
+
+### 5) Risks & Concerns
+What risks or concerns were raised or implied?
+
+### 6) Action Items
+| Action | Owner | Timeline | Priority |
+|--------|-------|----------|----------|
+
+### 7) Strategic Recommendations
+Based on this conversation, what should happen next?
+
+### 8) Follow-up Questions
+10-15 questions to ask in the next conversation.
+
+---
+
+TRANSCRIPT:
+\`\`\`text
+`;
+
+    return { systemPrompt, userPromptPrefix };
   };
 
   const handleProceedToAnalysis = () => {
@@ -176,11 +256,22 @@ export const TriageChat = ({ onAnalysisReady }: TriageChatProps) => {
       return;
     }
 
-    onAnalysisReady?.({
-      contentType: lastClassification.contentType,
-      callCategory: lastClassification.scenario,
-      content: originalContent,
-    });
+    // For "other" scenarios, generate custom prompt
+    if (lastClassification.scenario === 'other') {
+      const label = editableScenarioLabel || lastClassification.scenarioLabel || 'Custom Analysis';
+      onAnalysisReady?.({
+        contentType: lastClassification.contentType,
+        callCategory: 'other',
+        content: originalContent,
+        customPrompt: generateCustomPrompt(label),
+      });
+    } else {
+      onAnalysisReady?.({
+        contentType: lastClassification.contentType,
+        callCategory: lastClassification.scenario,
+        content: originalContent,
+      });
+    }
   };
 
   const handleReset = () => {
@@ -188,6 +279,8 @@ export const TriageChat = ({ onAnalysisReady }: TriageChatProps) => {
     setInput("");
     setLastClassification(null);
     setOriginalContent("");
+    setEditableScenarioLabel("");
+    setIsEditingLabel(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -263,7 +356,9 @@ export const TriageChat = ({ onAnalysisReady }: TriageChatProps) => {
                     )}
                     {message.classification.scenario && (
                       <Badge variant="secondary" className="text-xs capitalize">
-                        {message.classification.scenario.replace("-", " ")}
+                        {message.classification.scenario === 'other' && message.classification.scenarioLabel
+                          ? message.classification.scenarioLabel
+                          : message.classification.scenario.replace("-", " ")}
                       </Badge>
                     )}
                   </div>
@@ -299,30 +394,80 @@ export const TriageChat = ({ onAnalysisReady }: TriageChatProps) => {
       {/* Action Bar - Shows when classification is ready */}
       {lastClassification && lastClassification.contentType === "call-transcript" && originalContent && (
         <div className="px-4 py-3 border-t bg-emerald-50/50">
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2 text-sm text-emerald-700">
-              <CheckCircle className="w-4 h-4" />
-              <span>Ready to analyze as <strong>{lastClassification.scenario?.replace("-", " ") || "transcript"}</strong></span>
-            </div>
-            <div className="flex gap-2">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={handleReset}
-                className="text-muted-foreground"
-              >
-                <RefreshCw className="w-3 h-3 mr-1" />
-                Start Over
-              </Button>
-              <Button 
-                size="sm" 
-                onClick={handleProceedToAnalysis}
-                className="bg-red hover:bg-red-dark text-white"
-              >
-                <Sparkles className="w-3 h-3 mr-1" />
-                Analyze
-                <ArrowRight className="w-3 h-3 ml-1" />
-              </Button>
+          <div className="flex flex-col gap-3">
+            {/* "Other" scenario label editing */}
+            {lastClassification.scenario === 'other' && (
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">Scenario:</span>
+                {isEditingLabel ? (
+                  <div className="flex items-center gap-2 flex-1">
+                    <Input
+                      value={editableScenarioLabel}
+                      onChange={(e) => setEditableScenarioLabel(e.target.value)}
+                      placeholder="e.g., Partner Onboarding, Product Feedback..."
+                      className="h-8 text-sm max-w-xs"
+                      autoFocus
+                    />
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setIsEditingLabel(false)}
+                      className="h-8 w-8 p-0"
+                    >
+                      <Check className="w-4 h-4 text-emerald-600" />
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <Badge variant="secondary" className="text-xs">
+                      {editableScenarioLabel || lastClassification.scenarioLabel || 'Custom Analysis'}
+                    </Badge>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setIsEditingLabel(true)}
+                      className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
+                    >
+                      <Edit2 className="w-3 h-3" />
+                    </Button>
+                  </div>
+                )}
+              </div>
+            )}
+            
+            {/* Action buttons */}
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2 text-sm text-emerald-700">
+                <CheckCircle className="w-4 h-4" />
+                <span>
+                  Ready to analyze as{" "}
+                  <strong>
+                    {lastClassification.scenario === 'other'
+                      ? (editableScenarioLabel || lastClassification.scenarioLabel || 'Custom')
+                      : (lastClassification.scenario?.replace("-", " ") || "transcript")}
+                  </strong>
+                </span>
+              </div>
+              <div className="flex gap-2">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={handleReset}
+                  className="text-muted-foreground"
+                >
+                  <RefreshCw className="w-3 h-3 mr-1" />
+                  Start Over
+                </Button>
+                <Button 
+                  size="sm" 
+                  onClick={handleProceedToAnalysis}
+                  className="bg-red hover:bg-red-dark text-white"
+                >
+                  <Sparkles className="w-3 h-3 mr-1" />
+                  Analyze
+                  <ArrowRight className="w-3 h-3 ml-1" />
+                </Button>
+              </div>
             </div>
           </div>
         </div>

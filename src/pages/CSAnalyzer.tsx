@@ -476,10 +476,15 @@ const CSAnalyzer = () => {
   };
 
   // Handler for AI triage - when user confirms classification
+  // Handler for AI triage - when user confirms classification
   const handleTriageAnalysisReady = async (params: {
     contentType: string;
     callCategory: string | null;
     content: string;
+    customPrompt?: {
+      systemPrompt: string;
+      userPromptPrefix: string;
+    };
   }) => {
     setSelectedType(params.contentType as AnalysisType);
     setSelectedCallCategory(params.callCategory as CallCategory);
@@ -491,13 +496,20 @@ const CSAnalyzer = () => {
     setIsAnalyzing(true);
 
     try {
+      const requestBody: Record<string, unknown> = {
+        analysisType: params.contentType,
+        callCategory: params.callCategory,
+        content: params.content,
+        email: user?.email || "anonymous@user.com",
+      };
+
+      // Include custom prompt for "other" scenarios
+      if (params.callCategory === 'other' && params.customPrompt) {
+        requestBody.customPrompt = params.customPrompt;
+      }
+
       const { data, error } = await supabase.functions.invoke("cs-analyzer", {
-        body: {
-          analysisType: params.contentType,
-          callCategory: params.callCategory,
-          content: params.content,
-          email: user?.email || "anonymous@user.com",
-        },
+        body: requestBody,
       });
 
       if (error) throw error;
