@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AnalysisReport } from "@/components/cs-analyzer/AnalysisReport";
 import { TriageChat } from "@/components/cs-analyzer/TriageChat";
+import { AdvisorChat } from "@/components/cs-analyzer/AdvisorChat";
 import { AnalysisSidebar } from "@/components/analyzer/AnalysisSidebar";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAnalyses, Analysis } from "@/hooks/useAnalyses";
@@ -159,7 +160,7 @@ const CSAnalyzer = () => {
   const [analyzerMode, setAnalyzerMode] = useState<"manual" | "ai-triage">("ai-triage");
   const { toast } = useToast();
   const { user, profile, signOut, isLoading: authLoading } = useAuth();
-  const { saveAnalysis, fetchAnalyses } = useAnalyses();
+  const { saveAnalysis, fetchAnalyses, analyses } = useAnalyses();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -1042,6 +1043,16 @@ const CSAnalyzer = () => {
           </div>
         </main>
       </div>
+
+      {/* CS Advisor Chat - Only visible when viewing results */}
+      {step === "results" && analysisResult && (
+        <AdvisorChat
+          currentAnalysis={analysisResult}
+          originalContent={content || selectedSavedAnalysis?.input_text || ""}
+          analysisHistory={analyses}
+          analysisTitle={selectedSavedAnalysis?.title || selectedOption?.title}
+        />
+      )}
     </div>
   );
 };
