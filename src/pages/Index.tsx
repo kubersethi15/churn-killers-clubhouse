@@ -164,7 +164,7 @@ const Index = () => {
       </section>
       
       {/* Newsletter Content Section */}
-      <section className="py-20 md:py-28">
+      <section className="py-14 md:py-20">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-5xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-serif font-bold text-navy-dark mb-10 flex items-center">
@@ -234,7 +234,7 @@ const Index = () => {
       </section>
       
       {/* CS Analyzer Promo Section */}
-      <section className="py-20 md:py-28 bg-gradient-to-br from-navy-dark via-navy to-navy-light text-white">
+      <section className="py-14 md:py-20 bg-gradient-to-br from-navy-dark via-navy to-navy-light text-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -313,22 +313,41 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Rallying Cry Section */}
-      <section className="py-20 md:py-28 bg-cream">
+      {/* Rallying Cry + What You Get - Combined Section */}
+      <section className="py-16 md:py-20 bg-cream">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6 text-navy-dark">
+            {/* Rallying Cry */}
+            <h2 className="text-3xl md:text-4xl font-serif font-bold mb-5 text-navy-dark">
               CS is broken. Let's fix it together.
             </h2>
-            <div className="text-lg text-gray-700 mb-8 space-y-4">
-              <p>You're not crazy.</p>
-              <p>QBR decks gather dust.</p>
-              <p>Check-ins don't drive outcomes.</p>
+            <div className="text-lg text-gray-600 mb-4 space-y-1">
+              <p>You're not crazy. QBR decks gather dust. Check-ins don't drive outcomes.</p>
               <p>Teams are chasing renewals instead of value.</p>
             </div>
-            <p className="text-lg text-gray-700 mb-8">
-              Churn Is Dead is your weekly roadmap to a better way with battle-tested frameworks, bold plays, and no-BS execution tactics that work.
+            <p className="text-lg text-gray-700 mb-10">
+              Churn Is Dead is your weekly roadmap to a better way—battle-tested frameworks, bold plays, and no-BS execution tactics.
             </p>
+            
+            {/* What You Get */}
+            <h3 className="text-xl md:text-2xl font-serif font-bold mb-5 text-navy-dark">
+              Every Tuesday, you get:
+            </h3>
+            <div className="space-y-3 mb-8">
+              <div className="flex items-center gap-3">
+                <CheckCircle className="text-red-500 flex-shrink-0 w-5 h-5" />
+                <p className="text-gray-700">What's broken in CS — and what's working</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <CheckCircle className="text-red-500 flex-shrink-0 w-5 h-5" />
+                <p className="text-gray-700">Frameworks you can run today</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <BookText className="text-red-500 flex-shrink-0 w-5 h-5" />
+                <p className="text-gray-700">Real stories from CS leaders in the arena</p>
+              </div>
+            </div>
+            
             <Button 
               variant="vibrant-red" 
               size="lg"
@@ -336,42 +355,17 @@ const Index = () => {
               asChild
             >
               <Link to="/newsletters">
-                Get the Playbook →
+                Explore Past Issues →
               </Link>
             </Button>
           </div>
         </div>
       </section>
       
-      {/* What You'll Get Section */}
-      <section className="py-20 md:py-28 bg-cream">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-serif font-bold mb-8 text-navy-dark">
-              Here's what lands in your inbox every Tuesday:
-            </h2>
-            <div className="space-y-6 mb-10">
-              <div className="flex items-start gap-4">
-                <CheckCircle className="text-red-500 flex-shrink-0 mt-1" />
-                <p className="text-lg text-navy-dark">What's broken in CS — and what's working</p>
-              </div>
-              <div className="flex items-start gap-4">
-                <CheckCircle className="text-red-500 flex-shrink-0 mt-1" />
-                <p className="text-lg text-navy-dark">Frameworks you can run today</p>
-              </div>
-              <div className="flex items-start gap-4">
-                <BookText className="text-red-500 flex-shrink-0 mt-1" />
-                <p className="text-lg text-navy-dark">Real stories from CS leaders in the arena</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      
       {/* Testimonials */}
-      <section className="py-20 md:py-28 bg-white">
+      <section className="py-14 md:py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16">
+          <div className="max-w-3xl mx-auto text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4 text-navy-dark">
               What CS Leaders Are Saying
             </h2>
@@ -398,7 +392,7 @@ const Index = () => {
       </section>
       
       {/* Final CTA */}
-      <section className="py-24 md:py-32 bg-red-600 text-white">
+      <section className="py-16 md:py-24 bg-red-600 text-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
