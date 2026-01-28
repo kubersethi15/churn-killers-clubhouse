@@ -85,7 +85,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
       {vaultResources.length > 0 && (
         <div className="my-12 p-8 bg-gray-50 rounded-lg border border-gray-100">
           <h3 className="text-2xl font-serif font-bold text-navy-dark mb-6 text-center">
-            📂 Related Vault Resources
+            Related Vault Resources
           </h3>
           <div className="space-y-4">
             {vaultResources.map((resource, index) => (
@@ -119,7 +119,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
         <div className="my-12 p-8 bg-gradient-to-br from-red-50 to-orange-50 rounded-lg border border-red-100">
           <div className="text-center">
             <h3 className="text-2xl font-serif font-bold text-navy-dark mb-4">
-              🚀 Get the Complete CO-OP Framework
+              Get the Complete CO-OP Framework
             </h3>
             <p className="text-lg text-gray-700 mb-6">
               The exact system that helped save that $2M renewal and is now being used by 10+ enterprise CS teams to increase renewal predictability and expansion velocity.
@@ -147,7 +147,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
       {/* Playbook Vault CTA - Only show for specific newsletters */}
       {isKickoffNewsletter && (
         <div className="my-10 p-6 bg-gray-50 rounded-lg border border-gray-100">
-          <h2 className="text-xl font-bold mb-4">🛠 Want the exact tool I use before every kickoff?</h2>
+          <h2 className="text-xl font-bold mb-4">Want the exact tool I use before every kickoff?</h2>
           <p className="mb-6">
             Grab the <strong>Kickoff Re-Discovery Checklist</strong> — my pre-call system to align internally, validate goals, and earn trust before the first customer call.
           </p>
@@ -160,7 +160,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
       {/* Timeline Negotiator CTA */}
       {isTimelineNewsletter && (
         <div className="my-10 p-6 bg-gray-50 rounded-lg border border-gray-100">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">🗓️ The 3-Part Timeline Negotiator</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">The 3-Part Timeline Negotiator</h2>
           <p className="mb-6">
             Grab the <strong>Timeline Negotiator</strong> — my framework for negotiating realistic timelines that build trust with customers and internal stakeholders.
           </p>
@@ -173,7 +173,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
       {/* Value Story Slide CTA */}
       {isUsageNewsletter && (
         <div className="my-10 p-6 bg-gray-50 rounded-lg border border-gray-100">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">📊 The Value Story Slide</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">The Value Story Slide</h2>
           <p className="mb-6">
             Grab the <strong>Value Story Slide</strong> — a 1-slide QBR format that ties usage → outcomes → business value, with example metrics by persona and how to quantify impact even without hard ROI numbers.
           </p>
@@ -186,7 +186,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
       {/* Question Breaking CS Team CTA */}
       {isQuestionNewsletter && (
         <div className="my-10 p-6 bg-gray-50 rounded-lg border border-gray-100">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">🚀 The CO-OP Framework</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">The CO-OP Framework</h2>
           <p className="mb-6">
             Grab the <strong>CO-OP Framework</strong> — the exact system that helped save that $2M renewal and is now being used by 10+ enterprise CS teams to increase renewal predictability and expansion velocity.
           </p>
@@ -199,7 +199,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
       {/* Expansion Moment CTA */}
       {isExpansionNewsletter && (
         <div className="my-10 p-6 bg-gray-50 rounded-lg border border-gray-100">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">📈 The Expansion Signal Tracker</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">The Expansion Signal Tracker</h2>
           <p className="mb-6">
             Grab the <strong>Expansion Signal Tracker</strong> — my framework for identifying and capturing expansion moments that are hiding in plain sight within your customer interactions.
           </p>
