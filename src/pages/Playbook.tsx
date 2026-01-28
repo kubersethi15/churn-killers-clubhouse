@@ -1,13 +1,11 @@
 import { useEffect } from "react";
 import { ExternalLink, Download } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import Footer from "@/components/Footer";
-import { useAuth } from "@/contexts/AuthContext";
 
 interface PlaybookResource {
   id: string;
@@ -147,20 +145,10 @@ const sortedResources = [...resources].sort((a, b) =>
 );
 
 const PlaybookVault = () => {
-  const { user, isLoading: authLoading } = useAuth();
-  const navigate = useNavigate();
-
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  // Redirect to auth if not logged in
-  useEffect(() => {
-    if (!authLoading && !user) {
-      navigate('/auth', { state: { from: '/playbook' } });
-    }
-  }, [user, authLoading, navigate]);
 
   const handlePdfDownload = (pdfPath: string, title: string) => {
     console.log("Initiating PDF download:", pdfPath);
@@ -178,20 +166,6 @@ const PlaybookVault = () => {
     
     console.log("PDF download triggered successfully");
   };
-
-  // Show loading while checking auth
-  if (authLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600"></div>
-      </div>
-    );
-  }
-
-  // Don't render if not authenticated (will redirect)
-  if (!user) {
-    return null;
-  }
 
   return (
     <div className="min-h-screen flex flex-col">
