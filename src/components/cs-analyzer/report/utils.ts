@@ -37,13 +37,19 @@ export const parseIntoSections = (markdown: string): ParsedSection[] => {
 };
 
 // Extract key-value pairs from content like "**Key:** Value"
+// Excludes "One-Line Truth" since it's rendered separately as Strategic Truth
 export const extractKeyValues = (content: string): KeyValue[] => {
   const pairs: KeyValue[] = [];
   const regex = /\*\*([^*]+):\*\*\s*([^\n]+)/g;
   let match;
   
   while ((match = regex.exec(content)) !== null) {
-    pairs.push({ key: match[1].trim(), value: match[2].trim() });
+    const key = match[1].trim();
+    // Skip One-Line Truth - it's shown separately as Strategic Truth
+    if (key.toLowerCase().includes("one-line truth") || key.toLowerCase().includes("one line truth")) {
+      continue;
+    }
+    pairs.push({ key, value: match[2].trim() });
   }
   
   return pairs;
