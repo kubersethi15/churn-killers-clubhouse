@@ -104,13 +104,31 @@ export const TriageChat = ({ onAnalysisReady }: TriageChatProps) => {
         .filter(m => m.id !== "welcome")
         .map(m => ({ role: m.role, content: m.content }));
 
+      console.log("Calling cs-triage with messages:", conversationHistory.length + 1);
+
       const { data, error } = await supabase.functions.invoke("cs-triage", {
         body: {
           messages: [...conversationHistory, { role: "user", content: userMessage.content }],
         },
       });
 
-      if (error) throw error;
+      console.log("cs-triage response:", { data, error });
+
+      if (error) {
+        console.error("Function invoke error:", error);
+        // Check for specific error types
+        if (error.message?.includes("429") || error.context?.status === 429) {
+          throw new Error("Rate limit exceeded. Please wait a moment and try again.");
+        }
+        if (error.message?.includes("402") || error.context?.status === 402) {
+          throw new Error("AI credits exhausted. Please try again later.");
+        }
+        throw error;
+      }
+
+      if (data?.error) {
+        throw new Error(data.error);
+      }
 
       if (data?.reply) {
         const assistantMessage: Message = {
@@ -128,9 +146,10 @@ export const TriageChat = ({ onAnalysisReady }: TriageChatProps) => {
       }
     } catch (error) {
       console.error("Triage error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Failed to process your request. Please try again.";
       toast({
         title: "Error",
-        description: "Failed to process your request. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
