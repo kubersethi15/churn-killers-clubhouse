@@ -201,18 +201,19 @@ export const AnalysisSidebar = ({
           </div>
         ) : (
           <div className={cn("px-2 py-1 space-y-0.5", isCollapsed && "px-2")}>
-            {/* New Analysis button when collapsed */}
-            {isCollapsed && (
-              <Button
-                onClick={onNewAnalysis}
-                variant="ghost"
-                size="icon"
-                className="w-full h-10 mb-2 text-white/60 hover:text-white hover:bg-white/10"
-                title="New Analysis"
-              >
-                <Plus className="h-5 w-5" />
-              </Button>
-            )}
+            {/* New Analysis button - always visible */}
+            <Button
+              onClick={onNewAnalysis}
+              variant="ghost"
+              className={cn(
+                "w-full mb-2 text-white/60 hover:text-white hover:bg-white/10",
+                isCollapsed ? "h-10 p-0 justify-center" : "h-9 justify-start gap-2 px-3"
+              )}
+              title="New Analysis"
+            >
+              <Plus className="h-5 w-5 shrink-0" />
+              {!isCollapsed && <span className="text-sm">New Analysis</span>}
+            </Button>
             {analyses.map((analysis) => (
               <div
                 key={analysis.id}
