@@ -44,6 +44,35 @@ import {
 import { cn } from "@/lib/utils";
 
 type AnalysisType = "call-transcript" | "qbr-deck" | "success-plan" | "health-assessment" | null;
+type CallCategory = "customer-value" | "customer-risk" | "internal-strategy" | null;
+
+interface CallCategoryOption {
+  id: CallCategory;
+  title: string;
+  description: string;
+  examples: string[];
+}
+
+const callCategoryOptions: CallCategoryOption[] = [
+  {
+    id: "customer-value",
+    title: "Customer Value",
+    description: "Renewal, QBR, expansion, and value realization conversations",
+    examples: ["Renewal discussions", "Quarterly Business Reviews", "Upsell/cross-sell calls", "Value proof meetings"]
+  },
+  {
+    id: "customer-risk",
+    title: "Customer Risk",
+    description: "Escalations, incidents, churn signals, and at-risk conversations",
+    examples: ["Escalation calls", "Incident debriefs", "At-risk account discussions", "Churn prevention calls"]
+  },
+  {
+    id: "internal-strategy",
+    title: "Internal Strategy",
+    description: "CS team syncs, leadership discussions, and coaching sessions",
+    examples: ["Team strategy meetings", "1:1 coaching sessions", "Pipeline reviews", "Playbook development"]
+  }
+];
 
 interface AnalysisOption {
   id: AnalysisType;
@@ -116,6 +145,7 @@ const analysisOptions: AnalysisOption[] = [
 
 const CSAnalyzer = () => {
   const [selectedType, setSelectedType] = useState<AnalysisType>(null);
+  const [selectedCallCategory, setSelectedCallCategory] = useState<CallCategory>(null);
   const [content, setContent] = useState("");
   const [fileName, setFileName] = useState<string | null>(null);
   const [step, setStep] = useState<"select" | "input" | "analyzing" | "results">("select");
@@ -160,6 +190,7 @@ const CSAnalyzer = () => {
 
   const handleTypeSelect = (type: AnalysisType) => {
     setSelectedType(type);
+    setSelectedCallCategory(null); // Reset call category when type changes
     setStep("input");
     setSelectedSavedAnalysis(null);
   };
@@ -179,12 +210,22 @@ const CSAnalyzer = () => {
     if (step === "input") {
       setStep("select");
       setSelectedType(null);
+      setSelectedCallCategory(null);
       setContent("");
       setFileName(null);
     }
   };
 
   const handleAnalyze = async () => {
+    // Require call category for call transcripts
+    if (selectedType === "call-transcript" && !selectedCallCategory) {
+      toast({
+        title: "Call type required",
+        description: "Please select the type of call before analyzing",
+        variant: "destructive",
+      });
+      return;
+    }
     if (!content && !fileName) {
       toast({
         title: "Content required",
@@ -208,6 +249,7 @@ const CSAnalyzer = () => {
             const { data, error } = await supabase.functions.invoke("cs-analyzer", {
               body: {
                 analysisType: selectedType,
+                callCategory: selectedType === "call-transcript" ? selectedCallCategory : undefined,
                 content,
                 email: user?.email || "anonymous@user.com",
               },
@@ -310,6 +352,7 @@ const CSAnalyzer = () => {
 
   const handleStartOver = () => {
     setSelectedType(null);
+    setSelectedCallCategory(null);
     setContent("");
     setFileName(null);
     setAnalysisResult(null);
@@ -645,6 +688,42 @@ const CSAnalyzer = () => {
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-6">
+                      {/* Call Category Selection - Only for Call Transcripts */}
+                      {selectedType === "call-transcript" && (
+                        <div>
+                          <Label className="text-base font-medium mb-3 block">
+                            What type of call is this?
+                          </Label>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            {callCategoryOptions.map((category) => (
+                              <button
+                                key={category.id}
+                                type="button"
+                                onClick={() => setSelectedCallCategory(category.id)}
+                                className={cn(
+                                  "text-left p-4 rounded-lg border-2 transition-all duration-200",
+                                  selectedCallCategory === category.id
+                                    ? "border-red bg-red/5 shadow-sm"
+                                    : "border-border hover:border-red/30 hover:bg-muted/50"
+                                )}
+                              >
+                                <div className="font-medium text-foreground mb-1">
+                                  {category.title}
+                                </div>
+                                <div className="text-xs text-muted-foreground leading-relaxed">
+                                  {category.description}
+                                </div>
+                              </button>
+                            ))}
+                          </div>
+                          {!selectedCallCategory && (
+                            <p className="text-xs text-muted-foreground mt-2">
+                              Select a call type to enable tailored analysis
+                            </p>
+                          )}
+                        </div>
+                      )}
+
                       {/* Text Input */}
                       <div>
                         <Label htmlFor="content" className="text-base font-medium">
