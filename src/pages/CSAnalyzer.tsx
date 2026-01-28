@@ -4,8 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { AnalysisReport } from "@/components/cs-analyzer/AnalysisReport";
-import { AnalyzerSidebar } from "@/components/analyzer/AnalyzerSidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AnalysisHistoryDrawer } from "@/components/analyzer/AnalysisHistoryDrawer";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAnalyses, Analysis } from "@/hooks/useAnalyses";
 import { 
@@ -21,10 +20,20 @@ import {
   RotateCcw,
   Copy,
   Save,
+  LogOut,
+  User,
+  ChevronDown,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Link, useNavigate } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type AnalysisType = "call-transcript" | "qbr-deck" | "success-plan" | "health-assessment" | null;
 
@@ -106,7 +115,7 @@ const CSAnalyzer = () => {
   const [analysisResult, setAnalysisResult] = useState<string | null>(null);
   const [selectedSavedAnalysis, setSelectedSavedAnalysis] = useState<Analysis | null>(null);
   const { toast } = useToast();
-  const { user, isLoading: authLoading } = useAuth();
+  const { user, profile, signOut, isLoading: authLoading } = useAuth();
   const { saveAnalysis, fetchAnalyses } = useAnalyses();
   const navigate = useNavigate();
 
@@ -294,38 +303,79 @@ const CSAnalyzer = () => {
     handleStartOver();
   };
 
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
+
+  const displayName = profile?.display_name || user?.email?.split("@")[0] || "User";
+  const initials = displayName
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+
   return (
-    <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-background">
-        <AnalyzerSidebar
-          onSelectAnalysis={handleSelectSavedAnalysis}
-          onNewAnalysis={handleNewAnalysis}
-          selectedAnalysisId={selectedSavedAnalysis?.id}
-        />
-
-        <main className="flex-1 flex flex-col min-h-screen">
-          {/* Header */}
-          <header className="sticky top-0 z-40 bg-navy-dark text-white border-b border-navy-light">
-            <div className="flex items-center justify-between px-4 py-3 md:px-6">
-              <div className="flex items-center gap-3">
-                <SidebarTrigger className="text-white hover:bg-white/10" />
-                <div className="flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-red-light" />
-                  <h1 className="text-lg font-serif font-bold">CS Analyzer</h1>
-                </div>
-              </div>
-
-              <Link 
-                to="/" 
-                className="text-white/70 hover:text-white text-sm transition-colors hidden md:block"
-              >
-                ← Back to Churn Is Dead
-              </Link>
+    <div className="min-h-screen flex flex-col bg-background">
+      {/* Header */}
+      <header className="sticky top-0 z-40 bg-navy-dark text-white border-b border-navy-light">
+        <div className="flex items-center justify-between px-4 py-3 md:px-6">
+          <div className="flex items-center gap-3">
+            <AnalysisHistoryDrawer
+              onSelectAnalysis={handleSelectSavedAnalysis}
+              onNewAnalysis={handleNewAnalysis}
+              selectedAnalysisId={selectedSavedAnalysis?.id}
+            />
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-red-light" />
+              <h1 className="text-lg font-serif font-bold">CS Analyzer</h1>
             </div>
-          </header>
+          </div>
 
-          {/* Main Content */}
-          <div className="flex-1 overflow-auto">
+          <div className="flex items-center gap-4">
+            <Link 
+              to="/" 
+              className="text-white/70 hover:text-white text-sm transition-colors hidden md:block"
+            >
+              ← Back to Churn Is Dead
+            </Link>
+            
+            {user && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="text-white hover:bg-white/10 gap-2 h-9">
+                    <div className="w-6 h-6 rounded-full bg-red/20 flex items-center justify-center text-red-light text-xs font-medium">
+                      {initials}
+                    </div>
+                    <span className="hidden sm:inline text-sm">{displayName}</span>
+                    <ChevronDown className="h-3 w-3 text-white/50" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56 bg-background border shadow-lg z-50">
+                  <div className="px-2 py-1.5">
+                    <p className="text-sm font-medium">{displayName}</p>
+                    <p className="text-xs text-muted-foreground">{user.email}</p>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <User className="h-4 w-4 mr-2" />
+                    Profile Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut} className="text-destructive">
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="flex-1 overflow-auto">
             <div className="container mx-auto px-4 py-8 md:px-6 max-w-4xl">
               
               {/* Step Indicator */}
@@ -609,13 +659,12 @@ const CSAnalyzer = () => {
 
                   <AnalysisReport analysisResult={analysisResult} />
 
-                </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
-        </main>
-      </div>
-    </SidebarProvider>
+        </div>
+      </main>
+    </div>
   );
 };
 
