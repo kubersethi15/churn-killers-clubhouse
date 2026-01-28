@@ -1,11 +1,9 @@
-
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
-import NewsletterForm from "@/components/NewsletterForm";
 import TestimonialCard from "@/components/TestimonialCard";
-import { MessageSquare, CheckCircle, BookText } from "lucide-react";
+import { MessageSquare, CheckCircle, BookText, LogIn, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
 import ContactDialog from "@/components/ContactDialog";
@@ -14,6 +12,7 @@ import AdminPanel from "@/components/AdminPanel";
 import { isPreviewMode } from "@/utils/preview";
 import { formatContent as formatNewsletterContent } from "@/utils/formatUtils";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 type Newsletter = {
   id: string;
@@ -32,6 +31,8 @@ const Index = () => {
   const [searchParams] = useSearchParams();
   const showAdmin = searchParams.get('admin') === 'true';
   const { toast } = useToast();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Churn Is Dead | Bold Customer Success Strategies";
@@ -117,14 +118,43 @@ const Index = () => {
               <span className="text-red-500">Start Driving Value.</span>
             </h1>
             <p className="text-lg md:text-xl mb-8 text-gray-200 leading-relaxed">
-              A weekly newsletter for CS pros ready to cut the fluff and build a customer 
-              engine that drives trust, revenue, and real outcomes.
+              Weekly insights, AI-powered tools, and battle-tested frameworks for CS pros 
+              ready to cut the fluff and drive real outcomes.
             </p>
-            <NewsletterForm 
-              className="max-w-lg mx-auto"
-              buttonText="Let's Kill Churn →"
-              location="hero"
-            />
+            
+            {user ? (
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button
+                  size="lg"
+                  className="bg-red-600 hover:bg-red-700 text-white font-medium"
+                  asChild
+                >
+                  <Link to="/cs-analyzer">
+                    <Sparkles className="w-5 h-5 mr-2" />
+                    Open CS Analyzer
+                  </Link>
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-white text-white hover:bg-white hover:text-navy-dark"
+                  asChild
+                >
+                  <Link to="/newsletters">
+                    Read Newsletter →
+                  </Link>
+                </Button>
+              </div>
+            ) : (
+              <Button
+                size="lg"
+                className="bg-red-600 hover:bg-red-700 text-white font-medium"
+                onClick={() => navigate("/auth")}
+              >
+                <LogIn className="w-5 h-5 mr-2" />
+                Join Free — Get Newsletter + Tools
+              </Button>
+            )}
             
             <div className="mt-6 text-sm text-gray-300">
               <p>Join CS leaders getting tactical insight every Tuesday.</p>
@@ -334,11 +364,16 @@ const Index = () => {
                 <p className="text-lg text-navy-dark">Real stories from CS leaders in the arena</p>
               </div>
             </div>
-            <NewsletterForm 
-              className="max-w-lg mx-auto"
-              buttonText="Let's Kill Churn →"
-              buttonVariant="vibrant-red"
-            />
+            {!user && (
+              <Button
+                size="lg"
+                className="bg-red-600 hover:bg-red-700 text-white font-medium"
+                onClick={() => navigate("/auth")}
+              >
+                <LogIn className="w-5 h-5 mr-2" />
+                Join Free →
+              </Button>
+            )}
           </div>
         </div>
       </section>
@@ -372,7 +407,7 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Extra spacing before final CTA */}
+      {/* Final CTA */}
       <section className="py-24 md:py-32 bg-red-600 text-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
@@ -380,14 +415,30 @@ const Index = () => {
               Ready to lead with clarity, value, and real impact?
             </h2>
             <p className="text-lg mb-8">
-              Join CS leaders getting battle-tested plays in their inbox every Tuesday.
+              Join CS leaders getting battle-tested plays and AI tools to drive real outcomes.
             </p>
-            <NewsletterForm 
-              className="max-w-lg mx-auto" 
-              buttonText="Let's Kill Churn →"
-              buttonVariant="white"
-              location="footer"
-            />
+            {user ? (
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white text-white hover:bg-white hover:text-red-600 font-medium"
+                asChild
+              >
+                <Link to="/cs-analyzer">
+                  <Sparkles className="w-5 h-5 mr-2" />
+                  Open CS Analyzer
+                </Link>
+              </Button>
+            ) : (
+              <Button
+                size="lg"
+                className="bg-white text-red-600 hover:bg-gray-100 font-medium"
+                onClick={() => navigate("/auth")}
+              >
+                <LogIn className="w-5 h-5 mr-2" />
+                Join Free →
+              </Button>
+            )}
           </div>
         </div>
       </section>
