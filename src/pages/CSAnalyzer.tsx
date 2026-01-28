@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AnalysisReport } from "@/components/cs-analyzer/AnalysisReport";
+import { TriageChat } from "@/components/cs-analyzer/TriageChat";
 import { AnalysisSidebar } from "@/components/analyzer/AnalysisSidebar";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAnalyses, Analysis } from "@/hooks/useAnalyses";
@@ -30,6 +31,8 @@ import {
   FileDown,
   FileType,
   PanelLeft,
+  Bot,
+  Settings2,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -153,6 +156,7 @@ const CSAnalyzer = () => {
   const [analysisResult, setAnalysisResult] = useState<string | null>(null);
   const [selectedSavedAnalysis, setSelectedSavedAnalysis] = useState<Analysis | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [analyzerMode, setAnalyzerMode] = useState<"manual" | "ai-triage">("manual");
   const { toast } = useToast();
   const { user, profile, signOut, isLoading: authLoading } = useAuth();
   const { saveAnalysis, fetchAnalyses } = useAnalyses();
@@ -455,6 +459,70 @@ const CSAnalyzer = () => {
     handleStartOver();
   };
 
+  // Handler for AI triage - when user confirms classification
+  const handleTriageAnalysisReady = async (params: {
+    contentType: string;
+    callCategory: string | null;
+    content: string;
+  }) => {
+    setSelectedType(params.contentType as AnalysisType);
+    setSelectedCallCategory(params.callCategory as CallCategory);
+    setContent(params.content);
+    setAnalyzerMode("manual"); // Switch to manual mode for the actual analysis
+    
+    // Automatically trigger analysis
+    setStep("analyzing");
+    setIsAnalyzing(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke("cs-analyzer", {
+        body: {
+          analysisType: params.contentType,
+          callCategory: params.callCategory,
+          content: params.content,
+          email: user?.email || "anonymous@user.com",
+        },
+      });
+
+      if (error) throw error;
+
+      if (data?.analysis) {
+        setAnalysisResult(data.analysis);
+        setStep("results");
+        toast({
+          title: "Analysis complete!",
+          description: "Your personalized insights are ready.",
+        });
+
+        // Auto-save for logged-in users
+        if (user) {
+          const title = generateTitle(params.contentType as AnalysisType, params.content, data.analysis);
+          const { error: saveError } = await saveAnalysis(title, params.contentType, params.content, data.analysis);
+          if (!saveError) {
+            window.dispatchEvent(new CustomEvent('analysis-saved'));
+            toast({
+              title: "Analysis saved",
+              description: "You can access this analysis anytime from the sidebar.",
+            });
+          }
+        }
+      } else {
+        throw new Error("No analysis returned");
+      }
+    } catch (error) {
+      console.error("Analysis error:", error);
+      toast({
+        title: "Analysis failed",
+        description: (error as Error)?.message || "Please try again later.",
+        variant: "destructive",
+      });
+      setStep("select");
+      setAnalyzerMode("ai-triage"); // Go back to triage mode
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
   const handleSignOut = async () => {
     await signOut();
     navigate("/");
@@ -574,14 +642,36 @@ const CSAnalyzer = () => {
               {/* Step 1: Select Analysis Type */}
               {step === "select" && (
                 <div className="animate-fade-in">
-                  <div className="text-center mb-8">
-                    <h2 className="text-2xl md:text-3xl font-serif font-bold text-navy-dark mb-2">
-                      What would you like to analyze?
-                    </h2>
-                    <p className="text-muted-foreground">
-                      Choose the type of content you want our AI to review
-                    </p>
-                  </div>
+                  {/* Mode Tabs */}
+                  <Tabs 
+                    value={analyzerMode} 
+                    onValueChange={(v) => setAnalyzerMode(v as "manual" | "ai-triage")}
+                    className="w-full"
+                  >
+                    <div className="flex justify-center mb-8">
+                      <TabsList className="grid w-full max-w-md grid-cols-2">
+                        <TabsTrigger value="manual" className="gap-2">
+                          <Settings2 className="w-4 h-4" />
+                          Manual
+                        </TabsTrigger>
+                        <TabsTrigger value="ai-triage" className="gap-2">
+                          <Bot className="w-4 h-4" />
+                          AI Triage
+                          <span className="ml-1 text-[10px] bg-red/20 text-red px-1.5 py-0.5 rounded-full font-medium">Beta</span>
+                        </TabsTrigger>
+                      </TabsList>
+                    </div>
+
+                    {/* Manual Mode */}
+                    <TabsContent value="manual" className="mt-0">
+                      <div className="text-center mb-8">
+                        <h2 className="text-2xl md:text-3xl font-serif font-bold text-navy-dark mb-2">
+                          What would you like to analyze?
+                        </h2>
+                        <p className="text-muted-foreground">
+                          Choose the type of content you want our AI to review
+                        </p>
+                      </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {analysisOptions.map((option) => {
@@ -623,43 +713,63 @@ const CSAnalyzer = () => {
                         </Card>
                       );
                     })}
-                  </div>
+                      </div>
 
-                  {/* Benefits Section */}
-                  <div className="mt-16 pt-12 border-t">
-                    <h3 className="text-xl font-serif font-bold text-navy-dark text-center mb-8">
-                      Why use CS Analyzer?
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                      <div className="text-center">
-                        <div className="w-12 h-12 rounded-full bg-red/10 flex items-center justify-center text-red mx-auto mb-4">
-                          <Sparkles className="w-6 h-6" />
+                      {/* Benefits Section */}
+                      <div className="mt-16 pt-12 border-t">
+                        <h3 className="text-xl font-serif font-bold text-navy-dark text-center mb-8">
+                          Why use CS Analyzer?
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                          <div className="text-center">
+                            <div className="w-12 h-12 rounded-full bg-red/10 flex items-center justify-center text-red mx-auto mb-4">
+                              <Sparkles className="w-6 h-6" />
+                            </div>
+                            <h4 className="font-serif font-bold text-navy-dark mb-2">AI-Powered</h4>
+                            <p className="text-sm text-muted-foreground">
+                              Advanced analysis identifies patterns humans might miss
+                            </p>
+                          </div>
+                          <div className="text-center">
+                            <div className="w-12 h-12 rounded-full bg-red/10 flex items-center justify-center text-red mx-auto mb-4">
+                              <Target className="w-6 h-6" />
+                            </div>
+                            <h4 className="font-serif font-bold text-navy-dark mb-2">Actionable</h4>
+                            <p className="text-sm text-muted-foreground">
+                              Get specific recommendations you can implement today
+                            </p>
+                          </div>
+                          <div className="text-center">
+                            <div className="w-12 h-12 rounded-full bg-red/10 flex items-center justify-center text-red mx-auto mb-4">
+                              <Save className="w-6 h-6" />
+                            </div>
+                            <h4 className="font-serif font-bold text-navy-dark mb-2">Save & Review</h4>
+                            <p className="text-sm text-muted-foreground">
+                              Sign in to save analyses and build your CS knowledge base
+                            </p>
+                          </div>
                         </div>
-                        <h4 className="font-serif font-bold text-navy-dark mb-2">AI-Powered</h4>
-                        <p className="text-sm text-muted-foreground">
-                          Advanced analysis identifies patterns humans might miss
-                        </p>
                       </div>
-                      <div className="text-center">
-                        <div className="w-12 h-12 rounded-full bg-red/10 flex items-center justify-center text-red mx-auto mb-4">
-                          <Target className="w-6 h-6" />
-                        </div>
-                        <h4 className="font-serif font-bold text-navy-dark mb-2">Actionable</h4>
-                        <p className="text-sm text-muted-foreground">
-                          Get specific recommendations you can implement today
-                        </p>
-                      </div>
-                      <div className="text-center">
-                        <div className="w-12 h-12 rounded-full bg-red/10 flex items-center justify-center text-red mx-auto mb-4">
-                          <Save className="w-6 h-6" />
-                        </div>
-                        <h4 className="font-serif font-bold text-navy-dark mb-2">Save & Review</h4>
-                        <p className="text-sm text-muted-foreground">
-                          Sign in to save analyses and build your CS knowledge base
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                    </TabsContent>
+
+                    {/* AI Triage Mode */}
+                    <TabsContent value="ai-triage" className="mt-0">
+                      <Card className="border-2 border-dashed border-navy-dark/20">
+                        <CardHeader className="text-center pb-2">
+                          <div className="w-14 h-14 rounded-full bg-navy-dark/10 flex items-center justify-center mx-auto mb-3">
+                            <Bot className="w-8 h-8 text-navy-dark" />
+                          </div>
+                          <CardTitle className="text-xl font-serif">AI Triage Assistant</CardTitle>
+                          <CardDescription>
+                            Paste your content and I'll automatically classify it and extract context
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="p-0">
+                          <TriageChat onAnalysisReady={handleTriageAnalysisReady} />
+                        </CardContent>
+                      </Card>
+                    </TabsContent>
+                  </Tabs>
                 </div>
               )}
 

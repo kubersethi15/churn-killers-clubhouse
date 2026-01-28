@@ -18,3 +18,6 @@ verify_jwt = false
 
 [functions.content-access]
 verify_jwt = false
+
+[functions.cs-triage]
+verify_jwt = false
