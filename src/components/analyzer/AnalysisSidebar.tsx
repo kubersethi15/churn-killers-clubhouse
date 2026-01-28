@@ -6,33 +6,30 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-  SheetDescription,
-} from "@/components/ui/sheet";
-import {
   FileText,
   Presentation,
   Target,
   MessageSquare,
   Trash2,
   Loader2,
-  History,
   Plus,
   Pencil,
   Check,
   X,
+  PanelLeftClose,
+  PanelLeft,
+  Sparkles,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
-interface AnalysisHistoryDrawerProps {
+interface AnalysisSidebarProps {
   onSelectAnalysis: (analysis: Analysis) => void;
   onNewAnalysis: () => void;
   selectedAnalysisId?: string;
+  isCollapsed: boolean;
+  onToggleCollapse: () => void;
 }
 
 const analysisTypeIcons: Record<string, React.ReactNode> = {
@@ -42,17 +39,18 @@ const analysisTypeIcons: Record<string, React.ReactNode> = {
   "health-assessment": <FileText className="h-4 w-4" />,
 };
 
-export const AnalysisHistoryDrawer = ({
+export const AnalysisSidebar = ({
   onSelectAnalysis,
   onNewAnalysis,
   selectedAnalysisId,
-}: AnalysisHistoryDrawerProps) => {
+  isCollapsed,
+  onToggleCollapse,
+}: AnalysisSidebarProps) => {
   const { user } = useAuth();
   const { analyses, isLoading, deleteAnalysis, renameAnalysis } = useAnalyses();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingTitle, setEditingTitle] = useState("");
   const [isSaving, setIsSaving] = useState(false);
@@ -83,13 +81,8 @@ export const AnalysisHistoryDrawer = ({
   };
 
   const handleSelect = (analysis: Analysis) => {
-    if (editingId) return; // Don't select while editing
+    if (editingId) return;
     onSelectAnalysis(analysis);
-  };
-
-  const handleNewAndClose = () => {
-    onNewAnalysis();
-    setIsOpen(false);
   };
 
   const startEditing = (e: React.MouseEvent, analysis: Analysis) => {
@@ -147,90 +140,117 @@ export const AnalysisHistoryDrawer = ({
   };
 
   return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger asChild>
+    <aside
+      className={cn(
+        "bg-sidebar border-r border-sidebar-border flex flex-col transition-all duration-300 ease-in-out",
+        isCollapsed ? "w-14" : "w-72"
+      )}
+    >
+      {/* Sidebar Header */}
+      <div className="flex items-center justify-between p-3 border-b border-sidebar-border h-14">
+        {!isCollapsed && (
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-red" />
+            <span className="font-serif font-semibold text-sm">History</span>
+          </div>
+        )}
         <Button
           variant="ghost"
-          size="sm"
-          className="text-white/70 hover:text-white hover:bg-white/10 gap-2"
+          size="icon"
+          onClick={onToggleCollapse}
+          className={cn(
+            "h-8 w-8 hover:bg-sidebar-accent",
+            isCollapsed && "mx-auto"
+          )}
+          title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
-          <History className="h-4 w-4" />
-          <span className="hidden sm:inline">History</span>
-        </Button>
-      </SheetTrigger>
-      <SheetContent side="left" className="w-80 p-0 bg-background border-r">
-        <SheetHeader className="p-4 border-b">
-          <SheetTitle className="text-left font-serif">Analysis History</SheetTitle>
-          <SheetDescription className="text-left text-sm">
-            Browse and manage your saved analyses
-          </SheetDescription>
-        </SheetHeader>
-
-        <div className="p-4 border-b">
-          <Button
-            onClick={handleNewAndClose}
-            className="w-full bg-red hover:bg-red-dark text-white"
-            size="sm"
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            New Analysis
-          </Button>
-        </div>
-
-        <ScrollArea className="h-[calc(100vh-180px)]">
-          {!user ? (
-            <div className="p-4 text-center">
-              <p className="text-sm text-muted-foreground mb-4">
-                Sign in to save and view your analysis history
-              </p>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  setIsOpen(false);
-                  navigate("/auth", { state: { from: "/cs-analyzer" } });
-                }}
-                className="w-full"
-              >
-                Sign In
-              </Button>
-            </div>
-          ) : isLoading ? (
-            <div className="flex items-center justify-center py-8">
-              <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
-            </div>
-          ) : analyses.length === 0 ? (
-            <div className="p-4 text-center">
-              <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mx-auto mb-3">
-                <FileText className="h-6 w-6 text-muted-foreground" />
-              </div>
-              <p className="text-sm text-muted-foreground">
-                No analyses yet. Start by creating a new analysis.
-              </p>
-            </div>
+          {isCollapsed ? (
+            <PanelLeft className="h-4 w-4" />
           ) : (
-            <div className="p-2 space-y-1">
-              {analyses.map((analysis) => (
-                <div
-                  key={analysis.id}
-                  onClick={() => handleSelect(analysis)}
-                  className={`
-                    w-full text-left p-3 rounded-lg transition-colors group cursor-pointer
-                    ${selectedAnalysisId === analysis.id 
-                      ? "bg-red/10 border border-red/20" 
-                      : "hover:bg-muted"
-                    }
-                  `}
-                >
+            <PanelLeftClose className="h-4 w-4" />
+          )}
+        </Button>
+      </div>
+
+      {/* New Analysis Button */}
+      <div className={cn("p-2", isCollapsed && "px-1")}>
+        <Button
+          onClick={onNewAnalysis}
+          className={cn(
+            "bg-red hover:bg-red-dark text-white",
+            isCollapsed ? "w-10 h-10 p-0" : "w-full"
+          )}
+          size={isCollapsed ? "icon" : "sm"}
+          title="New Analysis"
+        >
+          <Plus className="h-4 w-4" />
+          {!isCollapsed && <span className="ml-2">New Analysis</span>}
+        </Button>
+      </div>
+
+      {/* Analysis List */}
+      <ScrollArea className="flex-1">
+        {!user ? (
+          <div className={cn("p-4 text-center", isCollapsed && "hidden")}>
+            <p className="text-sm text-muted-foreground mb-4">
+              Sign in to save and view your analysis history
+            </p>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate("/auth", { state: { from: "/cs-analyzer" } })}
+              className="w-full"
+            >
+              Sign In
+            </Button>
+          </div>
+        ) : isLoading ? (
+          <div className="flex items-center justify-center py-8">
+            <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+          </div>
+        ) : analyses.length === 0 ? (
+          <div className={cn("p-4 text-center", isCollapsed && "hidden")}>
+            <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mx-auto mb-3">
+              <FileText className="h-6 w-6 text-muted-foreground" />
+            </div>
+            <p className="text-sm text-muted-foreground">
+              No analyses yet. Start by creating a new analysis.
+            </p>
+          </div>
+        ) : (
+          <div className={cn("p-2 space-y-1", isCollapsed && "p-1")}>
+            {analyses.map((analysis) => (
+              <div
+                key={analysis.id}
+                onClick={() => handleSelect(analysis)}
+                className={cn(
+                  "w-full text-left rounded-lg transition-colors group cursor-pointer",
+                  selectedAnalysisId === analysis.id
+                    ? "bg-red/10 border border-red/20"
+                    : "hover:bg-sidebar-accent",
+                  isCollapsed ? "p-2 flex justify-center" : "p-3"
+                )}
+                title={isCollapsed ? analysis.title : undefined}
+              >
+                {isCollapsed ? (
+                  <span className="text-muted-foreground">
+                    {analysisTypeIcons[analysis.analysis_type] || (
+                      <FileText className="h-4 w-4" />
+                    )}
+                  </span>
+                ) : (
                   <div className="flex items-start gap-3">
-                    <span className="text-muted-foreground mt-0.5">
+                    <span className="text-muted-foreground mt-0.5 shrink-0">
                       {analysisTypeIcons[analysis.analysis_type] || (
                         <FileText className="h-4 w-4" />
                       )}
                     </span>
                     <div className="flex-1 min-w-0">
                       {editingId === analysis.id ? (
-                        <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+                        <div
+                          className="flex items-center gap-1"
+                          onClick={(e) => e.stopPropagation()}
+                        >
                           <Input
                             value={editingTitle}
                             onChange={(e) => setEditingTitle(e.target.value)}
@@ -299,12 +319,12 @@ export const AnalysisHistoryDrawer = ({
                       </div>
                     )}
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </ScrollArea>
-      </SheetContent>
-    </Sheet>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </ScrollArea>
+    </aside>
   );
 };
