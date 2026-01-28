@@ -2,7 +2,7 @@
 
 export const reportTypography = {
   // Section titles - Playfair Display serif
-  sectionTitle: "font-serif text-lg font-bold text-report-heading",
+  sectionTitle: "font-serif text-lg font-bold text-report-heading tracking-tight",
   sectionSubtitle: "text-sm font-normal text-report-muted",
   
   // Card headers
@@ -13,12 +13,12 @@ export const reportTypography = {
   bodyMuted: "font-sans text-sm text-report-muted",
   
   // Labels
-  labelUppercase: "font-sans text-xs font-semibold uppercase tracking-wider text-report-muted",
+  labelUppercase: "font-sans text-[11px] font-semibold uppercase tracking-wider text-report-muted",
   labelSmall: "font-sans text-xs font-medium text-report-muted",
   
   // Values & metrics
   metricValue: "font-sans text-base font-semibold",
-  metricLabel: "font-sans text-[11px] font-medium uppercase tracking-wide text-report-muted",
+  metricLabel: "font-sans text-[10px] font-medium uppercase tracking-wide text-report-muted",
 } as const;
 
 export const reportColors = {
@@ -58,18 +58,18 @@ export const reportColors = {
 } as const;
 
 export const reportLayout = {
-  // Card styling
-  card: "rounded-xl border border-report-border bg-card shadow-sm",
-  cardHeader: "p-5 border-b border-report-border bg-report-surface/50",
+  // Card styling - refined shadows and borders
+  card: "rounded-xl border border-report-border bg-card shadow-sm hover:shadow-md transition-shadow duration-200",
+  cardHeader: "px-5 py-4 border-b border-report-border bg-report-surface/30",
   cardContent: "p-5",
   
   // Icon containers
-  iconContainer: "p-2 rounded-lg",
-  iconContainerSm: "p-1.5 rounded-md",
+  iconContainer: "p-2.5 rounded-xl",
+  iconContainerSm: "p-1.5 rounded-lg",
   
   // Table styling
-  tableHeader: "bg-report-surface/70 hover:bg-report-surface/70",
-  tableRow: "hover:bg-report-surface/30 transition-colors",
+  tableHeader: "bg-report-surface/50 hover:bg-report-surface/50",
+  tableRow: "hover:bg-report-surface/40 transition-colors",
   
   // Badges
   badge: "font-sans text-xs font-medium border",
