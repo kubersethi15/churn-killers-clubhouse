@@ -6,6 +6,7 @@ import {
   Target,
   Shield,
   FileText,
+  ChevronRight,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { cn } from "@/lib/utils";
@@ -23,42 +24,49 @@ const getSectionConfig = (title: string) => {
     return { 
       icon: CheckCircle2, 
       color: "bg-navy-dark/10 text-navy-dark",
-      accent: "border-l-navy"
+      borderColor: "border-l-navy"
     };
   }
   if (lower.includes("sentiment") || lower.includes("engagement")) {
     return { 
       icon: MessageSquare, 
       color: "bg-navy-dark/10 text-navy-dark",
-      accent: "border-l-navy-light"
+      borderColor: "border-l-navy-light"
     };
   }
   if (lower.includes("value") || lower.includes("outcome")) {
     return { 
       icon: TrendingUp, 
       color: "bg-emerald-100 text-emerald-600",
-      accent: "border-l-emerald-500"
+      borderColor: "border-l-emerald-500"
     };
   }
   if (lower.includes("renewal") || lower.includes("decision")) {
     return { 
       icon: Target, 
       color: "bg-amber-100 text-amber-600",
-      accent: "border-l-amber-500"
+      borderColor: "border-l-amber-500"
     };
   }
-  if (lower.includes("effectiveness") || lower.includes("rep")) {
+  if (lower.includes("effectiveness") || lower.includes("rep") || lower.includes("coaching")) {
     return { 
       icon: Shield, 
       color: "bg-navy-dark/10 text-navy-dark",
-      accent: "border-l-navy-dark"
+      borderColor: "border-l-navy-dark"
+    };
+  }
+  if (lower.includes("objection") || lower.includes("counter") || lower.includes("narrative")) {
+    return { 
+      icon: Shield, 
+      color: "bg-amber-100 text-amber-600",
+      borderColor: "border-l-amber-500"
     };
   }
   
   return { 
     icon: FileText, 
     color: "bg-navy-dark/10 text-navy-dark",
-    accent: "border-l-navy"
+    borderColor: "border-l-navy"
   };
 };
 
@@ -70,8 +78,8 @@ export const GenericSection = ({ title, content }: GenericSectionProps) => {
   const cleanTitle = title.replace(/^\d+\)\s*/, "");
   
   return (
-    <Card className={cn(reportLayout.card, "border-l-4", config.accent)}>
-      <CardHeader className="pb-4">
+    <Card className={cn(reportLayout.card, "border-l-4", config.borderColor)}>
+      <CardHeader className="pb-3">
         <CardTitle className={cn("flex items-center gap-3", reportTypography.sectionTitle)}>
           <div className={cn(reportLayout.iconContainer, config.color)}>
             <Icon className="w-5 h-5" />
@@ -79,27 +87,38 @@ export const GenericSection = ({ title, content }: GenericSectionProps) => {
           {cleanTitle}
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-0">
         <div className="prose prose-sm max-w-none prose-headings:font-serif prose-headings:font-semibold prose-headings:text-report-heading">
           <ReactMarkdown
             components={{
-              // Style bullet points with better visuals
+              // Style bullet points with refined visuals
               ul: ({ children }) => (
-                <ul className="space-y-2 list-none pl-0">{children}</ul>
+                <ul className="space-y-1.5 list-none pl-0 my-3">{children}</ul>
               ),
               li: ({ children }) => (
-                <li className={cn("flex items-start gap-3 p-2 rounded-lg", reportLayout.tableRow)}>
-                  <span className="w-1.5 h-1.5 rounded-full bg-navy-dark/40 mt-2 flex-shrink-0" />
-                  <span className={cn("flex-1", reportTypography.bodyText)}>{children}</span>
+                <li className="flex items-start gap-3 py-1.5">
+                  <ChevronRight className="w-4 h-4 text-navy-dark/40 mt-0.5 flex-shrink-0" />
+                  <span className={cn("flex-1 leading-relaxed", reportTypography.bodyText)}>{children}</span>
                 </li>
+              ),
+              // Nested lists
+              ol: ({ children }) => (
+                <ol className="space-y-1.5 list-none pl-0 my-3">{children}</ol>
               ),
               // Make strong text stand out more
               strong: ({ children }) => (
                 <strong className="font-sans font-semibold text-report-heading">{children}</strong>
               ),
-              // Style paragraphs
+              // Style paragraphs with proper spacing
               p: ({ children }) => (
-                <p className={cn("mb-3", reportTypography.bodyText)}>{children}</p>
+                <p className={cn("mb-3 last:mb-0 leading-relaxed", reportTypography.bodyText)}>{children}</p>
+              ),
+              // Subsection headings
+              h4: ({ children }) => (
+                <h4 className={cn("text-sm font-semibold text-report-heading mt-4 mb-2 flex items-center gap-2")}>
+                  <span className="w-1 h-4 bg-navy-dark/20 rounded-full" />
+                  {children}
+                </h4>
               ),
             }}
           >
