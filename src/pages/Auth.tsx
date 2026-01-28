@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,15 +7,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Mail, Lock, User, ArrowLeft, Sparkles } from "lucide-react";
+import { Loader2, Mail, Lock, User, ArrowLeft, Check, X } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [magicLinkSent, setMagicLinkSent] = useState(false);
+  const [touched, setTouched] = useState({ password: false, confirmPassword: false });
   const { signIn, signUp, signInWithMagicLink, user, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,6 +35,17 @@ const Auth = () => {
       navigate(from, { replace: true });
     }
   }, [user, authLoading, navigate, from]);
+
+  // Password validation
+  const passwordChecks = useMemo(() => ({
+    minLength: password.length >= 6,
+    hasUppercase: /[A-Z]/.test(password),
+    hasNumber: /[0-9]/.test(password),
+  }), [password]);
+
+  const isPasswordValid = passwordChecks.minLength;
+  const passwordsMatch = password === confirmPassword && confirmPassword.length > 0;
+  const canSubmitSignUp = isPasswordValid && passwordsMatch && email.length > 0;
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,6 +72,25 @@ const Auth = () => {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!passwordsMatch) {
+      toast({
+        title: "Passwords don't match",
+        description: "Please make sure both passwords are identical.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!isPasswordValid) {
+      toast({
+        title: "Password too weak",
+        description: "Password must be at least 6 characters.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     const { error } = await signUp(email, password, displayName);
@@ -248,19 +280,55 @@ const Auth = () => {
                             placeholder="••••••••"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="pl-10"
+                            onBlur={() => setTouched(t => ({ ...t, password: true }))}
+                            className={`pl-10 ${touched.password && !isPasswordValid ? 'border-destructive focus-visible:ring-destructive' : ''}`}
                             minLength={6}
                             required
                           />
                         </div>
-                        <p className="text-xs text-muted-foreground">
-                          Must be at least 6 characters
-                        </p>
+                        {/* Password requirements */}
+                        <div className="space-y-1 pt-1">
+                          <div className={`flex items-center gap-2 text-xs ${passwordChecks.minLength ? 'text-green-600' : 'text-muted-foreground'}`}>
+                            {passwordChecks.minLength ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
+                            At least 6 characters
+                          </div>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="signup-confirm-password">Confirm Password</Label>
+                        <div className="relative">
+                          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                          <Input
+                            id="signup-confirm-password"
+                            type="password"
+                            placeholder="••••••••"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            onBlur={() => setTouched(t => ({ ...t, confirmPassword: true }))}
+                            className={`pl-10 ${touched.confirmPassword && !passwordsMatch && confirmPassword.length > 0 ? 'border-destructive focus-visible:ring-destructive' : ''}`}
+                            required
+                          />
+                          {/* Match indicator */}
+                          {confirmPassword.length > 0 && (
+                            <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                              {passwordsMatch ? (
+                                <Check className="h-4 w-4 text-green-600" />
+                              ) : (
+                                <X className="h-4 w-4 text-destructive" />
+                              )}
+                            </div>
+                          )}
+                        </div>
+                        {touched.confirmPassword && !passwordsMatch && confirmPassword.length > 0 && (
+                          <p className="text-xs text-destructive">
+                            Passwords don't match
+                          </p>
+                        )}
                       </div>
                       <Button
                         type="submit"
                         className="w-full bg-red hover:bg-red-dark text-white"
-                        disabled={isLoading}
+                        disabled={isLoading || !canSubmitSignUp}
                       >
                         {isLoading ? (
                           <>
