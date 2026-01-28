@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAnalyses, Analysis } from "@/hooks/useAnalyses";
+import { useAnalysisGroups, AnalysisGroup } from "@/hooks/useAnalysisGroups";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -22,26 +23,36 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import {
   Plus,
   FileText,
   Presentation,
   Target,
   MessageSquare,
-  Settings,
   LogOut,
   User,
   Trash2,
   Loader2,
   ChevronDown,
+  ChevronRight,
   Home,
+  Folder,
+  FolderOpen,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 interface AnalyzerSidebarProps {
   onSelectAnalysis: (analysis: Analysis) => void;
   onNewAnalysis: () => void;
   selectedAnalysisId?: string;
+  selectedGroupId?: string | null;
+  onSelectGroup?: (groupId: string | null) => void;
 }
 
 const analysisTypeIcons: Record<string, React.ReactNode> = {
@@ -51,25 +62,22 @@ const analysisTypeIcons: Record<string, React.ReactNode> = {
   "health-assessment": <FileText className="h-4 w-4" />,
 };
 
-const analysisTypeLabels: Record<string, string> = {
-  "call-transcript": "Call Transcript",
-  "qbr-deck": "QBR Deck",
-  "success-plan": "Success Plan",
-  "health-assessment": "Health Assessment",
-};
-
 export const AnalyzerSidebar = ({
   onSelectAnalysis,
   onNewAnalysis,
   selectedAnalysisId,
+  selectedGroupId,
+  onSelectGroup,
 }: AnalyzerSidebarProps) => {
   const { user, profile, signOut } = useAuth();
   const { analyses, isLoading, deleteAnalysis } = useAnalyses();
+  const { groups } = useAnalysisGroups();
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const navigate = useNavigate();
   const { toast } = useToast();
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
 
   const handleSignOut = async () => {
     await signOut();
@@ -101,6 +109,37 @@ export const AnalyzerSidebar = ({
     setDeletingId(null);
   };
 
+  const toggleGroup = (groupId: string) => {
+    setExpandedGroups((prev) => {
+      const next = new Set(prev);
+      if (next.has(groupId)) {
+        next.delete(groupId);
+      } else {
+        next.add(groupId);
+      }
+      return next;
+    });
+  };
+
+  const handleGroupClick = (groupId: string | null) => {
+    onSelectGroup?.(groupId);
+    if (groupId) {
+      setExpandedGroups((prev) => new Set(prev).add(groupId));
+    }
+  };
+
+  // Group analyses by group_id
+  const groupedAnalyses = analyses.reduce((acc, analysis) => {
+    const key = analysis.group_id || "ungrouped";
+    if (!acc[key]) {
+      acc[key] = [];
+    }
+    acc[key].push(analysis);
+    return acc;
+  }, {} as Record<string, Analysis[]>);
+
+  const ungroupedAnalyses = groupedAnalyses["ungrouped"] || [];
+  
   const displayName = profile?.display_name || user?.email?.split("@")[0] || "User";
   const initials = displayName
     .split(" ")
@@ -108,6 +147,50 @@ export const AnalyzerSidebar = ({
     .join("")
     .toUpperCase()
     .slice(0, 2);
+
+  const renderAnalysisItem = (analysis: Analysis) => (
+    <SidebarMenuItem key={analysis.id}>
+      <SidebarMenuButton
+        onClick={() => onSelectAnalysis(analysis)}
+        isActive={selectedAnalysisId === analysis.id}
+        className="group relative"
+        tooltip={collapsed ? analysis.title : undefined}
+      >
+        <span className="text-muted-foreground">
+          {analysisTypeIcons[analysis.analysis_type] || (
+            <FileText className="h-4 w-4" />
+          )}
+        </span>
+        {!collapsed && (
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium truncate">
+              {analysis.title}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              {formatDistanceToNow(new Date(analysis.created_at), {
+                addSuffix: true,
+              })}
+            </p>
+          </div>
+        )}
+        {!collapsed && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive"
+            onClick={(e) => handleDelete(e, analysis.id)}
+            disabled={deletingId === analysis.id}
+          >
+            {deletingId === analysis.id ? (
+              <Loader2 className="h-3 w-3 animate-spin" />
+            ) : (
+              <Trash2 className="h-3 w-3" />
+            )}
+          </Button>
+        )}
+      </SidebarMenuButton>
+    </SidebarMenuItem>
+  );
 
   return (
     <Sidebar
@@ -178,51 +261,74 @@ export const AnalyzerSidebar = ({
               )}
             </div>
           ) : (
-            <SidebarMenu className="p-2">
-              {analyses.map((analysis) => (
-                <SidebarMenuItem key={analysis.id}>
-                  <SidebarMenuButton
-                    onClick={() => onSelectAnalysis(analysis)}
-                    isActive={selectedAnalysisId === analysis.id}
-                    className="group relative"
-                    tooltip={collapsed ? analysis.title : undefined}
+            <div className="p-2 space-y-1">
+              {/* Grouped analyses */}
+              {groups.map((group) => {
+                const groupAnalyses = groupedAnalyses[group.id] || [];
+                if (groupAnalyses.length === 0) return null;
+                
+                const isExpanded = expandedGroups.has(group.id);
+                const isSelected = selectedGroupId === group.id;
+
+                return (
+                  <Collapsible
+                    key={group.id}
+                    open={isExpanded}
+                    onOpenChange={() => toggleGroup(group.id)}
                   >
-                    <span className="text-muted-foreground">
-                      {analysisTypeIcons[analysis.analysis_type] || (
-                        <FileText className="h-4 w-4" />
-                      )}
-                    </span>
-                    {!collapsed && (
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">
-                          {analysis.title}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {formatDistanceToNow(new Date(analysis.created_at), {
-                            addSuffix: true,
-                          })}
-                        </p>
-                      </div>
-                    )}
-                    {!collapsed && (
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive"
-                        onClick={(e) => handleDelete(e, analysis.id)}
-                        disabled={deletingId === analysis.id}
-                      >
-                        {deletingId === analysis.id ? (
-                          <Loader2 className="h-3 w-3 animate-spin" />
-                        ) : (
-                          <Trash2 className="h-3 w-3" />
+                    <CollapsibleTrigger asChild>
+                      <button
+                        onClick={() => handleGroupClick(group.id)}
+                        className={cn(
+                          "w-full flex items-center gap-2 px-2 py-1.5 rounded-md text-sm font-medium transition-colors",
+                          "hover:bg-sidebar-accent",
+                          isSelected && "bg-sidebar-accent text-sidebar-accent-foreground"
                         )}
-                      </Button>
-                    )}
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
+                      >
+                        {isExpanded ? (
+                          <>
+                            <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0" />
+                            <FolderOpen className="h-4 w-4 text-muted-foreground shrink-0" />
+                          </>
+                        ) : (
+                          <>
+                            <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
+                            <Folder className="h-4 w-4 text-muted-foreground shrink-0" />
+                          </>
+                        )}
+                        {!collapsed && (
+                          <>
+                            <span className="flex-1 text-left truncate">{group.name}</span>
+                            <span className="text-xs text-muted-foreground">
+                              {groupAnalyses.length}
+                            </span>
+                          </>
+                        )}
+                      </button>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                      <SidebarMenu className="pl-4 mt-1">
+                        {groupAnalyses.map(renderAnalysisItem)}
+                      </SidebarMenu>
+                    </CollapsibleContent>
+                  </Collapsible>
+                );
+              })}
+
+              {/* Ungrouped analyses */}
+              {ungroupedAnalyses.length > 0 && (
+                <div className="mt-2">
+                  {!collapsed && groups.length > 0 && (
+                    <div className="px-2 py-1 text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                      Ungrouped
+                    </div>
+                  )}
+                  <SidebarMenu>
+                    {ungroupedAnalyses.map(renderAnalysisItem)}
+                  </SidebarMenu>
+                </div>
+              )}
+            </div>
           )}
         </ScrollArea>
       </SidebarContent>

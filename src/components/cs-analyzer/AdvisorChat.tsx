@@ -29,6 +29,7 @@ interface AdvisorChatProps {
   originalContent: string;
   analysisHistory: Analysis[];
   analysisTitle?: string;
+  groupName?: string;
 }
 
 const SUGGESTED_PROMPTS = [
@@ -42,7 +43,8 @@ export const AdvisorChat = ({
   currentAnalysis, 
   originalContent, 
   analysisHistory,
-  analysisTitle 
+  analysisTitle,
+  groupName,
 }: AdvisorChatProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -182,9 +184,18 @@ export const AdvisorChat = ({
         </div>
 
         {/* Context Indicator */}
-        {analysisTitle && (
-          <div className="px-4 py-2 bg-muted/50 border-b text-xs text-muted-foreground">
-            <span className="font-medium">Context:</span> {analysisTitle}
+        {(analysisTitle || groupName) && (
+          <div className="px-4 py-2 bg-muted/50 border-b text-xs text-muted-foreground space-y-0.5">
+            {groupName && (
+              <div>
+                <span className="font-medium">Group:</span> {groupName} ({analysisHistory.length} analyses)
+              </div>
+            )}
+            {analysisTitle && (
+              <div>
+                <span className="font-medium">Analysis:</span> {analysisTitle}
+              </div>
+            )}
           </div>
         )}
 

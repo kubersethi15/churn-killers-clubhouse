@@ -11,6 +11,7 @@ export interface Analysis {
   input_text: string;
   results: Record<string, unknown>;
   created_at: string;
+  group_id: string | null;
 }
 
 export const useAnalyses = () => {
@@ -59,7 +60,8 @@ export const useAnalyses = () => {
     title: string,
     analysisType: string,
     inputText: string,
-    results: string
+    results: string,
+    groupId?: string | null
   ): Promise<{ data: Analysis | null; error: Error | null }> => {
     if (!user) {
       return { data: null, error: new Error("Not authenticated") };
@@ -68,15 +70,18 @@ export const useAnalyses = () => {
     // Parse the results string to JSON
     const parsedResults: Json = { content: results };
 
+    const insertPayload = {
+      user_id: user.id,
+      title,
+      analysis_type: analysisType,
+      input_text: inputText,
+      results: parsedResults,
+      group_id: groupId || null,
+    };
+
     const { data, error: insertError } = await supabase
       .from("analyses")
-      .insert({
-        user_id: user.id,
-        title,
-        analysis_type: analysisType,
-        input_text: inputText,
-        results: parsedResults,
-      })
+      .insert(insertPayload)
       .select()
       .single();
 
@@ -88,6 +93,32 @@ export const useAnalyses = () => {
     setAnalyses((prev) => [data as Analysis, ...prev]);
 
     return { data: data as Analysis, error: null };
+  };
+
+  const updateAnalysisGroup = async (
+    analysisId: string,
+    groupId: string | null
+  ): Promise<{ error: Error | null }> => {
+    if (!user) {
+      return { error: new Error("Not authenticated") };
+    }
+
+    const { error: updateError } = await supabase
+      .from("analyses")
+      .update({ group_id: groupId })
+      .eq("id", analysisId)
+      .eq("user_id", user.id);
+
+    if (updateError) {
+      return { error: updateError as Error };
+    }
+
+    // Update local state
+    setAnalyses((prev) =>
+      prev.map((a) => (a.id === analysisId ? { ...a, group_id: groupId } : a))
+    );
+
+    return { error: null };
   };
 
   const deleteAnalysis = async (id: string): Promise<{ error: Error | null }> => {
@@ -162,5 +193,6 @@ export const useAnalyses = () => {
     deleteAnalysis,
     renameAnalysis,
     getAnalysis,
+    updateAnalysisGroup,
   };
 };
