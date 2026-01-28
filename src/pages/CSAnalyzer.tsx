@@ -708,66 +708,43 @@ const CSAnalyzer = () => {
               {step === "results" && analysisResult && (
                 <div className="animate-fade-in">
                   <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
-                        <CheckCircle className="w-5 h-5 text-green-600" />
-                      </div>
-                      <div>
-                        <h2 className="text-xl font-serif font-bold text-navy-dark">
-                          {selectedSavedAnalysis?.title || `Your ${selectedOption?.title} Analysis`}
-                        </h2>
-                        <p className="text-sm text-muted-foreground">
-                          {selectedSavedAnalysis 
-                            ? `Saved on ${new Date(selectedSavedAnalysis.created_at).toLocaleDateString()}`
-                            : user ? "Saved to your account" : "Not saved - sign in to keep"
-                          }
-                        </p>
-                      </div>
+                    <div>
+                      <h2 className="text-xl font-serif font-bold text-navy-dark">
+                        {selectedSavedAnalysis?.title || `Your ${selectedOption?.title} Analysis`}
+                      </h2>
+                      <p className="text-sm text-muted-foreground">
+                        {selectedSavedAnalysis 
+                          ? `Saved on ${new Date(selectedSavedAnalysis.created_at).toLocaleDateString()}`
+                          : user ? "Saved to your account" : "Not saved - sign in to keep"
+                        }
+                      </p>
                     </div>
-                    <div className="flex gap-2">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="outline" size="sm" className="gap-2">
-                            <Download className="w-4 h-4" />
-                            <span className="hidden sm:inline">Download</span>
-                            <ChevronDown className="w-3 h-3" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="bg-background border shadow-lg z-50">
-                          <DropdownMenuItem onClick={handleDownloadPDF} className="gap-2 cursor-pointer">
-                            <FileDown className="w-4 h-4 text-red" />
-                            <div>
-                              <p className="font-medium">PDF Document</p>
-                              <p className="text-xs text-muted-foreground">Best for sharing & printing</p>
-                            </div>
-                          </DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                          <DropdownMenuItem onClick={handleDownloadMarkdown} className="gap-2 cursor-pointer">
-                            <FileType className="w-4 h-4 text-blue-500" />
-                            <div>
-                              <p className="font-medium">Markdown</p>
-                              <p className="text-xs text-muted-foreground">For Notion, docs, or editing</p>
-                            </div>
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={handleCopyAnalysis}
-                      >
-                        <Copy className="w-4 h-4 mr-2" />
-                        <span className="hidden sm:inline">Copy</span>
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={handleStartOver}
-                      >
-                        <RotateCcw className="w-4 h-4 mr-2" />
-                        <span className="hidden sm:inline">New Analysis</span>
-                      </Button>
-                    </div>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="sm" className="gap-2">
+                          <Download className="w-4 h-4" />
+                          <span className="hidden sm:inline">Download</span>
+                          <ChevronDown className="w-3 h-3" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="bg-background border shadow-lg z-50">
+                        <DropdownMenuItem onClick={handleDownloadPDF} className="gap-2 cursor-pointer">
+                          <FileDown className="w-4 h-4 text-red" />
+                          <div>
+                            <p className="font-medium">PDF Document</p>
+                            <p className="text-xs text-muted-foreground">Best for sharing & printing</p>
+                          </div>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={handleDownloadMarkdown} className="gap-2 cursor-pointer">
+                          <FileType className="w-4 h-4 text-blue-500" />
+                          <div>
+                            <p className="font-medium">Markdown</p>
+                            <p className="text-xs text-muted-foreground">For Notion, docs, or editing</p>
+                          </div>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
 
                   <div id="analysis-report-content">
