@@ -33,7 +33,7 @@ const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [magicLinkSent, setMagicLinkSent] = useState(false);
   const [touched, setTouched] = useState({ password: false, confirmPassword: false });
-  const { signIn, signUp, signInWithMagicLink, user, isLoading: authLoading } = useAuth();
+  const { signIn, signUp, signInWithMagicLink, resetPassword, user, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
@@ -281,6 +281,39 @@ const Auth = () => {
                               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                             </button>
                           </div>
+                        </div>
+                        <div className="flex justify-end">
+                          <button
+                            type="button"
+                            onClick={async () => {
+                              if (!email) {
+                                toast({
+                                  title: "Enter your email",
+                                  description: "Please enter your email address first.",
+                                  variant: "destructive",
+                                });
+                                return;
+                              }
+                              setIsLoading(true);
+                              const { error } = await resetPassword(email);
+                              setIsLoading(false);
+                              if (error) {
+                                toast({
+                                  title: "Reset failed",
+                                  description: error.message,
+                                  variant: "destructive",
+                                });
+                              } else {
+                                toast({
+                                  title: "Check your email",
+                                  description: "We've sent you a password reset link.",
+                                });
+                              }
+                            }}
+                            className="text-sm text-red hover:text-red-dark hover:underline transition-colors"
+                          >
+                            Forgot password?
+                          </button>
                         </div>
                         <Button
                           type="submit"
