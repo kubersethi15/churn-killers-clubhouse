@@ -211,14 +211,7 @@ const Auth = () => {
           {/* Right side - Form */}
           <div className="w-full max-w-md mx-auto lg:mx-0">
             <Card className="border-0 shadow-2xl">
-              <CardHeader className="text-center pb-4">
-                <CardTitle className="text-2xl font-serif">Join Churn Is Dead</CardTitle>
-                <CardDescription>
-                  Free newsletter + AI tools
-                </CardDescription>
-              </CardHeader>
-
-              <CardContent>
+              <CardContent className="pt-6">
                 {magicLinkSent ? (
                   <div className="text-center py-8">
                     <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
