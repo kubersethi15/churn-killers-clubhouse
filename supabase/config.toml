@@ -21,6 +21,3 @@ verify_jwt = false
 
 [functions.cs-triage]
 verify_jwt = false
-
-[functions.cs-advisor]
-verify_jwt = false

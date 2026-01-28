@@ -18,7 +18,6 @@ export type Database = {
         Row: {
           analysis_type: string
           created_at: string
-          group_id: string | null
           id: string
           input_text: string
           results: Json
@@ -28,7 +27,6 @@ export type Database = {
         Insert: {
           analysis_type: string
           created_at?: string
-          group_id?: string | null
           id?: string
           input_text: string
           results: Json
@@ -38,43 +36,10 @@ export type Database = {
         Update: {
           analysis_type?: string
           created_at?: string
-          group_id?: string | null
           id?: string
           input_text?: string
           results?: Json
           title?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "analyses_group_id_fkey"
-            columns: ["group_id"]
-            isOneToOne: false
-            referencedRelation: "analysis_groups"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      analysis_groups: {
-        Row: {
-          created_at: string
-          id: string
-          name: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          name: string
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          name?: string
-          updated_at?: string
           user_id?: string
         }
         Relationships: []

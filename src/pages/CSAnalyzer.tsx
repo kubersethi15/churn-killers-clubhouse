@@ -6,12 +6,9 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AnalysisReport } from "@/components/cs-analyzer/AnalysisReport";
 import { TriageChat } from "@/components/cs-analyzer/TriageChat";
-import { AdvisorChat } from "@/components/cs-analyzer/AdvisorChat";
-import { SaveAnalysisDialog } from "@/components/cs-analyzer/SaveAnalysisDialog";
 import { AnalysisSidebar } from "@/components/analyzer/AnalysisSidebar";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAnalyses, Analysis } from "@/hooks/useAnalyses";
-import { useAnalysisGroups } from "@/hooks/useAnalysisGroups";
 import { 
   FileText, 
   Presentation, 
@@ -160,14 +157,9 @@ const CSAnalyzer = () => {
   const [selectedSavedAnalysis, setSelectedSavedAnalysis] = useState<Analysis | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [analyzerMode, setAnalyzerMode] = useState<"manual" | "ai-triage">("ai-triage");
-  const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
-  const [showSaveDialog, setShowSaveDialog] = useState(false);
-  const [pendingSave, setPendingSave] = useState<{ title: string; type: string; content: string; result: string } | null>(null);
-  const [isSavingAnalysis, setIsSavingAnalysis] = useState(false);
   const { toast } = useToast();
   const { user, profile, signOut, isLoading: authLoading } = useAuth();
-  const { saveAnalysis, fetchAnalyses, analyses, updateAnalysisGroup } = useAnalyses();
-  const { groups, createGroup } = useAnalysisGroups();
+  const { saveAnalysis, fetchAnalyses } = useAnalyses();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -296,16 +288,18 @@ const CSAnalyzer = () => {
           description: "Your personalized insights are ready.",
         });
 
-        // Show save dialog for logged-in users
+        // Auto-save for logged-in users
         if (user) {
           const title = generateTitle(selectedType, content, data.analysis);
-          setPendingSave({
-            title,
-            type: selectedType || "unknown",
-            content,
-            result: data.analysis,
-          });
-          setShowSaveDialog(true);
+          const { error } = await saveAnalysis(title, selectedType || "unknown", content, data.analysis);
+          if (!error) {
+            // Trigger a refresh of the sidebar's analysis list
+            window.dispatchEvent(new CustomEvent('analysis-saved'));
+            toast({
+              title: "Analysis saved",
+              description: "You can access this analysis anytime from the sidebar.",
+            });
+          }
         }
       } else {
         throw new Error("No analysis returned");
@@ -384,61 +378,6 @@ const CSAnalyzer = () => {
     setAnalysisResult(null);
     setSelectedSavedAnalysis(null);
     setStep("select");
-  };
-
-  const handleSaveWithGroup = async (groupId: string | null, newGroupName?: string) => {
-    if (!pendingSave) return;
-
-    setIsSavingAnalysis(true);
-    try {
-      let targetGroupId = groupId;
-
-      // Create new group if requested
-      if (newGroupName) {
-        const { data: newGroup, error: groupError } = await createGroup(newGroupName);
-        if (groupError) {
-          toast({
-            title: "Failed to create group",
-            description: groupError.message,
-            variant: "destructive",
-          });
-          return;
-        }
-        targetGroupId = newGroup?.id || null;
-      }
-
-      // Save the analysis with group
-      const { error } = await saveAnalysis(
-        pendingSave.title,
-        pendingSave.type,
-        pendingSave.content,
-        pendingSave.result,
-        targetGroupId
-      );
-
-      if (error) {
-        toast({
-          title: "Failed to save",
-          description: error.message,
-          variant: "destructive",
-        });
-      } else {
-        window.dispatchEvent(new CustomEvent('analysis-saved'));
-        if (targetGroupId) {
-          setSelectedGroupId(targetGroupId);
-        }
-        toast({
-          title: "Analysis saved",
-          description: targetGroupId
-            ? `Saved to "${newGroupName || groups.find((g) => g.id === targetGroupId)?.name}"`
-            : "Saved as standalone analysis",
-        });
-        setShowSaveDialog(false);
-        setPendingSave(null);
-      }
-    } finally {
-      setIsSavingAnalysis(false);
-    }
   };
 
   const handleCopyAnalysis = () => {
@@ -571,16 +510,17 @@ const CSAnalyzer = () => {
           description: "Your personalized insights are ready.",
         });
 
-        // Show save dialog for logged-in users
+        // Auto-save for logged-in users
         if (user) {
           const title = generateTitle(params.contentType as AnalysisType, params.content, data.analysis);
-          setPendingSave({
-            title,
-            type: params.contentType,
-            content: params.content,
-            result: data.analysis,
-          });
-          setShowSaveDialog(true);
+          const { error: saveError } = await saveAnalysis(title, params.contentType, params.content, data.analysis);
+          if (!saveError) {
+            window.dispatchEvent(new CustomEvent('analysis-saved'));
+            toast({
+              title: "Analysis saved",
+              description: "You can access this analysis anytime from the sidebar.",
+            });
+          }
         }
       } else {
         throw new Error("No analysis returned");
@@ -621,8 +561,6 @@ const CSAnalyzer = () => {
         selectedAnalysisId={selectedSavedAnalysis?.id}
         isCollapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
-        selectedGroupId={selectedGroupId}
-        onSelectGroup={setSelectedGroupId}
       />
 
       {/* Main Content Area */}
@@ -1104,34 +1042,6 @@ const CSAnalyzer = () => {
           </div>
         </main>
       </div>
-
-      {/* CS Advisor Chat - Only visible when viewing results */}
-      {step === "results" && analysisResult && (
-        <AdvisorChat
-          currentAnalysis={analysisResult}
-          originalContent={content || selectedSavedAnalysis?.input_text || ""}
-          analysisHistory={
-            selectedGroupId
-              ? analyses.filter((a) => a.group_id === selectedGroupId)
-              : analyses
-          }
-          analysisTitle={selectedSavedAnalysis?.title || selectedOption?.title}
-          groupName={groups.find((g) => g.id === selectedGroupId)?.name}
-        />
-      )}
-
-      {/* Save Analysis Dialog */}
-      <SaveAnalysisDialog
-        open={showSaveDialog}
-        onOpenChange={(open) => {
-          setShowSaveDialog(open);
-          if (!open) setPendingSave(null);
-        }}
-        groups={groups}
-        onSave={handleSaveWithGroup}
-        isSaving={isSavingAnalysis}
-        suggestedTitle={pendingSave?.title || "New Analysis"}
-      />
     </div>
   );
 };
