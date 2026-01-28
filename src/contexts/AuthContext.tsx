@@ -17,7 +17,7 @@ interface AuthContextType {
   session: Session | null;
   profile: Profile | null;
   isLoading: boolean;
-  signUp: (email: string, password: string, displayName?: string) => Promise<{ error: Error | null }>;
+  signUp: (email: string, password: string, displayName?: string, role?: Profile["role"]) => Promise<{ error: Error | null }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signInWithMagicLink: (email: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const signUp = async (email: string, password: string, displayName?: string) => {
+  const signUp = async (email: string, password: string, displayName?: string, role?: Profile["role"]) => {
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -91,6 +91,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         emailRedirectTo: window.location.origin,
         data: {
           display_name: displayName || email,
+          role: role || "csm",
         },
       },
     });
