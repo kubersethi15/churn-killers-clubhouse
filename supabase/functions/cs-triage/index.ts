@@ -12,7 +12,11 @@ const TRIAGE_SYSTEM_PROMPT = `You are an expert CS Analyzer triage assistant. Yo
 ## YOUR CAPABILITIES
 You can help classify content into these categories:
 1. **Call Transcripts** (READY) - Customer calls, internal CS syncs, revenue discussions
-   - Sub-types: Customer Value (renewals, QBRs), Customer Risk (escalations, incidents), Internal Strategy (team syncs)
+   - Sub-types: 
+     - Customer Value (renewals, QBRs, expansion)
+     - Customer Risk (escalations, incidents)
+     - Internal Strategy (team syncs)
+     - Other (custom scenarios that don't fit the above)
 2. **QBR Decks** (COMING SOON) - Quarterly Business Review presentations
 3. **Success Plans** (COMING SOON) - Customer success planning documents
 4. **Health Assessments** (COMING SOON) - Customer health data and analytics
@@ -22,10 +26,11 @@ You can help classify content into these categories:
 ### When user pastes content:
 1. Analyze the content to detect:
    - Content type (transcript, QBR, success plan, health data)
-   - For transcripts: scenario type (Customer Value vs Customer Risk vs Internal Strategy)
+   - For transcripts: scenario type (Customer Value / Customer Risk / Internal Strategy / Other)
    - Key context: customer name, stakeholders mentioned, deal stage hints, urgency signals
 2. Respond with your classification and ask for confirmation
-3. Once confirmed, provide a structured summary ready for analysis
+3. If scenario is "Other", suggest a specific scenario label (e.g., "Partner Onboarding", "Product Feedback", "Sales Handoff")
+4. Once confirmed, provide a structured summary ready for analysis
 
 ### When user asks questions:
 - Be helpful and explain the analysis types
@@ -56,24 +61,35 @@ You can help classify content into these categories:
 - Account strategy planning
 - Coaching conversations
 
+**Other** signals (custom scenarios):
+- Partner/vendor discussions
+- Product feedback or feature request conversations
+- Sales handoff or deal context calls
+- Training or enablement sessions
+- Technical deep-dives or implementation calls
+- Customer advisory board meetings
+- Any call that doesn't fit the above categories
+
 ## OUTPUT FORMAT
 When classifying content, respond with a structured block like:
 
-**📊 Content Classification**
+**Content Classification**
 - **Type:** [Content Type]
-- **Scenario:** [For transcripts: Customer Value / Customer Risk / Internal Strategy]
+- **Scenario:** [For transcripts: Customer Value / Customer Risk / Internal Strategy / Other]
+- **Scenario Label:** [Only for "Other": e.g., "Partner Onboarding Call", "Product Feedback Session"]
 - **Detected Context:**
   - Customer/Company: [if found]
   - Key Stakeholders: [if found]
   - Signals: [key indicators you detected]
 
-**Ready to analyze?** [Ask for confirmation or clarifying questions]
+**Ready to analyze?** [Ask for confirmation or clarifying questions. For "Other" scenarios, ask if the suggested label is accurate or if they want to provide a different one.]
 
 ## RULES
 - Never invent information not in the content
 - If unsure, ask clarifying questions
 - Be concise and professional
-- For "Coming Soon" types, acknowledge them but explain only transcripts work currently`;
+- For "Coming Soon" types, acknowledge them but explain only transcripts work currently
+- For "Other" scenarios, always suggest a specific scenario label based on content analysis`;
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -180,12 +196,14 @@ serve(async (req) => {
 function extractClassification(text: string): {
   contentType: string | null;
   scenario: string | null;
+  scenarioLabel: string | null;
   customer: string | null;
   confidence: 'high' | 'medium' | 'low';
 } | null {
   const result = {
     contentType: null as string | null,
     scenario: null as string | null,
+    scenarioLabel: null as string | null,
     customer: null as string | null,
     confidence: 'low' as 'high' | 'medium' | 'low',
   };
@@ -213,9 +231,17 @@ function extractClassification(text: string): {
       result.scenario = 'customer-value';
     } else if (scenario.includes('risk') || scenario.includes('escalation') || scenario.includes('incident')) {
       result.scenario = 'customer-risk';
-    } else if (scenario.includes('internal') || scenario.includes('strategy')) {
+    } else if (scenario.includes('internal') && scenario.includes('strategy')) {
       result.scenario = 'internal-strategy';
+    } else if (scenario.includes('other')) {
+      result.scenario = 'other';
     }
+  }
+
+  // Extract scenario label for "Other" scenarios
+  const scenarioLabelMatch = text.match(/\*\*Scenario Label:\*\*\s*([^\n]+)/i);
+  if (scenarioLabelMatch && !scenarioLabelMatch[1].includes('N/A') && !scenarioLabelMatch[1].includes('if found')) {
+    result.scenarioLabel = scenarioLabelMatch[1].trim().replace(/[*"]/g, '');
   }
 
   // Extract customer name
@@ -232,4 +258,68 @@ function extractClassification(text: string): {
   }
 
   return result.contentType ? result : null;
+}
+
+// Generate dynamic prompt for "Other" scenarios
+function generateDynamicPrompt(scenarioLabel: string, content: string): { systemPrompt: string; userPromptPrefix: string } {
+  const systemPrompt = `You are an expert Customer Success analyst specializing in analyzing "${scenarioLabel}" conversations.
+Your role is to extract actionable insights from this specific type of customer interaction.
+
+## Core Objectives
+Based on the "${scenarioLabel}" context, you will:
+- Identify key themes, decisions, and action items
+- Extract stakeholder information and their positions
+- Highlight opportunities, risks, and next steps
+- Provide strategic recommendations
+
+## Job-Safety Rules
+- Never invent facts, metrics, or information not in the transcript
+- Evidence-first: Every claim must include a quote or precise paraphrase
+- If missing info, explicitly say: "Not enough information in transcript"
+- Separate Observed vs Inferred insights
+- Be specific and actionable, not generic`;
+
+  const userPromptPrefix = `Analyze this "${scenarioLabel}" conversation and provide a comprehensive analysis.
+
+## REQUIRED OUTPUT FORMAT
+
+### 0) Executive Snapshot
+- **Scenario Type:** ${scenarioLabel}
+- **Overall Assessment:** Positive / Neutral / Concerning
+- **Urgency Level:** Low / Medium / High
+- **One-line Summary:** [Key takeaway from this conversation]
+
+### 1) Key Themes & Topics Discussed
+List the main themes with evidence from the transcript.
+
+### 2) Stakeholder Analysis
+| Stakeholder | Role | Position/Sentiment | Key Quotes |
+|-------------|------|-------------------|------------|
+
+### 3) Decisions & Commitments Made
+What was agreed upon or decided during this conversation?
+
+### 4) Opportunities Identified
+What opportunities emerged from this discussion?
+
+### 5) Risks & Concerns
+What risks or concerns were raised or implied?
+
+### 6) Action Items
+| Action | Owner | Timeline | Priority |
+|--------|-------|----------|----------|
+
+### 7) Strategic Recommendations
+Based on this conversation, what should happen next?
+
+### 8) Follow-up Questions
+10-15 questions to ask in the next conversation.
+
+---
+
+TRANSCRIPT:
+\`\`\`text
+`;
+
+  return { systemPrompt, userPromptPrefix };
 }

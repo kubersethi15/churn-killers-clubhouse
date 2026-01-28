@@ -459,7 +459,7 @@ serve(async (req) => {
   }
 
   try {
-    const { analysisType, callCategory, content, email } = await req.json();
+    const { analysisType, callCategory, content, email, customPrompt } = await req.json();
 
     // Validate inputs
     if (!analysisType || !content) {
@@ -473,9 +473,18 @@ serve(async (req) => {
     let prompts: { systemPrompt: string; userPromptPrefix: string };
     
     if (analysisType === 'call-transcript') {
-      // Use category-specific prompts for call transcripts
-      prompts = buildCallTranscriptPrompt(callCategory);
-      console.log(`Using call category: ${callCategory || 'generic'}`);
+      // Check for custom prompt (used for "other" category)
+      if (callCategory === 'other' && customPrompt) {
+        console.log(`Using custom prompt for "other" scenario`);
+        prompts = {
+          systemPrompt: customPrompt.systemPrompt,
+          userPromptPrefix: customPrompt.userPromptPrefix,
+        };
+      } else {
+        // Use category-specific prompts for call transcripts
+        prompts = buildCallTranscriptPrompt(callCategory);
+        console.log(`Using call category: ${callCategory || 'generic'}`);
+      }
     } else {
       // Use standard prompts for other analysis types
       const standardPrompts = ANALYSIS_PROMPTS[analysisType as keyof typeof ANALYSIS_PROMPTS];
