@@ -156,7 +156,7 @@ const CSAnalyzer = () => {
   const [analysisResult, setAnalysisResult] = useState<string | null>(null);
   const [selectedSavedAnalysis, setSelectedSavedAnalysis] = useState<Analysis | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [analyzerMode, setAnalyzerMode] = useState<"manual" | "ai-triage">("manual");
+  const [analyzerMode, setAnalyzerMode] = useState<"manual" | "ai-triage">("ai-triage");
   const { toast } = useToast();
   const { user, profile, signOut, isLoading: authLoading } = useAuth();
   const { saveAnalysis, fetchAnalyses } = useAnalyses();
