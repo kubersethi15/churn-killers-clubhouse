@@ -12,7 +12,6 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
 import {
@@ -116,21 +115,18 @@ export const AnalyzerSidebar = ({
       collapsible="icon"
     >
       <SidebarHeader className="border-b border-sidebar-border p-4">
-        <div className="flex items-center gap-3">
-          {!collapsed && (
-            <Link to="/" className="flex-1">
-              <h1 className="text-lg font-serif font-bold text-sidebar-foreground">
-                <span className="text-red">CS</span> Analyzer
-              </h1>
-            </Link>
-          )}
-          <SidebarTrigger className="text-sidebar-foreground" />
-        </div>
+        {!collapsed && (
+          <Link to="/" className="block mb-4">
+            <h1 className="text-lg font-serif font-bold text-sidebar-foreground">
+              <span className="text-red">CS</span> Analyzer
+            </h1>
+          </Link>
+        )}
 
         {!collapsed && (
           <Button
             onClick={onNewAnalysis}
-            className="w-full mt-4 bg-red hover:bg-red-dark text-white"
+            className="w-full bg-red hover:bg-red-dark text-white"
             size="sm"
           >
             <Plus className="h-4 w-4 mr-2" />
@@ -141,7 +137,7 @@ export const AnalyzerSidebar = ({
         {collapsed && (
           <Button
             onClick={onNewAnalysis}
-            className="w-full mt-4 bg-red hover:bg-red-dark text-white"
+            className="w-full bg-red hover:bg-red-dark text-white"
             size="icon"
           >
             <Plus className="h-4 w-4" />
