@@ -404,8 +404,8 @@ const CSAnalyzer = () => {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Header */}
-        <header className="sticky top-0 z-40 bg-navy-dark text-white border-b border-navy-light h-14">
+        {/* Header - seamlessly blends with sidebar */}
+        <header className="sticky top-0 z-40 bg-navy-dark text-white h-14">
           <div className="flex items-center justify-between px-4 h-full md:px-6">
             <div className="flex items-center gap-3">
               {/* Mobile sidebar toggle */}
@@ -413,20 +413,17 @@ const CSAnalyzer = () => {
                 variant="ghost"
                 size="icon"
                 onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-                className="md:hidden text-white/70 hover:text-white hover:bg-white/10 h-8 w-8"
+                className="md:hidden text-white/60 hover:text-white hover:bg-white/10 h-8 w-8"
               >
                 <PanelLeft className="h-4 w-4" />
               </Button>
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-red-light" />
-                <h1 className="text-lg font-serif font-bold">CS Analyzer</h1>
-              </div>
+              <h1 className="text-lg font-serif font-bold tracking-tight">CS Analyzer</h1>
             </div>
 
             <div className="flex items-center gap-4">
               <Link 
                 to="/" 
-                className="text-white/70 hover:text-white text-sm transition-colors hidden md:block"
+                className="text-white/60 hover:text-white text-sm transition-colors hidden md:block"
               >
                 ← Back to Churn Is Dead
               </Link>
@@ -435,11 +432,11 @@ const CSAnalyzer = () => {
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="text-white hover:bg-white/10 gap-2 h-9">
-                      <div className="w-6 h-6 rounded-full bg-red/20 flex items-center justify-center text-red-light text-xs font-medium">
+                      <div className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-white text-xs font-medium">
                         {initials}
                       </div>
-                      <span className="hidden sm:inline text-sm">{displayName}</span>
-                      <ChevronDown className="h-3 w-3 text-white/50" />
+                      <span className="hidden sm:inline text-sm text-white/90">{displayName}</span>
+                      <ChevronDown className="h-3 w-3 text-white/40" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-56 bg-background border shadow-lg z-50">
@@ -464,8 +461,8 @@ const CSAnalyzer = () => {
           </div>
         </header>
 
-      {/* Main Content */}
-      <main className="flex-1 overflow-auto">
+        {/* Main Content */}
+        <main className="flex-1 overflow-auto bg-background">
             <div className="container mx-auto px-4 py-8 md:px-6 max-w-4xl">
               
               {/* Step Indicator */}
