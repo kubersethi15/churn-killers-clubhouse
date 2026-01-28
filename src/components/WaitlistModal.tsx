@@ -46,9 +46,12 @@ const WaitlistModal = ({ open, onOpenChange, source = "homepage" }: WaitlistModa
     setIsSubmitting(true);
 
     try {
+      const trimmedEmail = email.trim().toLowerCase();
+      const trimmedName = name.trim();
+      
       const { error } = await supabase
         .from("waitlist")
-        .insert([{ name: name.trim(), email: email.trim().toLowerCase(), role, source }]);
+        .insert([{ name: trimmedName, email: trimmedEmail, role, source }]);
 
       if (error) {
         if (error.code === "23505") {
@@ -62,10 +65,20 @@ const WaitlistModal = ({ open, onOpenChange, source = "homepage" }: WaitlistModa
           throw error;
         }
       } else {
+        // Send confirmation email
+        try {
+          await supabase.functions.invoke("send-waitlist-email", {
+            body: { email: trimmedEmail, name: trimmedName },
+          });
+        } catch (emailError) {
+          console.error("Failed to send confirmation email:", emailError);
+          // Don't fail the whole signup if email fails
+        }
+        
         setIsSuccess(true);
         toast({
           title: "You're on the list!",
-          description: "We'll notify you when CS Analyzer is ready.",
+          description: "Check your inbox for a confirmation email.",
         });
       }
     } catch (error: any) {
