@@ -304,30 +304,57 @@ ALL risks must be labeled with priority: Critical / High / Medium / Low
 - Medium: Disengagement signals, unclear strategy, missing stakeholders
 - Low: Minor gaps, no immediate threat
 
-### Stakeholder Inference Rule
-- If roles are mentioned (VP, Director, Manager, etc.), ALWAYS infer power level and posture
-- Finance/Procurement/CxO = High Power
-- Label Champion/Skeptic/Neutral/Unknown explicitly
+### Stakeholder Posture Inference Rule (CRITICAL)
+- ALWAYS infer stakeholder posture when roles are mentioned. NEVER default to "Unknown" unless there is genuinely zero signal.
+- Finance/Procurement roles → infer "Neutral" or "Skeptical" by default (cost-focused mindset)
+- Technical roles → infer based on adoption signals (heavy user = Supportive, low usage = Neutral/Mixed)
+- Champions → only label if there's evidence of advocacy
+- If ambiguous, use "Mixed" or "Neutral" with reasoning, NOT "Unknown"
+- Finance/Procurement/CxO = High Power always
 
-### Silent Churn Risk Score Rule
-Generate a **Silent Churn Risk Score (0-100)** based on:
+### Silent Churn Risk Score Rule (MUST INCLUDE EXPLAINABILITY)
+Generate a **Silent Churn Risk Score (0-100)** with EXPLICIT BREAKDOWN showing each contributing factor:
+
+Example format:
+"Silent Churn Risk Score: 65/100
+- Leadership review underway: +20
+- Fragmented adoption across teams: +15
+- No exec engagement in 90 days: +15
+- Unclear ROI articulation: +10
+- Budget scrutiny mentioned: +5"
+
+Scoring factors:
 - Leadership alignment gaps (+20 if leadership change, +10 if unclear champion)
-- Adoption fragmentation (+20 if low adoption, +10 if uneven adoption)
+- Adoption fragmentation (+20 if low adoption, +15 if uneven adoption)
 - Strategic uncertainty (+20 if tool review, +15 if budget scrutiny)
 - Executive blindspots (+15 if no exec engagement in 90 days)
-- Value narrative gaps (+10 if ROI unclear)`,
+- Value narrative gaps (+10 if ROI unclear)
+- Competitive pressure (+15 if alternatives mentioned)
+
+### Strategic Truth Language Rule
+The "One-line Strategic Truth" MUST use CRO-level language that would resonate in a board meeting:
+- Bad: "Customer seems uncertain about renewal"
+- Good: "This account is in silent attrition mode—without exec realignment in 30 days, we lose the renewal mandate"
+
+### CS Rep Coaching for Silent Risk (MANDATORY)
+For silent risk scenarios, coaching MUST address these specific areas:
+1. **Multi-threading gaps:** Did the CSE engage multiple stakeholders or rely on a single contact?
+2. **Executive alignment:** Has the CSE established direct exec-to-exec relationships?
+3. **Renewal narrative anchoring:** Did the CSE proactively build the renewal business case or wait for procurement?
+4. **Proactive risk sensing:** Did the CSE detect silent signals early or miss warning signs?
+5. **Value narrative ownership:** Has the CSE armed the champion with CFO-ready talking points?`,
 
     userPromptPrefix: `Analyze this conversation for SILENT STRATEGIC RISK signals using the OUTPUT FORMAT below.
 
 ## ✅ REQUIRED OUTPUT FORMAT
 
 ### 0) Executive Snapshot
-- **Silent Churn Risk Score:** 0-100 (with breakdown)
+- **Silent Churn Risk Score:** 0-100 with EXPLICIT BREAKDOWN (e.g., "65/100: Leadership review +20, Fragmented adoption +15, No exec engagement +15, Unclear ROI +10, Budget scrutiny +5")
 - **Account Posture:** Green / Amber / Red
 - **Risk Priority:** Critical / High / Medium / Low
 - **Leadership Alignment:** Strong / Moderate / Weak / Unknown
 - **Adoption Health:** Healthy / Fragmented / Declining / Unknown
-- **One-line Strategic Truth:** blunt assessment of the real risk
+- **One-line Strategic Truth:** CRO-level blunt assessment (e.g., "This account is 90 days from silent attrition without executive re-engagement")
 
 ### 1) Strategic Risk Signals
 **Observed Risks (Evidence-Based):**
@@ -371,9 +398,11 @@ Risk Categories to consider:
 |-------------|------|---------|-------------|----------|
 
 Rules:
-- Infer power from role (Finance, Procurement, CxO = High)
-- Label Champion vs Skeptic explicitly
-- Include "Unknown" if posture cannot be determined
+- ALWAYS infer posture (Champion/Skeptic/Neutral/Mixed) based on role and context
+- Finance/Procurement = assume Neutral or Skeptical unless evidence of support
+- Technical roles = infer from adoption signals
+- NEVER use "Unknown" unless zero signal exists—use "Neutral" or "Mixed" with reasoning instead
+- Finance/Procurement/CxO = High Power always
 
 ### 6) Value Narrative Assessment
 - **Current Value Story Strength:** Strong / Moderate / Weak / Missing
@@ -383,15 +412,23 @@ Rules:
 
 ### 7) 30-Day Proactive Intervention Plan
 Focus on: Executive alignment, roadmap co-creation, stakeholder mapping, value narrative strengthening
-| Action | Owner | Timeline | Priority | Rationale |
-|--------|-------|----------|----------|-----------|
 
-Must include:
-- Executive alignment meeting
-- Value narrative refresh
-- Champion succession planning (if relevant)
-- Adoption gap remediation
-- Competitive positioning prep
+**RENDER AS STRUCTURED ACTION CARDS (NOT TABLE):**
+For each action, clearly separate:
+- **Action:** [What to do]
+- **Owner:** [CSM / CS Leader / Executive Sponsor]
+- **Timeline:** [Specific timeframe]
+- **Priority:** [Critical / High / Medium / Low]
+- **Rationale:** [Why this matters for silent risk mitigation]
+
+Required actions (include all that apply):
+1. Executive alignment meeting (sponsor-to-sponsor)
+2. Value narrative refresh with CFO-ready metrics
+3. Champion succession planning (if transition signals exist)
+4. Adoption gap remediation plan
+5. Competitive positioning prep
+6. Multi-threading expansion to key stakeholders
+7. Renewal narrative anchoring (90+ days before renewal)
 
 ### 8) Next Call High-Leverage Questions
 15-20 questions grouped by:
@@ -403,10 +440,20 @@ Must include:
 
 Questions must directly map to identified risk signals.
 
-### 9) CS Rep Strategic Effectiveness
-- **What Worked (Evidence-Based)**
-- **What a Top 1% Enterprise CSE Would Do Differently**
-- **Proactive Moves Missed:**
+### 9) CS Rep Strategic Effectiveness (Silent Risk Coaching)
+**What Worked (Evidence-Based):**
+- [Specific actions that helped]
+
+**What a Top 1% Enterprise CSE Would Do Differently:**
+
+MUST address these specific coaching areas for silent risk:
+1. **Multi-threading Gaps:** Did the CSE rely on a single contact? Who else should have been engaged?
+2. **Executive Alignment:** Has the CSE established exec-to-exec relationships? If not, what's the plan?
+3. **Renewal Narrative Anchoring:** Did the CSE proactively build the renewal business case or wait for procurement to drive?
+4. **Proactive Risk Sensing:** What warning signs were missed? How could they have been detected earlier?
+5. **Value Narrative Ownership:** Has the CSE armed the champion with CFO-ready talking points for internal advocacy?
+
+Be brutally specific. Generic praise like "good discovery questions" is useless. What exactly would a top-performer do differently?
 
 ---
 
