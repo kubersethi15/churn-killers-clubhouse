@@ -11,14 +11,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import NewsletterForm from "./NewsletterForm";
 import ContactDialog from "./ContactDialog";
+import WaitlistModal from "./WaitlistModal";
 import { useAuth } from "@/contexts/AuthContext";
 import { LogIn, User, LogOut, ChevronDown } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSubscribeOpen, setIsSubscribeOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, profile, signOut } = useAuth();
@@ -75,9 +78,15 @@ const Header = () => {
         </Link>
         
         <nav className="hidden md:flex items-center gap-6">
-          <NavLink to="/cs-analyzer" className={getNavLinkClass}>
+          <button
+            onClick={() => setIsWaitlistOpen(true)}
+            className="text-navy-dark hover:text-red-600 font-medium transition-colors flex items-center gap-2"
+          >
             CS Analyzer
-          </NavLink>
+            <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 border-amber-400 text-amber-600 bg-amber-50">
+              Soon
+            </Badge>
+          </button>
           <NavLink to="/newsletters" className={getNavLinkClass}>
             Newsletters
           </NavLink>
@@ -179,17 +188,18 @@ const Header = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-100 p-4">
           <nav className="flex flex-col space-y-4">
-            <NavLink 
-              to="/cs-analyzer" 
-              className={({ isActive }) => 
-                isActive 
-                  ? "text-red-600 font-medium transition-colors px-2 py-1" 
-                  : "text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
-              }
-              onClick={() => setIsMenuOpen(false)}
+            <button
+              onClick={() => {
+                setIsMenuOpen(false);
+                setIsWaitlistOpen(true);
+              }}
+              className="text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1 flex items-center gap-2 text-left"
             >
               CS Analyzer
-            </NavLink>
+              <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 border-amber-400 text-amber-600 bg-amber-50">
+                Soon
+              </Badge>
+            </button>
             <NavLink 
               to="/newsletters" 
               className={({ isActive }) => 
@@ -287,6 +297,9 @@ const Header = () => {
       
       {/* Contact Dialog */}
       <ContactDialog open={isContactOpen} onOpenChange={setIsContactOpen} />
+      
+      {/* Waitlist Modal */}
+      <WaitlistModal open={isWaitlistOpen} onOpenChange={setIsWaitlistOpen} source="nav" />
     </header>
   );
 };
