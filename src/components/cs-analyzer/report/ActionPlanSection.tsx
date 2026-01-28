@@ -12,6 +12,7 @@ import { Target, User, Clock } from "lucide-react";
 import { parseActionItems } from "./utils";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
+import { reportTypography, reportLayout, reportColors, sectionIconColors } from "./reportStyles";
 
 interface ActionPlanSectionProps {
   content: string;
@@ -20,12 +21,12 @@ interface ActionPlanSectionProps {
 const getTimelineBadge = (when: string) => {
   const lower = when.toLowerCase();
   if (lower.includes("7 day") || lower.includes("week") || lower.includes("immediate") || lower.includes("next meeting") || lower.includes("asap")) {
-    return { color: "bg-red-100 text-red-700 border-red-200", label: "Urgent" };
+    return { color: reportColors.red.badge, label: "Urgent" };
   }
   if (lower.includes("14 day") || lower.includes("2 week")) {
-    return { color: "bg-amber-100 text-amber-700 border-amber-200", label: "High" };
+    return { color: reportColors.amber.badge, label: "High" };
   }
-  return { color: "bg-slate-100 text-slate-600 border-slate-200", label: "Standard" };
+  return { color: reportColors.neutral.badge, label: "Standard" };
 };
 
 export const ActionPlanSection = ({ content }: ActionPlanSectionProps) => {
@@ -33,17 +34,17 @@ export const ActionPlanSection = ({ content }: ActionPlanSectionProps) => {
   
   if (actions.length === 0) {
     return (
-      <Card>
+      <Card className={reportLayout.card}>
         <CardHeader className="pb-4">
-          <CardTitle className="flex items-center gap-3 text-lg">
-            <div className="p-2 bg-navy-dark/10 rounded-lg">
-              <Target className="w-5 h-5 text-navy-dark" />
+          <CardTitle className={cn("flex items-center gap-3", reportTypography.sectionTitle)}>
+            <div className={cn(reportLayout.iconContainer, sectionIconColors.action)}>
+              <Target className="w-5 h-5" />
             </div>
             14-Day Strategic Action Plan
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="prose prose-sm max-w-none">
+          <div className={cn("prose prose-sm max-w-none", reportTypography.bodyText)}>
             <ReactMarkdown>{content}</ReactMarkdown>
           </div>
         </CardContent>
@@ -52,14 +53,14 @@ export const ActionPlanSection = ({ content }: ActionPlanSectionProps) => {
   }
   
   return (
-    <Card className="overflow-hidden">
-      <CardHeader className="pb-4 border-b bg-muted/30">
-        <CardTitle className="flex items-center gap-3 text-lg">
-          <div className="p-2 bg-navy-dark/10 rounded-lg">
-            <Target className="w-5 h-5 text-navy-dark" />
+    <Card className={reportLayout.card}>
+      <CardHeader className={reportLayout.cardHeader}>
+        <CardTitle className={cn("flex items-center gap-3", reportTypography.sectionTitle)}>
+          <div className={cn(reportLayout.iconContainer, sectionIconColors.action)}>
+            <Target className="w-5 h-5" />
           </div>
           14-Day Strategic Action Plan
-          <Badge variant="secondary" className="ml-auto font-normal">
+          <Badge variant="secondary" className={cn("ml-auto", reportLayout.badgeCount)}>
             {actions.length} Actions
           </Badge>
         </CardTitle>
@@ -68,22 +69,22 @@ export const ActionPlanSection = ({ content }: ActionPlanSectionProps) => {
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow className="bg-muted/50 hover:bg-muted/50">
-                <TableHead className="w-12 text-center font-semibold">#</TableHead>
-                <TableHead className="font-semibold min-w-[250px]">Action</TableHead>
-                <TableHead className="font-semibold w-32">
+              <TableRow className={reportLayout.tableHeader}>
+                <TableHead className={cn("w-12 text-center", reportTypography.labelSmall)}>#</TableHead>
+                <TableHead className={cn("min-w-[250px]", reportTypography.labelSmall)}>Action</TableHead>
+                <TableHead className={cn("w-32", reportTypography.labelSmall)}>
                   <div className="flex items-center gap-1.5">
                     <User className="w-3.5 h-3.5" />
                     Owner
                   </div>
                 </TableHead>
-                <TableHead className="font-semibold w-36">
+                <TableHead className={cn("w-36", reportTypography.labelSmall)}>
                   <div className="flex items-center gap-1.5">
                     <Clock className="w-3.5 h-3.5" />
                     Timeline
                   </div>
                 </TableHead>
-                <TableHead className="font-semibold w-24 text-center">Priority</TableHead>
+                <TableHead className={cn("w-24 text-center", reportTypography.labelSmall)}>Priority</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -93,42 +94,42 @@ export const ActionPlanSection = ({ content }: ActionPlanSectionProps) => {
                   <TableRow 
                     key={idx} 
                     className={cn(
-                      "hover:bg-muted/30 transition-colors",
+                      reportLayout.tableRow,
                       idx === 0 && "bg-red-50/50"
                     )}
                   >
                     <TableCell className="text-center">
                       <div className={cn(
-                        "w-7 h-7 rounded-lg flex items-center justify-center font-bold text-sm mx-auto",
-                        idx === 0 ? "bg-navy-dark text-white" : "bg-muted text-muted-foreground"
+                        "w-7 h-7 rounded-lg flex items-center justify-center font-sans font-bold text-sm mx-auto",
+                        idx === 0 ? "bg-navy-dark text-white" : "bg-muted text-report-muted"
                       )}>
                         {idx + 1}
                       </div>
                     </TableCell>
                     <TableCell>
                       <div className="space-y-1">
-                        <p className="font-medium text-navy-dark leading-snug">
+                        <p className={cn("font-sans font-medium leading-snug text-report-heading")}>
                           {action.action}
                         </p>
                         {action.reason && (
-                          <p className="text-xs text-muted-foreground leading-relaxed">
+                          <p className={cn(reportTypography.bodyMuted, "text-xs")}>
                             <span className="font-medium">Why:</span> {action.reason}
                           </p>
                         )}
                       </div>
                     </TableCell>
                     <TableCell>
-                      <span className="text-sm text-muted-foreground">
+                      <span className={reportTypography.bodyMuted}>
                         {action.owner || "—"}
                       </span>
                     </TableCell>
                     <TableCell>
-                      <span className="text-sm text-muted-foreground">
+                      <span className={reportTypography.bodyMuted}>
                         {action.when || "—"}
                       </span>
                     </TableCell>
                     <TableCell className="text-center">
-                      <Badge className={cn("border text-xs", timeline.color)}>
+                      <Badge className={cn(reportLayout.badge, timeline.color)}>
                         {timeline.label}
                       </Badge>
                     </TableCell>

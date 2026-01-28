@@ -75,6 +75,17 @@ export default {
 					dark: 'hsl(358, 85%, 42%)',
 				},
 				cream: 'hsl(var(--cream))',
+				// Report brand tokens
+				report: {
+					heading: 'hsl(var(--report-heading))',
+					text: 'hsl(var(--report-text))',
+					muted: 'hsl(var(--report-muted))',
+					surface: 'hsl(var(--report-surface))',
+					border: 'hsl(var(--report-border))',
+					green: 'hsl(var(--report-accent-green))',
+					amber: 'hsl(var(--report-accent-amber))',
+					red: 'hsl(var(--report-accent-red))',
+				},
 			},
 			fontFamily: {
 				sans: ['Inter', 'sans-serif'],

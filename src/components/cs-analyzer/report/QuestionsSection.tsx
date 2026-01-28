@@ -4,6 +4,7 @@ import { MessageCircleQuestion, ChevronRight, DollarSign, Users, Shield, Rocket 
 import { parseQuestions } from "./utils";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
+import { reportTypography, reportLayout, sectionIconColors } from "./reportStyles";
 
 interface QuestionsSectionProps {
   content: string;
@@ -15,15 +16,15 @@ const getCategoryIcon = (category: string) => {
     return { icon: DollarSign, color: "bg-emerald-100 text-emerald-600" };
   }
   if (lower.includes("stakeholder") || lower.includes("decision") || lower.includes("process")) {
-    return { icon: Users, color: "bg-purple-100 text-purple-600" };
+    return { icon: Users, color: "bg-navy-dark/10 text-navy-dark" };
   }
   if (lower.includes("risk") || lower.includes("blocker")) {
     return { icon: Shield, color: "bg-red-100 text-red-600" };
   }
   if (lower.includes("expansion") || lower.includes("growth")) {
-    return { icon: Rocket, color: "bg-blue-100 text-blue-600" };
+    return { icon: Rocket, color: "bg-emerald-100 text-emerald-600" };
   }
-  return { icon: MessageCircleQuestion, color: "bg-slate-100 text-slate-600" };
+  return { icon: MessageCircleQuestion, color: sectionIconColors.questions };
 };
 
 export const QuestionsSection = ({ content }: QuestionsSectionProps) => {
@@ -32,17 +33,17 @@ export const QuestionsSection = ({ content }: QuestionsSectionProps) => {
   
   if (categoryEntries.length === 0) {
     return (
-      <Card>
+      <Card className={reportLayout.card}>
         <CardHeader className="pb-4">
-          <CardTitle className="flex items-center gap-3 text-lg">
-            <div className="p-2 bg-indigo-100 rounded-lg">
-              <MessageCircleQuestion className="w-5 h-5 text-indigo-600" />
+          <CardTitle className={cn("flex items-center gap-3", reportTypography.sectionTitle)}>
+            <div className={cn(reportLayout.iconContainer, sectionIconColors.questions)}>
+              <MessageCircleQuestion className="w-5 h-5" />
             </div>
             Next Call High-Leverage Questions
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="prose prose-sm max-w-none">
+          <div className={cn("prose prose-sm max-w-none", reportTypography.bodyText)}>
             <ReactMarkdown>{content}</ReactMarkdown>
           </div>
         </CardContent>
@@ -51,19 +52,19 @@ export const QuestionsSection = ({ content }: QuestionsSectionProps) => {
   }
   
   return (
-    <Card className="overflow-hidden">
-      <CardHeader className="pb-4 border-b bg-gradient-to-r from-indigo-50 to-purple-50">
-        <CardTitle className="flex items-center gap-3 text-lg">
-          <div className="p-2 bg-indigo-100 rounded-lg">
-            <MessageCircleQuestion className="w-5 h-5 text-indigo-600" />
+    <Card className={reportLayout.card}>
+      <CardHeader className={cn(reportLayout.cardHeader, "bg-gradient-to-r from-navy-dark/5 to-transparent")}>
+        <CardTitle className={cn("flex items-center gap-3", reportTypography.sectionTitle)}>
+          <div className={cn(reportLayout.iconContainer, sectionIconColors.questions)}>
+            <MessageCircleQuestion className="w-5 h-5" />
           </div>
           <div>
             <span>Next Call High-Leverage Questions</span>
-            <p className="text-sm font-normal text-muted-foreground mt-0.5">
+            <p className={cn(reportTypography.sectionSubtitle, "mt-0.5")}>
               Strategic questions to uncover insights
             </p>
           </div>
-          <Badge variant="secondary" className="ml-auto">
+          <Badge variant="secondary" className={cn("ml-auto", reportLayout.badgeCount)}>
             {categoryEntries.reduce((acc, [_, qs]) => acc + qs.length, 0)} Questions
           </Badge>
         </CardTitle>
@@ -76,28 +77,28 @@ export const QuestionsSection = ({ content }: QuestionsSectionProps) => {
             return (
               <div 
                 key={category}
-                className="rounded-xl border bg-card overflow-hidden hover:shadow-md transition-shadow"
+                className="rounded-xl border border-report-border bg-card overflow-hidden hover:shadow-md transition-shadow"
               >
                 {/* Category Header */}
-                <div className="p-4 border-b bg-muted/30 flex items-center gap-3">
-                  <div className={cn("p-2 rounded-lg", color)}>
+                <div className="p-4 border-b border-report-border bg-report-surface/50 flex items-center gap-3">
+                  <div className={cn(reportLayout.iconContainerSm, color)}>
                     <Icon className="w-4 h-4" />
                   </div>
-                  <h4 className="font-semibold text-navy-dark">{category}</h4>
-                  <Badge variant="outline" className="ml-auto text-xs">
+                  <h4 className="font-sans font-semibold text-report-heading">{category}</h4>
+                  <Badge variant="outline" className={cn("ml-auto", reportLayout.badge)}>
                     {questions.length}
                   </Badge>
                 </div>
                 
                 {/* Questions List */}
-                <div className="divide-y">
+                <div className="divide-y divide-report-border">
                   {questions.map((q, idx) => (
                     <div 
                       key={idx}
-                      className="p-4 flex items-start gap-3 hover:bg-muted/30 transition-colors"
+                      className={cn("p-4 flex items-start gap-3", reportLayout.tableRow)}
                     >
-                      <ChevronRight className="w-4 h-4 text-muted-foreground mt-0.5 flex-shrink-0" />
-                      <span className="text-sm leading-relaxed">{q}</span>
+                      <ChevronRight className="w-4 h-4 text-report-muted mt-0.5 flex-shrink-0" />
+                      <span className={reportTypography.bodyText}>{q}</span>
                     </div>
                   ))}
                 </div>

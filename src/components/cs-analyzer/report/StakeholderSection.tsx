@@ -13,39 +13,32 @@ import { parseStakeholders, getPostureType } from "./utils";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
 import { PostureType } from "./types";
+import { reportTypography, reportLayout, reportColors, sectionIconColors } from "./reportStyles";
 
 interface StakeholderSectionProps {
   content: string;
 }
 
-const postureConfig: Record<PostureType, { icon: typeof Crown; label: string; bgColor: string; textColor: string; badgeColor: string }> = {
+const postureConfig: Record<PostureType, { icon: typeof Crown; label: string; bgColor: string }> = {
   green: { 
     icon: Crown, 
     label: "Supporter", 
     bgColor: "bg-emerald-500",
-    textColor: "text-emerald-700",
-    badgeColor: "bg-emerald-100 text-emerald-700 border-emerald-200" 
   },
   amber: { 
     icon: HelpCircle, 
     label: "Neutral", 
     bgColor: "bg-amber-500",
-    textColor: "text-amber-700",
-    badgeColor: "bg-amber-100 text-amber-700 border-amber-200" 
   },
   red: { 
     icon: UserX, 
     label: "Skeptic", 
     bgColor: "bg-red-500",
-    textColor: "text-red-700",
-    badgeColor: "bg-red-100 text-red-700 border-red-200" 
   },
   neutral: { 
     icon: HelpCircle, 
     label: "Unknown", 
     bgColor: "bg-slate-400",
-    textColor: "text-slate-600",
-    badgeColor: "bg-slate-100 text-slate-600 border-slate-200" 
   },
 };
 
@@ -81,17 +74,17 @@ export const StakeholderSection = ({ content }: StakeholderSectionProps) => {
   
   if (stakeholders.length === 0) {
     return (
-      <Card>
+      <Card className={reportLayout.card}>
         <CardHeader className="pb-4">
-          <CardTitle className="flex items-center gap-3 text-lg">
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <Users className="w-5 h-5 text-purple-600" />
+          <CardTitle className={cn("flex items-center gap-3", reportTypography.sectionTitle)}>
+            <div className={cn(reportLayout.iconContainer, sectionIconColors.stakeholder)}>
+              <Users className="w-5 h-5" />
             </div>
             Stakeholders & Power Map
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="prose prose-sm max-w-none">
+          <div className={cn("prose prose-sm max-w-none", reportTypography.bodyText)}>
             <ReactMarkdown>{content}</ReactMarkdown>
           </div>
         </CardContent>
@@ -100,14 +93,14 @@ export const StakeholderSection = ({ content }: StakeholderSectionProps) => {
   }
   
   return (
-    <Card className="overflow-hidden">
-      <CardHeader className="pb-4 border-b bg-muted/30">
-        <CardTitle className="flex items-center gap-3 text-lg">
-          <div className="p-2 bg-purple-100 rounded-lg">
-            <Users className="w-5 h-5 text-purple-600" />
+    <Card className={reportLayout.card}>
+      <CardHeader className={reportLayout.cardHeader}>
+        <CardTitle className={cn("flex items-center gap-3", reportTypography.sectionTitle)}>
+          <div className={cn(reportLayout.iconContainer, sectionIconColors.stakeholder)}>
+            <Users className="w-5 h-5" />
           </div>
           Stakeholders & Power Map
-          <Badge variant="secondary" className="ml-auto font-normal">
+          <Badge variant="secondary" className={cn("ml-auto", reportLayout.badgeCount)}>
             {stakeholders.length} Identified
           </Badge>
         </CardTitle>
@@ -117,36 +110,37 @@ export const StakeholderSection = ({ content }: StakeholderSectionProps) => {
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow className="bg-muted/50 hover:bg-muted/50">
-                <TableHead className="font-semibold min-w-[150px]">Name</TableHead>
-                <TableHead className="font-semibold min-w-[200px]">Role</TableHead>
-                <TableHead className="font-semibold w-32 text-center">Posture</TableHead>
+              <TableRow className={reportLayout.tableHeader}>
+                <TableHead className={cn("min-w-[150px]", reportTypography.labelSmall)}>Name</TableHead>
+                <TableHead className={cn("min-w-[200px]", reportTypography.labelSmall)}>Role</TableHead>
+                <TableHead className={cn("w-32 text-center", reportTypography.labelSmall)}>Posture</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {stakeholders.map((s, idx) => {
                 const posture = getPostureType(s.posture);
                 const config = postureConfig[posture];
+                const colors = reportColors[posture];
                 const Icon = config.icon;
                 
                 return (
-                  <TableRow key={idx} className="hover:bg-muted/30 transition-colors">
+                  <TableRow key={idx} className={reportLayout.tableRow}>
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <div className={cn(
-                          "w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold text-white",
+                          "w-8 h-8 rounded-full flex items-center justify-center font-sans text-sm font-bold text-white",
                           config.bgColor
                         )}>
                           {s.name.charAt(0).toUpperCase()}
                         </div>
-                        <span className="font-medium text-navy-dark">{s.name}</span>
+                        <span className="font-sans font-medium text-report-heading">{s.name}</span>
                       </div>
                     </TableCell>
                     <TableCell>
-                      <span className="text-sm text-muted-foreground">{s.role}</span>
+                      <span className={reportTypography.bodyMuted}>{s.role}</span>
                     </TableCell>
                     <TableCell className="text-center">
-                      <Badge className={cn("border text-xs", config.badgeColor)}>
+                      <Badge className={cn(reportLayout.badge, colors.badge)}>
                         <Icon className="w-3 h-3 mr-1" />
                         {config.label}
                       </Badge>
@@ -160,17 +154,17 @@ export const StakeholderSection = ({ content }: StakeholderSectionProps) => {
         
         {/* Additional Info Sections */}
         {(decisionDynamics.length > 0 || missingStakeholders.length > 0) && (
-          <div className="border-t p-5 grid md:grid-cols-2 gap-6">
+          <div className="border-t border-report-border p-5 grid md:grid-cols-2 gap-6">
             {/* Decision Dynamics */}
             {decisionDynamics.length > 0 && (
               <div>
-                <h4 className="text-sm font-semibold text-navy-dark mb-3 flex items-center gap-2">
+                <h4 className={cn("mb-3 flex items-center gap-2", reportTypography.labelSmall, "text-report-heading font-semibold")}>
                   <Crown className="w-4 h-4 text-amber-500" />
                   Decision Dynamics
                 </h4>
                 <ul className="space-y-2">
                   {decisionDynamics.map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <li key={idx} className={cn("flex items-start gap-2", reportTypography.bodyMuted)}>
                       <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5 shrink-0" />
                       {item}
                     </li>
@@ -182,7 +176,7 @@ export const StakeholderSection = ({ content }: StakeholderSectionProps) => {
             {/* Missing Stakeholders */}
             {missingStakeholders.length > 0 && (
               <div>
-                <h4 className="text-sm font-semibold text-navy-dark mb-3 flex items-center gap-2">
+                <h4 className={cn("mb-3 flex items-center gap-2", reportTypography.labelSmall, "text-report-heading font-semibold")}>
                   <AlertCircle className="w-4 h-4 text-red-500" />
                   Critical Missing (Multi-Thread)
                 </h4>
@@ -191,7 +185,7 @@ export const StakeholderSection = ({ content }: StakeholderSectionProps) => {
                     <Badge 
                       key={idx} 
                       variant="outline" 
-                      className="border-red-200 bg-red-50 text-red-700"
+                      className={cn(reportLayout.badge, reportColors.red.badge)}
                     >
                       {item}
                     </Badge>

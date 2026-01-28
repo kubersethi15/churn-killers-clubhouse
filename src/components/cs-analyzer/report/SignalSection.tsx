@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertTriangle, TrendingUp, AlertCircle, Lightbulb } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
+import { reportTypography, reportLayout, reportColors, sectionIconColors } from "./reportStyles";
 
 interface SignalSectionProps {
   content: string;
@@ -13,23 +14,19 @@ const config = {
     icon: AlertTriangle,
     title: "Risk Signals",
     subtitle: "Potential threats to renewal & expansion",
-    gradient: "from-red-500 to-rose-600",
-    bgLight: "bg-red-50",
+    iconColors: sectionIconColors.risk,
     borderColor: "border-red-200",
-    iconBg: "bg-red-100",
-    iconColor: "text-red-600",
-    bulletColor: "text-red-500",
+    bgLight: "bg-red-50",
+    bulletColor: "bg-red-500",
   },
   growth: {
     icon: TrendingUp,
     title: "Expansion & Growth Signals",
     subtitle: "Opportunities for account growth",
-    gradient: "from-emerald-500 to-teal-600",
-    bgLight: "bg-emerald-50",
+    iconColors: sectionIconColors.growth,
     borderColor: "border-emerald-200",
-    iconBg: "bg-emerald-100",
-    iconColor: "text-emerald-600",
-    bulletColor: "text-emerald-500",
+    bgLight: "bg-emerald-50",
+    bulletColor: "bg-emerald-500",
   },
 };
 
@@ -70,17 +67,17 @@ export const SignalSection = ({ content, type }: SignalSectionProps) => {
   
   if (!hasSignals) {
     return (
-      <Card>
+      <Card className={reportLayout.card}>
         <CardHeader className="pb-4">
-          <CardTitle className="flex items-center gap-3 text-lg">
-            <div className={cn("p-2 rounded-lg", cfg.iconBg)}>
-              <Icon className={cn("w-5 h-5", cfg.iconColor)} />
+          <CardTitle className={cn("flex items-center gap-3", reportTypography.sectionTitle)}>
+            <div className={cn(reportLayout.iconContainer, cfg.iconColors)}>
+              <Icon className="w-5 h-5" />
             </div>
             {cfg.title}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="prose prose-sm max-w-none">
+          <div className={cn("prose prose-sm max-w-none", reportTypography.bodyText)}>
             <ReactMarkdown>{content}</ReactMarkdown>
           </div>
         </CardContent>
@@ -89,15 +86,15 @@ export const SignalSection = ({ content, type }: SignalSectionProps) => {
   }
   
   return (
-    <Card className={cn("overflow-hidden border-2", cfg.borderColor)}>
+    <Card className={cn(reportLayout.card, "border-2", cfg.borderColor)}>
       <CardHeader className={cn("pb-4", cfg.bgLight)}>
-        <CardTitle className="flex items-center gap-3 text-lg">
-          <div className={cn("p-2 rounded-lg", cfg.iconBg)}>
-            <Icon className={cn("w-5 h-5", cfg.iconColor)} />
+        <CardTitle className={cn("flex items-center gap-3", reportTypography.sectionTitle)}>
+          <div className={cn(reportLayout.iconContainer, cfg.iconColors)}>
+            <Icon className="w-5 h-5" />
           </div>
           <div>
             <span>{cfg.title}</span>
-            <p className="text-sm font-normal text-muted-foreground mt-0.5">{cfg.subtitle}</p>
+            <p className={cn(reportTypography.sectionSubtitle, "mt-0.5")}>{cfg.subtitle}</p>
           </div>
         </CardTitle>
       </CardHeader>
@@ -107,8 +104,8 @@ export const SignalSection = ({ content, type }: SignalSectionProps) => {
           {signals.observed.length > 0 && (
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <AlertCircle className={cn("w-4 h-4", cfg.iconColor)} />
-                <span className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                <AlertCircle className={cn("w-4 h-4", type === "risk" ? "text-red-600" : "text-emerald-600")} />
+                <span className={reportTypography.labelUppercase}>
                   Observed (Evidence-Based)
                 </span>
               </div>
@@ -121,10 +118,8 @@ export const SignalSection = ({ content, type }: SignalSectionProps) => {
                       cfg.bgLight
                     )}
                   >
-                    <div className={cn("w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0", 
-                      type === "risk" ? "bg-red-500" : "bg-emerald-500"
-                    )} />
-                    <span className="text-sm leading-relaxed">{signal}</span>
+                    <div className={cn("w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0", cfg.bulletColor)} />
+                    <span className={reportTypography.bodyText}>{signal}</span>
                   </div>
                 ))}
               </div>
@@ -136,7 +131,7 @@ export const SignalSection = ({ content, type }: SignalSectionProps) => {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Lightbulb className="w-4 h-4 text-amber-500" />
-                <span className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                <span className={reportTypography.labelUppercase}>
                   Inferred (Strategic Assessment)
                 </span>
               </div>
@@ -147,7 +142,7 @@ export const SignalSection = ({ content, type }: SignalSectionProps) => {
                     className="flex items-start gap-3 p-3 rounded-lg bg-amber-50/50 border border-amber-100"
                   >
                     <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-amber-500" />
-                    <span className="text-sm leading-relaxed">{signal}</span>
+                    <span className={reportTypography.bodyText}>{signal}</span>
                   </div>
                 ))}
               </div>

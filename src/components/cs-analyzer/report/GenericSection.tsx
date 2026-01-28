@@ -5,11 +5,11 @@ import {
   TrendingUp,
   Target,
   Shield,
-  User,
   FileText,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { cn } from "@/lib/utils";
+import { reportTypography, reportLayout } from "./reportStyles";
 
 interface GenericSectionProps {
   title: string;
@@ -22,15 +22,15 @@ const getSectionConfig = (title: string) => {
   if (lower.includes("know") || lower.includes("observed")) {
     return { 
       icon: CheckCircle2, 
-      color: "bg-blue-100 text-blue-600",
-      accent: "border-l-blue-500"
+      color: "bg-navy-dark/10 text-navy-dark",
+      accent: "border-l-navy"
     };
   }
   if (lower.includes("sentiment") || lower.includes("engagement")) {
     return { 
       icon: MessageSquare, 
-      color: "bg-purple-100 text-purple-600",
-      accent: "border-l-purple-500"
+      color: "bg-navy-dark/10 text-navy-dark",
+      accent: "border-l-navy-light"
     };
   }
   if (lower.includes("value") || lower.includes("outcome")) {
@@ -50,15 +50,15 @@ const getSectionConfig = (title: string) => {
   if (lower.includes("effectiveness") || lower.includes("rep")) {
     return { 
       icon: Shield, 
-      color: "bg-indigo-100 text-indigo-600",
-      accent: "border-l-indigo-500"
+      color: "bg-navy-dark/10 text-navy-dark",
+      accent: "border-l-navy-dark"
     };
   }
   
   return { 
     icon: FileText, 
-    color: "bg-slate-100 text-slate-600",
-    accent: "border-l-slate-500"
+    color: "bg-navy-dark/10 text-navy-dark",
+    accent: "border-l-navy"
   };
 };
 
@@ -70,17 +70,17 @@ export const GenericSection = ({ title, content }: GenericSectionProps) => {
   const cleanTitle = title.replace(/^\d+\)\s*/, "");
   
   return (
-    <Card className={cn("overflow-hidden border-l-4", config.accent)}>
+    <Card className={cn(reportLayout.card, "border-l-4", config.accent)}>
       <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-3 text-lg">
-          <div className={cn("p-2 rounded-lg", config.color)}>
+        <CardTitle className={cn("flex items-center gap-3", reportTypography.sectionTitle)}>
+          <div className={cn(reportLayout.iconContainer, config.color)}>
             <Icon className="w-5 h-5" />
           </div>
           {cleanTitle}
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="prose prose-sm max-w-none prose-headings:font-semibold prose-headings:text-navy-dark prose-strong:text-navy-dark prose-p:text-muted-foreground prose-li:text-muted-foreground prose-ul:my-2 prose-li:my-0.5">
+        <div className="prose prose-sm max-w-none prose-headings:font-serif prose-headings:font-semibold prose-headings:text-report-heading">
           <ReactMarkdown
             components={{
               // Style bullet points with better visuals
@@ -88,18 +88,18 @@ export const GenericSection = ({ title, content }: GenericSectionProps) => {
                 <ul className="space-y-2 list-none pl-0">{children}</ul>
               ),
               li: ({ children }) => (
-                <li className="flex items-start gap-3 p-2 rounded-lg hover:bg-muted/30 transition-colors">
+                <li className={cn("flex items-start gap-3 p-2 rounded-lg", reportLayout.tableRow)}>
                   <span className="w-1.5 h-1.5 rounded-full bg-navy-dark/40 mt-2 flex-shrink-0" />
-                  <span className="flex-1">{children}</span>
+                  <span className={cn("flex-1", reportTypography.bodyText)}>{children}</span>
                 </li>
               ),
               // Make strong text stand out more
               strong: ({ children }) => (
-                <strong className="font-semibold text-navy-dark">{children}</strong>
+                <strong className="font-sans font-semibold text-report-heading">{children}</strong>
               ),
               // Style paragraphs
               p: ({ children }) => (
-                <p className="mb-3 leading-relaxed">{children}</p>
+                <p className={cn("mb-3", reportTypography.bodyText)}>{children}</p>
               ),
             }}
           >

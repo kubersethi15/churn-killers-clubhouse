@@ -49,6 +49,16 @@
     --navy: 220 45% 18%;
     --red: 358 85% 52%;
     --cream: 36 100% 97%;
+    
+    /* Report-specific brand tokens */
+    --report-heading: 220 45% 18%;
+    --report-text: 220 15% 35%;
+    --report-muted: 220 10% 55%;
+    --report-accent-green: 160 60% 40%;
+    --report-accent-amber: 40 90% 50%;
+    --report-accent-red: 358 75% 55%;
+    --report-surface: 220 20% 97%;
+    --report-border: 220 15% 88%;
   }
 
   .dark {
