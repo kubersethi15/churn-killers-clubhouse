@@ -23,6 +23,9 @@ import {
   LogOut,
   User,
   ChevronDown,
+  Download,
+  FileDown,
+  FileType,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -283,6 +286,75 @@ const CSAnalyzer = () => {
       toast({
         title: "Copied!",
         description: "Analysis copied to clipboard",
+      });
+    }
+  };
+
+  const handleDownloadMarkdown = () => {
+    if (!analysisResult) return;
+    
+    const title = selectedSavedAnalysis?.title || `${selectedOption?.title || 'Analysis'} Report`;
+    const filename = `${title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.md`;
+    
+    const blob = new Blob([analysisResult], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    toast({
+      title: "Downloaded!",
+      description: "Markdown file saved",
+    });
+  };
+
+  const handleDownloadPDF = async () => {
+    if (!analysisResult) return;
+    
+    toast({
+      title: "Generating PDF...",
+      description: "This may take a moment",
+    });
+
+    try {
+      // Dynamic import to avoid SSR issues
+      const html2pdf = (await import('html2pdf.js')).default;
+      
+      const title = selectedSavedAnalysis?.title || `${selectedOption?.title || 'Analysis'} Report`;
+      const filename = `${title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`;
+      
+      // Create a styled HTML version of the report
+      const reportElement = document.getElementById('analysis-report-content');
+      
+      if (reportElement) {
+        const opt = {
+          margin: [10, 10, 10, 10],
+          filename,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        };
+        
+        await html2pdf().set(opt).from(reportElement).save();
+        
+        toast({
+          title: "Downloaded!",
+          description: "PDF file saved",
+        });
+      } else {
+        throw new Error("Report content not found");
+      }
+    } catch (error) {
+      console.error("PDF generation error:", error);
+      toast({
+        title: "PDF generation failed",
+        description: "Try downloading as Markdown instead",
+        variant: "destructive",
       });
     }
   };
@@ -638,13 +710,39 @@ const CSAnalyzer = () => {
                       </div>
                     </div>
                     <div className="flex gap-2">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="outline" size="sm" className="gap-2">
+                            <Download className="w-4 h-4" />
+                            <span className="hidden sm:inline">Download</span>
+                            <ChevronDown className="w-3 h-3" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="bg-background border shadow-lg z-50">
+                          <DropdownMenuItem onClick={handleDownloadPDF} className="gap-2 cursor-pointer">
+                            <FileDown className="w-4 h-4 text-red" />
+                            <div>
+                              <p className="font-medium">PDF Document</p>
+                              <p className="text-xs text-muted-foreground">Best for sharing & printing</p>
+                            </div>
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem onClick={handleDownloadMarkdown} className="gap-2 cursor-pointer">
+                            <FileType className="w-4 h-4 text-blue-500" />
+                            <div>
+                              <p className="font-medium">Markdown</p>
+                              <p className="text-xs text-muted-foreground">For Notion, docs, or editing</p>
+                            </div>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={handleCopyAnalysis}
                       >
                         <Copy className="w-4 h-4 mr-2" />
-                        Copy
+                        <span className="hidden sm:inline">Copy</span>
                       </Button>
                       <Button
                         variant="outline"
@@ -652,12 +750,14 @@ const CSAnalyzer = () => {
                         onClick={handleStartOver}
                       >
                         <RotateCcw className="w-4 h-4 mr-2" />
-                        New Analysis
+                        <span className="hidden sm:inline">New Analysis</span>
                       </Button>
                     </div>
                   </div>
 
-                  <AnalysisReport analysisResult={analysisResult} />
+                  <div id="analysis-report-content">
+                    <AnalysisReport analysisResult={analysisResult} />
+                  </div>
 
               </div>
             )}
