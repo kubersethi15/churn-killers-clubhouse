@@ -5,8 +5,6 @@ import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 import NewsletterForm from "@/components/NewsletterForm";
 import { Newsletter } from "@/types/newsletter";
-import { useContentAccess } from "@/hooks/useContentAccess";
-import ContentGate from "@/components/ContentGate";
 
 type VaultResource = {
   title: string;
@@ -20,30 +18,7 @@ type NewsletterContentProps = {
   vaultResources?: VaultResource[];
 };
 
-// Helper to get partial content (first ~30%)
-function getPartialContent(content: string, percentage: number = 30): string {
-  // Split by paragraph markers
-  const paragraphs = content.split(/\n\n+/);
-  const totalLength = content.length;
-  const targetLength = Math.floor(totalLength * (percentage / 100));
-  
-  let partialContent = '';
-  let currentLength = 0;
-  
-  for (const paragraph of paragraphs) {
-    if (currentLength + paragraph.length > targetLength && currentLength > 0) {
-      break;
-    }
-    partialContent += paragraph + '\n\n';
-    currentLength += paragraph.length;
-  }
-  
-  return partialContent.trim();
-}
-
 const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: NewsletterContentProps) => {
-  const { accessLevel, isLoading } = useContentAccess();
-  
   // Check if this newsletter has associated vault resources
   const isKickoffNewsletter = newsletter.slug.includes("the-perfect-kickoff-call");
   const isTimelineNewsletter = newsletter.slug.includes("their-timeline-not-yours");
@@ -53,23 +28,6 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
                                newsletter.slug.includes("question-breaking-cs-team") ||
                                newsletter.slug.includes("co-op-renewal-framework");
   const isExpansionNewsletter = newsletter.slug.includes("the-expansion-moment-hiding-in-plain-sight");
-
-  // Show loading state while determining access
-  if (isLoading) {
-    return (
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto">
-            <div className="animate-pulse space-y-4">
-              <div className="h-4 bg-gray-200 rounded w-full"></div>
-              <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-              <div className="h-4 bg-gray-200 rounded w-4/5"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
 
   // Full content for authenticated users and bots
   const fullContent = (
@@ -225,32 +183,11 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
     </>
   );
 
-  // Partial content teaser for non-authenticated users
-  const partialContent = getPartialContent(newsletter.content, 30);
-  const teaserContent = (
-    <div 
-      className="article-content"
-      dangerouslySetInnerHTML={{ 
-        __html: formatContent(partialContent)
-      }} 
-    />
-  );
-
   return (
     <section className="py-16 md:py-24">
       <div className="container mx-auto px-4 md:px-6">
         <div className="max-w-3xl mx-auto prose prose-lg">
-          {accessLevel === 'full' ? (
-            fullContent
-          ) : (
-            <ContentGate 
-              teaserContent={teaserContent}
-              title="Continue reading with a free account"
-              description="Sign up to unlock full newsletters, AI-powered CS tools, and tactical playbooks."
-            >
-              {fullContent}
-            </ContentGate>
-          )}
+          {fullContent}
         </div>
       </div>
     </section>
