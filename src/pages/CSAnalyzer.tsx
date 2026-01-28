@@ -21,7 +21,6 @@ import {
   RotateCcw,
   Copy,
   Save,
-  LogIn,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -107,13 +106,37 @@ const CSAnalyzer = () => {
   const [analysisResult, setAnalysisResult] = useState<string | null>(null);
   const [selectedSavedAnalysis, setSelectedSavedAnalysis] = useState<Analysis | null>(null);
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { user, isLoading: authLoading } = useAuth();
   const { saveAnalysis, fetchAnalyses } = useAnalyses();
   const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "CS Analyzer | Churn Is Dead";
   }, []);
+
+  // Redirect to auth if not logged in
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate("/auth", { state: { from: "/cs-analyzer" } });
+    }
+  }, [user, authLoading, navigate]);
+
+  // Show loading while checking auth
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <Sparkles className="w-8 h-8 animate-pulse text-red mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render if not authenticated (redirect will happen)
+  if (!user) {
+    return null;
+  }
 
   const selectedOption = analysisOptions.find(opt => opt.id === selectedType);
 
@@ -586,20 +609,6 @@ const CSAnalyzer = () => {
 
                   <AnalysisReport analysisResult={analysisResult} />
 
-                  {!user && (
-                    <div className="mt-8 p-6 bg-cream rounded-lg text-center">
-                      <p className="text-navy-dark font-medium mb-3">
-                        Want to save this analysis and access it later?
-                      </p>
-                      <Button
-                        onClick={() => navigate("/auth", { state: { from: "/cs-analyzer" } })}
-                        className="bg-red hover:bg-red-dark text-white"
-                      >
-                        <LogIn className="w-4 h-4 mr-2" />
-                        Create Free Account
-                      </Button>
-                    </div>
-                  )}
                 </div>
               )}
             </div>

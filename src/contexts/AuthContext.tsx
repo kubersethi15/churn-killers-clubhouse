@@ -94,6 +94,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         },
       },
     });
+
+    // Auto-subscribe to newsletter on signup
+    if (!error) {
+      try {
+        await supabase.from("subscribers").upsert(
+          { email, subscribed: true },
+          { onConflict: "email" }
+        );
+      } catch (subError) {
+        console.error("Failed to auto-subscribe:", subError);
+        // Don't fail signup if newsletter subscription fails
+      }
+    }
+
     return { error: error as Error | null };
   };
 

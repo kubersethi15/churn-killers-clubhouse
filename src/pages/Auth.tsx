@@ -138,9 +138,9 @@ const Auth = () => {
 
           <Card className="border-0 shadow-2xl">
             <CardHeader className="text-center pb-4">
-              <CardTitle className="text-2xl font-serif">Welcome</CardTitle>
+              <CardTitle className="text-2xl font-serif">Join Churn Is Dead</CardTitle>
               <CardDescription>
-                Sign in to save your analyses and access your history
+                Get weekly CS insights + access to AI-powered tools like CS Analyzer
               </CardDescription>
             </CardHeader>
 
