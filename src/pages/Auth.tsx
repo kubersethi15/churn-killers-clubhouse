@@ -217,35 +217,6 @@ const Auth = () => {
                       </Button>
                     </form>
 
-                    <div className="relative my-6">
-                      <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-border" />
-                      </div>
-                      <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-card px-2 text-muted-foreground">Or</span>
-                      </div>
-                    </div>
-
-                    <form onSubmit={handleMagicLink}>
-                      <Button
-                        type="submit"
-                        variant="outline"
-                        className="w-full"
-                        disabled={isLoading || !email}
-                      >
-                        {isLoading ? (
-                          <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Sending...
-                          </>
-                        ) : (
-                          <>
-                            <Mail className="mr-2 h-4 w-4" />
-                            Email me a link
-                          </>
-                        )}
-                      </Button>
-                    </form>
                   </TabsContent>
 
                   <TabsContent value="signup" className="space-y-4">
