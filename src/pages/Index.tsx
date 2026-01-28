@@ -404,8 +404,7 @@ const Index = () => {
             {user ? (
               <Button
                 size="lg"
-                variant="outline"
-                className="border-white text-white hover:bg-white hover:text-red-600 font-medium"
+                className="bg-white text-red-600 hover:bg-gray-100 font-medium"
                 asChild
               >
                 <Link to="/cs-analyzer">
