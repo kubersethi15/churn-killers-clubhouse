@@ -32,6 +32,7 @@ const Auth = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [magicLinkSent, setMagicLinkSent] = useState(false);
+  const [activeTab, setActiveTab] = useState("signup");
   const [touched, setTouched] = useState({ password: false, confirmPassword: false });
   const { signIn, signUp, signInWithMagicLink, resetPassword, user, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
@@ -181,10 +182,17 @@ const Auth = () => {
           {/* Left side - Value proposition (hidden on mobile) */}
           <div className="hidden lg:block text-white">
             <h1 className="text-4xl font-serif font-bold mb-4">
-              Join <span className="text-red-400">Churn Is Dead</span>
+              {activeTab === "signin" ? (
+                <>Welcome Back to <span className="text-red-400">Churn Is Dead</span></>
+              ) : (
+                <>Join <span className="text-red-400">Churn Is Dead</span></>
+              )}
             </h1>
             <p className="text-xl text-gray-300 mb-8">
-              Create your account to unlock AI-powered CS tools and tactical frameworks.
+              {activeTab === "signin" 
+                ? "Sign in to access your AI-powered CS tools and tactical frameworks."
+                : "Create your account to unlock AI-powered CS tools and tactical frameworks."
+              }
             </p>
             <ul className="space-y-4">
               <li className="flex items-center gap-3 text-gray-200">
@@ -230,7 +238,7 @@ const Auth = () => {
                     </Button>
                   </div>
                 ) : (
-                  <Tabs defaultValue="signup" className="w-full">
+                  <Tabs defaultValue="signup" value={activeTab} onValueChange={setActiveTab} className="w-full">
                     <TabsList className="grid w-full grid-cols-2 mb-6">
                       <TabsTrigger value="signin">Sign In</TabsTrigger>
                       <TabsTrigger value="signup">Sign Up</TabsTrigger>
