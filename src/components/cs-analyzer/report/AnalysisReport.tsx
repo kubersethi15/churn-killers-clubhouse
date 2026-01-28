@@ -60,17 +60,17 @@ export const AnalysisReport = ({ analysisResult, title, createdAt }: AnalysisRep
   
   const ReportHeader = () => (
     title ? (
-      <div className="mb-8 pb-5 border-b border-report-border">
-        <div className="flex items-start gap-4">
-          <div className="p-3 rounded-xl bg-navy-dark/10 shrink-0">
-            <FileText className="w-6 h-6 text-navy-dark" />
+      <div className="mb-6 pb-4 border-b border-report-border">
+        <div className="flex items-start gap-3">
+          <div className="p-2 rounded-lg bg-navy-dark/10 shrink-0">
+            <FileText className="w-5 h-5 text-navy-dark" />
           </div>
           <div className="min-w-0 flex-1">
-            <h1 className="text-xl md:text-2xl font-serif font-bold text-navy-dark leading-tight">
+            <h1 className="text-lg md:text-xl font-serif font-bold text-navy-dark leading-tight">
               {title}
             </h1>
             {createdAt && (
-              <p className="text-sm text-muted-foreground mt-1.5">
+              <p className="text-xs text-muted-foreground mt-1">
                 {new Date(createdAt).toLocaleDateString('en-US', { 
                   weekday: 'long',
                   year: 'numeric', 
@@ -91,9 +91,9 @@ export const AnalysisReport = ({ analysisResult, title, createdAt }: AnalysisRep
     // Fallback to raw markdown if parsing fails
     return (
       <Card>
-        <CardContent className="p-6 md:p-8">
+        <CardContent className="p-5">
           <ReportHeader />
-          <div className="prose prose-sm md:prose-base max-w-none prose-headings:font-serif prose-headings:text-navy-dark prose-strong:text-navy-dark">
+          <div className="prose prose-sm max-w-none prose-headings:font-serif prose-headings:text-navy-dark prose-strong:text-navy-dark">
             <ReactMarkdown>{analysisResult}</ReactMarkdown>
           </div>
         </CardContent>
@@ -102,9 +102,9 @@ export const AnalysisReport = ({ analysisResult, title, createdAt }: AnalysisRep
   }
   
   return (
-    <div className="space-y-5">
+    <div className="space-y-4">
       <ReportHeader />
-      <div className="space-y-5">
+      <div className="space-y-4">
         {sections.map((section, idx) => renderSection(section.title, section.content, idx))}
       </div>
     </div>

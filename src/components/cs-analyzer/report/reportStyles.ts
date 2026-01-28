@@ -2,8 +2,8 @@
 
 export const reportTypography = {
   // Section titles - Playfair Display serif
-  sectionTitle: "font-serif text-lg font-bold text-report-heading tracking-tight",
-  sectionSubtitle: "text-sm font-normal text-report-muted",
+  sectionTitle: "font-serif text-base font-bold text-report-heading tracking-tight",
+  sectionSubtitle: "text-xs font-normal text-report-muted",
   
   // Card headers
   cardTitle: "font-serif text-base font-semibold text-report-heading",
@@ -58,14 +58,22 @@ export const reportColors = {
 } as const;
 
 export const reportLayout = {
-  // Card styling - refined shadows and borders
-  card: "rounded-xl border border-report-border bg-card shadow-sm hover:shadow-md transition-shadow duration-200",
-  cardHeader: "px-5 py-4 border-b border-report-border bg-report-surface/30",
+  // Card styling - consistent across all sections
+  card: "rounded-xl border border-report-border bg-card shadow-sm",
+  cardHeader: "px-5 py-4 border-b border-report-border",
   cardContent: "p-5",
   
-  // Icon containers
-  iconContainer: "p-2.5 rounded-xl",
-  iconContainerSm: "p-1.5 rounded-lg",
+  // Icon containers - consistent sizing
+  iconContainer: "p-2 rounded-lg shrink-0",
+  iconContainerSm: "p-1.5 rounded-md",
+  
+  // List item styling - unified bullet treatment
+  listItem: "flex items-start gap-3 py-2",
+  listItemCard: "flex items-start gap-3 p-3 rounded-lg bg-report-surface/50 hover:bg-report-surface transition-colors",
+  
+  // Bullet styles
+  bullet: "w-1.5 h-1.5 rounded-full mt-2 shrink-0",
+  bulletNavy: "bg-navy-dark/40",
   
   // Table styling
   tableHeader: "bg-report-surface/50 hover:bg-report-surface/50",
@@ -85,4 +93,7 @@ export const sectionIconColors = {
   growth: "bg-emerald-100 text-emerald-600",
   questions: "bg-navy-dark/10 text-navy-dark",
   generic: "bg-navy-dark/10 text-navy-dark",
+  value: "bg-emerald-100 text-emerald-600",
+  renewal: "bg-amber-100 text-amber-600",
+  effectiveness: "bg-navy-dark/10 text-navy-dark",
 } as const;

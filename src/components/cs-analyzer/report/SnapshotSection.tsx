@@ -49,26 +49,26 @@ export const SnapshotSection = ({ content }: SnapshotSectionProps) => {
   const otherMetrics = sortedMetrics.filter(m => m.level !== "critical" && m.level !== "high");
   
   return (
-    <Card className="overflow-hidden border-0 shadow-lg">
+    <Card className="overflow-hidden border-0 shadow-md">
       {/* Header with gradient */}
-      <div className="bg-gradient-to-r from-navy-dark via-navy to-navy-light p-5 md:p-6">
+      <div className="bg-gradient-to-r from-navy-dark via-navy to-navy-light px-5 py-4">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-white/10 rounded-xl backdrop-blur-sm">
-            <Zap className="w-5 h-5 md:w-6 md:h-6 text-white" />
+          <div className="p-2 bg-white/10 rounded-lg">
+            <Zap className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h2 className={cn("text-lg md:text-xl text-white font-serif font-bold tracking-tight")}>
+            <h2 className="text-base text-white font-serif font-bold tracking-tight">
               Executive Snapshot
             </h2>
-            <p className="text-white/70 text-sm font-sans">Key indicators at a glance</p>
+            <p className="text-white/70 text-xs font-sans">Key indicators at a glance</p>
           </div>
         </div>
       </div>
       
-      <CardContent className="p-5 md:p-6">
+      <CardContent className="p-5">
         {/* Critical/High Severity Alerts - Show prominently */}
         {criticalMetrics.length > 0 && (
-          <div className="mb-6">
+          <div className="mb-5">
             <div className="flex items-center gap-2 mb-3">
               <AlertTriangle className="w-4 h-4 text-red-600" />
               <span className={cn(reportTypography.labelUppercase, "text-red-600")}>
@@ -92,7 +92,7 @@ export const SnapshotSection = ({ content }: SnapshotSectionProps) => {
         
         {/* Other Metrics Grid */}
         {otherMetrics.length > 0 && (
-          <div className={cn(criticalMetrics.length > 0 && "pt-5 border-t border-report-border")}>
+          <div className={cn(criticalMetrics.length > 0 && "pt-4 border-t border-report-border")}>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
               {otherMetrics.map((metric, idx) => (
                 <MetricBadge
@@ -110,12 +110,12 @@ export const SnapshotSection = ({ content }: SnapshotSectionProps) => {
         
         {/* One-liner Truth - Strategic callout */}
         {oneLiner && (
-          <div className="relative mt-6 p-5 bg-gradient-to-r from-navy-dark/5 to-transparent rounded-xl border-l-4 border-navy-dark">
-            <Quote className="absolute top-4 right-4 w-8 h-8 text-navy-dark/10" />
-            <p className={cn(reportTypography.labelUppercase, "mb-2")}>
+          <div className="relative mt-5 p-4 bg-report-surface rounded-lg border border-report-border">
+            <Quote className="absolute top-3 right-3 w-6 h-6 text-navy-dark/10" />
+            <p className={cn(reportTypography.labelUppercase, "mb-1.5")}>
               Strategic Truth
             </p>
-            <p className="text-base md:text-lg leading-relaxed pr-8 font-serif font-semibold text-report-heading">
+            <p className="text-sm leading-relaxed pr-6 font-sans font-medium text-report-heading">
               {oneLiner}
             </p>
           </div>

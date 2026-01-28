@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MessageCircleQuestion, ChevronRight, DollarSign, Users, Shield, Rocket, Clock } from "lucide-react";
+import { MessageCircleQuestion, DollarSign, Users, Shield, Rocket, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { reportTypography, reportLayout, sectionIconColors } from "./reportStyles";
 
@@ -70,26 +70,28 @@ export const QuestionsSection = ({ content }: QuestionsSectionProps) => {
     
     if (allQuestions.length > 0) {
       return (
-        <Card className={cn(reportLayout.card, "border-l-4 border-l-navy")}>
-          <CardHeader className="pb-3">
+        <Card className={reportLayout.card}>
+          <CardHeader className={reportLayout.cardHeader}>
             <CardTitle className={cn("flex items-center gap-3", reportTypography.sectionTitle)}>
               <div className={cn(reportLayout.iconContainer, sectionIconColors.questions)}>
                 <MessageCircleQuestion className="w-5 h-5" />
               </div>
-              <span>Next Call High-Leverage Questions</span>
+              <div className="flex-1">
+                <span>Next Call High-Leverage Questions</span>
+                <p className={cn(reportTypography.sectionSubtitle, "mt-0.5")}>
+                  Strategic questions to uncover insights
+                </p>
+              </div>
               <Badge variant="secondary" className={cn("ml-auto", reportLayout.badgeCount)}>
-                {allQuestions.length} Question{allQuestions.length !== 1 ? 's' : ''}
+                {allQuestions.length} question{allQuestions.length !== 1 ? 's' : ''}
               </Badge>
             </CardTitle>
           </CardHeader>
-          <CardContent className="pt-0">
+          <CardContent className={reportLayout.cardContent}>
             <div className="space-y-2">
               {allQuestions.map((q, idx) => (
-                <div 
-                  key={idx}
-                  className="flex items-start gap-3 p-3 rounded-lg bg-report-surface/50 hover:bg-report-surface transition-colors"
-                >
-                  <ChevronRight className="w-4 h-4 text-navy-dark/50 mt-0.5 flex-shrink-0" />
+                <div key={idx} className={reportLayout.listItemCard}>
+                  <span className={cn(reportLayout.bullet, reportLayout.bulletNavy)} />
                   <span className={cn(reportTypography.bodyText, "leading-relaxed")}>{q}</span>
                 </div>
               ))}
@@ -101,16 +103,21 @@ export const QuestionsSection = ({ content }: QuestionsSectionProps) => {
     
     // Ultimate fallback: render raw content
     return (
-      <Card className={cn(reportLayout.card, "border-l-4 border-l-navy")}>
-        <CardHeader className="pb-3">
+      <Card className={reportLayout.card}>
+        <CardHeader className={reportLayout.cardHeader}>
           <CardTitle className={cn("flex items-center gap-3", reportTypography.sectionTitle)}>
             <div className={cn(reportLayout.iconContainer, sectionIconColors.questions)}>
               <MessageCircleQuestion className="w-5 h-5" />
             </div>
-            Next Call High-Leverage Questions
+            <div className="flex-1">
+              <span>Next Call High-Leverage Questions</span>
+              <p className={cn(reportTypography.sectionSubtitle, "mt-0.5")}>
+                Strategic questions to uncover insights
+              </p>
+            </div>
           </CardTitle>
         </CardHeader>
-        <CardContent className="pt-0">
+        <CardContent className={reportLayout.cardContent}>
           <div className={cn("prose prose-sm max-w-none whitespace-pre-line", reportTypography.bodyText)}>
             {content}
           </div>
@@ -120,49 +127,46 @@ export const QuestionsSection = ({ content }: QuestionsSectionProps) => {
   }
   
   return (
-    <Card className={cn(reportLayout.card, "border-l-4 border-l-navy")}>
-      <CardHeader className={cn(reportLayout.cardHeader)}>
+    <Card className={reportLayout.card}>
+      <CardHeader className={reportLayout.cardHeader}>
         <CardTitle className={cn("flex items-center gap-3", reportTypography.sectionTitle)}>
           <div className={cn(reportLayout.iconContainer, sectionIconColors.questions)}>
             <MessageCircleQuestion className="w-5 h-5" />
           </div>
           <div className="flex-1">
             <span>Next Call High-Leverage Questions</span>
-            <p className={cn(reportTypography.sectionSubtitle, "mt-0.5 font-normal")}>
+            <p className={cn(reportTypography.sectionSubtitle, "mt-0.5")}>
               Strategic questions to uncover insights
             </p>
           </div>
           <Badge variant="secondary" className={cn("ml-auto", reportLayout.badgeCount)}>
-            {totalQuestions} Question{totalQuestions !== 1 ? 's' : ''}
+            {totalQuestions} question{totalQuestions !== 1 ? 's' : ''}
           </Badge>
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-5">
+      <CardContent className={reportLayout.cardContent}>
         <div className="space-y-5">
           {categoryEntries.map(([category, questions]) => {
             const { icon: Icon, color } = getCategoryIcon(category);
             
             return (
-              <div key={category} className="space-y-3">
+              <div key={category} className="space-y-2">
                 {/* Category Header */}
                 <div className="flex items-center gap-2">
                   <div className={cn(reportLayout.iconContainerSm, color)}>
                     <Icon className="w-4 h-4" />
                   </div>
-                  <h4 className={cn("font-sans font-semibold text-report-heading text-sm")}>{category}</h4>
+                  <h4 className="font-sans font-semibold text-sm text-report-heading">{category}</h4>
                   <Badge variant="outline" className="ml-2 text-[10px] px-1.5 py-0">
                     {questions.length}
                   </Badge>
                 </div>
                 
                 {/* Questions List */}
-                <div className="space-y-2 pl-1">
+                <div className="space-y-2">
                   {questions.map((q, idx) => (
-                    <div 
-                      key={idx}
-                      className="flex items-start gap-3 p-3 rounded-lg bg-report-surface/50 hover:bg-report-surface transition-colors"
-                    >
-                      <ChevronRight className="w-4 h-4 text-navy-dark/50 mt-0.5 flex-shrink-0" />
+                    <div key={idx} className={reportLayout.listItemCard}>
+                      <span className={cn(reportLayout.bullet, reportLayout.bulletNavy)} />
                       <span className={cn(reportTypography.bodyText, "leading-relaxed")}>{q}</span>
                     </div>
                   ))}
