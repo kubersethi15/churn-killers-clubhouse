@@ -123,18 +123,6 @@ const Auth = () => {
       {/* Main content */}
       <div className="flex-1 flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-md">
-          {/* Logo */}
-          <div className="text-center mb-8">
-            <Link to="/">
-              <h1 className="text-2xl md:text-3xl font-serif font-black text-white mb-2">
-                <span className="underline-red">Churn</span> Is Dead
-              </h1>
-            </Link>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-red/20 rounded-full mt-4">
-              <Sparkles className="w-4 h-4 text-red-light" />
-              <span className="text-sm font-medium text-red-light">CS Analyzer</span>
-            </div>
-          </div>
 
           <Card className="border-0 shadow-2xl">
             <CardHeader className="text-center pb-4">
