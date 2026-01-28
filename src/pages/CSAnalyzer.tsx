@@ -244,7 +244,7 @@ const CSAnalyzer = () => {
 
         // Auto-save for logged-in users
         if (user) {
-          const title = generateTitle(selectedType, content);
+          const title = generateTitle(selectedType, content, data.analysis);
           const { error } = await saveAnalysis(title, selectedType || "unknown", content, data.analysis);
           if (!error) {
             // Trigger a refresh of the sidebar's analysis list
@@ -271,10 +271,41 @@ const CSAnalyzer = () => {
     }
   };
 
-  const generateTitle = (type: AnalysisType, inputContent: string): string => {
+  const generateTitle = (type: AnalysisType, inputContent: string, analysisOutput?: string): string => {
+    // Try to extract a meaningful title from the analysis output
+    if (analysisOutput) {
+      // Look for company name patterns in the analysis
+      const companyMatch = analysisOutput.match(/(?:Company|Account|Customer|Client)[:：]\s*\*?\*?([A-Za-z0-9\s&.-]+?)(?:\*?\*?[\n,|]|$)/i);
+      if (companyMatch && companyMatch[1].trim().length > 2) {
+        return companyMatch[1].trim().slice(0, 50);
+      }
+      
+      // Look for a title/header at the start
+      const headerMatch = analysisOutput.match(/^#+\s*(.+?)(?:\n|$)/m);
+      if (headerMatch && headerMatch[1].trim().length > 3) {
+        return headerMatch[1].trim().slice(0, 50);
+      }
+      
+      // Look for stakeholder/contact names
+      const nameMatch = analysisOutput.match(/(?:Stakeholder|Contact|Champion|Executive|Decision Maker)[:：]\s*\*?\*?([A-Za-z\s.-]+?)(?:\*?\*?[\n,|]|$)/i);
+      if (nameMatch && nameMatch[1].trim().length > 2) {
+        const typeLabel = analysisOptions.find(o => o.id === type)?.title || "Analysis";
+        return `${nameMatch[1].trim().slice(0, 30)} - ${typeLabel}`;
+      }
+    }
+    
+    // Fallback: Extract from input content
+    // Look for speaker names in transcripts
+    const speakerMatch = inputContent.match(/(?:\[[\d:]+\])?\s*([A-Za-z]+(?:\s[A-Za-z]+)?)\s*:/);
+    if (speakerMatch && speakerMatch[1].trim().length > 2) {
+      const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      return `${speakerMatch[1].trim()} Call - ${date}`;
+    }
+    
+    // Last resort: use date and type
     const typeLabel = analysisOptions.find(o => o.id === type)?.title || "Analysis";
-    const preview = inputContent.slice(0, 50).replace(/\n/g, " ").trim();
-    return `${typeLabel} - ${preview}${inputContent.length > 50 ? "..." : ""}`;
+    const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    return `${typeLabel} - ${date}`;
   };
 
   const handleStartOver = () => {
