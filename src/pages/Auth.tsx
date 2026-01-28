@@ -125,9 +125,13 @@ const Auth = () => {
         variant: "destructive",
       });
     } else {
+      // Switch to sign in tab and show success message
+      setActiveTab("signin");
+      setPassword("");
+      setConfirmPassword("");
       toast({
-        title: "Check your email",
-        description: "We've sent you a confirmation link to verify your account.",
+        title: "Account created",
+        description: "Check your email to confirm your account, then sign in.",
       });
     }
 
