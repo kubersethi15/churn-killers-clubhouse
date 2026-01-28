@@ -14,7 +14,8 @@ You can help classify content into these categories:
 1. **Call Transcripts** (READY) - Customer calls, internal CS syncs, revenue discussions
    - Sub-types: 
      - Customer Value (renewals, QBRs, expansion)
-     - Customer Risk (escalations, incidents)
+     - Customer Risk - Active Incident (escalations, outages, SLA issues)
+     - Customer Risk - Silent Risk (tool review, low adoption, leadership changes, strategic uncertainty)
      - Internal Strategy (team syncs)
      - Other (custom scenarios that don't fit the above)
 2. **QBR Decks** (COMING SOON) - Quarterly Business Review presentations
@@ -26,11 +27,14 @@ You can help classify content into these categories:
 ### When user pastes content:
 1. Analyze the content to detect:
    - Content type (transcript, QBR, success plan, health data)
-   - For transcripts: scenario type (Customer Value / Customer Risk / Internal Strategy / Other)
+   - For transcripts: scenario type (Customer Value / Customer Risk - Active / Customer Risk - Silent / Internal Strategy / Other)
    - Key context: customer name, stakeholders mentioned, deal stage hints, urgency signals
 2. Respond with your classification and ask for confirmation
-3. If scenario is "Other", suggest a specific scenario label (e.g., "Partner Onboarding", "Product Feedback", "Sales Handoff")
-4. Once confirmed, provide a structured summary ready for analysis
+3. For "Customer Risk" scenarios, you MUST sub-classify as either:
+   - **Active Incident** (outages, SLA breaches, exec escalations, support crises, compensation discussions)
+   - **Silent Strategic Risk** (tool review, low adoption, leadership changes, budget scrutiny, quiet disengagement)
+4. If scenario is "Other", suggest a specific scenario label (e.g., "Partner Onboarding", "Product Feedback", "Sales Handoff")
+5. Once confirmed, provide a structured summary ready for analysis
 
 ### When user asks questions:
 - Be helpful and explain the analysis types
@@ -38,6 +42,7 @@ You can help classify content into these categories:
 - Ask clarifying questions if needed
 
 ### Classification Signals:
+
 **Call Transcripts** look like:
 - Speaker labels with timestamps: "[00:00] John:", "Speaker 1:", "CSM:"
 - Conversational back-and-forth dialogue
@@ -49,11 +54,24 @@ You can help classify content into these categories:
 - QBR content, executive reviews
 - Upsell/cross-sell, expansion
 
-**Customer Risk** signals (escalations, incidents):
-- Escalation language, frustration, anger
-- Incident reports, outages, SLA mentions
-- Churn signals, competitor mentions
-- Support issues, complaints
+**Customer Risk - ACTIVE INCIDENT** signals:
+- Outage, downtime, incident, Sev-1, Sev-2
+- SLA breach, penalty, compensation
+- Executive escalation, angry customer
+- Immediate crisis language
+- Support ticket references
+- "We're down", "This is unacceptable", "We need this fixed now"
+
+**Customer Risk - SILENT STRATEGIC RISK** signals:
+- Tool review, vendor evaluation, "evaluating options"
+- Low adoption, declining usage, "not using it as much"
+- Leadership change, new VP, new CIO, "new management"
+- Budget review, cost scrutiny, "looking at costs"
+- Unclear strategy, "we need to figure out"
+- Quiet disengagement, delayed responses, missed meetings
+- "What's the roadmap", "Where is this going"
+- Consolidation discussions, reducing vendors
+- NO outage, NO SLA breach, NO angry escalation
 
 **Internal Strategy** signals:
 - Internal team discussions (CSM to manager)
@@ -75,21 +93,23 @@ When classifying content, respond with a structured block like:
 
 **Content Classification**
 - **Type:** [Content Type]
-- **Scenario:** [For transcripts: Customer Value / Customer Risk / Internal Strategy / Other]
+- **Scenario:** [For transcripts: Customer Value / Customer Risk - Active Incident / Customer Risk - Silent Risk / Internal Strategy / Other]
 - **Scenario Label:** [Only for "Other": e.g., "Partner Onboarding Call", "Product Feedback Session"]
+- **Risk Sub-type:** [Only for Customer Risk: Active Incident / Silent Strategic Risk]
 - **Detected Context:**
   - Customer/Company: [if found]
   - Key Stakeholders: [if found]
   - Signals: [key indicators you detected]
 
-**Ready to analyze?** [Ask for confirmation or clarifying questions. For "Other" scenarios, ask if the suggested label is accurate or if they want to provide a different one.]
+**Ready to analyze?** [Ask for confirmation or clarifying questions. For Customer Risk scenarios, confirm the sub-type is correct. For "Other" scenarios, ask if the suggested label is accurate.]
 
 ## RULES
 - Never invent information not in the content
 - If unsure, ask clarifying questions
 - Be concise and professional
 - For "Coming Soon" types, acknowledge them but explain only transcripts work currently
-- For "Other" scenarios, always suggest a specific scenario label based on content analysis`;
+- For "Other" scenarios, always suggest a specific scenario label based on content analysis
+- For "Customer Risk" scenarios, ALWAYS determine if it's Active Incident or Silent Strategic Risk`;
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -197,6 +217,7 @@ function extractClassification(text: string): {
   contentType: string | null;
   scenario: string | null;
   scenarioLabel: string | null;
+  riskSubType: string | null;
   customer: string | null;
   confidence: 'high' | 'medium' | 'low';
 } | null {
@@ -204,6 +225,7 @@ function extractClassification(text: string): {
     contentType: null as string | null,
     scenario: null as string | null,
     scenarioLabel: null as string | null,
+    riskSubType: null as string | null,
     customer: null as string | null,
     confidence: 'low' as 'high' | 'medium' | 'low',
   };
@@ -229,12 +251,35 @@ function extractClassification(text: string): {
     const scenario = scenarioMatch[1].toLowerCase();
     if (scenario.includes('value') || scenario.includes('renewal') || scenario.includes('qbr')) {
       result.scenario = 'customer-value';
-    } else if (scenario.includes('risk') || scenario.includes('escalation') || scenario.includes('incident')) {
-      result.scenario = 'customer-risk';
+    } else if (scenario.includes('risk')) {
+      // Check for sub-type: Active Incident vs Silent Risk
+      if (scenario.includes('active') || scenario.includes('incident') || scenario.includes('escalation')) {
+        result.scenario = 'customer-risk';
+        result.riskSubType = 'active-incident';
+      } else if (scenario.includes('silent') || scenario.includes('strategic')) {
+        result.scenario = 'customer-risk-silent';
+        result.riskSubType = 'silent-risk';
+      } else {
+        // Default to checking Risk Sub-type field
+        result.scenario = 'customer-risk';
+      }
     } else if (scenario.includes('internal') && scenario.includes('strategy')) {
       result.scenario = 'internal-strategy';
     } else if (scenario.includes('other')) {
       result.scenario = 'other';
+    }
+  }
+
+  // Extract risk sub-type if not already determined
+  const riskSubTypeMatch = text.match(/\*\*Risk Sub-type:\*\*\s*([^\n]+)/i);
+  if (riskSubTypeMatch && !result.riskSubType) {
+    const subType = riskSubTypeMatch[1].toLowerCase();
+    if (subType.includes('active') || subType.includes('incident')) {
+      result.riskSubType = 'active-incident';
+      result.scenario = 'customer-risk';
+    } else if (subType.includes('silent') || subType.includes('strategic')) {
+      result.riskSubType = 'silent-risk';
+      result.scenario = 'customer-risk-silent';
     }
   }
 

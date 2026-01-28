@@ -34,6 +34,7 @@ interface Classification {
   contentType: string | null;
   scenario: string | null;
   scenarioLabel: string | null;
+  riskSubType: string | null;
   customer: string | null;
   confidence: "high" | "medium" | "low";
 }
@@ -358,6 +359,10 @@ TRANSCRIPT:
                       <Badge variant="secondary" className="text-xs capitalize">
                         {message.classification.scenario === 'other' && message.classification.scenarioLabel
                           ? message.classification.scenarioLabel
+                          : message.classification.scenario === 'customer-risk-silent'
+                          ? 'Silent Strategic Risk'
+                          : message.classification.scenario === 'customer-risk' && message.classification.riskSubType === 'active-incident'
+                          ? 'Active Incident'
                           : message.classification.scenario.replace("-", " ")}
                       </Badge>
                     )}
@@ -444,6 +449,10 @@ TRANSCRIPT:
                   <strong>
                     {lastClassification.scenario === 'other'
                       ? (editableScenarioLabel || lastClassification.scenarioLabel || 'Custom')
+                      : lastClassification.scenario === 'customer-risk-silent'
+                      ? 'Silent Strategic Risk'
+                      : lastClassification.scenario === 'customer-risk'
+                      ? 'Active Incident'
                       : (lastClassification.scenario?.replace("-", " ") || "transcript")}
                   </strong>
                 </span>
