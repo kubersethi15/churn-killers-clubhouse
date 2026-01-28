@@ -140,7 +140,7 @@ const Auth = () => {
             <CardHeader className="text-center pb-4">
               <CardTitle className="text-2xl font-serif">Join Churn Is Dead</CardTitle>
               <CardDescription>
-                Get weekly CS insights + access to AI-powered tools like CS Analyzer
+                Free newsletter + AI tools
               </CardDescription>
             </CardHeader>
 
@@ -241,7 +241,7 @@ const Auth = () => {
                         ) : (
                           <>
                             <Mail className="mr-2 h-4 w-4" />
-                            Sign in with Magic Link
+                            Email me a link
                           </>
                         )}
                       </Button>
@@ -328,10 +328,10 @@ const Auth = () => {
           {/* Continue without account */}
           <div className="text-center mt-6">
             <Link
-              to="/cs-analyzer"
+              to="/"
               className="text-white/70 hover:text-white text-sm transition-colors"
             >
-              Continue without an account →
+              Back to site
             </Link>
           </div>
         </div>

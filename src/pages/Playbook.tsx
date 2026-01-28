@@ -263,7 +263,7 @@ const PlaybookVault = () => {
                           onClick={() => handlePdfDownload(resource.pdfPath!, resource.title)}
                         >
                           <Download className="mr-1 h-4 w-4" />
-                          Download PDF
+                          PDF
                         </Button>
                       )}
                     </div>
