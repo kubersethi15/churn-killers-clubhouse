@@ -33,7 +33,7 @@ const resources: PlaybookResource[] = [
     description: "A lightweight framework to help you identify and nurture expansion signals across the customer journey.",
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/The-Expansion-Playbook-2315d0709c998007a494d0f646389297?source=copy_link",
-    icon: "📈",
+    icon: undefined,
     datePosted: "2025-07-15", // Posted today
     featuredIn: {
       title: "The Expansion Moment Hiding in Plain Sight",
@@ -47,7 +47,7 @@ const resources: PlaybookResource[] = [
     description: "A 1-slide QBR format that ties usage → outcomes → business value, with example metrics by persona and how to quantify impact even without hard ROI numbers.",
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/The-Value-Story-Slide-2005d0709c99805f8f77c22747e82315?pvs=4",
-    icon: "📊",
+    icon: undefined,
     pdfPath: "https://raw.githubusercontent.com/kubersethi15/churn-is-dead-site/main/public/pdfs/value-story-slide.pdf",
     datePosted: "2025-07-08", // Usage Is Not Success newsletter date
     featuredIn: {
@@ -62,7 +62,7 @@ const resources: PlaybookResource[] = [
     description: "A framework for negotiating realistic timelines that build trust with customers and internal stakeholders.",
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/Timeline-Negotiator-1f95d0709c99808e8926eaeff56ef138?pvs=4",
-    icon: "🗓️",
+    icon: undefined,
     datePosted: "2025-07-01", // Their Timeline, Not Yours newsletter date
     featuredIn: {
       title: "Their Timeline, Not Yours",
@@ -76,7 +76,7 @@ const resources: PlaybookResource[] = [
     description: "A strategic framework to identify, track, and accelerate customer momentum across the entire lifecycle.",
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/Customer-Momentum-Framework-20a5d0709c9980259ea4c3fdcc0b38b1",
-    icon: "🚀",
+    icon: undefined,
     datePosted: "2025-06-24", // Customer Momentum Framework Newsletter date
     featuredIn: {
       title: "Customer Momentum Framework Newsletter",
@@ -89,7 +89,7 @@ const resources: PlaybookResource[] = [
     description: "A tactical checklist to align internally, validate goals, and earn trust before the first customer call.",
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/Kickoff-Re-Discovery-Checklist-1f95d0709c9980cfb35ae653901a6661?pvs=4",
-    icon: "📋",
+    icon: undefined,
     datePosted: "2025-06-17", // The Perfect Kickoff Call newsletter date
     featuredIn: {
       title: "The Perfect Kickoff Call",
@@ -103,7 +103,7 @@ const resources: PlaybookResource[] = [
     description: "A tactical agenda to lead high-trust kickoff calls across doers, managers, and execs.",
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/Kickoff-Agenda-Blueprint-1f95d0709c9980e1a233cdd529187a6e?pvs=4",
-    icon: "📝",
+    icon: undefined,
     datePosted: "2025-06-17", // The Perfect Kickoff Call newsletter date (same newsletter)
     featuredIn: {
       title: "The Perfect Kickoff Call",
@@ -117,7 +117,7 @@ const resources: PlaybookResource[] = [
     description: "The exact system that helped save that $2M renewal and is now being used by 10+ enterprise CS teams to increase renewal predictability and expansion velocity.",
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/CO-OP-Framework-2235d0709c998059a8a4dc2c18393b25?source=copy_link",
-    icon: "🚀",
+    icon: undefined,
     datePosted: "2025-06-10", // The Question That's Breaking Your CS Team newsletter date
     featuredIn: {
       title: "The Question That's Breaking Your CS Team",
@@ -131,7 +131,7 @@ const resources: PlaybookResource[] = [
     description: "A tiered framework to assess and improve customer predictability across trust, engagement, and outcomes.",
     ctaText: "View in Notion",
     ctaLink: "https://www.notion.so/Customer-Predictability-Index-CPI-Framework-Tiered-Guide-2015d0709c9980b18354e3512b86ebff",
-    icon: "📊",
+    icon: undefined,
     datePosted: "2025-06-03", // The Customer Predictability Revolution newsletter date
     featuredIn: {
       title: "The Customer Predictability Revolution",
@@ -202,7 +202,7 @@ const PlaybookVault = () => {
           <div className="container mx-auto px-4 md:px-6">
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-navy-dark mb-4">
-                📂 Tactical Templates, Checklists & Frameworks
+                Tactical Templates, Checklists & Frameworks
               </h1>
               <p className="text-xl md:text-2xl text-navy-dark/80">
                 Real tools. No fluff. These are the exact docs I use with customers — built to help you lead with confidence and strategy.
@@ -270,7 +270,7 @@ const PlaybookVault = () => {
                     
                     {resource.featuredIn && (
                       <div className="text-sm text-gray-600 pt-2">
-                        📬 {resource.featuredIn.comingSoon ? (
+                        {resource.featuredIn.comingSoon ? (
                           <span className="italic">{resource.featuredIn.title}</span>
                         ) : (
                           <>
