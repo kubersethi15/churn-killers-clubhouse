@@ -132,7 +132,7 @@ const Index = () => {
                 onClick={() => setIsWaitlistOpen(true)}
               >
                 <Sparkles className="w-5 h-5 mr-2" />
-                Join Waitlist
+                CS Analyzer Waitlist
               </Button>
               <Button
                 size="lg"
@@ -387,29 +387,16 @@ const Index = () => {
               Ready to lead with clarity, value, and real impact?
             </h2>
             <p className="text-lg mb-8">
-              Join CS leaders getting battle-tested plays and AI tools to drive real outcomes.
+              Be first to access our AI-powered CS Analyzer when it launches.
             </p>
-            {user ? (
-              <Button
-                size="lg"
-                className="bg-white text-red-600 hover:bg-gray-100 font-medium"
-                asChild
-              >
-                <Link to="/cs-analyzer">
-                  <Sparkles className="w-5 h-5 mr-2" />
-                  CS Analyzer
-                </Link>
-              </Button>
-            ) : (
-              <Button
-                size="lg"
-                className="bg-white text-red-600 hover:bg-gray-100 font-medium"
-                onClick={() => navigate("/auth")}
-              >
-                <LogIn className="w-5 h-5 mr-2" />
-                Join Free
-              </Button>
-            )}
+            <Button
+              size="lg"
+              className="bg-white text-red-600 hover:bg-gray-100 font-medium"
+              onClick={() => setIsWaitlistOpen(true)}
+            >
+              <Sparkles className="w-5 h-5 mr-2" />
+              CS Analyzer Waitlist
+            </Button>
           </div>
         </div>
       </section>
