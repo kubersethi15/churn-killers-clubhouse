@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import TestimonialCard from "@/components/TestimonialCard";
-import { MessageSquare, CheckCircle, BookText, LogIn, Sparkles } from "lucide-react";
+import WaitlistModal from "@/components/WaitlistModal";
+import { MessageSquare, CheckCircle, BookText, LogIn, Sparkles, Zap, Users, BarChart3 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
 import ContactDialog from "@/components/ContactDialog";
@@ -13,6 +14,7 @@ import { isPreviewMode } from "@/utils/preview";
 import { formatContent as formatNewsletterContent } from "@/utils/formatUtils";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { Badge } from "@/components/ui/badge";
 
 type Newsletter = {
   id: string;
@@ -28,6 +30,7 @@ const Index = () => {
   const [latestNewsletter, setLatestNewsletter] = useState<Newsletter | null>(null);
   const [loading, setLoading] = useState(true);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
   const [searchParams] = useSearchParams();
   const showAdmin = searchParams.get('admin') === 'true';
   const { toast } = useToast();
@@ -233,45 +236,43 @@ const Index = () => {
         </div>
       </section>
       
-      {/* CS Analyzer Promo Section */}
+      {/* CS Analyzer Waitlist Section */}
       <section className="py-14 md:py-20 bg-gradient-to-br from-navy-dark via-navy to-navy-light text-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-red/20 rounded-full mb-6">
-                  <MessageSquare className="w-4 h-4 text-red-400" />
-                  <span className="text-sm font-medium text-red-300">Free AI Tool</span>
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-amber-500/20 rounded-full mb-6">
+                  <Sparkles className="w-4 h-4 text-amber-400" />
+                  <span className="text-sm font-medium text-amber-300">Coming Soon</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4">
                   CS Analyzer
                 </h2>
                 <p className="text-lg text-gray-300 mb-6">
-                  Paste your call transcripts and get instant, AI-powered insights. 
-                  Identify risks, uncover opportunities, and get actionable next steps in seconds.
+                  AI-powered analysis for your call transcripts, QBR decks, and success plans. 
+                  Get instant insights and actionable next steps in seconds.
                 </p>
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-center gap-3 text-gray-200">
-                    <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+                    <Zap className="w-5 h-5 text-emerald-400 flex-shrink-0" />
                     Instant risk & opportunity detection
                   </li>
                   <li className="flex items-center gap-3 text-gray-200">
-                    <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+                    <Users className="w-5 h-5 text-blue-400 flex-shrink-0" />
                     Stakeholder mapping & sentiment analysis
                   </li>
                   <li className="flex items-center gap-3 text-gray-200">
-                    <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
-                    Ready-to-use follow-up questions
+                    <BarChart3 className="w-5 h-5 text-amber-400 flex-shrink-0" />
+                    Ready-to-use action plans with owners
                   </li>
                 </ul>
                 <Button 
                   size="lg"
                   className="bg-red-600 hover:bg-red-700 text-white font-medium"
-                  asChild
+                  onClick={() => setIsWaitlistOpen(true)}
                 >
-                  <Link to="/cs-analyzer">
-                    Try Free
-                  </Link>
+                  Join Waitlist
                 </Button>
               </div>
               <div className="hidden md:block">
@@ -431,6 +432,9 @@ const Index = () => {
       
       {/* Hidden Admin Panel */}
       {showAdmin && <AdminPanel />}
+      
+      {/* Waitlist Modal */}
+      <WaitlistModal open={isWaitlistOpen} onOpenChange={setIsWaitlistOpen} source="homepage" />
     </div>
   );
 };
