@@ -56,17 +56,14 @@ interface TriageChatProps {
 const INITIAL_MESSAGE: Message = {
   id: "welcome",
   role: "assistant",
-  content: `**Welcome to CS Analyzer**
+  content: `**Paste your call transcript below**
 
-I can help you analyze your customer success content. Just paste your content below and I'll:
+I'll analyze it and:
+- **Classify the scenario** (Value, Risk, Internal, or Other)
+- **Extract context** (customer, stakeholders, key signals)
+- **Select the best analysis approach** automatically
 
-1. **Detect the type** (call transcript, QBR, success plan, health data)
-2. **Classify the scenario** (for transcripts: Value, Risk, Internal, or Other)
-3. **Extract context** (customer, stakeholders, key signals)
-
-**Paste your content to get started**, or ask me a question about what I can analyze.
-
-*For "Other" scenarios, I'll generate a custom analysis prompt tailored to your specific call type.*`,
+*More content types (QBR decks, success plans) coming soon.*`,
 };
 
 export const TriageChat = ({ onAnalysisReady }: TriageChatProps) => {

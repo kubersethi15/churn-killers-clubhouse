@@ -658,8 +658,8 @@ const CSAnalyzer = () => {
         <main className="flex-1 overflow-auto bg-background">
             <div className="container mx-auto px-4 py-8 md:px-6 max-w-4xl">
               
-              {/* Step Indicator */}
-              {step !== "results" && (
+              {/* Step Indicator - Only show for Manual mode */}
+              {step !== "results" && analyzerMode === "manual" && (
                 <div className="flex items-center justify-center gap-4 mb-8">
                   {["Select Type", "Add Content", "Results"].map((label, index) => {
                     const stepIndex = index + 1;
