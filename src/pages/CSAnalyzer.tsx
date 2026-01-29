@@ -802,6 +802,15 @@ const CSAnalyzer = () => {
 
                     {/* AI Triage Mode */}
                     <TabsContent value="ai-triage" className="mt-0">
+                      <div className="text-center mb-8">
+                        <h2 className="text-2xl md:text-3xl font-serif font-bold text-navy-dark mb-2">
+                          Paste your content to get started
+                        </h2>
+                        <p className="text-muted-foreground">
+                          Our AI will auto-detect the type and select the best analysis approach
+                        </p>
+                      </div>
+
                       <Card className="border-2 border-dashed border-navy-dark/20">
                         <CardHeader className="text-center pb-2">
                           <div className="w-14 h-14 rounded-full bg-navy-dark/10 flex items-center justify-center mx-auto mb-3">
