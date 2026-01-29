@@ -416,35 +416,55 @@ const CSAnalyzer = () => {
     if (!analysisResult) return;
     
     toast({
-      title: "Generating PDF...",
-      description: "This may take a moment",
+      title: "Opening Print Dialog...",
+      description: "Use 'Save as PDF' in the print dialog",
     });
 
     try {
-      // Dynamic import to avoid SSR issues
-      const html2pdf = (await import('html2pdf.js')).default;
-      
       const title = selectedSavedAnalysis?.title || `${selectedOption?.title || 'Analysis'} Report`;
-      const filename = `${title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`;
-      
-      // Create a styled HTML version of the report
       const reportElement = document.getElementById('analysis-report-content');
       
       if (reportElement) {
-        const opt = {
-          margin: [10, 10, 10, 10],
-          filename,
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { scale: 2, useCORS: true },
-          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        // Create a new window for printing
+        const printWindow = window.open('', '_blank');
+        if (!printWindow) {
+          throw new Error("Could not open print window - please allow popups");
+        }
+
+        // Write the content with print-friendly styles
+        printWindow.document.write(`
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>${title}</title>
+            <style>
+              body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 20px; line-height: 1.6; }
+              h1, h2, h3, h4 { margin-top: 1.5em; margin-bottom: 0.5em; }
+              h1 { font-size: 24px; }
+              h2 { font-size: 20px; }
+              h3 { font-size: 16px; }
+              p, ul, ol { margin-bottom: 1em; }
+              table { width: 100%; border-collapse: collapse; margin: 1em 0; }
+              th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+              th { background: #f5f5f5; }
+              @media print { body { padding: 0; } }
+            </style>
+          </head>
+          <body>
+            ${reportElement.innerHTML}
+          </body>
+          </html>
+        `);
+        printWindow.document.close();
+        
+        // Wait for content to load, then print
+        printWindow.onload = () => {
+          printWindow.print();
         };
         
-        await html2pdf().set(opt).from(reportElement).save();
-        
         toast({
-          title: "Downloaded!",
-          description: "PDF file saved",
+          title: "Ready to Save!",
+          description: "Select 'Save as PDF' in the print dialog",
         });
       } else {
         throw new Error("Report content not found");
@@ -453,7 +473,7 @@ const CSAnalyzer = () => {
       console.error("PDF generation error:", error);
       toast({
         title: "PDF generation failed",
-        description: "Try downloading as Markdown instead",
+        description: error instanceof Error ? error.message : "Try downloading as Markdown instead",
         variant: "destructive",
       });
     }
