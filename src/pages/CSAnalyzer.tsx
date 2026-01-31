@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AnalysisReport } from "@/components/cs-analyzer/AnalysisReport";
 import { TriageChat } from "@/components/cs-analyzer/TriageChat";
+import { FeedbackButton } from "@/components/cs-analyzer/FeedbackButton";
 import { AnalysisSidebar } from "@/components/analyzer/AnalysisSidebar";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAnalyses, Analysis } from "@/hooks/useAnalyses";
@@ -1081,10 +1082,13 @@ const CSAnalyzer = () => {
               </div>
             )}
           </div>
-        </main>
-      </div>
+      </main>
+      
+      {/* Floating Feedback Button */}
+      <FeedbackButton analysisId={selectedSavedAnalysis?.id} />
     </div>
-  );
+  </div>
+);
 };
 
 export default CSAnalyzer;

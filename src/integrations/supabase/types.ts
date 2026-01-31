@@ -79,6 +79,56 @@ export type Database = {
         }
         Relationships: []
       }
+      cs_analyzer_feedback: {
+        Row: {
+          additional_comments: string | null
+          analysis_accuracy: number | null
+          analysis_id: string | null
+          bugs_encountered: string | null
+          created_at: string
+          ease_of_use: number | null
+          id: string
+          improvement_suggestions: string | null
+          most_useful_feature: string | null
+          user_id: string
+          would_recommend: number | null
+        }
+        Insert: {
+          additional_comments?: string | null
+          analysis_accuracy?: number | null
+          analysis_id?: string | null
+          bugs_encountered?: string | null
+          created_at?: string
+          ease_of_use?: number | null
+          id?: string
+          improvement_suggestions?: string | null
+          most_useful_feature?: string | null
+          user_id: string
+          would_recommend?: number | null
+        }
+        Update: {
+          additional_comments?: string | null
+          analysis_accuracy?: number | null
+          analysis_id?: string | null
+          bugs_encountered?: string | null
+          created_at?: string
+          ease_of_use?: number | null
+          id?: string
+          improvement_suggestions?: string | null
+          most_useful_feature?: string | null
+          user_id?: string
+          would_recommend?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cs_analyzer_feedback_analysis_id_fkey"
+            columns: ["analysis_id"]
+            isOneToOne: false
+            referencedRelation: "analyses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       newsletters: {
         Row: {
           category: string | null
