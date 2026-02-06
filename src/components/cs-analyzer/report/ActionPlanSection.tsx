@@ -16,6 +16,8 @@ import { reportTypography, reportLayout, reportColors, sectionIconColors } from 
 
 interface ActionPlanSectionProps {
   content: string;
+  title?: string;
+  subtitle?: string;
 }
 
 const getTimelineBadge = (when: string) => {
@@ -29,8 +31,10 @@ const getTimelineBadge = (when: string) => {
   return { color: reportColors.neutral.badge, label: "Standard" };
 };
 
-export const ActionPlanSection = ({ content }: ActionPlanSectionProps) => {
+export const ActionPlanSection = ({ content, title, subtitle }: ActionPlanSectionProps) => {
   const actions = parseActionItems(content);
+  const sectionTitle = title ?? "14-Day Strategic Action Plan";
+  const sectionSubtitle = subtitle ?? "Priority actions for the next two weeks";
   
   if (actions.length === 0) {
     return (
@@ -41,9 +45,9 @@ export const ActionPlanSection = ({ content }: ActionPlanSectionProps) => {
               <Target className="w-5 h-5" />
             </div>
             <div className="flex-1">
-              <span>14-Day Strategic Action Plan</span>
+              <span>{sectionTitle}</span>
               <p className={cn(reportTypography.sectionSubtitle, "mt-0.5")}>
-                Priority actions for the next two weeks
+                {sectionSubtitle}
               </p>
             </div>
           </CardTitle>
@@ -65,9 +69,9 @@ export const ActionPlanSection = ({ content }: ActionPlanSectionProps) => {
             <Target className="w-5 h-5" />
           </div>
           <div className="flex-1">
-            <span>14-Day Strategic Action Plan</span>
+            <span>{sectionTitle}</span>
             <p className={cn(reportTypography.sectionSubtitle, "mt-0.5")}>
-              Priority actions for the next two weeks
+              {sectionSubtitle}
             </p>
           </div>
           <Badge variant="secondary" className={cn("ml-auto", reportLayout.badgeCount)}>

@@ -240,22 +240,32 @@ This is for ACTIVE incidents: outages, SLA breaches, exec escalations, support c
 - **Executive dissatisfaction:**
 - **Replacement vendor mentions:**
 
-### 5) Immediate Stabilization Plan (0–72h)
+### 5) Stakeholders & Power Map (MANDATORY TABLE)
+| Stakeholder | Role | Posture (Champion/Skeptic/Neutral/Mixed) | Power Level (High/Medium/Low) | Evidence |
+|-------------|------|------------------------------------------|-------------------------------|----------|
+
+Rules:
+- Include all named customer stakeholders.
+- Infer posture from their language (trust/support vs skepticism).
+- Infer power from role (CFO/CTO/Procurement/VP = High; Director/Manager = Medium).
+- If the transcript includes no stakeholder names or roles, explicitly write: "Not enough information in transcript."
+
+### 6) Immediate Stabilization Plan (0–72h)
 Concrete actions:
 | Action | Owner | Timeline |
 |--------|-------|----------|
 
-### 6) Trust Recovery Plan (30–90 days)
+### 7) Trust Recovery Plan (30–90 days)
 - **Executive reviews:**
 - **Compensation / goodwill gestures:**
 - **Technical remediation roadmap:**
 
-### 7) Internal CS / Delivery Gaps
+### 8) Internal CS / Delivery Gaps
 - **Process failures:**
 - **Communication failures:**
 - **Delivery risk:**
 
-### 8) Next Escalation Call Questions
+### 9) Next Escalation Call Questions
 10–15 questions to ask in the next call to assess recovery and rebuild trust.
 
 ---
