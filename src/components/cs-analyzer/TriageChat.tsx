@@ -16,12 +16,14 @@ import {
   RefreshCw,
   Edit2,
   Check,
+  Wand2,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import ReactMarkdown from "react-markdown";
+import { SampleTranscriptMenu } from "./SampleTranscriptMenu";
 
 interface Message {
   id: string;
@@ -498,9 +500,17 @@ TRANSCRIPT:
             <Send className="w-4 h-4" />
           </Button>
         </div>
-        <p className="text-xs text-muted-foreground mt-2">
-          Press Enter to send, Shift+Enter for new line
-        </p>
+        <div className="flex items-center justify-between mt-2">
+          <p className="text-xs text-muted-foreground">
+            Press Enter to send, Shift+Enter for new line
+          </p>
+          {!input.trim() && !lastClassification && (
+            <SampleTranscriptMenu 
+              onSampleGenerated={(transcript) => setInput(transcript)}
+              disabled={isLoading}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
