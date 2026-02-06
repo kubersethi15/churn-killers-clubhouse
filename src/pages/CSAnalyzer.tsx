@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AnalysisReport } from "@/components/cs-analyzer/AnalysisReport";
+import { AnalysisReport } from "@/components/cs-analyzer/report/AnalysisReport";
 import { TriageChat } from "@/components/cs-analyzer/TriageChat";
 import { FeedbackButton } from "@/components/cs-analyzer/FeedbackButton";
 import { AnalysisSidebar } from "@/components/analyzer/AnalysisSidebar";
@@ -1047,6 +1047,7 @@ const CSAnalyzer = () => {
                           analysisResult={analysisResult} 
                           title={selectedSavedAnalysis?.title || (selectedOption ? `${selectedOption.title} Analysis` : undefined)}
                           createdAt={selectedSavedAnalysis?.created_at}
+                          scenario={selectedCallCategory || selectedType || undefined}
                         />
                       </div>
                     </TabsContent>
