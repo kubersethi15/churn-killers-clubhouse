@@ -117,7 +117,8 @@ serve(async (req) => {
   }
 
   try {
-    const { messages, content } = await req.json();
+    const body = await req.json();
+    const { messages, content, generateSample, scenario } = body;
 
     // Get Lovable API key for AI gateway
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
@@ -129,7 +130,12 @@ serve(async (req) => {
       );
     }
 
-    // Build messages array
+    // Handle sample transcript generation
+    if (generateSample) {
+      return await generateSampleTranscript(LOVABLE_API_KEY, scenario);
+    }
+
+    // Build messages array for triage
     const aiMessages = [
       { role: 'system', content: TRIAGE_SYSTEM_PROMPT },
       ...messages,
@@ -303,6 +309,96 @@ function extractClassification(text: string): {
   }
 
   return result.contentType ? result : null;
+}
+
+// Generate sample transcript using AI
+async function generateSampleTranscript(apiKey: string, scenario?: string): Promise<Response> {
+  const scenarios = ['customer-value', 'customer-risk', 'internal-strategy'];
+  const selectedScenario = scenario || scenarios[Math.floor(Math.random() * scenarios.length)];
+  
+  const scenarioPrompts: Record<string, string> = {
+    'customer-value': `Generate a realistic Customer Success call transcript for a RENEWAL/EXPANSION scenario.
+Include:
+- A CSM and customer stakeholders (VP, Director level)
+- Discussion of ROI, value realization, positive outcomes
+- Hints of expansion opportunity (new departments, additional users)
+- Natural conversation flow with speaker labels
+- Specific metrics mentioned (%, time savings, revenue impact)
+- A named company (fictional but realistic)
+Make it 400-600 words, formatted as a call transcript with timestamps.`,
+    
+    'customer-risk': `Generate a realistic Customer Success call transcript for a CUSTOMER RISK/ESCALATION scenario.
+Include:
+- A CSM and frustrated customer stakeholders
+- Discussion of issues (reliability, support, missing features)
+- Competitor mentions or churn signals
+- Natural conversation with speaker labels
+- Specific pain points and timeline pressures
+- A named company (fictional but realistic)
+Make it 400-600 words, formatted as a call transcript with timestamps.`,
+    
+    'internal-strategy': `Generate a realistic INTERNAL CS team strategy meeting transcript.
+Include:
+- CS Director, CS Manager, and Senior CSM
+- Discussion of at-risk accounts and renewals in pipeline
+- Strategic planning and resource allocation
+- Natural conversation with speaker labels
+- Specific account names and ARR numbers mentioned
+- Action items and owners assigned
+Make it 400-600 words, formatted as a call transcript with timestamps.`,
+  };
+
+  const prompt = scenarioPrompts[selectedScenario] || scenarioPrompts['customer-value'];
+
+  try {
+    const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'google/gemini-3-flash-preview',
+        messages: [
+          { 
+            role: 'system', 
+            content: 'You are an expert at creating realistic Customer Success call transcripts for training and demo purposes. Create authentic-sounding conversations that feel like real business discussions.' 
+          },
+          { role: 'user', content: prompt }
+        ],
+        temperature: 0.8,
+        max_tokens: 2000,
+      }),
+    });
+
+    if (!response.ok) {
+      if (response.status === 429) {
+        return new Response(
+          JSON.stringify({ error: 'Rate limit exceeded. Try a pre-written sample instead.' }),
+          { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+      throw new Error(`AI gateway error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const transcript = data.choices?.[0]?.message?.content;
+
+    if (!transcript) {
+      throw new Error('No transcript generated');
+    }
+
+    return new Response(
+      JSON.stringify({ success: true, transcript, scenario: selectedScenario }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  } catch (error) {
+    console.error('Sample generation error:', error);
+    return new Response(
+      JSON.stringify({ error: 'Failed to generate sample. Try a pre-written template.' }),
+      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  }
 }
 
 // Generate dynamic prompt for "Other" scenarios
