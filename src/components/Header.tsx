@@ -139,34 +139,16 @@ const Header = () => {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-            ) : (
-              <Button 
-                variant="outline" 
-                size="sm"
-                onClick={() => navigate("/auth")}
-                className="gap-2"
-              >
-                <LogIn className="h-4 w-4" />
-                Sign In
-              </Button>
-            )}
+            ) : null}
           </div>
         </nav>
         
         <div className="flex items-center gap-2 md:hidden">
           {/* Mobile auth button */}
-          {user ? (
+          {user && (
             <div className="w-8 h-8 rounded-full bg-red/10 flex items-center justify-center text-red text-xs font-medium">
               {initials}
             </div>
-          ) : (
-            <Button 
-              variant="ghost" 
-              size="sm"
-              onClick={() => navigate("/auth")}
-            >
-              <LogIn className="h-4 w-4" />
-            </Button>
           )}
           
           <Button 
@@ -262,16 +244,7 @@ const Header = () => {
                     Sign Out
                   </button>
                 </>
-              ) : (
-                <Link
-                  to="/auth"
-                  className="text-red-600 font-medium transition-colors px-2 py-1 flex items-center gap-2"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <LogIn className="h-4 w-4" />
-                  Sign In
-                </Link>
-              )}
+              ) : null}
             </div>
           </nav>
         </div>
