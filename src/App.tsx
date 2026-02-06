@@ -11,6 +11,7 @@ import NewsletterDetail from "./pages/NewsletterDetail";
 import About from "./pages/About";
 import Playbook from "./pages/Playbook";
 import CSAnalyzer from "./pages/CSAnalyzer";
+import CSAnalyzerWaitlist from "./pages/CSAnalyzerWaitlist";
 import Auth from "./pages/Auth";
 import AdminPanel from "./components/AdminPanel";
 
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/playbook" element={<Playbook />} />
             <Route path="/cs-analyzer" element={<CSAnalyzer />} />
+            <Route path="/cs-analyzer-waitlist" element={<CSAnalyzerWaitlist />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<AdminPanel />} />
             <Route path="*" element={<NotFound />} />
