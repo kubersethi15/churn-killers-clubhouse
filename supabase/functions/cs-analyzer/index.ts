@@ -3,9 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  // NOTE: the client sends `x-app-version` (Lovable preview). If it's not allowed,
-  // browsers will block the POST after a successful OPTIONS preflight.
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-app-version',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-app-version, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
 
@@ -662,6 +660,7 @@ serve(async (req) => {
     // Verify authentication
     const authHeader = req.headers.get('Authorization');
     if (!authHeader?.startsWith('Bearer ')) {
+      console.error('Missing or invalid Authorization header');
       return new Response(
         JSON.stringify({ error: 'Authentication required' }),
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -674,20 +673,22 @@ serve(async (req) => {
       { global: { headers: { Authorization: authHeader } } }
     );
 
-    const token = authHeader.replace('Bearer ', '');
-    const { data: claimsData, error: claimsError } = await supabaseClient.auth.getClaims(token);
-    if (claimsError || !claimsData?.claims) {
+    // Use getUser instead of getClaims for more reliable auth validation
+    const { data: userData, error: userError } = await supabaseClient.auth.getUser();
+    if (userError || !userData?.user) {
+      console.error('Auth validation failed:', userError?.message);
       return new Response(
         JSON.stringify({ error: 'Invalid authentication token' }),
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    const userId = claimsData.claims.sub;
-    const userEmail = claimsData.claims.email;
+    const userId = userData.user.id;
+    const userEmail = userData.user.email;
     console.log(`Authenticated user: ${userEmail} (${userId})`);
 
-    const { analysisType, callCategory, content, email, customPrompt } = await req.json();
+    const body = await req.json();
+    const { analysisType, callCategory, content, email, customPrompt } = body;
 
     // Validate inputs
     if (!analysisType || !content) {
