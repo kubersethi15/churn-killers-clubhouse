@@ -28,11 +28,12 @@ interface AnalysisReportProps {
 
 // Determine which component to render based on section title
 const renderSection = (
-  title: string, 
-  content: string, 
-  idx: number, 
+  title: string,
+  content: string,
+  idx: number,
   charts: ChartConfig | null,
-  chartsLoading: boolean
+  chartsLoading: boolean,
+  chartsError: string | null
 ) => {
   const lowerTitle = title.toLowerCase();
   
@@ -47,6 +48,11 @@ const renderSection = (
             <span className="text-sm">Generating insights...</span>
           </div>
         )}
+        {chartsError && (
+          <div className="mt-4 rounded-lg border border-report-border bg-report-surface px-4 py-3">
+            <p className="text-sm text-muted-foreground">Charts unavailable: {chartsError}</p>
+          </div>
+        )}
         {charts?.sentimentDonut?.enabled && (
           <SentimentDonut data={charts.sentimentDonut.data} />
         )}
@@ -54,14 +60,46 @@ const renderSection = (
     );
   }
   
-  // Action Plan section - add timeline chart
-  if (lowerTitle.includes("action") || lowerTitle.includes("plan") || lowerTitle.includes("14-day") || lowerTitle.includes("14 day")) {
+  // Plans (keep structured table rendering but preserve the actual section title)
+  if (
+    lowerTitle.includes("14-day") ||
+    lowerTitle.includes("14 day") ||
+    lowerTitle.includes("battle plan") ||
+    lowerTitle.includes("strategic action plan")
+  ) {
     return (
       <div key={idx}>
         <ActionPlanSection content={content} />
         {charts?.actionTimeline?.enabled && (
           <ActionTimeline data={charts.actionTimeline.data} />
         )}
+      </div>
+    );
+  }
+
+  if (lowerTitle.includes("stabilization") || lowerTitle.includes("0–72") || lowerTitle.includes("0-72") || lowerTitle.includes("72h")) {
+    return (
+      <div key={idx}>
+        <ActionPlanSection
+          title={title}
+          subtitle="Concrete actions for the next 72 hours"
+          content={content}
+        />
+        {charts?.actionTimeline?.enabled && (
+          <ActionTimeline data={charts.actionTimeline.data} />
+        )}
+      </div>
+    );
+  }
+
+  if (lowerTitle.includes("trust recovery") || lowerTitle.includes("30–90") || lowerTitle.includes("30-90")) {
+    return (
+      <div key={idx}>
+        <ActionPlanSection
+          title={title}
+          subtitle="Actions to rebuild trust over the next 30–90 days"
+          content={content}
+        />
       </div>
     );
   }
@@ -108,7 +146,7 @@ export const AnalysisReport = ({ analysisResult, title, createdAt, scenario }: A
   const sections = useMemo(() => parseIntoSections(analysisResult), [analysisResult]);
   
   // Fetch chart data using AI analysis
-  const { charts, isLoading: chartsLoading } = useChartAnalysis({
+  const { charts, isLoading: chartsLoading, error: chartsError } = useChartAnalysis({
     analysisResult,
     scenario,
     enabled: true,
@@ -161,7 +199,16 @@ export const AnalysisReport = ({ analysisResult, title, createdAt, scenario }: A
     <div className="space-y-4">
       <ReportHeader />
       <div className="space-y-4">
-        {sections.map((section, idx) => renderSection(section.title, section.content, idx, charts, chartsLoading && idx === 0))}
+        {sections.map((section, idx) =>
+          renderSection(
+            section.title,
+            section.content,
+            idx,
+            charts,
+            chartsLoading && idx === 0,
+            idx === 0 ? chartsError : null
+          )
+        )}
       </div>
     </div>
   );
