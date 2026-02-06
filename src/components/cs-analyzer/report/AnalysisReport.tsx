@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import ReactMarkdown from "react-markdown";
-import { FileText } from "lucide-react";
+import { FileText, Loader2 } from "lucide-react";
 
 import { parseIntoSections } from "./utils";
 import { SnapshotSection } from "./SnapshotSection";
@@ -10,35 +10,84 @@ import { StakeholderSection } from "./StakeholderSection";
 import { SignalSection } from "./SignalSection";
 import { QuestionsSection } from "./QuestionsSection";
 import { GenericSection } from "./GenericSection";
+import { useChartAnalysis } from "../hooks/useChartAnalysis";
+import { 
+  StakeholderQuadrant, 
+  RiskRadar, 
+  SentimentDonut, 
+  ActionTimeline,
+  ChartConfig 
+} from "../charts";
 
 interface AnalysisReportProps {
   analysisResult: string;
   title?: string;
   createdAt?: string;
+  scenario?: string;
 }
 
 // Determine which component to render based on section title
-const renderSection = (title: string, content: string, idx: number) => {
+const renderSection = (
+  title: string, 
+  content: string, 
+  idx: number, 
+  charts: ChartConfig | null,
+  chartsLoading: boolean
+) => {
   const lowerTitle = title.toLowerCase();
   
-  // Snapshot section
+  // Snapshot section - add sentiment chart
   if (lowerTitle.includes("snapshot")) {
-    return <SnapshotSection key={idx} content={content} />;
+    return (
+      <div key={idx}>
+        <SnapshotSection content={content} />
+        {chartsLoading && (
+          <div className="mt-4 flex items-center justify-center py-8 text-muted-foreground">
+            <Loader2 className="w-4 h-4 animate-spin mr-2" />
+            <span className="text-sm">Generating insights...</span>
+          </div>
+        )}
+        {charts?.sentimentDonut?.enabled && (
+          <SentimentDonut data={charts.sentimentDonut.data} />
+        )}
+      </div>
+    );
   }
   
-  // Action Plan section
+  // Action Plan section - add timeline chart
   if (lowerTitle.includes("action") || lowerTitle.includes("plan") || lowerTitle.includes("14-day") || lowerTitle.includes("14 day")) {
-    return <ActionPlanSection key={idx} content={content} />;
+    return (
+      <div key={idx}>
+        <ActionPlanSection content={content} />
+        {charts?.actionTimeline?.enabled && (
+          <ActionTimeline data={charts.actionTimeline.data} />
+        )}
+      </div>
+    );
   }
   
-  // Stakeholder section
+  // Stakeholder section - add quadrant chart
   if (lowerTitle.includes("stakeholder") || lowerTitle.includes("power map")) {
-    return <StakeholderSection key={idx} content={content} />;
+    return (
+      <div key={idx}>
+        <StakeholderSection content={content} />
+        {charts?.stakeholderQuadrant?.enabled && (
+          <StakeholderQuadrant data={charts.stakeholderQuadrant.data} />
+        )}
+      </div>
+    );
   }
   
-  // Risk signals
+  // Risk signals - add radar chart
   if (lowerTitle.includes("risk")) {
-    return <SignalSection key={idx} content={content} type="risk" />;
+    return (
+      <div key={idx}>
+        <SignalSection content={content} type="risk" />
+        {charts?.riskRadar?.enabled && (
+          <RiskRadar data={charts.riskRadar.data} />
+        )}
+      </div>
+    );
   }
   
   // Growth/Expansion signals
@@ -55,8 +104,15 @@ const renderSection = (title: string, content: string, idx: number) => {
   return <GenericSection key={idx} title={title} content={content} />;
 };
 
-export const AnalysisReport = ({ analysisResult, title, createdAt }: AnalysisReportProps) => {
+export const AnalysisReport = ({ analysisResult, title, createdAt, scenario }: AnalysisReportProps) => {
   const sections = useMemo(() => parseIntoSections(analysisResult), [analysisResult]);
+  
+  // Fetch chart data using AI analysis
+  const { charts, isLoading: chartsLoading } = useChartAnalysis({
+    analysisResult,
+    scenario,
+    enabled: true,
+  });
   
   const ReportHeader = () => (
     title ? (
@@ -105,7 +161,7 @@ export const AnalysisReport = ({ analysisResult, title, createdAt }: AnalysisRep
     <div className="space-y-4">
       <ReportHeader />
       <div className="space-y-4">
-        {sections.map((section, idx) => renderSection(section.title, section.content, idx))}
+        {sections.map((section, idx) => renderSection(section.title, section.content, idx, charts, chartsLoading && idx === 0))}
       </div>
     </div>
   );
