@@ -31,10 +31,9 @@ const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [magicLinkSent, setMagicLinkSent] = useState(false);
   const [activeTab, setActiveTab] = useState("signin");
   const [touched, setTouched] = useState({ password: false, confirmPassword: false });
-  const { signIn, signUp, signInWithMagicLink, resetPassword, user, isLoading: authLoading } = useAuth();
+  const { signIn, signUp, resetPassword, user, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
@@ -138,29 +137,6 @@ const Auth = () => {
     setIsLoading(false);
   };
 
-  const handleMagicLink = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    const { error } = await signInWithMagicLink(email);
-
-    if (error) {
-      toast({
-        title: "Failed to send magic link",
-        description: error.message,
-        variant: "destructive",
-      });
-    } else {
-      setMagicLinkSent(true);
-      toast({
-        title: "Magic link sent!",
-        description: "Check your email for a sign-in link.",
-      });
-    }
-
-    setIsLoading(false);
-  };
-
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -224,25 +200,7 @@ const Auth = () => {
           <div className="w-full max-w-md mx-auto lg:mx-0">
             <Card className="border-0 shadow-2xl">
               <CardContent className="pt-6">
-                {magicLinkSent ? (
-                  <div className="text-center py-8">
-                    <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
-                      <Mail className="w-8 h-8 text-green-600" />
-                    </div>
-                    <h3 className="text-lg font-semibold mb-2">Check your email</h3>
-                    <p className="text-muted-foreground mb-4">
-                      We've sent a magic link to <strong>{email}</strong>
-                    </p>
-                    <Button
-                      variant="ghost"
-                      onClick={() => setMagicLinkSent(false)}
-                      className="text-red hover:text-red-dark"
-                    >
-                      Use a different email
-                    </Button>
-                  </div>
-                ) : (
-                  <Tabs defaultValue="signup" value={activeTab} onValueChange={setActiveTab} className="w-full">
+                <Tabs defaultValue="signup" value={activeTab} onValueChange={setActiveTab} className="w-full">
                     <TabsList className="grid w-full grid-cols-2 mb-6">
                       <TabsTrigger value="signin">Sign In</TabsTrigger>
                       <TabsTrigger value="signup">Sign Up</TabsTrigger>
@@ -509,7 +467,6 @@ const Auth = () => {
                       </form>
                     </TabsContent>
                   </Tabs>
-                )}
               </CardContent>
 
               <CardFooter className="flex-col space-y-3 text-center text-sm text-muted-foreground border-t pt-6">

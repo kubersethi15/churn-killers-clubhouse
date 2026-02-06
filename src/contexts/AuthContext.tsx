@@ -19,7 +19,6 @@ interface AuthContextType {
   isLoading: boolean;
   signUp: (email: string, password: string, displayName?: string, role?: Profile["role"]) => Promise<{ error: Error | null }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
-  signInWithMagicLink: (email: string) => Promise<{ error: Error | null }>;
   resetPassword: (email: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
   updateProfile: (updates: Partial<Profile>) => Promise<{ error: Error | null }>;
@@ -121,16 +120,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return { error: error as Error | null };
   };
 
-  const signInWithMagicLink = async (email: string) => {
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: window.location.origin + "/cs-analyzer",
-      },
-    });
-    return { error: error as Error | null };
-  };
-
   const resetPassword = async (email: string) => {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/auth?reset=true`,
@@ -170,7 +159,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         isLoading,
         signUp,
         signIn,
-        signInWithMagicLink,
         resetPassword,
         signOut,
         updateProfile,
