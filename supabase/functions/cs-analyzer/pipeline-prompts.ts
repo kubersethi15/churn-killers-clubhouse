@@ -210,10 +210,14 @@ If a CS speaker proposes a workshop, this is a CS commitment, not a customer com
 - Bad: "Low adoption may lead to churn" (this is analyst interpretation, not customer evidence)
 - risk_type MUST be one of: commercial|delivery|relationship|product_fit|security|other
 
-## open_questions_explicit rules
-- Each question MUST be an actual question that was raised or left unanswered in the call.
-- Good: "What is the timeline for procurement approval?"
+## open_questions_explicit rules (CRITICAL — verbatim only)
+- Each question MUST be a VERBATIM or NEAR-VERBATIM question that actually appears in the transcript as an interrogative statement.
+- The question text must closely match how it was spoken in the call — do NOT synthesize, rephrase, or infer implied questions.
+- Every question MUST have at least one anchor_id pointing to the transcript excerpt containing the question. If no anchor contains the question text, OMIT the question entirely.
+- Good: "What is the timeline for procurement approval?" (verbatim from transcript, with anchor Q7)
 - Bad: "Budget pressure" (this is a topic, not a question)
+- Bad: "How will the customer handle adoption challenges?" (synthesized — not spoken in the call)
+- Bad: "What are the next steps for renewal?" (implied but never actually asked in the transcript)
 
 ## stakeholder_mentions rules
 - Include ALL named individuals who speak in the transcript as stakeholders.
@@ -417,6 +421,19 @@ After compiling the final report, perform this validation pass:
 - If no valid anchor exists for an observed claim, it CANNOT remain "observed".
 - Convert it to inferred (with rationale + confidence) OR remove it entirely.
 - This applies to: evidence_backed_facts, risk_items, top_3_takeaways, action_plan evidence_basis_anchor_ids, stakeholder stances, expansion_plays, value_narrative_gaps.
+
+## Speaker-Role Anchor Validation (CRITICAL — data integrity)
+After compiling the final report, cross-check anchor content against the preprocessor's speaker role_guess for role conflicts:
+- For each claim that references an anchor_id, check the anchor's quote text and the speaker who said it.
+- If the anchor's quote contains finance/procurement/budget language (e.g., "procurement cycle", "budget review", "vendor evaluation", "RFP", "cost justification") BUT the speaker's role_guess is "cs" or "internal" (vendor side):
+  → Flag a role_conflict.
+  → Add to qa.notes: "Role conflict detected: anchor [anchor_id] contains [finance/procurement] language but speaker role_guess=[cs/internal]. Speaker may be misclassified or quote is CS paraphrasing customer concerns."
+  → If the claim depends on customer attribution (e.g., customer objections, customer commitments, customer-originated risks):
+    - Downgrade claim confidence by one level (high→medium, medium→low).
+    - Add inference_rationale noting the role conflict.
+  → If the claim does NOT depend on speaker attribution (e.g., general observed facts, timeline markers):
+    - Keep the claim but note the conflict in qa.notes.
+- Do NOT automatically remove claims for role conflicts — only downgrade confidence when attribution matters.
 
 ## risk_items[].type ENFORCEMENT (CRITICAL)
 Every risk_items[].type MUST be one of: commercial|delivery|relationship|product_fit|security|other

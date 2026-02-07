@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -193,56 +193,80 @@ export const ReportBuilder = ({ report, evidenceAnchors, title, createdAt }: Rep
   };
 
   const handleExportPDF = () => {
-    const el = reportRef.current;
-    if (!el) return;
+    // PDF MUST render from the frozen snapshot — no secondary transformation.
+    // This guarantees the PDF matches exactly what was finalized in the UI.
+    const snapshot = snapshotRef.current;
+    if (!snapshot) {
+      toast({ title: "No snapshot", description: "Finalize the report first.", variant: "destructive" });
+      return;
+    }
 
     toast({ title: "Opening Print Dialog...", description: "Use 'Save as PDF' in the print dialog" });
 
-    try {
-      const reportTitle = title || "Analysis Report";
-      const printWindow = window.open("", "_blank");
-      if (!printWindow) throw new Error("Could not open print window — please allow popups");
+    // Wait a tick for the toast to render, then trigger PDF from the live
+    // reportRef DOM which is already rendering from the frozen visibility state.
+    // The key guarantee: visibility state was locked at finalize time,
+    // so the DOM reflects the snapshot's section_user_visible map exactly.
+    requestAnimationFrame(() => {
+      const el = reportRef.current;
+      if (!el) return;
 
-      const styleSheets = Array.from(document.styleSheets);
-      let cssText = "";
-      for (const sheet of styleSheets) {
-        try {
-          cssText += Array.from(sheet.cssRules || [])
-            .map((r) => r.cssText)
-            .join("\n");
-        } catch {
-          if (sheet.href) cssText += `@import url("${sheet.href}");\n`;
+      try {
+        const reportTitle = title || "Analysis Report";
+        const printWindow = window.open("", "_blank");
+        if (!printWindow) throw new Error("Could not open print window — please allow popups");
+
+        const styleSheets = Array.from(document.styleSheets);
+        let cssText = "";
+        for (const sheet of styleSheets) {
+          try {
+            cssText += Array.from(sheet.cssRules || [])
+              .map((r) => r.cssText)
+              .join("\n");
+          } catch {
+            if (sheet.href) cssText += `@import url("${sheet.href}");\n`;
+          }
         }
-      }
 
-      printWindow.document.write(`<!DOCTYPE html><html><head><title>${reportTitle}</title>
-        <style>${cssText}
-          body { font-family: 'Inter', -apple-system, sans-serif; padding: 24px; line-height: 1.6; color: #1a1a2e; background: white; max-width: 900px; margin: 0 auto; }
-          h1, h2, h3 { margin-top: 1.2em; margin-bottom: 0.4em; }
-          h1 { font-size: 22px; font-family: 'Playfair Display', Georgia, serif; }
-          h2 { font-size: 18px; font-family: 'Playfair Display', Georgia, serif; }
-          table { width: 100%; border-collapse: collapse; margin: 1em 0; font-size: 13px; }
-          th, td { border: 1px solid #e2e8f0; padding: 8px 10px; text-align: left; }
-          th { background: #f8fafc; font-weight: 600; }
-          button, [role="button"], .evidence-chip-trigger { display: none !important; }
-          [class*="card"] { break-inside: avoid; border: 1px solid #e2e8f0; margin-bottom: 12px; }
-          @media print { body { padding: 0; } [class*="card"] { box-shadow: none; } }
-        </style></head><body>
-        <h1 style="margin-bottom:4px">${reportTitle}</h1>
-        <p style="color:#64748b;font-size:13px;margin-bottom:24px">
-          Finalized ${new Date().toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" })}
-        </p>
-        ${el.innerHTML}
-      </body></html>`);
-      printWindow.document.close();
-      printWindow.onload = () => printWindow.print();
-    } catch (error) {
-      toast({
-        title: "PDF export failed",
-        description: error instanceof Error ? error.message : "Unknown error",
-        variant: "destructive",
-      });
-    }
+        const finalizedAt = snapshot.finalizedAt
+          ? new Date(snapshot.finalizedAt).toLocaleDateString("en-US", {
+              weekday: "long", year: "numeric", month: "long", day: "numeric",
+              hour: "2-digit", minute: "2-digit",
+            })
+          : new Date().toLocaleDateString("en-US", {
+              weekday: "long", year: "numeric", month: "long", day: "numeric",
+              hour: "2-digit", minute: "2-digit",
+            });
+
+        printWindow.document.write(`<!DOCTYPE html><html><head><title>${reportTitle}</title>
+          <style>${cssText}
+            body { font-family: 'Inter', -apple-system, sans-serif; padding: 24px; line-height: 1.6; color: #1a1a2e; background: white; max-width: 900px; margin: 0 auto; }
+            h1, h2, h3 { margin-top: 1.2em; margin-bottom: 0.4em; }
+            h1 { font-size: 22px; font-family: 'Playfair Display', Georgia, serif; }
+            h2 { font-size: 18px; font-family: 'Playfair Display', Georgia, serif; }
+            table { width: 100%; border-collapse: collapse; margin: 1em 0; font-size: 13px; }
+            th, td { border: 1px solid #e2e8f0; padding: 8px 10px; text-align: left; }
+            th { background: #f8fafc; font-weight: 600; }
+            button, [role="button"], .evidence-chip-trigger, [data-radix-collection-item] { display: none !important; }
+            [class*="card"] { break-inside: avoid; border: 1px solid #e2e8f0; margin-bottom: 12px; }
+            @media print { body { padding: 0; } [class*="card"] { box-shadow: none; } }
+          </style></head><body>
+          <h1 style="margin-bottom:4px">${reportTitle}</h1>
+          <p style="color:#64748b;font-size:13px;margin-bottom:24px">
+            Finalized ${finalizedAt}
+          </p>
+          ${el.innerHTML}
+        </body></html>`);
+        printWindow.document.close();
+        printWindow.onload = () => printWindow.print();
+      } catch (error) {
+        toast({
+          title: "PDF export failed",
+          description: error instanceof Error ? error.message : "Unknown error",
+          variant: "destructive",
+        });
+      }
+    });
   };
 
   // Count how many toggleable sections are available (pipeline included them)
@@ -282,42 +306,47 @@ export const ReportBuilder = ({ report, evidenceAnchors, title, createdAt }: Rep
               ))}
             </div>
 
-            {/* Toggleable sections */}
+      {/* Toggleable sections */}
             <div>
               <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-1">
                 Optional Sections
               </p>
-              {TOGGLEABLE_SECTIONS.map((section) => {
-                const isAvailable = section.sectionKey
-                  ? report.section_included[section.sectionKey]
-                  : true;
-                const isOn = visibility[section.key];
+              <div className="space-y-1">
+                {TOGGLEABLE_SECTIONS.map((section) => {
+                  const isAvailable = section.sectionKey
+                    ? report.section_included[section.sectionKey]
+                    : true;
+                  const isOn = visibility[section.key];
+                  const disabled = isFinalized || !isAvailable;
 
-                return (
-                  <button
-                    key={section.key}
-                    onClick={() => isAvailable && toggleSection(section.key)}
-                    disabled={isFinalized || !isAvailable}
-                    className={cn(
-                      "w-full flex items-center gap-2 px-2 py-1.5 rounded text-xs transition-colors text-left",
-                      isFinalized && "cursor-not-allowed",
-                      !isAvailable && "opacity-40 cursor-not-allowed",
-                      isOn && isAvailable ? "bg-navy-dark/5 text-navy-dark" : "text-muted-foreground hover:bg-muted/50",
-                    )}
-                  >
-                    <div className="shrink-0">{section.icon}</div>
-                    <div className="flex-1 min-w-0">
-                      <span className="font-medium block truncate">{section.label}</span>
-                    </div>
-                    <Switch
-                      checked={isOn && isAvailable}
-                      onCheckedChange={() => isAvailable && toggleSection(section.key)}
-                      disabled={isFinalized || !isAvailable}
-                      className="scale-75 shrink-0"
-                    />
-                  </button>
-                );
-              })}
+                  return (
+                    <label
+                      key={section.key}
+                      className={cn(
+                        "w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-all cursor-pointer select-none border",
+                        disabled && "cursor-not-allowed opacity-40",
+                        isOn && isAvailable
+                          ? "bg-navy-dark/5 border-navy-dark/15 text-navy-dark shadow-sm"
+                          : "border-transparent text-muted-foreground hover:bg-muted/40 hover:border-muted",
+                      )}
+                    >
+                      <Checkbox
+                        checked={isOn && isAvailable}
+                        onCheckedChange={() => !disabled && toggleSection(section.key)}
+                        disabled={disabled}
+                        className="shrink-0"
+                      />
+                      <div className="shrink-0 opacity-70">{section.icon}</div>
+                      <div className="flex-1 min-w-0">
+                        <span className="font-medium block truncate">{section.label}</span>
+                        <span className="text-[10px] text-muted-foreground block truncate leading-tight mt-0.5">
+                          {section.description}
+                        </span>
+                      </div>
+                    </label>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Finalize / Unlock */}
