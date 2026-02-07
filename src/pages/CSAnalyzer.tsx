@@ -478,7 +478,9 @@ const CSAnalyzer = () => {
   };
 
   const handleDownloadPDF = async () => {
-    if (!analysisResult) return;
+    // Support both v1 markdown and v2 pipeline reports
+    const hasContent = analysisResult || (reportVersion === "v2_panel" && pipelineResult?.finalReport);
+    if (!hasContent) return;
     
     toast({
       title: "Opening Print Dialog...",
@@ -496,6 +498,21 @@ const CSAnalyzer = () => {
           throw new Error("Could not open print window - please allow popups");
         }
 
+        // Gather all stylesheets from the current page for faithful rendering
+        const styleSheets = Array.from(document.styleSheets);
+        let cssText = '';
+        for (const sheet of styleSheets) {
+          try {
+            const rules = Array.from(sheet.cssRules || []);
+            cssText += rules.map(r => r.cssText).join('\n');
+          } catch {
+            // Cross-origin stylesheets can't be read — skip
+            if (sheet.href) {
+              cssText += `@import url("${sheet.href}");\n`;
+            }
+          }
+        }
+
         // Write the content with print-friendly styles
         printWindow.document.write(`
           <!DOCTYPE html>
@@ -503,19 +520,41 @@ const CSAnalyzer = () => {
           <head>
             <title>${title}</title>
             <style>
-              body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 20px; line-height: 1.6; }
-              h1, h2, h3, h4 { margin-top: 1.5em; margin-bottom: 0.5em; }
-              h1 { font-size: 24px; }
-              h2 { font-size: 20px; }
-              h3 { font-size: 16px; }
-              p, ul, ol { margin-bottom: 1em; }
-              table { width: 100%; border-collapse: collapse; margin: 1em 0; }
-              th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-              th { background: #f5f5f5; }
-              @media print { body { padding: 0; } }
+              ${cssText}
+              
+              /* Print overrides */
+              body { 
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+                padding: 24px; 
+                line-height: 1.6; 
+                color: #1a1a2e;
+                background: white;
+                max-width: 900px;
+                margin: 0 auto;
+              }
+              h1, h2, h3, h4 { margin-top: 1.2em; margin-bottom: 0.4em; }
+              h1 { font-size: 22px; font-family: 'Playfair Display', Georgia, serif; }
+              h2 { font-size: 18px; font-family: 'Playfair Display', Georgia, serif; }
+              h3 { font-size: 15px; }
+              p, ul, ol { margin-bottom: 0.8em; }
+              table { width: 100%; border-collapse: collapse; margin: 1em 0; font-size: 13px; }
+              th, td { border: 1px solid #e2e8f0; padding: 8px 10px; text-align: left; }
+              th { background: #f8fafc; font-weight: 600; }
+              /* Hide interactive elements in print */
+              button, [role="button"], .evidence-chip-trigger { display: none !important; }
+              /* Ensure cards print well */
+              [class*="card"] { break-inside: avoid; border: 1px solid #e2e8f0; margin-bottom: 12px; }
+              @media print { 
+                body { padding: 0; } 
+                [class*="card"] { box-shadow: none; }
+              }
             </style>
           </head>
           <body>
+            <h1 style="margin-bottom: 4px;">${title}</h1>
+            <p style="color: #64748b; font-size: 13px; margin-bottom: 24px;">
+              Generated ${new Date().toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" })}
+            </p>
             ${reportElement.innerHTML}
           </body>
           </html>
@@ -1123,6 +1162,14 @@ const CSAnalyzer = () => {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="bg-background border shadow-lg z-50">
+                          <DropdownMenuItem onClick={handleDownloadPDF} className="gap-2 cursor-pointer">
+                            <FileDown className="w-4 h-4 text-red" />
+                            <div>
+                              <p className="font-medium">PDF Report</p>
+                              <p className="text-xs text-muted-foreground">Best for sharing & printing</p>
+                            </div>
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
                           <DropdownMenuItem onClick={() => handleDownloadDebugBundle()} className="gap-2 cursor-pointer">
                             <FileDown className="w-4 h-4 text-navy-dark" />
                             <div>
