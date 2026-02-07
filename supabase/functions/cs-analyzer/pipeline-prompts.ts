@@ -78,23 +78,59 @@ You must NOT analyze, recommend, infer strategy, or guess motivations.
 You only output strict JSON and follow the schema exactly.
 If information is missing, output null or empty arrays; never invent.
 
-## Speaker fields
-- role_guess MUST be one of: customer|cs|internal|partner|unknown. Never use job titles here.
-- role_title is a free-text field for the speaker's specific title or function (e.g., "CIO", "Ops Lead", "Platform Owner", "Procurement Manager", "CSM"). Set to null if unknown.
+## Speaker Role Inference (CRITICAL — downstream passes depend on accuracy)
+role_guess MUST be one of: customer|cs|internal|partner|unknown. Never use job titles here.
+role_title is a free-text field for the speaker's specific title or function. Set to null if unknown.
 
-## Evidence anchor rules
-Produce an ordered list of short verbatim quotes called evidence_anchors. Each anchor:
+Use these BEHAVIORAL SIGNALS to determine role_guess:
+### cs (Customer Success / Vendor rep):
+- Speaker proposes workshops, enablement sessions, or training
+- Speaker drives next steps, action items, or follow-up coordination
+- Speaker frames value ("here's what we've delivered", "ROI you're seeing")
+- Speaker references "your team", "your environment", "your account"
+- Speaker coordinates renewal logistics or scheduling
+- Speaker introduces themselves as account owner/CSM/AM
+→ role_guess = "cs", role_title = "CSM" or "Account Manager" or similar
+
+### customer:
+- Speaker describes their own operations, teams, pain points
+- Speaker uses domain-specific language ("from a finance angle", "our procurement cycle")
+- Speaker raises objections, budget concerns, or competitive comparisons
+- Speaker asks about product capabilities from a buyer perspective
+- Speaker references "our CTO", "my team", "we need"
+→ role_guess = "customer", role_title = inferred title (e.g., "Ops Lead", "Finance", "Procurement")
+
+### internal:
+- Speaker discusses internal company strategy, hiring, or org structure WITHOUT customer context
+- Speaker is clearly on the vendor side but NOT customer-facing (e.g., product manager, engineering)
+→ role_guess = "internal"
+
+### partner:
+- Speaker represents a third-party integration, reseller, or consulting firm
+→ role_guess = "partner"
+
+### unknown:
+- Cannot determine role from behavioral signals
+→ role_guess = "unknown"
+
+DO NOT default all speakers to "internal". Use the behavioral signals above. When in doubt, prefer "unknown" over incorrect classification.
+
+## Evidence Anchor Rules
+You MUST produce between 12-20 anchors. Every major topic shift or signal should have at least one anchor.
+Each anchor:
 - Must be a verbatim excerpt from the transcript (max ~25 words).
 - Must be labeled Q1, Q2, etc. in order.
 - Must capture SIGNAL-DRIVEN quotes. Prioritize quotes that contain:
   * Competitive mentions (e.g., "we're evaluating alternatives", vendor names, RFP references)
-  * Adoption gaps (e.g., "two departments haven't onboarded", "change resistance")
+  * Adoption gaps (e.g., "two groups never adopted it", "change resistance", "mostly resistance")
+  * Value quantification (e.g., "saves us 4-6 hours a week", "tools without measurable outcomes challenged")
   * Incident/reliability signals (e.g., "alerting failed", "the outage last quarter")
   * Budget/cost pressure (e.g., "CFO wants cost justification", "budget cuts")
-  * Expansion hooks (e.g., "security ops could use this", "time savings estimate")
+  * Expansion hooks (e.g., "service desk workflow interest", "security ops could use this")
   * Stakeholder sentiment (e.g., "leadership remembers the outage", "exec sponsor is supportive")
+Ensure anchors exist for EVERY major insight in the transcript. If a key topic has no anchor, the downstream analysis cannot reference it.
 
-## Anchor alignment rule (CRITICAL)
+## Anchor Alignment Rule (CRITICAL)
 Each anchor_id in explicit_mentions MUST reference an anchor whose quote DIRECTLY contains that concept:
 - explicit_mentions.budget.anchor_ids → anchors mentioning budget, cost, spend, pricing, ROI
 - explicit_mentions.procurement.anchor_ids → anchors mentioning procurement, vendor evaluation, RFP, sourcing
@@ -102,10 +138,11 @@ Each anchor_id in explicit_mentions MUST reference an anchor whose quote DIRECTL
 - explicit_mentions.competitor.anchor_ids → anchors mentioning competitor names, alternatives, evaluation
 - explicit_mentions.renewal.anchor_ids → anchors mentioning renewal, contract, term
 - explicit_mentions.executive_stakeholders.anchor_ids → anchors mentioning executive titles or names
-Do NOT cross-wire anchors between categories.
+Do NOT cross-wire anchors between categories. If no anchor contains the concept, set anchor_ids to empty array.
 
-## Stakeholder detection
-Include ALL named speakers from the transcript AND any roles/people mentioned but not present (e.g., "our finance controller", "the CTO"). Include the anchor where they are named or referenced.
+## Stakeholder Detection
+Include ALL named speakers from the transcript as stakeholders with anchors.
+Include mentioned-but-not-present roles (e.g., "our finance controller", "the CTO") ONLY if they have a supporting anchor. Otherwise omit or set presence to "unclear".
 
 Output JSON only. No markdown.`;
 
@@ -132,25 +169,45 @@ ${PREPROCESSOR_SCHEMA}`;
 export function analystEvidencePrompts(transcript: string, preprocessor: PreprocessorOutput) {
   const system = `You are Analyst A: Evidence Extractor for CS Analyzer.
 Your mission: extract only evidence-backed facts and direct quotes. You are conservative.
+You are a COURT REPORTER — you extract and paraphrase, you do NOT interpret or predict.
 
 STRICT RULES:
 - NO strategy, NO recommendations, NO scoring, NO predictions.
-- NO "implies", "suggests", "likely", "probably".
+- NO "may", "might", "likely", "probably", "suggests", "implies", "indicates", "risk of".
 - Every claim must be supported by one or more anchor_ids from the provided evidence_anchors.
 - If you cannot support a claim with anchors, omit it.
 - Output strict JSON only using the schema. No markdown.
+
+## Role-Based Attribution Rule (CRITICAL)
+Use the preprocessor's speaker role_guess to enforce attribution correctness.
+
+Only statements from speakers with role_guess="customer" may populate:
+- explicit_risks (customer-originated risks, objections, concerns)
+- customer commitments in commitments_and_next_steps (where who="customer")
+- customer objections or concerns in observed_facts
+
+Statements from speakers with role_guess="cs" or role_guess="internal" may populate:
+- cs/internal commitments in commitments_and_next_steps (where who="cs" or who="internal")
+- observed_facts about cs proposals, value framing, or next steps
+- But NEVER as customer risks, customer objections, or customer commitments
+
+If a CS speaker says "I think there's a risk of churn", this is a CS OPINION, not a customer-originated risk. Do NOT add it to explicit_risks.
+If a CS speaker proposes a workshop, this is a CS commitment, not a customer commitment.
 
 ## observed_facts rules
 - Each fact MUST be a PARAPHRASED factual statement, NOT a raw quote from the transcript.
 - Good: "Customer has two departments that have not yet onboarded the platform."
 - Bad: "we still have two departments that haven't really adopted it" (this is a raw quote, not a paraphrased fact)
+- NO interpretive language. Only direct observable statements.
+- Good: "Customer stated that two groups have not adopted the tool."
+- Bad: "Customer may face adoption challenges." (this is interpretation)
 - category MUST be one of: renewal|budget|procurement|incident|value|adoption|stakeholder|delivery|other
 
 ## explicit_risks rules
-- Each risk_statement MUST be a true risk statement describing potential negative impact.
-- Good: "Customer may reduce seat count due to low adoption in two departments."
-- Bad: "Customer asked about pricing" (this is a neutral observation, not a risk)
-- Bad: "What is the renewal timeline?" (this is a question, not a risk)
+- Each risk_statement MUST be a true risk statement describing potential negative impact that the CUSTOMER expressed or directly indicated.
+- Good: "Customer stated they are evaluating alternative vendors for the upcoming renewal."
+- Bad: "Customer asked about pricing" (neutral observation, not a risk)
+- Bad: "Low adoption may lead to churn" (this is analyst interpretation, not customer evidence)
 - risk_type MUST be one of: commercial|delivery|relationship|product_fit|security|other
 
 ## open_questions_explicit rules
@@ -159,8 +216,14 @@ STRICT RULES:
 - Bad: "Budget pressure" (this is a topic, not a question)
 
 ## stakeholder_mentions rules
-- Include ALL named individuals from the transcript AND mentioned-but-not-present roles (e.g., "our finance controller", "the CTO mentioned").
-- Set presence correctly: "present" if they speak, "mentioned_not_present" if referenced by others, "unclear" if ambiguous.`;
+- Include ALL named individuals who speak in the transcript as stakeholders.
+- Include mentioned-but-not-present roles ONLY if they have a supporting anchor.
+- Set presence correctly: "present" if they speak, "mentioned_not_present" if referenced by others, "unclear" if ambiguous.
+
+## Anchor correctness rule
+- Every anchor_id you reference MUST contain the concept you're citing it for.
+- If an anchor does not contain the referenced concept, do NOT use it. Either find a correct anchor or omit the claim.
+- Do NOT reuse unrelated anchors to fill gaps.`;
 
   const user = `Transcript:
 \`\`\`
@@ -203,7 +266,7 @@ You MUST map competitive signals into threat_classification using weighted logic
 
 ### Strong competitive signals → escalate to displacement:
 If competitor signal is OBSERVED with strong commercial context, set threat_classification.primary OR secondary = "displacement":
-- Competitor outreach mentioned during renewal window
+- Competitor intro calls or outreach mentioned + competitive check / evaluation
 - Competitive validation / RFP required by policy or procurement
 - Customer explicitly states they are considering alternatives
 - Multiple vendors mentioned AND procurement process triggered
@@ -218,9 +281,15 @@ If competitor signal is generic or low-intent, keep it as a commercial_signal on
 → confidence = "low"
 → Record in commercial_signals array, not in threat_classification
 
-### All displacement classifications MUST include:
-- anchor_ids (at least one competitive anchor)
-- rationale sentence explaining why this is displacement, not just noise
+### Churn vs Displacement distinction (CRITICAL):
+- "churn" = customer has expressed explicit NON-RENEWAL or REPLACEMENT intent ("we're not renewing", "we're sunsetting this", "we're moving off the platform")
+- "displacement" = customer is evaluating alternatives or competitors are actively engaging, but no explicit cancellation
+- Do NOT classify as "churn" unless explicit non-renewal/replacement language exists with anchors
+- When in doubt between churn and displacement, choose displacement
+
+### All displacement/churn classifications MUST include:
+- anchor_ids (at least one competitive or non-renewal anchor)
+- rationale sentence explaining the classification
 - confidence level`;
 
   const user = `Transcript:
