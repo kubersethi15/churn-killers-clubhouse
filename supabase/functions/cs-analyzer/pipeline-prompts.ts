@@ -195,7 +195,33 @@ Rules:
 - INFERRED claims are allowed only if you provide a short rationale and a confidence level, and you must say what evidence pattern triggered it.
 - Do not comment on product delivery mechanics except where it affects commercial outcomes.
 - Output strict JSON only. No markdown.
-- Never invent ARR, dates, stakeholders, or commitments.`;
+- Never invent ARR, dates, stakeholders, or commitments.
+
+## Commercial Threat Mapping — Competitive Signals (CRITICAL)
+
+You MUST map competitive signals into threat_classification using weighted logic, NOT automatic escalation.
+
+### Strong competitive signals → escalate to displacement:
+If competitor signal is OBSERVED with strong commercial context, set threat_classification.primary OR secondary = "displacement":
+- Competitor outreach mentioned during renewal window
+- Competitive validation / RFP required by policy or procurement
+- Customer explicitly states they are considering alternatives
+- Multiple vendors mentioned AND procurement process triggered
+→ confidence = "high" or "medium" depending on anchor strength
+→ MUST include anchor_ids and a rationale sentence
+
+### Weak competitive signals → do NOT escalate:
+If competitor signal is generic or low-intent, keep it as a commercial_signal only. Do NOT set displacement:
+- Vendor outreach mentioned without evaluation intent
+- Policy-driven benchmarking language with no active comparison
+- Historical mention only (e.g., "we used to use X")
+→ confidence = "low"
+→ Record in commercial_signals array, not in threat_classification
+
+### All displacement classifications MUST include:
+- anchor_ids (at least one competitive anchor)
+- rationale sentence explaining why this is displacement, not just noise
+- confidence level`;
 
   const user = `Transcript:
 \`\`\`
@@ -291,6 +317,20 @@ Map analyst risk types as follows:
 - data, compliance, access → "security"
 - anything else → "other"
 Do NOT output free-text types like "procurement" or "budget" — they MUST be mapped.
+
+## Displacement Threat Validation (CRITICAL)
+If Analyst B classified threat as "displacement", you MUST validate it before including in the final report.
+Displacement threat classification is ONLY valid if BOTH conditions are met:
+1. At least one competitive anchor exists (competitor name, RFP, vendor evaluation, alternative mentioned)
+AND
+2. At least one of the following co-occurs:
+   - procurement trigger (active RFP, vendor review process)
+   - renewal timing pressure (renewal within 90 days, contract decision pending)
+   - value gap (customer questioning ROI, adoption problems cited)
+   - exec scrutiny (CFO/CRO/VP reviewing vendor, budget pressure from leadership)
+
+If BOTH conditions are NOT met → downgrade displacement to "delay" or "unknown" with lower confidence.
+Add a qa.notes entry explaining the downgrade.
 
 ## Do NOT set generated_at_iso
 Leave "generated_at_iso" as an empty string "". The backend will set it. Do not generate a timestamp.
