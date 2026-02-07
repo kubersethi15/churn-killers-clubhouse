@@ -220,10 +220,15 @@ If a CS speaker proposes a workshop, this is a CS commitment, not a customer com
 - Include mentioned-but-not-present roles ONLY if they have a supporting anchor.
 - Set presence correctly: "present" if they speak, "mentioned_not_present" if referenced by others, "unclear" if ambiguous.
 
-## Anchor correctness rule
-- Every anchor_id you reference MUST contain the concept you're citing it for.
-- If an anchor does not contain the referenced concept, do NOT use it. Either find a correct anchor or omit the claim.
-- Do NOT reuse unrelated anchors to fill gaps.`;
+## Anchor Precision Rule (CRITICAL — trust depends on this)
+- Every anchor_id you reference MUST contain the CORE CONCEPT of the claim it supports.
+- "Core concept" means the anchor quote must directly mention the subject matter (e.g., adoption, budget, competitor name, risk topic).
+- Do NOT attach anchors that are agenda items, meta-commentary, or introductory remarks to substantive claims about value, risk, adoption, or stakeholders.
+- Example VIOLATION: Claim "Customer has adoption gaps" with anchor Q3 whose quote is "Let's go through the agenda" — this is WRONG.
+- Example CORRECT: Claim "Customer has adoption gaps" with anchor Q7 whose quote is "two groups never really adopted it" — this is CORRECT.
+- If NO anchor directly contains the core concept of a claim:
+  → Do NOT include the claim as "observed". Either convert it to an inferred claim (with rationale + confidence) or omit it entirely.
+- Do NOT reuse unrelated anchors to fill gaps. An unanchored claim is better than a misanchored one.`;
 
   const user = `Transcript:
 \`\`\`
@@ -254,11 +259,16 @@ export function analystCommercialPrompts(
 Your job: assess commercial posture from the transcript.
 Rules:
 - Separate OBSERVED vs INFERRED.
-- OBSERVED claims must include anchor_ids.
+- OBSERVED claims must include anchor_ids whose quote text DIRECTLY contains the concept being claimed.
 - INFERRED claims are allowed only if you provide a short rationale and a confidence level, and you must say what evidence pattern triggered it.
 - Do not comment on product delivery mechanics except where it affects commercial outcomes.
 - Output strict JSON only. No markdown.
 - Never invent ARR, dates, stakeholders, or commitments.
+
+## Anchor Precision Rule
+- Every anchor_id you reference MUST directly contain the core concept of the claim.
+- Do NOT attach agenda/meta anchors (e.g., "let's review the agenda") to substantive commercial claims.
+- If no anchor directly supports a claim, mark it as "inferred" with rationale, or omit.
 
 ## Commercial Threat Mapping — Competitive Signals (CRITICAL)
 
@@ -324,11 +334,16 @@ export function analystAdoptionPrompts(
 Your job: diagnose adoption/value/delivery blockers from the transcript.
 Rules:
 - Separate OBSERVED vs INFERRED.
-- OBSERVED claims must include anchor_ids.
+- OBSERVED claims must include anchor_ids whose quote text DIRECTLY contains the concept being claimed.
 - INFERRED claims allowed only with rationale and confidence.
 - Do not classify commercial threat (leave that to Analyst B) except where adoption directly creates renewal risk.
 - Output strict JSON only. No markdown.
-- Never invent product usage metrics.`;
+- Never invent product usage metrics.
+
+## Anchor Precision Rule
+- Every anchor_id you reference MUST directly contain the core concept of the claim.
+- Do NOT attach agenda/meta anchors to substantive adoption or delivery claims.
+- If no anchor directly supports a claim, mark it as "inferred" with rationale, or omit.`;
 
   const user = `Transcript:
 \`\`\`
@@ -375,6 +390,33 @@ Hard rules:
 4) If analysts contradict each other, prefer the one with stronger anchors; otherwise mark as uncertain and lower confidence.
 5) No empty sections. If a section has no supported content, set section_included=false and content arrays empty.
 6) Output must be strict JSON exactly matching FINAL_REPORT_SCHEMA. No markdown, no extra keys.
+
+## Anchor Registry Validation (HARD CHECK — do this BEFORE outputting)
+After compiling the final report, perform this validation pass:
+- Build the set of valid anchor IDs from preprocessor.evidence_anchors (e.g., {"Q1", "Q2", ..., "Q18"}).
+- Scan EVERY anchor_id referenced in the entire final_report JSON (executive_snapshot, evidence_backed_facts, risks_and_threats, action_plan, stakeholder_power_map, etc.).
+- If ANY anchor_id does NOT exist in the valid set:
+  → REMOVE the anchor_id from the claim's anchor_ids array.
+  → If the claim now has ZERO anchor_ids AND is marked "observed", you MUST either:
+    a) Convert it to "inferred" (add inference_rationale and set confidence to "low" or "medium"), OR
+    b) Remove the claim entirely.
+  → Log each removal in qa.removed_claims with reason="no_evidence" and the original claim text.
+  → Add a note to qa.notes explaining which anchor_ids were invalid and what action was taken.
+
+## Anchor Precision Rule (CRITICAL — applied during compilation)
+- Every anchor_id attached to a claim MUST directly contain the CORE CONCEPT of that claim in its quote text.
+- "Core concept" = the anchor quote must mention the subject matter (budget, adoption, competitor, stakeholder name, etc.).
+- Do NOT attach agenda/meta anchors (e.g., "let's go through the agenda") to substantive claims about value, risk, or adoption.
+- If an analyst attached anchor Q5 to a risk about "adoption gaps" but Q5's quote is "let's discuss next steps", REMOVE Q5 from that claim.
+- If removing mismatched anchors leaves a claim with zero anchors:
+  → Convert to inferred (with rationale + low/medium confidence) OR remove entirely.
+  → Log in qa.removed_claims with reason="no_evidence".
+
+## No-Anchor Handling Rule
+- A claim with observed_or_inferred="observed" MUST have at least one valid, concept-matching anchor_id.
+- If no valid anchor exists for an observed claim, it CANNOT remain "observed".
+- Convert it to inferred (with rationale + confidence) OR remove it entirely.
+- This applies to: evidence_backed_facts, risk_items, top_3_takeaways, action_plan evidence_basis_anchor_ids, stakeholder stances, expansion_plays, value_narrative_gaps.
 
 ## risk_items[].type ENFORCEMENT (CRITICAL)
 Every risk_items[].type MUST be one of: commercial|delivery|relationship|product_fit|security|other
