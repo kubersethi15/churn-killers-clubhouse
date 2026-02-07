@@ -5,6 +5,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AnalysisReport } from "@/components/cs-analyzer/report/AnalysisReport";
+import { V2ReportRenderer } from "@/components/cs-analyzer/report-v2/V2ReportRenderer";
+import type { PipelineResult, FinalReport, EvidenceAnchor } from "@/components/cs-analyzer/report-v2/types";
 import { TriageChat } from "@/components/cs-analyzer/TriageChat";
 import { FeedbackButton } from "@/components/cs-analyzer/FeedbackButton";
 import { AnalysisSidebar } from "@/components/analyzer/AnalysisSidebar";
@@ -155,6 +157,8 @@ const CSAnalyzer = () => {
   const [step, setStep] = useState<"select" | "input" | "analyzing" | "results">("select");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<string | null>(null);
+  const [pipelineResult, setPipelineResult] = useState<PipelineResult | null>(null);
+  const [reportVersion, setReportVersion] = useState<"v1_single" | "v2_panel">("v1_single");
   const [selectedSavedAnalysis, setSelectedSavedAnalysis] = useState<Analysis | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [analyzerMode, setAnalyzerMode] = useState<"manual" | "ai-triage">("ai-triage");
@@ -257,6 +261,7 @@ const CSAnalyzer = () => {
                 callCategory: selectedType === "call-transcript" ? selectedCallCategory : undefined,
                 content,
                 email: user?.email || "anonymous@user.com",
+                pipelineMode: selectedType === "call-transcript",
               },
             });
 
@@ -281,25 +286,42 @@ const CSAnalyzer = () => {
 
       const data = await invokeWithRetry();
 
-      if (data?.analysis) {
-        setAnalysisResult(data.analysis);
+      // Handle v2 pipeline response
+      if (data?.reportVersion === 'v2_panel' && data?.pipelineResult) {
+        setPipelineResult(data.pipelineResult);
+        setReportVersion('v2_panel');
+        setAnalysisResult(null);
         setStep("results");
         toast({
           title: "Analysis complete!",
-          description: "Your personalized insights are ready.",
+          description: `Multi-pass pipeline finished${data.pipelineResult.success ? '' : ' with partial results'}.`,
         });
 
         // Auto-save for logged-in users
         if (user) {
+          const title = data.pipelineResult.finalReport?.executive_snapshot?.one_liner
+            ? data.pipelineResult.finalReport.executive_snapshot.one_liner.slice(0, 60)
+            : generateTitle(selectedType, content);
+          const { error } = await saveAnalysis(title, selectedType || "unknown", content, JSON.stringify({ pipelineResult: data.pipelineResult, reportVersion: 'v2_panel' }));
+          if (!error) {
+            window.dispatchEvent(new CustomEvent('analysis-saved'));
+            toast({ title: "Analysis saved", description: "You can access this analysis anytime from the sidebar." });
+          }
+        }
+      } else if (data?.analysis) {
+        // Legacy v1 response
+        setAnalysisResult(data.analysis);
+        setPipelineResult(null);
+        setReportVersion('v1_single');
+        setStep("results");
+        toast({ title: "Analysis complete!", description: "Your personalized insights are ready." });
+
+        if (user) {
           const title = generateTitle(selectedType, content, data.analysis);
           const { error } = await saveAnalysis(title, selectedType || "unknown", content, data.analysis);
           if (!error) {
-            // Trigger a refresh of the sidebar's analysis list
             window.dispatchEvent(new CustomEvent('analysis-saved'));
-            toast({
-              title: "Analysis saved",
-              description: "You can access this analysis anytime from the sidebar.",
-            });
+            toast({ title: "Analysis saved", description: "You can access this analysis anytime from the sidebar." });
           }
         }
       } else {
@@ -484,11 +506,23 @@ const CSAnalyzer = () => {
     setSelectedSavedAnalysis(analysis);
     setSelectedType(analysis.analysis_type as AnalysisType);
     setContent(analysis.input_text);
-    setAnalysisResult(
-      typeof analysis.results === "object" && "content" in analysis.results
-        ? String(analysis.results.content)
-        : JSON.stringify(analysis.results)
-    );
+
+    // Check if this is a v2 pipeline result
+    const results = analysis.results as Record<string, unknown>;
+    if (results?.reportVersion === 'v2_panel' && results?.pipelineResult) {
+      setPipelineResult(results.pipelineResult as PipelineResult);
+      setReportVersion('v2_panel');
+      setAnalysisResult(null);
+    } else {
+      // Legacy v1
+      setAnalysisResult(
+        typeof results === "object" && "content" in results
+          ? String(results.content)
+          : JSON.stringify(results)
+      );
+      setPipelineResult(null);
+      setReportVersion('v1_single');
+    }
     setStep("results");
   };
 
