@@ -5,6 +5,7 @@ import {
   ANALYSIS_PROMPTS,
   PromptConfig,
 } from "./prompts.ts";
+import { runPipeline } from "./pipeline.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -54,7 +55,7 @@ serve(async (req) => {
     console.log(`Authenticated user: ${userEmail} (${userId})`);
 
     const body = await req.json();
-    const { analysisType, callCategory, content, email, customPrompt } = body;
+    const { analysisType, callCategory, content, email, customPrompt, pipelineMode, callMetadata } = body;
 
     // Validate inputs
     if (!analysisType || !content) {
@@ -63,6 +64,33 @@ serve(async (req) => {
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
+
+    // ── Pipeline mode (v2_panel) ────────────────────────────────────────
+    if (analysisType === 'call-transcript' && pipelineMode) {
+      console.log(`[Pipeline Mode] Starting 4-pass analysis for ${userEmail}`);
+      const startedAt = Date.now();
+
+      const pipelineResult = await runPipeline({
+        rawTranscript: String(content),
+        callMetadata: callMetadata || undefined,
+      });
+
+      console.log(`[Pipeline Mode] Completed in ${Date.now() - startedAt}ms, success=${pipelineResult.success}`);
+
+      return new Response(
+        JSON.stringify({
+          success: pipelineResult.success,
+          analysis: null,
+          pipelineResult,
+          reportVersion: 'v2_panel',
+          analysisType,
+          timestamp: new Date().toISOString(),
+        }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // ── Legacy single-pass mode (v1_single) ─────────────────────────────
 
     // Get the prompts for this analysis type
     let prompts: PromptConfig;
@@ -169,6 +197,7 @@ serve(async (req) => {
       JSON.stringify({ 
         success: true, 
         analysis,
+        reportVersion: 'v1_single',
         analysisType,
         timestamp: new Date().toISOString()
       }),
