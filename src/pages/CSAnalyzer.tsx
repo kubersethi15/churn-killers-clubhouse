@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AnalysisReport } from "@/components/cs-analyzer/report/AnalysisReport";
 import { V2ReportRenderer } from "@/components/cs-analyzer/report-v2/V2ReportRenderer";
+import { DebugSection } from "@/components/cs-analyzer/report-v2/DebugSection";
 import type { PipelineResult, FinalReport, EvidenceAnchor } from "@/components/cs-analyzer/report-v2/types";
 import { TriageChat } from "@/components/cs-analyzer/TriageChat";
 import { FeedbackButton } from "@/components/cs-analyzer/FeedbackButton";
@@ -414,6 +415,44 @@ const CSAnalyzer = () => {
         description: "Analysis copied to clipboard",
       });
     }
+  };
+
+  const handleDownloadDebugBundle = () => {
+    if (!pipelineResult) return;
+
+    const transcript = content || selectedSavedAnalysis?.input_text || "";
+    const bundle = {
+      exportedAt: new Date().toISOString(),
+      title: selectedSavedAnalysis?.title || "Untitled Analysis",
+      transcript,
+      pipeline: {
+        success: pipelineResult.success,
+        reportVersion: pipelineResult.reportVersion,
+        passTimings: pipelineResult.debug?.passTimings ?? [],
+        failedPasses: pipelineResult.debug?.failedPasses ?? [],
+        errors: pipelineResult.debug?.errors ?? [],
+      },
+      pass0_preprocessor: pipelineResult.debug?.preprocessor ?? null,
+      pass1a_evidence: pipelineResult.debug?.analystEvidence ?? null,
+      pass1b_commercial: pipelineResult.debug?.analystCommercial ?? null,
+      pass1c_adoption: pipelineResult.debug?.analystAdoption ?? null,
+      pass2_judge_final_report: pipelineResult.finalReport ?? null,
+      evidenceAnchors: pipelineResult.evidenceAnchors ?? [],
+    };
+
+    const json = JSON.stringify(bundle, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    const safeTitle = (selectedSavedAnalysis?.title || "analysis").replace(/[^a-z0-9]/gi, "_").toLowerCase();
+    a.download = `${safeTitle}_debug_bundle.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    toast({ title: "Downloaded!", description: "Debug bundle saved as JSON" });
   };
 
   const handleDownloadMarkdown = () => {
@@ -1060,14 +1099,34 @@ const CSAnalyzer = () => {
                         }
                       </p>
                     </div>
-                    <Button variant="outline" size="sm" onClick={handleStartOver} className="gap-2">
-                      <RotateCcw className="w-4 h-4" />
-                      <span className="hidden sm:inline">New Analysis</span>
-                    </Button>
+                    <div className="flex items-center gap-2">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="outline" size="sm" className="gap-2">
+                            <Download className="w-4 h-4" />
+                            <span className="hidden sm:inline">Export</span>
+                            <ChevronDown className="w-3 h-3" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="bg-background border shadow-lg z-50">
+                          <DropdownMenuItem onClick={() => handleDownloadDebugBundle()} className="gap-2 cursor-pointer">
+                            <FileDown className="w-4 h-4 text-navy-dark" />
+                            <div>
+                              <p className="font-medium">Full Debug Bundle</p>
+                              <p className="text-xs text-muted-foreground">Transcript + all AI outputs + final report</p>
+                            </div>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                      <Button variant="outline" size="sm" onClick={handleStartOver} className="gap-2">
+                        <RotateCcw className="w-4 h-4" />
+                        <span className="hidden sm:inline">New Analysis</span>
+                      </Button>
+                    </div>
                   </div>
 
                   <Tabs defaultValue="analysis" className="w-full">
-                    <TabsList className="grid w-full max-w-md grid-cols-2 mb-6">
+                    <TabsList className="grid w-full max-w-md grid-cols-3 mb-6">
                       <TabsTrigger value="analysis" className="gap-2">
                         <BarChart3 className="w-4 h-4" />
                         Analysis
@@ -1075,6 +1134,10 @@ const CSAnalyzer = () => {
                       <TabsTrigger value="transcript" className="gap-2">
                         <FileTextIcon className="w-4 h-4" />
                         Transcript
+                      </TabsTrigger>
+                      <TabsTrigger value="debug" className="gap-2">
+                        <Settings2 className="w-4 h-4" />
+                        Debug
                       </TabsTrigger>
                     </TabsList>
 
@@ -1114,6 +1177,98 @@ const CSAnalyzer = () => {
                           </div>
                         </CardContent>
                       </Card>
+                    </TabsContent>
+
+                    <TabsContent value="debug" className="mt-0 space-y-4">
+                      {/* Pass Timings */}
+                      {pipelineResult.debug?.passTimings && pipelineResult.debug.passTimings.length > 0 && (
+                        <Card className="border border-report-border">
+                          <CardHeader className="border-b border-report-border bg-report-surface/50 py-3 px-5">
+                            <CardTitle className="font-serif text-base font-bold text-report-heading">Pass Timings</CardTitle>
+                          </CardHeader>
+                          <CardContent className="p-4">
+                            <div className="overflow-x-auto">
+                              <table className="w-full text-sm font-sans">
+                                <thead>
+                                  <tr className="border-b">
+                                    <th className="text-left py-1.5 px-2 text-xs font-semibold text-muted-foreground">Pass</th>
+                                    <th className="text-left py-1.5 px-2 text-xs font-semibold text-muted-foreground">Provider</th>
+                                    <th className="text-left py-1.5 px-2 text-xs font-semibold text-muted-foreground">Model</th>
+                                    <th className="text-right py-1.5 px-2 text-xs font-semibold text-muted-foreground">Duration</th>
+                                    <th className="text-center py-1.5 px-2 text-xs font-semibold text-muted-foreground">Status</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {pipelineResult.debug.passTimings.map((t: { pass: string; provider: string; model: string; durationMs: number; success: boolean }, i: number) => (
+                                    <tr key={i} className="border-b border-border/50">
+                                      <td className="py-1.5 px-2 font-medium">{t.pass}</td>
+                                      <td className="py-1.5 px-2 text-muted-foreground">{t.provider}</td>
+                                      <td className="py-1.5 px-2 text-muted-foreground text-xs">{t.model}</td>
+                                      <td className="py-1.5 px-2 text-right">{(t.durationMs / 1000).toFixed(1)}s</td>
+                                      <td className="py-1.5 px-2 text-center">{t.success ? "✓" : "✗"}</td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      )}
+
+                      {/* Pass 0: Preprocessor */}
+                      {pipelineResult.debug?.preprocessor && (
+                        <DebugSection title="Pass 0 — Preprocessor" data={pipelineResult.debug.preprocessor} />
+                      )}
+
+                      {/* Pass 1A: Evidence Extractor */}
+                      {pipelineResult.debug?.analystEvidence && (
+                        <DebugSection title="Pass 1A — Evidence Extractor (OpenAI)" data={pipelineResult.debug.analystEvidence} />
+                      )}
+
+                      {/* Pass 1B: Commercial Strategist */}
+                      {pipelineResult.debug?.analystCommercial && (
+                        <DebugSection title="Pass 1B — Commercial Strategist (Gemini)" data={pipelineResult.debug.analystCommercial} />
+                      )}
+
+                      {/* Pass 1C: Adoption Diagnostician */}
+                      {pipelineResult.debug?.analystAdoption && (
+                        <DebugSection title="Pass 1C — Adoption Diagnostician (Claude)" data={pipelineResult.debug.analystAdoption} />
+                      )}
+
+                      {/* Pass 2: Judge Final Report */}
+                      {pipelineResult.finalReport && (
+                        <DebugSection title="Pass 2 — Judge/Enforcer Final Report (Claude)" data={pipelineResult.finalReport} />
+                      )}
+
+                      {/* QA: Removed Claims */}
+                      {(pipelineResult.finalReport as FinalReport)?.qa && (
+                        <Card className="border border-report-border">
+                          <CardHeader className="border-b border-report-border bg-amber-50/50 py-3 px-5">
+                            <CardTitle className="font-serif text-base font-bold text-report-heading">QA — Removed Claims & Notes</CardTitle>
+                          </CardHeader>
+                          <CardContent className="p-4">
+                            <pre className="whitespace-pre-wrap font-mono text-xs leading-relaxed text-report-text bg-muted/30 rounded-lg p-4 max-h-[400px] overflow-y-auto">
+                              {JSON.stringify((pipelineResult.finalReport as FinalReport).qa, null, 2)}
+                            </pre>
+                          </CardContent>
+                        </Card>
+                      )}
+
+                      {/* Errors */}
+                      {pipelineResult.debug?.errors && pipelineResult.debug.errors.length > 0 && (
+                        <Card className="border border-destructive/30">
+                          <CardHeader className="border-b border-destructive/20 bg-destructive/5 py-3 px-5">
+                            <CardTitle className="font-serif text-base font-bold text-destructive">Pipeline Errors</CardTitle>
+                          </CardHeader>
+                          <CardContent className="p-4">
+                            <ul className="space-y-1 text-sm text-destructive">
+                              {pipelineResult.debug.errors.map((e: string, i: number) => (
+                                <li key={i} className="font-mono text-xs">{e}</li>
+                              ))}
+                            </ul>
+                          </CardContent>
+                        </Card>
+                      )}
                     </TabsContent>
                   </Tabs>
                 </div>
