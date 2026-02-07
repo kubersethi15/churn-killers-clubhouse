@@ -399,8 +399,11 @@ const CSAnalyzer = () => {
     setContent("");
     setFileName(null);
     setAnalysisResult(null);
+    setPipelineResult(null);
+    setReportVersion('v1_single');
     setSelectedSavedAnalysis(null);
     setStep("select");
+    setAnalyzerMode("ai-triage");
   };
 
   const handleCopyAnalysis = () => {
@@ -551,11 +554,14 @@ const CSAnalyzer = () => {
     setIsAnalyzing(true);
 
     try {
+      const usePipeline = params.contentType === "call-transcript" && params.callCategory !== "other";
+
       const requestBody: Record<string, unknown> = {
         analysisType: params.contentType,
         callCategory: params.callCategory,
         content: params.content,
         email: user?.email || "anonymous@user.com",
+        pipelineMode: usePipeline,
       };
 
       // Include custom prompt for "other" scenarios
@@ -569,24 +575,44 @@ const CSAnalyzer = () => {
 
       if (error) throw error;
 
-      if (data?.analysis) {
+      // Handle v2 pipeline response
+      if (data?.reportVersion === 'v2_panel' && data?.pipelineResult) {
+        setPipelineResult(data.pipelineResult);
+        setReportVersion('v2_panel');
+        setAnalysisResult(null);
+        setStep("results");
+        toast({
+          title: "Analysis complete!",
+          description: `Multi-pass pipeline finished${data.pipelineResult.success ? '' : ' with partial results'}.`,
+        });
+
+        if (user) {
+          const title = data.pipelineResult.finalReport?.executive_snapshot?.one_liner
+            ? data.pipelineResult.finalReport.executive_snapshot.one_liner.slice(0, 60)
+            : generateTitle(params.contentType as AnalysisType, params.content);
+          const { error: saveError } = await saveAnalysis(title, params.contentType, params.content, JSON.stringify({ pipelineResult: data.pipelineResult, reportVersion: 'v2_panel' }));
+          if (!saveError) {
+            window.dispatchEvent(new CustomEvent('analysis-saved'));
+            toast({ title: "Analysis saved", description: "You can access this analysis anytime from the sidebar." });
+          }
+        }
+      } else if (data?.analysis) {
+        // Legacy v1 response
         setAnalysisResult(data.analysis);
+        setPipelineResult(null);
+        setReportVersion('v1_single');
         setStep("results");
         toast({
           title: "Analysis complete!",
           description: "Your personalized insights are ready.",
         });
 
-        // Auto-save for logged-in users
         if (user) {
           const title = generateTitle(params.contentType as AnalysisType, params.content, data.analysis);
           const { error: saveError } = await saveAnalysis(title, params.contentType, params.content, data.analysis);
           if (!saveError) {
             window.dispatchEvent(new CustomEvent('analysis-saved'));
-            toast({
-              title: "Analysis saved",
-              description: "You can access this analysis anytime from the sidebar.",
-            });
+            toast({ title: "Analysis saved", description: "You can access this analysis anytime from the sidebar." });
           }
         }
       } else {
@@ -600,7 +626,7 @@ const CSAnalyzer = () => {
         variant: "destructive",
       });
       setStep("select");
-      setAnalyzerMode("ai-triage"); // Go back to triage mode
+      setAnalyzerMode("ai-triage");
     } finally {
       setIsAnalyzing(false);
     }
@@ -1019,8 +1045,82 @@ const CSAnalyzer = () => {
                 </div>
               )}
 
-              {/* Results State */}
-              {step === "results" && analysisResult && (
+              {/* Results State — V2 Pipeline */}
+              {step === "results" && reportVersion === "v2_panel" && pipelineResult?.finalReport && (
+                <div className="animate-fade-in">
+                  <div className="flex items-center justify-between mb-6">
+                    <div>
+                      <h2 className="text-xl font-serif font-bold text-navy-dark">
+                        {selectedSavedAnalysis?.title || "Analysis Report"}
+                      </h2>
+                      <p className="text-sm text-muted-foreground">
+                        {selectedSavedAnalysis 
+                          ? `Saved on ${new Date(selectedSavedAnalysis.created_at).toLocaleDateString()}`
+                          : user ? "Saved to your account" : "Not saved — sign in to keep"
+                        }
+                      </p>
+                    </div>
+                    <Button variant="outline" size="sm" onClick={handleStartOver} className="gap-2">
+                      <RotateCcw className="w-4 h-4" />
+                      <span className="hidden sm:inline">New Analysis</span>
+                    </Button>
+                  </div>
+
+                  <Tabs defaultValue="analysis" className="w-full">
+                    <TabsList className="grid w-full max-w-md grid-cols-2 mb-6">
+                      <TabsTrigger value="analysis" className="gap-2">
+                        <BarChart3 className="w-4 h-4" />
+                        Analysis
+                      </TabsTrigger>
+                      <TabsTrigger value="transcript" className="gap-2">
+                        <FileTextIcon className="w-4 h-4" />
+                        Transcript
+                      </TabsTrigger>
+                    </TabsList>
+
+                    <TabsContent value="analysis" className="mt-0">
+                      <div id="analysis-report-content">
+                        <V2ReportRenderer
+                          report={pipelineResult.finalReport as FinalReport}
+                          evidenceAnchors={(pipelineResult.evidenceAnchors ?? []) as EvidenceAnchor[]}
+                          title={selectedSavedAnalysis?.title}
+                          createdAt={selectedSavedAnalysis?.created_at}
+                        />
+                      </div>
+                    </TabsContent>
+
+                    <TabsContent value="transcript" className="mt-0">
+                      <Card className="border border-report-border">
+                        <CardHeader className="border-b border-report-border bg-report-surface/50">
+                          <div className="flex items-center gap-3">
+                            <div className="p-2 rounded-lg bg-navy-dark/10">
+                              <FileTextIcon className="w-5 h-5 text-navy-dark" />
+                            </div>
+                            <div>
+                              <CardTitle className="font-serif text-lg font-bold text-report-heading">
+                                Original Transcript
+                              </CardTitle>
+                              <CardDescription className="text-sm text-report-muted">
+                                The source material used for this analysis
+                              </CardDescription>
+                            </div>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="p-6">
+                          <div className="bg-muted/30 rounded-lg p-4 max-h-[600px] overflow-y-auto">
+                            <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-report-text">
+                              {content || selectedSavedAnalysis?.input_text || "No transcript available"}
+                            </pre>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </TabsContent>
+                  </Tabs>
+                </div>
+              )}
+
+              {/* Results State — V1 Legacy */}
+              {step === "results" && reportVersion === "v1_single" && analysisResult && (
                 <div className="animate-fade-in">
                   <div className="flex items-center justify-between mb-6">
                     <div>
@@ -1030,7 +1130,7 @@ const CSAnalyzer = () => {
                       <p className="text-sm text-muted-foreground">
                         {selectedSavedAnalysis 
                           ? `Saved on ${new Date(selectedSavedAnalysis.created_at).toLocaleDateString()}`
-                          : user ? "Saved to your account" : "Not saved - sign in to keep"
+                          : user ? "Saved to your account" : "Not saved — sign in to keep"
                         }
                       </p>
                     </div>
@@ -1062,7 +1162,6 @@ const CSAnalyzer = () => {
                     </DropdownMenu>
                   </div>
 
-                  {/* Tabs for Analysis and Transcript */}
                   <Tabs defaultValue="analysis" className="w-full">
                     <TabsList className="grid w-full max-w-md grid-cols-2 mb-6">
                       <TabsTrigger value="analysis" className="gap-2">
@@ -1113,9 +1212,8 @@ const CSAnalyzer = () => {
                       </Card>
                     </TabsContent>
                   </Tabs>
-
-              </div>
-            )}
+                </div>
+              )}
           </div>
       </main>
       
