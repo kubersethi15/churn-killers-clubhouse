@@ -95,8 +95,8 @@ export const StakeholderMapV2 = ({ stakeholders, summary }: StakeholderMapV2Prop
                       {s.stance}
                     </span>
                   </td>
-                  <td className="py-2.5 px-3 text-report-muted capitalize">{s.engagement}</td>
-                  <td className="py-2.5 px-3 text-report-muted capitalize text-xs">{s.presence.replace(/_/g, " ")}</td>
+                  <td className="py-2.5 px-3 text-report-muted capitalize">{s.engagement || "—"}</td>
+                  <td className="py-2.5 px-3 text-report-muted capitalize text-xs">{(s.presence ?? "").replace(/_/g, " ") || "—"}</td>
                   <td className="py-2.5 px-3">
                     <div className="flex items-center gap-1">
                       <EvidenceChip anchorIds={s.anchor_ids} />
