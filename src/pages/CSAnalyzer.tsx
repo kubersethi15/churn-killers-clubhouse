@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AnalysisReport } from "@/components/cs-analyzer/report/AnalysisReport";
 import { V2ReportRenderer } from "@/components/cs-analyzer/report-v2/V2ReportRenderer";
+import { ReportBuilder } from "@/components/cs-analyzer/report-v2/ReportBuilder";
 import { DebugSection } from "@/components/cs-analyzer/report-v2/DebugSection";
 import type { PipelineResult, FinalReport, EvidenceAnchor } from "@/components/cs-analyzer/report-v2/types";
 import { TriageChat } from "@/components/cs-analyzer/TriageChat";
@@ -37,6 +38,7 @@ import {
   PanelLeft,
   Bot,
   Settings2,
+  Layers,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -1187,18 +1189,22 @@ const CSAnalyzer = () => {
                   </div>
 
                   <Tabs defaultValue="analysis" className="w-full">
-                    <TabsList className="grid w-full max-w-md grid-cols-3 mb-6">
+                    <TabsList className="grid w-full max-w-lg grid-cols-4 mb-6">
                       <TabsTrigger value="analysis" className="gap-2">
                         <BarChart3 className="w-4 h-4" />
-                        Analysis
+                        <span className="hidden sm:inline">Analysis</span>
+                      </TabsTrigger>
+                      <TabsTrigger value="builder" className="gap-2">
+                        <Layers className="w-4 h-4" />
+                        <span className="hidden sm:inline">Builder</span>
                       </TabsTrigger>
                       <TabsTrigger value="transcript" className="gap-2">
                         <FileTextIcon className="w-4 h-4" />
-                        Transcript
+                        <span className="hidden sm:inline">Transcript</span>
                       </TabsTrigger>
                       <TabsTrigger value="debug" className="gap-2">
                         <Settings2 className="w-4 h-4" />
-                        Debug
+                        <span className="hidden sm:inline">Debug</span>
                       </TabsTrigger>
                     </TabsList>
 
@@ -1211,6 +1217,15 @@ const CSAnalyzer = () => {
                           createdAt={selectedSavedAnalysis?.created_at}
                         />
                       </div>
+                    </TabsContent>
+
+                    <TabsContent value="builder" className="mt-0">
+                      <ReportBuilder
+                        report={pipelineResult.finalReport as FinalReport}
+                        evidenceAnchors={(pipelineResult.evidenceAnchors ?? []) as EvidenceAnchor[]}
+                        title={selectedSavedAnalysis?.title}
+                        createdAt={selectedSavedAnalysis?.created_at}
+                      />
                     </TabsContent>
 
                     <TabsContent value="transcript" className="mt-0">
