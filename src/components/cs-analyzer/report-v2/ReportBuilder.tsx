@@ -125,7 +125,12 @@ interface ReportBuilderProps {
 export const ReportBuilder = ({ report, evidenceAnchors, title, createdAt }: ReportBuilderProps) => {
   const { toast } = useToast();
   const reportRef = useRef<HTMLDivElement>(null);
-
+  const snapshotRef = useRef<{
+    finalizedAt: string;
+    visibilityToggles: SectionVisibility;
+    fullReport: FinalReport;
+    evidenceAnchors: EvidenceAnchor[];
+  } | null>(null);
   // Initialize toggles from section_included (respect pipeline's judgment)
   const [visibility, setVisibility] = useState<SectionVisibility>(() => {
     const initial: SectionVisibility = {};
@@ -143,6 +148,16 @@ export const ReportBuilder = ({ report, evidenceAnchors, title, createdAt }: Rep
 
   const [isFinalized, setIsFinalized] = useState(false);
 
+  // Section dependency chain: action_plan → risks_and_threats → executive_snapshot
+  // These are always-visible so we don't toggle them, but the dependency logic
+  // applies to toggleable sections that cascade. For future extensibility,
+  // enforce: if a child is visible, its parent must be visible.
+  // Currently all three are locked as always-visible, so no cascade needed.
+
+  // Toggleable dependency enforcement: toggling OFF a section that others depend on
+  // is not needed since the "always visible" sections cover the chain.
+  // However, we keep the toggle logic clean for any future section dependencies.
+
   const toggleSection = useCallback(
     (key: string) => {
       if (isFinalized) return;
@@ -153,14 +168,27 @@ export const ReportBuilder = ({ report, evidenceAnchors, title, createdAt }: Rep
 
   const handleFinalize = () => {
     setIsFinalized(true);
+    // Store the full snapshot including all confidence scores, regardless of visibility toggles.
+    // The snapshot preserves the complete report JSON — visibility only affects rendering.
+    // This ensures confidence data is never lost even if hidden in UI/PDF.
+    const snapshot = {
+      finalizedAt: new Date().toISOString(),
+      visibilityToggles: { ...visibility },
+      // Full report data preserved — confidence scores always included
+      fullReport: report,
+      evidenceAnchors,
+    };
+    // Store on the component instance for potential export
+    snapshotRef.current = snapshot;
     toast({
       title: "Report Finalized",
-      description: "Section selection locked. You can now export the curated report.",
+      description: "Section selection locked. Confidence scores preserved in snapshot.",
     });
   };
 
   const handleUnlock = () => {
     setIsFinalized(false);
+    snapshotRef.current = null;
     toast({ title: "Report Unlocked", description: "You can now adjust section visibility." });
   };
 
