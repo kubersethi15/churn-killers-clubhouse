@@ -44,7 +44,7 @@ export interface EvidenceBackedFact {
 
 export interface RiskItem {
   risk: string;
-  type: string;
+  type: "commercial" | "delivery" | "relationship" | "product_fit" | "security" | "other";
   severity: SeverityLevel;
   observed_or_inferred: "observed" | "inferred";
   anchor_ids: string[];

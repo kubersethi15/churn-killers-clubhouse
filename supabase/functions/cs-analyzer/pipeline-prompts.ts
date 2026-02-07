@@ -10,7 +10,7 @@ import type { CallMetadata, PreprocessorOutput, AnalystEvidenceOutput } from "./
 
 const PREPROCESSOR_SCHEMA = `{
   "transcript_quality": { "score_0_to_100": 0, "issues": [] },
-  "speakers": [{ "speaker_label": "Speaker 1", "name_if_present": null, "role_guess": "customer|cs|internal|partner|unknown", "confidence": "high|medium|low" }],
+  "speakers": [{ "speaker_label": "Speaker 1", "name_if_present": null, "role_guess": "customer|cs|internal|partner|unknown", "role_title": "CIO|Ops Lead|CSM|null", "confidence": "high|medium|low" }],
   "call_type_candidates": ["value_renewal", "risk_escalation", "internal_strategy", "other"],
   "explicit_mentions": {
     "renewal": { "mentioned": false, "anchor_ids": [] },
@@ -26,12 +26,12 @@ const PREPROCESSOR_SCHEMA = `{
 }`;
 
 const ANALYST_EVIDENCE_SCHEMA = `{
-  "observed_facts": [{ "fact": "string", "category": "renewal|budget|procurement|incident|value|adoption|stakeholder|delivery|other", "anchor_ids": ["Q1"] }],
-  "explicit_risks": [{ "risk_statement": "string", "anchor_ids": ["Q3"], "risk_type": "commercial|delivery|relationship|product_fit|security|other" }],
+  "observed_facts": [{ "fact": "paraphrased factual statement (NOT a raw quote)", "category": "renewal|budget|procurement|incident|value|adoption|stakeholder|delivery|other", "anchor_ids": ["Q1"] }],
+  "explicit_risks": [{ "risk_statement": "a concrete risk statement e.g. 'Customer may downsell due to budget cuts'", "anchor_ids": ["Q3"], "risk_type": "commercial|delivery|relationship|product_fit|security|other" }],
   "explicit_opportunities": [{ "opportunity_statement": "string", "anchor_ids": ["Q9"], "opportunity_type": "expansion|value|adoption|relationship|other" }],
   "stakeholder_mentions": [{ "name_or_title": "CIO", "presence": "present|mentioned_not_present|unclear", "stance_if_explicit": "supportive|skeptical|neutral|unknown", "anchor_ids": ["Q4"] }],
   "commitments_and_next_steps": [{ "who": "customer|cs|internal|unknown", "commitment": "string", "due_when_text": "string", "anchor_ids": ["Q10"] }],
-  "open_questions_explicit": [{ "question": "string", "anchor_ids": ["Q2"] }]
+  "open_questions_explicit": [{ "question": "an actual question e.g. 'What is the timeline for procurement approval?'", "anchor_ids": ["Q2"] }]
 }`;
 
 const ANALYST_COMMERCIAL_SCHEMA = `{
@@ -56,7 +56,7 @@ const FINAL_REPORT_SCHEMA = `{
   "section_included": { "executive_snapshot": true, "evidence_backed_facts": true, "risks_and_threats": true, "action_plan_14_days": true, "procurement_and_timeline": false, "incident_impact": false, "expansion_plays": false, "stakeholder_power_map": false, "value_narrative_gaps": false, "cs_rep_effectiveness": false },
   "executive_snapshot": { "one_liner": "string", "primary_threat": "churn|downsell|displacement|delay|none|unknown", "top_3_takeaways": [{ "takeaway": "string", "anchor_ids": ["Q1"], "confidence": "high|medium|low" }], "overall_confidence": "high|medium|low" },
   "evidence_backed_facts": [{ "fact": "string", "category": "string", "anchor_ids": ["Q1"], "confidence": "high|medium|low" }],
-  "risks_and_threats": { "threat_classification": { "primary": "string", "secondary": "string", "confidence": "high|medium|low", "anchor_ids": ["Q1"] }, "risk_items": [{ "risk": "string", "type": "string", "severity": "critical|high|medium|low", "observed_or_inferred": "observed|inferred", "anchor_ids": ["Q2"], "inference_rationale": null, "confidence": "high|medium|low" }] },
+  "risks_and_threats": { "threat_classification": { "primary": "churn|downsell|displacement|delay|none|unknown", "secondary": "churn|downsell|displacement|delay|none|unknown", "confidence": "high|medium|low", "anchor_ids": ["Q1"] }, "risk_items": [{ "risk": "string", "type": "commercial|delivery|relationship|product_fit|security|other", "severity": "critical|high|medium|low", "observed_or_inferred": "observed|inferred", "anchor_ids": ["Q2"], "inference_rationale": null, "confidence": "high|medium|low" }] },
   "action_plan_14_days": [{ "action": "string", "owner": "cs|customer|internal|partner|unknown", "due_in_days": 1, "why_this_matters": "string", "expected_customer_response": "string", "success_criteria": "string", "evidence_basis_anchor_ids": ["Q3"], "confidence": "high|medium|low" }],
   "procurement_and_timeline": { "timeline_items": [], "procurement_risks": [], "section_confidence": "low" },
   "incident_impact": { "incident_summary": [], "customer_impact": [], "section_confidence": "low" },
@@ -77,8 +77,36 @@ Your job is to normalize and extract structured facts from a transcript.
 You must NOT analyze, recommend, infer strategy, or guess motivations.
 You only output strict JSON and follow the schema exactly.
 If information is missing, output null or empty arrays; never invent.
-Use evidence anchors: produce an ordered list of short quotes called evidence_anchors. Each anchor must be a verbatim excerpt from the transcript, short (max ~25 words), and labeled Q1, Q2, etc.
-Any extracted mention fields should reference these anchors via anchor_ids.
+
+## Speaker fields
+- role_guess MUST be one of: customer|cs|internal|partner|unknown. Never use job titles here.
+- role_title is a free-text field for the speaker's specific title or function (e.g., "CIO", "Ops Lead", "Platform Owner", "Procurement Manager", "CSM"). Set to null if unknown.
+
+## Evidence anchor rules
+Produce an ordered list of short verbatim quotes called evidence_anchors. Each anchor:
+- Must be a verbatim excerpt from the transcript (max ~25 words).
+- Must be labeled Q1, Q2, etc. in order.
+- Must capture SIGNAL-DRIVEN quotes. Prioritize quotes that contain:
+  * Competitive mentions (e.g., "we're evaluating alternatives", vendor names, RFP references)
+  * Adoption gaps (e.g., "two departments haven't onboarded", "change resistance")
+  * Incident/reliability signals (e.g., "alerting failed", "the outage last quarter")
+  * Budget/cost pressure (e.g., "CFO wants cost justification", "budget cuts")
+  * Expansion hooks (e.g., "security ops could use this", "time savings estimate")
+  * Stakeholder sentiment (e.g., "leadership remembers the outage", "exec sponsor is supportive")
+
+## Anchor alignment rule (CRITICAL)
+Each anchor_id in explicit_mentions MUST reference an anchor whose quote DIRECTLY contains that concept:
+- explicit_mentions.budget.anchor_ids → anchors mentioning budget, cost, spend, pricing, ROI
+- explicit_mentions.procurement.anchor_ids → anchors mentioning procurement, vendor evaluation, RFP, sourcing
+- explicit_mentions.incident_sla_outage.anchor_ids → anchors mentioning outage, incident, SLA, downtime, alert
+- explicit_mentions.competitor.anchor_ids → anchors mentioning competitor names, alternatives, evaluation
+- explicit_mentions.renewal.anchor_ids → anchors mentioning renewal, contract, term
+- explicit_mentions.executive_stakeholders.anchor_ids → anchors mentioning executive titles or names
+Do NOT cross-wire anchors between categories.
+
+## Stakeholder detection
+Include ALL named speakers from the transcript AND any roles/people mentioned but not present (e.g., "our finance controller", "the CTO"). Include the anchor where they are named or referenced.
+
 Output JSON only. No markdown.`;
 
   const user = `Input transcript:
@@ -104,12 +132,35 @@ ${PREPROCESSOR_SCHEMA}`;
 export function analystEvidencePrompts(transcript: string, preprocessor: PreprocessorOutput) {
   const system = `You are Analyst A: Evidence Extractor for CS Analyzer.
 Your mission: extract only evidence-backed facts and direct quotes. You are conservative.
-Rules:
+
+STRICT RULES:
 - NO strategy, NO recommendations, NO scoring, NO predictions.
 - NO "implies", "suggests", "likely", "probably".
 - Every claim must be supported by one or more anchor_ids from the provided evidence_anchors.
 - If you cannot support a claim with anchors, omit it.
-- Output strict JSON only using the schema. No markdown.`;
+- Output strict JSON only using the schema. No markdown.
+
+## observed_facts rules
+- Each fact MUST be a PARAPHRASED factual statement, NOT a raw quote from the transcript.
+- Good: "Customer has two departments that have not yet onboarded the platform."
+- Bad: "we still have two departments that haven't really adopted it" (this is a raw quote, not a paraphrased fact)
+- category MUST be one of: renewal|budget|procurement|incident|value|adoption|stakeholder|delivery|other
+
+## explicit_risks rules
+- Each risk_statement MUST be a true risk statement describing potential negative impact.
+- Good: "Customer may reduce seat count due to low adoption in two departments."
+- Bad: "Customer asked about pricing" (this is a neutral observation, not a risk)
+- Bad: "What is the renewal timeline?" (this is a question, not a risk)
+- risk_type MUST be one of: commercial|delivery|relationship|product_fit|security|other
+
+## open_questions_explicit rules
+- Each question MUST be an actual question that was raised or left unanswered in the call.
+- Good: "What is the timeline for procurement approval?"
+- Bad: "Budget pressure" (this is a topic, not a question)
+
+## stakeholder_mentions rules
+- Include ALL named individuals from the transcript AND mentioned-but-not-present roles (e.g., "our finance controller", "the CTO mentioned").
+- Set presence correctly: "present" if they speak, "mentioned_not_present" if referenced by others, "unclear" if ambiguous.`;
 
   const user = `Transcript:
 \`\`\`
@@ -230,6 +281,20 @@ Hard rules:
 5) No empty sections. If a section has no supported content, set section_included=false and content arrays empty.
 6) Output must be strict JSON exactly matching FINAL_REPORT_SCHEMA. No markdown, no extra keys.
 
+## risk_items[].type ENFORCEMENT (CRITICAL)
+Every risk_items[].type MUST be one of: commercial|delivery|relationship|product_fit|security|other
+Map analyst risk types as follows:
+- procurement, budget, value_case, competition, pricing → "commercial"
+- reliability, outage, SLA, implementation → "delivery"
+- stakeholder, champion, trust, engagement → "relationship"
+- feature_gap, usability, integration → "product_fit"
+- data, compliance, access → "security"
+- anything else → "other"
+Do NOT output free-text types like "procurement" or "budget" — they MUST be mapped.
+
+## Do NOT set generated_at_iso
+Leave "generated_at_iso" as an empty string "". The backend will set it. Do not generate a timestamp.
+
 Confidence policy:
 - high: evidence anchors + at least 2 analysts align OR strong explicit quote(s)
 - medium: evidence anchors + 1 analyst OR 2 analysts with weak anchors
@@ -239,7 +304,7 @@ Section inclusion rules:
 - procurement_and_timeline: true only if preprocessor.explicit_mentions.procurement.mentioned OR timeline_markers not empty
 - incident_impact: true only if preprocessor.explicit_mentions.incident_sla_outage.mentioned
 - expansion_plays: true only if analyst_commercial.expansion_hooks not empty OR strong value-growth signal exists with anchors
-- stakeholder_power_map: true only if at least 2 stakeholders_detected
+- stakeholder_power_map: true if preprocessor.stakeholders_detected has 2 or more entries OR analyst_evidence.stakeholder_mentions has 2 or more entries. Include ALL stakeholders from both sources.
 - value_narrative_gaps: true only if analyst_adoption.value_narrative_gaps not empty
 - cs_rep_effectiveness: true only if there are explicit anchors that evaluate CS behaviors. Otherwise false and empty arrays.
 
