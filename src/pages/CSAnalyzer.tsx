@@ -550,7 +550,21 @@ const CSAnalyzer = () => {
     setContent(analysis.input_text);
 
     // Check if this is a v2 pipeline result
-    const results = analysis.results as Record<string, unknown>;
+    let results = analysis.results as Record<string, unknown>;
+
+    // The saveAnalysis hook wraps results as { content: stringifiedJSON }
+    // so we need to unwrap and parse it first
+    if (typeof results?.content === "string") {
+      try {
+        const parsed = JSON.parse(results.content as string);
+        if (typeof parsed === "object" && parsed !== null) {
+          results = parsed as Record<string, unknown>;
+        }
+      } catch {
+        // Not valid JSON – treat as v1 markdown
+      }
+    }
+
     if (results?.reportVersion === 'v2_panel' && results?.pipelineResult) {
       setPipelineResult(results.pipelineResult as PipelineResult);
       setReportVersion('v2_panel');
