@@ -152,6 +152,12 @@ export async function runPipeline(input: PipelineInput): Promise<PipelineResult>
   }
 
   const finalReport = p2Result.data;
+
+  // Fix #7: Override generated_at_iso with backend timestamp (models hallucinate timestamps)
+  if (finalReport.meta) {
+    finalReport.meta.generated_at_iso = new Date().toISOString();
+  }
+
   console.log(`[Pipeline] Pass 2 complete: threat=${finalReport.executive_snapshot.primary_threat}, sections=${Object.entries(finalReport.section_included).filter(([,v]) => v).length}`);
 
   const totalMs = timings.reduce((sum, t) => sum + t.durationMs, 0);

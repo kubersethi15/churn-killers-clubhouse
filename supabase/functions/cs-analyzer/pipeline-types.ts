@@ -23,6 +23,7 @@ export interface Speaker {
   speaker_label: string;
   name_if_present: string | null;
   role_guess: "customer" | "cs" | "internal" | "partner" | "unknown";
+  role_title: string | null;
   confidence: "high" | "medium" | "low";
 }
 
@@ -247,7 +248,7 @@ export interface EvidenceBackedFact {
 
 export interface RiskItem {
   risk: string;
-  type: string;
+  type: "commercial" | "delivery" | "relationship" | "product_fit" | "security" | "other";
   severity: "critical" | "high" | "medium" | "low";
   observed_or_inferred: "observed" | "inferred";
   anchor_ids: string[];
