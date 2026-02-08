@@ -114,6 +114,7 @@ export interface TimelineMarker {
 }
 
 export interface PreprocessorOutput {
+  customer_name_if_detected: string | null;
   transcript_quality: { score_0_to_100: number; issues: string[] };
   speakers: PreprocessorSpeaker[];
   call_type_candidates: CallType[];
@@ -432,6 +433,7 @@ export interface FinalReport {
     call_type: CallType;
     transcript_quality_score_0_to_100: number;
     generated_at_iso: string;
+    customer_name: string | null;
   };
   section_included: {
     executive_snapshot: boolean;

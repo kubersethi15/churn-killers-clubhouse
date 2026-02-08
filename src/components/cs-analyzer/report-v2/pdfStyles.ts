@@ -294,9 +294,11 @@ export const getPdfCss = () => `
   /* ── Print overrides ───────────────────────────────────────── */
   @media print {
     body { padding: 0 !important; }
-    .pdf-cover { min-height: 90vh; }
+    .pdf-cover { min-height: 85vh; max-height: 95vh; overflow: hidden; }
     [class*="card"] { box-shadow: none !important; }
     .bg-gradient-to-r { color-adjust: exact; }
+    /* Ensure page footers stay within their page context */
+    .page-footer { position: absolute !important; }
   }
 `;
 

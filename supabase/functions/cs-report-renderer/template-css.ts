@@ -89,6 +89,14 @@ export function getEnterpriseCss(): string {
     border-top: 1px solid var(--brand-border);
     font-size: 7pt;
     color: var(--brand-neutral);
+    /* Prevent content from overlapping or stacking across pages */
+    z-index: 1;
+    background: #fff;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .page-footer span {
+    white-space: nowrap;
   }
 
   /* ── Cover page ───────────────────────────────────────────── */
@@ -96,8 +104,11 @@ export function getEnterpriseCss(): string {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: calc(297mm - 96px);
+    /* Use a max-height to prevent overflow that creates blank page 2 */
+    min-height: calc(297mm - 96px - 40px);
+    max-height: calc(297mm - 96px);
     padding-top: 60px;
+    overflow: hidden;
   }
   .cover-badge {
     display: inline-flex; align-items: center; gap: 6px;
@@ -488,7 +499,15 @@ export function getEnterpriseCss(): string {
     body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .page { width: 100%; margin: 0; padding: 20mm 18mm; page-break-after: always; }
     .page:last-child { page-break-after: auto; }
-    .page-footer { position: fixed; bottom: 8mm; left: 18mm; right: 18mm; }
+    /* CRITICAL: footer must be absolute within each page, NOT fixed across all pages.
+       Using position:fixed causes ALL page footers to stack on every printed page,
+       producing garbled overlapping text ("Confifififidential", stacked page numbers). */
+    .page-footer {
+      position: absolute;
+      bottom: 8mm;
+      left: 18mm;
+      right: 18mm;
+    }
     .no-break { page-break-inside: avoid; }
   }
 
