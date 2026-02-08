@@ -5,12 +5,14 @@ import {
   TrendingUp,
   Eye,
   GraduationCap,
+  MessageSquareWarning,
+  Rocket,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { reportTypography, reportLayout } from "../report/reportStyles";
 import { EvidenceChip } from "./EvidenceChip";
 import { ConfidenceBadge } from "./ConfidenceBadge";
-import type { FinalReport, ConfidenceLevel } from "./types";
+import type { FinalReport, ConfidenceLevel, ExpansionReadiness, ConversationalGap } from "./types";
 
 // ---------------------------------------------------------------------------
 // Generic compact card wrapper
@@ -50,7 +52,7 @@ export const ProcurementTimeline = ({ data }: { data: FinalReport["procurement_a
           {data.timeline_items.map((t, i) => (
             <div key={i} className={reportLayout.listItemCard}>
               <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold font-sans bg-amber-100 text-amber-700 shrink-0">
-                {t.topic}
+                {t.topic || t.event || "—"}
               </span>
               <span className={reportTypography.bodyText}>{t.when_text}</span>
               <EvidenceChip anchorIds={t.anchor_ids} />
@@ -87,7 +89,7 @@ export const IncidentImpact = ({ data }: { data: FinalReport["incident_impact"] 
       {data.incident_summary.map((s, i) => (
         <div key={i} className={cn(reportLayout.listItemCard, "mb-2")}>
           <div className="flex-1">
-            <p className={reportTypography.bodyText}>{s.summary}</p>
+            <p className={reportTypography.bodyText}>{s.summary || s.incident || ""}</p>
             <EvidenceChip anchorIds={s.anchor_ids} className="mt-1" />
           </div>
         </div>
@@ -118,7 +120,9 @@ export const ExpansionPlays = ({ data }: { data: FinalReport["expansion_plays"] 
           <div key={i} className={reportLayout.listItemCard}>
             <div className="flex-1">
               <p className={cn(reportTypography.bodyText, "font-medium mb-0.5")}>{play.play}</p>
-              <p className="text-[11px] font-sans text-report-muted mb-1">{play.why_it_fits}</p>
+              {play.why_it_fits && (
+                <p className="text-[11px] font-sans text-report-muted mb-1">{play.why_it_fits}</p>
+              )}
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-sans text-report-muted">
                   {play.observed_or_inferred === "inferred" ? "Inferred" : "Observed"}
@@ -129,6 +133,99 @@ export const ExpansionPlays = ({ data }: { data: FinalReport["expansion_plays"] 
               {play.inference_rationale && (
                 <p className="text-[11px] font-sans text-report-muted mt-1 italic">{play.inference_rationale}</p>
               )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </CompactSection>
+  );
+};
+
+// ---------------------------------------------------------------------------
+// Expansion Readiness (NEW)
+// ---------------------------------------------------------------------------
+
+const stageColors: Record<string, string> = {
+  no_signal: "bg-slate-100 text-slate-500",
+  interest: "bg-blue-100 text-blue-700",
+  evaluation: "bg-amber-100 text-amber-700",
+  negotiation: "bg-purple-100 text-purple-700",
+  commitment: "bg-emerald-100 text-emerald-700",
+};
+
+export const ExpansionReadinessSection = ({ data }: { data: ExpansionReadiness }) => {
+  if (!data || data.stage === "no_signal") return null;
+
+  return (
+    <CompactSection title="Expansion Readiness" icon={<Rocket className="w-4 h-4 text-purple-600" />} iconBg="bg-purple-100">
+      <div className="space-y-3">
+        <div className="flex items-center gap-2">
+          <span className={cn("px-2 py-0.5 rounded text-[10px] font-bold uppercase", stageColors[data.stage] || stageColors.no_signal)}>
+            {data.stage.replace(/_/g, " ")}
+          </span>
+          <ConfidenceBadge level={data.confidence} />
+          <EvidenceChip anchorIds={data.anchor_ids} />
+        </div>
+
+        {data.gate_conditions.length > 0 && (
+          <div>
+            <p className={cn(reportTypography.labelUppercase, "mb-1")}>Gate Conditions</p>
+            <ul className="list-disc list-inside space-y-0.5">
+              {data.gate_conditions.map((g, i) => (
+                <li key={i} className="text-[11px] font-sans text-report-muted">{g}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {data.decision_makers.length > 0 && (
+          <div>
+            <p className={cn(reportTypography.labelUppercase, "mb-1")}>Decision Makers</p>
+            <div className="flex flex-wrap gap-1">
+              {data.decision_makers.map((d, i) => (
+                <span key={i} className="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-600">
+                  {d}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {data.blockers.length > 0 && (
+          <div>
+            <p className={cn(reportTypography.labelUppercase, "mb-1 text-red-600")}>Blockers</p>
+            <ul className="list-disc list-inside space-y-0.5">
+              {data.blockers.map((b, i) => (
+                <li key={i} className="text-[11px] font-sans text-red-600">{b}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </CompactSection>
+  );
+};
+
+// ---------------------------------------------------------------------------
+// Conversational Gaps (NEW)
+// ---------------------------------------------------------------------------
+
+export const ConversationalGapsSection = ({ data }: { data: ConversationalGap[] }) => {
+  if (!data || data.length === 0) return null;
+
+  return (
+    <CompactSection title="Conversational Gaps" icon={<MessageSquareWarning className="w-4 h-4 text-amber-600" />} iconBg="bg-amber-100">
+      <div className="space-y-3">
+        {data.map((gap, i) => (
+          <div key={i} className="border border-report-border rounded-lg p-3">
+            <div className="flex items-start justify-between gap-2 mb-1">
+              <p className={cn(reportTypography.bodyText, "font-medium")}>{gap.missing_topic}</p>
+              <ConfidenceBadge level={gap.confidence} />
+            </div>
+            <p className="text-[11px] font-sans text-report-muted mb-2">{gap.why_it_matters}</p>
+            <div className="bg-blue-50 border border-blue-200 rounded-md p-2">
+              <p className="text-[10px] font-semibold font-sans text-blue-700 uppercase tracking-wider mb-0.5">Suggested Question</p>
+              <p className="text-[11px] font-sans text-blue-800 italic">"{gap.suggested_question}"</p>
             </div>
           </div>
         ))}
@@ -207,7 +304,7 @@ export const CSRepEffectiveness = ({ data }: { data: FinalReport["cs_rep_effecti
                 <p className={cn(reportTypography.bodyText, "font-medium")}>{c.move}</p>
                 <p className="text-[11px] font-sans text-report-muted mt-0.5">{c.why}</p>
               </div>
-              <EvidenceChip anchorIds={c.anchor_ids} />
+              {c.anchor_ids && <EvidenceChip anchorIds={c.anchor_ids} />}
             </div>
           ))}
         </div>

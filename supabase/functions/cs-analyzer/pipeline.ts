@@ -1,5 +1,5 @@
 // ============================================================================
-// 4-Pass Pipeline Orchestrator
+// 4-Pass Pipeline Orchestrator (v2 — with code-based validator)
 // ============================================================================
 
 import type {
@@ -8,7 +8,7 @@ import type {
   AnalystEvidenceOutput,
   AnalystCommercialOutput,
   AnalystAdoptionOutput,
-  FinalReportOutput,
+  FinalReport,
   PipelineResult,
   PassTiming,
 } from "./pipeline-types.ts";
@@ -22,6 +22,8 @@ import {
   analystAdoptionPrompts,
   judgePrompts,
 } from "./pipeline-prompts.ts";
+
+import { validatePipelineOutputs } from "./pipeline-validator.ts";
 
 const MAX_TRANSCRIPT_CHARS = 35_000;
 
@@ -158,12 +160,23 @@ export async function runPipeline(input: PipelineInput): Promise<PipelineResult>
     return makeResult(false, null, preprocessor.evidence_anchors, { preprocessor, analystEvidence, analystCommercial, analystAdoption, passTimings: timings, failedPasses, errors }, `Only ${successfulAnalysts}/3 analysts succeeded — aborting Judge pass (minimum 2 required)`);
   }
 
+  // ── CODE VALIDATOR — deterministic checks before Judge ─────────────────
+  console.log("[Pipeline] Running code-based validator...");
+  const missingAnalysts = failedPasses.filter(p => p.startsWith("analyst")).map(p => p.replace("analyst", "Analyst "));
+  const validated = validatePipelineOutputs(
+    preprocessor,
+    analystEvidence,
+    analystCommercial,
+    analystAdoption,
+    missingAnalysts,
+  );
+  console.log(`[Pipeline] Validator complete: ${validated.validation_issues.length} issues found`);
+
   // ── PASS 2: Judge / Enforcer ──────────────────────────────────────────
   console.log("[Pipeline] Starting Pass 2: Judge/Enforcer");
-  const missingAnalysts = failedPasses.filter(p => p.startsWith("analyst")).map(p => p.replace("analyst", "Analyst "));
   const p2Start = Date.now();
-  const p2Prompts = judgePrompts(preprocessor, analystEvidence, analystCommercial, analystAdoption, missingAnalysts);
-  const p2Result = await callModelForJson<FinalReportOutput>(
+  const p2Prompts = judgePrompts(validated);
+  const p2Result = await callModelForJson<FinalReport>(
     PASS_CONFIGS.judge,
     p2Prompts.system,
     p2Prompts.user,
@@ -179,9 +192,16 @@ export async function runPipeline(input: PipelineInput): Promise<PipelineResult>
 
   const finalReport = p2Result.data;
 
-  // Fix #7: Override generated_at_iso with backend timestamp (models hallucinate timestamps)
+  // Override generated_at_iso with backend timestamp (models hallucinate timestamps)
   if (finalReport.meta) {
     finalReport.meta.generated_at_iso = new Date().toISOString();
+  }
+
+  // Inject code-validator issues into QA section if Judge didn't include them
+  if (finalReport.qa && validated.validation_issues.length > 0) {
+    if (!finalReport.qa.validation_issues_from_code || finalReport.qa.validation_issues_from_code.length === 0) {
+      finalReport.qa.validation_issues_from_code = validated.validation_issues;
+    }
   }
 
   console.log(`[Pipeline] Pass 2 complete: threat=${finalReport.executive_snapshot.primary_threat}, sections=${Object.entries(finalReport.section_included).filter(([,v]) => v).length}`);
@@ -274,7 +294,7 @@ function delay(ms: number): Promise<void> {
 
 function makeResult(
   success: boolean,
-  finalReport: FinalReportOutput | null,
+  finalReport: FinalReport | null,
   evidenceAnchors: { id: string; quote: string }[] | null,
   debug: PipelineResult["debug"],
   error?: string,

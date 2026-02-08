@@ -1,8 +1,15 @@
 // ============================================================================
-// Prompt templates for all pipeline passes
+// Prompt templates for all pipeline passes — v2
 // ============================================================================
 
-import type { CallMetadata, PreprocessorOutput, AnalystEvidenceOutput } from "./pipeline-types.ts";
+import type {
+  CallMetadata,
+  PreprocessorOutput,
+  AnalystEvidenceOutput,
+  AnalystCommercialOutput,
+  AnalystAdoptionOutput,
+  ValidatedPipelineInput,
+} from "./pipeline-types.ts";
 
 // ---------------------------------------------------------------------------
 // Schemas as compact JSON strings (embedded in user prompts)
@@ -11,25 +18,27 @@ import type { CallMetadata, PreprocessorOutput, AnalystEvidenceOutput } from "./
 const PREPROCESSOR_SCHEMA = `{
   "transcript_quality": { "score_0_to_100": 0, "issues": [] },
   "speakers": [{ "speaker_label": "Speaker 1", "name_if_present": null, "role_guess": "customer|cs|internal|partner|unknown", "role_title": "CIO|Ops Lead|CSM|null", "confidence": "high|medium|low" }],
-  "call_type_candidates": ["value_renewal", "risk_escalation", "internal_strategy", "other"],
+  "call_type_candidates": ["qbr", "renewal_negotiation", "risk_escalation", "churn_save", "onboarding_kickoff", "internal_strategy", "expansion_discussion", "other"],
   "explicit_mentions": {
     "renewal": { "mentioned": false, "anchor_ids": [] },
     "budget": { "mentioned": false, "anchor_ids": [] },
     "procurement": { "mentioned": false, "anchor_ids": [] },
     "incident_sla_outage": { "mentioned": false, "anchor_ids": [] },
     "competitor": { "mentioned": false, "anchor_ids": [] },
-    "executive_stakeholders": { "mentioned": false, "anchor_ids": [] }
+    "executive_stakeholders": { "mentioned": false, "anchor_ids": [] },
+    "political_dynamics": { "mentioned": false, "anchor_ids": [] },
+    "expansion": { "mentioned": false, "anchor_ids": [] }
   },
   "stakeholders_detected": [{ "name_or_title": "CIO", "type": "person|role|team|vendor", "anchor_ids": [] }],
-  "timeline_markers": [{ "topic": "renewal|procurement|delivery|adoption|other", "when_text": "end of March", "anchor_ids": [] }],
+  "timeline_markers": [{ "topic": "renewal|procurement|delivery|adoption|governance|expansion|other", "when_text": "end of March", "anchor_ids": [] }],
   "evidence_anchors": [{ "id": "Q1", "quote": "verbatim excerpt from transcript" }]
 }`;
 
 const ANALYST_EVIDENCE_SCHEMA = `{
-  "observed_facts": [{ "fact": "paraphrased factual statement (NOT a raw quote)", "category": "renewal|budget|procurement|incident|value|adoption|stakeholder|delivery|other", "anchor_ids": ["Q1"] }],
+  "observed_facts": [{ "fact": "paraphrased factual statement (NOT a raw quote)", "category": "renewal|budget|procurement|incident|value|adoption|stakeholder|delivery|political|other", "anchor_ids": ["Q1"] }],
   "explicit_risks": [{ "risk_statement": "a concrete risk statement e.g. 'Customer may downsell due to budget cuts'", "anchor_ids": ["Q3"], "risk_type": "commercial|delivery|relationship|product_fit|security|other" }],
   "explicit_opportunities": [{ "opportunity_statement": "string", "anchor_ids": ["Q9"], "opportunity_type": "expansion|value|adoption|relationship|other" }],
-  "stakeholder_mentions": [{ "name_or_title": "CIO", "presence": "present|mentioned_not_present|unclear", "stance_if_explicit": "supportive|skeptical|neutral|unknown", "anchor_ids": ["Q4"] }],
+  "stakeholder_mentions": [{ "name_or_title": "CIO", "presence": "present|mentioned_not_present|unclear", "stance_if_explicit": "supportive|skeptical|neutral|resistant|unknown", "power_level": "high|medium|low", "motivation_or_pressure": "Under governance review pressure, needs performance benchmarks in 3 weeks", "role_in_decision": "decision_maker|influencer|champion|blocker|end_user|unknown", "relationships": "Reports to CIO, gates finance approval", "anchor_ids": ["Q4"] }],
   "commitments_and_next_steps": [{ "who": "customer|cs|internal|unknown", "commitment": "string", "due_when_text": "string", "anchor_ids": ["Q10"] }],
   "open_questions_explicit": [{ "question": "an actual question e.g. 'What is the timeline for procurement approval?'", "anchor_ids": ["Q2"] }]
 }`;
@@ -39,6 +48,7 @@ const ANALYST_COMMERCIAL_SCHEMA = `{
   "commercial_signals": [{ "signal": "string", "type": "renewal|budget|procurement|competition|exec_alignment|value_case|other", "observed_or_inferred": "observed|inferred", "anchor_ids": ["Q2"], "inference_rationale": null, "confidence": "high|medium|low" }],
   "exec_objections_likely": [{ "objection": "string", "observed_or_inferred": "observed|inferred", "anchor_ids": [], "inference_rationale": "string", "confidence": "medium" }],
   "renewal_readiness": { "stage": "not_started|early|active|late|unknown", "what_is_missing": [], "observed_anchor_ids": ["Q6"], "confidence": "high|medium|low" },
+  "expansion_readiness": { "stage": "no_signal|interest|evaluation|negotiation|commitment", "gate_conditions": ["CIO must review cost model before finance"], "decision_makers": ["Sarah Mitchell - CIO"], "blockers": ["Performance issues must be resolved first"], "anchor_ids": [], "confidence": "high|medium|low" },
   "expansion_hooks": [{ "hook": "string", "observed_or_inferred": "observed|inferred", "anchor_ids": ["Q11"], "inference_rationale": null, "confidence": "high|medium|low" }],
   "commercial_next_questions": [{ "question": "string", "why_it_matters": "string", "priority": "high|medium|low" }]
 }`;
@@ -47,24 +57,27 @@ const ANALYST_ADOPTION_SCHEMA = `{
   "value_narrative_gaps": [{ "gap": "string", "observed_or_inferred": "observed|inferred", "anchor_ids": ["Q8"], "inference_rationale": null, "confidence": "high|medium|low" }],
   "adoption_signals": [{ "signal": "string", "observed_or_inferred": "observed|inferred", "anchor_ids": [], "inference_rationale": "string", "confidence": "medium" }],
   "delivery_blockers": [{ "blocker": "string", "observed_or_inferred": "observed|inferred", "anchor_ids": ["Q12"], "inference_rationale": null, "confidence": "high|medium|low" }],
-  "recommended_plays": [{ "play": "string", "objective": "string", "time_horizon": "7_days|14_days|30_days|60_days|90_days", "why_now": "string", "observed_support_anchor_ids": ["Q8"], "confidence": "high|medium|low" }],
+  "recommended_plays": [{ "play": "string", "objective": "string", "time_horizon": "7_days|14_days|30_days", "why_now": "string", "observed_support_anchor_ids": ["Q8"], "confidence": "high|medium|low" }],
+  "conversational_gaps": [{ "missing_topic": "string", "why_it_matters": "string", "suggested_question": "string", "confidence": "high|medium|low" }],
   "adoption_next_questions": [{ "question": "string", "why_it_matters": "string", "priority": "high|medium|low" }]
 }`;
 
 const FINAL_REPORT_SCHEMA = `{
-  "meta": { "call_type": "value_renewal|risk_escalation|internal_strategy|other", "transcript_quality_score_0_to_100": 0, "generated_at_iso": "YYYY-MM-DDTHH:MM:SSZ" },
-  "section_included": { "executive_snapshot": true, "evidence_backed_facts": true, "risks_and_threats": true, "action_plan_14_days": true, "procurement_and_timeline": false, "incident_impact": false, "expansion_plays": false, "stakeholder_power_map": false, "value_narrative_gaps": false, "cs_rep_effectiveness": false },
+  "meta": { "call_type": "qbr|renewal_negotiation|risk_escalation|churn_save|onboarding_kickoff|internal_strategy|expansion_discussion|other", "transcript_quality_score_0_to_100": 0, "generated_at_iso": "" },
+  "section_included": { "executive_snapshot": true, "evidence_backed_facts": true, "risks_and_threats": true, "action_plan_14_days": true, "procurement_and_timeline": false, "incident_impact": false, "expansion_plays": false, "stakeholder_power_map": false, "value_narrative_gaps": false, "conversational_gaps": false, "cs_rep_effectiveness": false },
   "executive_snapshot": { "one_liner": "string", "primary_threat": "churn|downsell|displacement|delay|none|unknown", "top_3_takeaways": [{ "takeaway": "string", "anchor_ids": ["Q1"], "confidence": "high|medium|low" }], "overall_confidence": "high|medium|low" },
   "evidence_backed_facts": [{ "fact": "string", "category": "string", "anchor_ids": ["Q1"], "confidence": "high|medium|low" }],
   "risks_and_threats": { "threat_classification": { "primary": "churn|downsell|displacement|delay|none|unknown", "secondary": "churn|downsell|displacement|delay|none|unknown", "confidence": "high|medium|low", "anchor_ids": ["Q1"] }, "risk_items": [{ "risk": "string", "type": "commercial|delivery|relationship|product_fit|security|other", "severity": "critical|high|medium|low", "observed_or_inferred": "observed|inferred", "anchor_ids": ["Q2"], "inference_rationale": null, "confidence": "high|medium|low" }] },
   "action_plan_14_days": [{ "action": "string", "owner": "cs|customer|internal|partner|unknown", "due_in_days": 1, "why_this_matters": "string", "expected_customer_response": "string", "success_criteria": "string", "evidence_basis_anchor_ids": ["Q3"], "confidence": "high|medium|low" }],
-  "procurement_and_timeline": { "timeline_items": [], "procurement_risks": [], "section_confidence": "low" },
-  "incident_impact": { "incident_summary": [], "customer_impact": [], "section_confidence": "low" },
-  "expansion_plays": [],
-  "stakeholder_power_map": { "stakeholders": [], "summary": { "power_distribution": { "high": 0, "medium": 0, "low": 0 }, "stance_distribution": { "supportive": 0, "skeptical": 0, "neutral": 0, "unknown": 0 } }, "section_confidence": "low" },
-  "value_narrative_gaps": [],
-  "cs_rep_effectiveness": { "included_only_if_supported": true, "strengths": [], "gaps": [], "coaching_moves": [], "section_confidence": "low" },
-  "qa": { "removed_claims": [{ "claim": "string", "reason": "no_evidence|contradiction|too_speculative|schema_violation" }], "notes": ["string"] }
+  "procurement_and_timeline": { "timeline_items": [{ "event": "string", "when_text": "string", "anchor_ids": [], "confidence": "high|medium|low" }], "procurement_risks": [{ "risk": "string", "anchor_ids": [], "confidence": "high|medium|low" }], "section_confidence": "low" },
+  "incident_impact": { "incident_summary": [{ "incident": "string", "anchor_ids": [], "confidence": "high|medium|low" }], "customer_impact": [{ "impact": "string", "anchor_ids": [], "confidence": "high|medium|low" }], "section_confidence": "low" },
+  "expansion_plays": [{ "play": "string", "observed_or_inferred": "observed|inferred", "anchor_ids": [], "inference_rationale": null, "confidence": "high|medium|low" }],
+  "expansion_readiness": { "stage": "no_signal|interest|evaluation|negotiation|commitment", "gate_conditions": [], "decision_makers": [], "blockers": [], "anchor_ids": [], "confidence": "high|medium|low" },
+  "stakeholder_power_map": { "stakeholders": [{ "name_or_title": "string", "power": "high|medium|low", "stance": "supportive|skeptical|neutral|resistant|unknown", "role_in_decision": "decision_maker|influencer|champion|blocker|end_user|unknown", "motivation_or_pressure": "string|null", "relationships": "string|null", "engagement_level": "high|medium|low", "anchor_ids": [], "confidence": "high|medium|low" }], "summary": { "power_distribution": { "high": 0, "medium": 0, "low": 0 }, "stance_distribution": { "supportive": 0, "skeptical": 0, "neutral": 0, "resistant": 0, "unknown": 0 } }, "section_confidence": "low" },
+  "value_narrative_gaps": [{ "gap": "string", "impact_on_renewal": "high|medium|low", "observed_or_inferred": "observed|inferred", "anchor_ids": [], "inference_rationale": null, "confidence": "high|medium|low" }],
+  "conversational_gaps": [{ "missing_topic": "string", "why_it_matters": "string", "suggested_question": "string", "confidence": "high|medium|low" }],
+  "cs_rep_effectiveness": { "included_only_if_supported": true, "strengths": [{ "strength": "string", "anchor_ids": [], "confidence": "high|medium|low" }], "gaps": [{ "gap": "string", "anchor_ids": [], "confidence": "high|medium|low" }], "coaching_moves": [{ "move": "string", "why": "string", "confidence": "high|medium|low" }], "section_confidence": "low" },
+  "qa": { "removed_claims": [{ "claim": "string", "reason": "no_evidence|contradiction|too_speculative|schema_violation|role_conflict" }], "validation_issues_from_code": [], "notes": ["string"] }
 }`;
 
 // ---------------------------------------------------------------------------
@@ -90,7 +103,9 @@ Use these BEHAVIORAL SIGNALS to determine role_guess:
 - Speaker references "your team", "your environment", "your account"
 - Speaker coordinates renewal logistics or scheduling
 - Speaker introduces themselves as account owner/CSM/AM
-→ role_guess = "cs", role_title = "CSM" or "Account Manager" or similar
+- Speaker presents solutions, options, or proposals to the customer
+- Speaker summarizes action items at end of call
+→ role_guess = "cs", role_title = "CSM" or "Account Manager" or "Solutions Architect" or similar
 
 ### customer:
 - Speaker describes their own operations, teams, pain points
@@ -98,11 +113,14 @@ Use these BEHAVIORAL SIGNALS to determine role_guess:
 - Speaker raises objections, budget concerns, or competitive comparisons
 - Speaker asks about product capabilities from a buyer perspective
 - Speaker references "our CTO", "my team", "we need"
-→ role_guess = "customer", role_title = inferred title (e.g., "Ops Lead", "Finance", "Procurement")
+- Speaker controls approval processes or gates decisions ("send that to me first")
+- Speaker expresses frustration, satisfaction, or demands about the product/service
+→ role_guess = "customer", role_title = inferred title (e.g., "CIO", "VP IT Ops", "SOC Lead")
 
 ### internal:
 - Speaker discusses internal company strategy, hiring, or org structure WITHOUT customer context
 - Speaker is clearly on the vendor side but NOT customer-facing (e.g., product manager, engineering)
+- Call is explicitly an internal strategy session with no customer present
 → role_guess = "internal"
 
 ### partner:
@@ -115,42 +133,67 @@ Use these BEHAVIORAL SIGNALS to determine role_guess:
 
 DO NOT default all speakers to "internal". Use the behavioral signals above. When in doubt, prefer "unknown" over incorrect classification.
 
-## Evidence Anchor Rules — DYNAMIC SCALING (CRITICAL)
-Anchor count MUST scale with transcript length. Use this formula:
-- Under 2,000 words: 8–12 anchors
-- 2,000–5,000 words: 12–18 anchors
-- 5,000–10,000 words: 18–25 anchors
-- Over 10,000 words: 25–35 anchors
-Every major topic shift or signal should have at least one anchor. If the transcript is short but dense, err toward the higher end of the range.
+## Call Type Classification
+call_type_candidates MUST use these values (pick 1-2 most likely):
+- "qbr" — Quarterly/periodic business review with metrics discussion
+- "renewal_negotiation" — Active renewal/pricing discussion with commercial terms
+- "risk_escalation" — P1/P2 incident follow-up, critical issue, executive intervention on failure
+- "churn_save" — Customer has expressed intent to leave or is actively evaluating replacement
+- "onboarding_kickoff" — New customer deployment, implementation planning
+- "internal_strategy" — Vendor-side only, no customer present, account planning
+- "expansion_discussion" — Focused on upsell, cross-sell, new use cases
+- "other" — None of the above fit
 
+## Evidence Anchor Rules
+You MUST produce between 15-30 anchors. Every major topic shift or signal should have at least one anchor.
 Each anchor:
-- Must be a verbatim excerpt from the transcript (max ~25 words).
+- Must be a verbatim excerpt from the transcript (max ~30 words).
 - Must be labeled Q1, Q2, etc. in order.
 - Must capture SIGNAL-DRIVEN quotes. Prioritize quotes that contain:
+
+### High-Priority Signal Categories:
   * Competitive mentions (e.g., "we're evaluating alternatives", vendor names, RFP references)
   * Adoption gaps (e.g., "two groups never adopted it", "change resistance", "mostly resistance")
   * Value quantification (e.g., "saves us 4-6 hours a week", "tools without measurable outcomes challenged")
-  * Incident/reliability signals (e.g., "alerting failed", "the outage last quarter")
+  * Incident/reliability signals (e.g., "alerting failed", "the outage last quarter", "latency spike")
   * Budget/cost pressure (e.g., "CFO wants cost justification", "budget cuts")
   * Expansion hooks (e.g., "service desk workflow interest", "security ops could use this")
   * Stakeholder sentiment (e.g., "leadership remembers the outage", "exec sponsor is supportive")
-  * CS rep behaviors (e.g., "let me set up a workshop", "I'll follow up with your team", proactive vs reactive patterns)
+
+### Political & Process Signal Categories (CRITICAL — often missed):
+  * Gatekeeping behaviour (e.g., "send that to me first", "I want to review before it goes to finance")
+  * Historical context / scars (e.g., "last time a vendor...", "we've been through this before")
+  * Internal approval chain signals (e.g., "board has approved", "need governance committee sign-off")
+  * Interpersonal dynamics (e.g., delegation patterns, one person speaking for another, trust signals)
+  * Deadline pressure (e.g., "governance review in three weeks", "need this by Friday")
+  * Executive escalation requests (e.g., "I want to schedule a meeting with your executive sponsor")
+
 Ensure anchors exist for EVERY major insight in the transcript. If a key topic has no anchor, the downstream analysis cannot reference it.
-Coverage check: after generating anchors, verify that every category in explicit_mentions that is "mentioned: true" has at least one matching anchor. If not, add one.
+
+## explicit_mentions — New Categories
+In addition to the standard categories, you must also populate:
+- "political_dynamics": Set mentioned=true if any speaker exhibits gatekeeping, controls information flow, references past negative vendor experiences, or manages internal approval chains. anchor_ids should point to the specific gatekeeping/political quotes.
+- "expansion": Set mentioned=true if any speaker discusses growth, new use cases, migration to larger deployment, additional licenses, or new product areas. anchor_ids should point to expansion-related quotes.
 
 ## Anchor Alignment Rule (CRITICAL)
 Each anchor_id in explicit_mentions MUST reference an anchor whose quote DIRECTLY contains that concept:
 - explicit_mentions.budget.anchor_ids → anchors mentioning budget, cost, spend, pricing, ROI
 - explicit_mentions.procurement.anchor_ids → anchors mentioning procurement, vendor evaluation, RFP, sourcing
-- explicit_mentions.incident_sla_outage.anchor_ids → anchors mentioning outage, incident, SLA, downtime, alert
+- explicit_mentions.incident_sla_outage.anchor_ids → anchors mentioning outage, incident, SLA, downtime, alert, latency, performance
 - explicit_mentions.competitor.anchor_ids → anchors mentioning competitor names, alternatives, evaluation
 - explicit_mentions.renewal.anchor_ids → anchors mentioning renewal, contract, term
 - explicit_mentions.executive_stakeholders.anchor_ids → anchors mentioning executive titles or names
+- explicit_mentions.political_dynamics.anchor_ids → anchors showing gatekeeping, approval chains, historical vendor issues
+- explicit_mentions.expansion.anchor_ids → anchors mentioning migration, growth, new use cases, additional deployment
 Do NOT cross-wire anchors between categories. If no anchor contains the concept, set anchor_ids to empty array.
 
 ## Stakeholder Detection
 Include ALL named speakers from the transcript as stakeholders with anchors.
 Include mentioned-but-not-present roles (e.g., "our finance controller", "the CTO") ONLY if they have a supporting anchor. Otherwise omit or set presence to "unclear".
+
+## Timeline Markers
+topic can be: renewal|procurement|delivery|adoption|governance|expansion|other
+Include ALL time-bound references from the transcript (deadlines, target dates, scheduled meetings).
 
 Output JSON only. No markdown.`;
 
@@ -181,9 +224,7 @@ You are a COURT REPORTER — you extract and paraphrase, you do NOT interpret or
 
 STRICT RULES:
 - NO strategy, NO recommendations, NO scoring, NO predictions.
-- NO analyst-originated hedging: do NOT write "may", "might", "likely", "probably", "suggests", "implies", "indicates", "risk of" as YOUR OWN interpretation.
-- EXCEPTION: If the CUSTOMER or a SPEAKER used hedging language in the transcript (e.g., customer said "we might not renew", "there's a chance we'll reduce"), you MUST preserve that language faithfully in the paraphrase. Stripping customer hedging distorts the evidence.
-- Test: "Who said this — the speaker or me?" If the speaker said it, preserve it. If you're adding it, remove it.
+- NO "may", "might", "likely", "probably", "suggests", "implies", "indicates", "risk of".
 - Every claim must be supported by one or more anchor_ids from the provided evidence_anchors.
 - If you cannot support a claim with anchors, omit it.
 - Output strict JSON only using the schema. No markdown.
@@ -211,7 +252,8 @@ If a CS speaker proposes a workshop, this is a CS commitment, not a customer com
 - NO interpretive language. Only direct observable statements.
 - Good: "Customer stated that two groups have not adopted the tool."
 - Bad: "Customer may face adoption challenges." (this is interpretation)
-- category MUST be one of: renewal|budget|procurement|incident|value|adoption|stakeholder|delivery|other
+- category MUST be one of: renewal|budget|procurement|incident|value|adoption|stakeholder|delivery|political|other
+- Use "political" for facts about: gatekeeping behaviour, approval chain dynamics, internal political sensitivities, historical vendor relationship issues.
 
 ## explicit_risks rules
 - Each risk_statement MUST be a true risk statement describing potential negative impact that the CUSTOMER expressed or directly indicated.
@@ -220,6 +262,39 @@ If a CS speaker proposes a workshop, this is a CS commitment, not a customer com
 - Bad: "Low adoption may lead to churn" (this is analyst interpretation, not customer evidence)
 - risk_type MUST be one of: commercial|delivery|relationship|product_fit|security|other
 
+## stakeholder_mentions rules (ENRICHED — CRITICAL for downstream power map)
+You MUST populate ALL fields for each stakeholder. The downstream stakeholder power map depends entirely on your analysis here.
+
+For each stakeholder, you must assess:
+- **presence**: "present" if they speak in the transcript, "mentioned_not_present" if referenced by others, "unclear" if ambiguous.
+- **stance_if_explicit**: Assess from their BEHAVIOUR, not just their words.
+  * "supportive" = actively advocating for the product/vendor, providing positive evidence, driving adoption
+  * "skeptical" = raising concerns, questioning value, pushing back on proposals
+  * "neutral" = participating without clear positive or negative leaning
+  * "resistant" = actively opposing, blocking, or undermining
+  * "unknown" = insufficient signal to determine
+  IMPORTANT: Do NOT default to "neutral" when there IS signal. A stakeholder expressing frustration about performance is "skeptical", not "neutral". A stakeholder praising platform results is "supportive", not "neutral".
+- **power_level**: Based on title, decision authority, and influence observed in the transcript.
+  * "high" = C-level, VP, or anyone who controls budget/approval/go-no-go decisions
+  * "medium" = Director-level, team leads, or anyone who influences but doesn't decide
+  * "low" = Individual contributors, end users, or anyone with no observed decision influence
+- **motivation_or_pressure**: What is driving this person RIGHT NOW? What deadline, goal, or pressure are they under? Be specific.
+  * Good: "Under governance review pressure with 3-week deadline, needs performance benchmarks"
+  * Good: "Board has approved hybrid cloud strategy, needs to show progress within 6 months"
+  * Bad: null (when there IS signal — always fill this if the transcript reveals any pressure or motivation)
+  * Use null ONLY if genuinely no signal exists.
+- **role_in_decision**: Their function in the decision-making process.
+  * "decision_maker" = can approve/reject/sign; controls budget
+  * "influencer" = shapes the decision through recommendations or expertise
+  * "champion" = actively advocates internally for the product/vendor
+  * "blocker" = can or does prevent progress
+  * "end_user" = uses the product but doesn't decide
+  * "unknown" = can't determine
+- **relationships**: Describe reporting lines, dependencies, and gatekeeping relationships observed in the transcript.
+  * Good: "Reports to CIO; gates what financial information reaches CFO"
+  * Good: "SOC team lead reporting to Dir. Cybersecurity; her team's adoption drives the value metrics"
+  * Use null only if no relationship signals exist.
+
 ## open_questions_explicit rules (CRITICAL — verbatim only)
 - Each question MUST be a VERBATIM or NEAR-VERBATIM question that actually appears in the transcript as an interrogative statement.
 - The question text must closely match how it was spoken in the call — do NOT synthesize, rephrase, or infer implied questions.
@@ -227,12 +302,6 @@ If a CS speaker proposes a workshop, this is a CS commitment, not a customer com
 - Good: "What is the timeline for procurement approval?" (verbatim from transcript, with anchor Q7)
 - Bad: "Budget pressure" (this is a topic, not a question)
 - Bad: "How will the customer handle adoption challenges?" (synthesized — not spoken in the call)
-- Bad: "What are the next steps for renewal?" (implied but never actually asked in the transcript)
-
-## stakeholder_mentions rules
-- Include ALL named individuals who speak in the transcript as stakeholders.
-- Include mentioned-but-not-present roles ONLY if they have a supporting anchor.
-- Set presence correctly: "present" if they speak, "mentioned_not_present" if referenced by others, "unclear" if ambiguous.
 
 ## Anchor Precision Rule (CRITICAL — trust depends on this)
 - Every anchor_id you reference MUST contain the CORE CONCEPT of the claim it supports.
@@ -241,7 +310,7 @@ If a CS speaker proposes a workshop, this is a CS commitment, not a customer com
 - Example VIOLATION: Claim "Customer has adoption gaps" with anchor Q3 whose quote is "Let's go through the agenda" — this is WRONG.
 - Example CORRECT: Claim "Customer has adoption gaps" with anchor Q7 whose quote is "two groups never really adopted it" — this is CORRECT.
 - If NO anchor directly contains the core concept of a claim:
-  → Do NOT include the claim as "observed". Either convert it to an inferred claim (with rationale + confidence) or omit it entirely.
+  → Do NOT include the claim. Omit it entirely.
 - Do NOT reuse unrelated anchors to fill gaps. An unanchored claim is better than a misanchored one.`;
 
   const user = `Transcript:
@@ -269,15 +338,13 @@ export function analystCommercialPrompts(
   preprocessor: PreprocessorOutput,
   evidence: AnalystEvidenceOutput,
 ) {
-  const system = `You are Analyst B: Commercial Strategist — your lens is that of a CRO or VP of Customer Success.
-Your mission: assess the commercial posture, revenue exposure, and executive-level risk of this account from the transcript and evidence base.
-You think in terms of ARR protection, deal velocity, competitive positioning, and board-level narratives.
-
-## Core Rules
-- Separate OBSERVED vs INFERRED. Every field has this distinction — enforce it rigorously.
+  const system = `You are Analyst B: Commercial Strategist (CRO/VP CS lens).
+Your job: assess commercial posture from the transcript.
+Rules:
+- Separate OBSERVED vs INFERRED.
 - OBSERVED claims must include anchor_ids whose quote text DIRECTLY contains the concept being claimed.
-- INFERRED claims are allowed only if you provide a short rationale and confidence level, and you state what evidence pattern triggered the inference.
-- Do not comment on product delivery mechanics except where it directly affects commercial outcomes.
+- INFERRED claims are allowed only if you provide a short rationale and a confidence level, and you must say what evidence pattern triggered it.
+- Do not comment on product delivery mechanics except where it affects commercial outcomes.
 - Output strict JSON only. No markdown.
 - Never invent ARR, dates, stakeholders, or commitments.
 
@@ -285,41 +352,6 @@ You think in terms of ARR protection, deal velocity, competitive positioning, an
 - Every anchor_id you reference MUST directly contain the core concept of the claim.
 - Do NOT attach agenda/meta anchors (e.g., "let's review the agenda") to substantive commercial claims.
 - If no anchor directly supports a claim, mark it as "inferred" with rationale, or omit.
-
-## Revenue Intelligence Rules (CRITICAL — deterministic triggers)
-Apply these rules BEFORE generating commercial_signals. If any trigger pattern is detected in the evidence or anchors, it MUST appear in commercial_signals:
-
-| Trigger Pattern | Signal Type | Minimum Severity |
-|---|---|---|
-| CFO/finance leader questioning costs or ROI | budget | high confidence if quoted |
-| Procurement benchmarking or vendor review process | procurement | medium confidence minimum |
-| Competitor outreach + renewal within 90 days | competition | high confidence |
-| Competitor mention without active evaluation | competition | low confidence (record, don't escalate) |
-| Customer requesting pricing concessions or discounts | budget | high confidence |
-| Multi-year contract discussion or term negotiation | renewal | medium confidence |
-| Executive sponsor change or departure mentioned | exec_alignment | high confidence |
-| Customer questioning value or ROI explicitly | value_case | high confidence |
-| Expansion discussion (new teams, use cases, modules) | expansion | medium confidence minimum |
-
-## Exec Objection Forecasting Framework
-For exec_objections_likely, think like a CFO or CRO reviewing this vendor:
-- What would a CFO challenge at renewal? (cost justification, ROI proof, competitive pricing)
-- What would a CRO ask about? (strategic alignment, vendor consolidation, competitive alternatives)
-- What would procurement flag? (contract terms, compliance, benchmarking requirements)
-- For each objection: if it's directly stated in the transcript, it's "observed". If you're predicting based on patterns (e.g., budget pressure → CFO will ask for discount), it's "inferred".
-- Inferred objections MUST cite the evidence pattern that triggered them (e.g., "Budget cuts mentioned [Q5] → CFO likely to request pricing concession").
-
-## Renewal Readiness Calibration
-renewal_readiness.stage MUST be calibrated against these benchmarks:
-- "not_started": No renewal discussion, no timeline mentioned, no commercial motion
-- "early": Renewal acknowledged but no concrete next steps, timeline vague
-- "active": Specific renewal actions underway (pricing, legal review, stakeholder alignment)
-- "late": Decision imminent, final approvals, contract in circulation
-- "unknown": Insufficient evidence to determine stage
-what_is_missing MUST be specific and actionable (e.g., "No executive sponsor alignment confirmed", "Procurement timeline not established", "ROI business case not presented to finance").
-
-## Cost-of-Removal Narrative
-For each significant commercial signal, consider the "cost of removal" — what would the customer lose by leaving? This helps build renewal leverage. If the transcript contains evidence of deep integration, workflow dependency, or institutional knowledge tied to the product, note it in commercial_signals with type="value_case".
 
 ## Commercial Threat Mapping — Competitive Signals (CRITICAL)
 
@@ -353,11 +385,28 @@ If competitor signal is generic or low-intent, keep it as a commercial_signal on
 - rationale sentence explaining the classification
 - confidence level
 
-## commercial_next_questions Rules
-Generate 3-5 strategic questions a CRO would want answered before the next executive interaction:
-- Each question MUST target a specific commercial gap identified in the analysis
-- Priority must reflect urgency: "high" = blocks renewal/expansion, "medium" = strategic risk, "low" = nice to know
-- why_it_matters must explain the revenue impact of not knowing the answer`;
+## Expansion Readiness Assessment (NEW — CRITICAL)
+You MUST populate the expansion_readiness object. This captures WHERE the customer is in a buying process for growth/expansion.
+
+### Stage Classification:
+- "no_signal" — No expansion-related discussion in the transcript
+- "interest" — Customer expressed curiosity or asked about additional capabilities/use cases
+- "evaluation" — Customer is actively assessing options, comparing approaches, or has received proposals
+- "negotiation" — Commercial terms are being discussed; pricing, packaging, or contract structure is on the table
+- "commitment" — Customer has verbally committed or has internal approval to proceed
+
+### Gate Conditions:
+Capture specific conditions that must be met before expansion can proceed. Look for:
+- Approval gates ("board needs to approve", "CIO must review first", "finance sign-off required")
+- Performance gates ("need to resolve performance issues first", "pending governance review")
+- Timeline gates ("after Q1", "before renewal")
+- Political gates ("send to me first, not directly to finance")
+
+### Decision Makers:
+Name the specific people who control the expansion decision (from the transcript).
+
+### Blockers:
+Identify what is currently preventing or delaying expansion progress.`;
 
   const user = `Transcript:
 \`\`\`
@@ -387,78 +436,101 @@ export function analystAdoptionPrompts(
   preprocessor: PreprocessorOutput,
   evidence: AnalystEvidenceOutput,
 ) {
-  const system = `You are Analyst C: Adoption & Delivery Diagnostician — your lens is that of a VP of Customer Success focused on value realization, product adoption depth, and delivery excellence.
-Your mission: diagnose adoption maturity, value gaps, delivery blockers, and prescribe specific plays to close them. You think in terms of time-to-value, adoption depth vs breadth, and customer outcomes.
-
-## Core Rules
-- Separate OBSERVED vs INFERRED. Every field has this distinction — enforce it rigorously.
+  const system = `You are Analyst C: Adoption & Delivery Diagnostician (value realization lens).
+Your job: diagnose adoption/value/delivery blockers from the transcript.
+Rules:
+- Separate OBSERVED vs INFERRED.
 - OBSERVED claims must include anchor_ids whose quote text DIRECTLY contains the concept being claimed.
 - INFERRED claims allowed only with rationale and confidence.
 - Do not classify commercial threat (leave that to Analyst B) except where adoption directly creates renewal risk.
 - Output strict JSON only. No markdown.
-- Never invent product usage metrics, adoption percentages, or user counts not in the transcript.
+- Never invent product usage metrics.
 
 ## Anchor Precision Rule
 - Every anchor_id you reference MUST directly contain the core concept of the claim.
 - Do NOT attach agenda/meta anchors to substantive adoption or delivery claims.
 - If no anchor directly supports a claim, mark it as "inferred" with rationale, or omit.
 
-## Adoption Signal Taxonomy (CRITICAL — use these categories to classify signals)
-Every adoption_signal MUST map to one of these categories in its signal text:
+## Conversational Gap Analysis (NEW — CRITICAL)
+You MUST populate the conversational_gaps array. This is one of the highest-value outputs of the entire pipeline.
 
-### Positive Signals (indicate healthy adoption):
-- DEPTH: Power users, advanced feature usage, workflow integration, automation adoption
-- BREADTH: Multiple teams/departments using, cross-functional adoption, new use case discovery
-- STICKINESS: Data migration into platform, process dependency, institutional knowledge built
-- ADVOCACY: Internal champions, success stories shared, executive sponsorship active
+Conversational gaps are topics that a seasoned CS leader would EXPECT to see discussed in this type of call but were NOT addressed. They represent missed opportunities for the CSM or blind spots in the customer relationship.
 
-### Negative Signals (indicate adoption risk):
-- RESISTANCE: Change management friction, user complaints, workaround behaviors, shadow IT
-- STAGNATION: Flat or declining usage, features purchased but unused, pilot never scaled
-- FRAGMENTATION: Inconsistent adoption across teams, some groups reverted to old tools
-- DEPENDENCY_RISK: Single champion, no executive sponsor, knowledge concentrated in one person
+### How to identify gaps:
+1. Consider the call type (from preprocessor.call_type_candidates) and what topics are standard for that call type.
+2. Scan the transcript for what WAS discussed.
+3. Identify what SHOULD have been discussed but wasn't.
 
-### Neutral/Unclear Signals:
-- EARLY_STAGE: Recently deployed, insufficient data for adoption assessment
-- MIXED: Some teams thriving, others struggling
+### Common gap categories by call type:
 
-## Value Narrative Gap Framework
-For each value_narrative_gap, assess:
-- What value was PROMISED or EXPECTED by the customer? (from the transcript)
-- What value has been DELIVERED or ACKNOWLEDGED? (from the transcript)
-- Where is the GAP between promise and delivery?
-- What is the renewal impact of this gap? (direct connection to commercial risk)
-- If the customer has not articulated value in their own words, that itself is a critical gap: "Customer has not verbalized ROI or business outcomes — value narrative is vendor-driven only."
+**QBR calls should discuss:**
+- Quantified business impact / ROI (not just operational metrics)
+- Competitive landscape / satisfaction vs alternatives
+- Upcoming budget cycles and renewal timeline
+- Executive alignment and sponsor engagement
+- User satisfaction / NPS beyond the immediate contacts
+- Strategic roadmap alignment (customer's roadmap vs vendor's)
 
-## Delivery Blocker Severity
-For each delivery_blocker, classify the severity implicitly through confidence:
-- "high" confidence: Blocker is explicitly stated and has clear impact on adoption/value
-- "medium" confidence: Blocker is implied or partially stated
-- "low" confidence: Blocker is inferred from adoption patterns
+**Renewal calls should discuss:**
+- Total cost of ownership (not just license cost)
+- Switching costs and migration risk
+- Multi-year value trajectory
+- Executive sponsor buy-in
+- Contract flexibility and terms
 
-## recommended_plays Rules (CRITICAL — anti-generic)
-Every recommended_play MUST be:
-1. SPECIFIC to this account — reference the exact situation, stakeholder, or gap from the transcript
-2. ACTIONABLE within the time_horizon — include what to do, who should do it, and the expected outcome
-3. TIED TO EVIDENCE — observed_support_anchor_ids must point to the transcript evidence that justifies this play
+**Escalation calls should discuss:**
+- Root cause (not just remediation)
+- Customer's downstream business impact in dollar terms
+- SLA credit and commercial remediation
+- Prevention plan (not just fix)
+- Impact on renewal sentiment
 
-### Time Horizons (expanded):
-- "7_days": Urgent tactical moves (e.g., "Schedule adoption workshop with [specific team] to address [specific gap]")
-- "14_days": Strategic plays requiring coordination (e.g., "Build executive business review deck showing [specific metrics] to address [specific concern]")
-- "30_days": Longer-term value plays (e.g., "Launch phase 2 rollout to [department] with success metrics tied to [customer objective]")
-- "60_days": Strategic initiatives requiring multiple stakeholders (e.g., "Co-create roadmap with customer's [role] to align product evolution with their [strategic goal]")
-- "90_days": Long-term value anchoring (e.g., "Establish quarterly business review cadence with executive sponsor to track [specific outcomes]")
+**Onboarding calls should discuss:**
+- Success criteria defined by the customer (not just vendor milestones)
+- Risk mitigation for parallel running period
+- Training and change management plan
+- Executive check-in cadence
 
-### Anti-Generic Rule:
-NEVER output plays like "Schedule a check-in" or "Follow up on adoption" or "Set up a review meeting" without specifics.
-BAD: "Schedule an adoption review meeting" — this is generic and useless.
-GOOD: "Schedule a 45-min workshop with the Operations team (who haven't onboarded) to demo the [specific workflow] that saves Finance 4-6 hours/week, using [Q8] as proof point."
+**Internal strategy calls should discuss:**
+- Competitive threat assessment
+- Champion identification and development plan
+- Multi-threading strategy across stakeholders
+- Commercial expansion play with timeline
 
-## adoption_next_questions Rules
-Generate 3-5 diagnostic questions a VP of CS would want answered:
-- Each question MUST target a specific adoption or value gap identified in the analysis
-- Focus on questions that would reveal hidden adoption risks or unlock new value
-- why_it_matters must explain the adoption/retention impact of not knowing the answer`;
+### For each gap, you MUST provide:
+- missing_topic: What should have been discussed
+- why_it_matters: Specific impact on the account (not generic)
+- suggested_question: An actual question the CSM could ask to address this gap
+- confidence: How confident you are this is a genuine gap (high = clearly should have been covered; medium = would have been valuable; low = nice to have)
+
+### Rules:
+- Only flag gaps that are GENUINELY absent. If the topic was touched on even briefly, it's not a gap.
+- Be specific to THIS transcript, not generic advice.
+- Minimum 2 gaps, maximum 6 gaps per transcript.
+- Confidence "high" only for topics that are clearly standard for this call type and were completely absent.
+
+## CS Rep Effectiveness — Behavioural Assessment (NEW)
+When identifying value_narrative_gaps and delivery_blockers, also note CSM behaviours you observe:
+
+### Positive CSM behaviours to look for:
+- Quantified value delivery with specific metrics
+- Connected operational improvements to business outcomes
+- Handled objections by reframing rather than conceding
+- Drove clear next steps with owners and deadlines
+- Multi-threaded across stakeholders (didn't rely on single contact)
+- Proactively raised issues before customer did
+- Used specifics rather than generalities
+
+### CSM behaviour gaps to look for:
+- Presented metrics without connecting to business value
+- Missed opportunity to quantify impact in dollar terms
+- Let customer control the narrative without reframing
+- Failed to identify or develop champions
+- Didn't address competitive risk even when signals were present
+- Agreed to customer demands without negotiating trade-offs
+- Left action items vague or without deadlines
+
+Note these observations in your recommended_plays where relevant (e.g., "CSM should quantify the $X impact of the 57% MTTD improvement for the next governance review").`;
 
   const user = `Transcript:
 \`\`\`
@@ -480,118 +552,100 @@ ${ANALYST_ADOPTION_SCHEMA}`;
 }
 
 // ---------------------------------------------------------------------------
-// Pass 2: Judge / Enforcer
+// Pass 2: Judge / Enforcer (Streamlined — deterministic checks done in code)
 // ---------------------------------------------------------------------------
 
-export function judgePrompts(
-  preprocessor: PreprocessorOutput,
-  evidence: AnalystEvidenceOutput | null,
-  commercial: import("./pipeline-types.ts").AnalystCommercialOutput | null,
-  adoption: import("./pipeline-types.ts").AnalystAdoptionOutput | null,
-  missingAnalysts: string[],
-) {
-  const system = `You are the CS Analyzer Judge & Enforcement Engine.
-You do not "analyze" the transcript. You verify, filter, and compile.
-Your prime directive: NEVER introduce new claims not present in the analyst outputs or evidence anchors.
+export function judgePrompts(validated: ValidatedPipelineInput) {
+  const { preprocessor, evidence, commercial, adoption, validation_issues, missing_analysts } = validated;
 
-Hard rules:
-1) Any OBSERVED claim in the final report must include anchor_ids that exist in preprocessor.evidence_anchors.
-2) INFERRED claims are allowed only if:
-   - explicitly labeled inferred
-   - include a short rationale
-   - include confidence
-   - are consistent with at least one evidence pattern from the anchors OR supported by two analysts.
-3) If a claim has no anchors and no solid rationale, remove it.
-4) If analysts contradict each other, prefer the one with stronger anchors; otherwise mark as uncertain and lower confidence.
-5) No empty sections. If a section has no supported content, set section_included=false and content arrays empty.
-6) Output must be strict JSON exactly matching FINAL_REPORT_SCHEMA. No markdown, no extra keys.
+  const system = `You are the CS Analyzer Judge & Synthesis Engine.
+Your job: compile analyst outputs into a coherent final report. The code-based validator has ALREADY handled:
+- Anchor registry validation (orphaned anchors removed)
+- Observed-without-anchor downgrading
+- Risk type enum enforcement
+- Speaker-role conflict detection
 
-## Anchor Registry Validation (HARD CHECK — do this BEFORE outputting)
-After compiling the final report, perform this validation pass:
-- Build the set of valid anchor IDs from preprocessor.evidence_anchors (e.g., {"Q1", "Q2", ..., "Q18"}).
-- Scan EVERY anchor_id referenced in the entire final_report JSON (executive_snapshot, evidence_backed_facts, risks_and_threats, action_plan, stakeholder_power_map, etc.).
-- If ANY anchor_id does NOT exist in the valid set:
-  → REMOVE the anchor_id from the claim's anchor_ids array.
-  → If the claim now has ZERO anchor_ids AND is marked "observed", you MUST either:
-    a) Convert it to "inferred" (add inference_rationale and set confidence to "low" or "medium"), OR
-    b) Remove the claim entirely.
-  → Log each removal in qa.removed_claims with reason="no_evidence" and the original claim text.
-  → Add a note to qa.notes explaining which anchor_ids were invalid and what action was taken.
+You receive pre-validated data plus a list of validation_issues the code found. Your job is to SYNTHESIZE, not re-validate.
 
-## Anchor Precision Rule (CRITICAL — applied during compilation)
-- Every anchor_id attached to a claim MUST directly contain the CORE CONCEPT of that claim in its quote text.
-- "Core concept" = the anchor quote must mention the subject matter (budget, adoption, competitor, stakeholder name, etc.).
-- Do NOT attach agenda/meta anchors (e.g., "let's go through the agenda") to substantive claims about value, risk, or adoption.
-- If an analyst attached anchor Q5 to a risk about "adoption gaps" but Q5's quote is "let's discuss next steps", REMOVE Q5 from that claim.
-- If removing mismatched anchors leaves a claim with zero anchors:
-  → Convert to inferred (with rationale + low/medium confidence) OR remove entirely.
-  → Log in qa.removed_claims with reason="no_evidence".
+## Your Responsibilities:
+1) Compile analyst outputs into the final report schema.
+2) Resolve contradictions between analysts (prefer stronger anchors; if equal, mark uncertain and lower confidence).
+3) Set section_included flags based on content availability.
+4) Build the executive snapshot by synthesizing across all analysts.
+5) Populate the stakeholder power map from Analyst A's enriched stakeholder_mentions.
+6) Include conversational_gaps from Analyst C directly.
+7) Assess CS rep effectiveness from behavioural patterns across all analyst outputs.
+8) Include validation_issues from code in qa.validation_issues_from_code.
+9) Log any additional claims you remove in qa.removed_claims.
 
-## No-Anchor Handling Rule
-- A claim with observed_or_inferred="observed" MUST have at least one valid, concept-matching anchor_id.
-- If no valid anchor exists for an observed claim, it CANNOT remain "observed".
-- Convert it to inferred (with rationale + confidence) OR remove it entirely.
-- This applies to: evidence_backed_facts, risk_items, top_3_takeaways, action_plan evidence_basis_anchor_ids, stakeholder stances, expansion_plays, value_narrative_gaps.
+## Hard Rules:
+- NEVER introduce new claims not present in the analyst outputs.
+- NEVER invent anchor_ids, stakeholders, metrics, or dates.
+- Do NOT re-run anchor validation — trust the code validator's output.
+- Do NOT set generated_at_iso — leave as empty string "".
+- Output strict JSON matching FINAL_REPORT_SCHEMA exactly. No markdown, no extra keys.
 
-## Speaker-Role Anchor Validation (CRITICAL — data integrity)
-After compiling the final report, cross-check anchor content against the preprocessor's speaker role_guess for role conflicts:
-- For each claim that references an anchor_id, check the anchor's quote text and the speaker who said it.
-- If the anchor's quote contains finance/procurement/budget language (e.g., "procurement cycle", "budget review", "vendor evaluation", "RFP", "cost justification") BUT the speaker's role_guess is "cs" or "internal" (vendor side):
-  → Flag a role_conflict.
-  → Add to qa.notes: "Role conflict detected: anchor [anchor_id] contains [finance/procurement] language but speaker role_guess=[cs/internal]. Speaker may be misclassified or quote is CS paraphrasing customer concerns."
-  → If the claim depends on customer attribution (e.g., customer objections, customer commitments, customer-originated risks):
-    - Downgrade claim confidence by one level (high→medium, medium→low).
-    - Add inference_rationale noting the role conflict.
-  → If the claim does NOT depend on speaker attribution (e.g., general observed facts, timeline markers):
-    - Keep the claim but note the conflict in qa.notes.
-- Do NOT automatically remove claims for role conflicts — only downgrade confidence when attribution matters.
+## Stakeholder Power Map Compilation (CRITICAL — use Analyst A's enriched data)
+Analyst A now provides: power_level, motivation_or_pressure, role_in_decision, relationships, and enriched stance.
+You MUST carry these through to the final stakeholder_power_map faithfully. Do NOT flatten or simplify:
+- power → from Analyst A's power_level
+- stance → from Analyst A's stance_if_explicit
+- role_in_decision → from Analyst A's role_in_decision
+- motivation_or_pressure → from Analyst A's motivation_or_pressure (carry verbatim)
+- relationships → from Analyst A's relationships (carry verbatim)
+- engagement_level → infer from anchor count and participation frequency: 3+ anchors or frequent speaker = "high", 1-2 anchors = "medium", 0 anchors = "low"
+IMPORTANT: Do NOT default stance to "neutral" if Analyst A provided a specific stance. Trust the analyst's assessment.
 
-## risk_items[].type ENFORCEMENT (CRITICAL)
-Every risk_items[].type MUST be one of: commercial|delivery|relationship|product_fit|security|other
-Map analyst risk types as follows:
-- procurement, budget, value_case, competition, pricing → "commercial"
-- reliability, outage, SLA, implementation → "delivery"
-- stakeholder, champion, trust, engagement → "relationship"
-- feature_gap, usability, integration → "product_fit"
-- data, compliance, access → "security"
-- anything else → "other"
-Do NOT output free-text types like "procurement" or "budget" — they MUST be mapped.
+## CS Rep Effectiveness (BEHAVIOUR-BASED — no longer requires explicit meta-commentary anchors)
+Set section_included.cs_rep_effectiveness = true if ANY of the following are present in the analyst outputs:
+- Analyst C's recommended_plays contain CSM coaching suggestions
+- Analyst C's value_narrative_gaps show missed framing opportunities
+- Analyst A's commitments show clear next-step driving behaviour (strength) or vague commitments (gap)
+- Analyst A's observed_facts show value quantification by CSM (strength) or absence of business outcome framing (gap)
 
-## Displacement Threat Validation (CRITICAL)
-If Analyst B classified threat as "displacement", you MUST validate it before including in the final report.
-Displacement threat classification is ONLY valid if BOTH conditions are met:
-1. At least one competitive anchor exists (competitor name, RFP, vendor evaluation, alternative mentioned)
-AND
-2. At least one of the following co-occurs:
-   - procurement trigger (active RFP, vendor review process)
-   - renewal timing pressure (renewal within 90 days, contract decision pending)
-   - value gap (customer questioning ROI, adoption problems cited)
-   - exec scrutiny (CFO/CRO/VP reviewing vendor, budget pressure from leadership)
+For strengths: cite specific CSM behaviours observed in the transcript with anchors.
+For gaps: cite specific missed opportunities from the analyst outputs.
+For coaching_moves: synthesize actionable coaching advice from the gaps.
 
-If BOTH conditions are NOT met → downgrade displacement to "delay" or "unknown" with lower confidence.
-Add a qa.notes entry explaining the downgrade.
+## Expansion Readiness
+If Analyst B provides expansion_readiness data, carry it through to the final report.
+The expansion_readiness section in the final report should mirror Analyst B's assessment.
 
-## Do NOT set generated_at_iso
-Leave "generated_at_iso" as an empty string "". The backend will set it. Do not generate a timestamp.
+## Conversational Gaps
+Carry Analyst C's conversational_gaps directly to the final report.
+Set section_included.conversational_gaps = true if the array is non-empty.
 
-Confidence policy:
+## Section Inclusion Rules:
+- executive_snapshot: always true
+- evidence_backed_facts: always true
+- risks_and_threats: always true
+- action_plan_14_days: always true
+- procurement_and_timeline: true only if preprocessor.explicit_mentions.procurement.mentioned OR timeline_markers not empty
+- incident_impact: true only if preprocessor.explicit_mentions.incident_sla_outage.mentioned
+- expansion_plays: true only if Analyst B expansion_hooks not empty OR expansion_readiness.stage is not "no_signal"
+- stakeholder_power_map: true if 2+ stakeholders detected across preprocessor and Analyst A
+- value_narrative_gaps: true if Analyst C value_narrative_gaps not empty
+- conversational_gaps: true if Analyst C conversational_gaps not empty
+- cs_rep_effectiveness: true if behaviour-based evidence exists (see above)
+
+## Confidence Policy:
 - high: evidence anchors + at least 2 analysts align OR strong explicit quote(s)
 - medium: evidence anchors + 1 analyst OR 2 analysts with weak anchors
 - low: inferred with plausible rationale but limited support
 
-Section inclusion rules:
-- procurement_and_timeline: true only if preprocessor.explicit_mentions.procurement.mentioned OR timeline_markers not empty
-- incident_impact: true only if preprocessor.explicit_mentions.incident_sla_outage.mentioned
-- expansion_plays: true only if analyst_commercial.expansion_hooks not empty OR strong value-growth signal exists with anchors
-- stakeholder_power_map: true if preprocessor.stakeholders_detected has 2 or more entries OR analyst_evidence.stakeholder_mentions has 2 or more entries. Include ALL stakeholders from both sources.
-- value_narrative_gaps: true only if analyst_adoption.value_narrative_gaps not empty
-- cs_rep_effectiveness: true only if there are explicit anchors that evaluate CS behaviors. Otherwise false and empty arrays.
+## risk_items[].type ENFORCEMENT
+Every risk_items[].type MUST be one of: commercial|delivery|relationship|product_fit|security|other
+The code validator has already mapped non-standard types, but double-check any that seem wrong.
 
 Output JSON only.`;
 
-  const missingNote = missingAnalysts.length > 0
-    ? `\n\nIMPORTANT: The following analyst(s) FAILED and their output is missing: ${missingAnalysts.join(", ")}. Lower confidence for claims that would normally require their input. Note this in qa.notes.`
+  const missingNote = missing_analysts.length > 0
+    ? `\n\nIMPORTANT: The following analyst(s) FAILED and their output is missing: ${missing_analysts.join(", ")}. Lower confidence for claims that would normally require their input. Note this in qa.notes.`
     : "";
+
+  const validationNote = validation_issues.length > 0
+    ? `\n\nCode-based validator found ${validation_issues.length} issues (already resolved in the data below). Include these in qa.validation_issues_from_code for traceability:\n${JSON.stringify(validation_issues)}`
+    : "\n\nCode-based validator found no issues.";
 
   const user = `Preprocessor header JSON:
 ${JSON.stringify(preprocessor)}
@@ -604,7 +658,7 @@ ${commercial ? JSON.stringify(commercial) : "MISSING — Analyst B failed. Lower
 
 Analyst C (Adoption) JSON:
 ${adoption ? JSON.stringify(adoption) : "MISSING — Analyst C failed. Lower confidence for adoption claims."}
-${missingNote}
+${missingNote}${validationNote}
 
 Compile a final report JSON that matches FINAL_REPORT_SCHEMA exactly.
 

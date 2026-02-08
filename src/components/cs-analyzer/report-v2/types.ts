@@ -8,6 +8,14 @@ export interface EvidenceAnchor {
 export type ConfidenceLevel = "high" | "medium" | "low";
 export type SeverityLevel = "critical" | "high" | "medium" | "low";
 export type ThreatType = "churn" | "downsell" | "displacement" | "delay" | "none" | "unknown";
+export type StakeholderStance = "supportive" | "skeptical" | "neutral" | "resistant" | "unknown";
+export type StakeholderDecisionRole =
+  | "decision_maker"
+  | "influencer"
+  | "champion"
+  | "blocker"
+  | "end_user"
+  | "unknown";
 
 export interface SectionIncluded {
   executive_snapshot: boolean;
@@ -19,6 +27,7 @@ export interface SectionIncluded {
   expansion_plays: boolean;
   stakeholder_power_map: boolean;
   value_narrative_gaps: boolean;
+  conversational_gaps: boolean;
   cs_rep_effectiveness: boolean;
 }
 
@@ -66,11 +75,39 @@ export interface ActionPlanItem {
 export interface StakeholderEntry {
   name_or_title: string;
   power: "high" | "medium" | "low";
-  stance: "supportive" | "skeptical" | "neutral" | "unknown";
-  engagement: "high" | "medium" | "low";
-  presence: "present" | "mentioned_not_present" | "unclear";
+  stance: StakeholderStance;
+  role_in_decision?: StakeholderDecisionRole;
+  motivation_or_pressure?: string | null;
+  relationships?: string | null;
+  engagement_level?: "high" | "medium" | "low";
+  // Legacy field fallback
+  engagement?: "high" | "medium" | "low";
+  presence?: "present" | "mentioned_not_present" | "unclear";
   anchor_ids: string[];
   confidence: ConfidenceLevel;
+}
+
+export interface ExpansionReadiness {
+  stage: string;
+  gate_conditions: string[];
+  decision_makers: string[];
+  blockers: string[];
+  anchor_ids: string[];
+  confidence: ConfidenceLevel;
+}
+
+export interface ConversationalGap {
+  missing_topic: string;
+  why_it_matters: string;
+  suggested_question: string;
+  confidence: ConfidenceLevel;
+}
+
+export interface ValidationIssue {
+  type: string;
+  source: string;
+  detail: string;
+  action_taken: string;
 }
 
 export interface FinalReport {
@@ -93,28 +130,29 @@ export interface FinalReport {
   };
   action_plan_14_days: ActionPlanItem[];
   procurement_and_timeline: {
-    timeline_items: { topic: string; when_text: string; anchor_ids: string[]; confidence: string }[];
+    timeline_items: { topic?: string; event?: string; when_text: string; anchor_ids: string[]; confidence: string }[];
     procurement_risks: { risk: string; anchor_ids: string[]; confidence: string }[];
     section_confidence: string;
   };
   incident_impact: {
-    incident_summary: { summary: string; anchor_ids: string[]; confidence: string }[];
+    incident_summary: { summary?: string; incident?: string; anchor_ids: string[]; confidence: string }[];
     customer_impact: { impact: string; anchor_ids: string[]; confidence: string }[];
     section_confidence: string;
   };
   expansion_plays: {
     play: string;
-    why_it_fits: string;
+    why_it_fits?: string;
     observed_or_inferred: "observed" | "inferred";
     anchor_ids: string[];
     inference_rationale: string | null;
     confidence: string;
   }[];
+  expansion_readiness?: ExpansionReadiness;
   stakeholder_power_map: {
     stakeholders: StakeholderEntry[];
     summary: {
       power_distribution: { high: number; medium: number; low: number };
-      stance_distribution: { supportive: number; skeptical: number; neutral: number; unknown: number };
+      stance_distribution: { supportive: number; skeptical: number; neutral: number; resistant?: number; unknown: number };
     };
     section_confidence: string;
   };
@@ -126,15 +164,17 @@ export interface FinalReport {
     inference_rationale: string | null;
     confidence: string;
   }[];
+  conversational_gaps?: ConversationalGap[];
   cs_rep_effectiveness: {
     included_only_if_supported: boolean;
     strengths: { strength: string; anchor_ids: string[]; confidence: string }[];
     gaps: { gap: string; anchor_ids: string[]; confidence: string }[];
-    coaching_moves: { move: string; why: string; anchor_ids: string[]; confidence: string }[];
+    coaching_moves: { move: string; why: string; anchor_ids?: string[]; confidence: string }[];
     section_confidence: string;
   };
   qa: {
     removed_claims: { claim: string; reason: string }[];
+    validation_issues_from_code?: ValidationIssue[];
     notes: string[];
   };
 }
