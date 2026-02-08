@@ -14,11 +14,19 @@ export interface ModelConfig {
 
 // Pinned model versions to prevent drift
 export const PASS_CONFIGS: Record<string, ModelConfig> = {
-  preprocessor: { provider: "openai", model: "gpt-4o-mini", maxTokens: 2000, temperature: 0.1, timeoutMs: 30_000 },
-  analystA:     { provider: "openai", model: "gpt-4o", maxTokens: 3500, temperature: 0.2, timeoutMs: 40_000 },
-  analystB:     { provider: "gemini", model: "google/gemini-2.5-pro", maxTokens: 3500, temperature: 0.2, timeoutMs: 45_000 },
-  analystC:     { provider: "claude", model: "claude-sonnet-4-20250514", maxTokens: 3500, temperature: 0.2, timeoutMs: 35_000 },
-  judge:        { provider: "claude", model: "claude-sonnet-4-20250514", maxTokens: 6000, temperature: 0.1, timeoutMs: 90_000 },
+  preprocessor: { provider: "openai", model: "gpt-4o-mini", maxTokens: 4096, temperature: 0.1, timeoutMs: 30_000 },
+  analystA:     { provider: "openai", model: "gpt-4o", maxTokens: 4096, temperature: 0.2, timeoutMs: 45_000 },
+  analystB:     { provider: "gemini", model: "google/gemini-2.5-pro", maxTokens: 6000, temperature: 0.2, timeoutMs: 55_000 },
+  analystC:     { provider: "claude", model: "claude-sonnet-4-20250514", maxTokens: 4096, temperature: 0.2, timeoutMs: 40_000 },
+  judge:        { provider: "claude", model: "claude-sonnet-4-20250514", maxTokens: 8192, temperature: 0.1, timeoutMs: 90_000 },
+};
+
+// Expected top-level keys per pass — used for completeness validation
+export const EXPECTED_KEYS: Record<string, string[]> = {
+  preprocessor: ["customer_name_if_detected", "transcript_quality", "speakers", "call_type_candidates", "explicit_mentions", "stakeholders_detected", "timeline_markers", "evidence_anchors"],
+  analystA: ["observed_facts", "explicit_risks", "explicit_opportunities", "stakeholder_mentions", "commitments_and_next_steps", "open_questions_explicit"],
+  analystB: ["threat_classification", "commercial_signals", "exec_objections_likely", "renewal_readiness", "expansion_readiness", "expansion_hooks", "commercial_next_questions"],
+  analystC: ["value_narrative_gaps", "adoption_signals", "delivery_blockers", "recommended_plays", "conversational_gaps", "adoption_next_questions"],
 };
 
 // ---------------------------------------------------------------------------
@@ -212,21 +220,58 @@ export async function callModelForJson<T>(
   systemPrompt: string,
   userPrompt: string,
   passName: string,
-): Promise<{ data: T | null; rawText: string; error?: string }> {
+): Promise<{ data: T | null; rawText: string; error?: string; missingKeys?: string[] }> {
   // First attempt
   const { text, error: callError } = await callModel(config, systemPrompt, userPrompt);
   if (callError) return { data: null, rawText: "", error: callError };
 
+  console.log(`[${passName}] Raw response length: ${text.length} chars`);
+
   const parsed = extractJson<T>(text);
-  if (parsed.data) return { data: parsed.data, rawText: text };
+  if (parsed.data) {
+    const missingKeys = validateExpectedKeys(passName, parsed.data);
+    return { data: parsed.data, rawText: text, missingKeys };
+  }
 
   // JSON repair retry
   console.log(`[${passName}] JSON parse failed, attempting repair...`);
   const repaired = await repairJson<T>(text, config);
   if (repaired.data) {
     console.log(`[${passName}] JSON repair succeeded`);
-    return { data: repaired.data, rawText: text };
+    const missingKeys = validateExpectedKeys(passName, repaired.data);
+    return { data: repaired.data, rawText: text, missingKeys };
   }
 
   return { data: null, rawText: text, error: `[${passName}] JSON invalid after repair: ${repaired.error}` };
+}
+
+/** Validate that expected top-level keys are present in parsed output */
+function validateExpectedKeys<T>(passName: string, data: T): string[] {
+  // Map pass names to config keys (handle retry suffixes)
+  const passMap: Record<string, string> = {
+    "Pass0-Preprocessor": "preprocessor",
+    "Pass0-Preprocessor-Retry": "preprocessor",
+    "Pass1A-Evidence": "analystA",
+    "Pass1A-Evidence-Retry": "analystA",
+    "Pass1B-Commercial": "analystB",
+    "Pass1B-Commercial-Retry": "analystB",
+    "Pass1C-Adoption": "analystC",
+    "Pass1C-Adoption-Retry": "analystC",
+  };
+
+  const configKey = passMap[passName];
+  if (!configKey || !EXPECTED_KEYS[configKey]) return [];
+
+  const expected = EXPECTED_KEYS[configKey];
+  const actual = Object.keys(data as Record<string, unknown>);
+  const missing = expected.filter(k => !actual.includes(k));
+
+  if (missing.length > 0) {
+    console.error(`[${passName}] ⚠️ INCOMPLETE OUTPUT — missing ${missing.length}/${expected.length} keys: ${missing.join(", ")}`);
+    console.error(`[${passName}] Keys present: ${actual.join(", ")}`);
+  } else {
+    console.log(`[${passName}] ✓ All ${expected.length} expected keys present`);
+  }
+
+  return missing;
 }

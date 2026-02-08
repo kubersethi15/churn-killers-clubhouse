@@ -164,7 +164,7 @@ function sectionHeader(
 
 // deno-lint-ignore no-explicit-any
 function buildCoverPage(customer: string, callType: string, date: string, n: number, report: any): string {
-  return `<div class="page">
+  return `<div class="page cover-page">
   <div class="cover">
     <div class="cover-badge">Churn Is Dead &mdash; CS Intelligence</div>
     <div class="cover-title">Executive Diagnostic Report</div>
