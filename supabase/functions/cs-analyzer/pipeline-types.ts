@@ -59,6 +59,8 @@ export type StakeholderDecisionRole =
   | "champion"
   | "blocker"
   | "end_user"
+  | "internal_champion"
+  | "internal_owner"
   | "unknown";
 
 // ---------------------------------------------------------------------------
@@ -170,6 +172,8 @@ export interface ExplicitOpportunity {
     | "other";
 }
 
+export type StakeholderType = "customer" | "internal" | "partner";
+
 export interface StakeholderMention {
   name_or_title: string;
   presence: StakeholderPresence;
@@ -178,6 +182,7 @@ export interface StakeholderMention {
   motivation_or_pressure: string | null;
   role_in_decision: StakeholderDecisionRole;
   relationships: string | null; // e.g., "Reports to CIO", "Gates finance approval"
+  stakeholder_type?: StakeholderType;
   anchor_ids: string[];
 }
 
@@ -352,10 +357,12 @@ export interface ValidationIssue {
     | "role_conflict"
     | "enum_violation"
     | "observed_without_anchor"
-    | "precision_mismatch";
+    | "precision_mismatch"
+    | "incomplete_analyst_output"
+    | "preprocessor_self_ref";
   source: string; // e.g., "analyst_evidence.observed_facts[2]"
   detail: string;
-  action_taken: "removed_anchor" | "downgraded_to_inferred" | "removed_claim" | "flagged_only";
+  action_taken: "removed_anchor" | "downgraded_to_inferred" | "removed_claim" | "flagged_only" | "flagged_critical";
 }
 
 export interface ValidatedPipelineInput {
@@ -379,6 +386,7 @@ export interface FinalReportStakeholder {
   motivation_or_pressure: string | null;
   relationships: string | null;
   engagement_level: "high" | "medium" | "low";
+  stakeholder_type?: "customer" | "internal" | "partner";
   anchor_ids: string[];
   confidence: Confidence;
 }
@@ -527,6 +535,7 @@ export interface FinalReport {
   value_narrative_gaps: FinalReportValueGap[];
   conversational_gaps: FinalReportConversationalGap[];
   cs_rep_effectiveness: {
+    title_override?: string;
     included_only_if_supported: boolean;
     strengths: Array<{
       strength: string;

@@ -147,6 +147,56 @@ export function validatePipelineOutputs(
     anchorQuotes.set(a.id, a.quote.toLowerCase());
   }
 
+  // ── Fix 8.1: Preprocessor self-validation (belt-and-suspenders) ──
+  if (preprocessor.explicit_mentions) {
+    for (const [category, data] of Object.entries(preprocessor.explicit_mentions)) {
+      if (data?.anchor_ids) {
+        const before = data.anchor_ids.length;
+        data.anchor_ids = data.anchor_ids.filter((id: string) => validAnchorIds.has(id));
+        if (data.anchor_ids.length < before) {
+          issues.push({
+            type: "preprocessor_self_ref",
+            source: `preprocessor.explicit_mentions.${category}`,
+            detail: `Removed ${before - data.anchor_ids.length} phantom anchor(s)`,
+            action_taken: "removed_anchor",
+          });
+        }
+      }
+    }
+  }
+  if (preprocessor.stakeholders_detected) {
+    for (const s of preprocessor.stakeholders_detected) {
+      if (s.anchor_ids) {
+        const before = s.anchor_ids.length;
+        s.anchor_ids = s.anchor_ids.filter((id: string) => validAnchorIds.has(id));
+        if (s.anchor_ids.length < before) {
+          issues.push({
+            type: "preprocessor_self_ref",
+            source: `preprocessor.stakeholders_detected[${s.name_or_title}]`,
+            detail: `Removed ${before - s.anchor_ids.length} phantom anchor(s)`,
+            action_taken: "removed_anchor",
+          });
+        }
+      }
+    }
+  }
+  if (preprocessor.timeline_markers) {
+    for (const m of preprocessor.timeline_markers) {
+      if (m.anchor_ids) {
+        const before = m.anchor_ids.length;
+        m.anchor_ids = m.anchor_ids.filter((id: string) => validAnchorIds.has(id));
+        if (m.anchor_ids.length < before) {
+          issues.push({
+            type: "preprocessor_self_ref",
+            source: `preprocessor.timeline_markers[${m.topic}]`,
+            detail: `Removed ${before - m.anchor_ids.length} phantom anchor(s)`,
+            action_taken: "removed_anchor",
+          });
+        }
+      }
+    }
+  }
+
   // ── Analyst A (Evidence) ───────────────────────────────────────────
   if (evidence) {
     // observed_facts: remove if no valid anchors
@@ -224,6 +274,24 @@ export function validatePipelineOutputs(
           }
         }
       }
+    }
+  }
+
+  // ── Fix 8.2: Analyst B completeness check ──────────────────────────
+  if (commercial) {
+    const expectedKeys = [
+      "threat_classification", "commercial_signals", "exec_objections_likely",
+      "renewal_readiness", "expansion_readiness", "expansion_hooks",
+      "commercial_next_questions",
+    ];
+    const missingKeys = expectedKeys.filter(k => !(k in (commercial as Record<string, unknown>)));
+    if (missingKeys.length > 0) {
+      issues.push({
+        type: "incomplete_analyst_output",
+        source: "pass1b_commercial",
+        detail: `Missing keys: ${missingKeys.join(", ")}`,
+        action_taken: "flagged_critical",
+      });
     }
   }
 

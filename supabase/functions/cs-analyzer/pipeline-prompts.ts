@@ -39,7 +39,7 @@ const ANALYST_EVIDENCE_SCHEMA = `{
   "observed_facts": [{ "fact": "paraphrased factual statement (NOT a raw quote)", "category": "renewal|budget|procurement|incident|value|adoption|stakeholder|delivery|political|other", "anchor_ids": ["Q1"] }],
   "explicit_risks": [{ "risk_statement": "a concrete risk statement e.g. 'Customer may downsell due to budget cuts'", "anchor_ids": ["Q3"], "risk_type": "commercial|delivery|relationship|product_fit|security|other" }],
   "explicit_opportunities": [{ "opportunity_statement": "string", "anchor_ids": ["Q9"], "opportunity_type": "expansion|value|adoption|relationship|other" }],
-  "stakeholder_mentions": [{ "name_or_title": "CIO", "presence": "present|mentioned_not_present|unclear", "stance_if_explicit": "supportive|skeptical|neutral|resistant|unknown", "power_level": "high|medium|low", "motivation_or_pressure": "Under governance review pressure, needs performance benchmarks in 3 weeks", "role_in_decision": "decision_maker|influencer|champion|blocker|end_user|unknown", "relationships": "Reports to CIO, gates finance approval", "anchor_ids": ["Q4"] }],
+  "stakeholder_mentions": [{ "name_or_title": "CIO", "presence": "present|mentioned_not_present|unclear", "stance_if_explicit": "supportive|skeptical|neutral|resistant|unknown", "power_level": "high|medium|low", "motivation_or_pressure": "Under governance review pressure, needs performance benchmarks in 3 weeks", "role_in_decision": "decision_maker|influencer|champion|blocker|end_user|internal_champion|internal_owner|unknown", "relationships": "Reports to CIO, gates finance approval", "stakeholder_type": "customer|internal|partner", "anchor_ids": ["Q4"] }],
   "commitments_and_next_steps": [{ "who": "customer|cs|internal|unknown", "commitment": "string", "due_when_text": "string", "anchor_ids": ["Q10"] }],
   "open_questions_explicit": [{ "question": "an actual question e.g. 'What is the timeline for procurement approval?'", "anchor_ids": ["Q2"] }]
 }`;
@@ -74,10 +74,10 @@ const FINAL_REPORT_SCHEMA = `{
   "incident_impact": { "incident_summary": [{ "incident": "string", "anchor_ids": [], "confidence": "high|medium|low" }], "customer_impact": [{ "impact": "string", "anchor_ids": [], "confidence": "high|medium|low" }], "section_confidence": "low" },
   "expansion_plays": [{ "play": "string", "observed_or_inferred": "observed|inferred", "anchor_ids": [], "inference_rationale": null, "confidence": "high|medium|low" }],
   "expansion_readiness": { "stage": "no_signal|interest|evaluation|negotiation|commitment", "gate_conditions": [], "decision_makers": [], "blockers": [], "anchor_ids": [], "confidence": "high|medium|low" },
-  "stakeholder_power_map": { "stakeholders": [{ "name_or_title": "string", "power": "high|medium|low", "stance": "supportive|skeptical|neutral|resistant|unknown", "role_in_decision": "decision_maker|influencer|champion|blocker|end_user|unknown", "motivation_or_pressure": "string|null", "relationships": "string|null", "engagement_level": "high|medium|low", "anchor_ids": [], "confidence": "high|medium|low" }], "summary": { "power_distribution": { "high": 0, "medium": 0, "low": 0 }, "stance_distribution": { "supportive": 0, "skeptical": 0, "neutral": 0, "resistant": 0, "unknown": 0 } }, "section_confidence": "low" },
+  "stakeholder_power_map": { "stakeholders": [{ "name_or_title": "string", "power": "high|medium|low", "stance": "supportive|skeptical|neutral|resistant|unknown", "role_in_decision": "decision_maker|influencer|champion|blocker|end_user|internal_champion|internal_owner|unknown", "motivation_or_pressure": "string|null", "relationships": "string|null", "engagement_level": "high|medium|low", "stakeholder_type": "customer|internal|partner", "anchor_ids": [], "confidence": "high|medium|low" }], "summary": { "power_distribution": { "high": 0, "medium": 0, "low": 0 }, "stance_distribution": { "supportive": 0, "skeptical": 0, "neutral": 0, "resistant": 0, "unknown": 0 } }, "section_confidence": "low" },
   "value_narrative_gaps": [{ "gap": "string", "impact_on_renewal": "high|medium|low", "observed_or_inferred": "observed|inferred", "anchor_ids": [], "inference_rationale": null, "confidence": "high|medium|low" }],
   "conversational_gaps": [{ "missing_topic": "string", "why_it_matters": "string", "suggested_question": "string", "confidence": "high|medium|low" }],
-  "cs_rep_effectiveness": { "included_only_if_supported": true, "strengths": [{ "strength": "string", "anchor_ids": [], "confidence": "high|medium|low" }], "gaps": [{ "gap": "string", "anchor_ids": [], "confidence": "high|medium|low" }], "coaching_moves": [{ "move": "string", "why": "string", "confidence": "high|medium|low" }], "section_confidence": "low" },
+  "cs_rep_effectiveness": { "title_override": "string|null", "included_only_if_supported": true, "strengths": [{ "strength": "string", "anchor_ids": [], "confidence": "high|medium|low" }], "gaps": [{ "gap": "string", "anchor_ids": [], "confidence": "high|medium|low" }], "coaching_moves": [{ "move": "string", "why": "string", "confidence": "high|medium|low" }], "section_confidence": "low" },
   "qa": { "removed_claims": [{ "claim": "string", "reason": "no_evidence|contradiction|too_speculative|schema_violation|role_conflict" }], "validation_issues_from_code": [], "notes": ["string"] }
 }`;
 
@@ -92,12 +92,20 @@ You must NOT analyze, recommend, infer strategy, or guess motivations.
 You only output strict JSON and follow the schema exactly.
 If information is missing, output null or empty arrays; never invent.
 
-## Customer Name Extraction (CRITICAL — vendor ≠ customer)
-Scan the transcript and any provided metadata for the CUSTOMER's company/organisation name.
+## Customer Name Extraction (CRITICAL — multi-source detection)
+Scan for the CUSTOMER's company/organisation name using ALL of these sources, in priority order:
 
-CRITICAL DISTINCTION — vendor vs customer:
-- The VENDOR/SELLER = the company whose CSM, AE, Account Manager, Solutions Architect, or Renewal Manager is on the call. This is the company providing the product/service.
-- The CUSTOMER/BUYER = the company receiving and paying for the product/service. This is the company whose VP, CIO, Procurement, IT Ops, SOC Lead, etc. are on the call.
+1. Transcript metadata or headers (e.g., "Customer: Acme Corporation")
+2. Speaker introductions referencing their company ("here at Acme", "our firm")
+3. Conversation context where the account is discussed by name:
+   - "[CompanyName] is..." (e.g., "Acme is a mixed bag right now")
+   - "the [CompanyName] account" (e.g., "the Northstar deployment")
+   - "working with [CompanyName]" or "[CompanyName]'s renewal"
+4. Industry/domain clues combined with company references
+
+CRITICAL — vendor vs customer distinction:
+- The VENDOR = the company whose CSM, AE, Account Manager, Solutions Architect, or Renewal Manager is on the call. This is the company providing the product/service.
+- The CUSTOMER = the company receiving and paying for the product/service. This is the company whose VP, CIO, Procurement, IT Ops, SOC Lead, etc. are on the call.
 
 In a Customer Success call transcript:
 - If speakers include roles like "CSM", "AE", "Account Manager", "Renewal Manager", "Solutions Architect" — their company is the VENDOR, not the customer.
@@ -108,14 +116,11 @@ DO NOT return the vendor/platform name as the customer. For example:
 - If the call is about a Datadog deployment → Datadog is the VENDOR, not the customer
 - The customer is the organisation BUYING the product
 
-Look for the customer company name in:
-1. Transcript metadata or headers (e.g., "Customer: Meridian Financial Group")
-2. How customer-side speakers reference their own company ("here at Meridian", "our firm")
-3. Account name references in the conversation context
-4. Industry/domain clues combined with company references
+In internal strategy calls, the customer is the account being DISCUSSED, not the team having the discussion.
 
 If you can ONLY identify the vendor/platform name (e.g., "Splunk", "Datadog"), set customer_name_if_detected to null — do NOT use the vendor name.
-If no customer company name is detectable, set to null.
+Partial names are acceptable (e.g., "Northstar" even if full name might be "Northstar Manufacturing").
+If no customer company name is detectable from any source, set to null.
 
 ## Speaker Role Inference (CRITICAL — downstream passes depend on accuracy)
 role_guess MUST be one of: customer|cs|internal|partner|unknown. Never use job titles here.
@@ -169,6 +174,29 @@ call_type_candidates MUST use these values (pick 1-2 most likely):
 - "internal_strategy" — Vendor-side only, no customer present, account planning
 - "expansion_discussion" — Focused on upsell, cross-sell, new use cases
 - "other" — None of the above fit
+
+## Internal Call Detection (MANDATORY CHECK)
+After identifying speakers and their role_guess values, perform this check:
+
+IF all speakers have role_guess in ["cs", "internal", "vendor"] AND zero speakers have role_guess = "customer":
+  → call_type_candidates MUST include "internal_strategy" as the FIRST (primary) candidate
+  → The topic being discussed (renewal, escalation, etc.) becomes a SECONDARY candidate only
+  → Example: An internal team discussing a renewal risk → ["internal_strategy", "renewal_negotiation"]
+  → Example: CS team planning an escalation response → ["internal_strategy", "risk_escalation"]
+
+This check takes priority over topic-based classification. A call about renewal topics where no customer is present is an internal strategy call, not a renewal negotiation.
+
+## Churn Save Detection
+If the transcript contains ANY of these signals:
+- Explicit statements of intent to leave: "decided to move to [vendor]", "switching to [vendor]", "not renewing", "preliminary decision to replace"
+- A named replacement vendor with pricing already quoted or evaluated
+- Discussion is primarily about counter-proposals, save plans, or retention offers to prevent departure
+
+→ call_type_candidates MUST include "churn_save" (NOT "renewal_negotiation")
+→ "renewal_negotiation" = both parties negotiating terms for continuation
+→ "churn_save" = customer has signalled departure, vendor is attempting rescue
+
+The key difference: In a renewal negotiation, the customer wants to stay but is negotiating terms. In a churn save, the customer has decided (or nearly decided) to leave and must be convinced to stay.
 
 ## Evidence Anchor Rules
 You MUST produce between 15-30 anchors. Every major topic shift or signal should have at least one anchor.
@@ -248,6 +276,10 @@ Each major topic shift or new signal MUST have its own anchor. When in doubt, cr
 ## Stakeholder Detection
 Include ALL named speakers from the transcript as stakeholders with anchors.
 Include mentioned-but-not-present roles (e.g., "our finance controller", "the CTO") ONLY if they have a supporting anchor. Otherwise omit or set presence to "unclear".
+
+## Stakeholder Name Resolution
+When populating stakeholders_detected, ALWAYS use the person's actual name from the speakers list if available. Format as "Name (Role Title)" — e.g., "Sarah Chen (CISO)", not just "CISO".
+Only use role titles alone when no personal name is available.
 
 ## Timeline Markers
 topic can be: renewal|procurement|delivery|adoption|governance|expansion|other
@@ -375,6 +407,34 @@ Contrast with genuinely negative statements:
 - "We went through all that pain for only 40% utilisation" → "skeptical" (pain + blame)
 - "The learning curve was painful but at least the platform works now" → "supportive" (pain acknowledged but resolved)
 
+## Call-Type-Specific Stance Calibration
+
+### For risk_escalation and churn_save calls:
+When a stakeholder states an INTENT TO ACT away from the vendor, classify as "resistant" not "skeptical":
+- "My recommendation to the board would be to explore alternatives" → RESISTANT (stated action intent)
+- "We've made a preliminary decision to move to [competitor]" → RESISTANT (decision made)
+- "I'm taking this to the board for review" → RESISTANT (escalating to authority)
+- "We've decided to issue an RFP" → RESISTANT (formal process initiated)
+
+The distinction:
+- Skeptical = frustrated, pushing back, but still persuadable within this conversation
+- Resistant = has stated an intended course of action AWAY from the vendor that requires a counter-proposal to reverse
+
+In escalation and churn-save contexts, do NOT understate the severity.
+
+### For onboarding_kickoff calls:
+- Setting demanding success criteria + showing enthusiasm = "supportive" (NOT skeptical)
+- Past vendor trauma directed at PREVIOUS vendor does NOT make them skeptical of the CURRENT vendor
+- Voluntarily committing resources, time, or data = "supportive" (NOT neutral)
+- "skeptical" means actively questioning whether THIS vendor can deliver
+- "neutral" means present but neither offered resources nor expressed concerns
+
+### For internal_strategy calls:
+Stakeholder stances refer to the DISCUSSED customer stakeholders, not the internal team members on the call.
+- If the internal team says "Marcus is frustrated with the product" → Marcus = skeptical
+- If the internal team says "The CISO will recommend alternatives" → CISO = resistant
+- Internal team members do NOT get stance classifications (they are the analysts, not the subjects)
+
 - **power_level**: Based on title, decision authority, and influence observed in the transcript.
   * "high" = C-level, VP, or anyone who controls budget/approval/go-no-go decisions
   * "medium" = Director-level, team leads, or anyone who influences but doesn't decide
@@ -450,6 +510,12 @@ Entry 1: { who: "cs", commitment: "Steve Park to deliver detailed commercial pro
 Entry 2: { who: "cs", commitment: "Emma to schedule value review session with Raj to map out ITSI accelerator plan", due_when_text: "not specified", anchor_ids: ["Q14"] }
 Entry 3: { who: "cs", commitment: "Reconvene with full group to review proposal", due_when_text: "next week", anchor_ids: ["Q15"] }
 
+## Commitment Anchor Attribution (CRITICAL — per-commitment precision)
+Each commitment MUST reference the specific anchor(s) where THAT commitment was stated.
+DO NOT assign all commitments to the same summary anchor.
+Find the specific quote where each individual commitment was made.
+If a summary anchor restates earlier commitments, use the ORIGINAL anchor where the commitment was first made, not the summary.
+
 ## open_questions_explicit rules (CRITICAL — verbatim only)
 - Each question MUST be a VERBATIM or NEAR-VERBATIM question that actually appears in the transcript as an interrogative statement.
 - The question text must closely match how it was spoken in the call — do NOT synthesize, rephrase, or infer implied questions.
@@ -457,6 +523,23 @@ Entry 3: { who: "cs", commitment: "Reconvene with full group to review proposal"
 - Good: "What is the timeline for procurement approval?" (verbatim from transcript, with anchor Q7)
 - Bad: "Budget pressure" (this is a topic, not a question)
 - Bad: "How will the customer handle adoption challenges?" (synthesized — not spoken in the call)
+
+## Additional Evidence Extraction for Escalation Calls (CONDITIONAL — risk_escalation only)
+When call_type_candidates includes "risk_escalation", extract ADDITIONAL granular facts:
+- Root cause specifics, detection timeline, outage/impact duration
+- Manual workaround effort, remediation actions taken and committed
+- Regulatory/compliance implications (HIPAA, SOC2, GDPR, audit, board reporting)
+- Historical support issues, SLA impact and breach details
+In escalation contexts, extract at least 6-8 facts from any substantial escalation call.
+
+## Vendor-Side Stakeholder Extraction (CONDITIONAL — risk_escalation, churn_save only)
+When call_type_candidates includes "risk_escalation" or "churn_save":
+Include vendor-side speakers in stakeholder_mentions IF they made specific, named commitments. Mark with:
+- presence: "present", stance_if_explicit: "supportive", stakeholder_type: "internal"
+- role_in_decision: "internal_champion" or "internal_owner"
+- motivation_or_pressure: what they committed to
+Do NOT include vendor-side stakeholders who are just participating without specific commitments.
+Only include in escalation and churn-save calls.
 
 ## Anchor Precision Rule (CRITICAL — trust depends on this)
 - Every anchor_id you reference MUST contain the CORE CONCEPT of the claim it supports.
@@ -561,7 +644,21 @@ Capture specific conditions that must be met before expansion can proceed. Look 
 Name the specific people who control the expansion decision (from the transcript).
 
 ### Blockers:
-Identify what is currently preventing or delaying expansion progress.`;
+Identify what is currently preventing or delaying expansion progress.
+
+## Expansion Readiness in Churn Save Calls (CONDITIONAL)
+When call_type_candidates includes "churn_save":
+
+The expansion_readiness field should almost always be:
+- stage: "no_signal"
+- gate_conditions: empty or stating "Account must be retained before any expansion is relevant"
+- blockers: list the active churn drivers
+
+Do NOT classify a retention counter-offer (e.g., cloud migration to reduce costs, discounted pricing, added services) as "expansion." These are SAVE mechanisms, not growth plays.
+
+The expansion_hooks field CAN include future expansion potential IF the save succeeds, but label them explicitly:
+- "If the save succeeds, [opportunity] could be explored in [timeframe]"
+- confidence should be "low" for any expansion hook in a churn-save context`;
 
   const user = `Transcript:
 \`\`\`
@@ -685,6 +782,14 @@ When identifying value_narrative_gaps and delivery_blockers, also note CSM behav
 - Agreed to customer demands without negotiating trade-offs
 - Left action items vague or without deadlines
 
+## CS Rep Effectiveness for Internal Strategy Calls (CONDITIONAL)
+When call_type_candidates includes "internal_strategy" as the PRIMARY (first) candidate:
+Reframe from "customer-facing behaviour" to "strategic planning quality":
+- STRENGTHS: account risk assessment quality, action planning clarity, strategic thinking, data-driven decisions
+- GAPS: missing internal discussion topics, stakeholder blind spots, vague action items, missing competitive intel
+- COACHING: strategic account planning, internal escalation, data gathering before customer engagement
+Do NOT assess customer-facing communication, de-escalation, or value articulation (no customer was present).
+
 Note these observations in your recommended_plays where relevant (e.g., "CSM should quantify the $X impact of the 57% MTTD improvement for the next governance review").`;
 
   const user = `Transcript:
@@ -776,6 +881,19 @@ The expansion_readiness section in the final report should mirror Analyst B's as
 ## Conversational Gaps
 Carry Analyst C's conversational_gaps directly to the final report.
 Set section_included.conversational_gaps = true if the array is non-empty.
+
+## Call Type Validation (SAFETY NET)
+Before finalising meta.call_type, cross-reference preprocessor classification with analyst outputs:
+- If Analyst B threat_classification.primary = "churn" but preprocessor says "renewal_negotiation" → Override to "churn_save"
+- If preprocessor detected zero customer-side speakers and says "renewal_negotiation" → Override to "internal_strategy"
+- If preprocessor says "renewal_negotiation" but Analyst B says customer has explicitly decided to leave → Override to "churn_save"
+
+## Section Inclusion for Internal Strategy Calls
+When meta.call_type = "internal_strategy":
+- incident_impact: false (unless discussing incident response plan)
+- cs_rep_effectiveness: set title_override to "Strategic Planning Assessment"
+- expansion_readiness: include only if team explicitly discussed expansion
+- stakeholder_power_map: include — these are the CUSTOMER stakeholders being discussed
 
 ## Section Inclusion Rules:
 - executive_snapshot: always true

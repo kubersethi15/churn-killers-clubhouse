@@ -271,8 +271,10 @@ export const CSRepEffectiveness = ({ data }: { data: FinalReport["cs_rep_effecti
   const hasContent = data.strengths.length > 0 || data.gaps.length > 0 || data.coaching_moves.length > 0;
   if (!hasContent) return null;
 
+  const sectionTitle = data.title_override || "CS Rep Effectiveness";
+
   return (
-    <CompactSection title="CS Rep Effectiveness" icon={<GraduationCap className="w-4 h-4 text-navy-dark" />} iconBg="bg-navy-dark/10">
+    <CompactSection title={sectionTitle} icon={<GraduationCap className="w-4 h-4 text-navy-dark" />} iconBg="bg-navy-dark/10">
       {data.strengths.length > 0 && (
         <div className="mb-3">
           <p className={cn(reportTypography.labelUppercase, "mb-2 text-emerald-600")}>Strengths</p>

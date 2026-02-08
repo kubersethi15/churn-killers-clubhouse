@@ -15,6 +15,8 @@ export type StakeholderDecisionRole =
   | "champion"
   | "blocker"
   | "end_user"
+  | "internal_champion"
+  | "internal_owner"
   | "unknown";
 
 export interface SectionIncluded {
@@ -80,6 +82,7 @@ export interface StakeholderEntry {
   motivation_or_pressure?: string | null;
   relationships?: string | null;
   engagement_level?: "high" | "medium" | "low";
+  stakeholder_type?: "customer" | "internal" | "partner";
   // Legacy field fallback
   engagement?: "high" | "medium" | "low";
   presence?: "present" | "mentioned_not_present" | "unclear";
@@ -167,6 +170,7 @@ export interface FinalReport {
   }[];
   conversational_gaps?: ConversationalGap[];
   cs_rep_effectiveness: {
+    title_override?: string;
     included_only_if_supported: boolean;
     strengths: { strength: string; anchor_ids: string[]; confidence: string }[];
     gaps: { gap: string; anchor_ids: string[]; confidence: string }[];
