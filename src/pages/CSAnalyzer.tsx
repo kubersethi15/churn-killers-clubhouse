@@ -483,7 +483,7 @@ const CSAnalyzer = () => {
   };
 
   const handleDownloadPDF = async () => {
-    // Only v2 pipeline reports are supported for Claude-rendered PDFs
+    // Only v2 pipeline reports are supported for deterministic PDFs
     if (reportVersion !== "v2_panel" || !pipelineResult?.finalReport) {
       toast({
         title: "PDF not available",
@@ -495,8 +495,8 @@ const CSAnalyzer = () => {
 
     setIsExportingPdf(true);
     toast({
-      title: "Generating premium PDF...",
-      description: "AI is formatting your executive report — this may take 15-30 seconds.",
+      title: "Generating PDF...",
+      description: "Building your print-ready report — this takes a few seconds.",
     });
 
     try {
@@ -508,38 +508,63 @@ const CSAnalyzer = () => {
       for (const key of Object.keys(sectionIncluded)) {
         allVisibleMap[key] = !!sectionIncluded[key];
       }
-      // Also enable display toggles
       allVisibleMap["evidence_quotes"] = true;
       allVisibleMap["confidence_scores"] = true;
       allVisibleMap["qa_notes"] = false;
 
-      const { data: fnData, error: fnError } = await supabase.functions.invoke(
-        "cs-report-renderer",
-        {
-          body: {
-            report: pipelineResult.finalReport,
-            visibility: allVisibleMap,
-            title: reportTitle,
-            finalizedAt: new Date().toISOString(),
-            evidenceAnchors: pipelineResult.evidenceAnchors || [],
-          },
-        },
-      );
+      const requestBody = {
+        report: pipelineResult.finalReport,
+        visibility: allVisibleMap,
+        title: reportTitle,
+        finalizedAt: new Date().toISOString(),
+        evidenceAnchors: pipelineResult.evidenceAnchors || [],
+      };
 
-      if (fnError) throw new Error(fnError.message || "Edge function failed");
+      // Retry logic for transient fetch failures
+      let fnData: unknown = null;
+      let lastError: Error | null = null;
+
+      for (let attempt = 0; attempt < 3; attempt++) {
+        try {
+          console.log(`[PDF Export] Attempt ${attempt + 1} — payload size: ${JSON.stringify(requestBody).length} chars`);
+          const { data, error: fnError } = await supabase.functions.invoke(
+            "cs-report-renderer",
+            { body: requestBody },
+          );
+
+          if (fnError) {
+            console.error(`[PDF Export] Attempt ${attempt + 1} error:`, fnError);
+            lastError = new Error(fnError.message || "Edge function failed");
+            // Wait before retry
+            if (attempt < 2) await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
+            continue;
+          }
+
+          fnData = data;
+          break;
+        } catch (fetchErr) {
+          console.error(`[PDF Export] Attempt ${attempt + 1} fetch error:`, fetchErr);
+          lastError = fetchErr instanceof Error ? fetchErr : new Error(String(fetchErr));
+          if (attempt < 2) await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
+        }
+      }
+
+      if (!fnData) {
+        throw lastError || new Error("Failed to reach the PDF renderer after 3 attempts");
+      }
 
       const responseData = typeof fnData === "string" ? JSON.parse(fnData) : fnData;
-      if (responseData.error) throw new Error(responseData.error);
-      if (!responseData.html) throw new Error("No HTML returned from renderer");
+      if ((responseData as Record<string, unknown>).error) throw new Error(String((responseData as Record<string, unknown>).error));
+      if (!(responseData as Record<string, unknown>).html) throw new Error("No HTML returned from renderer");
 
       const printWindow = window.open("", "_blank");
       if (!printWindow) throw new Error("Could not open print window — please allow popups");
 
-      printWindow.document.write(responseData.html);
+      printWindow.document.write((responseData as Record<string, unknown>).html as string);
       printWindow.document.close();
       printWindow.onload = () => printWindow.print();
 
-      toast({ title: "PDF Ready", description: "Premium report generated — use Save as PDF in the print dialog." });
+      toast({ title: "PDF Ready", description: "Use Save as PDF in the print dialog." });
     } catch (error) {
       console.error("PDF generation error:", error);
       toast({
