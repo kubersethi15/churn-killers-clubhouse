@@ -15,8 +15,8 @@ export interface ModelConfig {
 // Pinned model versions to prevent drift
 export const PASS_CONFIGS: Record<string, ModelConfig> = {
   preprocessor: { provider: "openai", model: "gpt-4o-mini", maxTokens: 2000, temperature: 0.1, timeoutMs: 30_000 },
-  analystA:     { provider: "openai", model: "gpt-4o-mini", maxTokens: 3500, temperature: 0.2, timeoutMs: 35_000 },
-  analystB:     { provider: "gemini", model: "google/gemini-3-flash-preview", maxTokens: 3500, temperature: 0.2, timeoutMs: 35_000 },
+  analystA:     { provider: "openai", model: "gpt-4o", maxTokens: 3500, temperature: 0.2, timeoutMs: 40_000 },
+  analystB:     { provider: "gemini", model: "google/gemini-2.5-pro", maxTokens: 3500, temperature: 0.2, timeoutMs: 45_000 },
   analystC:     { provider: "claude", model: "claude-sonnet-4-20250514", maxTokens: 3500, temperature: 0.2, timeoutMs: 35_000 },
   judge:        { provider: "claude", model: "claude-sonnet-4-20250514", maxTokens: 6000, temperature: 0.1, timeoutMs: 90_000 },
 };
