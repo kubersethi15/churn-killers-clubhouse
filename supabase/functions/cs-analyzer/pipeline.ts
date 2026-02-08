@@ -56,42 +56,68 @@ export async function runPipeline(input: PipelineInput): Promise<PipelineResult>
   let analystCommercial: AnalystCommercialOutput | null = null;
   let analystAdoption: AnalystAdoptionOutput | null = null;
 
-  // ── PASS 0: Preprocessor ──────────────────────────────────────────────
+  // ── PASS 0: Preprocessor (with retry) ──────────────────────────────────
   console.log("[Pipeline] Starting Pass 0: Preprocessor");
   const p0Start = Date.now();
   const p0Prompts = preprocessorPrompts(transcript, input.callMetadata);
-  const p0Result = await callModelForJson<PreprocessorOutput>(
+  let p0Result = await callModelForJson<PreprocessorOutput>(
     PASS_CONFIGS.preprocessor,
     p0Prompts.system,
     p0Prompts.user,
     "Pass0-Preprocessor",
   );
+
+  // Retry once on failure (preprocessor is critical — pipeline cannot continue without it)
+  if (!p0Result.data) {
+    console.log("[Pipeline] Pass 0 failed, retrying after 1s backoff...");
+    await delay(1000);
+    p0Result = await callModelForJson<PreprocessorOutput>(
+      PASS_CONFIGS.preprocessor,
+      p0Prompts.system,
+      p0Prompts.user,
+      "Pass0-Preprocessor-Retry",
+    );
+  }
+
   timings.push(timing("preprocessor", p0Start, PASS_CONFIGS.preprocessor, !!p0Result.data));
 
   if (!p0Result.data) {
-    errors.push(p0Result.error || "Preprocessor returned no data");
+    errors.push(p0Result.error || "Preprocessor returned no data after retry");
     failedPasses.push("preprocessor");
-    return makeResult(false, null, null, { preprocessor: null, analystEvidence: null, analystCommercial: null, analystAdoption: null, passTimings: timings, failedPasses, errors }, "Preprocessor failed — cannot continue pipeline");
+    return makeResult(false, null, null, { preprocessor: null, analystEvidence: null, analystCommercial: null, analystAdoption: null, passTimings: timings, failedPasses, errors }, "Preprocessor failed after retry — cannot continue pipeline");
   }
   preprocessor = p0Result.data;
   console.log(`[Pipeline] Pass 0 complete: ${preprocessor.evidence_anchors.length} anchors, ${preprocessor.speakers.length} speakers`);
 
-  // ── PASS 1A: Analyst A (Evidence) ─────────────────────────────────────
+  // ── PASS 1A: Analyst A (Evidence) — with retry ────────────────────────
   console.log("[Pipeline] Starting Pass 1A: Evidence Extractor");
   const p1aStart = Date.now();
   const p1aPrompts = analystEvidencePrompts(transcript, preprocessor);
-  const p1aResult = await callModelForJson<AnalystEvidenceOutput>(
+  let p1aResult = await callModelForJson<AnalystEvidenceOutput>(
     PASS_CONFIGS.analystA,
     p1aPrompts.system,
     p1aPrompts.user,
     "Pass1A-Evidence",
   );
+
+  // Retry once on failure (evidence base is critical — all downstream passes depend on it)
+  if (!p1aResult.data) {
+    console.log("[Pipeline] Pass 1A failed, retrying after 1s backoff...");
+    await delay(1000);
+    p1aResult = await callModelForJson<AnalystEvidenceOutput>(
+      PASS_CONFIGS.analystA,
+      p1aPrompts.system,
+      p1aPrompts.user,
+      "Pass1A-Evidence-Retry",
+    );
+  }
+
   timings.push(timing("analystA", p1aStart, PASS_CONFIGS.analystA, !!p1aResult.data));
 
   if (!p1aResult.data) {
-    errors.push(p1aResult.error || "Analyst A returned no data");
+    errors.push(p1aResult.error || "Analyst A returned no data after retry");
     failedPasses.push("analystA");
-    return makeResult(false, null, preprocessor.evidence_anchors, { preprocessor, analystEvidence: null, analystCommercial: null, analystAdoption: null, passTimings: timings, failedPasses, errors }, "Analyst A (Evidence) failed — cannot continue without evidence base");
+    return makeResult(false, null, preprocessor.evidence_anchors, { preprocessor, analystEvidence: null, analystCommercial: null, analystAdoption: null, passTimings: timings, failedPasses, errors }, "Analyst A (Evidence) failed after retry — cannot continue without evidence base");
   }
   analystEvidence = p1aResult.data;
   console.log(`[Pipeline] Pass 1A complete: ${analystEvidence.observed_facts.length} facts, ${analystEvidence.explicit_risks.length} risks`);

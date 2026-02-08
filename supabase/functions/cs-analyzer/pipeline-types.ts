@@ -193,7 +193,7 @@ export interface DeliveryBlocker {
 export interface RecommendedPlay {
   play: string;
   objective: string;
-  time_horizon: "7_days" | "14_days" | "30_days";
+  time_horizon: "7_days" | "14_days" | "30_days" | "60_days" | "90_days";
   why_now: string;
   observed_support_anchor_ids: string[];
   confidence: "high" | "medium" | "low";
