@@ -43,8 +43,15 @@ export function getEnterpriseCss(): string {
     padding: var(--page-margin);
     position: relative;
     page-break-after: always;
+    overflow: hidden;
   }
   .page:last-child { page-break-after: avoid; }
+  /* Cover page should NOT force an extra page break — the next .page handles its own */
+  .page.cover-page {
+    page-break-after: always;
+    max-height: 297mm;
+    overflow: hidden;
+  }
   .no-break { page-break-inside: avoid; break-inside: avoid; }
 
   /* ── Page header ──────────────────────────────────────────── */
@@ -104,9 +111,9 @@ export function getEnterpriseCss(): string {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* Use a max-height to prevent overflow that creates blank page 2 */
-    min-height: calc(297mm - 96px - 40px);
-    max-height: calc(297mm - 96px);
+    /* Constrain to single page — prevent overflow that creates blank page 2 */
+    height: calc(297mm - 96px - 60px);
+    max-height: calc(297mm - 96px - 60px);
     padding-top: 60px;
     overflow: hidden;
   }
@@ -497,8 +504,18 @@ export function getEnterpriseCss(): string {
   /* ── Print styles ───────────────────────────────────────────── */
   @media print {
     body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .page { width: 100%; margin: 0; padding: 20mm 18mm; page-break-after: always; }
+    .page {
+      width: 100%;
+      margin: 0;
+      padding: 20mm 18mm;
+      page-break-after: always;
+      overflow: hidden;
+    }
     .page:last-child { page-break-after: auto; }
+    .page.cover-page {
+      max-height: 297mm;
+      overflow: hidden;
+    }
     /* CRITICAL: footer must be absolute within each page, NOT fixed across all pages.
        Using position:fixed causes ALL page footers to stack on every printed page,
        producing garbled overlapping text ("Confifififidential", stacked page numbers). */
