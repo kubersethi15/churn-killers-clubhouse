@@ -647,7 +647,7 @@ const CSAnalyzer = () => {
     setIsAnalyzing(true);
 
     try {
-      const usePipeline = params.contentType === "call-transcript" && params.callCategory !== "other";
+      const usePipeline = params.contentType === "call-transcript";
 
       const requestBody: Record<string, unknown> = {
         analysisType: params.contentType,
