@@ -8,6 +8,8 @@ import {
   ProcurementTimeline,
   IncidentImpact,
   ExpansionPlays,
+  ExpansionReadinessSection,
+  ConversationalGapsSection,
   ValueNarrativeGaps,
   CSRepEffectiveness,
 } from "./ConditionalSections";
@@ -87,7 +89,19 @@ export const V2ReportRenderer = ({ report, evidenceAnchors, title, createdAt }: 
         {si.procurement_and_timeline && <ProcurementTimeline data={report.procurement_and_timeline} />}
         {si.incident_impact && <IncidentImpact data={report.incident_impact} />}
         {si.expansion_plays && report.expansion_plays.length > 0 && <ExpansionPlays data={report.expansion_plays} />}
+
+        {/* Expansion Readiness (new) */}
+        {report.expansion_readiness && (
+          <ExpansionReadinessSection data={report.expansion_readiness} />
+        )}
+
         {si.value_narrative_gaps && report.value_narrative_gaps.length > 0 && <ValueNarrativeGaps data={report.value_narrative_gaps} />}
+
+        {/* Conversational Gaps (new) */}
+        {si.conversational_gaps && report.conversational_gaps && report.conversational_gaps.length > 0 && (
+          <ConversationalGapsSection data={report.conversational_gaps} />
+        )}
+
         {si.cs_rep_effectiveness && <CSRepEffectiveness data={report.cs_rep_effectiveness} />}
       </div>
     </EvidenceProvider>
