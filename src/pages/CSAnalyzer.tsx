@@ -512,12 +512,13 @@ const CSAnalyzer = () => {
       allVisibleMap["confidence_scores"] = true;
       allVisibleMap["qa_notes"] = false;
 
+      // Strip fields the template doesn't use to keep payload small
+      const { qa, ...reportWithoutQa } = pipelineResult.finalReport;
       const requestBody = {
-        report: pipelineResult.finalReport,
+        report: reportWithoutQa,
         visibility: allVisibleMap,
         title: reportTitle,
         finalizedAt: new Date().toISOString(),
-        evidenceAnchors: pipelineResult.evidenceAnchors || [],
       };
 
       // Retry logic for transient fetch failures
@@ -526,7 +527,8 @@ const CSAnalyzer = () => {
 
       for (let attempt = 0; attempt < 3; attempt++) {
         try {
-          console.log(`[PDF Export] Attempt ${attempt + 1} — payload size: ${JSON.stringify(requestBody).length} chars`);
+          const payloadSize = JSON.stringify(requestBody).length;
+          console.log(`[PDF Export] Attempt ${attempt + 1} — payload size: ${payloadSize} chars (${(payloadSize / 1024).toFixed(1)} KB)`);
           const { data, error: fnError } = await supabase.functions.invoke(
             "cs-report-renderer",
             { body: requestBody },
