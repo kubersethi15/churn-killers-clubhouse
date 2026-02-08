@@ -10,6 +10,7 @@ import { V2ReportRenderer } from "@/components/cs-analyzer/report-v2/V2ReportRen
 import { ReportBuilder } from "@/components/cs-analyzer/report-v2/ReportBuilder";
 import { DebugSection } from "@/components/cs-analyzer/report-v2/DebugSection";
 import type { PipelineResult, FinalReport, EvidenceAnchor } from "@/components/cs-analyzer/report-v2/types";
+import { isValidCustomerName, getDisplayCustomerName } from "@/utils/customerNameUtils";
 import { TriageChat } from "@/components/cs-analyzer/TriageChat";
 import { AnalyzingProgress } from "@/components/cs-analyzer/AnalyzingProgress";
 import { FeedbackButton } from "@/components/cs-analyzer/FeedbackButton";
@@ -310,7 +311,7 @@ const CSAnalyzer = () => {
         // Auto-save for logged-in users
         if (user) {
           const rawCustomerName = data.pipelineResult.finalReport?.meta?.customer_name;
-          const reportCustomerName = rawCustomerName && rawCustomerName !== 'null' && rawCustomerName !== 'undefined' ? rawCustomerName : null;
+          const reportCustomerName = isValidCustomerName(rawCustomerName) ? rawCustomerName : null;
           const title = reportCustomerName
             || data.pipelineResult.finalReport?.executive_snapshot?.one_liner?.slice(0, 60)
             || generateTitle(selectedType, content);
@@ -507,7 +508,7 @@ const CSAnalyzer = () => {
     });
 
     try {
-      const reportTitle = pipelineResult.finalReport.meta?.customer_name || selectedSavedAnalysis?.title || `${selectedOption?.title || 'Analysis'} Report`;
+      const reportTitle = getDisplayCustomerName(pipelineResult.finalReport.meta?.customer_name, selectedSavedAnalysis?.title || `${selectedOption?.title || 'Analysis'} Report`);
 
       // Build a default "all visible" visibility map for Analysis tab export
       const allVisibleMap: Record<string, boolean> = {};
@@ -684,7 +685,7 @@ const CSAnalyzer = () => {
 
         if (user) {
           const rawName = data.pipelineResult.finalReport?.meta?.customer_name;
-          const reportCustomerName = rawName && rawName !== 'null' && rawName !== 'undefined' ? rawName : null;
+          const reportCustomerName = isValidCustomerName(rawName) ? rawName : null;
           const title = reportCustomerName
             || data.pipelineResult.finalReport?.executive_snapshot?.one_liner?.slice(0, 60)
             || generateTitle(params.contentType as AnalysisType, params.content);

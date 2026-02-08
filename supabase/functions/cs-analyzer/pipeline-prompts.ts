@@ -19,7 +19,7 @@ const PREPROCESSOR_SCHEMA = `{
   "customer_name_if_detected": "string|null",
   "transcript_quality": { "score_0_to_100": 0, "issues": [] },
   "speakers": [{ "speaker_label": "Speaker 1", "name_if_present": null, "role_guess": "customer|cs|internal|partner|unknown", "role_title": "CIO|Ops Lead|CSM|null", "confidence": "high|medium|low" }],
-  "call_type_candidates": ["qbr", "renewal_negotiation", "risk_escalation", "churn_save", "onboarding_kickoff", "internal_strategy", "expansion_discussion", "other"],
+  "call_type_candidates": ["qbr", "renewal_negotiation", "risk_escalation", "churn_save", "onboarding_kickoff", "internal_strategy", "expansion_discussion", "general_checkin", "other"],
   "explicit_mentions": {
     "renewal": { "mentioned": false, "anchor_ids": [] },
     "budget": { "mentioned": false, "anchor_ids": [] },
@@ -64,7 +64,7 @@ const ANALYST_ADOPTION_SCHEMA = `{
 }`;
 
 const FINAL_REPORT_SCHEMA = `{
-  "meta": { "call_type": "qbr|renewal_negotiation|risk_escalation|churn_save|onboarding_kickoff|internal_strategy|expansion_discussion|other", "transcript_quality_score_0_to_100": 0, "generated_at_iso": "", "customer_name": "string|null" },
+  "meta": { "call_type": "qbr|renewal_negotiation|risk_escalation|churn_save|onboarding_kickoff|internal_strategy|expansion_discussion|general_checkin|other", "transcript_quality_score_0_to_100": 0, "generated_at_iso": "", "customer_name": "string|null" },
   "section_included": { "executive_snapshot": true, "evidence_backed_facts": true, "risks_and_threats": true, "action_plan_14_days": true, "procurement_and_timeline": false, "incident_impact": false, "expansion_plays": false, "stakeholder_power_map": false, "value_narrative_gaps": false, "conversational_gaps": false, "cs_rep_effectiveness": false },
   "executive_snapshot": { "one_liner": "string", "primary_threat": "churn|downsell|displacement|delay|none|unknown", "top_3_takeaways": [{ "takeaway": "string", "anchor_ids": ["Q1"], "confidence": "high|medium|low" }], "overall_confidence": "high|medium|low" },
   "evidence_backed_facts": [{ "fact": "string", "category": "string", "anchor_ids": ["Q1"], "confidence": "high|medium|low" }],
@@ -164,6 +164,34 @@ Use these BEHAVIORAL SIGNALS to determine role_guess:
 
 DO NOT default all speakers to "internal". Use the behavioral signals above. When in doubt, prefer "unknown" over incorrect classification.
 
+## Speaker Role Detection — Industry-Aware Rules (CRITICAL — run BEFORE call type detection)
+
+CRITICAL: Not all speakers with "IT" or "Security" in their title are vendor-side.
+
+Customer-side roles include titles from ANY industry:
+- Healthcare: CMIO, Chief Medical Informatics Officer, CNO, CMO, VP Clinical, Dir. Health IT, Dir. Health IT Security, Chief Medical Officer, Chief Nursing Officer
+- Finance: CFO, Controller, VP Finance, Treasurer, Chief Risk Officer, Dir. Financial Operations
+- Legal: GC, General Counsel, Chief Legal Officer, VP Legal, Dir. Compliance
+- Government: CIO, Dir. Cybersecurity, Agency CISO, Program Manager
+- Manufacturing/Energy: VP Operations, Plant Manager, Dir. OT Security, Chief Engineer
+- ANY title with C-suite prefix (Chief, CxO), VP, Director, or Head of = LIKELY customer-side
+
+Vendor-side roles are specifically:
+- CSM, Customer Success Manager, Account Manager, Account Executive, AE
+- Solutions Architect, SA, Sales Engineer, SE
+- Technical Account Manager, TAM
+- Support Engineer, Professional Services Consultant
+- Anyone explicitly introduced as being from the vendor or platform company
+
+When uncertain about a speaker's side, check their quotes for decision-making signals:
+- "I'll authorize...", "Send me the proposal", "I'll take it to our board/committee"
+  → These indicate customer-side authority, NOT vendor roles
+- "I'll have the deployment plan to you by...", "Let me check with my manager"
+  → These indicate vendor-side delivery roles
+
+Getting this classification right is CRITICAL because it feeds into internal call detection.
+If even one speaker is customer-side, the call is NOT an internal strategy call.
+
 ## Call Type Classification
 call_type_candidates MUST use these values (pick 1-2 most likely):
 - "qbr" — Quarterly/periodic business review with metrics discussion
@@ -197,6 +225,32 @@ If the transcript contains ANY of these signals:
 → "churn_save" = customer has signalled departure, vendor is attempting rescue
 
 The key difference: In a renewal negotiation, the customer wants to stay but is negotiating terms. In a churn save, the customer has decided (or nearly decided) to leave and must be convinced to stay.
+
+## General Check-In Detection
+If the call meets ALL of these criteria:
+- Casual or informal tone throughout
+- No specific issues, risks, or escalations raised
+- No commercial topics (pricing, renewal, expansion) discussed in depth
+- Primary content is status updates, relationship maintenance, or "anything on your mind?"
+- Short duration indicated by few exchanges and minimal substance
+→ call_type_candidates should include "general_checkin"
+
+Examples: bi-weekly catch-ups, "just checking in" calls, routine touchpoints with no action items beyond "talk again next time."
+
+## QBR vs Expansion Discussion Disambiguation
+A QBR (Quarterly Business Review) involves:
+- Multi-topic review covering adoption, performance, roadmap, and commercial topics
+- Multiple stakeholders reviewing the broad relationship health
+- Metrics and data review with performance assessment against previous period
+
+An expansion_discussion involves:
+- Focused conversation about a specific new product, module, or capability
+- Pricing, proposal, and budget discussions for a NEW purchase
+- Technical validation requirements for the specific expansion
+
+If the call is primarily about evaluating or purchasing a specific new product or module
+→ "expansion_discussion" as primary (NOT "qbr")
+→ "qbr" can be secondary if the expansion was first raised in a prior QBR
 
 ## Evidence Anchor Rules
 You MUST produce between 15-30 anchors. Every major topic shift or signal should have at least one anchor.
@@ -407,20 +461,23 @@ Contrast with genuinely negative statements:
 - "We went through all that pain for only 40% utilisation" → "skeptical" (pain + blame)
 - "The learning curve was painful but at least the platform works now" → "supportive" (pain acknowledged but resolved)
 
-## Call-Type-Specific Stance Calibration
+## Resistant vs Skeptical — Universal Rule (ALL Call Types)
 
-### For risk_escalation and churn_save calls:
-When a stakeholder states an INTENT TO ACT away from the vendor, classify as "resistant" not "skeptical":
-- "My recommendation to the board would be to explore alternatives" → RESISTANT (stated action intent)
-- "We've made a preliminary decision to move to [competitor]" → RESISTANT (decision made)
-- "I'm taking this to the board for review" → RESISTANT (escalating to authority)
-- "We've decided to issue an RFP" → RESISTANT (formal process initiated)
+When a stakeholder states an INTENT TO ACT away from the vendor or to reduce the relationship, classify as "resistant" regardless of call type:
+- "I'm going to recommend we pull [product] licenses" → RESISTANT
+- "We've decided to move to [competitor]" → RESISTANT
+- "My recommendation to the board would be to explore alternatives" → RESISTANT
+- "If this isn't fixed, I'll recommend we don't renew" → RESISTANT
+- "We've made a preliminary decision to switch" → RESISTANT
+- "I'm taking this to the board for review" → RESISTANT
 
-The distinction:
-- Skeptical = frustrated, pushing back, but still persuadable within this conversation
-- Resistant = has stated an intended course of action AWAY from the vendor that requires a counter-proposal to reverse
+This rule applies in QBRs, escalations, renewals, check-ins — everywhere.
+The signal is in the STATEMENT, not the call type context.
 
-In escalation and churn-save contexts, do NOT understate the severity.
+But any EXPLICIT threat to remove, reduce, leave, or recommend against renewal = RESISTANT, always.
+
+KEEP the following call-type-specific nuances for BORDERLINE cases only:
+- In renewal: "exploring alternatives" without a named vendor MAY be a negotiation tactic (use judgment)
 
 ### For onboarding_kickoff calls:
 - Setting demanding success criteria + showing enthusiasm = "supportive" (NOT skeptical)
@@ -515,6 +572,20 @@ Each commitment MUST reference the specific anchor(s) where THAT commitment was 
 DO NOT assign all commitments to the same summary anchor.
 Find the specific quote where each individual commitment was made.
 If a summary anchor restates earlier commitments, use the ORIGINAL anchor where the commitment was first made, not the summary.
+
+## Commitment Extraction — Broader Definition
+Commitments include not just task-based "I'll do X by Y" statements, but also:
+
+- Authorisation decisions: "I'll authorize...", "Approved", "Do it", "Go ahead", "Green light"
+  → The authorisation IS the commitment. Owner = the person who authorised.
+- Internal escalation commitments: "I'll take it to our [committee/board/leadership]", "I'll present this to the CFO"
+  → The escalation IS the commitment. These are often expansion gates or decision milestones.
+- Governance setup: "Let's set up [daily standups / weekly check-ins / monthly reviews]"
+  → The governance cadence IS the commitment. Owner = whoever proposed it.
+- Resource allocation: "I can commit her at 60% during the first month", "I'll assign two engineers"
+  → The resource pledge IS the commitment.
+
+These are commitments even without explicit deadlines. The decision or allocation itself is the deliverable.
 
 ## open_questions_explicit rules (CRITICAL — verbatim only)
 - Each question MUST be a VERBATIM or NEAR-VERBATIM question that actually appears in the transcript as an interrogative statement.
@@ -761,6 +832,20 @@ Conversational gaps are topics that a seasoned CS leader would EXPECT to see dis
 - Minimum 2 gaps, maximum 6 gaps per transcript.
 - Confidence "high" only for topics that are clearly standard for this call type and were completely absent.
 
+## Gap Analysis Depth by Call Type
+
+When call_type_candidates includes "general_checkin":
+
+Limit conversational_gaps to a MAXIMUM of 2 entries.
+- Keep them concise: one sentence for the gap, one sentence for why it matters
+- Focus on the single most impactful thing the CSM could have done differently
+
+Limit value_narrative_gaps to a MAXIMUM of 1 entry.
+
+The coaching tone should be "here's one thing to try next time" — not "here are four major missed opportunities." A good check-in call is short and relationship-focused. Do not penalise the CSM for not turning a catch-up into a QBR.
+
+For cs_rep_effectiveness coaching_recommendations: limit to 1-2 recommendations maximum for general check-in calls.
+
 ## CS Rep Effectiveness — Behavioural Assessment (NEW)
 When identifying value_narrative_gaps and delivery_blockers, also note CSM behaviours you observe:
 
@@ -851,6 +936,16 @@ Set meta.customer_name by checking these sources in order:
 2. preprocessor.customer_name_if_detected (auto-extracted from transcript)
 3. null (if neither source provides a name)
 Do NOT use the executive_snapshot.one_liner as the customer name. The customer name must be an actual company or organisation name, not a description.
+
+## Customer Name — NULL Handling (CRITICAL)
+If no customer name was detected by the preprocessor or analysts, set meta.customer_name to null.
+Do NOT generate descriptive placeholder text such as:
+- "Not explicitly named..."
+- "** Unknown..."
+- "** Unnamed..."
+- Any text starting with "**"
+- Any sentence describing why the name couldn't be detected
+Simply set the value to null. The frontend handles null customer names with a clean fallback display.
 
 ## Stakeholder Power Map Compilation (CRITICAL — use Analyst A's enriched data)
 Analyst A now provides: power_level, motivation_or_pressure, role_in_decision, relationships, and enriched stance.

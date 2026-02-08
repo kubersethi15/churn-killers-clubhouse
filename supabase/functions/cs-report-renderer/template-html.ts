@@ -17,6 +17,23 @@ function esc(s: unknown): string {
     .replace(/"/g, "&quot;");
 }
 
+function isValidCustomerName(name: unknown): boolean {
+  if (!name || typeof name !== "string") return false;
+  const trimmed = name.trim();
+  if (!trimmed) return false;
+  const lower = trimmed.toLowerCase();
+  if (lower === "null" || lower === "undefined") return false;
+  if (trimmed.startsWith("**")) return false;
+  if (lower.includes("not explicitly named")) return false;
+  if (lower.includes("unnamed")) return false;
+  if (lower.includes("not detected")) return false;
+  if (lower.includes("not identified")) return false;
+  if (lower.includes("unknown customer")) return false;
+  if (lower.includes("not available")) return false;
+  if (trimmed.length > 50) return false;
+  return true;
+}
+
 function formatDate(iso: string): string {
   try {
     return new Date(iso).toLocaleDateString("en-GB", {
@@ -594,7 +611,7 @@ function buildGapsEffectivenessPage(report: any, vis: Record<string, boolean>, s
 
     csRepHtml = `
     ${convGapsHtml || valueGapsHtml ? '<div style="height:24px;"></div>' : ""}
-    ${sectionHeader("RE", "#E8F0FE", "#1A56DB", "CS Rep Effectiveness", "Behavioural assessment from transcript analysis")}
+    ${sectionHeader("RE", "#E8F0FE", "#1A56DB", rep.title_override || "CS Rep Effectiveness", "Behavioural assessment from transcript analysis")}
     <div class="effectiveness-grid">
       <div class="effectiveness-col strengths">
         <h4>Strengths</h4>
@@ -633,8 +650,9 @@ export function buildReportHtml(params: BuildParams): string {
   const dateStr = formatDate(
     finalizedAt || report.meta?.generated_at_iso || new Date().toISOString(),
   );
-  // Resolve customer name: prefer meta.customer_name, then fall back to title prop
-  const customer = report.meta?.customer_name || title || "Analysis Report";
+  // Resolve customer name with robust validation
+  const rawCustomer = report.meta?.customer_name;
+  const customer = isValidCustomerName(rawCustomer) ? rawCustomer : (title || "Customer Report");
   const callType = formatCallType(report.meta?.call_type || "unknown");
 
   let pageNum = 1;
