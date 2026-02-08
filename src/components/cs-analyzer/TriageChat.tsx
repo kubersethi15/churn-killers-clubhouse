@@ -51,6 +51,7 @@ interface TriageChatProps {
     contentType: string;
     callCategory: string | null;
     content: string;
+    customerName?: string | null;
     customPrompt?: CustomPrompt;
   }) => void;
 }
@@ -263,6 +264,7 @@ TRANSCRIPT:
         contentType: lastClassification.contentType,
         callCategory: 'other',
         content: originalContent,
+        customerName: lastClassification.customer,
         customPrompt: generateCustomPrompt(label),
       });
     } else {
@@ -270,6 +272,7 @@ TRANSCRIPT:
         contentType: lastClassification.contentType,
         callCategory: lastClassification.scenario,
         content: originalContent,
+        customerName: lastClassification.customer,
       });
     }
   };

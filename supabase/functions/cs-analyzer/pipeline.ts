@@ -92,6 +92,52 @@ export async function runPipeline(input: PipelineInput): Promise<PipelineResult>
   if (p0Result.missingKeys && p0Result.missingKeys.length > 0) {
     errors.push(`Preprocessor incomplete — missing keys: ${p0Result.missingKeys.join(", ")}`);
   }
+
+  // ── Post-processing: Fix 1.5 — Preprocessor self-validation (remove phantom anchor refs) ──
+  const validPreprocessorAnchorIds = new Set(preprocessor.evidence_anchors.map(a => a.id));
+  if (preprocessor.explicit_mentions) {
+    for (const [, data] of Object.entries(preprocessor.explicit_mentions)) {
+      if (data?.anchor_ids) {
+        data.anchor_ids = data.anchor_ids.filter((id: string) => validPreprocessorAnchorIds.has(id));
+      }
+    }
+  }
+  if (preprocessor.stakeholders_detected) {
+    for (const stakeholder of preprocessor.stakeholders_detected) {
+      if (stakeholder.anchor_ids) {
+        stakeholder.anchor_ids = stakeholder.anchor_ids.filter((id: string) => validPreprocessorAnchorIds.has(id));
+      }
+    }
+  }
+  if (preprocessor.timeline_markers) {
+    for (const marker of preprocessor.timeline_markers) {
+      if (marker.anchor_ids) {
+        marker.anchor_ids = marker.anchor_ids.filter((id: string) => validPreprocessorAnchorIds.has(id));
+      }
+    }
+  }
+
+  // ── Post-processing: Fix 1.4 — Resolve stakeholder names from speakers array ──
+  if (preprocessor.stakeholders_detected && preprocessor.speakers) {
+    const roleTitleKeywords = ["ciso", "cto", "cfo", "vp", "director", "manager", "lead", "engineer", "head"];
+    for (const stakeholder of preprocessor.stakeholders_detected) {
+      const nameOrTitle = stakeholder.name_or_title;
+      const lower = nameOrTitle.toLowerCase();
+      const isRoleTitle = roleTitleKeywords.some(r => lower.includes(r));
+      const hasPersonalName = /^[A-Z][a-z]+ [A-Z]/.test(nameOrTitle);
+
+      if (isRoleTitle && !hasPersonalName) {
+        const matchedSpeaker = preprocessor.speakers.find(s => {
+          const rt = s.role_title?.toLowerCase() || "";
+          return rt && (rt.includes(lower) || lower.includes(rt));
+        });
+        if (matchedSpeaker?.name_if_present) {
+          stakeholder.name_or_title = `${matchedSpeaker.name_if_present} (${nameOrTitle})`;
+        }
+      }
+    }
+  }
+
   console.log(`[Pipeline] Pass 0 complete: ${preprocessor.evidence_anchors.length} anchors, ${preprocessor.speakers.length} speakers`);
 
   // ── PASS 1A: Analyst A (Evidence) — with retry ────────────────────────

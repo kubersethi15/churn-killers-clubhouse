@@ -309,7 +309,8 @@ const CSAnalyzer = () => {
 
         // Auto-save for logged-in users
         if (user) {
-          const reportCustomerName = data.pipelineResult.finalReport?.meta?.customer_name;
+          const rawCustomerName = data.pipelineResult.finalReport?.meta?.customer_name;
+          const reportCustomerName = rawCustomerName && rawCustomerName !== 'null' && rawCustomerName !== 'undefined' ? rawCustomerName : null;
           const title = reportCustomerName
             || data.pipelineResult.finalReport?.executive_snapshot?.one_liner?.slice(0, 60)
             || generateTitle(selectedType, content);
@@ -632,6 +633,7 @@ const CSAnalyzer = () => {
     contentType: string;
     callCategory: string | null;
     content: string;
+    customerName?: string | null;
     customPrompt?: {
       systemPrompt: string;
       userPromptPrefix: string;
@@ -655,6 +657,7 @@ const CSAnalyzer = () => {
         content: params.content,
         email: user?.email || "anonymous@user.com",
         pipelineMode: usePipeline,
+        callMetadata: params.customerName ? { customer_name: params.customerName } : undefined,
       };
 
       // Include custom prompt for "other" scenarios
@@ -680,7 +683,8 @@ const CSAnalyzer = () => {
         });
 
         if (user) {
-          const reportCustomerName = data.pipelineResult.finalReport?.meta?.customer_name;
+          const rawName = data.pipelineResult.finalReport?.meta?.customer_name;
+          const reportCustomerName = rawName && rawName !== 'null' && rawName !== 'undefined' ? rawName : null;
           const title = reportCustomerName
             || data.pipelineResult.finalReport?.executive_snapshot?.one_liner?.slice(0, 60)
             || generateTitle(params.contentType as AnalysisType, params.content);
