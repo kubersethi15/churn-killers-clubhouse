@@ -178,16 +178,17 @@ export const AnalyzingProgress = () => {
 
       {/* Agent Cards */}
       <div className="space-y-3">
-        {PIPELINE_AGENTS.map((agent, index) => {
+        {PIPELINE_AGENTS.map((agent) => {
           const state = agentStates[agent.id];
           const isParallel = agent.id === "commercial" || agent.id === "adoption";
-          const showParallelLabel = agent.id === "commercial";
+          const showParallelStart = agent.id === "commercial";
+          const showParallelEnd = agent.id === "adoption";
 
           return (
             <div key={agent.id}>
-              {/* Parallel indicator */}
-              {showParallelLabel && (
-                <div className="flex items-center gap-2 ml-6 mb-2 mt-1">
+              {/* Parallel group opening */}
+              {showParallelStart && (
+                <div className="flex items-center gap-2 mb-2 mt-1">
                   <div className="h-px flex-1 bg-border" />
                   <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
                     Running in parallel
@@ -196,75 +197,83 @@ export const AnalyzingProgress = () => {
                 </div>
               )}
 
-              <div
-                className={cn(
-                  "relative rounded-xl border px-4 py-3 transition-all duration-500",
-                  state.status === "active" &&
-                    "border-red/30 bg-red/[0.03] shadow-sm",
-                  state.status === "complete" &&
-                    "border-emerald-200 bg-emerald-50/50",
-                  state.status === "pending" &&
-                    "border-border bg-muted/30 opacity-50",
-                  // Indent parallel agents
-                  isParallel && "ml-6"
-                )}
-              >
-                <div className="flex items-start gap-3">
-                  {/* Status Icon */}
-                  <div
-                    className={cn(
-                      "w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 transition-colors duration-500",
-                      state.status === "active" && "bg-red/10 text-red",
-                      state.status === "complete" && "bg-emerald-100 text-emerald-600",
-                      state.status === "pending" && "bg-muted text-muted-foreground"
-                    )}
-                  >
-                    {state.status === "complete" ? (
-                      <CheckCircle className="w-4 h-4" />
-                    ) : state.status === "active" ? (
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                    ) : (
-                      agent.icon
-                    )}
-                  </div>
-
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between gap-2">
-                      <h4
-                        className={cn(
-                          "text-sm font-semibold transition-colors duration-500",
-                          state.status === "active" && "text-navy-dark",
-                          state.status === "complete" && "text-emerald-700",
-                          state.status === "pending" && "text-muted-foreground"
-                        )}
-                      >
-                        {agent.label}
-                      </h4>
-                      {state.status === "complete" && (
-                        <span className="text-[10px] text-emerald-600 font-medium uppercase tracking-wide">
-                          Done
-                        </span>
-                      )}
-                    </div>
-                    <p
+              {/* Indent parallel agents into a nested block */}
+              <div className={cn(isParallel && "ml-6")}>
+                <div
+                  className={cn(
+                    "relative rounded-xl border px-4 py-3 transition-all duration-500",
+                    state.status === "active" &&
+                      "border-red/30 bg-red/[0.03] shadow-sm",
+                    state.status === "complete" &&
+                      "border-emerald-200 bg-emerald-50/50",
+                    state.status === "pending" &&
+                      "border-border bg-muted/30 opacity-50"
+                  )}
+                >
+                  <div className="flex items-start gap-3">
+                    {/* Status Icon */}
+                    <div
                       className={cn(
-                        "text-xs mt-0.5 transition-colors duration-500",
-                        state.status === "active" ? "text-foreground/70" : "text-muted-foreground"
+                        "w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 transition-colors duration-500",
+                        state.status === "active" && "bg-red/10 text-red",
+                        state.status === "complete" && "bg-emerald-100 text-emerald-600",
+                        state.status === "pending" && "bg-muted text-muted-foreground"
                       )}
                     >
-                      {state.status === "active" ? agent.detail : agent.description}
-                    </p>
+                      {state.status === "complete" ? (
+                        <CheckCircle className="w-4 h-4" />
+                      ) : state.status === "active" ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        agent.icon
+                      )}
+                    </div>
 
-                    {/* Per-agent progress bar (only when active) */}
-                    {state.status === "active" && (
-                      <div className="mt-2">
-                        <Progress value={state.progress} className="h-1" />
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-2">
+                        <h4
+                          className={cn(
+                            "text-sm font-semibold transition-colors duration-500",
+                            state.status === "active" && "text-navy-dark",
+                            state.status === "complete" && "text-emerald-700",
+                            state.status === "pending" && "text-muted-foreground"
+                          )}
+                        >
+                          {agent.label}
+                        </h4>
+                        {state.status === "complete" && (
+                          <span className="text-[10px] text-emerald-600 font-medium uppercase tracking-wide">
+                            Done
+                          </span>
+                        )}
                       </div>
-                    )}
+                      <p
+                        className={cn(
+                          "text-xs mt-0.5 transition-colors duration-500",
+                          state.status === "active" ? "text-foreground/70" : "text-muted-foreground"
+                        )}
+                      >
+                        {state.status === "active" ? agent.detail : agent.description}
+                      </p>
+
+                      {/* Per-agent progress bar (only when active) */}
+                      {state.status === "active" && (
+                        <div className="mt-2">
+                          <Progress value={state.progress} className="h-1" />
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
+
+              {/* Parallel group closing divider */}
+              {showParallelEnd && (
+                <div className="flex items-center gap-2 mt-2 mb-1">
+                  <div className="h-px flex-1 bg-border" />
+                </div>
+              )}
             </div>
           );
         })}
