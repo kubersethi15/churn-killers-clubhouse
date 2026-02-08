@@ -1095,7 +1095,115 @@ const CSAnalyzer = () => {
                 <AnalyzingProgress />
               )}
 
-              {/* Results State — V2 Pipeline */}
+              {/* Results State — V2 Pipeline (failed — no finalReport) */}
+              {step === "results" && reportVersion === "v2_panel" && pipelineResult && !pipelineResult.finalReport && (
+                <div className="animate-fade-in">
+                  <div className="flex items-center justify-between mb-6">
+                    <div>
+                      <h2 className="text-xl font-serif font-bold text-navy-dark">
+                        Analysis Incomplete
+                      </h2>
+                      <p className="text-sm text-muted-foreground">
+                        The pipeline finished but the final report could not be generated.
+                      </p>
+                    </div>
+                    <Button variant="outline" size="sm" onClick={handleStartOver} className="gap-2">
+                      <RotateCcw className="w-4 h-4" />
+                      <span className="hidden sm:inline">Try Again</span>
+                    </Button>
+                  </div>
+
+                  <Card className="border border-destructive/30 mb-4">
+                    <CardHeader className="border-b border-destructive/20 bg-destructive/5 py-4 px-5">
+                      <CardTitle className="font-serif text-base font-bold text-destructive flex items-center gap-2">
+                        <Target className="w-4 h-4" />
+                        Pipeline Error
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-5 space-y-3">
+                      <p className="text-sm text-foreground">
+                        {pipelineResult.error || "The Judge/Enforcer pass failed to produce a final report. This is usually caused by a timeout or an unexpected response from the AI model."}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        The analyst passes completed successfully — you can review their raw outputs in the Debug section below. Try running the analysis again; intermittent model failures are expected.
+                      </p>
+                      {pipelineResult.debug?.errors && pipelineResult.debug.errors.length > 0 && (
+                        <div className="bg-muted/50 rounded-lg p-3 mt-2">
+                          <p className="text-xs font-semibold text-muted-foreground mb-1">Error details:</p>
+                          <ul className="space-y-1">
+                            {pipelineResult.debug.errors.map((e: string, i: number) => (
+                              <li key={i} className="font-mono text-xs text-destructive">{e}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  {/* Show debug info so partial outputs aren't lost */}
+                  <div className="space-y-4">
+                    <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Debug — Partial Pipeline Outputs</h3>
+
+                    {/* Pass Timings */}
+                    {pipelineResult.debug?.passTimings && pipelineResult.debug.passTimings.length > 0 && (
+                      <Card className="border border-report-border">
+                        <CardHeader className="border-b border-report-border bg-report-surface/50 py-3 px-5">
+                          <CardTitle className="font-serif text-base font-bold text-report-heading">Pass Timings</CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-4">
+                          <div className="overflow-x-auto">
+                            <table className="w-full text-sm font-sans">
+                              <thead>
+                                <tr className="border-b">
+                                  <th className="text-left py-1.5 px-2 text-xs font-semibold text-muted-foreground">Pass</th>
+                                  <th className="text-left py-1.5 px-2 text-xs font-semibold text-muted-foreground">Provider</th>
+                                  <th className="text-left py-1.5 px-2 text-xs font-semibold text-muted-foreground">Model</th>
+                                  <th className="text-right py-1.5 px-2 text-xs font-semibold text-muted-foreground">Duration</th>
+                                  <th className="text-center py-1.5 px-2 text-xs font-semibold text-muted-foreground">Status</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {pipelineResult.debug.passTimings.map((t: { pass: string; provider: string; model: string; durationMs: number; success: boolean }, i: number) => (
+                                  <tr key={i} className="border-b border-border/50">
+                                    <td className="py-1.5 px-2 font-medium">{t.pass}</td>
+                                    <td className="py-1.5 px-2 text-muted-foreground">{t.provider}</td>
+                                    <td className="py-1.5 px-2 text-muted-foreground text-xs">{t.model}</td>
+                                    <td className="py-1.5 px-2 text-right">{(t.durationMs / 1000).toFixed(1)}s</td>
+                                    <td className="py-1.5 px-2 text-center">{t.success ? "✓" : "✗"}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+
+                    {pipelineResult.debug?.preprocessor && (
+                      <DebugSection title="Pass 0 — Preprocessor" data={pipelineResult.debug.preprocessor} />
+                    )}
+                    {pipelineResult.debug?.analystEvidence && (
+                      <DebugSection title="Pass 1A — Evidence Extractor" data={pipelineResult.debug.analystEvidence} />
+                    )}
+                    {pipelineResult.debug?.analystCommercial && (
+                      <DebugSection title="Pass 1B — Commercial Strategist" data={pipelineResult.debug.analystCommercial} />
+                    )}
+                    {pipelineResult.debug?.analystAdoption && (
+                      <DebugSection title="Pass 1C — Adoption Diagnostician" data={pipelineResult.debug.analystAdoption} />
+                    )}
+                  </div>
+
+                  {/* Download debug bundle even on failure */}
+                  <div className="mt-6 flex gap-2">
+                    <Button variant="outline" size="sm" onClick={handleDownloadDebugBundle} className="gap-2">
+                      <FileDown className="w-4 h-4" />
+                      Download Debug Bundle
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* Results State — V2 Pipeline (success) */}
               {step === "results" && reportVersion === "v2_panel" && pipelineResult?.finalReport && (
                 <div className="animate-fade-in">
                   <div className="flex items-center justify-between mb-6">
@@ -1251,32 +1359,21 @@ const CSAnalyzer = () => {
                         </Card>
                       )}
 
-                      {/* Pass 0: Preprocessor */}
                       {pipelineResult.debug?.preprocessor && (
                         <DebugSection title="Pass 0 — Preprocessor" data={pipelineResult.debug.preprocessor} />
                       )}
-
-                      {/* Pass 1A: Evidence Extractor */}
                       {pipelineResult.debug?.analystEvidence && (
                         <DebugSection title="Pass 1A — Evidence Extractor (OpenAI)" data={pipelineResult.debug.analystEvidence} />
                       )}
-
-                      {/* Pass 1B: Commercial Strategist */}
                       {pipelineResult.debug?.analystCommercial && (
                         <DebugSection title="Pass 1B — Commercial Strategist (Gemini)" data={pipelineResult.debug.analystCommercial} />
                       )}
-
-                      {/* Pass 1C: Adoption Diagnostician */}
                       {pipelineResult.debug?.analystAdoption && (
                         <DebugSection title="Pass 1C — Adoption Diagnostician (Claude)" data={pipelineResult.debug.analystAdoption} />
                       )}
-
-                      {/* Pass 2: Judge Final Report */}
                       {pipelineResult.finalReport && (
                         <DebugSection title="Pass 2 — Judge/Enforcer Final Report (Claude)" data={pipelineResult.finalReport} />
                       )}
-
-                      {/* QA: Removed Claims */}
                       {(pipelineResult.finalReport as FinalReport)?.qa && (
                         <Card className="border border-report-border">
                           <CardHeader className="border-b border-report-border bg-amber-50/50 py-3 px-5">
@@ -1289,8 +1386,6 @@ const CSAnalyzer = () => {
                           </CardContent>
                         </Card>
                       )}
-
-                      {/* Errors */}
                       {pipelineResult.debug?.errors && pipelineResult.debug.errors.length > 0 && (
                         <Card className="border border-destructive/30">
                           <CardHeader className="border-b border-destructive/20 bg-destructive/5 py-3 px-5">
