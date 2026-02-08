@@ -10,6 +10,7 @@ import { ReportBuilder } from "@/components/cs-analyzer/report-v2/ReportBuilder"
 import { DebugSection } from "@/components/cs-analyzer/report-v2/DebugSection";
 import type { PipelineResult, FinalReport, EvidenceAnchor } from "@/components/cs-analyzer/report-v2/types";
 import { TriageChat } from "@/components/cs-analyzer/TriageChat";
+import { AnalyzingProgress } from "@/components/cs-analyzer/AnalyzingProgress";
 import { FeedbackButton } from "@/components/cs-analyzer/FeedbackButton";
 import { AnalysisSidebar } from "@/components/analyzer/AnalysisSidebar";
 import { useAuth } from "@/contexts/AuthContext";
@@ -1125,18 +1126,7 @@ const CSAnalyzer = () => {
 
               {/* Analyzing State */}
               {step === "analyzing" && (
-                <div className="animate-fade-in text-center py-12">
-                  <div className="w-20 h-20 rounded-full bg-red/10 flex items-center justify-center text-red mx-auto mb-6">
-                    <Sparkles className="w-10 h-10 animate-pulse" />
-                  </div>
-                  <h2 className="text-2xl font-serif font-bold text-navy-dark mb-4">
-                    Analyzing your content...
-                  </h2>
-                  <p className="text-muted-foreground max-w-md mx-auto">
-                    Our AI is reviewing your {selectedOption?.title.toLowerCase()} and generating 
-                    personalized insights. This usually takes about 30 seconds.
-                  </p>
-                </div>
+                <AnalyzingProgress />
               )}
 
               {/* Results State — V2 Pipeline */}
