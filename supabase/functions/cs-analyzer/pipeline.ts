@@ -185,7 +185,12 @@ export async function runPipeline(input: PipelineInput): Promise<PipelineResult>
   timings.push(timing("judge", p2Start, PASS_CONFIGS.judge, !!p2Result.data));
 
   if (!p2Result.data) {
-    errors.push(p2Result.error || "Judge returned no data");
+    const judgeError = p2Result.error || "Judge returned no data";
+    console.error(`[Pipeline] Judge FAILED: ${judgeError}`);
+    if (p2Result.rawText) {
+      console.error(`[Pipeline] Judge raw output (first 500 chars): ${p2Result.rawText.slice(0, 500)}`);
+    }
+    errors.push(judgeError);
     failedPasses.push("judge");
     return makeResult(false, null, preprocessor.evidence_anchors, { preprocessor, analystEvidence, analystCommercial, analystAdoption, passTimings: timings, failedPasses, errors }, "Judge/Enforcer failed — returning partial outputs for debugging");
   }
