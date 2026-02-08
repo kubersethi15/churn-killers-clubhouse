@@ -35,6 +35,7 @@ import {
   ChevronDown,
   Download,
   FileDown,
+  Loader2,
   FileType,
   PanelLeft,
   Bot,
@@ -166,6 +167,7 @@ const CSAnalyzer = () => {
   const [selectedSavedAnalysis, setSelectedSavedAnalysis] = useState<Analysis | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [analyzerMode, setAnalyzerMode] = useState<"manual" | "ai-triage">("ai-triage");
+  const [isExportingPdf, setIsExportingPdf] = useState(false);
   const { toast } = useToast();
   const { user, profile, signOut, isLoading: authLoading } = useAuth();
   const { saveAnalysis, fetchAnalyses } = useAnalyses();
@@ -481,108 +483,72 @@ const CSAnalyzer = () => {
   };
 
   const handleDownloadPDF = async () => {
-    // Support both v1 markdown and v2 pipeline reports
-    const hasContent = analysisResult || (reportVersion === "v2_panel" && pipelineResult?.finalReport);
-    if (!hasContent) return;
-    
+    // Only v2 pipeline reports are supported for Claude-rendered PDFs
+    if (reportVersion !== "v2_panel" || !pipelineResult?.finalReport) {
+      toast({
+        title: "PDF not available",
+        description: "PDF export requires a pipeline analysis report.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsExportingPdf(true);
     toast({
-      title: "Opening Print Dialog...",
-      description: "Use 'Save as PDF' in the print dialog",
+      title: "Generating PDF with Claude Opus 4...",
+      description: "Premium formatting in progress — this may take up to a minute.",
     });
 
     try {
-      const title = selectedSavedAnalysis?.title || `${selectedOption?.title || 'Analysis'} Report`;
-      const reportElement = document.getElementById('analysis-report-content');
-      
-      if (reportElement) {
-        // Create a new window for printing
-        const printWindow = window.open('', '_blank');
-        if (!printWindow) {
-          throw new Error("Could not open print window - please allow popups");
-        }
+      const reportTitle = selectedSavedAnalysis?.title || `${selectedOption?.title || 'Analysis'} Report`;
 
-        // Gather all stylesheets from the current page for faithful rendering
-        const styleSheets = Array.from(document.styleSheets);
-        let cssText = '';
-        for (const sheet of styleSheets) {
-          try {
-            const rules = Array.from(sheet.cssRules || []);
-            cssText += rules.map(r => r.cssText).join('\n');
-          } catch {
-            // Cross-origin stylesheets can't be read — skip
-            if (sheet.href) {
-              cssText += `@import url("${sheet.href}");\n`;
-            }
-          }
-        }
-
-        // Write the content with print-friendly styles
-        printWindow.document.write(`
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <title>${title}</title>
-            <style>
-              ${cssText}
-              
-              /* Print overrides */
-              body { 
-                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-                padding: 24px; 
-                line-height: 1.6; 
-                color: #1a1a2e;
-                background: white;
-                max-width: 900px;
-                margin: 0 auto;
-              }
-              h1, h2, h3, h4 { margin-top: 1.2em; margin-bottom: 0.4em; }
-              h1 { font-size: 22px; font-family: 'Playfair Display', Georgia, serif; }
-              h2 { font-size: 18px; font-family: 'Playfair Display', Georgia, serif; }
-              h3 { font-size: 15px; }
-              p, ul, ol { margin-bottom: 0.8em; }
-              table { width: 100%; border-collapse: collapse; margin: 1em 0; font-size: 13px; }
-              th, td { border: 1px solid #e2e8f0; padding: 8px 10px; text-align: left; }
-              th { background: #f8fafc; font-weight: 600; }
-              /* Hide interactive elements in print */
-              button, [role="button"], .evidence-chip-trigger { display: none !important; }
-              /* Ensure cards print well */
-              [class*="card"] { break-inside: avoid; border: 1px solid #e2e8f0; margin-bottom: 12px; }
-              @media print { 
-                body { padding: 0; } 
-                [class*="card"] { box-shadow: none; }
-              }
-            </style>
-          </head>
-          <body>
-            <h1 style="margin-bottom: 4px;">${title}</h1>
-            <p style="color: #64748b; font-size: 13px; margin-bottom: 24px;">
-              Generated ${new Date().toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" })}
-            </p>
-            ${reportElement.innerHTML}
-          </body>
-          </html>
-        `);
-        printWindow.document.close();
-        
-        // Wait for content to load, then print
-        printWindow.onload = () => {
-          printWindow.print();
-        };
-        
-        toast({
-          title: "Ready to Save!",
-          description: "Select 'Save as PDF' in the print dialog",
-        });
-      } else {
-        throw new Error("Report content not found");
+      // Build a default "all visible" visibility map for Analysis tab export
+      const allVisibleMap: Record<string, boolean> = {};
+      const sectionIncluded = pipelineResult.finalReport.section_included as unknown as Record<string, boolean>;
+      for (const key of Object.keys(sectionIncluded)) {
+        allVisibleMap[key] = !!sectionIncluded[key];
       }
+      // Also enable display toggles
+      allVisibleMap["evidence_quotes"] = true;
+      allVisibleMap["confidence_scores"] = true;
+      allVisibleMap["qa_notes"] = false;
+
+      const { data: fnData, error: fnError } = await supabase.functions.invoke(
+        "cs-report-renderer",
+        {
+          body: {
+            report: pipelineResult.finalReport,
+            visibility: allVisibleMap,
+            title: reportTitle,
+            finalizedAt: new Date().toISOString(),
+            evidenceAnchors: pipelineResult.evidenceAnchors || [],
+          },
+        },
+      );
+
+      if (fnError) throw new Error(fnError.message || "Edge function failed");
+
+      const responseData = typeof fnData === "string" ? JSON.parse(fnData) : fnData;
+      if (responseData.error) throw new Error(responseData.error);
+      if (!responseData.html) throw new Error("No HTML returned from renderer");
+
+      const printWindow = window.open("", "_blank");
+      if (!printWindow) throw new Error("Could not open print window — please allow popups");
+
+      printWindow.document.write(responseData.html);
+      printWindow.document.close();
+      printWindow.onload = () => printWindow.print();
+
+      toast({ title: "PDF Ready", description: "Premium report generated — use Save as PDF in the print dialog." });
     } catch (error) {
       console.error("PDF generation error:", error);
       toast({
         title: "PDF generation failed",
-        description: error instanceof Error ? error.message : "Try downloading as Markdown instead",
+        description: error instanceof Error ? error.message : "Please try again later.",
         variant: "destructive",
       });
+    } finally {
+      setIsExportingPdf(false);
     }
   };
 
@@ -1147,18 +1113,22 @@ const CSAnalyzer = () => {
                     <div className="flex items-center gap-2">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="outline" size="sm" className="gap-2">
-                            <Download className="w-4 h-4" />
-                            <span className="hidden sm:inline">Export</span>
+                          <Button variant="outline" size="sm" className="gap-2" disabled={isExportingPdf}>
+                            {isExportingPdf ? (
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                            ) : (
+                              <Download className="w-4 h-4" />
+                            )}
+                            <span className="hidden sm:inline">{isExportingPdf ? "Generating..." : "Export"}</span>
                             <ChevronDown className="w-3 h-3" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="bg-background border shadow-lg z-50">
-                          <DropdownMenuItem onClick={handleDownloadPDF} className="gap-2 cursor-pointer">
+                          <DropdownMenuItem onClick={handleDownloadPDF} disabled={isExportingPdf} className="gap-2 cursor-pointer">
                             <FileDown className="w-4 h-4 text-red" />
                             <div>
                               <p className="font-medium">PDF Report</p>
-                              <p className="text-xs text-muted-foreground">Best for sharing & printing</p>
+                              <p className="text-xs text-muted-foreground">Premium AI-rendered, print-ready</p>
                             </div>
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
