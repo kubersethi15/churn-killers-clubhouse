@@ -45,6 +45,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Link, useNavigate } from "react-router-dom";
+import { buildPdfPayload } from "@/utils/pdfPayloadUtils";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -512,10 +513,9 @@ const CSAnalyzer = () => {
       allVisibleMap["confidence_scores"] = true;
       allVisibleMap["qa_notes"] = false;
 
-      // Strip fields the template doesn't use to keep payload small
-      const { qa, ...reportWithoutQa } = pipelineResult.finalReport;
+      // Build minimal payload — only fields the PDF template actually uses
       const requestBody = {
-        report: reportWithoutQa,
+        report: buildPdfPayload(pipelineResult.finalReport as unknown as Record<string, unknown>),
         visibility: allVisibleMap,
         title: reportTitle,
         finalizedAt: new Date().toISOString(),

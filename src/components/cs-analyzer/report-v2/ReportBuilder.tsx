@@ -27,6 +27,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { FilteredReportRenderer } from "./FilteredReportRenderer";
 import { getPdfCss, buildCoverPage } from "./pdfStyles";
+import { buildPdfPayload } from "@/utils/pdfPayloadUtils";
 import type { FinalReport, EvidenceAnchor, SectionIncluded } from "./types";
 
 // Toggleable section definitions
@@ -217,13 +218,12 @@ export const ReportBuilder = ({ report, evidenceAnchors, title, createdAt }: Rep
     try {
       const reportTitle = title || "Analysis Report";
 
-      // Strip fields the template doesn't use to keep payload small
-      const { qa, ...reportWithoutQa } = snapshot.fullReport;
+      // Build minimal payload — only fields the PDF template actually uses
       const { data: fnData, error: fnError } = await supabase.functions.invoke(
         "cs-report-renderer",
         {
           body: {
-            report: reportWithoutQa,
+            report: buildPdfPayload(snapshot.fullReport as unknown as Record<string, unknown>),
             visibility: snapshot.visibilityToggles,
             title: reportTitle,
             finalizedAt: snapshot.finalizedAt,
