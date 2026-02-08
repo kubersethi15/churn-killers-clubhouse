@@ -16,6 +16,7 @@ export type CallType =
   | "onboarding_kickoff"
   | "internal_strategy"
   | "expansion_discussion"
+  | "general_checkin"
   | "other";
 
 export type Confidence = "high" | "medium" | "low";
