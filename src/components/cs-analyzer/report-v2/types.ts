@@ -115,6 +115,7 @@ export interface FinalReport {
     call_type: string;
     transcript_quality_score_0_to_100: number;
     generated_at_iso: string;
+    customer_name?: string | null;
   };
   section_included: SectionIncluded;
   executive_snapshot: ExecutiveSnapshot;

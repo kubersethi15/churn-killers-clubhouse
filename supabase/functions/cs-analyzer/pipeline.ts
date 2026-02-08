@@ -200,6 +200,12 @@ export async function runPipeline(input: PipelineInput): Promise<PipelineResult>
   // Override generated_at_iso with backend timestamp (models hallucinate timestamps)
   if (finalReport.meta) {
     finalReport.meta.generated_at_iso = new Date().toISOString();
+    // Resolve customer_name: prefer user-provided metadata, then preprocessor auto-detection
+    if (!finalReport.meta.customer_name) {
+      finalReport.meta.customer_name = input.callMetadata?.customer_name
+        || preprocessor.customer_name_if_detected
+        || null;
+    }
   }
 
   // Inject code-validator issues into QA section if Judge didn't include them

@@ -16,6 +16,7 @@ import type {
 // ---------------------------------------------------------------------------
 
 const PREPROCESSOR_SCHEMA = `{
+  "customer_name_if_detected": "string|null",
   "transcript_quality": { "score_0_to_100": 0, "issues": [] },
   "speakers": [{ "speaker_label": "Speaker 1", "name_if_present": null, "role_guess": "customer|cs|internal|partner|unknown", "role_title": "CIO|Ops Lead|CSM|null", "confidence": "high|medium|low" }],
   "call_type_candidates": ["qbr", "renewal_negotiation", "risk_escalation", "churn_save", "onboarding_kickoff", "internal_strategy", "expansion_discussion", "other"],
@@ -63,7 +64,7 @@ const ANALYST_ADOPTION_SCHEMA = `{
 }`;
 
 const FINAL_REPORT_SCHEMA = `{
-  "meta": { "call_type": "qbr|renewal_negotiation|risk_escalation|churn_save|onboarding_kickoff|internal_strategy|expansion_discussion|other", "transcript_quality_score_0_to_100": 0, "generated_at_iso": "" },
+  "meta": { "call_type": "qbr|renewal_negotiation|risk_escalation|churn_save|onboarding_kickoff|internal_strategy|expansion_discussion|other", "transcript_quality_score_0_to_100": 0, "generated_at_iso": "", "customer_name": "string|null" },
   "section_included": { "executive_snapshot": true, "evidence_backed_facts": true, "risks_and_threats": true, "action_plan_14_days": true, "procurement_and_timeline": false, "incident_impact": false, "expansion_plays": false, "stakeholder_power_map": false, "value_narrative_gaps": false, "conversational_gaps": false, "cs_rep_effectiveness": false },
   "executive_snapshot": { "one_liner": "string", "primary_threat": "churn|downsell|displacement|delay|none|unknown", "top_3_takeaways": [{ "takeaway": "string", "anchor_ids": ["Q1"], "confidence": "high|medium|low" }], "overall_confidence": "high|medium|low" },
   "evidence_backed_facts": [{ "fact": "string", "category": "string", "anchor_ids": ["Q1"], "confidence": "high|medium|low" }],
@@ -90,6 +91,16 @@ Your job is to normalize and extract structured facts from a transcript.
 You must NOT analyze, recommend, infer strategy, or guess motivations.
 You only output strict JSON and follow the schema exactly.
 If information is missing, output null or empty arrays; never invent.
+
+## Customer Name Extraction
+Scan the transcript and any provided metadata for the customer or account name. Look for:
+- Metadata fields that name the customer (e.g., "Customer: Meridian Financial Group")
+- Speaker introductions referencing a company ("thanks for joining the Meridian review")
+- Context clues ("your Meridian account", "the NTA deployment")
+- Transcript headers or labels that name the account
+
+Set customer_name_if_detected to the customer's company name if found, or null if not detectable.
+Do NOT use descriptions like "Customer under budget pressure" — extract the actual company/organisation name only.
 
 ## Speaker Role Inference (CRITICAL — downstream passes depend on accuracy)
 role_guess MUST be one of: customer|cs|internal|partner|unknown. Never use job titles here.
@@ -187,6 +198,25 @@ Each anchor_id in explicit_mentions MUST reference an anchor whose quote DIRECTL
 - explicit_mentions.expansion.anchor_ids → anchors mentioning migration, growth, new use cases, additional deployment
 Do NOT cross-wire anchors between categories. If no anchor contains the concept, set anchor_ids to empty array.
 
+## Anchor Count Limit Per Category (CRITICAL — prevents over-assignment)
+No single explicit_mentions category should reference more than 6 anchor_ids. If you are assigning more than 6 anchors to one category, you are almost certainly over-assigning.
+
+When you find yourself assigning many anchors to one category, STOP and re-check each anchor's quote text:
+- Does the quote DIRECTLY mention the category concept (the actual word or a close synonym)?
+- Or are you assigning it because the call's overall TOPIC relates to that category?
+
+Only the first reason is valid. The call being "about" renewal does not make every quote a renewal quote.
+
+Example of WRONG assignment:
+- Category: renewal
+- Anchor Q6: "your team has used Splunk to reduce mean-time-to-resolution by 34%"
+- This is a VALUE quote, not a renewal quote. It doesn't mention renewal, contract, or terms.
+
+Example of CORRECT assignment:
+- Category: renewal
+- Anchor Q10: "If we move to a 3-year term with annual pre-payment, I can get to 12%"
+- This directly discusses contract terms and renewal structure.
+
 ## Stakeholder Detection
 Include ALL named speakers from the transcript as stakeholders with anchors.
 Include mentioned-but-not-present roles (e.g., "our finance controller", "the CTO") ONLY if they have a supporting anchor. Otherwise omit or set presence to "unclear".
@@ -274,6 +304,36 @@ For each stakeholder, you must assess:
   * "resistant" = actively opposing, blocking, or undermining
   * "unknown" = insufficient signal to determine
   IMPORTANT: Do NOT default to "neutral" when there IS signal. A stakeholder expressing frustration about performance is "skeptical", not "neutral". A stakeholder praising platform results is "supportive", not "neutral".
+
+## Stance Anti-Default Rule (CRITICAL — "neutral" is the WRONG default in most calls)
+Before assigning "neutral" to ANY stakeholder, you MUST complete this checklist:
+1. Did this stakeholder express ANY frustration, concern, pressure, objection, demand, or hard condition? → If yes, stance = "skeptical" (not neutral)
+2. Did this stakeholder express ANY satisfaction, acknowledgment of value, preference to stay, trust, or positive endorsement? → If yes, stance = "supportive" (not neutral)
+3. Did this stakeholder actively block, set ultimatums, or create hard gates? → If yes, stance = "resistant" (not neutral)
+4. ONLY if the stakeholder showed genuinely zero lean in any direction → stance = "neutral"
+
+In practice, "neutral" should be RARE. In renewal negotiations, escalations, and churn saves, almost every stakeholder has a lean. Use these call-type-specific examples:
+
+### Renewal Negotiation Examples:
+- "I'd rather not go through a full RFP process" → Wants to stay but is pressured. Stance = "skeptical" (not neutral — they signalled preference)
+- "The platform works. I'm not going to pretend otherwise" → Acknowledges value. Stance = "supportive"
+- "The gap is meaningful. I need 15-18%" → Pushing hard on commercial terms. Stance = "skeptical", role_in_decision = "blocker"
+- "Our CFO wants 15% savings" → Conveying external pressure with no personal lean shown. ONLY this type = "neutral"
+- "I want a performance SLA tied to the deal" → Setting hard conditions. Stance = "skeptical"
+
+### Escalation Examples:
+- "This is unacceptable. I've had to report this to our board." → Stance = "resistant"
+- "I'll reserve judgment until I see execution." → Stance = "skeptical"
+- "The security team prefers Splunk." → Stance = "supportive"
+
+### QBR Examples:
+- "My team's getting frustrated. It's impacting our SLA commitments." → Stance = "skeptical"
+- "The analysts are actually trusting the platform now." → Stance = "supportive"
+- Board approved a strategy but speaker shows no personal opinion → Stance = "neutral"
+
+### The Test:
+If you have assigned "neutral" to more than 50% of stakeholders in a call that involves active negotiation, escalation, or competitive evaluation, you have almost certainly mis-classified. Re-examine each stakeholder's quotes.
+
 - **power_level**: Based on title, decision authority, and influence observed in the transcript.
   * "high" = C-level, VP, or anyone who controls budget/approval/go-no-go decisions
   * "medium" = Director-level, team leads, or anyone who influences but doesn't decide
@@ -294,6 +354,60 @@ For each stakeholder, you must assess:
   * Good: "Reports to CIO; gates what financial information reaches CFO"
   * Good: "SOC team lead reporting to Dir. Cybersecurity; her team's adoption drives the value metrics"
   * Use null only if no relationship signals exist.
+
+## Mentioned-Not-Present Stakeholders (CRITICAL — the invisible decision maker)
+In renewal, escalation, and churn-save calls, the most powerful stakeholder is often NOT on the call. They drive decisions from the background. You MUST actively scan for these and include them.
+
+Look for these patterns:
+- Executive demands: "our CFO wants...", "the board requires...", "the CEO decided..."
+- Budget authority: "finance needs to approve...", "procurement requires..."
+- Absent approvers: "I need to take this to my CTO", "the VP will make the final call"
+- Historical references: "last time a vendor did X, our CFO..." (reveals past behaviour of absent stakeholder)
+
+For each mentioned-not-present stakeholder, include in stakeholder_mentions with:
+- presence: "mentioned_not_present"
+- stance_if_explicit: infer from how they're described ("CFO wants 15% cuts" → "skeptical" or "resistant"; "board approved the strategy" → "supportive")
+- power_level: typically "high" — they wouldn't be referenced if they didn't matter
+- motivation_or_pressure: what they want, based on how they're referenced
+- role_in_decision: typically "decision_maker" or "blocker"
+- relationships: their relationship to present stakeholders (e.g., "Tom reports to CFO; CFO mandated the budget cuts")
+- anchor_ids: the specific quote(s) where they're referenced
+
+Example: If Tom says "Our CFO has asked every department to find 15% savings", you MUST add:
+{
+  "name_or_title": "CFO (unnamed)",
+  "presence": "mentioned_not_present",
+  "stance_if_explicit": "resistant",
+  "power_level": "high",
+  "motivation_or_pressure": "Mandated 15% budget cuts across all departments",
+  "role_in_decision": "decision_maker",
+  "relationships": "Tom Hendricks reports to CFO; CFO controls budget approval",
+  "anchor_ids": ["Q3"]
+}
+
+## Commitment Extraction Rules (CRITICAL — every commitment is a separate entry)
+Extract EVERY distinct commitment as its own entry. Do NOT merge multiple commitments into one.
+
+### What counts as a separate commitment:
+- Different person committing → separate entry (even if same meeting)
+- Same person, different deliverable → separate entry
+- Same person, different deadline → separate entry
+- Same person, different recipient → separate entry
+
+### Required precision:
+- who: Use the SPECIFIC person's role, not generic "cs". If Steve Park (Renewal Manager) commits, who = "cs" with the commitment text naming Steve specifically.
+- commitment: Include WHAT specifically they promised, TO WHOM, and any specifics mentioned (format, content, terms).
+- due_when_text: Extract the EXACT deadline language from the transcript ("by Thursday", "by end of this week", "within two weeks", "next week"). Do NOT generalize.
+- anchor_ids: The specific quote where the commitment was made.
+
+### Example — what NOT to do:
+BAD (merged): { who: "cs", commitment: "Prepare proposal and schedule sessions", due_when_text: "this week" }
+
+### Example — what TO do:
+GOOD (separate entries):
+Entry 1: { who: "cs", commitment: "Steve Park to deliver detailed commercial proposal with 3-year structure, pre-payment discount, ITSI inclusion, and enhanced SLA terms to Lisa and Tom", due_when_text: "by Thursday", anchor_ids: ["Q10"] }
+Entry 2: { who: "cs", commitment: "Emma to schedule value review session with Raj to map out ITSI accelerator plan", due_when_text: "not specified", anchor_ids: ["Q14"] }
+Entry 3: { who: "cs", commitment: "Reconvene with full group to review proposal", due_when_text: "next week", anchor_ids: ["Q15"] }
 
 ## open_questions_explicit rules (CRITICAL — verbatim only)
 - Each question MUST be a VERBATIM or NEAR-VERBATIM question that actually appears in the transcript as an interrogative statement.
@@ -584,6 +698,13 @@ You receive pre-validated data plus a list of validation_issues the code found. 
 - Do NOT re-run anchor validation — trust the code validator's output.
 - Do NOT set generated_at_iso — leave as empty string "".
 - Output strict JSON matching FINAL_REPORT_SCHEMA exactly. No markdown, no extra keys.
+
+## Customer Name Resolution (CRITICAL — populate meta.customer_name)
+Set meta.customer_name by checking these sources in order:
+1. CallMetadata.customer_name (user-provided, highest priority)
+2. preprocessor.customer_name_if_detected (auto-extracted from transcript)
+3. null (if neither source provides a name)
+Do NOT use the executive_snapshot.one_liner as the customer name. The customer name must be an actual company or organisation name, not a description.
 
 ## Stakeholder Power Map Compilation (CRITICAL — use Analyst A's enriched data)
 Analyst A now provides: power_level, motivation_or_pressure, role_in_decision, relationships, and enriched stance.

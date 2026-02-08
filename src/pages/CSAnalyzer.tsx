@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AnalysisReport } from "@/components/cs-analyzer/report/AnalysisReport";
@@ -159,6 +160,7 @@ const CSAnalyzer = () => {
   const [selectedType, setSelectedType] = useState<AnalysisType>(null);
   const [selectedCallCategory, setSelectedCallCategory] = useState<CallCategory>(null);
   const [content, setContent] = useState("");
+  const [customerName, setCustomerName] = useState("");
   const [fileName, setFileName] = useState<string | null>(null);
   const [step, setStep] = useState<"select" | "input" | "analyzing" | "results">("select");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -269,6 +271,7 @@ const CSAnalyzer = () => {
                 content,
                 email: user?.email || "anonymous@user.com",
                 pipelineMode: selectedType === "call-transcript",
+                callMetadata: customerName ? { customer_name: customerName } : undefined,
               },
             });
 
@@ -306,9 +309,10 @@ const CSAnalyzer = () => {
 
         // Auto-save for logged-in users
         if (user) {
-          const title = data.pipelineResult.finalReport?.executive_snapshot?.one_liner
-            ? data.pipelineResult.finalReport.executive_snapshot.one_liner.slice(0, 60)
-            : generateTitle(selectedType, content);
+          const reportCustomerName = data.pipelineResult.finalReport?.meta?.customer_name;
+          const title = reportCustomerName
+            || data.pipelineResult.finalReport?.executive_snapshot?.one_liner?.slice(0, 60)
+            || generateTitle(selectedType, content);
           const { error } = await saveAnalysis(title, selectedType || "unknown", content, JSON.stringify({ pipelineResult: data.pipelineResult, reportVersion: 'v2_panel' }));
           if (!error) {
             window.dispatchEvent(new CustomEvent('analysis-saved'));
@@ -404,6 +408,7 @@ const CSAnalyzer = () => {
     setSelectedType(null);
     setSelectedCallCategory(null);
     setContent("");
+    setCustomerName("");
     setFileName(null);
     setAnalysisResult(null);
     setPipelineResult(null);
@@ -501,7 +506,7 @@ const CSAnalyzer = () => {
     });
 
     try {
-      const reportTitle = selectedSavedAnalysis?.title || `${selectedOption?.title || 'Analysis'} Report`;
+      const reportTitle = pipelineResult.finalReport.meta?.customer_name || selectedSavedAnalysis?.title || `${selectedOption?.title || 'Analysis'} Report`;
 
       // Build a default "all visible" visibility map for Analysis tab export
       const allVisibleMap: Record<string, boolean> = {};
@@ -675,9 +680,10 @@ const CSAnalyzer = () => {
         });
 
         if (user) {
-          const title = data.pipelineResult.finalReport?.executive_snapshot?.one_liner
-            ? data.pipelineResult.finalReport.executive_snapshot.one_liner.slice(0, 60)
-            : generateTitle(params.contentType as AnalysisType, params.content);
+          const reportCustomerName = data.pipelineResult.finalReport?.meta?.customer_name;
+          const title = reportCustomerName
+            || data.pipelineResult.finalReport?.executive_snapshot?.one_liner?.slice(0, 60)
+            || generateTitle(params.contentType as AnalysisType, params.content);
           const { error: saveError } = await saveAnalysis(title, params.contentType, params.content, JSON.stringify({ pipelineResult: data.pipelineResult, reportVersion: 'v2_panel' }));
           if (!saveError) {
             window.dispatchEvent(new CustomEvent('analysis-saved'));
@@ -1037,6 +1043,25 @@ const CSAnalyzer = () => {
                               Select a call type to enable tailored analysis
                             </p>
                           )}
+                        </div>
+                      )}
+
+                      {/* Customer Name (optional) */}
+                      {selectedType === "call-transcript" && (
+                        <div>
+                          <Label htmlFor="customer-name" className="text-base font-medium">
+                            Customer / Account Name <span className="text-xs font-normal text-muted-foreground">(optional)</span>
+                          </Label>
+                          <Input
+                            id="customer-name"
+                            placeholder="e.g. Meridian Financial Group"
+                            value={customerName}
+                            onChange={(e) => setCustomerName(e.target.value)}
+                            className="mt-2"
+                          />
+                          <p className="text-xs text-muted-foreground mt-1">
+                            Used in report headers and PDF exports. Auto-detected from transcript if left empty.
+                          </p>
                         </div>
                       )}
 

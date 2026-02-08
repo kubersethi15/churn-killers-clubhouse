@@ -633,7 +633,8 @@ export function buildReportHtml(params: BuildParams): string {
   const dateStr = formatDate(
     finalizedAt || report.meta?.generated_at_iso || new Date().toISOString(),
   );
-  const customer = title || "Analysis Report";
+  // Resolve customer name: prefer meta.customer_name, then fall back to title prop
+  const customer = report.meta?.customer_name || title || "Analysis Report";
   const callType = formatCallType(report.meta?.call_type || "unknown");
 
   let pageNum = 1;
