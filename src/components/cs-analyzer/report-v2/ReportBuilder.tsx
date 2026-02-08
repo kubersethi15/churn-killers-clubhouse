@@ -15,6 +15,7 @@ import {
   AlertTriangle,
   TrendingUp,
   MessageSquareWarning,
+  HelpCircle,
   UserCheck,
   Quote,
   BarChart3,
@@ -80,6 +81,13 @@ const TOGGLEABLE_SECTIONS: ToggleableSection[] = [
     description: "Narrative & positioning gaps",
     icon: <MessageSquareWarning className="w-4 h-4" />,
     sectionKey: "value_narrative_gaps",
+  },
+  {
+    key: "conversational_gaps",
+    label: "Conversational Gaps",
+    description: "Missing topics & suggested questions",
+    icon: <HelpCircle className="w-4 h-4" />,
+    sectionKey: "conversational_gaps",
   },
   {
     key: "cs_rep_effectiveness",
@@ -204,7 +212,7 @@ export const ReportBuilder = ({ report, evidenceAnchors, title, createdAt }: Rep
     }
 
     setIsGeneratingPdf(true);
-    toast({ title: "Generating PDF with Claude Opus 4...", description: "This may take up to a minute for premium formatting" });
+    toast({ title: "Generating PDF...", description: "Building enterprise report template" });
 
     try {
       const reportTitle = title || "Analysis Report";
@@ -245,7 +253,7 @@ export const ReportBuilder = ({ report, evidenceAnchors, title, createdAt }: Rep
         printWindow.print();
       };
 
-      toast({ title: "PDF Ready", description: "Claude Opus 4 generated your premium report" });
+      toast({ title: "PDF Ready", description: "Enterprise report generated successfully" });
     } catch (error) {
       console.error("PDF export failed:", error);
 
@@ -406,7 +414,7 @@ export const ReportBuilder = ({ report, evidenceAnchors, title, createdAt }: Rep
                     ) : (
                       <FileDown className="w-3.5 h-3.5" />
                     )}
-                    {isGeneratingPdf ? "Generating with Claude..." : "Export PDF"}
+                    {isGeneratingPdf ? "Generating..." : "Export PDF"}
                   </Button>
                   <Button onClick={handleUnlock} variant="outline" className="w-full gap-2" size="sm" disabled={isGeneratingPdf}>
                     <Unlock className="w-3.5 h-3.5" />
