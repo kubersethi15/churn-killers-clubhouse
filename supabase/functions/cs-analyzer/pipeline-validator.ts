@@ -150,7 +150,7 @@ export function validatePipelineOutputs(
   // ── Analyst A (Evidence) ───────────────────────────────────────────
   if (evidence) {
     // observed_facts: remove if no valid anchors
-    evidence.observed_facts = evidence.observed_facts.filter((fact, i) => {
+    evidence.observed_facts = (evidence.observed_facts || []).filter((fact, i) => {
       fact.anchor_ids = cleanAnchorIds(fact.anchor_ids, validAnchorIds, `evidence.observed_facts[${i}]`, issues);
       if (fact.anchor_ids.length === 0) {
         issues.push({ type: "observed_without_anchor", source: `evidence.observed_facts[${i}]`, detail: `Fact "${fact.fact}" removed — no valid anchors`, action_taken: "removed_claim" });
@@ -160,7 +160,7 @@ export function validatePipelineOutputs(
     });
 
     // explicit_risks: validate anchors + enforce risk_type enum
-    evidence.explicit_risks = evidence.explicit_risks.filter((risk, i) => {
+    evidence.explicit_risks = (evidence.explicit_risks || []).filter((risk, i) => {
       risk.anchor_ids = cleanAnchorIds(risk.anchor_ids, validAnchorIds, `evidence.explicit_risks[${i}]`, issues);
       if (!VALID_RISK_TYPES.has(risk.risk_type)) {
         const mapped = mapRiskType(risk.risk_type);
@@ -175,7 +175,7 @@ export function validatePipelineOutputs(
     });
 
     // explicit_opportunities
-    evidence.explicit_opportunities = evidence.explicit_opportunities.filter((opp, i) => {
+    evidence.explicit_opportunities = (evidence.explicit_opportunities || []).filter((opp, i) => {
       opp.anchor_ids = cleanAnchorIds(opp.anchor_ids, validAnchorIds, `evidence.explicit_opportunities[${i}]`, issues);
       if (opp.anchor_ids.length === 0) {
         issues.push({ type: "observed_without_anchor", source: `evidence.explicit_opportunities[${i}]`, detail: `Opportunity "${opp.opportunity_statement}" removed`, action_taken: "removed_claim" });
@@ -185,17 +185,17 @@ export function validatePipelineOutputs(
     });
 
     // stakeholder_mentions: clean anchors but don't remove (stakeholders can exist without anchors)
-    for (const sm of evidence.stakeholder_mentions) {
+    for (const sm of (evidence.stakeholder_mentions || [])) {
       sm.anchor_ids = cleanAnchorIds(sm.anchor_ids, validAnchorIds, `evidence.stakeholders[${sm.name_or_title}]`, issues);
     }
 
     // commitments
-    for (const c of evidence.commitments_and_next_steps) {
+    for (const c of (evidence.commitments_and_next_steps || [])) {
       c.anchor_ids = cleanAnchorIds(c.anchor_ids, validAnchorIds, `evidence.commitments`, issues);
     }
 
     // open_questions
-    evidence.open_questions_explicit = evidence.open_questions_explicit.filter((q, i) => {
+    evidence.open_questions_explicit = (evidence.open_questions_explicit || []).filter((q, i) => {
       q.anchor_ids = cleanAnchorIds(q.anchor_ids, validAnchorIds, `evidence.open_questions[${i}]`, issues);
       if (q.anchor_ids.length === 0) {
         issues.push({ type: "observed_without_anchor", source: `evidence.open_questions[${i}]`, detail: `Question "${q.question}" removed`, action_taken: "removed_claim" });
@@ -233,18 +233,20 @@ export function validatePipelineOutputs(
       commercial.threat_classification.observed_anchor_ids, validAnchorIds, "commercial.threat_classification", issues
     );
 
-    for (const sig of commercial.commercial_signals) {
+    for (const sig of (commercial.commercial_signals || [])) {
       sig.anchor_ids = cleanAnchorIds(sig.anchor_ids, validAnchorIds, "commercial.commercial_signals", issues);
       downgradeIfNoAnchors(sig, sig.signal, "commercial.commercial_signals", issues);
     }
 
-    for (const obj of commercial.exec_objections_likely) {
+    for (const obj of (commercial.exec_objections_likely || [])) {
       obj.anchor_ids = cleanAnchorIds(obj.anchor_ids, validAnchorIds, "commercial.exec_objections", issues);
     }
 
-    commercial.renewal_readiness.observed_anchor_ids = cleanAnchorIds(
-      commercial.renewal_readiness.observed_anchor_ids, validAnchorIds, "commercial.renewal_readiness", issues
-    );
+    if (commercial.renewal_readiness) {
+      commercial.renewal_readiness.observed_anchor_ids = cleanAnchorIds(
+        commercial.renewal_readiness.observed_anchor_ids, validAnchorIds, "commercial.renewal_readiness", issues
+      );
+    }
 
     if (commercial.expansion_readiness) {
       commercial.expansion_readiness.anchor_ids = cleanAnchorIds(
@@ -252,7 +254,7 @@ export function validatePipelineOutputs(
       );
     }
 
-    for (const hook of commercial.expansion_hooks) {
+    for (const hook of (commercial.expansion_hooks || [])) {
       hook.anchor_ids = cleanAnchorIds(hook.anchor_ids, validAnchorIds, "commercial.expansion_hooks", issues);
       downgradeIfNoAnchors(hook, hook.hook, "commercial.expansion_hooks", issues);
     }
@@ -279,22 +281,22 @@ export function validatePipelineOutputs(
 
   // ── Analyst C (Adoption) ───────────────────────────────────────────
   if (adoption) {
-    for (const gap of adoption.value_narrative_gaps) {
+    for (const gap of (adoption.value_narrative_gaps || [])) {
       gap.anchor_ids = cleanAnchorIds(gap.anchor_ids, validAnchorIds, "adoption.value_narrative_gaps", issues);
       downgradeIfNoAnchors(gap, gap.gap, "adoption.value_narrative_gaps", issues);
     }
 
-    for (const sig of adoption.adoption_signals) {
+    for (const sig of (adoption.adoption_signals || [])) {
       sig.anchor_ids = cleanAnchorIds(sig.anchor_ids, validAnchorIds, "adoption.adoption_signals", issues);
       downgradeIfNoAnchors(sig, sig.signal, "adoption.adoption_signals", issues);
     }
 
-    for (const blocker of adoption.delivery_blockers) {
+    for (const blocker of (adoption.delivery_blockers || [])) {
       blocker.anchor_ids = cleanAnchorIds(blocker.anchor_ids, validAnchorIds, "adoption.delivery_blockers", issues);
       downgradeIfNoAnchors(blocker, blocker.blocker, "adoption.delivery_blockers", issues);
     }
 
-    for (const play of adoption.recommended_plays) {
+    for (const play of (adoption.recommended_plays || [])) {
       play.observed_support_anchor_ids = cleanAnchorIds(
         play.observed_support_anchor_ids, validAnchorIds, "adoption.recommended_plays", issues
       );
