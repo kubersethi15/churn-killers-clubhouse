@@ -19,9 +19,11 @@ import {
   Quote,
   BarChart3,
   ClipboardList,
+  Loader2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import { FilteredReportRenderer } from "./FilteredReportRenderer";
 import { getPdfCss, buildCoverPage } from "./pdfStyles";
 import type { FinalReport, EvidenceAnchor, SectionIncluded } from "./types";
@@ -148,7 +150,7 @@ export const ReportBuilder = ({ report, evidenceAnchors, title, createdAt }: Rep
   });
 
   const [isFinalized, setIsFinalized] = useState(false);
-
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   // Section dependency chain: action_plan → risks_and_threats → executive_snapshot
   // These are always-visible so we don't toggle them, but the dependency logic
   // applies to toggleable sections that cascade. For future extensibility,
@@ -193,7 +195,7 @@ export const ReportBuilder = ({ report, evidenceAnchors, title, createdAt }: Rep
     toast({ title: "Report Unlocked", description: "You can now adjust section visibility." });
   };
 
-  const handleExportPDF = () => {
+  const handleExportPDF = async () => {
     // PDF MUST render from the frozen snapshot — no secondary transformation.
     const snapshot = snapshotRef.current;
     if (!snapshot) {
@@ -201,35 +203,88 @@ export const ReportBuilder = ({ report, evidenceAnchors, title, createdAt }: Rep
       return;
     }
 
-    toast({ title: "Opening Print Dialog...", description: "Use 'Save as PDF' in the print dialog" });
+    setIsGeneratingPdf(true);
+    toast({ title: "Generating PDF with Claude Opus 4...", description: "This may take up to a minute for premium formatting" });
 
-    requestAnimationFrame(() => {
-      const el = reportRef.current;
-      if (!el) return;
+    try {
+      const reportTitle = title || "Analysis Report";
 
+      // Call Claude Opus 4 to generate premium HTML
+      const { data: fnData, error: fnError } = await supabase.functions.invoke(
+        "cs-report-renderer",
+        {
+          body: {
+            report: snapshot.fullReport,
+            visibility: snapshot.visibilityToggles,
+            title: reportTitle,
+            finalizedAt: snapshot.finalizedAt,
+            evidenceAnchors: snapshot.evidenceAnchors,
+          },
+        },
+      );
+
+      if (fnError) throw new Error(fnError.message || "Edge function failed");
+
+      const responseData = typeof fnData === "string" ? JSON.parse(fnData) : fnData;
+
+      if (responseData.error) {
+        throw new Error(responseData.error);
+      }
+
+      if (!responseData.html) {
+        throw new Error("No HTML returned from renderer");
+      }
+
+      // Open Claude-generated HTML in print window
+      const printWindow = window.open("", "_blank");
+      if (!printWindow) throw new Error("Could not open print window — please allow popups");
+
+      printWindow.document.write(responseData.html);
+      printWindow.document.close();
+      printWindow.onload = () => {
+        printWindow.print();
+      };
+
+      toast({ title: "PDF Ready", description: "Claude Opus 4 generated your premium report" });
+    } catch (error) {
+      console.error("PDF export failed:", error);
+
+      // Fallback to DOM-based export if Claude fails
+      toast({
+        title: "Claude generation failed — using local export",
+        description: error instanceof Error ? error.message : "Unknown error",
+        variant: "destructive",
+      });
+
+      fallbackDomExport(snapshot);
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+  };
+
+  /** Fallback: DOM-capture PDF export if Claude is unavailable */
+  const fallbackDomExport = (snapshot: NonNullable<typeof snapshotRef.current>) => {
+    const el = reportRef.current;
+    if (!el) return;
+
+    const reportTitle = title || "Analysis Report";
+    const printWindow = window.open("", "_blank");
+    if (!printWindow) return;
+
+    const styleSheets = Array.from(document.styleSheets);
+    let appCss = "";
+    for (const sheet of styleSheets) {
       try {
-        const reportTitle = title || "Analysis Report";
-        const printWindow = window.open("", "_blank");
-        if (!printWindow) throw new Error("Could not open print window — please allow popups");
+        appCss += Array.from(sheet.cssRules || []).map((r) => r.cssText).join("\n");
+      } catch {
+        if (sheet.href) appCss += `@import url("${sheet.href}");\n`;
+      }
+    }
 
-        // Collect app stylesheets for Tailwind class support
-        const styleSheets = Array.from(document.styleSheets);
-        let appCss = "";
-        for (const sheet of styleSheets) {
-          try {
-            appCss += Array.from(sheet.cssRules || [])
-              .map((r) => r.cssText)
-              .join("\n");
-          } catch {
-            if (sheet.href) appCss += `@import url("${sheet.href}");\n`;
-          }
-        }
+    const coverHtml = buildCoverPage(reportTitle, snapshot.finalizedAt);
+    const pdfCss = getPdfCss();
 
-        // Build the premium PDF document
-        const coverHtml = buildCoverPage(reportTitle, snapshot.finalizedAt);
-        const pdfCss = getPdfCss();
-
-        printWindow.document.write(`<!DOCTYPE html>
+    printWindow.document.write(`<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -242,25 +297,12 @@ export const ReportBuilder = ({ report, evidenceAnchors, title, createdAt }: Rep
 </head>
 <body>
   ${coverHtml}
-  <div class="pdf-report-body">
-    ${el.innerHTML}
-  </div>
+  <div class="pdf-report-body">${el.innerHTML}</div>
 </body>
 </html>`);
-
-        printWindow.document.close();
-        printWindow.onload = () => printWindow.print();
-      } catch (error) {
-        toast({
-          title: "PDF export failed",
-          description: error instanceof Error ? error.message : "Unknown error",
-          variant: "destructive",
-        });
-      }
-    });
+    printWindow.document.close();
+    printWindow.onload = () => printWindow.print();
   };
-
-  // Count how many toggleable sections are available (pipeline included them)
   const availableCount = TOGGLEABLE_SECTIONS.filter(
     (s) => s.sectionKey && report.section_included[s.sectionKey],
   ).length;
@@ -353,11 +395,20 @@ export const ReportBuilder = ({ report, evidenceAnchors, title, createdAt }: Rep
                 </Button>
               ) : (
                 <>
-                  <Button onClick={handleExportPDF} className="w-full gap-2 bg-red hover:bg-red/90 text-white" size="sm">
-                    <FileDown className="w-3.5 h-3.5" />
-                    Export PDF
+                  <Button
+                    onClick={handleExportPDF}
+                    disabled={isGeneratingPdf}
+                    className="w-full gap-2 bg-red hover:bg-red/90 text-white"
+                    size="sm"
+                  >
+                    {isGeneratingPdf ? (
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    ) : (
+                      <FileDown className="w-3.5 h-3.5" />
+                    )}
+                    {isGeneratingPdf ? "Generating with Claude..." : "Export PDF"}
                   </Button>
-                  <Button onClick={handleUnlock} variant="outline" className="w-full gap-2" size="sm">
+                  <Button onClick={handleUnlock} variant="outline" className="w-full gap-2" size="sm" disabled={isGeneratingPdf}>
                     <Unlock className="w-3.5 h-3.5" />
                     Unlock & Edit
                   </Button>

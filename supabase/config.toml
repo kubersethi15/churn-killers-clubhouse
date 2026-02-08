@@ -26,3 +26,6 @@ verify_jwt = false
 
 [functions.chart-analyzer]
 verify_jwt = false
+
+[functions.cs-report-renderer]
+verify_jwt = false
