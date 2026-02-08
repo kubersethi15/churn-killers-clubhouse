@@ -217,16 +217,16 @@ export const ReportBuilder = ({ report, evidenceAnchors, title, createdAt }: Rep
     try {
       const reportTitle = title || "Analysis Report";
 
-      // Call Claude Opus 4 to generate premium HTML
+      // Strip fields the template doesn't use to keep payload small
+      const { qa, ...reportWithoutQa } = snapshot.fullReport;
       const { data: fnData, error: fnError } = await supabase.functions.invoke(
         "cs-report-renderer",
         {
           body: {
-            report: snapshot.fullReport,
+            report: reportWithoutQa,
             visibility: snapshot.visibilityToggles,
             title: reportTitle,
             finalizedAt: snapshot.finalizedAt,
-            evidenceAnchors: snapshot.evidenceAnchors,
           },
         },
       );
