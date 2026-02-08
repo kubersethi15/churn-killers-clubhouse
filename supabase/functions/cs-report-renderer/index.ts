@@ -7,11 +7,10 @@ const corsHeaders = {
 };
 
 // ---------------------------------------------------------------------------
-// Claude Opus 4 config
+// Lovable AI Gateway config — fast and reliable for HTML generation
 // ---------------------------------------------------------------------------
-const MODEL = "claude-opus-4-20250514";
-const MAX_TOKENS = 16000;
-const TIMEOUT_MS = 150_000; // 2.5 min — premium HTML gen
+const MODEL = "google/gemini-2.5-flash";
+const TIMEOUT_MS = 55_000; // 55s — within edge function wall-clock limit
 
 // ---------------------------------------------------------------------------
 // Main handler
@@ -21,15 +20,17 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
 
   try {
-    const apiKey = Deno.env.get("ANTHROPIC_API_KEY");
+    const apiKey = Deno.env.get("LOVABLE_API_KEY");
     if (!apiKey)
-      return jsonResp({ error: "ANTHROPIC_API_KEY not configured" }, 500);
+      return jsonResp({ error: "LOVABLE_API_KEY not configured" }, 500);
 
     const body = await req.json();
     const { report, visibility, title, finalizedAt, evidenceAnchors } = body;
 
     if (!report)
       return jsonResp({ error: "Missing report payload" }, 400);
+
+    console.log("[cs-report-renderer] Starting HTML generation...");
 
     const systemPrompt = buildSystemPrompt();
     const userPrompt = buildUserPrompt(report, visibility, title, finalizedAt, evidenceAnchors);
@@ -39,39 +40,46 @@ serve(async (req) => {
 
     let html: string;
     try {
-      const resp = await fetch("https://api.anthropic.com/v1/messages", {
+      const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
         method: "POST",
         headers: {
-          "x-api-key": apiKey,
-          "anthropic-version": "2023-06-01",
+          Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           model: MODEL,
-          max_tokens: MAX_TOKENS,
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: userPrompt },
+          ],
           temperature: 0.25,
-          system: systemPrompt,
-          messages: [{ role: "user", content: userPrompt }],
+          max_tokens: 16000,
         }),
         signal: controller.signal,
       });
 
       if (!resp.ok) {
         const errBody = await resp.text();
-        console.error(`Claude ${resp.status}: ${errBody.slice(0, 500)}`);
+        console.error(`AI Gateway ${resp.status}: ${errBody.slice(0, 500)}`);
         if (resp.status === 429)
           return jsonResp({ error: "Rate limited — please try again shortly." }, 429);
-        return jsonResp({ error: `Claude error: ${resp.status}` }, 500);
+        if (resp.status === 402)
+          return jsonResp({ error: "AI credits exhausted — please add credits in workspace settings." }, 402);
+        return jsonResp({ error: `AI gateway error: ${resp.status}` }, 500);
       }
 
       const data = await resp.json();
-      const rawText = data.content?.[0]?.type === "text" ? data.content[0].text : "";
+      const rawText = data.choices?.[0]?.message?.content ?? "";
+
+      console.log(`[cs-report-renderer] Got ${rawText.length} chars from AI`);
 
       html = extractHtml(rawText);
       if (!html) {
-        console.error("Claude returned no HTML");
+        console.error("[cs-report-renderer] No HTML found in response");
         return jsonResp({ error: "Failed to generate report HTML" }, 500);
       }
+
+      console.log(`[cs-report-renderer] HTML extracted: ${html.length} chars`);
     } finally {
       clearTimeout(timer);
     }

@@ -495,8 +495,8 @@ const CSAnalyzer = () => {
 
     setIsExportingPdf(true);
     toast({
-      title: "Generating PDF with Claude Opus 4...",
-      description: "Premium formatting in progress — this may take up to a minute.",
+      title: "Generating premium PDF...",
+      description: "AI is formatting your executive report — this may take 15-30 seconds.",
     });
 
     try {
