@@ -8,6 +8,8 @@ import {
   ProcurementTimeline,
   IncidentImpact,
   ExpansionPlays,
+  ExpansionReadinessSection,
+  ConversationalGapsSection,
   ValueNarrativeGaps,
   CSRepEffectiveness,
 } from "./ConditionalSections";
@@ -113,6 +115,12 @@ export const FilteredReportRenderer = ({
         {isVisible("incident_impact") && <IncidentImpact data={report.incident_impact} />}
         {isVisible("expansion_plays") && report.expansion_plays.length > 0 && (
           <ExpansionPlays data={report.expansion_plays} />
+        )}
+        {report.expansion_readiness && (
+          <ExpansionReadinessSection data={report.expansion_readiness} />
+        )}
+        {isVisible("conversational_gaps") && report.conversational_gaps && report.conversational_gaps.length > 0 && (
+          <ConversationalGapsSection data={report.conversational_gaps} />
         )}
         {isVisible("value_narrative_gaps") && report.value_narrative_gaps.length > 0 && (
           <ValueNarrativeGaps data={report.value_narrative_gaps} />
