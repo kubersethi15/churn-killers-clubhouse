@@ -78,10 +78,14 @@ export const TriageChat = ({ onAnalysisReady }: TriageChatProps) => {
   const [editableScenarioLabel, setEditableScenarioLabel] = useState<string>("");
   const [isEditingLabel, setIsEditingLabel] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatScrollRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const container = chatScrollRef.current;
+    if (container) {
+      container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
+    }
   };
 
   useEffect(() => {
@@ -296,7 +300,7 @@ TRANSCRIPT:
   return (
     <div className="flex flex-col h-[calc(100vh-12rem)] max-h-[800px]">
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div ref={chatScrollRef} className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
           <div
             key={message.id}
