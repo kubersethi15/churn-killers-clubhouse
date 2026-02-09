@@ -157,6 +157,22 @@ export async function runPipeline(input: PipelineInput): Promise<PipelineResult>
     }
   }
 
+  // ── Post-processing: Internal strategy detection override ──
+  // If ALL speakers are vendor-side and zero are customer-side,
+  // this is an internal strategy call regardless of topics discussed.
+  const allSpeakersVendorSide = preprocessor.speakers.length > 0 &&
+    preprocessor.speakers.every(
+      s => s.role_guess === 'cs' || s.role_guess === 'internal'
+    );
+
+  if (allSpeakersVendorSide) {
+    const filtered = preprocessor.call_type_candidates.filter(
+      c => c !== 'internal_strategy'
+    );
+    preprocessor.call_type_candidates = ['internal_strategy', ...filtered];
+    console.log('[Pipeline] Internal strategy override: all speakers vendor-side, promoted internal_strategy to primary');
+  }
+
   console.log(`[Pipeline] Pass 0 complete: ${preprocessor.evidence_anchors.length} anchors, ${preprocessor.speakers.length} speakers`);
 
   // ── PASS 1A: Analyst A (Evidence) — with retry ────────────────────────
