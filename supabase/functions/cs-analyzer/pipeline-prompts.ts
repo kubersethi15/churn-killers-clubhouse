@@ -192,7 +192,49 @@ When uncertain about a speaker's side, check their quotes for decision-making si
 Getting this classification right is CRITICAL because it feeds into internal call detection.
 If even one speaker is customer-side, the call is NOT an internal strategy call.
 
-## Call Type Classification
+## Call Type Classification — Decision Hierarchy
+When a call has overlapping signals, use this hierarchy to determine the PRIMARY type.
+The secondary type goes in position [1] of call_type_candidates.
+
+STEP 1 — Is the primary topic a SPECIFIC CRISIS or URGENT ISSUE?
+- Regulatory deadline, security incident, service outage, compliance gap, production failure
+→ "risk_escalation" as primary
+
+STEP 2 — Is the customer EXPLICITLY DEPARTING or has named a replacement vendor?
+- "We've decided to move to [competitor]" / "When our contract expires we're switching"
+→ "churn_save" as primary
+
+STEP 3 — Is the PRIMARY discussion about a SPECIFIC NEW PRODUCT or MODULE for purchase?
+- Pricing for a new module, proposal for additional capabilities, POC for new use case
+→ "expansion_discussion" as primary
+- This is NOT a QBR just because the expansion was mentioned in a prior QBR
+
+STEP 4 — Is the call focused on COMMERCIAL TERMS of the existing contract?
+- Renewal pricing, contract duration, discount negotiation, competitive displacement of current product
+→ "renewal_negotiation" as primary
+
+STEP 5 — Is this a FIRST ENGAGEMENT with a new customer or new product deployment?
+- Kickoff meeting, implementation planning, onboarding logistics, resource allocation for go-live
+→ "onboarding_kickoff" as primary
+
+STEP 6 — Is this a BROAD PERIODIC REVIEW of the overall relationship?
+- Multiple topics: adoption, performance, roadmap, value realisation, commercial
+- Multiple stakeholders reviewing health metrics across the account
+→ "qbr" as primary
+
+STEP 7 — Are ALL speakers vendor-side employees with no customer present?
+- Account planning, deal strategy, internal handoff, pre-meeting prep
+→ "internal_strategy" as primary
+
+STEP 8 — Is this a low-signal routine touchpoint?
+- Casual tone, no issues, no commercial topics, brief status update
+→ "general_checkin" as primary
+
+STEP 9 — None of the above?
+→ "other"
+
+Note: A call can trigger multiple steps. The HIGHEST step that matches (lowest number) wins as primary. Example: a call about a new module (Step 3 = expansion) that also involves broad account health review (Step 6 = QBR) → primary is expansion_discussion, secondary is qbr.
+
 call_type_candidates MUST use these values (pick 1-2 most likely):
 - "qbr" — Quarterly/periodic business review with metrics discussion
 - "renewal_negotiation" — Active renewal/pricing discussion with commercial terms
@@ -201,6 +243,7 @@ call_type_candidates MUST use these values (pick 1-2 most likely):
 - "onboarding_kickoff" — New customer deployment, implementation planning
 - "internal_strategy" — Vendor-side only, no customer present, account planning
 - "expansion_discussion" — Focused on upsell, cross-sell, new use cases
+- "general_checkin" — Routine low-signal touchpoint, status updates, relationship maintenance
 - "other" — None of the above fit
 
 ## Internal Call Detection (MANDATORY CHECK)
@@ -419,72 +462,143 @@ For each stakeholder, you must assess:
   * "unknown" = insufficient signal to determine
   IMPORTANT: Do NOT default to "neutral" when there IS signal. A stakeholder expressing frustration about performance is "skeptical", not "neutral". A stakeholder praising platform results is "supportive", not "neutral".
 
-## Stance Anti-Default Rule (CRITICAL — "neutral" is the WRONG default in most calls)
-Before assigning "neutral" to ANY stakeholder, you MUST complete this checklist:
-1. Did this stakeholder express ANY frustration, concern, pressure, objection, demand, or hard condition? → If yes, stance = "skeptical" (not neutral)
-2. Did this stakeholder express ANY satisfaction, acknowledgment of value, preference to stay, trust, or positive endorsement? → If yes, stance = "supportive" (not neutral)
-3. Did this stakeholder actively block, set ultimatums, or create hard gates? → If yes, stance = "resistant" (not neutral)
-4. ONLY if the stakeholder showed genuinely zero lean in any direction → stance = "neutral"
+## Stakeholder Stance Classification — Decision Framework
 
-In practice, "neutral" should be RARE. In renewal negotiations, escalations, and churn saves, almost every stakeholder has a lean. Use these call-type-specific examples:
+Stance captures a stakeholder's DISPOSITION toward the vendor relationship.
+It answers: "Is this person working WITH us, AGAINST us, or somewhere in between?"
 
-### Renewal Negotiation Examples:
-- "I'd rather not go through a full RFP process" → Wants to stay but is pressured. Stance = "skeptical" (not neutral — they signalled preference)
-- "The platform works. I'm not going to pretend otherwise" → Acknowledges value. Stance = "supportive"
-- "The gap is meaningful. I need 15-18%" → Pushing hard on commercial terms. Stance = "skeptical", role_in_decision = "blocker"
-- "Our CFO wants 15% savings" → Conveying external pressure with no personal lean shown. ONLY this type = "neutral"
-- "I want a performance SLA tied to the deal" → Setting hard conditions. Stance = "skeptical"
+### The Five Stances
+SUPPORTIVE — Actively invested in the relationship succeeding
+NEUTRAL — Present but not signalling clear direction
+SKEPTICAL — Has doubts, frustrations, or concerns but is still engaged
+RESISTANT — Has stated or implied a specific intended action AWAY from the vendor
+UNKNOWN — Not enough information to classify (e.g., mentioned but not present on the call)
 
-### Escalation Examples:
-- "This is unacceptable. I've had to report this to our board." → Stance = "resistant"
-- "I'll reserve judgment until I see execution." → Stance = "skeptical"
-- "The security team prefers Splunk." → Stance = "supportive"
+### Decision Rules (apply in order)
 
-### QBR Examples:
-- "My team's getting frustrated. It's impacting our SLA commitments." → Stance = "skeptical"
-- "The analysts are actually trusting the platform now." → Stance = "supportive"
-- Board approved a strategy but speaker shows no personal opinion → Stance = "neutral"
+STEP 1 — Has the stakeholder stated a SPECIFIC INTENDED ACTION to reduce, remove, or replace the vendor relationship?
+Examples of stated actions:
+- "I'm going to recommend we pull the licenses at renewal"
+- "We've decided to move to [competitor name]"
+- "I've asked finance to model the cost of switching"
+- "I'm issuing an RFP to the market"
+- "I'm taking a recommendation to the board to explore alternatives"
+- "We're reviewing our contract termination clauses"
+- "We've begun a proof-of-concept with [competitor]"
+- "I've mandated 15% budget cuts across all vendor contracts"
+If YES → RESISTANT, regardless of what else they said in the call.
+A person can be cooperative AND resistant — they're giving you a chance to change their mind, but the stated intent stands until explicitly withdrawn.
 
-### The Test:
-If you have assigned "neutral" to more than 50% of stakeholders in a call that involves active negotiation, escalation, or competitive evaluation, you have almost certainly mis-classified. Re-examine each stakeholder's quotes.
+STEP 2 — Is this an onboarding, implementation, or early deployment context?
+In these contexts, demanding behaviour usually signals INVESTMENT, not doubt:
+- Setting aggressive timelines ("I need this live in 90 days") → they want fast results
+- Committing their team's time/resources ("I'm assigning my best engineer full-time") → they're investing in success
+- Raising operational concerns proactively ("What about network bandwidth during cutover?") → ensuring smooth deployment
+- Expressing frustration with a PREVIOUS vendor ("Last vendor took 6 months and it was a disaster") → directed at the past, not at you
+- Establishing governance cadence ("I want weekly progress reports") → driving accountability, not doubting you
+If the stakeholder is doing ANY of the above → SUPPORTIVE
+Only classify as "skeptical" in onboarding if they express genuine doubt about THIS vendor's ability to deliver, or actively withhold resources, cooperation, or data access.
+
+STEP 3 — Is the stakeholder actively investing in the relationship?
+Signs of investment (in any call type):
+- Proactively requesting proposals, demos, or expansions
+- Volunteering their team for joint work or pilot programs
+- Praising specific outcomes or recommending the product internally
+- Sharing strategic plans or confidential roadmap information
+- Requesting executive-to-executive engagement
+If YES → SUPPORTIVE
+
+STEP 4 — Is the stakeholder expressing frustration, concern, or doubt without a stated action?
+Signs of skepticism without action:
+- "I'm not sure we're getting the value we expected"
+- "The competition is offering better pricing"
+- "My team is frustrated with the performance issues"
+- "I need to see improvement before I can justify the investment"
+These express doubt or dissatisfaction but no specific planned action to leave or reduce.
+If YES → SKEPTICAL
+
+STEP 5 — Not enough signal to classify?
+If the stakeholder made generic or factual comments without clear sentiment:
+- "The data migration is scheduled for Q2" (factual, no sentiment)
+- "My team uses the dashboards daily" (descriptive, no sentiment)
+If YES → NEUTRAL
+
+If the stakeholder was mentioned but not present on the call → UNKNOWN
+
+### Worked Examples
+
+EXAMPLE 1 — RESISTANT (stated action in a QBR)
+Context: Multi-product QBR, one product line is underperforming
+Quote: "If this doesn't get fixed properly this time, I'm going to recommend we pull the ITSI licenses at renewal. That's $180K we could redirect to other priorities."
+Same person later says: "I appreciate the offer of a remediation sprint. Let's do it."
+CORRECT: Resistant
+WHY: Stated specific action (pull licenses), specific amount ($180K), specific trigger (if not fixed). Accepting remediation = giving the vendor one chance, NOT withdrawing the threat. The threat stands.
+WRONG: Skeptical — because "skeptical" implies frustration without a plan. This person HAS a plan.
+
+EXAMPLE 2 — RESISTANT (procurement action in a renewal)
+Context: Renewal negotiation with budget pressure
+Quote: "I've asked our finance team to model what it would cost to replatform to an open-source alternative. I'm not saying we'll do it, but I need the numbers."
+CORRECT: Resistant
+WHY: Initiated a specific evaluation action (asked finance to model costs). "I'm not saying we'll do it" is hedging, but the action is already underway.
+
+EXAMPLE 3 — RESISTANT (government/public sector)
+Context: Government agency annual review
+Quote: "We're required to issue an RFP every 5 years. That process starts in March regardless of our satisfaction with the current vendor."
+CORRECT: Resistant
+WHY: A mandated process to evaluate alternatives is a stated action away from the current relationship, even if the stakeholder personally prefers to stay.
+
+EXAMPLE 4 — SUPPORTIVE (demanding onboarding)
+Context: Onboarding kickoff, new customer
+Quote: "I need this fully deployed within 90 days. We cannot have any security monitoring gaps during the transition. I'm putting my best engineer on this full-time and I want weekly progress updates."
+CORRECT: Supportive
+WHY: Committing resources (best engineer full-time), setting ambitious timeline (wants fast results), establishing governance (weekly updates to drive success). These are INVESTMENTS in the relationship, not doubts about it.
+WRONG: Skeptical — because demanding timelines in onboarding = excitement and urgency, not doubt.
+
+EXAMPLE 5 — SUPPORTIVE (post-implementation with past vendor trauma)
+Context: Implementation check-in, 3 months in
+Quote: "Our last vendor took 8 months to get to this point and we still had data gaps. I'm cautiously optimistic but I need to see the first threat detection in production before I'll relax. I've told my team to prioritise your requests over BAU work."
+CORRECT: Supportive
+WHY: The frustration is directed at the PREVIOUS vendor, not the current one. "Cautiously optimistic" + prioritising vendor requests = actively supporting the engagement. Wanting to see results is normal diligence, not skepticism.
+
+EXAMPLE 6 — SUPPORTIVE (expansion champion)
+Context: Expansion discussion
+Quote: "This is exactly what our compliance team needs. Send me a proposal — I need to get this in front of our CFO before budget planning closes."
+CORRECT: Supportive
+WHY: Proactively requesting a proposal, volunteering to champion it internally, driving urgency on budget timing.
+
+EXAMPLE 7 — SKEPTICAL (frustrated but no action)
+Context: QBR, performance issues
+Quote: "Honestly, the last quarter has been disappointing. The dashboards are slow, the alerts aren't tuned, and my team is spending more time managing Splunk than using it. I need to see a plan."
+CORRECT: Skeptical
+WHY: Clear frustration and dissatisfaction, but no stated action to leave, reduce, or evaluate alternatives. "I need to see a plan" = still engaged, still giving the vendor a chance to respond.
+
+EXAMPLE 8 — SKEPTICAL (price-sensitive renewal)
+Context: Renewal negotiation
+Quote: "We're under significant budget pressure this cycle. Our CFO has asked every department to find 15% savings. I need you to help me build a case for why we shouldn't cut this."
+CORRECT: Skeptical
+WHY: Budget pressure is external, not a personal stance against the vendor. "Help me build a case" = still wanting to keep the product, needs ammunition to justify internally.
+
+EXAMPLE 9 — NEUTRAL (factual, no sentiment)
+Context: General check-in
+Quote: "Things are pretty steady. The team's been heads down on a data center migration. Nothing vendor-related."
+CORRECT: Neutral
+WHY: No positive or negative signal about the vendor relationship. Purely factual status update.
+
+EXAMPLE 10 — UNKNOWN (mentioned, not present)
+Context: Expansion discussion, CFO mentioned but not on the call
+Quote (from someone else): "I'll need to get Jennifer's approval. She'll want to see the ROI math."
+CORRECT: Unknown
+WHY: Jennifer wasn't on the call. We have no direct signal about her disposition. Don't guess.
 
 ### Switching Cost = Retention Advocacy (CRITICAL — context matters):
 - "The learning curve was painful and if we switch we'd go through that again" → This person is arguing AGAINST switching by citing switching costs. Stance = "supportive" (the pain reference is about a FUTURE switch, not current dissatisfaction)
 - "The platform works. I'm not going to pretend otherwise" → Direct acknowledgment of value delivery. Stance = "supportive"
 - "We're only using 40% of capabilities" → If framed as "we need to get more from this" it's constructive criticism from someone who wants to stay. Stance = "supportive" unless accompanied by explicit frustration or blame.
-- "We've seen real value from the predictive analytics" → Positive endorsement. Stance = "supportive"
-
-When a stakeholder raises switching costs, learning curve pain, or migration risk as reasons NOT to switch vendors, they are advocating for retention. This is "supportive" behaviour even if the language sounds negative, because they are building the case to STAY.
 
 Contrast with genuinely negative statements:
 - "The learning curve was painful AND we're still not getting value" → "skeptical" (pain + current dissatisfaction)
 - "We went through all that pain for only 40% utilisation" → "skeptical" (pain + blame)
 - "The learning curve was painful but at least the platform works now" → "supportive" (pain acknowledged but resolved)
-
-## Resistant vs Skeptical — Universal Rule (ALL Call Types)
-
-When a stakeholder states an INTENT TO ACT away from the vendor or to reduce the relationship, classify as "resistant" regardless of call type:
-- "I'm going to recommend we pull [product] licenses" → RESISTANT
-- "We've decided to move to [competitor]" → RESISTANT
-- "My recommendation to the board would be to explore alternatives" → RESISTANT
-- "If this isn't fixed, I'll recommend we don't renew" → RESISTANT
-- "We've made a preliminary decision to switch" → RESISTANT
-- "I'm taking this to the board for review" → RESISTANT
-
-This rule applies in QBRs, escalations, renewals, check-ins — everywhere.
-The signal is in the STATEMENT, not the call type context.
-
-But any EXPLICIT threat to remove, reduce, leave, or recommend against renewal = RESISTANT, always.
-
-KEEP the following call-type-specific nuances for BORDERLINE cases only:
-- In renewal: "exploring alternatives" without a named vendor MAY be a negotiation tactic (use judgment)
-
-### For onboarding_kickoff calls:
-- Setting demanding success criteria + showing enthusiasm = "supportive" (NOT skeptical)
-- Past vendor trauma directed at PREVIOUS vendor does NOT make them skeptical of the CURRENT vendor
-- Voluntarily committing resources, time, or data = "supportive" (NOT neutral)
-- "skeptical" means actively questioning whether THIS vendor can deliver
-- "neutral" means present but neither offered resources nor expressed concerns
 
 ### For internal_strategy calls:
 Stakeholder stances refer to the DISCUSSED customer stakeholders, not the internal team members on the call.

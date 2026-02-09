@@ -264,6 +264,9 @@ export async function runPipeline(input: PipelineInput): Promise<PipelineResult>
         || preprocessor.customer_name_if_detected
         || null;
     }
+    // Sanitise customer_name — LLMs consistently generate descriptive placeholders
+    // despite being instructed to return null. This code guarantees clean output.
+    finalReport.meta.customer_name = sanitizeCustomerName(finalReport.meta.customer_name);
   }
 
   // Inject code-validator issues into QA section if Judge didn't include them
@@ -359,6 +362,47 @@ async function runAnalystC(
 
 function delay(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/**
+ * Sanitise customer name from Judge output.
+ * LLMs consistently generate descriptive placeholders despite being
+ * instructed to return null. This function catches all known patterns
+ * and forces null, which the frontend renders as a clean fallback.
+ */
+function sanitizeCustomerName(name: string | null | undefined): string | null {
+  if (!name) return null;
+
+  const trimmed = name.trim();
+  if (!trimmed) return null;
+
+  const lower = trimmed.toLowerCase();
+
+  // Reject literal null/undefined strings
+  if (lower === 'null' || lower === 'undefined' || lower === 'n/a') return null;
+
+  // Reject LLM placeholder patterns (** prefix, brackets, dashes)
+  if (trimmed.startsWith('**')) return null;
+  if (trimmed.startsWith('--')) return null;
+  if (trimmed.startsWith('[')) return null;
+
+  // Reject descriptive phrases the LLM generates instead of null
+  const rejectPhrases = [
+    'not explicitly named', 'not explicitly mentioned', 'not explicitly identified',
+    'not explicitly stated', 'unnamed', 'unknown customer', 'unknown company',
+    'not detected', 'not identified', 'not mentioned', 'not provided',
+    'not specified', 'not disclosed', 'implied by', 'inferred from',
+    'appears to be', 'seems to be', 'possibly', 'likely',
+  ];
+  if (rejectPhrases.some(phrase => lower.includes(phrase))) return null;
+
+  // Reject names that are too long (real company names rarely exceed 50 chars)
+  if (trimmed.length > 50) return null;
+
+  // Reject names with parenthetical explanations when suspiciously long
+  if (trimmed.includes('(') && trimmed.length > 35) return null;
+
+  return trimmed;
 }
 
 function makeResult(

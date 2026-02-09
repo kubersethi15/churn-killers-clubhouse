@@ -22,15 +22,18 @@ function isValidCustomerName(name: unknown): boolean {
   const trimmed = name.trim();
   if (!trimmed) return false;
   const lower = trimmed.toLowerCase();
-  if (lower === "null" || lower === "undefined") return false;
-  if (trimmed.startsWith("**")) return false;
-  if (lower.includes("not explicitly named")) return false;
-  if (lower.includes("unnamed")) return false;
-  if (lower.includes("not detected")) return false;
-  if (lower.includes("not identified")) return false;
-  if (lower.includes("unknown customer")) return false;
-  if (lower.includes("not available")) return false;
+  if (lower === "null" || lower === "undefined" || lower === "n/a") return false;
+  if (trimmed.startsWith("**") || trimmed.startsWith("--") || trimmed.startsWith("[")) return false;
+  const rejectPhrases = [
+    "not explicitly named", "not explicitly mentioned", "not explicitly identified",
+    "not explicitly stated", "unnamed", "unknown customer", "unknown company",
+    "not detected", "not identified", "not mentioned", "not provided",
+    "not specified", "not disclosed", "implied by", "inferred from",
+    "appears to be", "seems to be", "possibly", "likely",
+  ];
+  if (rejectPhrases.some(phrase => lower.includes(phrase))) return false;
   if (trimmed.length > 50) return false;
+  if (trimmed.includes("(") && trimmed.length > 35) return false;
   return true;
 }
 
