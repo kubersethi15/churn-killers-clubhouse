@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAnalyses, Analysis } from "@/hooks/useAnalyses";
@@ -18,10 +18,15 @@ import {
   X,
   ChevronsLeft,
   ChevronsRight,
+  Search,
+  ChevronUp,
+  ChevronDown,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+
+const PAGE_SIZE = 15;
 
 interface AnalysisSidebarProps {
   onSelectAnalysis: (analysis: Analysis) => void;
@@ -53,6 +58,28 @@ export const AnalysisSidebar = ({
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingTitle, setEditingTitle] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+
+  // Filter analyses by search query
+  const filteredAnalyses = useMemo(() => {
+    if (!searchQuery.trim()) return analyses;
+    const q = searchQuery.toLowerCase();
+    return analyses.filter(a => a.title.toLowerCase().includes(q));
+  }, [analyses, searchQuery]);
+
+  // Paginate
+  const totalPages = Math.max(1, Math.ceil(filteredAnalyses.length / PAGE_SIZE));
+  const paginatedAnalyses = useMemo(() => {
+    const start = currentPage * PAGE_SIZE;
+    return filteredAnalyses.slice(start, start + PAGE_SIZE);
+  }, [filteredAnalyses, currentPage]);
+
+  // Reset page when search changes
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value);
+    setCurrentPage(0);
+  };
 
   const handleDelete = async (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
@@ -171,42 +198,42 @@ export const AnalysisSidebar = ({
       </div>
 
       {/* Analysis List */}
-      <ScrollArea className="flex-1">
-        {!user ? (
-          <div className={cn("p-4 text-center", isCollapsed && "hidden")}>
-            <p className="text-sm text-white/50 mb-4">
-              Sign in to save and view your analysis history
-            </p>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => navigate("/auth", { state: { from: "/cs-analyzer" } })}
-              className="w-full border-white/20 text-white hover:bg-white/10"
-            >
-              Sign In
-            </Button>
+      {!user ? (
+        <div className={cn("p-4 text-center", isCollapsed && "hidden")}>
+          <p className="text-sm text-white/50 mb-4">
+            Sign in to save and view your analysis history
+          </p>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate("/auth", { state: { from: "/cs-analyzer" } })}
+            className="w-full border-white/20 text-white hover:bg-white/10"
+          >
+            Sign In
+          </Button>
+        </div>
+      ) : isLoading ? (
+        <div className="flex items-center justify-center py-8">
+          <Loader2 className="h-5 w-5 animate-spin text-white/40" />
+        </div>
+      ) : analyses.length === 0 ? (
+        <div className={cn("p-4 text-center", isCollapsed && "hidden")}>
+          <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-3">
+            <FileText className="h-6 w-6 text-white/40" />
           </div>
-        ) : isLoading ? (
-          <div className="flex items-center justify-center py-8">
-            <Loader2 className="h-5 w-5 animate-spin text-white/40" />
-          </div>
-        ) : analyses.length === 0 ? (
-          <div className={cn("p-4 text-center", isCollapsed && "hidden")}>
-            <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-3">
-              <FileText className="h-6 w-6 text-white/40" />
-            </div>
-            <p className="text-sm text-white/50">
-              No analyses yet. Start by creating a new analysis.
-            </p>
-          </div>
-        ) : (
-          <div className={cn("px-2 py-1 space-y-0.5", isCollapsed && "px-2")}>
-            {/* New Analysis button - always visible */}
+          <p className="text-sm text-white/50">
+            No analyses yet. Start by creating a new analysis.
+          </p>
+        </div>
+      ) : (
+        <div className="flex flex-col flex-1 min-h-0">
+          {/* New Analysis button */}
+          <div className="px-2 pt-1">
             <Button
               onClick={onNewAnalysis}
               variant="ghost"
               className={cn(
-                "w-full mb-2 text-white/60 hover:text-white hover:bg-white/10",
+                "w-full mb-1 text-white/60 hover:text-white hover:bg-white/10",
                 isCollapsed ? "h-10 p-0 justify-center" : "h-9 justify-start gap-2 px-3"
               )}
               title="New Analysis"
@@ -214,106 +241,159 @@ export const AnalysisSidebar = ({
               <Plus className="h-5 w-5 shrink-0" />
               {!isCollapsed && <span className="text-sm">New Analysis</span>}
             </Button>
-            {analyses.map((analysis) => (
-              <div
-                key={analysis.id}
-                onClick={() => handleSelect(analysis)}
-                className={cn(
-                  "w-full text-left rounded-md transition-colors group cursor-pointer",
-                  selectedAnalysisId === analysis.id
-                    ? "bg-white/15"
-                    : "hover:bg-white/10",
-                  isCollapsed ? "p-2 flex justify-center" : "px-3 py-2"
-                )}
-                title={isCollapsed ? analysis.title : undefined}
-              >
-                {isCollapsed ? null : (
-                  <div className="flex items-start gap-2.5">
-                    <span className="text-white/50 mt-0.5 shrink-0">
-                      {analysisTypeIcons[analysis.analysis_type] || (
-                        <FileText className="h-4 w-4" />
-                      )}
-                    </span>
-                    <div className="flex-1 min-w-0">
-                      {editingId === analysis.id ? (
-                        <div
-                          className="flex items-center gap-1"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <Input
-                            value={editingTitle}
-                            onChange={(e) => setEditingTitle(e.target.value)}
-                            onKeyDown={(e) => handleKeyDown(e, analysis.id)}
-                            className="h-7 text-sm py-1 px-2 bg-white/10 border-white/20 text-white"
-                            autoFocus
-                          />
+          </div>
+
+          {/* Search */}
+          {!isCollapsed && analyses.length > PAGE_SIZE && (
+            <div className="px-2 pb-2">
+              <div className="relative">
+                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-white/30" />
+                <Input
+                  value={searchQuery}
+                  onChange={(e) => handleSearchChange(e.target.value)}
+                  placeholder="Search analyses..."
+                  className="h-8 text-xs pl-8 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-white/20"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Analysis items */}
+          <ScrollArea className="flex-1">
+            <div className="px-2 space-y-0.5 pb-1">
+              {paginatedAnalyses.length === 0 && searchQuery && (
+                <p className="text-xs text-white/40 text-center py-4">No matches found</p>
+              )}
+              {paginatedAnalyses.map((analysis) => (
+                <div
+                  key={analysis.id}
+                  onClick={() => handleSelect(analysis)}
+                  className={cn(
+                    "w-full text-left rounded-md transition-colors group cursor-pointer",
+                    selectedAnalysisId === analysis.id
+                      ? "bg-white/15"
+                      : "hover:bg-white/10",
+                    isCollapsed ? "p-2 flex justify-center" : "px-3 py-2"
+                  )}
+                  title={isCollapsed ? analysis.title : undefined}
+                >
+                  {isCollapsed ? null : (
+                    <div className="flex items-start gap-2.5">
+                      <span className="text-white/50 mt-0.5 shrink-0">
+                        {analysisTypeIcons[analysis.analysis_type] || (
+                          <FileText className="h-4 w-4" />
+                        )}
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        {editingId === analysis.id ? (
+                          <div
+                            className="flex items-center gap-1"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <Input
+                              value={editingTitle}
+                              onChange={(e) => setEditingTitle(e.target.value)}
+                              onKeyDown={(e) => handleKeyDown(e, analysis.id)}
+                              className="h-7 text-sm py-1 px-2 bg-white/10 border-white/20 text-white"
+                              autoFocus
+                            />
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-7 w-7 shrink-0 text-white hover:bg-white/10"
+                              onClick={(e) => saveEdit(e, analysis.id)}
+                              disabled={isSaving}
+                            >
+                              {isSaving ? (
+                                <Loader2 className="h-3 w-3 animate-spin" />
+                              ) : (
+                                <Check className="h-3 w-3 text-green-400" />
+                              )}
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-7 w-7 shrink-0 text-white hover:bg-white/10"
+                              onClick={cancelEditing}
+                            >
+                              <X className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        ) : (
+                          <>
+                            <p className="text-sm font-medium text-white/90 truncate leading-tight">
+                              {analysis.title}
+                            </p>
+                            <p className="text-xs text-white/40 mt-0.5">
+                              {formatDistanceToNow(new Date(analysis.created_at), {
+                                addSuffix: true,
+                              })}
+                            </p>
+                          </>
+                        )}
+                      </div>
+                      {editingId !== analysis.id && (
+                        <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-7 w-7 shrink-0 text-white hover:bg-white/10"
-                            onClick={(e) => saveEdit(e, analysis.id)}
-                            disabled={isSaving}
+                            className="h-6 w-6 text-white/40 hover:text-white hover:bg-white/10"
+                            onClick={(e) => startEditing(e, analysis)}
                           >
-                            {isSaving ? (
+                            <Pencil className="h-3 w-3" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-6 w-6 text-white/40 hover:text-red-light hover:bg-white/10"
+                            onClick={(e) => handleDelete(e, analysis.id)}
+                            disabled={deletingId === analysis.id}
+                          >
+                            {deletingId === analysis.id ? (
                               <Loader2 className="h-3 w-3 animate-spin" />
                             ) : (
-                              <Check className="h-3 w-3 text-green-400" />
+                              <Trash2 className="h-3 w-3" />
                             )}
                           </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-7 w-7 shrink-0 text-white hover:bg-white/10"
-                            onClick={cancelEditing}
-                          >
-                            <X className="h-3 w-3" />
-                          </Button>
                         </div>
-                      ) : (
-                        <>
-                          <p className="text-sm font-medium text-white/90 truncate leading-tight">
-                            {analysis.title}
-                          </p>
-                          <p className="text-xs text-white/40 mt-0.5">
-                            {formatDistanceToNow(new Date(analysis.created_at), {
-                              addSuffix: true,
-                            })}
-                          </p>
-                        </>
                       )}
                     </div>
-                    {editingId !== analysis.id && (
-                      <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-6 w-6 text-white/40 hover:text-white hover:bg-white/10"
-                          onClick={(e) => startEditing(e, analysis)}
-                        >
-                          <Pencil className="h-3 w-3" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-6 w-6 text-white/40 hover:text-red-light hover:bg-white/10"
-                          onClick={(e) => handleDelete(e, analysis.id)}
-                          disabled={deletingId === analysis.id}
-                        >
-                          {deletingId === analysis.id ? (
-                            <Loader2 className="h-3 w-3 animate-spin" />
-                          ) : (
-                            <Trash2 className="h-3 w-3" />
-                          )}
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                )}
+                  )}
+                </div>
+              ))}
+            </div>
+          </ScrollArea>
+
+          {/* Pagination */}
+          {!isCollapsed && totalPages > 1 && (
+            <div className="px-3 py-2 border-t border-white/10 flex items-center justify-between shrink-0">
+              <span className="text-[10px] text-white/40">
+                {currentPage * PAGE_SIZE + 1}–{Math.min((currentPage + 1) * PAGE_SIZE, filteredAnalyses.length)} of {filteredAnalyses.length}
+              </span>
+              <div className="flex gap-1">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-6 w-6 text-white/50 hover:text-white hover:bg-white/10"
+                  onClick={() => setCurrentPage(p => Math.max(0, p - 1))}
+                  disabled={currentPage === 0}
+                >
+                  <ChevronUp className="h-3.5 w-3.5" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-6 w-6 text-white/50 hover:text-white hover:bg-white/10"
+                  onClick={() => setCurrentPage(p => Math.min(totalPages - 1, p + 1))}
+                  disabled={currentPage >= totalPages - 1}
+                >
+                  <ChevronDown className="h-3.5 w-3.5" />
+                </Button>
               </div>
-            ))}
-          </div>
-        )}
-      </ScrollArea>
+            </div>
+          )}
+        </div>
+      )}
     </aside>
   );
 };
