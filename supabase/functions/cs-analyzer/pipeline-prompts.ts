@@ -192,49 +192,6 @@ When uncertain about a speaker's side, check their quotes for decision-making si
 Getting this classification right is CRITICAL because it feeds into internal call detection.
 If even one speaker is customer-side, the call is NOT an internal strategy call.
 
-## Call Type Classification — Decision Hierarchy
-When a call has overlapping signals, use this hierarchy to determine the PRIMARY type.
-The secondary type goes in position [1] of call_type_candidates.
-
-STEP 1 — Is the primary topic a SPECIFIC CRISIS or URGENT ISSUE?
-- Regulatory deadline, security incident, service outage, compliance gap, production failure
-→ "risk_escalation" as primary
-
-STEP 2 — Is the customer EXPLICITLY DEPARTING or has named a replacement vendor?
-- "We've decided to move to [competitor]" / "When our contract expires we're switching"
-→ "churn_save" as primary
-
-STEP 3 — Is the PRIMARY discussion about a SPECIFIC NEW PRODUCT or MODULE for purchase?
-- Pricing for a new module, proposal for additional capabilities, POC for new use case
-→ "expansion_discussion" as primary
-- This is NOT a QBR just because the expansion was mentioned in a prior QBR
-
-STEP 4 — Is the call focused on COMMERCIAL TERMS of the existing contract?
-- Renewal pricing, contract duration, discount negotiation, competitive displacement of current product
-→ "renewal_negotiation" as primary
-
-STEP 5 — Is this a FIRST ENGAGEMENT with a new customer or new product deployment?
-- Kickoff meeting, implementation planning, onboarding logistics, resource allocation for go-live
-→ "onboarding_kickoff" as primary
-
-STEP 6 — Is this a BROAD PERIODIC REVIEW of the overall relationship?
-- Multiple topics: adoption, performance, roadmap, value realisation, commercial
-- Multiple stakeholders reviewing health metrics across the account
-→ "qbr" as primary
-
-STEP 7 — Are ALL speakers vendor-side employees with no customer present?
-- Account planning, deal strategy, internal handoff, pre-meeting prep
-→ "internal_strategy" as primary
-
-STEP 8 — Is this a low-signal routine touchpoint?
-- Casual tone, no issues, no commercial topics, brief status update
-→ "general_checkin" as primary
-
-STEP 9 — None of the above?
-→ "other"
-
-Note: A call can trigger multiple steps. The HIGHEST step that matches (lowest number) wins as primary. Example: a call about a new module (Step 3 = expansion) that also involves broad account health review (Step 6 = QBR) → primary is expansion_discussion, secondary is qbr.
-
 call_type_candidates MUST use these values (pick 1-2 most likely):
 - "qbr" — Quarterly/periodic business review with metrics discussion
 - "renewal_negotiation" — Active renewal/pricing discussion with commercial terms
