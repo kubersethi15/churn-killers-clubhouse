@@ -17,10 +17,10 @@ import {
   Check,
   X,
   ChevronsLeft,
-  ChevronsRight,
   Search,
   ChevronUp,
   ChevronDown,
+  PanelLeft,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
@@ -168,38 +168,73 @@ export const AnalysisSidebar = ({
   return (
     <aside
       className={cn(
-        "bg-navy-dark flex flex-col transition-all duration-300 ease-in-out shrink-0",
-        isCollapsed ? "w-14" : "w-64"
+        "flex flex-col transition-all duration-300 ease-in-out shrink-0 border-r",
+        isCollapsed
+          ? "w-12 bg-background border-border"
+          : "w-64 bg-navy-dark border-white/10"
       )}
     >
-      {/* Sidebar Header - matches main header height */}
-      <div className="flex items-center justify-between px-3 h-14 border-b border-white/10">
-        {!isCollapsed && (
+      {isCollapsed ? (
+        /* ── Collapsed: Claude-style icon rail ── */
+        <div className="flex flex-col items-center py-3 gap-1">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onToggleCollapse}
+            className="h-9 w-9 text-muted-foreground hover:text-foreground hover:bg-muted"
+            title="Expand sidebar"
+          >
+            <PanelLeft className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onNewAnalysis}
+            className="h-9 w-9 text-muted-foreground hover:text-foreground hover:bg-muted"
+            title="New Analysis"
+          >
+            <Plus className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => { onToggleCollapse(); /* expand to show search */ }}
+            className="h-9 w-9 text-muted-foreground hover:text-foreground hover:bg-muted"
+            title="Search analyses"
+          >
+            <Search className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onToggleCollapse}
+            className="h-9 w-9 text-muted-foreground hover:text-foreground hover:bg-muted"
+            title="View history"
+          >
+            <FileText className="h-4 w-4" />
+          </Button>
+        </div>
+      ) : (
+        /* ── Expanded header ── */
+        <div className="flex items-center justify-between px-3 h-14 border-b border-white/10">
           <span className="text-white/80 text-sm font-medium tracking-wide uppercase">
             History
           </span>
-        )}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={onToggleCollapse}
-          className={cn(
-            "h-8 w-8 text-white/60 hover:text-white hover:bg-white/10",
-            isCollapsed && "mx-auto"
-          )}
-          title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-        >
-          {isCollapsed ? (
-            <ChevronsRight className="h-4 w-4" />
-          ) : (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onToggleCollapse}
+            className="h-8 w-8 text-white/60 hover:text-white hover:bg-white/10"
+            title="Collapse sidebar"
+          >
             <ChevronsLeft className="h-4 w-4" />
-          )}
-        </Button>
-      </div>
+          </Button>
+        </div>
+      )}
 
-      {/* Analysis List */}
-      {!user ? (
-        <div className={cn("p-4 text-center", isCollapsed && "hidden")}>
+      {/* Analysis List — only when expanded */}
+      {!isCollapsed && !user ? (
+        <div className="p-4 text-center">
           <p className="text-sm text-white/50 mb-4">
             Sign in to save and view your analysis history
           </p>
@@ -212,12 +247,12 @@ export const AnalysisSidebar = ({
             Sign In
           </Button>
         </div>
-      ) : isLoading ? (
+      ) : !isCollapsed && isLoading ? (
         <div className="flex items-center justify-center py-8">
           <Loader2 className="h-5 w-5 animate-spin text-white/40" />
         </div>
-      ) : analyses.length === 0 ? (
-        <div className={cn("p-4 text-center", isCollapsed && "hidden")}>
+      ) : !isCollapsed && analyses.length === 0 ? (
+        <div className="p-4 text-center">
           <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-3">
             <FileText className="h-6 w-6 text-white/40" />
           </div>
