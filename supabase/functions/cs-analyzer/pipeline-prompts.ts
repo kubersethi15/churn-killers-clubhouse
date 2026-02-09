@@ -164,6 +164,22 @@ Use these BEHAVIORAL SIGNALS to determine role_guess:
 
 DO NOT default all speakers to "internal". Use the behavioral signals above. When in doubt, prefer "unknown" over incorrect classification.
 
+## Speaker Role Detection — Relationship Language Priority (CRITICAL)
+When determining if a speaker is vendor-side or customer-side, prioritise RELATIONSHIP language over TOPIC language:
+
+CUSTOMER signals (even if discussing procurement, contracts, or IT operations):
+- Refers to vendor in 2nd/3rd person: "your platform", "your team"
+- Describes THEIR OWN org's processes: "our procurement takes six weeks", "my IT team"
+- Sets requirements FOR the vendor: "I need this by March"
+- Receives proposals or deliverables: "send me the proposal"
+
+VENDOR signals:
+- Offers deliverables: "I'll send the proposal", "we'll assign an architect"
+- Describes their own product: "we shipped this in November"
+- Makes pricing offers: "what if we matched the $62K"
+
+A customer discussing procurement timelines or contract modifications is still a customer.
+
 ## Speaker Role Detection — Industry-Aware Rules (CRITICAL — run BEFORE call type detection)
 
 CRITICAL: Not all speakers with "IT" or "Security" in their title are vendor-side.
@@ -463,6 +479,7 @@ Signs of investment (in any call type):
 - Praising specific outcomes or recommending the product internally
 - Sharing strategic plans or confidential roadmap information
 - Requesting executive-to-executive engagement
+- Pushing back on pricing or deal structure WHILE ALSO requesting new products, modules, or expanded capabilities (negotiation + expansion = investment, not doubt)
 If YES → SUPPORTIVE
 
 STEP 4 — Is the stakeholder expressing frustration, concern, or doubt without a stated action?
@@ -517,11 +534,14 @@ Quote: "Our last vendor took 8 months to get to this point and we still had data
 CORRECT: Supportive
 WHY: The frustration is directed at the PREVIOUS vendor, not the current one. "Cautiously optimistic" + prioritising vendor requests = actively supporting the engagement. Wanting to see results is normal diligence, not skepticism.
 
-EXAMPLE 6 — SUPPORTIVE (expansion champion)
-Context: Expansion discussion
-Quote: "This is exactly what our compliance team needs. Send me a proposal — I need to get this in front of our CFO before budget planning closes."
+EXAMPLE 6 — SUPPORTIVE (commercially demanding executive)
+Context: Strategic review, executive asks for new modules but pushes back on pricing
+Quote: "I'm interested in both modules. But I'm not paying the current rate plus two add-ons. Restructure the commercial terms — one number, three years, everything included. I want a proposal by the 14th."
+Same person also says to her CTO: "I want you involved in the technical evaluations. If you sign off, I'll move forward."
 CORRECT: Supportive
-WHY: Proactively requesting a proposal, volunteering to champion it internally, driving urgency on budget timing.
+WHY: This executive is requesting expansion, setting deadlines to accelerate the deal, and mobilising her own team to evaluate. Commercial pushback on price structure is negotiation — it means they want the deal at different terms. Negotiation ≠ doubt.
+WRONG: Skeptical
+WHY THIS IS WRONG: Skepticism means doubting vendor or product value. This executive isn't doubting — she's buying. Pushing for a better deal while simultaneously asking for more product is the opposite of skepticism.
 
 EXAMPLE 7 — SKEPTICAL (frustrated but no action)
 Context: QBR, performance issues
@@ -535,17 +555,21 @@ Quote: "We're under significant budget pressure this cycle. Our CFO has asked ev
 CORRECT: Skeptical
 WHY: Budget pressure is external, not a personal stance against the vendor. "Help me build a case" = still wanting to keep the product, needs ammunition to justify internally.
 
-EXAMPLE 9 — NEUTRAL (factual, no sentiment)
-Context: General check-in
-Quote: "Things are pretty steady. The team's been heads down on a data center migration. Nothing vendor-related."
-CORRECT: Neutral
-WHY: No positive or negative signal about the vendor relationship. Purely factual status update.
+EXAMPLE 9 — SUPPORTIVE (tough-talking executive who holds vendor accountable AND drives expansion)
+Context: Audit remediation call, government or regulated industry
+Quote: "Trust is earned. Close the audit findings first. But separately — I want a technical deep dive on your analytics module. If it works, this could be a significant expansion."
+CORRECT: Supportive
+WHY: A stakeholder who holds the vendor accountable while simultaneously raising expansion opportunities is deeply invested in the relationship succeeding. They're demanding BECAUSE they want to stay, not because they want to leave. Accountability + expansion interest = supportive.
+WRONG: Skeptical
+WHY THIS IS WRONG: A skeptical stakeholder would NOT proactively ask about new capabilities. The expansion request proves they see a future with the vendor.
 
-EXAMPLE 10 — UNKNOWN (mentioned, not present)
-Context: Expansion discussion, CFO mentioned but not on the call
-Quote (from someone else): "I'll need to get Jennifer's approval. She'll want to see the ROI math."
-CORRECT: Unknown
-WHY: Jennifer wasn't on the call. We have no direct signal about her disposition. Don't guess.
+EXAMPLE 10 — SUPPORTIVE (previously critical stakeholder who has been won over)
+Context: QBR or review call, a CTO or technical leader who was historically negative
+Quote: "I'll acknowledge that the engineering team is satisfied. Credit where it's due — the dedicated support pod has made a real difference. Issues that used to take three days are resolved in hours."
+CORRECT: Supportive
+WHY: This person has explicitly changed their position. Praising improvements, acknowledging satisfaction, and giving credit are active signals of support. Classify based on what they said in THIS call, not assumed historical reputation.
+WRONG: Skeptical
+WHY THIS IS WRONG: If someone explicitly states satisfaction and gives credit, calling them "skeptical" ignores the evidence in front of you.
 
 ### Switching Cost = Retention Advocacy (CRITICAL — context matters):
 - "The learning curve was painful and if we switch we'd go through that again" → This person is arguing AGAINST switching by citing switching costs. Stance = "supportive" (the pain reference is about a FUTURE switch, not current dissatisfaction)
@@ -764,6 +788,19 @@ If competitor signal is generic or low-intent, keep it as a commercial_signal on
 - anchor_ids (at least one competitive or non-renewal anchor)
 - rationale sentence explaining the classification
 - confidence level
+
+## Threat Classification — Expansion Context Override
+If the customer is simultaneously:
+(a) Requesting or evaluating NEW products, modules, or capabilities AND
+(b) Negotiating commercial terms for a bundled, restructured, or expanded deal
+→ The primary threat is likely "none" or "delay" — NOT "downsell" or "churn"
+
+Negotiating the price of a bigger deal is not a downsell signal. A customer who wants MORE product at BETTER terms is expanding, not contracting. Bundling requests ("give me one price for everything") are deal-structuring behaviours, not reduction signals.
+
+Only classify as downsell if the customer has explicitly stated intent to REDUCE scope, drop modules, or decrease usage — independent of any expansion conversation.
+Only classify as churn if the customer has explicitly stated intent to leave or not renew — independent of any expansion conversation.
+
+When in doubt between "none" and "downsell" in an expansion context, choose "none" and note the commercial negotiation in commercial_signals instead.
 
 ## Expansion Readiness Assessment (NEW — CRITICAL)
 You MUST populate the expansion_readiness object. This captures WHERE the customer is in a buying process for growth/expansion.

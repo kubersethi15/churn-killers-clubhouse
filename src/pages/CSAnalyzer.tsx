@@ -299,6 +299,17 @@ const CSAnalyzer = () => {
 
       // Handle v2 pipeline response
       if (data?.reportVersion === 'v2_panel' && data?.pipelineResult) {
+        // Check for transcript-too-short error
+        if (!data.pipelineResult.success && data.pipelineResult.error?.includes("too short")) {
+          toast({
+            title: "Transcript too short",
+            description: "This transcript is too short for analysis. Please upload a complete call transcript — typically at least a few minutes of conversation.",
+            variant: "destructive",
+          });
+          setStep("input");
+          return;
+        }
+
         setPipelineResult(data.pipelineResult);
         setReportVersion('v2_panel');
         setAnalysisResult(null);

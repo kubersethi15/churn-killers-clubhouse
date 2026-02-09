@@ -52,6 +52,25 @@ export async function runPipeline(input: PipelineInput): Promise<PipelineResult>
 
   const transcript = clipTranscript(input.rawTranscript);
 
+  // Minimum transcript length guard — prevent wasted API calls on short/accidental uploads
+  if (transcript.length < 500) {
+    return makeResult(
+      false,
+      null,
+      null,
+      {
+        preprocessor: null,
+        analystEvidence: null,
+        analystCommercial: null,
+        analystAdoption: null,
+        passTimings: [],
+        failedPasses: [],
+        errors: ["Transcript too short for meaningful analysis (minimum 500 characters)"],
+      },
+      "Transcript too short for meaningful analysis. Please upload a full call transcript (minimum 500 characters)."
+    );
+  }
+
   // Debug state
   let preprocessor: PreprocessorOutput | null = null;
   let analystEvidence: AnalystEvidenceOutput | null = null;
