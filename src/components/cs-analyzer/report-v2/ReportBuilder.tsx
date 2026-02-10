@@ -319,9 +319,10 @@ export const ReportBuilder = ({ report, evidenceAnchors, title, createdAt }: Rep
   ).length;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4 items-start">
+    <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4">
       {/* Sidebar — toggle panel */}
-      <div className="order-2 lg:order-1 lg:sticky lg:top-4 lg:self-start">
+      <div className="order-2 lg:order-1">
+        <div className="lg:sticky lg:top-4">
         <Card className="border border-report-border">
           <CardHeader className="border-b border-report-border bg-report-surface/50 py-3 px-4">
             <div className="flex items-center justify-between">
@@ -425,6 +426,7 @@ export const ReportBuilder = ({ report, evidenceAnchors, title, createdAt }: Rep
             </div>
           </CardContent>
         </Card>
+        </div>
       </div>
 
       {/* Main — filtered report */}
