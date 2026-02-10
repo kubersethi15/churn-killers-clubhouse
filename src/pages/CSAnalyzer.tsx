@@ -756,7 +756,7 @@ const CSAnalyzer = () => {
     .slice(0, 2);
 
   return (
-    <div className="min-h-screen flex bg-background">
+    <div className="h-screen flex bg-background overflow-hidden">
       {/* Persistent Sidebar */}
       <AnalysisSidebar
         onSelectAnalysis={handleSelectSavedAnalysis}
@@ -767,7 +767,7 @@ const CSAnalyzer = () => {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Header - seamlessly blends with sidebar */}
         <header className="sticky top-0 z-40 bg-navy-dark text-white h-14">
           <div className="flex items-center justify-between px-4 h-full md:px-6">
