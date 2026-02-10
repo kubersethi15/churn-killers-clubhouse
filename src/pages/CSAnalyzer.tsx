@@ -1274,18 +1274,7 @@ const CSAnalyzer = () => {
               {/* Results State — V2 Pipeline (success) */}
               {step === "results" && reportVersion === "v2_panel" && pipelineResult?.finalReport && (
                 <div className="animate-fade-in">
-                  <div className="flex items-center justify-between mb-6">
-                    <div>
-                      <h2 className="text-xl font-serif font-bold text-navy-dark">
-                        {selectedSavedAnalysis?.title || "Analysis Report"}
-                      </h2>
-                      <p className="text-sm text-muted-foreground">
-                        {selectedSavedAnalysis 
-                          ? `Saved on ${new Date(selectedSavedAnalysis.created_at).toLocaleDateString()}`
-                          : user ? "Saved to your account" : "Not saved — sign in to keep"
-                        }
-                      </p>
-                    </div>
+                    <div className="flex items-center justify-end mb-6">
                     <div className="flex items-center gap-2">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -1476,18 +1465,7 @@ const CSAnalyzer = () => {
               {/* Results State — V1 Legacy */}
               {step === "results" && reportVersion === "v1_single" && analysisResult && (
                 <div className="animate-fade-in">
-                  <div className="flex items-center justify-between mb-6">
-                    <div>
-                      <h2 className="text-xl font-serif font-bold text-navy-dark">
-                        {selectedSavedAnalysis?.title || `Your ${selectedOption?.title} Analysis`}
-                      </h2>
-                      <p className="text-sm text-muted-foreground">
-                        {selectedSavedAnalysis 
-                          ? `Saved on ${new Date(selectedSavedAnalysis.created_at).toLocaleDateString()}`
-                          : user ? "Saved to your account" : "Not saved — sign in to keep"
-                        }
-                      </p>
-                    </div>
+                  <div className="flex items-center justify-end mb-6">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="outline" size="sm" className="gap-2">
