@@ -117,10 +117,8 @@ export const AnalysisSidebar = ({
     <>
       <aside
         className={cn(
-          "flex flex-col transition-all duration-300 ease-in-out shrink-0 border-r h-full",
-          isCollapsed
-            ? "w-12 bg-background border-border"
-            : "w-64 bg-navy-dark border-white/10"
+          "flex flex-col transition-all duration-300 ease-in-out shrink-0 border-r border-white/10 h-full bg-navy-dark",
+          isCollapsed ? "w-12" : "w-64"
         )}
       >
         {isCollapsed ? (
@@ -130,7 +128,7 @@ export const AnalysisSidebar = ({
               variant="ghost"
               size="icon"
               onClick={onToggleCollapse}
-              className="h-9 w-9 text-muted-foreground hover:text-foreground hover:bg-muted"
+              className="h-9 w-9 text-white/50 hover:text-white hover:bg-white/10"
               title="Expand sidebar"
             >
               <PanelLeft className="h-4 w-4" />
@@ -139,7 +137,7 @@ export const AnalysisSidebar = ({
               variant="ghost"
               size="icon"
               onClick={onNewAnalysis}
-              className="h-9 w-9 text-muted-foreground hover:text-foreground hover:bg-muted"
+              className="h-9 w-9 text-white/50 hover:text-white hover:bg-white/10"
               title="New Analysis"
             >
               <Plus className="h-4 w-4" />
@@ -148,7 +146,7 @@ export const AnalysisSidebar = ({
               variant="ghost"
               size="icon"
               onClick={() => setAllAnalysesOpen(true)}
-              className="h-9 w-9 text-muted-foreground hover:text-foreground hover:bg-muted"
+              className="h-9 w-9 text-white/50 hover:text-white hover:bg-white/10"
               title="Search analyses"
             >
               <Search className="h-4 w-4" />
@@ -157,7 +155,7 @@ export const AnalysisSidebar = ({
               variant="ghost"
               size="icon"
               onClick={() => setAllAnalysesOpen(true)}
-              className="h-9 w-9 text-muted-foreground hover:text-foreground hover:bg-muted"
+              className="h-9 w-9 text-white/50 hover:text-white hover:bg-white/10"
               title="All analyses"
             >
               <MessagesSquare className="h-4 w-4" />
@@ -183,7 +181,7 @@ export const AnalysisSidebar = ({
             </div>
 
             {/* Nav items */}
-            <div className="px-2 pt-2 space-y-0.5 shrink-0">
+            <div className="px-2 pt-2 pb-2 space-y-0.5 shrink-0 border-b border-white/10">
               <Button
                 onClick={onNewAnalysis}
                 variant="ghost"
