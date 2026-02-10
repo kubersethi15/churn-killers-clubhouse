@@ -129,7 +129,7 @@ export const AllAnalysesModal = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl h-[70vh] flex flex-col p-0 gap-0">
         <DialogHeader className="px-6 pt-6 pb-4 shrink-0">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
             <DialogTitle className="text-xl font-serif">Analyses</DialogTitle>
             <Button onClick={handleNewAnalysis} size="sm" className="bg-red hover:bg-red-dark text-white">
               <Plus className="h-4 w-4 mr-1.5" />
