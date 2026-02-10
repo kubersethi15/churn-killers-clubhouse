@@ -319,10 +319,10 @@ export const ReportBuilder = ({ report, evidenceAnchors, title, createdAt }: Rep
   ).length;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4">
+    <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4 items-start">
       {/* Sidebar — toggle panel */}
-      <div className="space-y-4 order-2 lg:order-1">
-        <Card className="border border-report-border sticky top-20">
+      <div className="order-2 lg:order-1 lg:sticky lg:top-4 lg:self-start">
+        <Card className="border border-report-border">
           <CardHeader className="border-b border-report-border bg-report-surface/50 py-3 px-4">
             <div className="flex items-center justify-between">
               <CardTitle className="font-serif text-sm font-bold text-report-heading">
