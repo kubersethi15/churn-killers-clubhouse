@@ -165,10 +165,7 @@ export const AnalysisSidebar = ({
           /* ── Expanded: nav items + recents ── */
           <div className="flex flex-col h-full">
             {/* Header */}
-            <div className="flex items-center justify-between px-3 h-14 border-b border-white/10 shrink-0">
-              <span className="text-white/80 text-sm font-medium tracking-wide uppercase">
-                CS Analyzer
-              </span>
+            <div className="flex items-center justify-end px-2 h-14 border-b border-white/10 shrink-0">
               <Button
                 variant="ghost"
                 size="icon"
