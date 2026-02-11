@@ -861,118 +861,8 @@ const CSAnalyzer = () => {
               {/* Step 1: Select Analysis Type */}
               {step === "select" && (
                 <div className="animate-fade-in">
-                  {/* Mode Tabs */}
-                  <Tabs 
-                    value={analyzerMode} 
-                    onValueChange={(v) => setAnalyzerMode(v as "manual" | "ai-triage")}
-                    className="w-full"
-                  >
-                    <div className="flex justify-center mb-8">
-                      <TabsList className="grid w-full max-w-md grid-cols-2">
-                        <TabsTrigger value="manual" className="gap-2">
-                          <Settings2 className="w-4 h-4" />
-                          Manual
-                        </TabsTrigger>
-                        <TabsTrigger value="ai-triage" className="gap-2">
-                          <Bot className="w-4 h-4" />
-                          AI Triage
-                          <span className="ml-1 text-[10px] bg-red/20 text-red px-1.5 py-0.5 rounded-full font-medium">Beta</span>
-                        </TabsTrigger>
-                      </TabsList>
-                    </div>
-
-                    {/* Manual Mode */}
-                    <TabsContent value="manual" className="mt-0">
-                      <div className="text-center mb-8">
-                        <h2 className="text-2xl md:text-3xl font-serif font-bold text-navy-dark mb-2">
-                          What would you like to analyze?
-                        </h2>
-                        <p className="text-muted-foreground">
-                          Choose the type of content you want our AI to review
-                        </p>
-                      </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {analysisOptions.map((option) => {
-                      const isEnabled = option.id === "call-transcript";
-                      return (
-                        <Card 
-                          key={option.id}
-                          className={`transition-all duration-300 ${
-                            isEnabled 
-                              ? "cursor-pointer hover:shadow-lg hover:border-red/50 hover:-translate-y-1" 
-                              : "opacity-60 cursor-not-allowed"
-                          }`}
-                          onClick={() => isEnabled && handleTypeSelect(option.id)}
-                        >
-                          <CardHeader>
-                            <div className="flex items-start justify-between">
-                              <div className="w-14 h-14 rounded-xl bg-red/10 flex items-center justify-center text-red mb-3">
-                                {option.icon}
-                              </div>
-                              {!isEnabled && (
-                                <span className="text-xs font-medium bg-muted text-muted-foreground px-2 py-1 rounded-full">
-                                  Coming Soon
-                                </span>
-                              )}
-                            </div>
-                            <CardTitle className="text-xl font-serif">{option.title}</CardTitle>
-                            <CardDescription>{option.description}</CardDescription>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="space-y-2">
-                              {option.examples.map((example, i) => (
-                                <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
-                                  <CheckCircle className="w-3 h-3 text-green-500" />
-                                  {example}
-                                </div>
-                              ))}
-                            </div>
-                          </CardContent>
-                        </Card>
-                      );
-                    })}
-                      </div>
-
-                      {/* Benefits Section */}
-                      <div className="mt-16 pt-12 border-t">
-                        <h3 className="text-xl font-serif font-bold text-navy-dark text-center mb-8">
-                          Why use CS Analyzer?
-                        </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                          <div className="text-center">
-                            <div className="w-12 h-12 rounded-full bg-red/10 flex items-center justify-center text-red mx-auto mb-4">
-                              <Sparkles className="w-6 h-6" />
-                            </div>
-                            <h4 className="font-serif font-bold text-navy-dark mb-2">AI-Powered</h4>
-                            <p className="text-sm text-muted-foreground">
-                              Advanced analysis identifies patterns humans might miss
-                            </p>
-                          </div>
-                          <div className="text-center">
-                            <div className="w-12 h-12 rounded-full bg-red/10 flex items-center justify-center text-red mx-auto mb-4">
-                              <Target className="w-6 h-6" />
-                            </div>
-                            <h4 className="font-serif font-bold text-navy-dark mb-2">Actionable</h4>
-                            <p className="text-sm text-muted-foreground">
-                              Get specific recommendations you can implement today
-                            </p>
-                          </div>
-                          <div className="text-center">
-                            <div className="w-12 h-12 rounded-full bg-red/10 flex items-center justify-center text-red mx-auto mb-4">
-                              <Save className="w-6 h-6" />
-                            </div>
-                            <h4 className="font-serif font-bold text-navy-dark mb-2">Save & Review</h4>
-                            <p className="text-sm text-muted-foreground">
-                              Sign in to save analyses and build your CS knowledge base
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </TabsContent>
-
-                    {/* AI Triage Mode */}
-                    <TabsContent value="ai-triage" className="mt-0">
+                  {/* AI Triage Mode (default) */}
+                  <div className="w-full">
                       <div className="text-center mb-8">
                         <h2 className="text-2xl md:text-3xl font-serif font-bold text-navy-dark mb-2">
                           Paste your content to get started
@@ -996,8 +886,7 @@ const CSAnalyzer = () => {
                           <TriageChat onAnalysisReady={handleTriageAnalysisReady} />
                         </CardContent>
                       </Card>
-                    </TabsContent>
-                  </Tabs>
+                  </div>
                 </div>
               )}
 
@@ -1296,14 +1185,6 @@ const CSAnalyzer = () => {
                               <p className="text-xs text-muted-foreground">Premium AI-rendered, print-ready</p>
                             </div>
                           </DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                          <DropdownMenuItem onClick={() => handleDownloadDebugBundle()} className="gap-2 cursor-pointer">
-                            <FileDown className="w-4 h-4 text-navy-dark" />
-                            <div>
-                              <p className="font-medium">Full Debug Bundle</p>
-                              <p className="text-xs text-muted-foreground">Transcript + all AI outputs + final report</p>
-                            </div>
-                          </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                       <Button variant="outline" size="sm" onClick={handleStartOver} className="gap-2">
@@ -1314,7 +1195,7 @@ const CSAnalyzer = () => {
                   </div>
 
                   <Tabs defaultValue="analysis" className="w-full">
-                    <TabsList className="grid w-full max-w-lg grid-cols-4 mb-6">
+                    <TabsList className="grid w-full max-w-md grid-cols-3 mb-6">
                       <TabsTrigger value="analysis" className="gap-2">
                         <BarChart3 className="w-4 h-4" />
                         <span className="hidden sm:inline">Analysis</span>
@@ -1326,10 +1207,6 @@ const CSAnalyzer = () => {
                       <TabsTrigger value="transcript" className="gap-2">
                         <FileTextIcon className="w-4 h-4" />
                         <span className="hidden sm:inline">Transcript</span>
-                      </TabsTrigger>
-                      <TabsTrigger value="debug" className="gap-2">
-                        <Settings2 className="w-4 h-4" />
-                        <span className="hidden sm:inline">Debug</span>
                       </TabsTrigger>
                     </TabsList>
 
@@ -1380,169 +1257,6 @@ const CSAnalyzer = () => {
                       </Card>
                     </TabsContent>
 
-                    <TabsContent value="debug" className="mt-0 space-y-4">
-                      {/* Pass Timings */}
-                      {pipelineResult.debug?.passTimings && pipelineResult.debug.passTimings.length > 0 && (
-                        <Card className="border border-report-border">
-                          <CardHeader className="border-b border-report-border bg-report-surface/50 py-3 px-5">
-                            <CardTitle className="font-serif text-base font-bold text-report-heading">Pass Timings</CardTitle>
-                          </CardHeader>
-                          <CardContent className="p-4">
-                            <div className="overflow-x-auto">
-                              <table className="w-full text-sm font-sans">
-                                <thead>
-                                  <tr className="border-b">
-                                    <th className="text-left py-1.5 px-2 text-xs font-semibold text-muted-foreground">Pass</th>
-                                    <th className="text-left py-1.5 px-2 text-xs font-semibold text-muted-foreground">Provider</th>
-                                    <th className="text-left py-1.5 px-2 text-xs font-semibold text-muted-foreground">Model</th>
-                                    <th className="text-right py-1.5 px-2 text-xs font-semibold text-muted-foreground">Duration</th>
-                                    <th className="text-center py-1.5 px-2 text-xs font-semibold text-muted-foreground">Status</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {pipelineResult.debug.passTimings.map((t: { pass: string; provider: string; model: string; durationMs: number; success: boolean }, i: number) => (
-                                    <tr key={i} className="border-b border-border/50">
-                                      <td className="py-1.5 px-2 font-medium">{t.pass}</td>
-                                      <td className="py-1.5 px-2 text-muted-foreground">{t.provider}</td>
-                                      <td className="py-1.5 px-2 text-muted-foreground text-xs">{t.model}</td>
-                                      <td className="py-1.5 px-2 text-right">{(t.durationMs / 1000).toFixed(1)}s</td>
-                                      <td className="py-1.5 px-2 text-center">{t.success ? "✓" : "✗"}</td>
-                                    </tr>
-                                  ))}
-                                </tbody>
-                              </table>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      )}
-
-                      {pipelineResult.debug?.preprocessor && (
-                        <DebugSection title="Pass 0 — Preprocessor" data={pipelineResult.debug.preprocessor} />
-                      )}
-                      {pipelineResult.debug?.analystEvidence && (
-                        <DebugSection title="Pass 1A — Evidence Extractor (OpenAI)" data={pipelineResult.debug.analystEvidence} />
-                      )}
-                      {pipelineResult.debug?.analystCommercial && (
-                        <DebugSection title="Pass 1B — Commercial Strategist (Gemini)" data={pipelineResult.debug.analystCommercial} />
-                      )}
-                      {pipelineResult.debug?.analystAdoption && (
-                        <DebugSection title="Pass 1C — Adoption Diagnostician (Claude)" data={pipelineResult.debug.analystAdoption} />
-                      )}
-                      {pipelineResult.finalReport && (
-                        <DebugSection title="Pass 2 — Judge/Enforcer Final Report (Claude)" data={pipelineResult.finalReport} />
-                      )}
-                      {(pipelineResult.finalReport as FinalReport)?.qa && (
-                        <Card className="border border-report-border">
-                          <CardHeader className="border-b border-report-border bg-amber-50/50 py-3 px-5">
-                            <CardTitle className="font-serif text-base font-bold text-report-heading">QA — Removed Claims & Notes</CardTitle>
-                          </CardHeader>
-                          <CardContent className="p-4">
-                            <pre className="whitespace-pre-wrap font-mono text-xs leading-relaxed text-report-text bg-muted/30 rounded-lg p-4 max-h-[400px] overflow-y-auto">
-                              {JSON.stringify((pipelineResult.finalReport as FinalReport).qa, null, 2)}
-                            </pre>
-                          </CardContent>
-                        </Card>
-                      )}
-                      {pipelineResult.debug?.errors && pipelineResult.debug.errors.length > 0 && (
-                        <Card className="border border-destructive/30">
-                          <CardHeader className="border-b border-destructive/20 bg-destructive/5 py-3 px-5">
-                            <CardTitle className="font-serif text-base font-bold text-destructive">Pipeline Errors</CardTitle>
-                          </CardHeader>
-                          <CardContent className="p-4">
-                            <ul className="space-y-1 text-sm text-destructive">
-                              {pipelineResult.debug.errors.map((e: string, i: number) => (
-                                <li key={i} className="font-mono text-xs">{e}</li>
-                              ))}
-                            </ul>
-                          </CardContent>
-                        </Card>
-                      )}
-                    </TabsContent>
-                  </Tabs>
-                </div>
-              )}
-
-              {/* Results State — V1 Legacy */}
-              {step === "results" && reportVersion === "v1_single" && analysisResult && (
-                <div className="animate-fade-in">
-                  <div className="flex items-center justify-end mb-6">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="outline" size="sm" className="gap-2">
-                          <Download className="w-4 h-4" />
-                          <span className="hidden sm:inline">Download</span>
-                          <ChevronDown className="w-3 h-3" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="bg-background border shadow-lg z-50">
-                        <DropdownMenuItem onClick={handleDownloadPDF} className="gap-2 cursor-pointer">
-                          <FileDown className="w-4 h-4 text-red" />
-                          <div>
-                            <p className="font-medium">PDF Document</p>
-                            <p className="text-xs text-muted-foreground">Best for sharing & printing</p>
-                          </div>
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={handleDownloadMarkdown} className="gap-2 cursor-pointer">
-                          <FileType className="w-4 h-4 text-blue-500" />
-                          <div>
-                            <p className="font-medium">Markdown</p>
-                            <p className="text-xs text-muted-foreground">For Notion, docs, or editing</p>
-                          </div>
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-
-                  <Tabs defaultValue="analysis" className="w-full">
-                    <TabsList className="grid w-full max-w-md grid-cols-2 mb-6">
-                      <TabsTrigger value="analysis" className="gap-2">
-                        <BarChart3 className="w-4 h-4" />
-                        Analysis
-                      </TabsTrigger>
-                      <TabsTrigger value="transcript" className="gap-2">
-                        <FileTextIcon className="w-4 h-4" />
-                        Transcript
-                      </TabsTrigger>
-                    </TabsList>
-                    
-                    <TabsContent value="analysis" className="mt-0">
-                      <div id="analysis-report-content">
-                        <AnalysisReport 
-                          analysisResult={analysisResult} 
-                          title={selectedSavedAnalysis?.title || (selectedOption ? `${selectedOption.title} Analysis` : undefined)}
-                          createdAt={selectedSavedAnalysis?.created_at}
-                          scenario={selectedCallCategory || selectedType || undefined}
-                        />
-                      </div>
-                    </TabsContent>
-                    
-                    <TabsContent value="transcript" className="mt-0">
-                      <Card className="border border-report-border">
-                        <CardHeader className="border-b border-report-border bg-report-surface/50">
-                          <div className="flex items-center gap-3">
-                            <div className="p-2 rounded-lg bg-navy-dark/10">
-                              <FileTextIcon className="w-5 h-5 text-navy-dark" />
-                            </div>
-                            <div>
-                              <CardTitle className="font-serif text-lg font-bold text-report-heading">
-                                Original {selectedOption?.title || "Content"}
-                              </CardTitle>
-                              <CardDescription className="text-sm text-report-muted">
-                                The source material used for this analysis
-                              </CardDescription>
-                            </div>
-                          </div>
-                        </CardHeader>
-                        <CardContent className="p-6">
-                          <div className="bg-muted/30 rounded-lg p-4 max-h-[600px] overflow-y-auto">
-                            <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-report-text">
-                              {content || selectedSavedAnalysis?.input_text || "No transcript available"}
-                            </pre>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </TabsContent>
                   </Tabs>
                 </div>
               )}
