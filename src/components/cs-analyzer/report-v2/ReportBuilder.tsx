@@ -319,7 +319,7 @@ export const ReportBuilder = ({ report, evidenceAnchors, title, createdAt }: Rep
   ).length;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4">
+    <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-6">
       {/* Sidebar — toggle panel */}
       <div className="order-2 lg:order-1">
         <div className="lg:sticky lg:top-4">

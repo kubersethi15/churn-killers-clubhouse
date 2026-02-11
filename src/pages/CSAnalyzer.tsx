@@ -828,7 +828,7 @@ const CSAnalyzer = () => {
 
         {/* Main Content */}
         <main className="flex-1 overflow-auto bg-background">
-            <div className="container mx-auto px-4 py-8 md:px-6 max-w-4xl">
+            <div className={cn("container mx-auto px-4 py-8 md:px-6", step === "results" ? "max-w-7xl" : "max-w-4xl")}>
               
               {/* Step Indicator - Only show for Manual mode */}
               {step !== "results" && analyzerMode === "manual" && (
