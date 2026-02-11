@@ -44,6 +44,7 @@ import {
   Settings2,
   Layers,
   AlertTriangle,
+  X,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -173,6 +174,9 @@ const CSAnalyzer = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [analyzerMode, setAnalyzerMode] = useState<"manual" | "ai-triage">("ai-triage");
   const [isExportingPdf, setIsExportingPdf] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(() => {
+    try { return !localStorage.getItem("cs-analyzer-onboarded"); } catch { return true; }
+  });
   const { toast } = useToast();
   const { user, profile, signOut, isLoading: authLoading } = useAuth();
   const { saveAnalysis, fetchAnalyses } = useAnalyses();
@@ -860,6 +864,33 @@ const CSAnalyzer = () => {
                 <div className="animate-fade-in">
                   {/* AI Triage Mode (default) */}
                   <div className="w-full">
+                      {/* First-time welcome banner */}
+                      {showWelcome && (
+                        <div className="mb-6 rounded-xl border border-navy-dark/10 bg-navy-dark/[0.03] px-5 py-4 relative animate-fade-in">
+                          <button
+                            onClick={() => {
+                              setShowWelcome(false);
+                              try { localStorage.setItem("cs-analyzer-onboarded", "1"); } catch {}
+                            }}
+                            className="absolute top-3 right-3 text-muted-foreground hover:text-foreground transition-colors"
+                            aria-label="Dismiss"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                          <h3 className="text-sm font-semibold text-navy-dark mb-1.5 font-serif">
+                            Welcome to CS Analyzer
+                          </h3>
+                          <ol className="text-xs text-muted-foreground space-y-1 list-decimal list-inside leading-relaxed">
+                            <li><strong>Paste</strong> a call transcript below</li>
+                            <li>AI <strong>auto-classifies</strong> the scenario and extracts context</li>
+                            <li>Five specialist agents produce a <strong>comprehensive report</strong> in ~45 seconds</li>
+                          </ol>
+                          <p className="text-xs text-muted-foreground mt-2">
+                            No transcript handy? Use <strong>Try a sample</strong> at the bottom.
+                          </p>
+                        </div>
+                      )}
+
                       <div className="text-center mb-8">
                         <h2 className="text-2xl md:text-3xl font-serif font-bold text-navy-dark mb-2">
                           Paste your content to get started
