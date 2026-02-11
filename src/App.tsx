@@ -14,6 +14,7 @@ import CSAnalyzer from "./pages/CSAnalyzer";
 import CSAnalyzerWaitlist from "./pages/CSAnalyzerWaitlist";
 import Auth from "./pages/Auth";
 import AdminPanel from "./components/AdminPanel";
+import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 
 const queryClient = new QueryClient();
 
@@ -33,7 +34,7 @@ const App = () => (
             <Route path="/cs-analyzer" element={<CSAnalyzer />} />
             <Route path="/cs-analyzer-waitlist" element={<CSAnalyzerWaitlist />} />
             <Route path="/auth" element={<Auth />} />
-            <Route path="/admin" element={<AdminPanel />} />
+            <Route path="/admin" element={<ProtectedAdminRoute><AdminPanel /></ProtectedAdminRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
