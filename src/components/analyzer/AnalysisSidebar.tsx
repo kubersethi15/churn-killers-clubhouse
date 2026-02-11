@@ -225,10 +225,25 @@ export const AnalysisSidebar = ({
                 <Loader2 className="h-5 w-5 animate-spin text-white/40" />
               </div>
             ) : recentAnalyses.length === 0 ? (
-              <div className="p-4 text-center mt-2">
-                <p className="text-sm text-white/50">
-                  No analyses yet. Start by creating a new analysis.
+              <div className="p-4 text-center mt-4">
+                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-3">
+                  <FileText className="h-5 w-5 text-white/30" />
+                </div>
+                <p className="text-sm font-medium text-white/60 mb-1">
+                  No analyses yet
                 </p>
+                <p className="text-xs text-white/40 mb-4 leading-relaxed">
+                  Paste a call transcript to generate your first AI-powered analysis
+                </p>
+                <Button
+                  onClick={onNewAnalysis}
+                  variant="outline"
+                  size="sm"
+                  className="w-full border-white/20 text-white hover:bg-white/10 gap-2"
+                >
+                  <Plus className="h-3.5 w-3.5" />
+                  New Analysis
+                </Button>
               </div>
             ) : (
               <div className="flex flex-col flex-1 min-h-0 mt-2">
