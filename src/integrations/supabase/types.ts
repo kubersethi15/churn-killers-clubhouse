@@ -213,6 +213,24 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
       waitlist: {
         Row: {
           created_at: string
@@ -247,6 +265,13 @@ export type Database = {
     Functions: {
       create_newsletter_invoke_function: { Args: never; Returns: undefined }
       enable_pg_cron: { Args: never; Returns: undefined }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
       invoke_newsletter_function: { Args: never; Returns: string }
       setup_newsletter_cron_job: { Args: never; Returns: undefined }
       setup_newsletter_once: {
@@ -260,6 +285,7 @@ export type Database = {
       unschedule_job: { Args: { job_name: string }; Returns: undefined }
     }
     Enums: {
+      app_role: "admin" | "user"
       cs_role: "csm" | "cs_manager" | "cs_director" | "vp_cs" | "cro" | "other"
     }
     CompositeTypes: {
@@ -388,6 +414,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      app_role: ["admin", "user"],
       cs_role: ["csm", "cs_manager", "cs_director", "vp_cs", "cro", "other"],
     },
   },

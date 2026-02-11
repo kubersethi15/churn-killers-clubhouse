@@ -9,7 +9,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
 import ContactDialog from "@/components/ContactDialog";
 import Footer from "@/components/Footer";
-import AdminPanel from "@/components/AdminPanel";
 import { isPreviewMode } from "@/utils/preview";
 import { formatContent as formatNewsletterContent } from "@/utils/formatUtils";
 import { useToast } from "@/hooks/use-toast";
@@ -32,7 +31,6 @@ const Index = () => {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
   const [searchParams] = useSearchParams();
-  const showAdmin = searchParams.get('admin') === 'true';
   const { toast } = useToast();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -403,9 +401,6 @@ const Index = () => {
       
       {/* Use the consistent Footer component */}
       <Footer />
-      
-      {/* Hidden Admin Panel */}
-      {showAdmin && <AdminPanel />}
       
       {/* Waitlist Modal */}
       <WaitlistModal open={isWaitlistOpen} onOpenChange={setIsWaitlistOpen} source="homepage" />
