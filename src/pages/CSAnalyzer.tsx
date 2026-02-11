@@ -43,6 +43,7 @@ import {
   Bot,
   Settings2,
   Layers,
+  AlertTriangle,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -809,10 +810,6 @@ const CSAnalyzer = () => {
                       <p className="text-xs text-muted-foreground">{user.email}</p>
                     </div>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <User className="h-4 w-4 mr-2" />
-                      Profile Settings
-                    </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleSignOut} className="text-destructive">
                       <LogOut className="h-4 w-4 mr-2" />
@@ -1054,109 +1051,30 @@ const CSAnalyzer = () => {
 
               {/* Results State — V2 Pipeline (failed — no finalReport) */}
               {step === "results" && reportVersion === "v2_panel" && pipelineResult && !pipelineResult.finalReport && (
-                <div className="animate-fade-in">
-                  <div className="flex items-center justify-between mb-6">
-                    <div>
-                      <h2 className="text-xl font-serif font-bold text-navy-dark">
-                        Analysis Incomplete
-                      </h2>
-                      <p className="text-sm text-muted-foreground">
-                        The pipeline finished but the final report could not be generated.
-                      </p>
+                <div className="animate-fade-in max-w-xl mx-auto py-8">
+                  <div className="text-center mb-6">
+                    <div className="w-14 h-14 rounded-full bg-destructive/10 flex items-center justify-center mx-auto mb-4">
+                      <AlertTriangle className="w-7 h-7 text-destructive" />
                     </div>
-                    <Button variant="outline" size="sm" onClick={handleStartOver} className="gap-2">
-                      <RotateCcw className="w-4 h-4" />
-                      <span className="hidden sm:inline">Try Again</span>
-                    </Button>
+                    <h2 className="text-xl font-serif font-bold text-navy-dark mb-2">
+                      Analysis couldn't be completed
+                    </h2>
+                    <p className="text-sm text-muted-foreground max-w-md mx-auto">
+                      Our AI models experienced a temporary issue while generating your report. This happens occasionally and usually resolves on a retry.
+                    </p>
                   </div>
 
-                  <Card className="border border-destructive/30 mb-4">
-                    <CardHeader className="border-b border-destructive/20 bg-destructive/5 py-4 px-5">
-                      <CardTitle className="font-serif text-base font-bold text-destructive flex items-center gap-2">
-                        <Target className="w-4 h-4" />
-                        Pipeline Error
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-5 space-y-3">
-                      <p className="text-sm text-foreground">
-                        {pipelineResult.error || "The Judge/Enforcer pass failed to produce a final report. This is usually caused by a timeout or an unexpected response from the AI model."}
-                      </p>
+                  <Card className="border border-border mb-6">
+                    <CardContent className="p-5 text-center space-y-4">
                       <p className="text-sm text-muted-foreground">
-                        The analyst passes completed successfully — you can review their raw outputs in the Debug section below. Try running the analysis again; intermittent model failures are expected.
+                        Your transcript is still saved. Simply try again — most temporary failures resolve immediately.
                       </p>
-                      {pipelineResult.debug?.errors && pipelineResult.debug.errors.length > 0 && (
-                        <div className="bg-muted/50 rounded-lg p-3 mt-2">
-                          <p className="text-xs font-semibold text-muted-foreground mb-1">Error details:</p>
-                          <ul className="space-y-1">
-                            {pipelineResult.debug.errors.map((e: string, i: number) => (
-                              <li key={i} className="font-mono text-xs text-destructive">{e}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
+                      <Button onClick={handleStartOver} className="gap-2 bg-red hover:bg-red-dark text-white">
+                        <RotateCcw className="w-4 h-4" />
+                        Try Again
+                      </Button>
                     </CardContent>
                   </Card>
-
-                  {/* Show debug info so partial outputs aren't lost */}
-                  <div className="space-y-4">
-                    <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Debug — Partial Pipeline Outputs</h3>
-
-                    {/* Pass Timings */}
-                    {pipelineResult.debug?.passTimings && pipelineResult.debug.passTimings.length > 0 && (
-                      <Card className="border border-report-border">
-                        <CardHeader className="border-b border-report-border bg-report-surface/50 py-3 px-5">
-                          <CardTitle className="font-serif text-base font-bold text-report-heading">Pass Timings</CardTitle>
-                        </CardHeader>
-                        <CardContent className="p-4">
-                          <div className="overflow-x-auto">
-                            <table className="w-full text-sm font-sans">
-                              <thead>
-                                <tr className="border-b">
-                                  <th className="text-left py-1.5 px-2 text-xs font-semibold text-muted-foreground">Pass</th>
-                                  <th className="text-left py-1.5 px-2 text-xs font-semibold text-muted-foreground">Provider</th>
-                                  <th className="text-left py-1.5 px-2 text-xs font-semibold text-muted-foreground">Model</th>
-                                  <th className="text-right py-1.5 px-2 text-xs font-semibold text-muted-foreground">Duration</th>
-                                  <th className="text-center py-1.5 px-2 text-xs font-semibold text-muted-foreground">Status</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {pipelineResult.debug.passTimings.map((t: { pass: string; provider: string; model: string; durationMs: number; success: boolean }, i: number) => (
-                                  <tr key={i} className="border-b border-border/50">
-                                    <td className="py-1.5 px-2 font-medium">{t.pass}</td>
-                                    <td className="py-1.5 px-2 text-muted-foreground">{t.provider}</td>
-                                    <td className="py-1.5 px-2 text-muted-foreground text-xs">{t.model}</td>
-                                    <td className="py-1.5 px-2 text-right">{(t.durationMs / 1000).toFixed(1)}s</td>
-                                    <td className="py-1.5 px-2 text-center">{t.success ? "✓" : "✗"}</td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    )}
-
-                    {pipelineResult.debug?.preprocessor && (
-                      <DebugSection title="Pass 0 — Preprocessor" data={pipelineResult.debug.preprocessor} />
-                    )}
-                    {pipelineResult.debug?.analystEvidence && (
-                      <DebugSection title="Pass 1A — Evidence Extractor" data={pipelineResult.debug.analystEvidence} />
-                    )}
-                    {pipelineResult.debug?.analystCommercial && (
-                      <DebugSection title="Pass 1B — Commercial Strategist" data={pipelineResult.debug.analystCommercial} />
-                    )}
-                    {pipelineResult.debug?.analystAdoption && (
-                      <DebugSection title="Pass 1C — Adoption Diagnostician" data={pipelineResult.debug.analystAdoption} />
-                    )}
-                  </div>
-
-                  {/* Download debug bundle even on failure */}
-                  <div className="mt-6 flex gap-2">
-                    <Button variant="outline" size="sm" onClick={handleDownloadDebugBundle} className="gap-2">
-                      <FileDown className="w-4 h-4" />
-                      Download Debug Bundle
-                    </Button>
-                  </div>
                 </div>
               )}
 
@@ -1165,28 +1083,20 @@ const CSAnalyzer = () => {
                 <div className="animate-fade-in">
                     <div className="flex items-center justify-end mb-6">
                     <div className="flex items-center gap-2">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="outline" size="sm" className="gap-2" disabled={isExportingPdf}>
-                            {isExportingPdf ? (
-                              <Loader2 className="w-4 h-4 animate-spin" />
-                            ) : (
-                              <Download className="w-4 h-4" />
-                            )}
-                            <span className="hidden sm:inline">{isExportingPdf ? "Generating..." : "Export"}</span>
-                            <ChevronDown className="w-3 h-3" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="bg-background border shadow-lg z-50">
-                          <DropdownMenuItem onClick={handleDownloadPDF} disabled={isExportingPdf} className="gap-2 cursor-pointer">
-                            <FileDown className="w-4 h-4 text-red" />
-                            <div>
-                              <p className="font-medium">PDF Report</p>
-                              <p className="text-xs text-muted-foreground">Premium AI-rendered, print-ready</p>
-                            </div>
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="gap-2"
+                        disabled={isExportingPdf}
+                        onClick={handleDownloadPDF}
+                      >
+                        {isExportingPdf ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <FileDown className="w-4 h-4" />
+                        )}
+                        <span className="hidden sm:inline">{isExportingPdf ? "Generating..." : "Export PDF"}</span>
+                      </Button>
                       <Button variant="outline" size="sm" onClick={handleStartOver} className="gap-2">
                         <RotateCcw className="w-4 h-4" />
                         <span className="hidden sm:inline">New Analysis</span>
