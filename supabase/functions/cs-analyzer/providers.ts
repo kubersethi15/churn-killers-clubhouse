@@ -17,7 +17,7 @@ export const PASS_CONFIGS: Record<string, ModelConfig> = {
   preprocessor: { provider: "openai", model: "gpt-4o-mini", maxTokens: 4096, temperature: 0.1, timeoutMs: 30_000 },
   analystA:     { provider: "openai", model: "gpt-4o", maxTokens: 4096, temperature: 0.2, timeoutMs: 45_000 },
   analystB:     { provider: "gemini", model: "google/gemini-2.5-pro", maxTokens: 6000, temperature: 0.2, timeoutMs: 55_000 },
-  analystC:     { provider: "claude", model: "claude-sonnet-4-20250514", maxTokens: 4096, temperature: 0.2, timeoutMs: 40_000 },
+  analystC:     { provider: "claude", model: "claude-sonnet-4-20250514", maxTokens: 4096, temperature: 0.2, timeoutMs: 75_000 },
   judge:        { provider: "claude", model: "claude-sonnet-4-20250514", maxTokens: 8192, temperature: 0.1, timeoutMs: 90_000 },
 };
 
