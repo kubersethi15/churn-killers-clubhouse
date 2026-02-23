@@ -7,6 +7,8 @@ import { formatDate, formatContent } from "@/utils/formatUtils";
 import NewsletterHeader from "@/components/newsletter/NewsletterHeader";
 import NewsletterContent from "@/components/newsletter/NewsletterContent";
 import NewsletterFooter from "@/components/newsletter/NewsletterFooter";
+import NewsletterSEO from "@/components/newsletter/NewsletterSEO";
+import ReadingProgressBar from "@/components/newsletter/ReadingProgressBar";
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 
@@ -46,6 +48,8 @@ const NewsletterDetail = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <ReadingProgressBar />
+      <NewsletterSEO newsletter={newsletter} />
       <Header />
       
       <NewsletterHeader 

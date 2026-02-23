@@ -62,6 +62,12 @@ export const formatContent = (content: string) => {
     return `${p1}<ul class="list-disc ml-6 my-4 space-y-2">${items.map(i => `<li>${i}</li>`).join('')}</ul>`;
   });
 
+  // Step 5.5: Process [ACTION]...[/ACTION] callout blocks
+  formattedContent = formattedContent.replace(
+    /\[ACTION\]\s*([\s\S]*?)\s*\[\/ACTION\]/g,
+    '<div class="my-6 p-5 bg-navy-dark/5 border-l-4 border-red-600 rounded-r-lg"><p class="mb-0 leading-relaxed font-medium"><strong class="text-red-600 uppercase text-sm tracking-wide block mb-2">Action Step</strong>$1</p></div>'
+  );
+
   // Step 6: Process paragraphs - split on blank lines and preserve single line breaks
   const paragraphs = formattedContent.split(/\n{2,}/);
   formattedContent = paragraphs.map(paragraph => {
@@ -69,7 +75,7 @@ export const formatContent = (content: string) => {
     if (trimmed === '') return '';
 
     // Skip wrapping if block-level tags present
-    if (/(<\/?(h[1-6]|ul|ol|li|blockquote|table|hr)[\s>])/i.test(trimmed)) {
+    if (/(<\/?(h[1-6]|ul|ol|li|blockquote|table|hr|div)[\s>])/i.test(trimmed)) {
       return paragraph;
     }
 
