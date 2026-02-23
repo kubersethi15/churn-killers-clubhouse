@@ -1,0 +1,1 @@
+UPDATE public.newsletters SET published_date = '2026-02-25T07:00:00+00:00' WHERE slug = 'customer-success-doesnt-deserve-to-survive';
