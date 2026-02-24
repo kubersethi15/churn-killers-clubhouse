@@ -129,42 +129,6 @@ export type Database = {
           },
         ]
       }
-      playbooks: {
-        Row: {
-          id: string
-          title: string
-          description: string
-          pdf_path: string | null
-          notion_link: string | null
-          newsletter_slug: string | null
-          newsletter_title: string | null
-          published_date: string
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          title: string
-          description: string
-          pdf_path?: string | null
-          notion_link?: string | null
-          newsletter_slug?: string | null
-          newsletter_title?: string | null
-          published_date?: string
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          title?: string
-          description?: string
-          pdf_path?: string | null
-          notion_link?: string | null
-          newsletter_slug?: string | null
-          newsletter_title?: string | null
-          published_date?: string
-          created_at?: string
-        }
-        Relationships: []
-      }
       newsletters: {
         Row: {
           category: string | null
