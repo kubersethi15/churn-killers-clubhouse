@@ -99,16 +99,23 @@ serve(async (req: Request) => {
         .eq("subscribed", true);
 
       if (subErr) throw subErr;
-      if (!subscribers?.length) {
-        return new Response(JSON.stringify({ success: true, message: "No active subscribers" }), {
+      
+      // Filter out invalid emails
+      const validSubscribers = (subscribers || []).filter(s => 
+        s.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.email)
+      );
+      console.log(`${validSubscribers.length} valid subscribers (filtered ${(subscribers?.length || 0) - validSubscribers.length} invalid)`);
+      
+      if (!validSubscribers.length) {
+        return new Response(JSON.stringify({ success: true, message: "No valid subscribers" }), {
           headers: { "Content-Type": "application/json", ...corsHeaders },
         });
       }
 
-      const batchSize = 40;
+      const batchSize = 30;
       let sent = 0;
-      for (let i = 0; i < subscribers.length; i += batchSize) {
-        const batch = subscribers.slice(i, i + batchSize);
+      for (let i = 0; i < validSubscribers.length; i += batchSize) {
+        const batch = validSubscribers.slice(i, i + batchSize);
         const emails = batch.map(s => s.email);
         const html = generateCorrectionEmail(emails[0]);
 
