@@ -21,13 +21,13 @@ const generateCorrectionEmail = (recipientEmail: string) => `
     
     <p>The good news? The content is still 🔥 — so if you read it, consider yourself ahead of the curve. If you didn't, no worries — we'll send it again at the right time with the full rollout.</p>
     
-    <p>Today's actual issue is <strong>"Customer Success Doesn't Deserve to Survive"</strong> — and if you haven't read it yet, it's worth your time:</p>
+    <p>In the meantime, if you missed our latest published issue <strong>"AI Didn't Kill Customer Success. It Exposed It"</strong> — it's worth your time:</p>
   </div>
   
   <div style="margin: 30px 0;">
-    <a href="https://churnisdead.com/newsletter/customer-success-doesnt-deserve-to-survive" 
+    <a href="https://churnisdead.com/newsletter/ai-didnt-kill-customer-success" 
        style="background-color: #dc2626; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: bold;">
-      Read This Week's Issue →
+      Read the Latest Issue →
     </a>
   </div>
   
