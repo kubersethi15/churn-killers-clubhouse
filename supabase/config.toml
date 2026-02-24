@@ -29,3 +29,6 @@ verify_jwt = false
 
 [functions.cs-report-renderer]
 verify_jwt = false
+
+[functions.send-correction-email]
+verify_jwt = false
