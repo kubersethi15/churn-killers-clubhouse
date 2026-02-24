@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { ExternalLink, Download, FileText } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
 
 interface Playbook {
@@ -17,37 +16,88 @@ interface Playbook {
   published_date: string;
 }
 
+const STATIC_PLAYBOOKS: Playbook[] = [
+  {
+    id: "1",
+    title: "Customer Predictability Index (CPI) Framework",
+    description: "A tiered framework to assess and improve customer predictability across trust, engagement, and outcomes.",
+    pdf_path: "/pdfs/Customer_Predictability_Audit_ChurnIsDead.pdf",
+    notion_link: "https://www.notion.so/Customer-Predictability-Index-CPI-Framework-Tiered-Guide-2015d0709c9980b18354e3512b86ebff",
+    newsletter_slug: "customer-predictability-revolution",
+    newsletter_title: "The Customer Predictability Revolution",
+    published_date: "2025-06-10T00:00:00Z",
+  },
+  {
+    id: "2",
+    title: "Customer Momentum Framework",
+    description: "A strategic framework to identify, track, and accelerate customer momentum across the entire lifecycle.",
+    pdf_path: null,
+    notion_link: "https://www.notion.so/Customer-Momentum-Framework-20a5d0709c9980259ea4c3fdcc0b38b1",
+    newsletter_slug: "customer-momentum-over-health-score",
+    newsletter_title: "Customer Momentum Over Health Score",
+    published_date: "2025-06-03T00:00:00Z",
+  },
+  {
+    id: "3",
+    title: "CO-OP Framework",
+    description: "The exact system that helped save a $2M renewal — now used by 10+ enterprise CS teams to increase renewal predictability and expansion velocity.",
+    pdf_path: null,
+    notion_link: "https://www.notion.so/CO-OP-Framework-2235d0709c998059a8a4dc2c18393b25",
+    newsletter_slug: "customer-momentum-over-health-score",
+    newsletter_title: "Customer Momentum Over Health Score",
+    published_date: "2025-06-03T00:00:00Z",
+  },
+  {
+    id: "4",
+    title: "AI Exposure Audit",
+    description: "Diagnose how exposed your CS team is to AI-driven disruption and build a resilience plan.",
+    pdf_path: "/pdfs/AI_Exposure_Audit_ChurnIsDead.pdf",
+    notion_link: null,
+    newsletter_slug: "ai-didnt-kill-customer-success",
+    newsletter_title: "AI Didn't Kill Customer Success. It Exposed It.",
+    published_date: "2026-01-13T00:00:00Z",
+  },
+  {
+    id: "5",
+    title: "CS Survival Audit",
+    description: "Assess whether your CS function is positioned to survive the next round of cuts.",
+    pdf_path: "/pdfs/CS_Survival_Audit_ChurnIsDead.pdf",
+    notion_link: null,
+    newsletter_slug: null,
+    newsletter_title: null,
+    published_date: "2025-05-20T00:00:00Z",
+  },
+  {
+    id: "6",
+    title: "Revenue Readiness Audit",
+    description: "Evaluate your CS team's readiness to drive revenue through expansion and retention.",
+    pdf_path: "/pdfs/Revenue_Readiness_Audit_ChurnIsDead.pdf",
+    notion_link: null,
+    newsletter_slug: null,
+    newsletter_title: null,
+    published_date: "2025-05-20T00:00:00Z",
+  },
+  {
+    id: "7",
+    title: "Strategic Impact Audit",
+    description: "Measure and communicate CS's strategic impact to the executive team.",
+    pdf_path: "/pdfs/Strategic_Impact_Audit_ChurnIsDead.pdf",
+    notion_link: null,
+    newsletter_slug: null,
+    newsletter_title: null,
+    published_date: "2025-05-20T00:00:00Z",
+  },
+];
+
 const PlaybookVault = () => {
-  const [playbooks, setPlaybooks] = useState<Playbook[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [playbooks] = useState<Playbook[]>(
+    STATIC_PLAYBOOKS.sort((a, b) => new Date(b.published_date).getTime() - new Date(a.published_date).getTime())
+  );
+  const loading = false;
 
   useEffect(() => {
     document.title = "Playbook Vault | Churn Is Dead";
     window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
-    const fetchPlaybooks = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("playbooks")
-          .select("*")
-          .lte("published_date", new Date().toISOString())
-          .order("published_date", { ascending: false });
-
-        if (error) {
-          console.error("Error fetching playbooks:", error);
-          return;
-        }
-        if (data) setPlaybooks(data as Playbook[]);
-      } catch (error) {
-        console.error("Unexpected error:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPlaybooks();
   }, []);
 
   const formatDate = (dateString: string) => format(new Date(dateString), "MMM yyyy");
