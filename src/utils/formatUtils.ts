@@ -13,8 +13,11 @@ export const formatDate = (dateString: string) => {
 export const formatContent = (content: string) => {
   if (!content) return "";
 
+  // Strip YAML frontmatter (---...---)
+  const withoutFrontmatter = content.replace(/^---[\s\S]*?---\s*\n?/, '');
+
   // Normalize line endings and whitespace
-  const normalized = content.replace(/\r\n/g, '\n').replace(/\u00A0/g, ' ');
+  const normalized = withoutFrontmatter.replace(/\r\n/g, '\n').replace(/\u00A0/g, ' ');
   // Fix cases where HR and heading are on the same line like "--- ## Heading"
   const preprocessed = normalized.replace(/---\s+(?=#+\s)/g, '---\n');
 
