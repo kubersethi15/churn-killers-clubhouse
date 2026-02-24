@@ -72,7 +72,8 @@ def generate_newsletter_and_playbook(topic_override=None):
     system_prompt = """You are Kuber Sethi, author of "Churn Is Dead" newsletter for enterprise CS professionals.
 Your voice: Contrarian, direct, story-driven, framework-backed, enterprise-focused, anti-fluff.
 You will return a JSON response with two parts: the newsletter and the playbook structure.
-CRITICAL: Return ONLY valid JSON. No markdown fences. No explanation. Just the JSON object."""
+CRITICAL: Return ONLY valid JSON. No markdown fences. No explanation. Just the JSON object.
+WRITING STYLE RULE: Do NOT overuse em dashes (—). Use them sparingly — maximum 3-4 in the entire newsletter. Instead, use periods, commas, colons, or restructure sentences. Em dash overuse is an AI writing tell and makes the content feel generic. Prefer short punchy sentences over long dash-connected ones."""
 
     user_prompt = f"""EXISTING TOPICS (do NOT repeat):
 {existing_list}
@@ -122,7 +123,8 @@ Return a JSON object with this exact structure:
   }}
 }}
 
-IMPORTANT: Include 4-5 sections in the playbook. Make questions specific, not generic. Make rubrics specific to each section. Newsletter must be ~2500 words with full story-driven structure."""
+IMPORTANT: Include 4-5 sections in the playbook. Make questions specific, not generic. Make rubrics specific to each section. Newsletter must be ~2500 words with full story-driven structure.
+STYLE: Minimize em dashes (—) across ALL text. Max 3-4 in the newsletter, zero in playbook descriptions/questions. Use periods, commas, colons instead."""
 
     raw = call_claude(system_prompt, user_prompt, max_tokens=12000)
     raw = raw.strip()
