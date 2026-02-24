@@ -69,29 +69,7 @@ const Index = () => {
     fetchNewsletters();
   }, []);
 
-  // Optional: trigger test send via query params
-  useEffect(() => {
-    const shouldSend = searchParams.get('sendTest') === '1';
-    const email = searchParams.get('email');
-    const key = `newsletter_test_sent_${email}`;
-    if (shouldSend && email) {
-      const already = localStorage.getItem(key);
-      if (already) return;
-      (async () => {
-        try {
-          const { data, error } = await supabase.functions.invoke('send-latest-newsletter', {
-            body: { testEmail: email },
-          });
-          if (error) throw error;
-          toast({ title: "Test newsletter sent", description: `Sent to ${email}.` });
-          localStorage.setItem(key, 'true');
-        } catch (err: any) {
-          console.error("Failed to send test newsletter", err);
-          toast({ title: "Send failed", description: err?.message || "Please try again.", variant: "destructive" });
-        }
-      })();
-    }
-  }, [searchParams, toast]);
+  // Test newsletter sends removed - use Admin Panel instead
 
   const formatDate = (dateString: string) => format(new Date(dateString), "MMMM d, yyyy");
 
