@@ -16,8 +16,15 @@ export const formatContent = (content: string) => {
   // Strip YAML frontmatter (---...---)
   const withoutFrontmatter = content.replace(/^---[\s\S]*?---\s*\n?/, '');
 
+  // Strip newsletter header block: # CHURN IS DEAD / *Issue: ...* / ---
+  // This prevents the title from being rendered twice (header component already shows it)
+  const withoutNewsletterHeader = withoutFrontmatter
+    .replace(/^#\s+CHURN IS DEAD\s*\n/im, '')
+    .replace(/^\*Issue:.*?\*\s*\n/im, '')
+    .replace(/^\s*---+\s*\n/, ''); // Remove the first HR separator after title block
+
   // Normalize line endings and whitespace
-  const normalized = withoutFrontmatter.replace(/\r\n/g, '\n').replace(/\u00A0/g, ' ');
+  const normalized = withoutNewsletterHeader.replace(/\r\n/g, '\n').replace(/\u00A0/g, ' ');
   // Fix cases where HR and heading are on the same line like "--- ## Heading"
   const preprocessed = normalized.replace(/---\s+(?=#+\s)/g, '---\n');
 
