@@ -386,13 +386,136 @@ VALUES (
 
 
 # ═══════════════════════════════════════════════════════════
+# PART 4: DISTRIBUTION CONTENT GENERATOR
+# ═══════════════════════════════════════════════════════════
+
+DISTRIBUTION_DIR = REPO_ROOT / "distribution"
+
+
+def generate_distribution_content(newsletter_content, meta):
+    """Generate LinkedIn posts, LinkedIn newsletter edition, and community cross-posts."""
+
+    DISTRIBUTION_DIR.mkdir(exist_ok=True)
+
+    system_prompt = """You are Kuber Sethi, author of "Churn Is Dead" newsletter.
+Your LinkedIn voice: Direct, confident, contrarian, personal. You write from experience.
+You're addressing CS leaders, CSMs, VPs of Customer Success at B2B SaaS companies.
+CRITICAL: Return ONLY valid JSON. No markdown fences. No explanation. Just the JSON object.
+STYLE: Short punchy sentences. No em dashes. No emojis. No hashtags in the post body (only at the end)."""
+
+    user_prompt = f"""Based on this newsletter, generate distribution content.
+
+NEWSLETTER TITLE: {meta['title']}
+NEWSLETTER SLUG: {meta['slug']}
+NEWSLETTER URL: https://churnisdead.com/newsletter/{meta['slug']}
+SUBSCRIBE URL: https://churnisdead.com
+
+NEWSLETTER CONTENT (first 3000 chars):
+{newsletter_content[:3000]}
+
+Return a JSON object with this exact structure:
+
+{{
+  "linkedin_posts": [
+    {{
+      "day": "Tuesday",
+      "hook": "First line that stops the scroll (under 15 words)",
+      "body": "Full post body. 150-250 words. Standalone value. End with CTA to newsletter URL. Add 2-3 hashtags on last line.",
+      "strategy": "Why this post works (for internal reference only)"
+    }},
+    {{
+      "day": "Wednesday",
+      "hook": "First line hook",
+      "body": "Pure value post. No link. Framework or insight from the newsletter. Ends with a question to drive comments. 2-3 hashtags.",
+      "strategy": "Why this post works"
+    }},
+    {{
+      "day": "Thursday",
+      "hook": "First line hook",
+      "body": "Framework listicle or numbered takeaways. Ends with 'Link in comments' or direct URL. 2-3 hashtags.",
+      "strategy": "Why this post works"
+    }},
+    {{
+      "day": "Friday",
+      "hook": "First line hook",
+      "body": "Personal reflection or vulnerability. What I learned. Honest take. Ends with subscribe CTA. 2-3 hashtags.",
+      "strategy": "Why this post works"
+    }}
+  ],
+  "linkedin_newsletter": {{
+    "title": "Punchy title for LinkedIn Newsletter edition (can differ from email title)",
+    "body": "LinkedIn Newsletter body. 600-800 words. Include the opening story and first framework section. End with: 'I break down the full framework + a free downloadable playbook at [URL]. Subscribe to this LinkedIn newsletter for weekly editions.' Do NOT include the full newsletter. This is a teaser that drives clicks to the website."
+  }},
+  "community_posts": {{
+    "slack_post": "Casual, peer-to-peer tone. 100-150 words. Share an insight from the newsletter as a discussion starter. End with 'I wrote more about this here: [URL]'. No self-promo vibe.",
+    "reddit_post_title": "Question or statement that invites discussion (no clickbait)",
+    "reddit_post_body": "200-250 words. Genuine take that stands alone. Mention the newsletter naturally at the end, not as the point of the post."
+  }}
+}}
+
+IMPORTANT:
+- LinkedIn posts should each be DIFFERENT angles on the newsletter topic, not repetitions
+- Tuesday = hot take with newsletter link. Wednesday = pure value, no link. Thursday = framework list. Friday = personal story.
+- Each post's first line must hook. Use line breaks after the hook for readability.
+- Community posts should feel like a peer sharing, not a marketer promoting.
+- No em dashes anywhere."""
+
+    raw = call_claude(system_prompt, user_prompt, max_tokens=6000)
+    raw = raw.strip()
+    if raw.startswith("```"):
+        raw = re.sub(r'^```(?:json)?\s*\n?', '', raw)
+        raw = re.sub(r'\n?```\s*$', '', raw)
+
+    data = json.loads(raw)
+
+    slug = meta['slug']
+    week_dir = DISTRIBUTION_DIR / slug
+    week_dir.mkdir(exist_ok=True)
+
+    # Write LinkedIn posts
+    posts_content = f"# LinkedIn Posts — {meta['title']}\n"
+    posts_content += f"# Newsletter URL: https://churnisdead.com/newsletter/{slug}\n"
+    posts_content += f"# Generated: {datetime.utcnow().strftime('%Y-%m-%d')}\n\n"
+
+    for i, post in enumerate(data['linkedin_posts'], 1):
+        posts_content += f"{'='*60}\n"
+        posts_content += f"POST {i} — {post['day'].upper()}\n"
+        posts_content += f"Strategy: {post['strategy']}\n"
+        posts_content += f"{'='*60}\n\n"
+        posts_content += f"{post['body']}\n\n\n"
+
+    (week_dir / "linkedin_posts.md").write_text(posts_content)
+    print(f"   LinkedIn posts: {week_dir / 'linkedin_posts.md'}")
+
+    # Write LinkedIn Newsletter edition
+    ln = data['linkedin_newsletter']
+    ln_content = f"# LinkedIn Newsletter Edition\n"
+    ln_content += f"# Title: {ln['title']}\n"
+    ln_content += f"# Copy everything below the line into LinkedIn Newsletter editor\n\n"
+    ln_content += f"---\n\n{ln['body']}\n"
+    (week_dir / "linkedin_newsletter.md").write_text(ln_content)
+    print(f"   LinkedIn newsletter: {week_dir / 'linkedin_newsletter.md'}")
+
+    # Write community posts
+    cp = data['community_posts']
+    comm_content = f"# Community Cross-Posts — {meta['title']}\n\n"
+    comm_content += f"## Slack (Gain Grow Retain / CS Insider)\n\n{cp['slack_post']}\n\n"
+    comm_content += f"---\n\n## Reddit (r/CustomerSuccess)\n\n"
+    comm_content += f"**Title:** {cp['reddit_post_title']}\n\n{cp['reddit_post_body']}\n"
+    (week_dir / "community_posts.md").write_text(comm_content)
+    print(f"   Community posts: {week_dir / 'community_posts.md'}")
+
+    return week_dir
+
+
+# ═══════════════════════════════════════════════════════════
 # MAIN
 # ═══════════════════════════════════════════════════════════
 
 def main():
     topic = os.environ.get("TOPIC_OVERRIDE", "").strip() or None
     print("=" * 60)
-    print("CHURN IS DEAD \u2014 Newsletter Generator v2")
+    print("CHURN IS DEAD \u2014 Newsletter Generator v3")
     print("=" * 60)
 
     print("\n\U0001f4dd Generating newsletter + playbook structure...")
@@ -414,7 +537,16 @@ def main():
     pub = get_next_tuesday()
     create_migration(content, meta, pub, pdf_name=pdf_name)
 
+    print("\n\U0001f4e3 Generating distribution content...")
+    try:
+        dist_dir = generate_distribution_content(content, meta)
+        print(f"   Output: {dist_dir}")
+    except Exception as e:
+        print(f"   \u26a0\ufe0f  Distribution generation failed (non-fatal): {e}")
+
     print(f"\n\u2705 Done! Goes live: {pub}")
+    print(f"   Newsletter + PDF + migration + distribution content ready.")
+    print(f"   Social media manager: check distribution/{meta['slug']}/")
 
 
 if __name__ == "__main__":
