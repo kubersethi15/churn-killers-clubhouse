@@ -68,6 +68,7 @@ const handler = async (req: Request): Promise<Response> => {
     const { data: latestNewsletter, error: newsletterError } = await supabase
       .from("newsletters")
       .select("*")
+      .lte("published_date", new Date().toISOString())
       .order("published_date", { ascending: false })
       .limit(1)
       .single();
