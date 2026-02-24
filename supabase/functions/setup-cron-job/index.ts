@@ -1,4 +1,3 @@
-
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 
@@ -19,12 +18,53 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS"
 };
 
+async function verifyAdmin(req: Request): Promise<{ authorized: boolean; error?: string }> {
+  const authHeader = req.headers.get('Authorization');
+  if (!authHeader?.startsWith('Bearer ')) {
+    return { authorized: false, error: 'Authentication required' };
+  }
+
+  const anonKey = Deno.env.get('SUPABASE_ANON_KEY');
+  const supabaseClient = createClient(
+    Deno.env.get('SUPABASE_URL')!,
+    anonKey!,
+    { global: { headers: { Authorization: authHeader } } }
+  );
+
+  const token = authHeader.replace('Bearer ', '');
+  const { data, error } = await supabaseClient.auth.getClaims(token);
+  if (error || !data?.claims) {
+    return { authorized: false, error: 'Invalid token' };
+  }
+
+  const userId = data.claims.sub;
+  const { data: hasAdminRole } = await supabase.rpc('has_role', {
+    _user_id: userId,
+    _role: 'admin'
+  });
+
+  if (!hasAdminRole) {
+    return { authorized: false, error: 'Admin access required' };
+  }
+
+  return { authorized: true };
+}
+
 const handler = async (req: Request): Promise<Response> => {
   console.log("Setup cron job function triggered", new Date().toISOString());
   
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
+  }
+
+  // Verify admin authentication
+  const auth = await verifyAdmin(req);
+  if (!auth.authorized) {
+    return new Response(
+      JSON.stringify({ error: auth.error }),
+      { status: auth.error === 'Admin access required' ? 403 : 401, headers: { "Content-Type": "application/json", ...corsHeaders } }
+    );
   }
 
   try {
@@ -86,7 +126,6 @@ const handler = async (req: Request): Promise<Response> => {
 
     if (jobsError) {
       console.error("Error checking cron jobs:", jobsError);
-      // If we can't check, assume it needs to be created
     }
 
     const jobExists = jobs && jobs.length > 0;
@@ -96,7 +135,6 @@ const handler = async (req: Request): Promise<Response> => {
     } else {
       console.log("Setting up cron job...");
       
-      // Try to set up the cron job using the database function
       const { data, error } = await supabase.rpc('setup_newsletter_weekly_11pm');
 
       if (error) {
@@ -123,7 +161,6 @@ const handler = async (req: Request): Promise<Response> => {
     nextTuesday.setDate(nextTuesday.getDate() + (daysUntilTuesday || 7));
     nextTuesday.setHours(18, 0, 0, 0);
     
-    // If today is Tuesday and it's before 11 PM, use today
     const now = new Date();
     if (now.getDay() === 2 && now.getHours() < 18) {
       nextTuesday.setDate(now.getDate());
@@ -163,8 +200,6 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response(
       JSON.stringify({
         error: "Unexpected error occurred",
-        message: error.message || "Unknown error",
-        stack: error.stack,
         timestamp: new Date().toISOString()
       }),
       {
