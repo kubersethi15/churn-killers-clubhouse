@@ -90,7 +90,8 @@ Return a JSON object with this exact structure:
     "category": "Short category e.g. Strategy, AI & Automation, Team Design",
     "read_time": "9 min read",
     "pdf_filename": "Playbook_Name_Audit_ChurnIsDead.pdf",
-    "playbook_title": "The Playbook Name Audit"
+    "playbook_title": "The Playbook Name Audit",
+    "playbook_description": "Brief description of what the playbook contains, 1-2 sentences for the vault page"
   }},
   "newsletter_content": "FULL NEWSLETTER IN MARKDOWN. ~2500 words. Structure: ## headers, **bold**, --- breaks. Opening story, contrarian thesis, 3-5 myths/lies/failure modes, named framework with numbered components and action steps, playbook CTA, sign-off as Kuber with P.S. CTA format: [CTA link=\\"/pdfs/FILENAME.pdf\\"]Download the PLAYBOOK NAME[/CTA]",
   "playbook": {{
@@ -347,7 +348,8 @@ def build_playbook_pdf(playbook_data, metadata, output_path):
 def escape_sql(s):
     return s.replace("\\", "\\\\").replace("'", "''").replace("\n", "\\n").replace("\r", "").replace("\t", "\\t")
 
-def create_migration(content, meta, pub_date):
+def create_migration(content, meta, pub_date, pdf_name=None):
+    # Newsletter insert
     sql = f"""INSERT INTO public.newsletters (title, slug, excerpt, content, published_date, read_time, category)
 VALUES (
   '{escape_sql(meta["title"])}',
@@ -359,6 +361,23 @@ VALUES (
   '{escape_sql(meta.get("category", "Strategy"))}'
 );
 """
+
+    # Playbook insert (so it auto-appears in the vault)
+    if pdf_name:
+        pb_title = meta.get("playbook_title", meta["title"].replace("Churn Is Dead: ", ""))
+        pb_desc = escape_sql(meta.get("playbook_description", meta["excerpt"]))
+        sql += f"""
+INSERT INTO public.playbooks (title, description, pdf_path, newsletter_slug, newsletter_title, published_date)
+VALUES (
+  '{escape_sql(pb_title)}',
+  '{pb_desc}',
+  '/pdfs/{pdf_name}',
+  '{meta["slug"]}',
+  '{escape_sql(meta["title"])}',
+  '{pub_date}'
+);
+"""
+
     ts = datetime.utcnow().strftime("%Y%m%d%H%M%S")
     fp = MIGRATIONS_DIR / f"{ts}_{uuid.uuid4()}.sql"
     fp.write_text(sql)
@@ -393,7 +412,7 @@ def main():
 
     print("\n\U0001f5c4\ufe0f  Creating SQL migration...")
     pub = get_next_tuesday()
-    create_migration(content, meta, pub)
+    create_migration(content, meta, pub, pdf_name=pdf_name)
 
     print(f"\n\u2705 Done! Goes live: {pub}")
 
