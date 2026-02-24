@@ -2,18 +2,16 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
-import TestimonialCard from "@/components/TestimonialCard";
 import WaitlistModal from "@/components/WaitlistModal";
-import { MessageSquare, CheckCircle, BookText, LogIn, Sparkles, Zap, Users, BarChart3 } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
-import ContactDialog from "@/components/ContactDialog";
 import Footer from "@/components/Footer";
 import { isPreviewMode } from "@/utils/preview";
 import { formatContent as formatNewsletterContent } from "@/utils/formatUtils";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
-import { Badge } from "@/components/ui/badge";
+import NewsletterForm from "@/components/NewsletterForm";
 
 type Newsletter = {
   id: string;
@@ -27,8 +25,8 @@ type Newsletter = {
 
 const Index = () => {
   const [latestNewsletter, setLatestNewsletter] = useState<Newsletter | null>(null);
+  const [recentNewsletters, setRecentNewsletters] = useState<Newsletter[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isContactOpen, setIsContactOpen] = useState(false);
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
@@ -36,29 +34,30 @@ const Index = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Churn Is Dead | Bold Customer Success Strategies";
+    document.title = "Churn Is Dead | Weekly CS Frameworks That Replace Hope With Strategy";
   }, []);
 
   useEffect(() => {
-    const fetchLatestNewsletter = async () => {
+    const fetchNewsletters = async () => {
       try {
         let query = supabase
           .from("newsletters")
           .select("*")
           .order("published_date", { ascending: false })
-          .limit(1);
+          .limit(4);
         if (!isPreviewMode()) {
           query = query.lte("published_date", new Date().toISOString());
         }
-        const { data, error } = await query.maybeSingle();
+        const { data, error } = await query;
 
         if (error) {
           console.error("Error fetching newsletters:", error);
           return;
         }
 
-        if (data) {
-          setLatestNewsletter(data as Newsletter);
+        if (data && data.length > 0) {
+          setLatestNewsletter(data[0] as Newsletter);
+          setRecentNewsletters(data.slice(1) as Newsletter[]);
         }
       } catch (error) {
         console.error("Unexpected error:", error);
@@ -67,10 +66,10 @@ const Index = () => {
       }
     };
 
-    fetchLatestNewsletter();
+    fetchNewsletters();
   }, []);
 
-  // Optional: trigger test send via query params ?sendTest=1&email=...
+  // Optional: trigger test send via query params
   useEffect(() => {
     const shouldSend = searchParams.get('sendTest') === '1';
     const email = searchParams.get('email');
@@ -84,325 +83,206 @@ const Index = () => {
             body: { testEmail: email },
           });
           if (error) throw error;
-          toast({
-            title: "Test newsletter sent",
-            description: `Sent to ${email}. Check your inbox.`,
-          });
-          console.log("send-latest-newsletter response", data);
+          toast({ title: "Test newsletter sent", description: `Sent to ${email}.` });
           localStorage.setItem(key, 'true');
         } catch (err: any) {
           console.error("Failed to send test newsletter", err);
-          toast({
-            title: "Send failed",
-            description: err?.message || "Please try again.",
-            variant: "destructive",
-          });
+          toast({ title: "Send failed", description: err?.message || "Please try again.", variant: "destructive" });
         }
       })();
     }
   }, [searchParams, toast]);
 
-  const formatDate = (dateString: string) => {
-    return format(new Date(dateString), "MMMM d, yyyy");
-  };
+  const formatDate = (dateString: string) => format(new Date(dateString), "MMMM d, yyyy");
 
   return (
     <div className="min-h-screen bg-white">
       <Header />
       
-      {/* Hero Section */}
-      <section id="newsletter-section" className="pt-32 pb-20 md:pt-40 md:pb-28 bg-navy-dark text-white">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-serif font-black mb-6 animate-fade-in">
-              Stop Managing Churn.<br />
-              <span className="text-red-500">Start Driving Value.</span>
+      {/* ── HERO ── */}
+      <section className="pt-28 pb-16 md:pt-36 md:pb-24 bg-navy-dark text-white relative overflow-hidden">
+        {/* Subtle grain texture */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'1\'/%3E%3C/svg%3E")' }} />
+        
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="max-w-2xl mx-auto text-center">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm mb-8 text-sm text-gray-300">
+              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+              New issue every Tuesday
+            </div>
+
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-black mb-6 leading-[1.05] tracking-tight">
+              The CS newsletter<br />
+              that doesn't<br />
+              <span className="text-red-500 italic">sugarcoat it.</span>
             </h1>
-            <p className="text-lg md:text-xl mb-8 text-gray-200 leading-relaxed">
-              Weekly insights, AI-powered tools, and battle-tested frameworks for CS pros 
-              ready to cut the fluff and drive real outcomes.
+            
+            <p className="text-lg md:text-xl text-gray-300 mb-10 max-w-lg mx-auto leading-relaxed">
+              Frameworks, hard truths, and tactical plays for CS leaders who'd rather drive outcomes than manage vibes.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                size="lg"
-                className="bg-red-600 hover:bg-red-700 text-white font-medium"
-                onClick={() => setIsWaitlistOpen(true)}
-              >
-                <Sparkles className="w-5 h-5 mr-2" />
-                CS Analyzer Waitlist
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-white/50 bg-transparent text-white hover:bg-white hover:text-navy-dark"
-                asChild
-              >
-                <Link to="/newsletters">
-                  Newsletters
-                </Link>
-              </Button>
-            </div>
-            
-            <div className="mt-6 text-sm text-gray-300">
-              <p>Join CS leaders getting tactical insight every Tuesday.</p>
+            {/* Subscribe form inline */}
+            <div className="max-w-md mx-auto">
+              <NewsletterForm 
+                location="hero" 
+                buttonVariant="vibrant-red"
+                textColor="text-white"
+                buttonText="Subscribe"
+                subscribeText=""
+              />
+              <p className="text-xs text-gray-400 mt-3">Free. Every Tuesday. Unsubscribe anytime.</p>
             </div>
           </div>
         </div>
       </section>
-      
-      {/* Newsletter Content Section */}
-      <section className="py-14 md:py-20">
+
+      {/* ── LATEST ISSUE (The Star) ── */}
+      <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-serif font-bold text-navy-dark mb-10">
-              This Week's Tactical Play
-            </h2>
-            
+          <div className="max-w-3xl mx-auto">
+            {/* Section label */}
+            <div className="flex items-center gap-3 mb-8">
+              <span className="text-xs font-semibold uppercase tracking-widest text-red-600">Latest Issue</span>
+              <div className="flex-1 h-px bg-gray-200" />
+            </div>
+
             {loading ? (
-              <div className="text-center py-16">
-                <p className="text-lg text-gray-600">Loading latest newsletter...</p>
-              </div>
+              <div className="py-16 text-center text-gray-400">Loading...</div>
             ) : latestNewsletter ? (
-              <div className="max-w-5xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {/* Latest Newsletter Feature */}
-                  <div className="md:col-span-3">
-                    <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 transform transition-all duration-300 hover:shadow-lg">
-                      <div className="p-6 md:p-8">
-                        {latestNewsletter.category && (
-                          <div className="inline-block px-3 py-1 text-xs font-medium uppercase tracking-wider text-red-600 bg-red-50 rounded-md mb-4">
-                            {latestNewsletter.category}
-                          </div>
-                        )}
-                        <h3 className="text-2xl md:text-3xl font-serif font-bold text-navy-dark mb-3">
-                          {latestNewsletter.title}
-                        </h3>
-                        <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-                          <span>{formatDate(latestNewsletter.published_date)}</span>
-                          <span>•</span>
-                          <span>{latestNewsletter.read_time}</span>
-                        </div>
-                        <div
-                          className="text-gray-700 text-lg mb-6 leading-relaxed article-content"
-                          dangerouslySetInnerHTML={{ __html: (latestNewsletter.excerpt ? formatNewsletterContent(latestNewsletter.excerpt) : '') }}
-                        />
-                        <Button 
-                          className="bg-red-600 hover:bg-red-700 text-white"
-                          asChild
-                        >
-                          <Link to={`/newsletter/${latestNewsletter.slug}`}>
-                            Read
-                          </Link>
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="mt-12 text-center">
-                  <Button 
-                    variant="outline" 
-                    className="border-navy-dark text-navy-dark hover:bg-navy-dark hover:text-white"
-                    asChild
-                  >
-                    <Link to="/newsletters">
-                      View All
-                    </Link>
-                  </Button>
-                </div>
-              </div>
+              <Link to={`/newsletter/${latestNewsletter.slug}`} className="group block">
+                <article>
+                  {latestNewsletter.category && (
+                    <span className="text-xs font-medium uppercase tracking-wider text-gray-400 mb-3 block">
+                      {latestNewsletter.category}
+                    </span>
+                  )}
+                  <h2 className="text-3xl md:text-5xl font-serif font-black text-navy-dark mb-4 leading-tight group-hover:text-red-600 transition-colors duration-200">
+                    {latestNewsletter.title}
+                  </h2>
+                  <p className="text-sm text-gray-400 mb-5">
+                    {formatDate(latestNewsletter.published_date)} · {latestNewsletter.read_time}
+                  </p>
+                  <div
+                    className="text-lg text-gray-600 leading-relaxed mb-6 line-clamp-3"
+                    dangerouslySetInnerHTML={{ __html: latestNewsletter.excerpt ? formatNewsletterContent(latestNewsletter.excerpt) : '' }}
+                  />
+                  <span className="inline-flex items-center gap-2 text-red-600 font-semibold text-sm group-hover:gap-3 transition-all duration-200">
+                    Read this issue <ArrowRight className="w-4 h-4" />
+                  </span>
+                </article>
+              </Link>
             ) : (
-              <div className="text-center py-16">
-                <p className="text-lg text-gray-600">No newsletters available yet.</p>
-              </div>
+              <div className="py-16 text-center text-gray-400">No newsletters yet.</div>
             )}
           </div>
         </div>
       </section>
-      
-      {/* CS Analyzer Waitlist Section */}
-      <section className="py-14 md:py-20 bg-gradient-to-br from-navy-dark via-navy to-navy-light text-white">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-4xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-              <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-amber-500/20 rounded-full mb-6">
-                  <Sparkles className="w-4 h-4 text-amber-400" />
-                  <span className="text-sm font-medium text-amber-300">Coming Soon</span>
-                </div>
-                <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4">
-                  CS Analyzer
-                </h2>
-                <p className="text-lg text-gray-300 mb-6">
-                  AI-powered analysis for your call transcripts, QBR decks, and success plans. 
-                  Get instant insights and actionable next steps in seconds.
-                </p>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-center gap-3 text-gray-200">
-                    <Zap className="w-5 h-5 text-emerald-400 flex-shrink-0" />
-                    Instant risk & opportunity detection
-                  </li>
-                  <li className="flex items-center gap-3 text-gray-200">
-                    <Users className="w-5 h-5 text-blue-400 flex-shrink-0" />
-                    Stakeholder mapping & sentiment analysis
-                  </li>
-                  <li className="flex items-center gap-3 text-gray-200">
-                    <BarChart3 className="w-5 h-5 text-amber-400 flex-shrink-0" />
-                    Ready-to-use action plans with owners
-                  </li>
-                </ul>
+
+      {/* ── RECENT ISSUES ── */}
+      {recentNewsletters.length > 0 && (
+        <section className="py-16 md:py-20 bg-gray-50 border-t border-gray-100">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="max-w-3xl mx-auto">
+              <div className="flex items-center gap-3 mb-10">
+                <span className="text-xs font-semibold uppercase tracking-widest text-gray-500">Recent Issues</span>
+                <div className="flex-1 h-px bg-gray-200" />
+              </div>
+
+              <div className="space-y-0 divide-y divide-gray-200">
+                {recentNewsletters.map((nl) => (
+                  <Link 
+                    key={nl.id} 
+                    to={`/newsletter/${nl.slug}`} 
+                    className="group block py-6 first:pt-0 last:pb-0"
+                  >
+                    <div className="flex items-start justify-between gap-6">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-xl md:text-2xl font-serif font-bold text-navy-dark leading-snug group-hover:text-red-600 transition-colors duration-200">
+                          {nl.title}
+                        </h3>
+                        <p className="text-sm text-gray-400 mt-1.5">
+                          {formatDate(nl.published_date)} · {nl.read_time}
+                        </p>
+                      </div>
+                      <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-red-600 mt-2 flex-shrink-0 transition-colors duration-200" />
+                    </div>
+                  </Link>
+                ))}
+              </div>
+
+              <div className="mt-10 pt-8 border-t border-gray-200">
                 <Button 
-                  size="lg"
-                  className="bg-red-600 hover:bg-red-700 text-white font-medium"
-                  onClick={() => setIsWaitlistOpen(true)}
+                  variant="outline"
+                  className="border-navy-dark text-navy-dark hover:bg-navy-dark hover:text-white transition-all duration-200"
+                  asChild
                 >
-                  Join Waitlist
+                  <Link to="/newsletters">
+                    View all issues
+                  </Link>
                 </Button>
               </div>
-              <div className="hidden md:block">
-                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-red/20 flex items-center justify-center">
-                        <MessageSquare className="w-5 h-5 text-red-400" />
-                      </div>
-                      <div>
-                        <p className="font-medium text-white">Call Transcript Analysis</p>
-                        <p className="text-sm text-gray-400">AI-powered insights</p>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="h-3 bg-white/20 rounded-full w-full" />
-                      <div className="h-3 bg-white/20 rounded-full w-4/5" />
-                      <div className="h-3 bg-white/20 rounded-full w-3/5" />
-                    </div>
-                    <div className="grid grid-cols-3 gap-3 pt-2">
-                      <div className="bg-green-500/20 rounded-lg p-3 text-center">
-                        <p className="text-xs text-green-300">Health</p>
-                        <p className="text-lg font-bold text-green-400">Good</p>
-                      </div>
-                      <div className="bg-yellow-500/20 rounded-lg p-3 text-center">
-                        <p className="text-xs text-yellow-300">Risk</p>
-                        <p className="text-lg font-bold text-yellow-400">Low</p>
-                      </div>
-                      <div className="bg-blue-500/20 rounded-lg p-3 text-center">
-                        <p className="text-xs text-blue-300">Actions</p>
-                        <p className="text-lg font-bold text-blue-400">4</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── WHAT YOU GET ── */}
+      <section className="py-16 md:py-24 border-t border-gray-100">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-serif font-black text-navy-dark mb-4">
+              Every Tuesday, straight to your inbox.
+            </h2>
+            <p className="text-lg text-gray-500 mb-10">
+              No fluff. No "just checking in." Just the plays that work.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+              <div>
+                <div className="text-3xl font-serif font-black text-red-600 mb-2">01</div>
+                <h3 className="font-semibold text-navy-dark mb-1.5">The Hard Truth</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">What the CS industry gets wrong this week, backed by real examples and data.</p>
+              </div>
+              <div>
+                <div className="text-3xl font-serif font-black text-red-600 mb-2">02</div>
+                <h3 className="font-semibold text-navy-dark mb-1.5">The Framework</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">A named, actionable framework you can run on your team this week.</p>
+              </div>
+              <div>
+                <div className="text-3xl font-serif font-black text-red-600 mb-2">03</div>
+                <h3 className="font-semibold text-navy-dark mb-1.5">The Playbook</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">A downloadable audit or diagnostic to measure what actually matters.</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Rallying Cry + What You Get - Combined Section */}
-      <section className="py-16 md:py-20 bg-cream">
+      {/* ── FINAL CTA ── */}
+      <section className="py-16 md:py-20 bg-navy-dark text-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto">
-            {/* Rallying Cry */}
-            <h2 className="text-3xl md:text-4xl font-serif font-bold mb-5 text-navy-dark">
-              CS is broken. Let's fix it together.
+          <div className="max-w-2xl mx-auto text-center">
+            <h2 className="text-2xl md:text-3xl font-serif font-black mb-3">
+              Stop hoping your accounts renew.
             </h2>
-            <div className="text-lg text-gray-600 mb-4 space-y-1">
-              <p>You're not crazy. QBR decks gather dust. Check-ins don't drive outcomes.</p>
-              <p>Teams are chasing renewals instead of value.</p>
+            <p className="text-gray-400 mb-8">
+              Start running the frameworks that make it inevitable.
+            </p>
+            <div className="max-w-md mx-auto">
+              <NewsletterForm 
+                location="footer" 
+                buttonVariant="vibrant-red"
+                textColor="text-white"
+                buttonText="Subscribe"
+                subscribeText=""
+              />
             </div>
-            <p className="text-lg text-gray-700 mb-10">
-              Churn Is Dead is your weekly roadmap to a better way—battle-tested frameworks, bold plays, and no-BS execution tactics.
-            </p>
-            
-            {/* What You Get */}
-            <h3 className="text-xl md:text-2xl font-serif font-bold mb-5 text-navy-dark">
-              Every Tuesday, you get:
-            </h3>
-            <div className="space-y-3 mb-8">
-              <div className="flex items-center gap-3">
-                <CheckCircle className="text-red-500 flex-shrink-0 w-5 h-5" />
-                <p className="text-gray-700">What's broken in CS — and what's working</p>
-              </div>
-              <div className="flex items-center gap-3">
-                <CheckCircle className="text-red-500 flex-shrink-0 w-5 h-5" />
-                <p className="text-gray-700">Frameworks you can run today</p>
-              </div>
-              <div className="flex items-center gap-3">
-                <BookText className="text-red-500 flex-shrink-0 w-5 h-5" />
-                <p className="text-gray-700">Real stories from CS leaders in the arena</p>
-              </div>
-            </div>
-            
-            <Button 
-              variant="vibrant-red" 
-              size="lg"
-              className="font-medium"
-              asChild
-            >
-              <Link to="/newsletters">
-                Browse Issues
-              </Link>
-            </Button>
           </div>
         </div>
       </section>
       
-      {/* Testimonials */}
-      <section className="py-14 md:py-20 bg-white">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4 text-navy-dark">
-              What CS Leaders Are Saying
-            </h2>
-            <p className="text-lg text-gray-700">
-              Don't take our word for it. See what your peers think.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <TestimonialCard 
-              quote="Finally, CS content that doesn't just repeat the same tired advice. The framework on driving expansion from the value gap completely changed our approach."
-              author="Sarah Jennings"
-              role="VP of Customer Success"
-              company="SaaS Corp"
-            />
-            <TestimonialCard 
-              quote="As a CS leader building a team from scratch, this newsletter has been my secret weapon. Practical, no-nonsense advice I can implement immediately."
-              author="David Chen"
-              role="Director of Customer Success"
-              company="GrowthTech"
-            />
-          </div>
-        </div>
-      </section>
-      
-      {/* Final CTA */}
-      <section className="py-16 md:py-24 bg-red-600 text-white">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-              Ready to lead with clarity, value, and real impact?
-            </h2>
-            <p className="text-lg mb-8">
-              Be first to access our AI-powered CS Analyzer when it launches.
-            </p>
-            <Button
-              size="lg"
-              className="bg-white text-red-600 hover:bg-gray-100 font-medium"
-              onClick={() => setIsWaitlistOpen(true)}
-            >
-              <Sparkles className="w-5 h-5 mr-2" />
-              CS Analyzer Waitlist
-            </Button>
-          </div>
-        </div>
-      </section>
-      
-      {/* Use the consistent Footer component */}
       <Footer />
-      
-      {/* Waitlist Modal */}
       <WaitlistModal open={isWaitlistOpen} onOpenChange={setIsWaitlistOpen} source="homepage" />
     </div>
   );

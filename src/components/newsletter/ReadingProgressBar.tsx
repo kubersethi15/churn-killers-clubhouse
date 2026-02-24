@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const ReadingProgressBar = () => {
   const [progress, setProgress] = useState(0);
@@ -16,8 +16,8 @@ const ReadingProgressBar = () => {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-1 z-50 bg-transparent">
-      <div
+    <div className="fixed top-0 left-0 right-0 z-[60] h-[3px] bg-transparent">
+      <div 
         className="h-full bg-red-600 transition-[width] duration-100 ease-out"
         style={{ width: `${progress}%` }}
       />
