@@ -1,149 +1,170 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import Header from "@/components/Header";
-import NewsletterForm from "@/components/NewsletterForm";
-import { MessageSquare, User, Briefcase, Award, CheckCircle, XCircle } from "lucide-react";
-import ContactDialog from "@/components/ContactDialog";
 import Footer from "@/components/Footer";
+import NewsletterForm from "@/components/NewsletterForm";
 
 const About = () => {
-  const [isContactOpen, setIsContactOpen] = useState(false);
-  
   useEffect(() => {
-    document.title = "Churn Is Dead: Tactical Customer Success That Drives Outcomes";
-    document.querySelector('meta[name="description"]')?.setAttribute("content", "Discover tactical customer success strategies that drive revenue, trust, and outcomes. Churn Is Dead provides actionable insights for CS leaders.");
-    document.querySelector('meta[property="og:title"]')?.setAttribute("content", "Churn Is Dead: Tactical Customer Success That Drives Outcomes");
-    document.querySelector('meta[property="og:description"]')?.setAttribute("content", "Discover tactical customer success strategies that drive revenue, trust, and outcomes. Churn Is Dead provides actionable insights for CS leaders.");
-    document.querySelector('meta[property="twitter:title"]')?.setAttribute("content", "Churn Is Dead: Tactical Customer Success That Drives Outcomes");
-    document.querySelector('meta[property="twitter:description"]')?.setAttribute("content", "Discover tactical customer success strategies that drive revenue, trust, and outcomes. Churn Is Dead provides actionable insights for CS leaders.");
+    document.title = "About | Churn Is Dead";
+    document.querySelector('meta[name="description"]')?.setAttribute("content", "Churn Is Dead: weekly CS frameworks by Kuber Sethi. Hard truths, tactical plays, and no fluff.");
   }, []);
 
-  const scrollToNewsletter = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const newsletterSection = document.getElementById('newsletter-section');
-    if (newsletterSection) {
-      newsletterSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <Header />
       
-      {/* Hero Section */}
-      <section className="pt-32 pb-16 md:pt-40 md:pb-20 bg-navy-dark text-white">
+      {/* Header */}
+      <section className="pt-28 pb-10 md:pt-36 md:pb-14 bg-white border-b border-gray-100">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto">
-            <h1 className="text-3xl md:text-5xl font-serif font-black mb-6 leading-tight">
-              CS isn't about fighting churn.<br />
-              <span className="text-red-500 text-2xl md:text-4xl">It's about driving revenue, trust, and outcomes.</span>
+          <div className="max-w-2xl mx-auto">
+            <h1 className="text-3xl md:text-5xl font-serif font-black text-navy-dark mb-3">
+              About
             </h1>
-            <p className="text-xl md:text-2xl font-semibold mb-4">
-              This is your roadmap.
+            <p className="text-lg text-gray-400">
+              Why this exists and who writes it.
             </p>
           </div>
         </div>
       </section>
       
-      {/* Mission Section */}
-      <section className="py-16 md:py-20">
+      {/* Content */}
+      <section className="py-12 md:py-16">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-white p-10 md:p-14 rounded-xl shadow-lg">
-              <p className="text-xl font-medium mb-6 text-navy-dark">
-                Churn Is Dead isn't a newsletter. It's a wake-up call.
-                <span className="block text-red-600 mt-1">A rejection of fluffy CS thought leadership.</span>
-                <span className="block text-navy-dark mt-1">A rallying cry for bold, tactical, outcome-driven execution.</span>
-              </p>
-              
-              <p className="mb-8 text-gray-700">
-                After 10+ years in the CS trenches, I saw it all:
-              </p>
+          <div className="max-w-2xl mx-auto">
+            
+            {/* The Story */}
+            <div className="prose-custom">
+              <div className="text-[1.0625rem] leading-[1.75] text-gray-700">
 
-              <ul className="space-y-5 mb-8 text-lg">
-                <li className="flex items-start">
-                  <XCircle size={24} className="text-red-500 mr-3 mt-1 flex-shrink-0" />
-                  <span className="text-gray-700">QBR decks collecting dust</span>
-                </li>
-                <li className="flex items-start">
-                  <XCircle size={24} className="text-red-500 mr-3 mt-1 flex-shrink-0" />
-                  <span className="text-gray-700">Check-ins with no impact</span>
-                </li>
-                <li className="flex items-start">
-                  <XCircle size={24} className="text-red-500 mr-3 mt-1 flex-shrink-0" />
-                  <span className="text-gray-700">Teams chasing renewals, not outcomes</span>
-                </li>
-              </ul>
-              
-              <p className="mb-6 text-gray-700 text-lg">
-                So I created Churn Is Dead — a space for battle-tested plays, contrarian thinking, and no-BS strategies that actually move the needle.
-              </p>
-              
-              <p className="mb-8 italic border-l-4 border-red-500 pl-4 py-2 font-medium text-lg">
-                💥 This isn't about inspiration. It's about implementation.<br />
-                Churn isn't your North Star. Value is.
-              </p>
-              
-              <div className="mb-8">
-                <h3 className="font-semibold text-red-600 mb-5 text-2xl">Every Tuesday, Here's What Lands in Your Inbox:</h3>
-                <ul className="space-y-5 text-lg">
-                  <li className="flex items-start">
-                    <span className="text-red-600 mr-3 font-bold text-xl">🧠</span>
-                    <span>What's broken (and what's actually working) in CS</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-red-600 mr-3 font-bold text-xl">📦</span>
-                    <span>Frameworks and plays you can run now</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-red-600 mr-3 font-bold text-xl">🎤</span>
-                    <span>Real stories from CS leaders in the arena (not just "influencers")</span>
-                  </li>
-                </ul>
-              </div>
-              
-              {/* Mid-page newsletter form with standardized styling */}
-              <div id="newsletter-section" className="bg-navy-dark p-8 rounded-lg shadow-md mb-8">
-                <NewsletterForm 
-                  location="article" 
-                  className="max-w-full" 
-                  title="Ready to transform your CS approach?"
-                  description="Join 2,000+ CS leaders getting fresh insights every Tuesday."
-                  buttonVariant="outline-red"
-                  textColor="text-white"
-                />
-              </div>
-              
-              <p className="font-medium text-navy-dark mb-8 text-lg">
-                If you're done chasing renewals…<br />
-                If you're ready to lead with clarity, value, and real impact…<br />
-                <span className="text-red-600">Then welcome. You're one of us.</span>
-              </p>
-              
-              {/* Added more vertical spacing with mt-12 (was mt-8) */}
-              <div className="border-t border-gray-200 pt-6 mt-12">
-                <h3 className="text-2xl font-serif font-bold text-red-600 mb-4">Why Now?</h3>
-                <p className="text-gray-700 mb-4 text-lg">
-                  Customer Success is at a crossroads.
+                <h2 className="text-xl md:text-2xl font-serif font-bold text-navy-dark mt-0 mb-4">
+                  The short version
+                </h2>
+                <p className="mb-5">
+                  Churn Is Dead is a weekly newsletter for enterprise CS leaders who are tired of vague advice and ready for frameworks that actually work.
                 </p>
-                <p className="text-gray-700 mb-4 text-lg">
-                  In an era of layoffs, AI overload, and NRR obsession, it's never been more urgent to reset the strategy and reclaim what CS is meant to be:
-                  <span className="block font-medium text-navy-dark mt-2 text-lg">
-                    A growth engine. A trust accelerator. A business multiplier.
-                  </span>
+                <p className="mb-5">
+                  Every Tuesday, you get one issue. One contrarian take. One named framework. One downloadable playbook. No filler.
                 </p>
-                <p className="font-medium text-center text-xl text-red-600 mt-6">
-                  That's why Churn Is Dead exists.
+
+                <hr className="my-10 border-0 border-t border-gray-200" />
+
+                <h2 className="text-xl md:text-2xl font-serif font-bold text-navy-dark mb-4">
+                  The longer version
+                </h2>
+                <p className="mb-5">
+                  I'm <strong className="text-navy-dark">Kuber Sethi</strong>. I've spent 10+ years in Customer Success, mostly in enterprise environments where a single renewal can be worth millions and the politics are always more complex than the product.
                 </p>
+                <p className="mb-5">
+                  During that time, I watched the CS industry develop a habit of confusing activity with impact. QBR decks that nobody reads. Health scores that predict nothing. Check-in calls where both parties wonder why they're there. Teams that measure themselves by meetings attended instead of decisions influenced.
+                </p>
+                <p className="mb-5">
+                  The layoffs of 2024 and 2025 weren't a surprise. They were the logical outcome of a function that struggled to prove its value in financial terms.
+                </p>
+                <p className="mb-5">
+                  I started Churn Is Dead because I believed the answer wasn't more inspirational LinkedIn posts about "the power of customer relationships." The answer was tactical, measurable, sometimes uncomfortable frameworks that force CS teams to confront the gap between what they do and what actually drives retention and expansion.
+                </p>
+
+                <hr className="my-10 border-0 border-t border-gray-200" />
+
+                <h2 className="text-xl md:text-2xl font-serif font-bold text-navy-dark mb-4">
+                  What you'll find here
+                </h2>
+                
+                <div className="space-y-4 my-6">
+                  <div className="flex gap-4">
+                    <span className="text-xl font-serif font-black text-red-600 flex-shrink-0 w-8">01</span>
+                    <div>
+                      <p className="font-semibold text-navy-dark mb-0.5">Hard truths the industry avoids</p>
+                      <p className="text-sm text-gray-500">Every issue opens with something uncomfortable. If it doesn't challenge a sacred cow, it doesn't ship.</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-4">
+                    <span className="text-xl font-serif font-black text-red-600 flex-shrink-0 w-8">02</span>
+                    <div>
+                      <p className="font-semibold text-navy-dark mb-0.5">Named, actionable frameworks</p>
+                      <p className="text-sm text-gray-500">Not abstract principles. Specific systems with steps, scoring rubrics, and implementation guides you can run this week.</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-4">
+                    <span className="text-xl font-serif font-black text-red-600 flex-shrink-0 w-8">03</span>
+                    <div>
+                      <p className="font-semibold text-navy-dark mb-0.5">Downloadable playbooks</p>
+                      <p className="text-sm text-gray-500">Every issue comes with a diagnostic PDF. Print it. Run it on your team. Score yourself honestly.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <hr className="my-10 border-0 border-t border-gray-200" />
+
+                <h2 className="text-xl md:text-2xl font-serif font-bold text-navy-dark mb-4">
+                  Who this is for
+                </h2>
+                <p className="mb-5">
+                  CSMs, CS Directors, VPs of Customer Success, and CROs at B2B SaaS companies. Particularly those managing enterprise accounts where the stakes are high and the margin for error is thin.
+                </p>
+                <p className="mb-5">
+                  If you've ever sat in a QBR wondering if anything you presented will change a single decision your customer makes, this newsletter is for you.
+                </p>
+                <p className="mb-5">
+                  If you've ever been told "just prove your value" without anyone explaining what that means in dollar terms, this newsletter is for you.
+                </p>
+
+                <hr className="my-10 border-0 border-t border-gray-200" />
+
+                <h2 className="text-xl md:text-2xl font-serif font-bold text-navy-dark mb-4">
+                  The rules
+                </h2>
+                <p className="mb-5">
+                  Every issue follows three rules:
+                </p>
+                <p className="mb-3">
+                  <strong className="text-navy-dark">No fluff.</strong> If it doesn't lead to a measurable action, it doesn't make the cut.
+                </p>
+                <p className="mb-3">
+                  <strong className="text-navy-dark">No sacred cows.</strong> If the industry consensus is wrong, we say so. With evidence.
+                </p>
+                <p className="mb-5">
+                  <strong className="text-navy-dark">No gatekeeping.</strong> Every framework, template, and playbook is free. Always.
+                </p>
+
               </div>
             </div>
+
+            {/* Subscribe */}
+            <div className="mt-14 py-10 px-8 bg-navy-dark rounded-lg text-center">
+              <h3 className="text-xl font-serif font-bold text-white mb-2">
+                Ready?
+              </h3>
+              <p className="text-sm text-gray-400 mb-6">
+                New issue every Tuesday. Free forever.
+              </p>
+              <div className="max-w-sm mx-auto">
+                <NewsletterForm 
+                  location="article" 
+                  buttonVariant="vibrant-red"
+                  textColor="text-white"
+                  buttonText="Subscribe"
+                  subscribeText=""
+                />
+              </div>
+            </div>
+
+            {/* Bottom nav */}
+            <div className="mt-12 pt-8 border-t border-gray-200 flex items-center justify-between text-sm">
+              <Link to="/newsletters" className="font-semibold text-navy-dark hover:text-red-600 transition-colors">
+                Read the issues
+              </Link>
+              <Link to="/playbook" className="font-semibold text-navy-dark hover:text-red-600 transition-colors">
+                Playbook Vault
+              </Link>
+            </div>
+
           </div>
         </div>
       </section>
       
-      {/* Use the consistent Footer component */}
       <Footer />
-      
-      {/* Contact Dialog - we can remove this since it's now in the Footer component */}
     </div>
   );
 };
