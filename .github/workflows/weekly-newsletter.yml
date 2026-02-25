@@ -40,11 +40,14 @@ jobs:
           TOPIC_OVERRIDE: ${{ github.event.inputs.topic_override || '' }}
         run: python scripts/generate_newsletter.py
 
+      - name: Regenerate sitemap and RSS
+        run: python scripts/generate_sitemap_rss.py
+
       - name: Commit and push
         run: |
           git config user.name "Churn Is Dead Bot"
           git config user.email "newsletter@churnisdead.com"
-          git add supabase/migrations/*.sql public/pdfs/*.pdf
+          git add supabase/migrations/*.sql public/pdfs/*.pdf public/sitemap.xml public/rss.xml distribution/
           
           # Check if there are changes to commit
           if git diff --cached --quiet; then

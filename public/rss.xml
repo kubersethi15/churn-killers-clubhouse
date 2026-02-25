@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Churn Is Dead</title>
+    <link>https://churnisdead.com</link>
+    <description>Weekly CS frameworks for enterprise Customer Success leaders. Hard truths, tactical plays, and downloadable playbooks.</description>
+    <language>en</language>
+    <managingEditor>kuber@churnisdead.com (Kuber Sethi)</managingEditor>
+    <lastBuildDate>Wed, 25 Feb 2026 10:29:44 +0000</lastBuildDate>
+    <atom:link href="https://churnisdead.com/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Customer Success Doesn't Deserve to Survive</title>
+      <link>https://churnisdead.com/newsletter/customer-success-doesnt-deserve-to-survive</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/customer-success-doesnt-deserve-to-survive</guid>
+      <pubDate>Tue, 24 Feb 2026 08:00:00 +0000</pubDate>
+      <description>Customer Success Doesn't Deserve to Survive</description>
+      <category>Strategy</category>
+    </item>
+    <item>
+      <title>AI Didn't Kill Customer Success. It Exposed It.</title>
+      <link>https://churnisdead.com/newsletter/ai-didnt-kill-customer-success</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/ai-didnt-kill-customer-success</guid>
+      <pubDate>Tue, 13 Jan 2026 08:00:00 +0000</pubDate>
+      <description>Every CS leader is being asked: how much of Customer Success can we automate now? The answer reveals more than you think.</description>
+      <category>Trust</category>
+    </item>
+  </channel>
+</rss>
