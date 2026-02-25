@@ -130,6 +130,28 @@ export const generateNewsletterEmailTemplate = (
             </td>
           </tr>
 
+          <!-- Share Section -->
+          <tr>
+            <td style="padding: 24px 40px 24px 40px;">
+              <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #1a1a2e; border-radius: 8px;">
+                <tr>
+                  <td style="padding: 24px 28px;">
+                    <p style="font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: bold; color: #ffffff; margin: 0 0 8px 0;">
+                      Know a CS leader who needs to hear this?
+                    </p>
+                    <p style="font-family: Helvetica, Arial, sans-serif; font-size: 13px; color: #b0b0c0; margin: 0 0 16px 0;">
+                      Forward this email to them, or send them the link below.
+                    </p>
+                    <a href="https://churnisdead.com/start" 
+                       style="font-family: Helvetica, Arial, sans-serif; font-size: 13px; font-weight: bold; color: #C8553D; text-decoration: underline;">
+                      churnisdead.com/start →
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
           <!-- Footer -->
           <tr>
             <td style="padding: 24px 40px; background-color: #f7f3f0; border-top: 1px solid #e8e4e0;">
