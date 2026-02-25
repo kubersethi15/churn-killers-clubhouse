@@ -32,13 +32,21 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install anthropic reportlab
+        run: pip install anthropic reportlab Pillow
 
       - name: Generate newsletter and playbook
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           TOPIC_OVERRIDE: ${{ github.event.inputs.topic_override || '' }}
         run: python scripts/generate_newsletter.py
+
+      - name: Generate OG image for new newsletter
+        run: |
+          SLUG=$(cat /tmp/newsletter_slug.txt 2>/dev/null || echo "")
+          TITLE=$(cat /tmp/newsletter_title.txt 2>/dev/null || echo "")
+          if [ -n "$SLUG" ] && [ -n "$TITLE" ]; then
+            python scripts/generate_og_images.py --slug "$SLUG" --title "$TITLE"
+          fi
 
       - name: Regenerate sitemap and RSS
         run: python scripts/generate_sitemap_rss.py
@@ -47,7 +55,7 @@ jobs:
         run: |
           git config user.name "Churn Is Dead Bot"
           git config user.email "newsletter@churnisdead.com"
-          git add supabase/migrations/*.sql public/pdfs/*.pdf public/sitemap.xml public/rss.xml distribution/
+          git add supabase/migrations/*.sql public/pdfs/*.pdf public/sitemap.xml public/rss.xml public/og/*.png distribution/
           
           # Check if there are changes to commit
           if git diff --cached --quiet; then

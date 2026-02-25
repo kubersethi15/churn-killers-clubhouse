@@ -31,6 +31,9 @@ const NewsletterSEO = ({ newsletter }: NewsletterSEOProps) => {
     setMeta("og:description", description, true);
     setMeta("og:type", "article", true);
     setMeta("og:url", `https://churnisdead.com/newsletter/${newsletter.slug}`, true);
+    setMeta("og:image", `https://churnisdead.com/og/${newsletter.slug}.png`, true);
+    setMeta("twitter:card", "summary_large_image");
+    setMeta("twitter:image", `https://churnisdead.com/og/${newsletter.slug}.png`);
 
     // Canonical
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;

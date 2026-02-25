@@ -527,6 +527,7 @@ def main():
     print(f"   Sections: {len(pb.get('sections', []))}")
 
     Path("/tmp/newsletter_title.txt").write_text(meta['title'])
+    Path("/tmp/newsletter_slug.txt").write_text(meta['slug'])
 
     print("\n\U0001f4c4 Building playbook PDF...")
     pdf_name = meta.get('pdf_filename', f"{meta['slug'].replace('-','_')}_ChurnIsDead.pdf")
