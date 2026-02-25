@@ -78,6 +78,18 @@ const Header = () => {
         </Link>
         
         <nav className="hidden md:flex items-center gap-6">
+          <NavLink to="/start" className={getNavLinkClass}>
+            Start Here
+          </NavLink>
+          <NavLink to="/ai-exposure-score" className={getNavLinkClass}>
+            AI Score
+          </NavLink>
+          <NavLink to="/newsletters" className={getNavLinkClass}>
+            Newsletters
+          </NavLink>
+          <NavLink to="/playbook" className={getNavLinkClass}>
+            Playbook Vault
+          </NavLink>
           <button
             onClick={() => setIsWaitlistOpen(true)}
             className="text-navy-dark hover:text-red-600 font-medium transition-colors flex items-center gap-2"
@@ -87,25 +99,12 @@ const Header = () => {
               Soon
             </Badge>
           </button>
-          <NavLink to="/newsletters" className={getNavLinkClass}>
-            Newsletters
-          </NavLink>
-          <NavLink to="/playbook" className={getNavLinkClass}>
-            Playbook Vault
-          </NavLink>
-          <NavLink to="/about" className={getNavLinkClass}>
-            About
-          </NavLink>
-          <Link 
-            to="#" 
-            className="text-navy-dark hover:text-red-600 font-medium transition-colors"
-            onClick={(e) => {
-              e.preventDefault();
-              openContactModal();
-            }}
+          <button
+            onClick={() => setIsSubscribeOpen(true)}
+            className="ml-2 py-1.5 px-4 bg-red-600 text-white text-sm font-semibold rounded-lg hover:bg-red-700 transition-colors"
           >
-            Contact
-          </Link>
+            Subscribe
+          </button>
 
           {/* Auth section */}
           <div className="pl-4 border-l border-gray-200">
@@ -170,18 +169,28 @@ const Header = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-100 p-4">
           <nav className="flex flex-col space-y-4">
-            <button
-              onClick={() => {
-                setIsMenuOpen(false);
-                setIsWaitlistOpen(true);
-              }}
-              className="text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1 flex items-center gap-2 text-left"
+            <NavLink 
+              to="/start" 
+              className={({ isActive }) => 
+                isActive 
+                  ? "text-red-600 font-medium transition-colors px-2 py-1" 
+                  : "text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
+              }
+              onClick={() => setIsMenuOpen(false)}
             >
-              CS Analyzer
-              <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 border-amber-400 text-amber-600 bg-amber-50">
-                Soon
-              </Badge>
-            </button>
+              Start Here
+            </NavLink>
+            <NavLink 
+              to="/ai-exposure-score" 
+              className={({ isActive }) => 
+                isActive 
+                  ? "text-red-600 font-medium transition-colors px-2 py-1" 
+                  : "text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
+              }
+              onClick={() => setIsMenuOpen(false)}
+            >
+              AI Exposure Score
+            </NavLink>
             <NavLink 
               to="/newsletters" 
               className={({ isActive }) => 
@@ -204,27 +213,29 @@ const Header = () => {
             >
               Playbook Vault
             </NavLink>
-            <NavLink 
-              to="/about" 
-              className={({ isActive }) => 
-                isActive 
-                  ? "text-red-600 font-medium transition-colors px-2 py-1" 
-                  : "text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
-              }
-              onClick={() => setIsMenuOpen(false)}
-            >
-              About
-            </NavLink>
-            <Link 
-              to="#" 
-              className="text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
+            <button
               onClick={() => {
                 setIsMenuOpen(false);
-                setIsContactOpen(true);
+                setIsWaitlistOpen(true);
               }}
+              className="text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1 flex items-center gap-2 text-left"
             >
-              Contact
-            </Link>
+              CS Analyzer
+              <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 border-amber-400 text-amber-600 bg-amber-50">
+                Soon
+              </Badge>
+            </button>
+            <div className="pt-2">
+              <button
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  setIsSubscribeOpen(true);
+                }}
+                className="w-full py-2.5 px-4 bg-red-600 text-white text-sm font-semibold rounded-lg hover:bg-red-700 transition-colors"
+              >
+                Subscribe — it's free
+              </button>
+            </div>
             
             {/* Mobile auth options */}
             <div className="border-t border-gray-100 pt-4 mt-2">
@@ -254,11 +265,11 @@ const Header = () => {
       <Dialog open={isSubscribeOpen} onOpenChange={setIsSubscribeOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-center text-2xl font-serif font-bold mb-2">Subscribe to our newsletter</DialogTitle>
+            <DialogTitle className="text-center text-2xl font-serif font-bold mb-2">Join 150+ CS leaders</DialogTitle>
           </DialogHeader>
           <div className="py-4">
             <p className="text-center text-gray-600 mb-6">
-              Get the latest customer success insights and strategies delivered straight to your inbox.
+              Every Tuesday: tactical frameworks and downloadable playbooks that replace hope with strategy. No fluff. No "just check in."
             </p>
             <NewsletterForm location="hero" className="max-w-sm mx-auto" />
             <p className="text-sm mt-4 text-center text-gray-500">
