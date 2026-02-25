@@ -118,6 +118,8 @@ def generate_sitemap(newsletters):
         (f"{SITE_URL}/", today, "1.0", "weekly"),
         (f"{SITE_URL}/newsletters", today, "0.9", "weekly"),
         (f"{SITE_URL}/playbook", today, "0.8", "weekly"),
+        (f"{SITE_URL}/start", today, "0.9", "monthly"),
+        (f"{SITE_URL}/ai-exposure-score", today, "0.8", "monthly"),
         (f"{SITE_URL}/about", "2026-02-24", "0.5", "monthly"),
     ]
 

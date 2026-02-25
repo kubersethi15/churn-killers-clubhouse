@@ -12,6 +12,8 @@ import About from "./pages/About";
 import Playbook from "./pages/Playbook";
 import CSAnalyzer from "./pages/CSAnalyzer";
 import CSAnalyzerWaitlist from "./pages/CSAnalyzerWaitlist";
+import AIExposureScore from "./pages/AIExposureScore";
+import StartHere from "./pages/StartHere";
 import Auth from "./pages/Auth";
 import AdminPanel from "./components/AdminPanel";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
@@ -33,6 +35,8 @@ const App = () => (
             <Route path="/playbook" element={<Playbook />} />
             <Route path="/cs-analyzer" element={<CSAnalyzer />} />
             <Route path="/cs-analyzer-waitlist" element={<CSAnalyzerWaitlist />} />
+            <Route path="/ai-exposure-score" element={<AIExposureScore />} />
+            <Route path="/start" element={<StartHere />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<ProtectedAdminRoute><AdminPanel /></ProtectedAdminRoute>} />
             <Route path="*" element={<NotFound />} />
