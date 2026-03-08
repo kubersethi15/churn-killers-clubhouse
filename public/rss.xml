@@ -6,8 +6,24 @@
     <description>Weekly CS frameworks for enterprise Customer Success leaders. Hard truths, tactical plays, and downloadable playbooks.</description>
     <language>en</language>
     <managingEditor>kuber@churnisdead.com (Kuber Sethi)</managingEditor>
-    <lastBuildDate>Sun, 01 Mar 2026 01:50:32 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 08 Mar 2026 01:43:00 +0000</lastBuildDate>
     <atom:link href="https://churnisdead.com/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI Won't Save Customer Success. It'll Finish It Off.</title>
+      <link>https://churnisdead.com/newsletter/ai-wont-save-customer-success</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/ai-wont-save-customer-success</guid>
+      <pubDate>Tue, 03 Mar 2026 08:00:00 +0000</pubDate>
+      <description>t Save Customer Success. It'll Finish It Off.</description>
+      <category>Strategy</category>
+    </item>
+    <item>
+      <title>Your CS Team Is Hoarding Work</title>
+      <link>https://churnisdead.com/newsletter/cs-team-hoarding-work</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/cs-team-hoarding-work</guid>
+      <pubDate>Tue, 03 Mar 2026 08:00:00 +0000</pubDate>
+      <description>Your CS Team Is Hoarding Work</description>
+      <category>Strategy</category>
+    </item>
     <item>
       <title>Customer Success Doesn't Deserve to Survive</title>
       <link>https://churnisdead.com/newsletter/customer-success-doesnt-deserve-to-survive</link>
