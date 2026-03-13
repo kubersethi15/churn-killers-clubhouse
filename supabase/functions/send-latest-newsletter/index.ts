@@ -94,7 +94,7 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     // Check if this is a test email request
     let testEmailAddress: string | null = null;
-    let batchSize = 40;
+    let batchSize = 20;
     let requestBody = {};
     
     try {
