@@ -194,6 +194,12 @@ const { toast } = useToast();
     <div className="fixed bottom-4 right-4 bg-white border border-gray-200 rounded-lg shadow-lg p-4 w-80 z-50">
       <h3 className="text-lg font-semibold mb-4 text-navy-dark">Admin Panel</h3>
       
+      <div className="mb-4">
+        <a href="/distribute" className="block w-full text-center py-2 px-4 bg-navy-dark text-white rounded-lg text-sm font-semibold hover:bg-opacity-90 transition-colors">
+          📋 Distribution Dashboard
+        </a>
+      </div>
+      
       <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
         <div className="flex items-center justify-between">
           <div>

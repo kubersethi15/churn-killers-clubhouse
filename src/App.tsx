@@ -17,6 +17,7 @@ import StartHere from "./pages/StartHere";
 import Auth from "./pages/Auth";
 import AdminPanel from "./components/AdminPanel";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
+import Distribution from "./pages/Distribution";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
             <Route path="/start" element={<StartHere />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<ProtectedAdminRoute><AdminPanel /></ProtectedAdminRoute>} />
+            <Route path="/distribute" element={<ProtectedAdminRoute><Distribution /></ProtectedAdminRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
