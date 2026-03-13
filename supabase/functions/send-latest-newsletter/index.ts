@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { formatContentForEmail } from "./formatUtils.ts";
 import { generateNewsletterEmailTemplate, replacePlaceholders } from "./emailTemplate.ts";
-import { sendNewsletterBatch, sendTestNewsletter } from "./emailSender.ts";
+import { sendNewsletterBatch, sendTestNewsletter, filterValidEmails } from "./emailSender.ts";
 
 // Initialize Supabase client (service role for DB operations)
 const supabaseUrl = Deno.env.get("SUPABASE_URL");
@@ -94,7 +94,7 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     // Check if this is a test email request
     let testEmailAddress: string | null = null;
-    let batchSize = 40;
+    let batchSize = 20;
     let requestBody = {};
     
     try {
@@ -107,7 +107,7 @@ const handler = async (req: Request): Promise<Response> => {
             console.log(`Test email requested for: ${testEmailAddress}`);
           }
           if ('batchSize' in requestBody) {
-            batchSize = Math.min(40, Number(requestBody.batchSize) || 40);
+            batchSize = Math.min(20, Number(requestBody.batchSize) || 20);
           }
         }
       }
@@ -229,7 +229,7 @@ const handler = async (req: Request): Promise<Response> => {
         await sendNewsletterBatch(emailAddresses, latestNewsletter.title, customizedEmail, batchIndex);
         successCount += batch.length;
         if (batchIndex < batches.length - 1) {
-          await new Promise(resolve => setTimeout(resolve, 2000));
+          await new Promise(resolve => setTimeout(resolve, 3000));
         }
       } catch (error) {
         console.error(`Error sending batch ${batchIndex + 1}:`, error);
