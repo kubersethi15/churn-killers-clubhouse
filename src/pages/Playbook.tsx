@@ -18,6 +18,16 @@ interface Playbook {
 
 const STATIC_PLAYBOOKS: Playbook[] = [
   {
+    id: "8",
+    title: "The 30-Minute QBR Framework",
+    description: "A decision-driven QBR structure built for complex enterprise accounts. Three blocks, pre-wire playbook, strategic vs. operational calibration, and a one-page success plan that IS the meeting.",
+    pdf_path: "/pdfs/30-Minute-QBR-Framework-ChurnIsDead.pdf",
+    notion_link: null,
+    newsletter_slug: null,
+    newsletter_title: null,
+    published_date: "2026-03-13T00:00:00Z",
+  },
+  {
     id: "1",
     title: "Customer Predictability Index (CPI) Framework",
     description: "A tiered framework to assess and improve customer predictability across trust, engagement, and outcomes.",
