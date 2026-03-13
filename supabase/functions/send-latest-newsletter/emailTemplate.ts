@@ -19,6 +19,8 @@ export const generateNewsletterEmailTemplate = (
 ) => {
   // Extract a teaser from the main content (first ~600 chars of actual text)
   const teaser = extractTeaser(mainContent);
+  const tweetText = encodeURIComponent(title + ' — from the Churn Is Dead newsletter');
+  const newsletterUrl = `https://churnisdead.com/newsletter/${slug}`;
   
   return `
 <!DOCTYPE html>
@@ -137,15 +139,39 @@ export const generateNewsletterEmailTemplate = (
                 <tr>
                   <td style="padding: 24px 28px;">
                     <p style="font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: bold; color: #ffffff; margin: 0 0 8px 0;">
-                      Know a CS leader who needs to hear this?
+                      Found this useful? Share it with your network.
                     </p>
                     <p style="font-family: Helvetica, Arial, sans-serif; font-size: 13px; color: #b0b0c0; margin: 0 0 16px 0;">
-                      Forward this email to them, or send them the link below.
+                      Help another CS leader cut through the noise.
                     </p>
-                    <a href="https://churnisdead.com/start" 
-                       style="font-family: Helvetica, Arial, sans-serif; font-size: 13px; font-weight: bold; color: #C8553D; text-decoration: underline;">
-                      churnisdead.com/start →
-                    </a>
+                    <!-- Share buttons row -->
+                    <table role="presentation" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <!-- LinkedIn Share -->
+                        <td style="padding-right: 10px;">
+                          <a href="https://www.linkedin.com/sharing/share-offsite/?url=${newsletterUrl}" 
+                             target="_blank"
+                             style="display: inline-block; padding: 10px 20px; background-color: #0A66C2; border-radius: 4px; font-family: Helvetica, Arial, sans-serif; font-size: 13px; font-weight: bold; color: #ffffff; text-decoration: none;">
+                            Share on LinkedIn
+                          </a>
+                        </td>
+                        <!-- X/Twitter Share -->
+                        <td style="padding-right: 10px;">
+                          <a href="https://twitter.com/intent/tweet?text=${tweetText}&url=${newsletterUrl}" 
+                             target="_blank"
+                             style="display: inline-block; padding: 10px 20px; background-color: #000000; border-radius: 4px; font-family: Helvetica, Arial, sans-serif; font-size: 13px; font-weight: bold; color: #ffffff; text-decoration: none;">
+                            Share on X
+                          </a>
+                        </td>
+                        <!-- Forward / Subscribe -->
+                        <td>
+                          <a href="https://churnisdead.com/start" 
+                             style="display: inline-block; padding: 10px 20px; border: 1px solid #555; border-radius: 4px; font-family: Helvetica, Arial, sans-serif; font-size: 13px; font-weight: bold; color: #b0b0c0; text-decoration: none;">
+                            Send to a Friend
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
                   </td>
                 </tr>
               </table>
