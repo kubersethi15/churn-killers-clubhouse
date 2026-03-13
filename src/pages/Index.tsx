@@ -35,6 +35,50 @@ const Index = () => {
 
   useEffect(() => {
     document.title = "Churn Is Dead | Weekly CS Frameworks That Replace Hope With Strategy";
+
+    // Homepage structured data
+    const existingJsonLd = document.querySelector('script[data-seo="homepage-jsonld"]');
+    if (existingJsonLd) existingJsonLd.remove();
+
+    const jsonLd = document.createElement("script");
+    jsonLd.type = "application/ld+json";
+    jsonLd.setAttribute("data-seo", "homepage-jsonld");
+    jsonLd.textContent = JSON.stringify([
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Churn Is Dead",
+        "url": "https://churnisdead.com",
+        "description": "Weekly Customer Success frameworks for enterprise CS leaders. Hard truths, tactical plays, and downloadable playbooks by Kuber Sethi.",
+        "publisher": { "@type": "Organization", "name": "Churn Is Dead" }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Kuber Sethi",
+        "url": "https://churnisdead.com/about",
+        "jobTitle": "Customer Success Leader",
+        "description": "Enterprise Customer Success leader and author of the Churn Is Dead newsletter. Building frameworks that replace hope with strategy.",
+        "sameAs": [
+          "https://www.linkedin.com/in/kubersethi/",
+          "https://churnisdead.com"
+        ],
+        "knowsAbout": [
+          "Customer Success",
+          "Enterprise SaaS",
+          "Customer Retention",
+          "Net Revenue Retention",
+          "QBR Frameworks",
+          "Account Management"
+        ]
+      }
+    ]);
+    document.head.appendChild(jsonLd);
+
+    return () => {
+      const cleanup = document.querySelector('script[data-seo="homepage-jsonld"]');
+      if (cleanup) cleanup.remove();
+    };
   }, []);
 
   useEffect(() => {
