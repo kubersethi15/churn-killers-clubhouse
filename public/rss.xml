@@ -6,14 +6,30 @@
     <description>Weekly CS frameworks for enterprise Customer Success leaders. Hard truths, tactical plays, and downloadable playbooks.</description>
     <language>en</language>
     <managingEditor>kuber@churnisdead.com (Kuber Sethi)</managingEditor>
-    <lastBuildDate>Sun, 08 Mar 2026 01:43:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Mar 2026 10:16:32 +0000</lastBuildDate>
     <atom:link href="https://churnisdead.com/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Revenue Ownership Trap</title>
+      <link>https://churnisdead.com/newsletter/the-revenue-ownership-trap</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/the-revenue-ownership-trap</guid>
+      <pubDate>Tue, 10 Mar 2026 08:00:00 +0000</pubDate>
+      <description>t giving CS revenue ownership. They're giving CS revenue blame. Here's the 5-prerequisite framework before your team should accept a quota.</description>
+      <category>Strategy</category>
+    </item>
+    <item>
+      <title>Your Customer Journey Maps Are Fiction</title>
+      <link>https://churnisdead.com/newsletter/customer-journey-maps-are-fiction</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/customer-journey-maps-are-fiction</guid>
+      <pubDate>Tue, 10 Mar 2026 08:00:00 +0000</pubDate>
+      <description>Enterprise CS teams waste months building beautiful journey maps that exist nowhere but PowerPoint slides.</description>
+      <category>Strategy</category>
+    </item>
     <item>
       <title>AI Won't Save Customer Success. It'll Finish It Off.</title>
       <link>https://churnisdead.com/newsletter/ai-wont-save-customer-success</link>
       <guid isPermaLink="true">https://churnisdead.com/newsletter/ai-wont-save-customer-success</guid>
       <pubDate>Tue, 03 Mar 2026 08:00:00 +0000</pubDate>
-      <description>t Save Customer Success. It'll Finish It Off.</description>
+      <description>re not investing in your team. You</description>
       <category>Strategy</category>
     </item>
     <item>
@@ -21,7 +37,7 @@
       <link>https://churnisdead.com/newsletter/cs-team-hoarding-work</link>
       <guid isPermaLink="true">https://churnisdead.com/newsletter/cs-team-hoarding-work</guid>
       <pubDate>Tue, 03 Mar 2026 08:00:00 +0000</pubDate>
-      <description>Your CS Team Is Hoarding Work</description>
+      <description>Why customer success teams resist giving work back to sales and product — and how it's destroying your margins.</description>
       <category>Strategy</category>
     </item>
     <item>
@@ -29,7 +45,17 @@
       <link>https://churnisdead.com/newsletter/customer-success-doesnt-deserve-to-survive</link>
       <guid isPermaLink="true">https://churnisdead.com/newsletter/customer-success-doesnt-deserve-to-survive</guid>
       <pubDate>Tue, 24 Feb 2026 08:00:00 +0000</pubDate>
-      <description>Customer Success Doesn't Deserve to Survive</description>
+      <description>d expect. LinkedIn erupted with the usual chorus:
+
+&gt; "CS is more important than ever!"
+
+&gt; "Companies will regret this!"
+
+&gt; "We just need to prove our value!"
+
+And here's the part nobody wants to hear:
+
+**Most CS teams don</description>
       <category>Strategy</category>
     </item>
     <item>

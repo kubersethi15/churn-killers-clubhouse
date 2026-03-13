@@ -56,14 +56,35 @@ def extract_newsletters():
         # Extract published_date — find the date pattern in the VALUES
         date_match = re.search(r"'(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[^']*)'", content)
         
-        # Extract excerpt — look for the excerpt after the big content blob
-        # Try to find a short string that looks like an excerpt (< 300 chars, after content)
+        # Extract excerpt — try to find the explicit excerpt field
         excerpt = title  # fallback
-        excerpt_matches = re.findall(r"(?:E)?'([^']{20,250}(?:''[^']{0,100})*)'", content)
-        for em in excerpt_matches:
+        
+        # Method 1: If columns include 'excerpt', find its position and extract
+        if 'excerpt' in columns:
+            excerpt_idx = columns.index('excerpt')
+            # Find the excerpt value by counting through the VALUES fields
+            # Look for the excerpt pattern based on column order
+            # For the common format: title, slug, excerpt, content, ...
+            # or: title, slug, content, excerpt, ...
+            excerpt_pattern = re.search(
+                r"excerpt[^)]*\).*?VALUES\s*\(",
+                content, re.DOTALL | re.IGNORECASE
+            )
+        
+        # Method 2: Find short strings that look like excerpts (between title/slug and content)
+        # Look specifically for the excerpt field value
+        excerpt_candidates = re.findall(
+            r"(?:E)?'([^']{30,300}(?:''[^']{0,100})*)'",
+            content
+        )
+        for em in excerpt_candidates:
             clean = em.replace("''", "'")
-            # Skip if it looks like content (has newlines/markdown)
-            if '\\n' not in em and '#' not in em and len(clean) < 250:
+            # Skip if it looks like content (has markdown/newlines) or is the title
+            if ('\\n' in em or '##' in em or len(clean) > 250 or 
+                clean == title or clean == slug):
+                continue
+            # Good excerpt candidate: no markdown, reasonable length, not the title
+            if len(clean) > 30:
                 excerpt = clean
                 break
 
