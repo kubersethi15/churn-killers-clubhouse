@@ -229,7 +229,7 @@ const handler = async (req: Request): Promise<Response> => {
         await sendNewsletterBatch(emailAddresses, latestNewsletter.title, customizedEmail, batchIndex);
         successCount += batch.length;
         if (batchIndex < batches.length - 1) {
-          await new Promise(resolve => setTimeout(resolve, 2000));
+          await new Promise(resolve => setTimeout(resolve, 3000));
         }
       } catch (error) {
         console.error(`Error sending batch ${batchIndex + 1}:`, error);
