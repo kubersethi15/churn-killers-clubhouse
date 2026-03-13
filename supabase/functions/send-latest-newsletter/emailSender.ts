@@ -2,7 +2,7 @@
 /**
  * Functions for sending emails using Resend API
  */
-import { Resend } from "npm:resend@2.0.0";
+import { Resend } from "https://esm.sh/resend@2.0.0";
 
 // Initialize Resend with proper error handling
 const getResendClient = () => {
@@ -21,6 +21,31 @@ const cleanSubjectLine = (subject: string): string => {
 };
 
 /**
+ * Validate email address format
+ */
+export const isValidEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return typeof email === 'string' && email.length > 0 && emailRegex.test(email.trim());
+};
+
+/**
+ * Filter and clean email addresses, returning only valid ones
+ */
+export const filterValidEmails = (emails: string[]): { valid: string[]; invalid: string[] } => {
+  const valid: string[] = [];
+  const invalid: string[] = [];
+  for (const email of emails) {
+    const trimmed = (email || '').trim();
+    if (isValidEmail(trimmed)) {
+      valid.push(trimmed);
+    } else {
+      invalid.push(email);
+    }
+  }
+  return { valid, invalid };
+};
+
+/**
  * Send newsletter to a batch of subscribers
  */
 export const sendNewsletterBatch = async (
@@ -32,12 +57,22 @@ export const sendNewsletterBatch = async (
   try {
     const resend = getResendClient();
     const cleanedSubject = cleanSubjectLine(subject);
+
+    // Filter out invalid emails before sending
+    const { valid, invalid } = filterValidEmails(emailAddresses);
+    if (invalid.length > 0) {
+      console.warn(`Batch ${batchIndex + 1}: Skipping ${invalid.length} invalid emails:`, invalid);
+    }
+    if (valid.length === 0) {
+      console.warn(`Batch ${batchIndex + 1}: No valid emails to send to`);
+      return { success: true, count: 0, skipped: invalid.length };
+    }
     
     // Send the email using Resend
     const emailResponse = await resend.emails.send({
       from: "Churn Is Dead <newsletter@churnisdead.com>",
-      to: ["newsletter@churnisdead.com"], // Adding a default 'to' address
-      bcc: emailAddresses, // Use BCC for privacy
+      to: ["newsletter@churnisdead.com"],
+      bcc: valid,
       subject: cleanedSubject,
       reply_to: "support@churnisdead.com",
       headers: {
@@ -53,8 +88,8 @@ export const sendNewsletterBatch = async (
       throw emailResponse.error;
     }
     
-    console.log(`Batch ${batchIndex + 1} sent successfully`);
-    return { success: true, count: emailAddresses.length };
+    console.log(`Batch ${batchIndex + 1} sent successfully (${valid.length} recipients)`);
+    return { success: true, count: valid.length, skipped: invalid.length };
   } catch (error) {
     console.error(`Error sending batch ${batchIndex + 1}:`, error);
     throw error;
@@ -70,13 +105,16 @@ export const sendTestNewsletter = async (
   htmlContent: string
 ) => {
   try {
+    if (!isValidEmail(emailAddress)) {
+      throw new Error(`Invalid test email address: ${emailAddress}`);
+    }
+    
     const resend = getResendClient();
     const cleanedSubject = cleanSubjectLine(subject);
     
-    // Send the test email using Resend
     const emailResponse = await resend.emails.send({
       from: "Churn Is Dead <newsletter@churnisdead.com>",
-      to: [emailAddress], // Single recipient for testing
+      to: [emailAddress.trim()],
       subject: `[TEST] ${cleanedSubject}`,
       reply_to: "support@churnisdead.com",
       headers: {

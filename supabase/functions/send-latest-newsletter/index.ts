@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { formatContentForEmail } from "./formatUtils.ts";
 import { generateNewsletterEmailTemplate, replacePlaceholders } from "./emailTemplate.ts";
-import { sendNewsletterBatch, sendTestNewsletter } from "./emailSender.ts";
+import { sendNewsletterBatch, sendTestNewsletter, filterValidEmails } from "./emailSender.ts";
 
 // Initialize Supabase client (service role for DB operations)
 const supabaseUrl = Deno.env.get("SUPABASE_URL");
