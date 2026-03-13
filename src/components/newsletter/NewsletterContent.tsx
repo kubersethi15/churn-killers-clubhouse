@@ -18,15 +18,96 @@ type NewsletterContentProps = {
 };
 
 const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: NewsletterContentProps) => {
+  // Split content to inject mid-article CTA
+  const formattedContent = formatContent(newsletter.content);
+  const newsletterUrl = `https://churnisdead.com/newsletter/${newsletter.slug}`;
+  const linkedinShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(newsletterUrl)}`;
+  const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(newsletter.title + ' — from the Churn Is Dead newsletter')}&url=${encodeURIComponent(newsletterUrl)}`;
+
+  // Find a good midpoint to inject a CTA (after ~40% of paragraphs)
+  const paragraphs = formattedContent.split('</p>');
+  const midPoint = Math.floor(paragraphs.length * 0.4);
+  let beforeMid = '';
+  let afterMid = '';
+  if (paragraphs.length > 6) {
+    beforeMid = paragraphs.slice(0, midPoint).join('</p>') + '</p>';
+    afterMid = paragraphs.slice(midPoint).join('</p>');
+  }
+  const hasMidSplit = paragraphs.length > 6;
+
+  const midArticleCta = (
+    <div className="my-10 py-6 px-6 border border-gray-200 rounded-lg bg-gray-50 text-center">
+      <p className="text-sm font-semibold text-navy-dark mb-1">
+        Getting value from this? Don't miss the next one.
+      </p>
+      <p className="text-xs text-gray-400 mb-4">
+        Join 2,000+ CS leaders. New framework every Tuesday.
+      </p>
+      <div className="max-w-xs mx-auto">
+        <NewsletterForm
+          location="mid-article"
+          buttonVariant="vibrant-red"
+          buttonText="Subscribe"
+          subscribeText=""
+        />
+      </div>
+    </div>
+  );
+
+  const shareBar = (
+    <div className="my-8 flex items-center justify-center gap-3">
+      <span className="text-xs text-gray-400 mr-1">Share this:</span>
+      <a
+        href={linkedinShareUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#0A66C2] text-white text-xs font-semibold rounded hover:bg-opacity-90 transition-colors"
+      >
+        LinkedIn
+      </a>
+      <a
+        href={twitterShareUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-black text-white text-xs font-semibold rounded hover:bg-opacity-90 transition-colors"
+      >
+        X
+      </a>
+      <button
+        onClick={() => {
+          navigator.clipboard.writeText(newsletterUrl);
+        }}
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 text-gray-600 text-xs font-semibold rounded hover:bg-gray-50 transition-colors"
+      >
+        Copy Link
+      </button>
+    </div>
+  );
+
   const fullContent = (
     <>
-      {/* Main article content */}
-      <div 
-        className="article-content"
-        dangerouslySetInnerHTML={{ 
-          __html: formatContent(newsletter.content)
-        }} 
-      />
+      {/* Main article content with mid-article CTA */}
+      {hasMidSplit ? (
+        <>
+          <div 
+            className="article-content"
+            dangerouslySetInnerHTML={{ __html: beforeMid }}
+          />
+          {midArticleCta}
+          <div 
+            className="article-content"
+            dangerouslySetInnerHTML={{ __html: afterMid }}
+          />
+        </>
+      ) : (
+        <div 
+          className="article-content"
+          dangerouslySetInnerHTML={{ __html: formattedContent }}
+        />
+      )}
+
+      {/* Share bar */}
+      {shareBar}
       
       {/* Vault Resources */}
       {vaultResources.length > 0 && (

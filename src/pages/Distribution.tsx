@@ -13,6 +13,8 @@ interface DistributionPack {
   linkedinPosts: string;
   linkedinNewsletter: string;
   communityPosts: string;
+  mediumPost: string;
+  hashnodePost: string;
 }
 
 // Map slugs to display titles
@@ -199,6 +201,28 @@ const NewsletterDistribution = ({ pack }: { pack: DistributionPack }) => {
             />
           )}
 
+          {/* Medium Cross-Post */}
+          {pack.mediumPost && (
+            <ContentBlock
+              icon={<Globe className="w-5 h-5 text-green-600" />}
+              title="Medium Cross-Post"
+              subtitle="Paste into Medium — canonical URL included in frontmatter"
+              content={pack.mediumPost}
+              platform="Medium post"
+            />
+          )}
+
+          {/* Hashnode Cross-Post */}
+          {pack.hashnodePost && (
+            <ContentBlock
+              icon={<Globe className="w-5 h-5 text-blue-600" />}
+              title="Hashnode Cross-Post"
+              subtitle="Paste into Hashnode — canonical URL included in frontmatter"
+              content={pack.hashnodePost}
+              platform="Hashnode post"
+            />
+          )}
+
           {/* Direct link */}
           <div className="flex items-center gap-2 pt-2 border-t border-gray-100">
             <Globe className="w-4 h-4 text-gray-400" />
@@ -236,7 +260,7 @@ const Distribution = () => {
 
     for (const slug of DISTRIBUTION_SLUGS) {
       try {
-        const [postsRes, nlRes, commRes] = await Promise.allSettled([
+        const [postsRes, nlRes, commRes, medRes, hashRes] = await Promise.allSettled([
           fetch(`/distribution/${slug}/linkedin_posts.md`).then((r) =>
             r.ok ? r.text() : ""
           ),
@@ -244,6 +268,12 @@ const Distribution = () => {
             r.ok ? r.text() : ""
           ),
           fetch(`/distribution/${slug}/community_posts.md`).then((r) =>
+            r.ok ? r.text() : ""
+          ),
+          fetch(`/distribution/${slug}/medium.md`).then((r) =>
+            r.ok ? r.text() : ""
+          ),
+          fetch(`/distribution/${slug}/hashnode.md`).then((r) =>
             r.ok ? r.text() : ""
           ),
         ]);
@@ -257,6 +287,10 @@ const Distribution = () => {
             nlRes.status === "fulfilled" ? nlRes.value : "",
           communityPosts:
             commRes.status === "fulfilled" ? commRes.value : "",
+          mediumPost:
+            medRes.status === "fulfilled" ? medRes.value : "",
+          hashnodePost:
+            hashRes.status === "fulfilled" ? hashRes.value : "",
         });
       } catch (err) {
         console.error(`Failed to load distribution for ${slug}:`, err);
