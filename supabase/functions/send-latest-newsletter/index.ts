@@ -107,7 +107,7 @@ const handler = async (req: Request): Promise<Response> => {
             console.log(`Test email requested for: ${testEmailAddress}`);
           }
           if ('batchSize' in requestBody) {
-            batchSize = Math.min(40, Number(requestBody.batchSize) || 40);
+            batchSize = Math.min(20, Number(requestBody.batchSize) || 20);
           }
         }
       }
