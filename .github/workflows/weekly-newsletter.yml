@@ -24,7 +24,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -51,11 +51,14 @@ jobs:
       - name: Regenerate sitemap and RSS
         run: python scripts/generate_sitemap_rss.py
 
+      - name: Pre-render newsletter pages for SEO
+        run: python scripts/prerender_newsletters.py
+
       - name: Commit and push
         run: |
           git config user.name "Churn Is Dead Bot"
           git config user.email "newsletter@churnisdead.com"
-          git add supabase/migrations/*.sql public/pdfs/*.pdf public/sitemap.xml public/rss.xml public/og/*.png distribution/
+          git add supabase/migrations/*.sql public/pdfs/*.pdf public/sitemap.xml public/rss.xml public/og/*.png public/newsletter/ distribution/
           
           # Check if there are changes to commit
           if git diff --cached --quiet; then
