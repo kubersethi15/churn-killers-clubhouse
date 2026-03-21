@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Mail } from "lucide-react";
 
 interface NewsletterFormProps {
-  location?: "hero" | "footer" | "article";
+  location?: "hero" | "footer" | "article" | "mid-article";
   className?: string;
   title?: string;
   description?: string;

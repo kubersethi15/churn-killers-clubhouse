@@ -115,32 +115,66 @@ const handler = async (req: Request): Promise<Response> => {
       console.log("No request body provided - treating as regular newsletter sending");
     }
 
-    // 1. Fetch the latest newsletter
-    console.log("Fetching latest newsletter");
-    const { data: latestNewsletter, error: newsletterError } = await supabase
+    // 1. Fetch the next unsent newsletter (sequential delivery)
+    console.log("Fetching next unsent newsletter");
+
+    // Get last sent newsletter ID from internal_config
+    const { data: lastSentConfig } = await supabase
+      .from("internal_config")
+      .select("value")
+      .eq("key", "last_sent_newsletter_id")
+      .maybeSingle();
+
+    const lastSentId = lastSentConfig?.value || null;
+    console.log(`Last sent newsletter ID: ${lastSentId || "none"}`);
+
+    // Get all eligible newsletters ordered by published_date ascending
+    const { data: eligibleNewsletters, error: newsletterError } = await supabase
       .from("newsletters")
       .select("*")
       .lte("published_date", new Date().toISOString())
-      .order("published_date", { ascending: false })
-      .limit(1)
-      .single();
+      .order("published_date", { ascending: true });
 
     if (newsletterError) {
-      console.error("Error fetching latest newsletter:", newsletterError);
+      console.error("Error fetching newsletters:", newsletterError);
       return new Response(
-        JSON.stringify({ error: "Failed to fetch latest newsletter", details: newsletterError }),
+        JSON.stringify({ error: "Failed to fetch newsletters", details: newsletterError }),
         { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
 
-    if (!latestNewsletter) {
+    if (!eligibleNewsletters || eligibleNewsletters.length === 0) {
       return new Response(
         JSON.stringify({ error: "No newsletters found" }),
         { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
 
-    console.log(`Latest newsletter found: "${latestNewsletter.title}" (ID: ${latestNewsletter.id})`);
+    // Find the next newsletter to send
+    let latestNewsletter;
+    if (!lastSentId) {
+      // No record of last sent — send the most recent one (backwards compat)
+      latestNewsletter = eligibleNewsletters[eligibleNewsletters.length - 1];
+    } else {
+      // Find the newsletter right after the last sent one
+      const lastSentIndex = eligibleNewsletters.findIndex(n => n.id === lastSentId);
+      if (lastSentIndex === -1) {
+        // Last sent ID not found in eligible list — send the most recent
+        latestNewsletter = eligibleNewsletters[eligibleNewsletters.length - 1];
+      } else if (lastSentIndex < eligibleNewsletters.length - 1) {
+        // There's a next newsletter to send
+        latestNewsletter = eligibleNewsletters[lastSentIndex + 1];
+      } else {
+        // Already sent the latest — nothing new to send
+        console.log("No new newsletters to send — latest has already been sent");
+        return new Response(
+          JSON.stringify({ message: "No new newsletters to send — latest already sent", lastSentId }),
+          { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        );
+      }
+    }
+
+    console.log(`Next newsletter to send: "${latestNewsletter.title}" (ID: ${latestNewsletter.id})`);
 
     // Helper: format newsletter content for email
     const formatNewsletterContent = (newsletter: typeof latestNewsletter) => {
@@ -240,10 +274,24 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Newsletter sending complete. Success: ${successCount}, Failures: ${failureCount}`);
 
+    // 4. Record this newsletter as sent (only if majority succeeded)
+    if (successCount > failureCount) {
+      const { error: updateError } = await supabase
+        .from("internal_config")
+        .upsert({ key: "last_sent_newsletter_id", value: latestNewsletter.id }, { onConflict: "key" });
+      
+      if (updateError) {
+        console.error("Failed to update last_sent_newsletter_id:", updateError);
+      } else {
+        console.log(`Recorded last_sent_newsletter_id: ${latestNewsletter.id}`);
+      }
+    }
+
     return new Response(
       JSON.stringify({
         success: true,
         message: `Newsletter "${latestNewsletter.title}" sent to ${successCount} subscribers`,
+        newsletterId: latestNewsletter.id,
         failureCount,
         errors: errors.length ? errors : null,
         startTime: triggerTime,
