@@ -274,10 +274,24 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Newsletter sending complete. Success: ${successCount}, Failures: ${failureCount}`);
 
+    // 4. Record this newsletter as sent (only if majority succeeded)
+    if (successCount > failureCount) {
+      const { error: updateError } = await supabase
+        .from("internal_config")
+        .upsert({ key: "last_sent_newsletter_id", value: latestNewsletter.id }, { onConflict: "key" });
+      
+      if (updateError) {
+        console.error("Failed to update last_sent_newsletter_id:", updateError);
+      } else {
+        console.log(`Recorded last_sent_newsletter_id: ${latestNewsletter.id}`);
+      }
+    }
+
     return new Response(
       JSON.stringify({
         success: true,
         message: `Newsletter "${latestNewsletter.title}" sent to ${successCount} subscribers`,
+        newsletterId: latestNewsletter.id,
         failureCount,
         errors: errors.length ? errors : null,
         startTime: triggerTime,
