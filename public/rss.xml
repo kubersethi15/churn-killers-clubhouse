@@ -6,8 +6,24 @@
     <description>Weekly CS frameworks for enterprise Customer Success leaders. Hard truths, tactical plays, and downloadable playbooks.</description>
     <language>en</language>
     <managingEditor>kuber@churnisdead.com (Kuber Sethi)</managingEditor>
-    <lastBuildDate>Sun, 22 Mar 2026 01:47:47 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 29 Mar 2026 01:55:48 +0000</lastBuildDate>
     <atom:link href="https://churnisdead.com/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Health Scores Are Astrology for CS Teams</title>
+      <link>https://churnisdead.com/newsletter/health-scores-are-astrology</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/health-scores-are-astrology</guid>
+      <pubDate>Tue, 24 Mar 2026 08:00:00 +0000</pubDate>
+      <description>Your greenest account just decided to leave and your dashboard has no idea. Here's the 7-lens framework that replaces health scores with actual predictability.</description>
+      <category>Strategy</category>
+    </item>
+    <item>
+      <title>Your CSMs Are Selling You Snake Oil</title>
+      <link>https://churnisdead.com/newsletter/csms-selling-snake-oil</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/csms-selling-snake-oil</guid>
+      <pubDate>Tue, 24 Mar 2026 08:00:00 +0000</pubDate>
+      <description>Most CSMs have become professional excuse-makers who confuse customer complaints with customer insights.</description>
+      <category>Strategy</category>
+    </item>
     <item>
       <title>Stop Calling Yourself Strategic — You're Just Expensive</title>
       <link>https://churnisdead.com/newsletter/stop-calling-yourself-strategic</link>
