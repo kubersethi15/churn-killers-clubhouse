@@ -342,47 +342,51 @@ def build_playbook_pdf(playbook_data, metadata, output_path):
 
 
 # ═══════════════════════════════════════════════════════════
-# PART 3: SQL MIGRATION
+# PART 3: SUPABASE API INSERT
 # ═══════════════════════════════════════════════════════════
 
-def escape_sql(s):
-    return s.replace("\\", "\\\\").replace("'", "''").replace("\n", "\\n").replace("\r", "").replace("\t", "\\t")
+def insert_newsletter_via_api(content, meta, pub_date):
+    """Insert newsletter directly into Supabase via REST API."""
+    import urllib.request
+    import urllib.error
+
+    supabase_url = os.environ.get("SUPABASE_URL")
+    service_role_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+
+    if not supabase_url or not service_role_key:
+        raise RuntimeError("SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set as GitHub secrets")
+
+    payload = json.dumps({
+        "title": meta["title"],
+        "slug": meta["slug"],
+        "excerpt": meta["excerpt"],
+        "content": content,
+        "published_date": pub_date,
+        "read_time": meta.get("read_time", "9 min read"),
+        "category": meta.get("category", "Strategy")
+    }).encode("utf-8")
+
+    url = f"{supabase_url.rstrip('/')}/rest/v1/newsletters"
+    req = urllib.request.Request(url, data=payload, method="POST")
+    req.add_header("Content-Type", "application/json")
+    req.add_header("apikey", service_role_key)
+    req.add_header("Authorization", f"Bearer {service_role_key}")
+    req.add_header("Prefer", "return=representation")
+
+    try:
+        with urllib.request.urlopen(req) as resp:
+            body = resp.read().decode("utf-8")
+            result = json.loads(body)
+            print(f"   ✅ Newsletter inserted into Supabase: {result[0]['id']}")
+            return result[0]
+    except urllib.error.HTTPError as e:
+        error_body = e.read().decode("utf-8") if e.fp else "No details"
+        raise RuntimeError(f"Supabase API insert failed ({e.code}): {error_body}")
+
 
 def create_migration(content, meta, pub_date, pdf_name=None):
-    # Newsletter insert
-    sql = f"""INSERT INTO public.newsletters (title, slug, excerpt, content, published_date, read_time, category)
-VALUES (
-  '{escape_sql(meta["title"])}',
-  '{meta["slug"]}',
-  '{escape_sql(meta["excerpt"])}',
-  E'{escape_sql(content)}',
-  '{pub_date}',
-  '{meta.get("read_time", "9 min read")}',
-  '{escape_sql(meta.get("category", "Strategy"))}'
-);
-"""
-
-    # Playbook insert (so it auto-appears in the vault)
-    if pdf_name:
-        pb_title = meta.get("playbook_title", meta["title"].replace("Churn Is Dead: ", ""))
-        pb_desc = escape_sql(meta.get("playbook_description", meta["excerpt"]))
-        sql += f"""
-INSERT INTO public.playbooks (title, description, pdf_path, newsletter_slug, newsletter_title, published_date)
-VALUES (
-  '{escape_sql(pb_title)}',
-  '{pb_desc}',
-  '/pdfs/{pdf_name}',
-  '{meta["slug"]}',
-  '{escape_sql(meta["title"])}',
-  '{pub_date}'
-);
-"""
-
-    ts = datetime.utcnow().strftime("%Y%m%d%H%M%S")
-    fp = MIGRATIONS_DIR / f"{ts}_{uuid.uuid4()}.sql"
-    fp.write_text(sql)
-    print(f"   Migration: {fp}")
-    return fp
+    """Legacy: kept for reference but no longer used by main()."""
+    pass
 
 
 # ═══════════════════════════════════════════════════════════
@@ -534,9 +538,9 @@ def main():
     pdf_path = PDFS_DIR / pdf_name
     build_playbook_pdf(pb, meta, pdf_path)
 
-    print("\n\U0001f5c4\ufe0f  Creating SQL migration...")
+    print("\n📡 Inserting newsletter into Supabase...")
     pub = get_next_tuesday()
-    create_migration(content, meta, pub, pdf_name=pdf_name)
+    insert_newsletter_via_api(content, meta, pub)
 
     print("\n\U0001f4e3 Generating distribution content...")
     try:

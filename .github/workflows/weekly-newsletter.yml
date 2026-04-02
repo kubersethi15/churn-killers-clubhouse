@@ -37,6 +37,8 @@ jobs:
       - name: Generate newsletter and playbook
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           TOPIC_OVERRIDE: ${{ github.event.inputs.topic_override || '' }}
         run: python scripts/generate_newsletter.py
 
@@ -58,7 +60,7 @@ jobs:
         run: |
           git config user.name "Churn Is Dead Bot"
           git config user.email "newsletter@churnisdead.com"
-          git add supabase/migrations/*.sql public/pdfs/*.pdf public/sitemap.xml public/rss.xml public/og/*.png public/newsletter/ distribution/
+          git add public/pdfs/*.pdf public/sitemap.xml public/rss.xml public/og/*.png public/newsletter/ distribution/
           
           # Check if there are changes to commit
           if git diff --cached --quiet; then
