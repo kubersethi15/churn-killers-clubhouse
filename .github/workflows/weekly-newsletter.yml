@@ -37,6 +37,8 @@ jobs:
       - name: Generate newsletter and playbook
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           TOPIC_OVERRIDE: ${{ github.event.inputs.topic_override || '' }}
         run: python scripts/generate_newsletter.py
 
