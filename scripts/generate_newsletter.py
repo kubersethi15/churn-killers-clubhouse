@@ -538,9 +538,9 @@ def main():
     pdf_path = PDFS_DIR / pdf_name
     build_playbook_pdf(pb, meta, pdf_path)
 
-    print("\n\U0001f5c4\ufe0f  Creating SQL migration...")
+    print("\n📡 Inserting newsletter into Supabase...")
     pub = get_next_tuesday()
-    create_migration(content, meta, pub, pdf_name=pdf_name)
+    insert_newsletter_via_api(content, meta, pub)
 
     print("\n\U0001f4e3 Generating distribution content...")
     try:
