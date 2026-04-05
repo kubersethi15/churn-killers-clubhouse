@@ -1,33 +1,37 @@
 #!/usr/bin/env python3
 """
-Churn Is Dead — Automated Newsletter Generator v2
+Churn Is Dead — Automated Newsletter Generator v4
+3-Stage Pipeline with Web Search Research
+
 Runs every Sunday via GitHub Actions.
-1. Calls Claude API to write newsletter + playbook structure (as JSON)
-2. Uses deterministic PDF builder to create the playbook
-3. Creates SQL migration for Supabase
-4. Git commits everything
+1. Stage 1: Research & Intelligence (with web search)
+2. Stage 2: Topic Selection & Angle Development
+3. Stage 3: Newsletter Writing with quality scoring
+4. Deterministic PDF playbook builder
+5. Supabase API insert
+6. Distribution content generator (LinkedIn, Reddit, Slack)
 """
 
 import anthropic
 import json
 import os
 import re
-import uuid
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
-# ─── PATHS ───
+# --- PATHS ---
 REPO_ROOT = Path(__file__).parent.parent
 MIGRATIONS_DIR = REPO_ROOT / "supabase" / "migrations"
 PDFS_DIR = REPO_ROOT / "public" / "pdfs"
+DISTRIBUTION_DIR = REPO_ROOT / "distribution"
 
 
-# ═══════════════════════════════════════════════════════════
-# PART 1: CLAUDE API — GENERATE CONTENT
-# ═══════════════════════════════════════════════════════════
+# ===============================================================
+# UTILITIES
+# ===============================================================
 
 def get_next_tuesday():
-    today = datetime.utcnow()
+    today = datetime.now(timezone.utc)
     days_ahead = 1 - today.weekday()
     if days_ahead <= 0:
         days_ahead += 7
@@ -45,99 +49,421 @@ def get_existing_topics():
     return list(set(topics))
 
 
-def call_claude(system_prompt, user_prompt, max_tokens=8000):
+def clean_json_response(raw):
+    text = raw.strip()
+    text = re.sub(r'^```(?:json)?\s*', '', text)
+    text = re.sub(r'\s*```$', '', text)
+    return json.loads(text)
+
+
+def call_claude(system_prompt, user_prompt, max_tokens=8000, tools=None):
     client = anthropic.Anthropic()
-    message = client.messages.create(
-        model="claude-sonnet-4-20250514",
-        max_tokens=max_tokens,
-        system=system_prompt,
-        messages=[{"role": "user", "content": user_prompt}]
+    kwargs = {
+        "model": "claude-sonnet-4-20250514",
+        "max_tokens": max_tokens,
+        "system": system_prompt,
+        "messages": [{"role": "user", "content": user_prompt}],
+    }
+    if tools:
+        kwargs["tools"] = tools
+    message = client.messages.create(**kwargs)
+    text_parts = []
+    for block in message.content:
+        if hasattr(block, 'text'):
+            text_parts.append(block.text)
+    return "\n".join(text_parts)
+
+# ===============================================================
+# STAGE 1: RESEARCH & INTELLIGENCE (WITH WEB SEARCH)
+# ===============================================================
+
+RESEARCH_SYSTEM_PROMPT = """You are a senior CS industry analyst with deep knowledge of enterprise Customer Success, \
+B2B SaaS operations, revenue retention, and the AI transformation happening across CS teams.
+
+Your job is to produce a weekly intelligence brief covering:
+- What CS leaders are debating right now
+- What's happening in the broader SaaS/tech landscape that impacts CS
+- What frameworks, tools, or approaches are being challenged or adopted
+- Where the gap is between what CS leaders SAY and what they actually DO
+
+You have awareness of these ongoing industry dynamics (updated context for 2026):
+
+MACRO TRENDS SHAPING CS RIGHT NOW:
+- AI agents are replacing Tier 1 CSM tasks (onboarding, health checks, renewal reminders)
+- CFOs are demanding CS prove revenue impact or face cuts
+- The "CS owns NRR" narrative is being stress-tested as expansion increasingly moves to sales
+- Consolidation in CS platforms (Gainsight, Vitally, ChurnZero, Planhat) is forcing tool strategy decisions
+- "Digital CS" has become a buzzword that often means "we fired CSMs and sent more emails"
+- The CSM-to-account ratio debate is intensifying (1:50? 1:200? Does it matter?)
+- Customer education and community are emerging as CS-adjacent functions
+- Product-led growth is challenging traditional high-touch CS models
+- CS comp plans are shifting from activity-based to outcome-based
+- The VP of CS role is being absorbed into CRO or COO in many orgs
+
+KEY INDUSTRY VOICES AND PUBLISHERS:
+- Gainsight (Nick Mehta) -- tends toward optimistic CS evangelism
+- Vitally, ChurnZero, Catalyst -- product-driven thought leadership
+- CS Insider, Gain Grow Retain -- community-driven practitioner perspectives
+- Jason Lemkin / SaaStr -- investor/founder perspective on CS ROI
+- LinkedIn CS creator ecosystem -- increasingly commoditized advice
+- McKinsey, Bain reports on customer retention -- enterprise strategy lens
+
+COMMON CS DEBATES IN 2026:
+- Should CS own renewals or just influence them?
+- Is the CSM role dying or evolving?
+- Health scores: useful or theater?
+- QBRs: strategic or performative?
+- CS platforms: essential infrastructure or expensive dashboards?
+- Should CS report to CRO, CEO, or COO?
+- Digital CS vs human CS: where's the line?
+- Customer segmentation: by ARR, by complexity, or by potential?
+- The proactive vs reactive myth: are CSMs actually proactive?
+- Onboarding: CS responsibility or product responsibility?
+
+IMPORTANT: Use your web search tool to find CURRENT news, posts, and developments in the CS industry. \
+Search for recent CS layoffs, AI in customer success, SaaS earnings mentioning NRR or churn, \
+CS platform announcements, and what CS leaders are posting on LinkedIn this week.
+
+Return ONLY valid JSON. No markdown fences. No explanation."""
+
+RESEARCH_USER_PROMPT = """Generate this week's CS industry intelligence brief.
+
+Use web search to find current information about:
+1. Recent CS team layoffs, reorgs, or hiring freezes at SaaS companies
+2. New AI tools or announcements affecting CS teams
+3. Recent SaaS earnings calls mentioning NRR, churn, or customer retention
+4. What CS leaders are debating on LinkedIn and in communities this week
+5. Any recent Gainsight, Vitally, ChurnZero, or other CS platform news
+
+Then think about:
+1. What would a VP of CS at a Fortune 500 tech company be worrying about THIS WEEK?
+2. What "accepted wisdom" in CS is starting to crack under real-world pressure?
+3. What are CSMs experiencing on the ground that leadership isn't seeing?
+
+Return a JSON object:
+
+{
+  "web_research_summary": "Brief summary of what you found from web searches this week",
+  "top_tensions": [
+    {
+      "tension": "Brief description of an industry tension or debate",
+      "why_now": "Why this is acute right now, not 6 months ago",
+      "conventional_take": "What most CS leaders would say about this",
+      "contrarian_reality": "What's actually true that people don't want to admit",
+      "who_feels_this": "Which CS personas feel this most acutely"
+    }
+  ],
+  "enterprise_reality_check": {
+    "what_leaders_say": "The narrative CS leadership pushes",
+    "what_actually_happens": "What frontline CSMs and data actually show",
+    "the_gap": "Where the disconnect creates real damage"
+  },
+  "underexplored_angles": [
+    "Topic or angle that hasn't been beaten to death yet but matters deeply"
+  ],
+  "framework_opportunities": [
+    {
+      "concept": "A named framework concept that could become a signature tool",
+      "problem_it_solves": "The specific operational problem this addresses",
+      "why_existing_approaches_fail": "Why current solutions don't work"
+    }
+  ]
+}
+
+Generate 5 top_tensions, 3 underexplored_angles, and 3 framework_opportunities.
+Be specific, not generic. Reference real dynamics, not platitudes."""
+
+
+def run_stage_1_research():
+    print("\n   Stage 1: Researching CS industry landscape...")
+    raw = call_claude(
+        RESEARCH_SYSTEM_PROMPT,
+        RESEARCH_USER_PROMPT,
+        max_tokens=4000,
+        tools=[{"type": "web_search_20250305", "name": "web_search", "max_uses": 5}]
     )
-    return message.content[0].text
+    try:
+        data = clean_json_response(raw)
+        print(f"   Research complete: {len(data.get('top_tensions', []))} tensions identified")
+        if data.get('web_research_summary'):
+            print(f"   Web research: {data['web_research_summary'][:120]}...")
+        return raw
+    except json.JSONDecodeError:
+        print("   Research JSON parse failed, using raw text as context")
+        return raw
+
+# ===============================================================
+# STAGE 2: TOPIC SELECTION & ANGLE DEVELOPMENT
+# ===============================================================
+
+TOPIC_SYSTEM_PROMPT = """You are the editorial strategist for "Churn Is Dead," a weekly newsletter by Kuber Sethi \
+that has become essential reading for enterprise CS leaders who are tired of recycled advice.
+
+Your job is to select THIS WEEK'S topic and develop a sharp angle that will:
+1. Make a senior CS leader stop scrolling and read the full piece
+2. Challenge something they believe but haven't examined
+3. Give them a framework they can use in their next leadership meeting
+4. Position Kuber Sethi as someone who sees what others miss
+
+TOPIC SELECTION CRITERIA (in order of priority):
+1. URGENCY -- Is this something CS leaders need to think about RIGHT NOW?
+2. CONTRARIAN CREDIBILITY -- Can we take a position that's defensible AND surprising?
+3. FRAMEWORK POTENTIAL -- Can we name a framework that becomes a tool people reference?
+4. PERSONAL AUTHORITY -- Can Kuber speak to this from direct enterprise experience?
+5. SHAREABILITY -- Would a CS leader share this with their team or their CEO?
+
+ANGLE DEVELOPMENT RULES:
+- The title should make someone feel slightly uncomfortable or called out
+- The opening must tell a story from the trenches, not cite a statistic
+- The contrarian take must be EARNED through evidence, not just provocative for clicks
+- The framework must have a memorable name and be immediately applicable
+- The playbook must be something a CSM can use Monday morning
+
+Return ONLY valid JSON. No markdown fences."""
+
+TOPIC_USER_PROMPT_TEMPLATE = """RESEARCH BRIEF:
+{research_brief}
+
+EXISTING TOPICS (do NOT repeat or closely overlap):
+{existing_topics}
+
+KUBER'S CONTEXT (use to inform angle, not to mention directly):
+- Customer Success Engineer at Splunk managing a large portfolio of top-tier enterprise accounts
+- Sees the gap between CS strategy decks and frontline execution daily
+- Works with Fortune 500 accounts where CS is existential, not decorative
+- Has direct experience with the tension between CS as cost center vs revenue driver
+- Lives the reality of AI tools being pushed on CS teams without solving real problems
+- Based in Australia, giving a global perspective vs the US-centric CS echo chamber
+
+Select the single best topic for this week and develop the full angle.
+
+Return:
+{{
+  "selected_topic": {{
+    "title": "Provocative title (format: 'Your [Thing] Is [Harsh Truth]')",
+    "slug": "url-friendly-slug",
+    "thesis": "The core argument in 2 sentences. What do you believe that most CS leaders don't?",
+    "why_this_week": "Why this topic is more relevant now than any other week",
+    "opening_story_seed": "A 2-sentence scenario that a CSM or CS leader would immediately recognize as their life. Specific, not generic.",
+    "contrarian_position": "The uncomfortable truth, stated plainly",
+    "what_readers_will_feel": "The emotional arc: called out, curious, equipped, motivated",
+    "framework_name": "A memorable 2-4 word name for the framework",
+    "framework_components": ["Component 1", "Component 2", "Component 3", "Component 4"],
+    "playbook_concept": "What the downloadable audit/playbook should measure",
+    "who_shares_this": "Which persona shares this and what they say when they do"
+  }},
+  "rejected_alternatives": [
+    {{
+      "topic": "Alternative topic considered",
+      "why_rejected": "Why this wasn't the best choice this week"
+    }}
+  ]
+}}"""
 
 
-def generate_newsletter_and_playbook(topic_override=None):
-    existing_topics = get_existing_topics()
+def run_stage_2_topic_selection(research_brief, existing_topics):
+    print("\n   Stage 2: Selecting topic and developing angle...")
     existing_list = "\n".join(f"- {t}" for t in existing_topics) if existing_topics else "None yet"
+    user_prompt = TOPIC_USER_PROMPT_TEMPLATE.format(
+        research_brief=research_brief,
+        existing_topics=existing_list
+    )
+    raw = call_claude(TOPIC_SYSTEM_PROMPT, user_prompt, max_tokens=3000)
+    data = clean_json_response(raw)
+    topic = data.get("selected_topic", {})
+    print(f"   Topic selected: {topic.get('title', 'Unknown')}")
+    print(f"   Framework: {topic.get('framework_name', 'TBD')}")
+    rejected = data.get("rejected_alternatives", [])
+    if rejected:
+        print(f"   Rejected {len(rejected)} alternatives:")
+        for alt in rejected[:3]:
+            print(f"      - {alt.get('topic', '?')}: {alt.get('why_rejected', '')[:60]}...")
+    return raw
 
-    if topic_override:
-        topic_instruction = f"Write about this specific topic: {topic_override}"
-    else:
-        topic_instruction = """Pick the best topic for this week. Choose something:
-- NOT covered before (see existing topics below)
-- Timely and relevant to CS professionals in 2026
-- Strong contrarian angle
-- Lends itself to a named framework with actionable diagnostics"""
+# ===============================================================
+# STAGE 3: NEWSLETTER WRITING
+# ===============================================================
 
-    system_prompt = """You are Kuber Sethi, author of "Churn Is Dead" newsletter for enterprise CS professionals.
-Your voice: Contrarian, direct, story-driven, framework-backed, enterprise-focused, anti-fluff.
-You will return a JSON response with two parts: the newsletter and the playbook structure.
-CRITICAL: Return ONLY valid JSON. No markdown fences. No explanation. Just the JSON object.
-WRITING STYLE RULE: Do NOT overuse em dashes (—). Use them sparingly — maximum 3-4 in the entire newsletter. Instead, use periods, commas, colons, or restructure sentences. Em dash overuse is an AI writing tell and makes the content feel generic. Prefer short punchy sentences over long dash-connected ones."""
+WRITING_SYSTEM_PROMPT = """You are Kuber Sethi, writing this week's edition of "Churn Is Dead."
 
-    user_prompt = f"""EXISTING TOPICS (do NOT repeat):
-{existing_list}
+YOUR VOICE -- memorize this:
+- You write like a senior operator who's seen the bullshit and is done tolerating it
+- You're not angry. You're precise. There's a difference.
+- You tell stories from the enterprise trenches. Not "Company X did Y" case studies. \
+Real moments: the awkward QBR, the Slack message that revealed the truth, \
+the dashboard everyone ignores, the exec who asked the question no one could answer.
+- You name things. You create frameworks. You give people language for problems \
+they felt but couldn't articulate.
+- You respect your reader. They're smart, experienced, and busy. Don't over-explain. \
+Don't hedge. Don't add disclaimers.
+- You're Australian with global enterprise experience. You see the US-centric CS \
+bubble from outside and call out its blind spots.
 
-{topic_instruction}
+YOUR WRITING RULES:
+1. OPENING (200-300 words): Start with a specific story or scene. Not "Let me tell you \
+about..." Just drop the reader into a moment. Make them think "that's MY team."
+2. THE TURN (100-150 words): Reveal the uncomfortable truth. One paragraph that reframes \
+everything. This is where you earn the contrarian label.
+3. THE MYTHS/LIES (400-500 words): 3-5 specific beliefs or practices that are wrong. \
+Each one gets a bold header and 2-3 sentences demolishing it. Be specific about \
+what people actually do and why it fails.
+4. THE FRAMEWORK (500-700 words): Your named framework. Number each component. \
+For each: what it means, why it matters, what to do about it. This is the \
+operational heart. Make it something they can present to their VP.
+5. THE ACTION (200-300 words): "Here's what you do Monday morning." Specific, \
+sequenced, realistic. Not "align stakeholders" -- actual steps.
+6. THE CLOSE (100-150 words): Sign off as Kuber. Personal, direct, warm but not soft. \
+Include the playbook CTA. P.S. with a provocative forward-looking statement.
 
-Return a JSON object with this exact structure:
+QUALITY BAR -- every newsletter must pass these tests:
+- SPECIFICITY: Would a CSM read this and think "this is exactly what happens at my company"?
+- SHAREABILITY: Would a VP of CS forward this to their CRO with "we need to talk about this"?
+- ACTIONABILITY: Could someone implement the framework without any other resource?
+- ORIGINALITY: Has this specific argument been made before in exactly this way? (It shouldn't have been)
+- MEMORABILITY: Will someone reference the framework name in a meeting next week?
+
+STYLE RULES:
+- Maximum 3 em dashes in the entire piece. Use periods, commas, colons instead.
+- No "In today's landscape" or "Let's dive in" or "Here's the thing" or "At the end of the day"
+- No rhetorical questions used as transitions (e.g., "So what does this mean?")
+- Paragraphs: 2-4 sentences max. White space is your friend.
+- Bold used for framework component names and myth headers ONLY. Not for emphasis.
+- Use "you" and "your" -- talk TO the reader, not ABOUT CS in general
+- Numbers and data when they serve the argument, but never as the opening
+- End sections with a punch line, not a summary
+
+FORMATTING:
+- Use ## for main section headers
+- Use **bold** for myth/lie headers and framework component names
+- Use --- for section breaks
+- Use numbered lists for framework components and action steps
+- Total length: 2,200-2,800 words
+- CTA format: [CTA link="/pdfs/FILENAME.pdf"]Download the FRAMEWORK NAME[/CTA]
+
+Return ONLY valid JSON. No markdown fences."""
+
+WRITING_USER_PROMPT_TEMPLATE = """TOPIC BRIEF:
+{topic_brief}
+
+RESEARCH CONTEXT:
+{research_brief}
+
+Write this week's newsletter. Follow the structure and quality bar exactly.
+
+Return a JSON object with this structure:
 
 {{
   "metadata": {{
-    "title": "Newsletter Title Here",
-    "slug": "url-friendly-slug-here",
+    "title": "Newsletter title from the topic brief",
+    "slug": "url-friendly-slug from topic brief",
     "excerpt": "One compelling sentence for archive page, max 200 chars",
-    "category": "Short category e.g. Strategy, AI & Automation, Team Design",
-    "read_time": "9 min read",
-    "pdf_filename": "Playbook_Name_Audit_ChurnIsDead.pdf",
-    "playbook_title": "The Playbook Name Audit",
-    "playbook_description": "Brief description of what the playbook contains, 1-2 sentences for the vault page"
+    "category": "Short category e.g. Strategy, AI & Automation, Team Design, Revenue, Operations",
+    "read_time": "X min read",
+    "pdf_filename": "Framework_Name_Audit_ChurnIsDead.pdf",
+    "playbook_title": "The Framework Name Audit",
+    "playbook_description": "Brief description of what the playbook contains"
   }},
-  "newsletter_content": "FULL NEWSLETTER IN MARKDOWN. ~2500 words. Structure: ## headers, **bold**, --- breaks. Opening story, contrarian thesis, 3-5 myths/lies/failure modes, named framework with numbered components and action steps, playbook CTA, sign-off as Kuber with P.S. CTA format: [CTA link=\\"/pdfs/FILENAME.pdf\\"]Download the PLAYBOOK NAME[/CTA]",
+  "newsletter_content": "FULL NEWSLETTER IN MARKDOWN following the exact structure above",
+  "quality_self_check": {{
+    "specificity_score": "1-10 with brief justification",
+    "shareability_score": "1-10 with brief justification",
+    "actionability_score": "1-10 with brief justification",
+    "originality_score": "1-10 with brief justification",
+    "memorability_score": "1-10 with brief justification",
+    "overall": "Average score. If below 7, explain what's weak and how it could improve."
+  }},
   "playbook": {{
-    "title": "The Playbook Name Audit",
-    "subtitle": "One line describing what this audit does",
-    "intro_text": "2-3 sentences about what this audit measures and why it matters",
-    "scoring_note": "Brief note about scoring scale and what totals mean",
+    "title": "The Framework Name Audit",
+    "subtitle": "A diagnostic tool for CS teams",
+    "intro_text": "1-2 sentence intro for the playbook",
+    "scoring_note": "Rate each item 1-5. 1 = not happening, 5 = embedded in operations.",
     "sections": [
       {{
-        "number": "01",
-        "title": "Section Title",
-        "subtitle": "What does this section measure?",
-        "description": "2-3 sentences explaining this dimension",
-        "diagnostic_questions": ["Q1?", "Q2?", "Q3?", "Q4?", "Q5?"],
-        "table_title": "Worksheet Title",
-        "table_instruction": "Brief instruction for the table",
-        "table_headers": ["Column 1", "Column 2", "Column 3", "Column 4"],
-        "table_col_ratios": [0.15, 0.35, 0.25, 0.25],
-        "table_rows": 8,
+        "title": "Section Title (matches framework component)",
+        "why_it_matters": "1-2 sentences on why this dimension matters",
+        "headers": ["Criteria", "What Good Looks Like", "What Bad Looks Like"],
+        "col_ratios": [0.28, 0.36, 0.36],
+        "rows": [
+          ["Specific measurable criteria", "Description of excellence", "Description of failure"]
+        ],
         "rubric": [
-          ["No evidence or capability in this area", "1"],
-          ["Anecdotal or inconsistent effort", "2"],
-          ["Present but not systematic", "3"],
-          ["Consistent and measurable", "4"],
-          ["Industry-leading and deeply embedded", "5"]
+          ["Rubric criteria description", "1-5"]
         ]
       }}
     ],
-    "closing_quote": "One powerful closing line that captures the newsletter thesis"
+    "closing_quote": "A memorable closing line from the newsletter"
   }}
 }}
 
-IMPORTANT: Include 4-5 sections in the playbook. Make questions specific, not generic. Make rubrics specific to each section. Newsletter must be ~2500 words with full story-driven structure.
-STYLE: Minimize em dashes (—) across ALL text. Max 3-4 in the newsletter, zero in playbook descriptions/questions. Use periods, commas, colons instead."""
-
-    raw = call_claude(system_prompt, user_prompt, max_tokens=12000)
-    raw = raw.strip()
-    if raw.startswith("```"):
-        raw = re.sub(r'^```(?:json)?\s*\n?', '', raw)
-        raw = re.sub(r'\n?```\s*$', '', raw)
-    return json.loads(raw)
+CRITICAL: If your quality_self_check overall score is below 7, REWRITE before returning.
+The reader deserves your best work. Their career might depend on what you write."""
 
 
-# ═══════════════════════════════════════════════════════════
-# PART 2: DETERMINISTIC PDF BUILDER
-# ═══════════════════════════════════════════════════════════
+def run_stage_3_newsletter(topic_brief, research_brief):
+    print("\n   Stage 3: Writing newsletter...")
+    user_prompt = WRITING_USER_PROMPT_TEMPLATE.format(
+        topic_brief=topic_brief,
+        research_brief=research_brief
+    )
+    raw = call_claude(WRITING_SYSTEM_PROMPT, user_prompt, max_tokens=12000)
+    data = clean_json_response(raw)
+
+    quality = data.get('quality_self_check', {})
+    overall_str = str(quality.get('overall', '0'))
+    overall_match = re.search(r'(\d+\.?\d*)', overall_str)
+    overall = float(overall_match.group(1)) if overall_match else 0
+
+    print(f"   Quality score: {overall}/10")
+    if overall < 7:
+        print(f"   Below quality bar ({overall}/10) -- triggering rewrite...")
+        raw = call_claude(
+            WRITING_SYSTEM_PROMPT,
+            user_prompt + "\n\nYour previous attempt scored below 7. Write a stronger version.",
+            max_tokens=12000
+        )
+        data = clean_json_response(raw)
+        quality = data.get('quality_self_check', {})
+        overall_match = re.search(r'(\d+\.?\d*)', str(quality.get('overall', '0')))
+        overall = float(overall_match.group(1)) if overall_match else 0
+        print(f"   Rewrite quality score: {overall}/10")
+
+    print(f"   Newsletter written: {data.get('metadata', {}).get('title', 'Unknown')}")
+    return data
+
+
+# ===============================================================
+# CONTENT PIPELINE ORCHESTRATOR
+# ===============================================================
+
+def generate_newsletter_and_playbook(topic_override=None):
+    existing_topics = get_existing_topics()
+
+    if topic_override:
+        print(f"   Topic override: {topic_override}")
+        research_brief = "Topic was manually specified. No research phase."
+        topic_brief = json.dumps({
+            "selected_topic": {
+                "title": topic_override,
+                "slug": re.sub(r'[^a-z0-9]+', '-', topic_override.lower()).strip('-'),
+                "thesis": "Manually specified topic.",
+                "why_this_week": "Manual override.",
+                "opening_story_seed": "Write a compelling opening scene.",
+                "contrarian_position": "The conventional wisdom is wrong.",
+                "framework_name": "Custom Framework",
+                "framework_components": ["Component 1", "Component 2", "Component 3", "Component 4"],
+                "playbook_concept": "Measuring what matters"
+            }
+        })
+    else:
+        research_brief = run_stage_1_research()
+        topic_brief = run_stage_2_topic_selection(research_brief, existing_topics)
+
+    newsletter = run_stage_3_newsletter(topic_brief, research_brief)
+    return newsletter
+
+# ===============================================================
+# DETERMINISTIC PDF BUILDER
+# ===============================================================
 
 def build_playbook_pdf(playbook_data, metadata, output_path):
     from reportlab.lib.pagesizes import letter
@@ -155,7 +481,6 @@ def build_playbook_pdf(playbook_data, metadata, output_path):
     LIGHT_GRAY = HexColor("#9A9A9A")
     WHITE = HexColor("#FFFFFF")
     ACCENT = HexColor("#C8553D")
-    ACCENT_DARK = HexColor("#8B3A2A")
     WARM_BG = HexColor("#F7F3F0")
     CARD_BG = HexColor("#F5F0EC")
     BORDER_LIGHT = HexColor("#D4CCC5")
@@ -170,183 +495,184 @@ def build_playbook_pdf(playbook_data, metadata, output_path):
         return ParagraphStyle(name, **defaults)
 
     st = {
-        'brand': S('brand', fontName='Helvetica-Bold', fontSize=10, textColor=ACCENT, letterSpacing=3, spaceAfter=4),
-        'sn': S('sn', fontName='Helvetica-Bold', fontSize=11, textColor=ACCENT, spaceAfter=2),
-        'stitle': S('stitle', fontName='Helvetica-Bold', fontSize=18, textColor=BLACK, leading=24, spaceAfter=4),
-        'ssub': S('ssub', fontSize=10, textColor=MID_GRAY, leading=14, spaceAfter=14),
-        'body': S('body', spaceAfter=10),
-        'bbold': S('bbold', fontName='Helvetica-Bold', textColor=BLACK, spaceAfter=6),
-        'callout': S('callout', fontName='Helvetica-Oblique', textColor=ACCENT_DARK, leftIndent=12),
-        'th': S('th', fontName='Helvetica-Bold', fontSize=9, textColor=WHITE, leading=13),
-        'td': S('td', fontSize=9, leading=13),
-        'tdb': S('tdb', fontName='Helvetica-Bold', fontSize=9, textColor=BLACK, leading=13),
-        'cb': S('cb', fontSize=9.5, leading=15, spaceAfter=4),
-        'sm': S('sm', fontSize=8, textColor=LIGHT_GRAY, leading=11),
-        'sh': S('sh', fontName='Helvetica-Bold', fontSize=10, textColor=ACCENT, spaceAfter=4),
-        'ins': S('ins', fontSize=9, textColor=MID_GRAY, leading=14, spaceAfter=10),
-        'pt': S('pt', fontName='Helvetica-Bold', fontSize=14, textColor=BLACK, leading=20, spaceAfter=6),
-        'se': S('se', fontName='Helvetica-Bold', fontSize=12, textColor=ACCENT, spaceAfter=4),
+        'brand': S('brand', fontName='Helvetica-Bold', fontSize=10, textColor=ACCENT, spaceAfter=2),
+        'tt': S('tt', fontName='Helvetica-Bold', fontSize=28, textColor=BLACK, leading=34, spaceAfter=4),
+        'sub': S('sub', fontName='Helvetica', fontSize=12, textColor=MID_GRAY, leading=18, spaceAfter=4),
+        'intro': S('intro', fontName='Helvetica', fontSize=10.5, textColor=CHARCOAL, leading=17, spaceAfter=6),
+        'sh': S('sh', fontName='Helvetica-Bold', fontSize=14, textColor=BLACK, leading=20, spaceBefore=6, spaceAfter=4),
+        'se': S('se', fontName='Helvetica', fontSize=10, textColor=CHARCOAL, leading=16),
+        'sm': S('sm', fontName='Helvetica', fontSize=8.5, textColor=LIGHT_GRAY, leading=12),
+        'th': S('th', fontName='Helvetica-Bold', fontSize=8.5, textColor=WHITE, leading=12),
+        'td': S('td', fontName='Helvetica', fontSize=9, textColor=CHARCOAL, leading=14),
+        'cb': S('cb', fontName='Helvetica', fontSize=9.5, textColor=CHARCOAL, leading=15),
     }
 
-    def sp(pts=6): return Spacer(1, pts)
-    def hr_line(color=BORDER_LIGHT, t=0.5): return HRFlowable(width="100%", thickness=t, color=color, spaceBefore=8, spaceAfter=8)
-    def cb_item(text): return Paragraph(f"<font face='Helvetica' size='11'>\u25a1</font>  {text}", st['cb'])
+    def sp(pts): return Spacer(1, pts)
+    def hr_line(color=BORDER_LIGHT, width=0.5):
+        return HRFlowable(width="100%", thickness=width, color=color, spaceBefore=4, spaceAfter=4)
 
-    def cbox(text):
-        inner = Paragraph(text, st['callout'])
-        t = Table([[inner]], colWidths=[CW - 24])
-        t.setStyle(TableStyle([
-            ('BACKGROUND', (0,0), (-1,-1), CARD_BG),
-            ('LEFTPADDING', (0,0), (-1,-1), 14), ('RIGHTPADDING', (0,0), (-1,-1), 14),
-            ('TOPPADDING', (0,0), (-1,-1), 10), ('BOTTOMPADDING', (0,0), (-1,-1), 10),
-            ('LINEBEFOREDECOR', (0,0), (0,-1), 3, ACCENT),
-        ]))
-        return t
-
-    def mk_table(rows, widths=None):
-        if not widths:
-            n = len(rows[0])
-            widths = [CW/n]*n
-        hdr = [Paragraph(h, st['th']) for h in rows[0]]
-        data = [hdr]
-        for row in rows[1:]:
-            data.append([Paragraph(str(c), st['tdb'] if i == 0 else st['td']) for i, c in enumerate(row)])
-        t = Table(data, colWidths=widths)
+    def mk_table(data_rows, col_widths):
+        styled_data = []
+        for ri, row in enumerate(data_rows):
+            s = st['th'] if ri == 0 else st['td']
+            styled_data.append([Paragraph(str(c), s) for c in row])
+        t = Table(styled_data, colWidths=col_widths, repeatRows=1)
         cmds = [
-            ('BACKGROUND', (0,0), (-1,0), CHARCOAL), ('TEXTCOLOR', (0,0), (-1,0), WHITE),
-            ('BOTTOMPADDING', (0,0), (-1,0), 8), ('TOPPADDING', (0,0), (-1,0), 8),
-            ('LEFTPADDING', (0,0), (-1,-1), 8), ('RIGHTPADDING', (0,0), (-1,-1), 8),
-            ('TOPPADDING', (0,1), (-1,-1), 7), ('BOTTOMPADDING', (0,1), (-1,-1), 7),
-            ('GRID', (0,0), (-1,-1), 0.5, BORDER_LIGHT), ('VALIGN', (0,0), (-1,-1), 'TOP'),
+            ('BACKGROUND', (0, 0), (-1, 0), CHARCOAL),
+            ('TEXTCOLOR', (0, 0), (-1, 0), WHITE),
+            ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+            ('GRID', (0, 0), (-1, -1), 0.4, BORDER_LIGHT),
+            ('TOPPADDING', (0, 0), (-1, -1), 5),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 5),
+            ('LEFTPADDING', (0, 0), (-1, -1), 6),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 6),
         ]
-        for i in range(1, len(data)):
-            if i % 2 == 0: cmds.append(('BACKGROUND', (0,i), (-1,i), WARM_BG))
+        for i in range(1, len(data_rows)):
+            bg = WARM_BG if i % 2 == 0 else WHITE
+            cmds.append(('BACKGROUND', (0, i), (-1, i), bg))
         t.setStyle(TableStyle(cmds))
         return t
 
-    title_text = playbook_data.get('title', 'Playbook')
-    def add_footer(c, doc):
-        c.saveState(); c.setStrokeColor(BORDER_LIGHT); c.setLineWidth(0.3)
-        c.line(ML, MB-10, PAGE_W-MR, MB-10)
-        c.setFont('Helvetica', 7); c.setFillColor(LIGHT_GRAY)
-        c.drawString(ML, MB-22, f"CHURN IS DEAD  \u2014  {title_text}")
-        c.drawRightString(PAGE_W-MR, MB-22, f"churnisdead.com  |  Page {doc.page}")
-        c.restoreState()
+    def cbox(text):
+        t = Table([[Paragraph(text, st['cb'])]], colWidths=[CW - 16])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, -1), CARD_BG),
+            ('BOX', (0, 0), (-1, -1), 0.5, BORDER_LIGHT),
+            ('TOPPADDING', (0, 0), (-1, -1), 10),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 10),
+            ('LEFTPADDING', (0, 0), (-1, -1), 12),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 12),
+        ]))
+        return t
 
-    doc = BaseDocTemplate(str(output_path), pagesize=letter,
-        leftMargin=ML, rightMargin=MR, topMargin=MT, bottomMargin=MB,
-        title=title_text, author="Kuber Sethi")
-    doc.title_text = title_text
-    frame = Frame(ML, MB, CW, PAGE_H-MT-MB, id='main')
-    doc.addPageTemplates([
-        PageTemplate(id='cover', frames=frame, onPage=lambda c,d: None),
-        PageTemplate(id='content', frames=frame, onPage=add_footer),
-    ])
-
-    story = []
     pb = playbook_data
+    sections = pb.get('sections', [])
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # Cover
-    story.append(sp(60))
-    story.append(Paragraph("CHURN IS DEAD", ParagraphStyle('cvb', fontName='Helvetica-Bold', fontSize=12, textColor=ACCENT, letterSpacing=4)))
-    story.append(sp(12))
-    story.append(HRFlowable(width="30%", thickness=2, color=ACCENT, spaceBefore=0, spaceAfter=16, hAlign='LEFT'))
-    ctitle = pb.get('title', 'Playbook')
-    if len(ctitle) > 30 and '<br/>' not in ctitle:
-        w = ctitle.split(); mid = len(w)//2
-        ctitle = ' '.join(w[:mid]) + '<br/>' + ' '.join(w[mid:])
-    story.append(Paragraph(ctitle, ParagraphStyle('cvt', fontName='Helvetica-Bold', fontSize=36, textColor=BLACK, leading=44)))
-    story.append(sp(12))
-    story.append(Paragraph(pb.get('subtitle', ''), ParagraphStyle('cvs', fontName='Helvetica', fontSize=13, textColor=MID_GRAY, leading=20)))
-    story.append(sp(40))
-    story.append(HRFlowable(width="100%", thickness=0.3, color=BORDER_LIGHT, spaceBefore=0, spaceAfter=16))
-    for lbl, val in [["Created by", "Kuber Sethi"], ["Source", "churnisdead.com"], ["Version", f"1.0 \u2014 {datetime.utcnow().strftime('%B %Y')}"]]:
-        story.append(Paragraph(f"<font face='Helvetica-Bold' color='#2A2A2A'>{lbl}:</font>  <font face='Helvetica' color='#6B6B6B'>{val}</font>",
-            ParagraphStyle(f'd{lbl}', fontName='Helvetica', fontSize=9, leading=16, textColor=MID_GRAY)))
-    story.append(sp(60))
-    story.append(Paragraph("Block 60\u201390 minutes. Be honest. The results only matter if they\u2019re real.",
-        ParagraphStyle('cvi', fontName='Helvetica-Oblique', fontSize=10, textColor=MID_GRAY, leading=16)))
-    story.append(NextPageTemplate('content')); story.append(PageBreak())
+    class PlaybookDoc(BaseDocTemplate):
+        def __init__(self, fn, **kw):
+            super().__init__(fn, **kw)
+            frame_cover = Frame(ML, MB, CW, PAGE_H - MT - MB, id='cover')
+            frame_body = Frame(ML, MB, CW, PAGE_H - MT - MB, id='body')
+            self.addPageTemplates([
+                PageTemplate(id='Cover', frames=frame_cover, onPage=self._cover_page),
+                PageTemplate(id='Body', frames=frame_body, onPage=self._body_page),
+            ])
 
-    # How to use
-    story.append(Paragraph("How to Use This Audit", st['pt']))
-    story.append(hr_line(ACCENT, 1)); story.append(sp(6))
-    story.append(Paragraph(pb.get('intro_text', ''), st['body']))
-    story.append(sp(4))
-    story.append(cbox(f"<b>Scoring:</b> {pb.get('scoring_note', 'Each section uses a 1\u20135 scale.')}"))
+        def _cover_page(self, canvas, doc):
+            canvas.saveState()
+            canvas.setFillColor(WARM_BG)
+            canvas.rect(0, 0, PAGE_W, PAGE_H, fill=1)
+            canvas.setStrokeColor(ACCENT)
+            canvas.setLineWidth(3)
+            canvas.line(ML, PAGE_H - 0.5*inch, PAGE_W - MR, PAGE_H - 0.5*inch)
+            canvas.restoreState()
+
+        def _body_page(self, canvas, doc):
+            canvas.saveState()
+            canvas.setFont("Helvetica-Bold", 7)
+            canvas.setFillColor(ACCENT)
+            canvas.drawString(ML, PAGE_H - 0.45*inch, "CHURN IS DEAD")
+            canvas.setFont("Helvetica", 7)
+            canvas.setFillColor(LIGHT_GRAY)
+            canvas.drawRightString(PAGE_W - MR, PAGE_H - 0.45*inch, pb.get('title', ''))
+            canvas.drawCentredString(PAGE_W/2, 0.4*inch, f"Page {doc.page}")
+            canvas.restoreState()
+
+    doc = PlaybookDoc(str(output_path), pagesize=letter)
+    story = []
+
+    # Cover page
+    story.append(sp(100))
+    story.append(Paragraph("CHURN IS DEAD", st['brand']))
     story.append(sp(8))
-    overview = [["Score", "Meaning", "Risk Level", "Action"],
-        ["1", "No evidence of capability", "Critical", "Rebuild immediately"],
-        ["2", "Anecdotal, inconsistent", "High", "Formalize within 60 days"],
-        ["3", "Present but not systematic", "Moderate", "Strengthen and document"],
-        ["4", "Consistent, measurable", "Low", "Scale and protect"],
-        ["5", "Industry-leading, embedded", "Minimal", "Showcase and expand"]]
-    story.append(mk_table(overview, [CW*0.1, CW*0.32, CW*0.18, CW*0.4]))
+    story.append(Paragraph(pb.get('title', 'Playbook'), st['tt']))
+    story.append(sp(4))
+    story.append(hr_line(ACCENT, 1.5))
+    story.append(sp(6))
+    story.append(Paragraph(pb.get('subtitle', ''), st['sub']))
+    story.append(sp(12))
+    story.append(cbox(pb.get('intro_text', '')))
+    story.append(sp(12))
+    story.append(Paragraph(f"<b>Scoring:</b> {pb.get('scoring_note', '')}", st['se']))
+    story.append(sp(8))
+    for lbl, val in [["Created by", "Kuber Sethi"], ["Source", "churnisdead.com"], ["Version", f"1.0 -- {datetime.now(timezone.utc).strftime('%B %Y')}"]]:
+        story.append(Paragraph(f"<b>{lbl}:</b>  {val}", st['sm']))
+    story.append(NextPageTemplate('Body'))
     story.append(PageBreak())
 
-    # Sections
-    sections = pb.get('sections', [])
-    for sec in sections:
-        story.append(sp(16)); story.append(hr_line(ACCENT, 1.5)); story.append(sp(4))
-        story.append(Paragraph(f"SECTION {sec.get('number', '01')}", st['sn']))
-        story.append(Paragraph(sec.get('title', ''), st['stitle']))
-        if sec.get('subtitle'): story.append(Paragraph(sec['subtitle'], st['ssub']))
+    # Section pages
+    for si, sec in enumerate(sections, 1):
         story.append(sp(6))
-        if sec.get('description'): story.append(Paragraph(sec['description'], st['body']))
-        if sec.get('diagnostic_questions'):
-            story.append(sp(4)); story.append(Paragraph("Diagnostic Questions", st['bbold']))
-            for q in sec['diagnostic_questions']: story.append(cb_item(q))
-        story.append(sp(8))
-        if sec.get('table_title'): story.append(Paragraph(sec['table_title'], st['bbold']))
-        if sec.get('table_instruction'): story.append(Paragraph(sec['table_instruction'], st['ins']))
-        hdrs = sec.get('table_headers', ['Item', 'Details', 'Score', 'Notes'])
-        rats = sec.get('table_col_ratios', [1.0/len(hdrs)]*len(hdrs))
-        nrows = sec.get('table_rows', 8)
-        tdata = [hdrs] + [[f"{i}."] + [""]*(len(hdrs)-1) for i in range(1, nrows+1)]
+        story.append(Paragraph(f"SECTION {si}", S(f'sn{si}', fontName='Helvetica-Bold', fontSize=9, textColor=ACCENT, leading=12)))
+        story.append(Paragraph(sec.get('title', ''), st['sh']))
+        story.append(sp(2))
+        wim = sec.get('why_it_matters', '')
+        if wim:
+            story.append(cbox(wim))
+            story.append(sp(6))
+        hdrs = sec.get('headers', ['Criteria', 'What Good Looks Like', 'What Bad Looks Like'])
+        rats = sec.get('col_ratios', [0.28, 0.36, 0.36])
+        rows = sec.get('rows', [])
+        tdata = [hdrs] + [r + [""]*(len(hdrs)-len(r)) if len(r) < len(hdrs) else r[:len(hdrs)] for r in rows]
+        if not tdata or len(tdata) <= 1:
+            tdata = [hdrs, ["No criteria defined"] + [""]*(len(hdrs)-1)]
         story.append(mk_table(tdata, [CW*r for r in rats]))
-        story.append(sp(8)); story.append(Paragraph("Score This Section", st['sh']))
+        story.append(sp(8))
+        story.append(Paragraph("Score This Section", st['sh']))
         rub = sec.get('rubric', [])
-        if rub: story.append(mk_table([["Criteria", "Score"]] + rub, [CW*0.78, CW*0.22]))
-        story.append(sp(6)); story.append(Paragraph("<b>Your Score:  ____  / 5</b>", st['se']))
+        if rub:
+            story.append(mk_table([["Criteria", "Score"]] + rub, [CW*0.78, CW*0.22]))
+        story.append(sp(6))
+        story.append(Paragraph("<b>Your Score:  ____  / 5</b>", st['se']))
         story.append(PageBreak())
 
     # Final scorecard
-    story.append(sp(12)); story.append(Paragraph("CHURN IS DEAD", st['brand'])); story.append(sp(4))
+    story.append(sp(12))
+    story.append(Paragraph("CHURN IS DEAD", st['brand']))
+    story.append(sp(4))
     story.append(Paragraph("Your Scorecard", ParagraphStyle('ftt', fontName='Helvetica-Bold', fontSize=24, textColor=BLACK, leading=30, spaceAfter=6)))
-    story.append(hr_line(ACCENT, 1.5)); story.append(sp(8))
+    story.append(hr_line(ACCENT, 1.5))
+    story.append(sp(8))
     mx = len(sections)*5
     fd = [["Dimension", "Your Score", "Max"]]
-    for i, s in enumerate(sections, 1): fd.append([f"{i}. {s.get('title','')}", "____", "5"])
+    for i, s in enumerate(sections, 1):
+        fd.append([f"{i}. {s.get('title','')}", "____", "5"])
     fd.append(["TOTAL", "____", str(mx)])
     story.append(mk_table(fd, [CW*0.55, CW*0.225, CW*0.225]))
     story.append(sp(12))
     hi = mx
-    interp = [["Total Score", "Assessment", "What It Means"],
-        [f"{int(hi*0.8)}\u2013{hi}", "Uncuttable", "Embedded, measurable, strategically irreplaceable."],
-        [f"{int(hi*0.6)}\u2013{int(hi*0.8)-1}", "Defensible", "Solid but gaps remain. Focus on lowest dimension."],
-        [f"{int(hi*0.4)}\u2013{int(hi*0.6)-1}", "Vulnerable", "Real risk ahead. Treat as urgent."],
-        [f"{len(sections)}\u2013{int(hi*0.4)-1}", "Critical", "Cannot survive scrutiny. Major changes needed."]]
+    interp = [
+        ["Total Score", "Assessment", "What It Means"],
+        [f"{int(hi*0.8)}-{hi}", "Uncuttable", "Embedded, measurable, strategically irreplaceable."],
+        [f"{int(hi*0.6)}-{int(hi*0.8)-1}", "Defensible", "Solid but gaps remain. Focus on lowest dimension."],
+        [f"{int(hi*0.4)}-{int(hi*0.6)-1}", "Vulnerable", "Real risk ahead. Treat as urgent."],
+        [f"{len(sections)}-{int(hi*0.4)-1}", "Critical", "Cannot survive scrutiny. Major changes needed."],
+    ]
     story.append(mk_table(interp, [CW*0.15, CW*0.17, CW*0.68]))
     story.append(sp(12))
-    story.append(cbox("<b>What to do next:</b> Take your lowest-scoring section and build a 30-day action plan. One at a time. Then share this with leadership \u2014 not to ask permission, but to show you know where the gaps are."))
-    story.append(sp(12)); story.append(hr_line(BORDER_LIGHT, 0.3)); story.append(sp(4))
+    story.append(cbox("<b>What to do next:</b> Take your lowest-scoring section and build a 30-day action plan. One at a time. Then share this with leadership -- not to ask permission, but to show you know where the gaps are."))
+    story.append(sp(12))
+    story.append(hr_line(BORDER_LIGHT, 0.3))
+    story.append(sp(4))
     story.append(Paragraph(pb.get('closing_quote', ''), ParagraphStyle('clq', fontName='Helvetica-Oblique', fontSize=10, textColor=MID_GRAY, leading=16)))
-    story.append(sp(4)); story.append(Paragraph("\u2014 Kuber", ParagraphStyle('sig2', fontName='Helvetica-Bold', fontSize=11, textColor=BLACK)))
-    story.append(sp(2)); story.append(Paragraph("churnisdead.com  |  Weekly frameworks that replace hope with strategy.", st['sm']))
+    story.append(sp(4))
+    story.append(Paragraph("-- Kuber", ParagraphStyle('sig2', fontName='Helvetica-Bold', fontSize=11, textColor=BLACK)))
+    story.append(sp(2))
+    story.append(Paragraph("churnisdead.com  |  Weekly frameworks that replace hope with strategy.", st['sm']))
 
     doc.build(story)
     fsize = os.path.getsize(output_path)
     print(f"   PDF created: {output_path} ({fsize:,} bytes)")
     if fsize < 5000:
-        raise RuntimeError(f"PDF too small ({fsize} bytes) — likely failed to build properly")
+        raise RuntimeError(f"PDF too small ({fsize} bytes) -- likely failed to build properly")
 
-
-# ═══════════════════════════════════════════════════════════
-# PART 3: SUPABASE API INSERT
-# ═══════════════════════════════════════════════════════════
+# ===============================================================
+# SUPABASE API INSERT
+# ===============================================================
 
 def insert_newsletter_via_api(content, meta, pub_date):
-    """Insert newsletter directly into Supabase via REST API."""
     import urllib.request
     import urllib.error
 
@@ -377,28 +703,18 @@ def insert_newsletter_via_api(content, meta, pub_date):
         with urllib.request.urlopen(req) as resp:
             body = resp.read().decode("utf-8")
             result = json.loads(body)
-            print(f"   ✅ Newsletter inserted into Supabase: {result[0]['id']}")
+            print(f"   Newsletter inserted into Supabase: {result[0]['id']}")
             return result[0]
     except urllib.error.HTTPError as e:
         error_body = e.read().decode("utf-8") if e.fp else "No details"
         raise RuntimeError(f"Supabase API insert failed ({e.code}): {error_body}")
 
 
-def create_migration(content, meta, pub_date, pdf_name=None):
-    """Legacy: kept for reference but no longer used by main()."""
-    pass
-
-
-# ═══════════════════════════════════════════════════════════
-# PART 4: DISTRIBUTION CONTENT GENERATOR
-# ═══════════════════════════════════════════════════════════
-
-DISTRIBUTION_DIR = REPO_ROOT / "distribution"
-
+# ===============================================================
+# DISTRIBUTION CONTENT GENERATOR
+# ===============================================================
 
 def generate_distribution_content(newsletter_content, meta):
-    """Generate LinkedIn posts, LinkedIn newsletter edition, and community cross-posts."""
-
     DISTRIBUTION_DIR.mkdir(exist_ok=True)
 
     system_prompt = """You are Kuber Sethi, author of "Churn Is Dead" newsletter.
@@ -465,33 +781,24 @@ IMPORTANT:
 - No em dashes anywhere."""
 
     raw = call_claude(system_prompt, user_prompt, max_tokens=6000)
-    raw = raw.strip()
-    if raw.startswith("```"):
-        raw = re.sub(r'^```(?:json)?\s*\n?', '', raw)
-        raw = re.sub(r'\n?```\s*$', '', raw)
-
-    data = json.loads(raw)
+    data = clean_json_response(raw)
 
     slug = meta['slug']
     week_dir = DISTRIBUTION_DIR / slug
     week_dir.mkdir(exist_ok=True)
 
-    # Write LinkedIn posts
-    posts_content = f"# LinkedIn Posts — {meta['title']}\n"
+    posts_content = f"# LinkedIn Posts -- {meta['title']}\n"
     posts_content += f"# Newsletter URL: https://churnisdead.com/newsletter/{slug}\n"
-    posts_content += f"# Generated: {datetime.utcnow().strftime('%Y-%m-%d')}\n\n"
-
+    posts_content += f"# Generated: {datetime.now(timezone.utc).strftime('%Y-%m-%d')}\n\n"
     for i, post in enumerate(data['linkedin_posts'], 1):
         posts_content += f"{'='*60}\n"
-        posts_content += f"POST {i} — {post['day'].upper()}\n"
+        posts_content += f"POST {i} -- {post['day'].upper()}\n"
         posts_content += f"Strategy: {post['strategy']}\n"
         posts_content += f"{'='*60}\n\n"
         posts_content += f"{post['body']}\n\n\n"
-
     (week_dir / "linkedin_posts.md").write_text(posts_content)
     print(f"   LinkedIn posts: {week_dir / 'linkedin_posts.md'}")
 
-    # Write LinkedIn Newsletter edition
     ln = data['linkedin_newsletter']
     ln_content = f"# LinkedIn Newsletter Edition\n"
     ln_content += f"# Title: {ln['title']}\n"
@@ -500,9 +807,8 @@ IMPORTANT:
     (week_dir / "linkedin_newsletter.md").write_text(ln_content)
     print(f"   LinkedIn newsletter: {week_dir / 'linkedin_newsletter.md'}")
 
-    # Write community posts
     cp = data['community_posts']
-    comm_content = f"# Community Cross-Posts — {meta['title']}\n\n"
+    comm_content = f"# Community Cross-Posts -- {meta['title']}\n\n"
     comm_content += f"## Slack (Gain Grow Retain / CS Insider)\n\n{cp['slack_post']}\n\n"
     comm_content += f"---\n\n## Reddit (r/CustomerSuccess)\n\n"
     comm_content += f"**Title:** {cp['reddit_post_title']}\n\n{cp['reddit_post_body']}\n"
@@ -512,45 +818,47 @@ IMPORTANT:
     return week_dir
 
 
-# ═══════════════════════════════════════════════════════════
+# ===============================================================
 # MAIN
-# ═══════════════════════════════════════════════════════════
+# ===============================================================
 
 def main():
     topic = os.environ.get("TOPIC_OVERRIDE", "").strip() or None
     print("=" * 60)
-    print("CHURN IS DEAD \u2014 Newsletter Generator v3")
+    print("CHURN IS DEAD -- Newsletter Generator v4")
+    print("3-Stage Pipeline with Web Search Research")
     print("=" * 60)
 
-    print("\n\U0001f4dd Generating newsletter + playbook structure...")
+    print("\nRunning 3-stage content pipeline...")
     data = generate_newsletter_and_playbook(topic)
     meta = data['metadata']
     content = data['newsletter_content']
     pb = data['playbook']
-    print(f"   Title: {meta['title']}")
+    print(f"\n   Final title: {meta['title']}")
     print(f"   Sections: {len(pb.get('sections', []))}")
 
     Path("/tmp/newsletter_title.txt").write_text(meta['title'])
     Path("/tmp/newsletter_slug.txt").write_text(meta['slug'])
 
-    print("\n\U0001f4c4 Building playbook PDF...")
+    print("\nBuilding playbook PDF...")
     pdf_name = meta.get('pdf_filename', f"{meta['slug'].replace('-','_')}_ChurnIsDead.pdf")
     pdf_path = PDFS_DIR / pdf_name
+    PDFS_DIR.mkdir(parents=True, exist_ok=True)
     build_playbook_pdf(pb, meta, pdf_path)
 
-    print("\n📡 Inserting newsletter into Supabase...")
+    print("\nInserting newsletter into Supabase...")
     pub = get_next_tuesday()
     insert_newsletter_via_api(content, meta, pub)
 
-    print("\n\U0001f4e3 Generating distribution content...")
+    print("\nGenerating distribution content...")
     try:
         dist_dir = generate_distribution_content(content, meta)
         print(f"   Output: {dist_dir}")
     except Exception as e:
-        print(f"   \u26a0\ufe0f  Distribution generation failed (non-fatal): {e}")
+        print(f"   Distribution generation failed (non-fatal): {e}")
 
-    print(f"\n\u2705 Done! Goes live: {pub}")
-    print(f"   Newsletter + PDF + migration + distribution content ready.")
+    print(f"\nDone! Goes live: {pub}")
+    print(f"   Newsletter + PDF + distribution content ready.")
     print(f"   Social media manager: check distribution/{meta['slug']}/")
 
 
