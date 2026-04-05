@@ -50,10 +50,62 @@ def get_existing_topics():
 
 
 def clean_json_response(raw):
+    """Extract and parse JSON from Claude's response, handling mixed text from web search."""
     text = raw.strip()
-    text = re.sub(r'^```(?:json)?\s*', '', text)
-    text = re.sub(r'\s*```$', '', text)
-    return json.loads(text)
+
+    # Try direct parse first (fastest path)
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+
+    # Strip markdown fences
+    text = re.sub(r'```(?:json)?\s*', '', text)
+    text = re.sub(r'\s*```', '', text)
+    try:
+        return json.loads(text.strip())
+    except json.JSONDecodeError:
+        pass
+
+    # Find the outermost JSON object in mixed text (web search responses)
+    # Look for the first { and find its matching }
+    start = text.find('{')
+    if start == -1:
+        raise json.JSONDecodeError("No JSON object found in response", text, 0)
+
+    depth = 0
+    in_string = False
+    escape = False
+    for i in range(start, len(text)):
+        c = text[i]
+        if escape:
+            escape = False
+            continue
+        if c == '\\' and in_string:
+            escape = True
+            continue
+        if c == '"' and not escape:
+            in_string = not in_string
+            continue
+        if in_string:
+            continue
+        if c == '{':
+            depth += 1
+        elif c == '}':
+            depth -= 1
+            if depth == 0:
+                try:
+                    return json.loads(text[start:i+1])
+                except json.JSONDecodeError:
+                    # Try finding next JSON object
+                    next_start = text.find('{', i+1)
+                    if next_start != -1:
+                        start = next_start
+                        depth = 0
+                        continue
+                    raise
+
+    raise json.JSONDecodeError("No complete JSON object found in response", text, 0)
 
 
 def call_claude(system_prompt, user_prompt, max_tokens=8000, tools=None):
@@ -188,8 +240,11 @@ def run_stage_1_research():
         if data.get('web_research_summary'):
             print(f"   Web research: {data['web_research_summary'][:120]}...")
         return raw
-    except json.JSONDecodeError:
-        print("   Research JSON parse failed, using raw text as context")
+    except json.JSONDecodeError as e:
+        print(f"   Research JSON parse failed: {e}")
+        print(f"   Raw response length: {len(raw)} chars")
+        print(f"   First 200 chars: {raw[:200]}...")
+        print("   Using raw text as context for Stage 2 (this still works)")
         return raw
 
 # ===============================================================
