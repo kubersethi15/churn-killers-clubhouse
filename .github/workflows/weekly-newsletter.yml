@@ -71,4 +71,5 @@ jobs:
           # Extract newsletter title from the generated metadata
           TITLE=$(cat /tmp/newsletter_title.txt 2>/dev/null || echo "Weekly Newsletter")
           git commit -m "📰 New newsletter: ${TITLE}"
+          git pull --rebase origin main
           git push origin main
