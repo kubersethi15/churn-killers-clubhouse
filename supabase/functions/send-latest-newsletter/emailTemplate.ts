@@ -101,7 +101,7 @@ export const generateNewsletterEmailTemplate = (
             <td align="center" style="padding: 16px 40px 32px 40px;">
               <table role="presentation" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td style="background-color: #C8553D; border-radius: 4px;">
+                  <td style="background-color: #1a1a2e; border-radius: 4px;">
                     <a href="https://churnisdead.com/newsletter/${slug}" 
                        style="display: inline-block; padding: 14px 32px; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: bold; color: #ffffff; text-decoration: none;">
                       Read the Full Issue →
@@ -126,7 +126,7 @@ export const generateNewsletterEmailTemplate = (
           <tr>
             <td align="center" style="padding: 0 40px 40px 40px;">
               <a href="https://churnisdead.com/newsletter/${slug}" 
-                 style="font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; color: #C8553D; text-decoration: underline;">
+                 style="font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; color: #1a1a2e; text-decoration: underline;">
                 Continue Reading on churnisdead.com
               </a>
             </td>
