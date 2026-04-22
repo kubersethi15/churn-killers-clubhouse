@@ -267,8 +267,23 @@ TOPIC SELECTION CRITERIA (in order of priority):
 4. PERSONAL AUTHORITY -- Can Kuber speak to this from direct enterprise experience?
 5. SHAREABILITY -- Would a CS leader share this with their team or their CEO?
 
+HEADLINE RULES -- CRITICAL:
+You MUST rotate headline structures. NEVER use "Your [X] Are [Y]" again. That formula has been used \
+for the last 8 issues straight and readers will tune it out.
+
+Choose ONE of these headline structures this week:
+- The declaration: "CS Teams Don't Have a Churn Problem. They Have a Courage Problem."
+- The question nobody asks: "What If Your Best Customers Are Your Worst Investment?"
+- The counter-narrative: "The Case Against Customer Health Scores"
+- The provocation: "Fire Your QBR. Here's What to Do Instead."
+- The insider confession: "I Stopped Running QBRs. Here's What Happened."
+- The reframe: "Retention Isn't a CS Problem. It's a Product Problem."
+- The numbered: "3 Things Your CFO Knows About CS That You Don't"
+
+The headline should feel like something a real person would say out loud in a meeting, not a content \
+marketing template.
+
 ANGLE DEVELOPMENT RULES:
-- The title should make someone feel slightly uncomfortable or called out
 - The opening must tell a story from the trenches, not cite a statistic
 - The contrarian take must be EARNED through evidence, not just provocative for clicks
 - The framework must have a memorable name and be immediately applicable
@@ -292,14 +307,26 @@ KUBER'S CONTEXT (use to inform angle, not to mention directly):
 
 Select the single best topic for this week and develop the full angle.
 
+CRITICAL: Check the existing topics list. Your title MUST NOT follow the "Your [X] Are [Y]" pattern.
+Use one of the headline structures from the system prompt.
+
+Also select a STRUCTURAL TEMPLATE for this issue (rotate -- don't repeat the same one two weeks in a row):
+- "myth_buster": Open with scene, then 3-5 lies/myths demolished, then framework, then action
+- "case_study": Extended opening story (500+ words), then the lesson, then framework
+- "manifesto": Bold declaration opening, philosophical argument, then practical framework
+- "interview_style": Written as if answering a reader question, conversational, then framework
+- "before_after": Show the broken state in detail, then show the transformed state, framework bridges the gap
+- "letter_to": Written as a direct letter to a specific persona (Dear VP of CS, Dear CFO, Dear CSM)
+
 Return:
 {{
   "selected_topic": {{
-    "title": "Provocative title (format: 'Your [Thing] Is [Harsh Truth]')",
+    "title": "Headline using a FRESH structure (NOT 'Your X Are Y')",
     "slug": "url-friendly-slug",
+    "structural_template": "One of: myth_buster, case_study, manifesto, interview_style, before_after, letter_to",
     "thesis": "The core argument in 2 sentences. What do you believe that most CS leaders don't?",
     "why_this_week": "Why this topic is more relevant now than any other week",
-    "opening_story_seed": "A 2-sentence scenario that a CSM or CS leader would immediately recognize as their life. Specific, not generic.",
+    "opening_story_seed": "A 2-sentence scenario. NEVER use the name Sarah. Use a specific role title instead of a name (e.g. 'A VP of CS at a Series D company' or 'The head of enterprise accounts'). Or open without a character at all.",
     "contrarian_position": "The uncomfortable truth, stated plainly",
     "what_readers_will_feel": "The emotional arc: called out, curious, equipped, motivated",
     "framework_name": "A memorable 2-4 word name for the framework",
@@ -354,42 +381,75 @@ Don't hedge. Don't add disclaimers.
 - You're Australian with global enterprise experience. You see the US-centric CS \
 bubble from outside and call out its blind spots.
 
-YOUR WRITING RULES:
-1. OPENING (200-300 words): Start with a specific story or scene. Not "Let me tell you \
-about..." Just drop the reader into a moment. Make them think "that's MY team."
-2. THE TURN (100-150 words): Reveal the uncomfortable truth. One paragraph that reframes \
-everything. This is where you earn the contrarian label.
-3. THE MYTHS/LIES (400-500 words): 3-5 specific beliefs or practices that are wrong. \
-Each one gets a bold header and 2-3 sentences demolishing it. Be specific about \
-what people actually do and why it fails.
-4. THE FRAMEWORK (500-700 words): Your named framework. Number each component. \
-For each: what it means, why it matters, what to do about it. This is the \
-operational heart. Make it something they can present to their VP.
-5. THE ACTION (200-300 words): "Here's what you do Monday morning." Specific, \
-sequenced, realistic. Not "align stakeholders" -- actual steps.
-6. THE CLOSE (100-150 words): Sign off as Kuber. Personal, direct, warm but not soft. \
-Include the playbook CTA. P.S. with a provocative forward-looking statement.
+ANTI-REPETITION RULES -- CRITICAL:
+These rules exist because the last 8 issues were structurally identical. Break the pattern.
 
-QUALITY BAR -- every newsletter must pass these tests:
-- SPECIFICITY: Would a CSM read this and think "this is exactly what happens at my company"?
-- SHAREABILITY: Would a VP of CS forward this to their CRO with "we need to talk about this"?
-- ACTIONABILITY: Could someone implement the framework without any other resource?
-- ORIGINALITY: Has this specific argument been made before in exactly this way? (It shouldn't have been)
-- MEMORABILITY: Will someone reference the framework name in a meeting next week?
+1. CHARACTER NAMES: NEVER use the name "Sarah." NEVER use any recurring character name. \
+Instead, vary your approach:
+   - Use role titles: "A VP of CS at a mid-market SaaS company", "The head of renewals"
+   - Use first person: "I was sitting in a QBR when..."
+   - Use second person: "You open your laptop on Monday morning. Fourteen Slack notifications..."
+   - Use no character at all: Open with a bold statement, a data point, or an observation
+   - If you must name someone, pick a DIFFERENT name each time and only use it once
+
+2. OPENING VARIETY: You MUST match the structural_template from the topic brief. \
+Do NOT default to "Character walks into meeting with slides." Options:
+   - Drop into a specific moment mid-action (in medias res)
+   - Open with a bold, declarative statement that challenges conventional wisdom
+   - Start with a question the reader has never been asked
+   - Begin with "I" -- a personal anecdote from your own CS career
+   - Open with a conversation or dialogue snippet
+   - Start with a number or data point that reframes the entire topic
+
+3. BODY STRUCTURE: Follow the structural_template specified in the topic brief:
+
+   "myth_buster": Opening scene (200 words) > The Turn (100 words) > 3-5 Lies demolished > \
+Framework > Action steps > Close
+
+   "case_study": Extended story (500 words, detailed, specific) > What went wrong and why > \
+Framework as the solution > How it would have changed the outcome > Action steps > Close
+
+   "manifesto": Bold opening declaration (no story) > Why the industry got this wrong > \
+The philosophical argument > The practical framework > Action steps > Close
+
+   "interview_style": "A reader asked me..." opening > Unpack the question > Why the obvious \
+answer is wrong > The real answer (framework) > Action steps > Close
+
+   "before_after": Paint the "broken" state vividly > Transition > Paint the "fixed" state > \
+The framework that bridges them > Action steps > Close
+
+   "letter_to": "Dear [persona]," > Direct address throughout > The hard truth they need to hear > \
+The framework that solves it > Specific asks > Sign off within the letter, then Kuber close
+
+4. SECTION HEADERS: Do NOT always use "Lie #1, Lie #2" or numbered myths. Vary headers:
+   - Use questions as headers
+   - Use declarative statements
+   - Use "The [X] Problem" format
+   - Use dialogue as headers ("But our customers love us")
+   - Mix formats within a single issue
+
+5. CLOSING VARIETY: Do NOT always end with the same formula. Rotate:
+   - End with a single provocative question
+   - End with a prediction about the industry
+   - End with a direct challenge to the reader
+   - End with a callback to the opening story
+   - End with a brief personal reflection
 
 STYLE RULES:
 - Maximum 3 em dashes in the entire piece. Use periods, commas, colons instead.
 - No "In today's landscape" or "Let's dive in" or "Here's the thing" or "At the end of the day"
 - No rhetorical questions used as transitions (e.g., "So what does this mean?")
+- No "Here's the uncomfortable truth" -- this phrase has appeared in every recent issue. Find new language.
 - Paragraphs: 2-4 sentences max. White space is your friend.
-- Bold used for framework component names and myth headers ONLY. Not for emphasis.
+- Bold used for framework component names and section headers ONLY. Not for emphasis.
 - Use "you" and "your" -- talk TO the reader, not ABOUT CS in general
 - Numbers and data when they serve the argument, but never as the opening
 - End sections with a punch line, not a summary
+- Vary sentence length. Mix short punchy lines with longer, more complex ones.
 
 FORMATTING:
 - Use ## for main section headers
-- Use **bold** for myth/lie headers and framework component names
+- Use **bold** for framework component names
 - Use --- for section breaks
 - Use numbered lists for framework components and action steps
 - Total length: 2,200-2,800 words
@@ -788,6 +848,9 @@ SUBSCRIBE URL: https://churnisdead.com
 NEWSLETTER CONTENT (first 3000 chars):
 {newsletter_content[:3000]}
 
+NEWSLETTER CONTENT (last 1000 chars):
+{newsletter_content[-1000:]}
+
 Return a JSON object with this exact structure:
 
 {{
@@ -821,6 +884,41 @@ Return a JSON object with this exact structure:
     "title": "Punchy title for LinkedIn Newsletter edition (can differ from email title)",
     "body": "LinkedIn Newsletter body. 600-800 words. Include the opening story and first framework section. End with: 'I break down the full framework + a free downloadable playbook at [URL]. Subscribe to this LinkedIn newsletter for weekly editions.' Do NOT include the full newsletter. This is a teaser that drives clicks to the website."
   }},
+  "medium_article": {{
+    "title": "SEO-friendly headline. NOT the newsletter title. Optimize for Google search. Example: 'Why Enterprise Customer Journey Maps Fail (And What to Build Instead)'",
+    "subtitle": "One-line subtitle for Medium",
+    "tags": ["tag1", "tag2", "tag3", "tag4", "tag5"],
+    "body": "Full long-form article. 1200-1800 words. Rewrite the newsletter for Medium's audience: less insider CS jargon, more accessible to general business readers. Use H2 headers. Include the framework in full. Strip [CTA link] format and replace with plain markdown links. End with a bio block: '---\\n\\n*Kuber Sethi writes the Churn Is Dead newsletter for CS leaders. Subscribe at churnisdead.com for weekly frameworks.*' Do NOT copy the newsletter verbatim. Rewrite it."
+  }},
+  "substack_note": {{
+    "body": "2-4 sentences max. Pull the single most provocative stat, line, or reframe from the issue. Add the link at the end. Think of it as a tweet with more room. Must stand alone without context."
+  }},
+  "x_thread": {{
+    "should_thread": true,
+    "skip_reason": "Only populate if should_thread is false. Explain why this issue doesn't suit a thread format.",
+    "tweets": [
+      {{
+        "tweet_number": 1,
+        "text": "Hook tweet. Under 280 chars. Must be a standalone banger. No 'Thread:' or '1/' prefix."
+      }},
+      {{
+        "tweet_number": 2,
+        "text": "Expand on the hook. Under 280 chars."
+      }},
+      {{
+        "tweet_number": 3,
+        "text": "Key insight or framework point. Under 280 chars."
+      }},
+      {{
+        "tweet_number": 4,
+        "text": "Another point. Under 280 chars."
+      }},
+      {{
+        "tweet_number": 5,
+        "text": "Final tweet with CTA to newsletter URL. Under 280 chars."
+      }}
+    ]
+  }},
   "community_posts": {{
     "slack_post": "Casual, peer-to-peer tone. 100-150 words. Share an insight from the newsletter as a discussion starter. End with 'I wrote more about this here: [URL]'. No self-promo vibe.",
     "reddit_post_title": "Question or statement that invites discussion (no clickbait)",
@@ -832,10 +930,13 @@ IMPORTANT:
 - LinkedIn posts should each be DIFFERENT angles on the newsletter topic, not repetitions
 - Tuesday = hot take with newsletter link. Wednesday = pure value, no link. Thursday = framework list. Friday = personal story.
 - Each post's first line must hook. Use line breaks after the hook for readability.
+- Medium article must be REWRITTEN for the platform, not copy-pasted from the newsletter
+- X thread: set should_thread to false if the newsletter is mostly narrative without clear numbered points
+- Substack note: extremely short. Think "what's the one line someone would screenshot?"
 - Community posts should feel like a peer sharing, not a marketer promoting.
 - No em dashes anywhere."""
 
-    raw = call_claude(system_prompt, user_prompt, max_tokens=6000)
+    raw = call_claude(system_prompt, user_prompt, max_tokens=10000)
     data = clean_json_response(raw)
 
     slug = meta['slug']
@@ -869,6 +970,42 @@ IMPORTANT:
     comm_content += f"**Title:** {cp['reddit_post_title']}\n\n{cp['reddit_post_body']}\n"
     (week_dir / "community_posts.md").write_text(comm_content)
     print(f"   Community posts: {week_dir / 'community_posts.md'}")
+
+    # Medium article
+    if 'medium_article' in data:
+        ma = data['medium_article']
+        medium_content = f"# Medium Article\n"
+        medium_content += f"# Title: {ma['title']}\n"
+        medium_content += f"# Subtitle: {ma.get('subtitle', '')}\n"
+        medium_content += f"# Tags: {', '.join(ma.get('tags', []))}\n"
+        medium_content += f"# Copy everything below the line into Medium editor\n\n"
+        medium_content += f"---\n\n{ma['body']}\n"
+        (week_dir / "medium_article.md").write_text(medium_content)
+        print(f"   Medium article: {week_dir / 'medium_article.md'}")
+
+    # Substack Note
+    if 'substack_note' in data:
+        sn = data['substack_note']
+        substack_content = f"# Substack Note\n"
+        substack_content += f"# Copy this into Substack Notes\n\n"
+        substack_content += f"---\n\n{sn['body']}\n"
+        (week_dir / "substack_note.md").write_text(substack_content)
+        print(f"   Substack note: {week_dir / 'substack_note.md'}")
+
+    # X Thread
+    if 'x_thread' in data:
+        xt = data['x_thread']
+        if xt.get('should_thread', False) and xt.get('tweets'):
+            thread_content = f"# X Thread -- {meta['title']}\n"
+            thread_content += f"# Post each tweet as a reply to the previous one\n\n"
+            for tweet in xt['tweets']:
+                n = tweet.get('tweet_number', '')
+                thread_content += f"--- Tweet {n} ---\n{tweet['text']}\n\n"
+            (week_dir / "x_thread.md").write_text(thread_content)
+            print(f"   X thread: {week_dir / 'x_thread.md'}")
+        else:
+            reason = xt.get('skip_reason', 'Not suited for thread format')
+            print(f"   X thread: SKIPPED ({reason})")
 
     return week_dir
 
