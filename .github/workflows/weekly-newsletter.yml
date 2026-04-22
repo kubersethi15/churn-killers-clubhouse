@@ -56,6 +56,14 @@ jobs:
       - name: Pre-render newsletter pages for SEO
         run: python scripts/prerender_newsletters.py
 
+      - name: Publish to Medium (as draft)
+        env:
+          MEDIUM_TOKEN: ${{ secrets.MEDIUM_TOKEN }}
+        run: python scripts/publish_medium.py
+
+      - name: Export LinkedIn schedule
+        run: python scripts/export_linkedin_schedule.py
+
       - name: Commit and push
         run: |
           git config user.name "Churn Is Dead Bot"
