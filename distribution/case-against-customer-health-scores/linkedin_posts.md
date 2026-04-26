@@ -1,0 +1,109 @@
+# LinkedIn Posts -- The Case Against Customer Health Scores
+# Newsletter URL: https://churnisdead.com/newsletter/case-against-customer-health-scores
+# Generated: 2026-04-26
+
+============================================================
+POST 1 -- TUESDAY
+Strategy: Contrarian take with strong analogy that challenges industry orthodoxy, includes specific stats and real scenario, drives to newsletter
+============================================================
+
+Customer health scores are the astrology of customer success.
+
+Both promise to predict the future using complex systems. Both give believers a sense of control over uncertain outcomes. Both consistently fail when it matters most.
+
+The difference? When your horoscope is wrong, you lose nothing. When your health score is wrong, you lose customers.
+
+94.8% of CS teams now use AI-powered health scoring. Platforms compete on algorithm sophistication. Leaders present colored dashboards as proof of predictive mastery.
+
+Customers still churn without warning.
+
+Your highest-value enterprise client scores 98% healthy. Usage is up. Support tickets down. Then they submit a 90-day cancellation notice.
+
+The algorithm missed what a 15-minute phone call would have revealed: they've been evaluating competitors for six months.
+
+Your CSMs already know which accounts are at risk. Trust their judgment over the algorithm's confidence.
+
+I break down why health scores actively make teams worse at retention: https://churnisdead.com/newsletter/case-against-customer-health-scores
+
+#CustomerSuccess #ChurnPrevention #SaaS
+
+
+============================================================
+POST 2 -- WEDNESDAY
+Strategy: Pure value post focusing on the resource waste angle, includes framework thinking, ends with engagement question
+============================================================
+
+False positives in health scoring waste more resources than false negatives.
+
+Mid-market accounts with 60% health scores get aggressive intervention campaigns. CSMs run discovery calls to identify expansion opportunities. Account managers get pulled into strategic conversations.
+
+Meanwhile, the account was never at risk. They're seasonal users who go quiet every Q4. The health score algorithm doesn't know their business cycle.
+
+False negatives create blind spots, but false positives create something worse: resource misallocation at scale.
+
+When your team optimizes for metrics instead of relationships, three things happen:
+• You waste time on healthy accounts
+• You miss context that actually matters
+• You train CSMs to game the system instead of serve customers
+
+The best CSMs I know ignore the dashboard colors. They focus on conversation quality, stakeholder mapping, and business outcome alignment.
+
+What do you rely on more: your health score or your gut feeling about an account?
+
+#CustomerSuccess #CSM #SaaS
+
+
+============================================================
+POST 3 -- THURSDAY
+Strategy: Framework listicle with clear numbered points, actionable insights, includes link to full newsletter
+============================================================
+
+4 relationship triggers that matter more than health scores:
+
+1. **Champion transition alerts**
+Your internal advocate changes roles or companies. This matters more than any usage metric.
+
+2. **Stakeholder mapping gaps**
+You're only connected to one person in a multi-stakeholder decision. Relationship depth beats engagement frequency.
+
+3. **Business outcome misalignment**
+They're using your product, but not achieving their stated goals. Usage stats won't catch this disconnect.
+
+4. **Expansion readiness signals**
+Identifying growth opportunities within existing usage patterns. This prevents churn by building deeper partnerships.
+
+These triggers focus on relationship strength rather than risk mitigation. They prevent churn by building stronger partnerships that survive contextual changes.
+
+Health scores tell you everything except what you need to know.
+
+Full breakdown in my latest newsletter: https://churnisdead.com/newsletter/case-against-customer-health-scores
+
+#CustomerSuccess #ChurnPrevention #SaaS
+
+
+============================================================
+POST 4 -- FRIDAY
+Strategy: Personal story showing vulnerability and learning, includes specific example, ends with subscribe CTA
+============================================================
+
+I used to worship at the altar of health scores.
+
+Every CS platform demo included their sophisticated algorithm. Every board presentation featured colored dashboards. Every CSM review included health score improvement targets.
+
+I believed the promise: feed enough data points into the machine, and it will divine which accounts need attention.
+
+Then I watched our highest-scoring enterprise account churn. 98% healthy. Green across every metric. Zero warning from the algorithm.
+
+A single phone call revealed the truth: they'd been evaluating competitors for six months. The new CTO hated our product category. Budget was redirecting to AI initiatives.
+
+None of this lived in our CRM. All of it mattered more than usage metrics.
+
+The best CSMs I know have developed an intuitive sense of account risk. They notice when stakeholder responses become shorter. They feel energy shifts in renewal conversations. They detect subtle signs that precede churn.
+
+When the dashboard shows green, trust the human over the algorithm.
+
+I write about building relationship intelligence over algorithmic confidence every week. Subscribe to Churn Is Dead: https://churnisdead.com
+
+#CustomerSuccess #Leadership #SaaS
+
+
