@@ -76,7 +76,23 @@ async function verifyAuthorization(req: Request): Promise<{ authorized: boolean;
 const handler = async (req: Request): Promise<Response> => {
   const triggerTime = new Date().toISOString();
   console.log(`Send latest newsletter function triggered at ${triggerTime}`);
-  
+
+  // Helper to write to function_logs (best-effort, never throws)
+  const startMs = Date.now();
+  const logRun = async (status: 'success' | 'failure' | 'partial' | 'info', message: string, metadata: Record<string, unknown> = {}) => {
+    try {
+      await supabase.from('function_logs').insert([{
+        function_name: 'send-latest-newsletter',
+        status,
+        message: message.slice(0, 500),
+        metadata,
+        duration_ms: Date.now() - startMs,
+      }]);
+    } catch (err) {
+      console.warn('function_logs write failed (non-fatal):', err);
+    }
+  };
+
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -85,6 +101,7 @@ const handler = async (req: Request): Promise<Response> => {
   // Verify authorization
   const auth = await verifyAuthorization(req);
   if (!auth.authorized) {
+    await logRun('failure', `unauthorized: ${auth.error}`, { statusCode: auth.statusCode });
     return new Response(
       JSON.stringify({ error: auth.error }),
       { status: auth.statusCode || 401, headers: { "Content-Type": "application/json", ...corsHeaders } }
@@ -167,6 +184,7 @@ const handler = async (req: Request): Promise<Response> => {
       } else {
         // Already sent the latest — nothing new to send
         console.log("No new newsletters to send — latest has already been sent");
+        await logRun('info', 'No new newsletters to send — latest already sent', { lastSentId });
         return new Response(
           JSON.stringify({ message: "No new newsletters to send — latest already sent", lastSentId }),
           { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
@@ -232,6 +250,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     if (!subscribers.length) {
+      await logRun('info', 'No active subscribers found', { newsletter_id: latestNewsletter.id });
       return new Response(
         JSON.stringify({ message: "No active subscribers found", timestamp: triggerTime }),
         { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
@@ -239,6 +258,16 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     console.log(`Found ${subscribers.length} active subscribers`);
+
+    // Subject line: A/B test variants if generator produced them. Falls back to title.
+    // We split the subscriber list roughly evenly across variants so each variant gets a fair sample.
+    type SubjectVariant = { label: string; subject: string };
+    const variantsRaw = (latestNewsletter as { subject_variants?: SubjectVariant[] }).subject_variants;
+    const variants: SubjectVariant[] = Array.isArray(variantsRaw) && variantsRaw.length > 0
+      ? variantsRaw.filter(v => v && typeof v.subject === 'string' && v.subject.trim().length > 0)
+      : [{ label: 'default', subject: latestNewsletter.title }];
+    const pickVariantForIndex = (idx: number): SubjectVariant => variants[idx % variants.length];
+    console.log(`Using ${variants.length} subject variant(s): ${variants.map(v => v.label).join(', ')}`);
 
     // 3. Format and send
     const { formattedDate, mainContent } = formatNewsletterContent(latestNewsletter);
@@ -255,24 +284,46 @@ const handler = async (req: Request): Promise<Response> => {
     let successCount = 0;
     let failureCount = 0;
     const errors: string[] = [];
+    const variantStats: Record<string, { sent: number; subscriberIds: string[] }> = {};
 
     for (const [batchIndex, batch] of batches.entries()) {
       const emailAddresses = batch.map(subscriber => subscriber.email);
+      const variant = pickVariantForIndex(batchIndex);
       try {
         const customizedEmail = replacePlaceholders(emailTemplate, { email: batch[0].email });
-        await sendNewsletterBatch(emailAddresses, latestNewsletter.title, customizedEmail, batchIndex);
+        await sendNewsletterBatch(emailAddresses, variant.subject, customizedEmail, batchIndex);
         successCount += batch.length;
+        if (!variantStats[variant.label]) variantStats[variant.label] = { sent: 0, subscriberIds: [] };
+        variantStats[variant.label].sent += batch.length;
+        variantStats[variant.label].subscriberIds.push(...batch.map(s => s.id).filter(Boolean));
         if (batchIndex < batches.length - 1) {
           await new Promise(resolve => setTimeout(resolve, 3000));
         }
-      } catch (error) {
-        console.error(`Error sending batch ${batchIndex + 1}:`, error);
+      } catch (error: unknown) {
+        const msg = error instanceof Error ? error.message : "Unknown error";
+        console.error(`Error sending batch ${batchIndex + 1} (variant ${variant.label}):`, error);
         failureCount += batch.length;
-        errors.push(error.message || "Unknown error");
+        errors.push(`[${variant.label}] ${msg}`);
       }
     }
 
     console.log(`Newsletter sending complete. Success: ${successCount}, Failures: ${failureCount}`);
+    console.log(`Variant breakdown:`, JSON.stringify(variantStats, null, 2));
+
+    // Track which subject variant each subscriber received (best-effort, non-blocking)
+    if (variants.length > 1) {
+      for (const [label, stats] of Object.entries(variantStats)) {
+        if (stats.subscriberIds.length === 0) continue;
+        try {
+          await supabase
+            .from('subscribers')
+            .update({ last_subject_variant: label })
+            .in('id', stats.subscriberIds);
+        } catch (err) {
+          console.warn(`Failed to record variant '${label}' on subscribers:`, err);
+        }
+      }
+    }
 
     // 4. Record this newsletter as sent (only if majority succeeded)
     if (successCount > failureCount) {
@@ -287,6 +338,19 @@ const handler = async (req: Request): Promise<Response> => {
       }
     }
 
+    // Log final outcome
+    const overallStatus = failureCount === 0 ? 'success' : (successCount > 0 ? 'partial' : 'failure');
+    await logRun(overallStatus, `Newsletter "${latestNewsletter.title}" — ${successCount} sent, ${failureCount} failed`, {
+      newsletter_id: latestNewsletter.id,
+      newsletter_slug: latestNewsletter.slug,
+      newsletter_title: latestNewsletter.title,
+      subscribers_total: subscribers.length,
+      success_count: successCount,
+      failure_count: failureCount,
+      variant_stats: variantStats,
+      errors: errors.slice(0, 5),  // limit error log size
+    });
+
     return new Response(
       JSON.stringify({
         success: true,
@@ -299,8 +363,10 @@ const handler = async (req: Request): Promise<Response> => {
       }),
       { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const msg = error instanceof Error ? error.message : String(error);
     console.error("Unexpected error in send-latest-newsletter function:", error);
+    await logRun('failure', `unexpected error: ${msg}`, { stack: error instanceof Error ? error.stack?.slice(0, 1000) : undefined });
     return new Response(
       JSON.stringify({
         error: "An unexpected error occurred",
