@@ -9,6 +9,7 @@ import NewsletterContent from "@/components/newsletter/NewsletterContent";
 import NewsletterFooter from "@/components/newsletter/NewsletterFooter";
 import NewsletterSEO from "@/components/newsletter/NewsletterSEO";
 import ReadingProgressBar from "@/components/newsletter/ReadingProgressBar";
+import RelatedNewsletters from "@/components/newsletter/RelatedNewsletters";
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 
@@ -66,6 +67,7 @@ const NewsletterDetail = () => {
             formatContent={formatContent} 
             vaultResources={vaultResources}
           />
+          {slug && <RelatedNewsletters currentSlug={slug} />}
         </>
       )}
       
