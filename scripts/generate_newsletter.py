@@ -39,12 +39,12 @@ def get_next_tuesday():
     return tuesday.strftime("%Y-%m-%dT08:00:00+00:00")
 
 
-def get_existing_topics():
-    """Fetch existing newsletter titles from Supabase to avoid duplicate topics.
+def get_existing_topics_and_themes():
+    """Fetch existing newsletter titles AND themes from Supabase.
 
-    Migrations were the old way of tracking newsletters; we now insert directly
-    via the Supabase REST API, so this must query Supabase to get the real list.
-    Falls back to scanning migration files (legacy) if Supabase env vars are missing.
+    Returns: (list of titles, list of (theme, published_date) tuples for recent newsletters)
+    Themes are used to enforce deterministic theme rotation — no topic can repeat
+    a theme used in the last 4 weeks. Gracefully handles missing 'theme' column.
     """
     import urllib.request
     import urllib.error
@@ -52,30 +52,75 @@ def get_existing_topics():
     supabase_url = os.environ.get("SUPABASE_URL")
     service_role_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
 
-    # Primary path: query Supabase
+    topics = []
+    recent_themes = []  # list of (theme, published_date) for last 4 newsletters
+
     if supabase_url and service_role_key:
-        try:
-            url = f"{supabase_url.rstrip('/')}/rest/v1/newsletters?select=title,slug,published_date&order=published_date.desc&limit=50"
-            req = urllib.request.Request(url, method="GET")
-            req.add_header("apikey", service_role_key)
-            req.add_header("Authorization", f"Bearer {service_role_key}")
-            with urllib.request.urlopen(req, timeout=15) as resp:
-                rows = json.loads(resp.read().decode("utf-8"))
-            topics = [r.get("title", "") for r in rows if r.get("title")]
-            print(f"   Loaded {len(topics)} existing topics from Supabase")
-            return topics
-        except (urllib.error.URLError, urllib.error.HTTPError, json.JSONDecodeError) as e:
-            print(f"   Warning: could not load topics from Supabase ({e}), falling back to migrations")
+        # Try with theme column first
+        for select_clause in ["title,slug,published_date,theme", "title,slug,published_date"]:
+            try:
+                url = f"{supabase_url.rstrip('/')}/rest/v1/newsletters?select={select_clause}&order=published_date.desc&limit=50"
+                req = urllib.request.Request(url, method="GET")
+                req.add_header("apikey", service_role_key)
+                req.add_header("Authorization", f"Bearer {service_role_key}")
+                with urllib.request.urlopen(req, timeout=15) as resp:
+                    rows = json.loads(resp.read().decode("utf-8"))
+                topics = [r.get("title", "") for r in rows if r.get("title")]
+                # Capture themes from last 4 newsletters if column exists
+                if "theme" in select_clause:
+                    for r in rows[:4]:
+                        if r.get("theme"):
+                            recent_themes.append((r["theme"], r.get("published_date", "")))
+                print(f"   Loaded {len(topics)} existing topics from Supabase")
+                if recent_themes:
+                    print(f"   Recent themes (last 4): {[t[0] for t in recent_themes]}")
+                else:
+                    print(f"   No theme data yet (column may not exist or is empty)")
+                return topics, recent_themes
+            except urllib.error.HTTPError as e:
+                # If theme column doesn't exist, retry without it
+                if e.code == 400 and "theme" in select_clause:
+                    continue
+                print(f"   Warning: could not load topics from Supabase ({e})")
+                break
+            except (urllib.error.URLError, json.JSONDecodeError) as e:
+                print(f"   Warning: could not load topics from Supabase ({e})")
+                break
 
     # Fallback: scan legacy migration files
-    topics = []
     if MIGRATIONS_DIR.exists():
         for f in sorted(MIGRATIONS_DIR.glob("*.sql")):
             content = f.read_text()
             match = re.search(r"INSERT INTO public\.newsletters.*?VALUES\s*\(\s*E?'([^']+)'", content, re.DOTALL)
             if match:
                 topics.append(match.group(1))
-    return list(set(topics))
+    return list(set(topics)), recent_themes
+
+
+# Defined set of themes — keep stable. Add new ones at the bottom; never delete.
+ALL_THEMES = [
+    "qbrs",                  # Quarterly Business Reviews
+    "health_scores",         # Customer health scoring
+    "ai_replacement",        # AI replacing CSMs / layoffs
+    "metrics_theater",       # Activity metrics / CSM busywork
+    "renewals_ownership",    # Who owns renewals (CS vs sales)
+    "csm_role_evolution",    # The changing CSM role / skills
+    "cs_platforms",          # Gainsight, Vitally, ChurnZero, tool ROI
+    "expansion_revenue",     # NRR, upsell, CS owning expansion
+    "onboarding",            # Onboarding ownership / quality
+    "digital_cs",            # Digital CS / tech-touch / scale
+    "customer_segmentation", # ARR tiers, segmentation strategy
+    "cs_org_design",         # Reporting structure, team design
+    "strategic_relevance",   # CS as strategic vs tactical
+    "data_intelligence",     # Customer intelligence beyond health scores
+    "executive_alignment",   # CFO/CRO/board relationships
+]
+
+
+def get_existing_topics():
+    """Backwards-compat wrapper: returns just the topics list."""
+    topics, _ = get_existing_topics_and_themes()
+    return topics
 
 
 def clean_json_response(raw):
@@ -327,11 +372,18 @@ EXISTING TOPICS — these have already been covered. Do NOT repeat them, and do 
 
 {existing_topics}
 
+THEMES USED IN THE LAST 4 WEEKS (BANNED — pick a different theme):
+{banned_themes}
+
+ELIGIBLE THEMES FOR THIS WEEK (pick exactly ONE):
+{eligible_themes}
+
 DUPLICATION CHECK (mandatory before finalizing your pick):
 - Read each existing topic above carefully.
 - If your candidate topic shares the SAME core target (e.g. QBRs, health scores, CSM activity metrics, NPS, onboarding, the CS-vs-Sales renewal split), it is a DUPLICATE even if your headline differs.
 - If your candidate's underlying argument is "this CS ritual is theater and here's the replacement," check whether you've made that argument about a similar ritual in the last 4 weeks. If yes, pick something structurally different.
 - Vary the *target* week to week. Last week was X? This week target something other than X.
+- Your `theme` field MUST be one of the ELIGIBLE THEMES above. If you pick a BANNED theme, the run will fail.
 - In your `rejected_alternatives`, list any topic you considered that was too close to an existing one, and explicitly say which existing topic it overlapped with.
 
 KUBER'S CONTEXT (use to inform angle, not to mention directly):
@@ -360,6 +412,7 @@ Return:
   "selected_topic": {{
     "title": "Headline using a FRESH structure (NOT 'Your X Are Y')",
     "slug": "url-friendly-slug",
+    "theme": "EXACTLY one value from the ELIGIBLE THEMES list above",
     "structural_template": "One of: myth_buster, case_study, manifesto, interview_style, before_after, letter_to",
     "thesis": "The core argument in 2 sentences. What do you believe that most CS leaders don't?",
     "why_this_week": "Why this topic is more relevant now than any other week",
@@ -380,17 +433,39 @@ Return:
 }}"""
 
 
-def run_stage_2_topic_selection(research_brief, existing_topics):
+def run_stage_2_topic_selection(research_brief, existing_topics, recent_themes=None):
+    """Stage 2: pick a topic. recent_themes is a list of (theme, date) tuples for last 4 issues."""
     print("\n   Stage 2: Selecting topic and developing angle...")
     existing_list = "\n".join(f"- {t}" for t in existing_topics) if existing_topics else "None yet"
+
+    recent_themes = recent_themes or []
+    banned = [t[0] for t in recent_themes if t[0]]
+    eligible = [t for t in ALL_THEMES if t not in banned]
+    banned_str = ", ".join(banned) if banned else "None — first run with themes"
+    eligible_str = ", ".join(eligible)
+
     user_prompt = TOPIC_USER_PROMPT_TEMPLATE.format(
         research_brief=research_brief,
-        existing_topics=existing_list
+        existing_topics=existing_list,
+        banned_themes=banned_str,
+        eligible_themes=eligible_str
     )
     raw = call_claude(TOPIC_SYSTEM_PROMPT, user_prompt, max_tokens=3000)
     data = clean_json_response(raw)
     topic = data.get("selected_topic", {})
+
+    # Validate theme is one of the eligible ones; if not, fail fast so we can fix the prompt
+    chosen_theme = topic.get("theme", "")
+    if chosen_theme and chosen_theme in banned:
+        print(f"   ⚠️  Stage 2 picked a BANNED theme '{chosen_theme}'. Retrying...")
+        retry_prompt = user_prompt + f"\n\nYour previous attempt picked the banned theme '{chosen_theme}'. Pick from eligible themes only."
+        raw = call_claude(TOPIC_SYSTEM_PROMPT, retry_prompt, max_tokens=3000)
+        data = clean_json_response(raw)
+        topic = data.get("selected_topic", {})
+        chosen_theme = topic.get("theme", "")
+
     print(f"   Topic selected: {topic.get('title', 'Unknown')}")
+    print(f"   Theme: {chosen_theme or '(none set)'}")
     print(f"   Framework: {topic.get('framework_name', 'TBD')}")
     rejected = data.get("rejected_alternatives", [])
     if rejected:
@@ -588,7 +663,8 @@ def run_stage_3_newsletter(topic_brief, research_brief):
 # ===============================================================
 
 def generate_newsletter_and_playbook(topic_override=None):
-    existing_topics = get_existing_topics()
+    existing_topics, recent_themes = get_existing_topics_and_themes()
+    chosen_theme = None
 
     if topic_override:
         print(f"   Topic override: {topic_override}")
@@ -597,6 +673,7 @@ def generate_newsletter_and_playbook(topic_override=None):
             "selected_topic": {
                 "title": topic_override,
                 "slug": re.sub(r'[^a-z0-9]+', '-', topic_override.lower()).strip('-'),
+                "theme": None,
                 "thesis": "Manually specified topic.",
                 "why_this_week": "Manual override.",
                 "opening_story_seed": "Write a compelling opening scene.",
@@ -608,9 +685,18 @@ def generate_newsletter_and_playbook(topic_override=None):
         })
     else:
         research_brief = run_stage_1_research()
-        topic_brief = run_stage_2_topic_selection(research_brief, existing_topics)
+        topic_brief = run_stage_2_topic_selection(research_brief, existing_topics, recent_themes)
+        # Extract chosen theme from the topic brief so we can store it in Supabase
+        try:
+            tb = clean_json_response(topic_brief)
+            chosen_theme = tb.get("selected_topic", {}).get("theme")
+        except Exception:
+            chosen_theme = None
 
     newsletter = run_stage_3_newsletter(topic_brief, research_brief)
+    # Attach theme to metadata so insert_newsletter_via_api can write it
+    if chosen_theme and isinstance(newsletter, dict) and "metadata" in newsletter:
+        newsletter["metadata"]["theme"] = chosen_theme
     return newsletter
 
 # ===============================================================
@@ -834,7 +920,7 @@ def insert_newsletter_via_api(content, meta, pub_date):
     if not supabase_url or not service_role_key:
         raise RuntimeError("SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set as GitHub secrets")
 
-    payload = json.dumps({
+    base_payload = {
         "title": meta["title"],
         "slug": meta["slug"],
         "excerpt": meta["excerpt"],
@@ -842,23 +928,42 @@ def insert_newsletter_via_api(content, meta, pub_date):
         "published_date": pub_date,
         "read_time": meta.get("read_time", "9 min read"),
         "category": meta.get("category", "Strategy")
-    }).encode("utf-8")
+    }
+
+    # Optionally include theme — falls back to insert without it if the column doesn't exist yet
+    theme = meta.get("theme")
+    payload_with_theme = dict(base_payload)
+    if theme:
+        payload_with_theme["theme"] = theme
 
     url = f"{supabase_url.rstrip('/')}/rest/v1/newsletters"
-    req = urllib.request.Request(url, data=payload, method="POST")
-    req.add_header("Content-Type", "application/json")
-    req.add_header("apikey", service_role_key)
-    req.add_header("Authorization", f"Bearer {service_role_key}")
-    req.add_header("Prefer", "return=representation")
+
+    def _do_insert(p):
+        req = urllib.request.Request(url, data=json.dumps(p).encode("utf-8"), method="POST")
+        req.add_header("Content-Type", "application/json")
+        req.add_header("apikey", service_role_key)
+        req.add_header("Authorization", f"Bearer {service_role_key}")
+        req.add_header("Prefer", "return=representation")
+        with urllib.request.urlopen(req) as resp:
+            return json.loads(resp.read().decode("utf-8"))
 
     try:
-        with urllib.request.urlopen(req) as resp:
-            body = resp.read().decode("utf-8")
-            result = json.loads(body)
-            print(f"   Newsletter inserted into Supabase: {result[0]['id']}")
-            return result[0]
+        result = _do_insert(payload_with_theme)
+        print(f"   Newsletter inserted into Supabase: {result[0]['id']}"
+              + (f" (theme: {theme})" if theme else ""))
+        return result[0]
     except urllib.error.HTTPError as e:
         error_body = e.read().decode("utf-8") if e.fp else "No details"
+        # If theme column doesn't exist yet, retry without it
+        if theme and ("theme" in error_body.lower() or "column" in error_body.lower() or e.code == 400):
+            print(f"   Theme column not present yet, retrying without it...")
+            try:
+                result = _do_insert(base_payload)
+                print(f"   Newsletter inserted into Supabase: {result[0]['id']} (theme stored in meta only)")
+                return result[0]
+            except urllib.error.HTTPError as e2:
+                error_body = e2.read().decode("utf-8") if e2.fp else "No details"
+                raise RuntimeError(f"Supabase API insert failed ({e2.code}): {error_body}")
         raise RuntimeError(f"Supabase API insert failed ({e.code}): {error_body}")
 
 
