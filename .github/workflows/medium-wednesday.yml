@@ -1,0 +1,46 @@
+name: Wednesday Medium Publisher
+
+# Publishes the most recently sent newsletter to Medium as PUBLIC,
+# 24+ hours after subscribers got the email Tuesday morning.
+
+on:
+  schedule:
+    # Wednesdays 18:00 UTC = Thursday 4:00 AM AEST
+    # Tuesday 08:00 UTC email → 34h later = Wednesday 18:00 UTC
+    - cron: '0 18 * * 3'
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: 'Override slug (leave empty to auto-detect latest published)'
+        required: false
+        default: ''
+      publish_status:
+        description: 'Publish status (public/unlisted/draft)'
+        required: false
+        default: 'public'
+
+permissions:
+  contents: read
+
+jobs:
+  publish-medium:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Publish to Medium
+        env:
+          MEDIUM_TOKEN: ${{ secrets.MEDIUM_TOKEN }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          MEDIUM_PUBLISH_STATUS: ${{ github.event.inputs.publish_status || 'public' }}
+          MEDIUM_SLUG_OVERRIDE: ${{ github.event.inputs.slug || '' }}
+        run: python scripts/publish_medium.py
