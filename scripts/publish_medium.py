@@ -38,15 +38,15 @@ def get_medium_user(token: str) -> dict:
     return data["data"]
 
 
-def publish_draft(token: str, user_id: str, title: str, content: str, tags: list, canonical_url: str) -> dict:
-    """Publish a draft post to Medium."""
+def publish_draft(token: str, user_id: str, title: str, content: str, tags: list, canonical_url: str, publish_status: str = "public") -> dict:
+    """Publish a post to Medium. Defaults to public (set MEDIUM_PUBLISH_STATUS=draft to override)."""
     payload = json.dumps({
         "title": title,
         "contentFormat": "markdown",
         "content": content,
         "tags": tags[:5],  # Medium allows max 5 tags
         "canonicalUrl": canonical_url,
-        "publishStatus": "draft",  # Always draft — review before publishing
+        "publishStatus": publish_status,
     }).encode("utf-8")
 
     req = urllib.request.Request(
@@ -136,7 +136,11 @@ def main():
         username = user.get("username", "unknown")
         print(f"   Medium: Authenticated as @{username}")
 
-        # Publish as draft
+        # Publish (default: public; set MEDIUM_PUBLISH_STATUS=draft to keep as draft)
+        publish_status = os.environ.get("MEDIUM_PUBLISH_STATUS", "public").strip().lower()
+        if publish_status not in ("public", "draft", "unlisted"):
+            publish_status = "public"
+
         canonical_url = f"https://churnisdead.com/newsletter/{slug}"
         result = publish_draft(
             token=token,
@@ -145,12 +149,11 @@ def main():
             content=article["body"],
             tags=article["tags"],
             canonical_url=canonical_url,
+            publish_status=publish_status,
         )
 
         post_url = result.get("url", "unknown")
-        print(f"   Medium: Draft created successfully!")
-        print(f"   Medium: URL: {post_url}")
-        print(f"   Medium: Status: DRAFT (review and publish manually)")
+        print(f"   Medium: Post {publish_status.upper()}: {post_url}")
 
     except urllib.error.HTTPError as e:
         error_body = e.read().decode("utf-8") if e.fp else "No details"
