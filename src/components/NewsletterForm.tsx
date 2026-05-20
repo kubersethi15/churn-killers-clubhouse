@@ -63,10 +63,30 @@ const NewsletterForm = ({
         return;
       }
 
-      // Insert new subscriber
-      const { error: insertError } = await supabase
-        .from('subscribers')
-        .insert([{ email }]);
+      // Capture acquisition source — where on the site did this person subscribe from?
+      // Falls back to document.referrer (external) or "direct" if neither available.
+      const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
+      const newsletterSlugMatch = currentPath.match(/\/newsletter\/([^/]+)/);
+      const sourcePage = newsletterSlugMatch
+        ? `newsletter:${newsletterSlugMatch[1]}`
+        : (currentPath || '/').replace(/^\/$/, 'homepage');
+      const externalReferrer = typeof document !== 'undefined' ? document.referrer : '';
+
+      // Insert new subscriber (with source if columns exist; fallback to email-only)
+      let insertError;
+      const insertPayload: Record<string, unknown> = {
+        email,
+        source_page: sourcePage,
+        external_referrer: externalReferrer || null,
+      };
+      const result = await supabase.from('subscribers').insert([insertPayload]);
+      insertError = result.error;
+
+      // If the columns don't exist yet, retry with email only (graceful fallback)
+      if (insertError && (insertError.code === '42703' || /column.*does not exist/i.test(insertError.message))) {
+        const retry = await supabase.from('subscribers').insert([{ email }]);
+        insertError = retry.error;
+      }
 
       if (insertError) {
         // Check if this is a duplicate key violation
