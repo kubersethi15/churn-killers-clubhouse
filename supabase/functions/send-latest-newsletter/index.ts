@@ -285,10 +285,19 @@ const handler = async (req: Request): Promise<Response> => {
     let failureCount = 0;
     const errors: string[] = [];
     const variantStats: Record<string, { sent: number; subscriberIds: string[] }> = {};
+    const sendLogRows: Array<{
+      newsletter_id: string;
+      subscriber_email: string;
+      subject_variant: string;
+      variant_index: number;
+      send_status: string;
+      error_message?: string;
+    }> = [];
 
     for (const [batchIndex, batch] of batches.entries()) {
       const emailAddresses = batch.map(subscriber => subscriber.email);
       const variant = pickVariantForIndex(batchIndex);
+      const variantIdx = batchIndex % variants.length;
       try {
         const customizedEmail = replacePlaceholders(emailTemplate, { email: batch[0].email });
         await sendNewsletterBatch(emailAddresses, variant.subject, customizedEmail, batchIndex);
@@ -296,6 +305,18 @@ const handler = async (req: Request): Promise<Response> => {
         if (!variantStats[variant.label]) variantStats[variant.label] = { sent: 0, subscriberIds: [] };
         variantStats[variant.label].sent += batch.length;
         variantStats[variant.label].subscriberIds.push(...batch.map(s => s.id).filter(Boolean));
+
+        // Per-recipient send log for A/B analysis
+        for (const sub of batch) {
+          sendLogRows.push({
+            newsletter_id: latestNewsletter.id,
+            subscriber_email: sub.email,
+            subject_variant: variant.label,
+            variant_index: variantIdx,
+            send_status: 'sent',
+          });
+        }
+
         if (batchIndex < batches.length - 1) {
           await new Promise(resolve => setTimeout(resolve, 3000));
         }
@@ -304,11 +325,36 @@ const handler = async (req: Request): Promise<Response> => {
         console.error(`Error sending batch ${batchIndex + 1} (variant ${variant.label}):`, error);
         failureCount += batch.length;
         errors.push(`[${variant.label}] ${msg}`);
+
+        // Log the failed batch in send log
+        for (const sub of batch) {
+          sendLogRows.push({
+            newsletter_id: latestNewsletter.id,
+            subscriber_email: sub.email,
+            subject_variant: variant.label,
+            variant_index: variantIdx,
+            send_status: 'failed',
+            error_message: msg.slice(0, 500),
+          });
+        }
       }
     }
 
     console.log(`Newsletter sending complete. Success: ${successCount}, Failures: ${failureCount}`);
     console.log(`Variant breakdown:`, JSON.stringify(variantStats, null, 2));
+
+    // Write per-recipient send log (best-effort, chunked in case of large lists)
+    if (sendLogRows.length > 0) {
+      const CHUNK = 500;
+      for (let i = 0; i < sendLogRows.length; i += CHUNK) {
+        const slice = sendLogRows.slice(i, i + CHUNK);
+        try {
+          await supabase.from('newsletter_send_log').insert(slice);
+        } catch (err) {
+          console.warn(`Failed to write send log chunk ${i}-${i + slice.length}:`, err);
+        }
+      }
+    }
 
     // Track which subject variant each subscriber received (best-effort, non-blocking)
     if (variants.length > 1) {
