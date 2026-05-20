@@ -588,7 +588,12 @@ Return a JSON object with this structure:
     "read_time": "X min read",
     "pdf_filename": "Framework_Name_Audit_ChurnIsDead.pdf",
     "playbook_title": "The Framework Name Audit",
-    "playbook_description": "Brief description of what the playbook contains"
+    "playbook_description": "Brief description of what the playbook contains",
+    "subject_variants": [
+      {{"label": "curiosity", "subject": "Curiosity-driven subject line under 60 chars — opens with a question or unexpected claim"}},
+      {{"label": "direct", "subject": "Direct, blunt subject line under 60 chars — states the contrarian truth"}},
+      {{"label": "personal", "subject": "Personal subject line under 60 chars — uses 'you/your' and feels like a 1:1 message"}}
+    ]
   }},
   "newsletter_content": "FULL NEWSLETTER IN MARKDOWN following the exact structure above",
   "quality_self_check": {{
@@ -932,9 +937,14 @@ def insert_newsletter_via_api(content, meta, pub_date):
 
     # Optionally include theme — falls back to insert without it if the column doesn't exist yet
     theme = meta.get("theme")
-    payload_with_theme = dict(base_payload)
+    full_payload = dict(base_payload)
     if theme:
-        payload_with_theme["theme"] = theme
+        full_payload["theme"] = theme
+
+    # Subject line variants for A/B testing — only included if generator produced them
+    subject_variants = meta.get("subject_variants")
+    if subject_variants and isinstance(subject_variants, list) and len(subject_variants) > 0:
+        full_payload["subject_variants"] = subject_variants
 
     url = f"{supabase_url.rstrip('/')}/rest/v1/newsletters"
 
@@ -947,24 +957,33 @@ def insert_newsletter_via_api(content, meta, pub_date):
         with urllib.request.urlopen(req) as resp:
             return json.loads(resp.read().decode("utf-8"))
 
-    try:
-        result = _do_insert(payload_with_theme)
-        print(f"   Newsletter inserted into Supabase: {result[0]['id']}"
-              + (f" (theme: {theme})" if theme else ""))
-        return result[0]
-    except urllib.error.HTTPError as e:
-        error_body = e.read().decode("utf-8") if e.fp else "No details"
-        # If theme column doesn't exist yet, retry without it
-        if theme and ("theme" in error_body.lower() or "column" in error_body.lower() or e.code == 400):
-            print(f"   Theme column not present yet, retrying without it...")
-            try:
-                result = _do_insert(base_payload)
-                print(f"   Newsletter inserted into Supabase: {result[0]['id']} (theme stored in meta only)")
-                return result[0]
-            except urllib.error.HTTPError as e2:
-                error_body = e2.read().decode("utf-8") if e2.fp else "No details"
-                raise RuntimeError(f"Supabase API insert failed ({e2.code}): {error_body}")
-        raise RuntimeError(f"Supabase API insert failed ({e.code}): {error_body}")
+    # Try full payload first; on schema mismatch, try progressively reduced payloads
+    attempts = [
+        ("full", full_payload),
+        ("no_variants", {k: v for k, v in full_payload.items() if k != "subject_variants"}),
+        ("base_only", base_payload),
+    ]
+    last_err = None
+    for label, payload in attempts:
+        try:
+            result = _do_insert(payload)
+            extras = []
+            if "theme" in payload: extras.append(f"theme={payload['theme']}")
+            if "subject_variants" in payload: extras.append(f"{len(payload['subject_variants'])} subject variants")
+            print(f"   Newsletter inserted into Supabase: {result[0]['id']}"
+                  + (f" ({', '.join(extras)})" if extras else ""))
+            return result[0]
+        except urllib.error.HTTPError as e:
+            last_err = e
+            error_body = e.read().decode("utf-8") if e.fp else "No details"
+            # Only retry on column-not-exists style 400s
+            if e.code == 400 and ("column" in error_body.lower() or "schema" in error_body.lower()):
+                print(f"   Insert variant '{label}' failed (schema mismatch), retrying with fewer fields...")
+                continue
+            raise RuntimeError(f"Supabase API insert failed ({e.code}): {error_body}")
+
+    error_body = last_err.read().decode("utf-8") if last_err and last_err.fp else "Unknown"
+    raise RuntimeError(f"Supabase API insert failed after all attempts: {error_body}")
 
 
 # ===============================================================
