@@ -1,6 +1,7 @@
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 
 // Initialize Resend with proper error handling
 const resendApiKey = Deno.env.get("RESEND_API_KEY");
@@ -8,6 +9,33 @@ if (!resendApiKey) {
   console.error("Missing RESEND_API_KEY environment variable");
 }
 const resend = new Resend(resendApiKey);
+
+// Supabase client for observability logging (best-effort, never blocks the response)
+const supabaseUrl = Deno.env.get("SUPABASE_URL");
+const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+const supabase = supabaseUrl && supabaseServiceKey
+  ? createClient(supabaseUrl, supabaseServiceKey)
+  : null;
+
+const logRun = async (
+  status: 'success' | 'failure' | 'info',
+  message: string,
+  metadata: Record<string, unknown> = {},
+  startedAt: number = Date.now()
+) => {
+  if (!supabase) return;
+  try {
+    await supabase.from('function_logs').insert([{
+      function_name: 'send-welcome-email',
+      status,
+      message: message.slice(0, 500),
+      metadata,
+      duration_ms: Date.now() - startedAt,
+    }]);
+  } catch (err) {
+    console.warn('function_logs write failed (non-fatal):', err);
+  }
+};
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -20,8 +48,9 @@ interface EmailRequest {
 }
 
 const handler = async (req: Request): Promise<Response> => {
+  const startedAt = Date.now();
   console.log("Edge function received request:", req.method);
-  
+
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     console.log("Handling OPTIONS request (CORS preflight)");
@@ -50,6 +79,7 @@ const handler = async (req: Request): Promise<Response> => {
     
     if (!email || typeof email !== "string") {
       console.error("Invalid email in request:", email);
+      await logRun('failure', 'invalid email payload', { received_type: typeof email }, startedAt);
       return new Response(
         JSON.stringify({ error: "Valid email is required" }),
         {
@@ -100,9 +130,8 @@ const handler = async (req: Request): Promise<Response> => {
               <a href="mailto:unsubscribe@churnisdead.com?subject=Unsubscribe" style="color: #666;">click here</a>.
             </p>
             <p style="margin-top: 10px; color: #888;">
-              Churn Is Dead, Inc.<br>
-              1234 Marketing Street, Suite 500<br>
-              San Francisco, CA 94107
+              Churn Is Dead — Weekly CS frameworks by Kuber Sethi<br>
+              <a href="https://churnisdead.com" style="color: #888;">churnisdead.com</a>
             </p>
           </div>
         </div>
@@ -114,7 +143,11 @@ const handler = async (req: Request): Promise<Response> => {
     // Properly handle Resend API specific errors
     if (emailResponse.error) {
       console.error("Resend API error:", emailResponse.error);
-      
+      await logRun('failure', 'resend api error', {
+        email,
+        resend_error: emailResponse.error,
+      }, startedAt);
+
       // Return error details so we can diagnose the issue
       return new Response(
         JSON.stringify({ 
@@ -129,12 +162,20 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
+    await logRun('success', `welcome email sent to ${email}`, {
+      email,
+      resend_id: (emailResponse as { data?: { id?: string } }).data?.id,
+    }, startedAt);
     return new Response(JSON.stringify({ success: true, message: "Email sent" }), {
       status: 200,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });
   } catch (error: any) {
     console.error("Error sending welcome email:", error);
+    await logRun('failure', `unexpected error: ${error.message || 'unknown'}`, {
+      error_name: error.name,
+      stack: error.stack?.slice(0, 1000),
+    }, startedAt);
     return new Response(
       JSON.stringify({ 
         error: error.message,
