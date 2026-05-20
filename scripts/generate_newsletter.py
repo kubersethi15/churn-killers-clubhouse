@@ -40,12 +40,41 @@ def get_next_tuesday():
 
 
 def get_existing_topics():
+    """Fetch existing newsletter titles from Supabase to avoid duplicate topics.
+
+    Migrations were the old way of tracking newsletters; we now insert directly
+    via the Supabase REST API, so this must query Supabase to get the real list.
+    Falls back to scanning migration files (legacy) if Supabase env vars are missing.
+    """
+    import urllib.request
+    import urllib.error
+
+    supabase_url = os.environ.get("SUPABASE_URL")
+    service_role_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+
+    # Primary path: query Supabase
+    if supabase_url and service_role_key:
+        try:
+            url = f"{supabase_url.rstrip('/')}/rest/v1/newsletters?select=title,slug,published_date&order=published_date.desc&limit=50"
+            req = urllib.request.Request(url, method="GET")
+            req.add_header("apikey", service_role_key)
+            req.add_header("Authorization", f"Bearer {service_role_key}")
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                rows = json.loads(resp.read().decode("utf-8"))
+            topics = [r.get("title", "") for r in rows if r.get("title")]
+            print(f"   Loaded {len(topics)} existing topics from Supabase")
+            return topics
+        except (urllib.error.URLError, urllib.error.HTTPError, json.JSONDecodeError) as e:
+            print(f"   Warning: could not load topics from Supabase ({e}), falling back to migrations")
+
+    # Fallback: scan legacy migration files
     topics = []
-    for f in sorted(MIGRATIONS_DIR.glob("*.sql")):
-        content = f.read_text()
-        match = re.search(r"INSERT INTO public\.newsletters.*?VALUES\s*\(\s*E?'([^']+)'", content, re.DOTALL)
-        if match:
-            topics.append(match.group(1))
+    if MIGRATIONS_DIR.exists():
+        for f in sorted(MIGRATIONS_DIR.glob("*.sql")):
+            content = f.read_text()
+            match = re.search(r"INSERT INTO public\.newsletters.*?VALUES\s*\(\s*E?'([^']+)'", content, re.DOTALL)
+            if match:
+                topics.append(match.group(1))
     return list(set(topics))
 
 
@@ -294,8 +323,16 @@ Return ONLY valid JSON. No markdown fences."""
 TOPIC_USER_PROMPT_TEMPLATE = """RESEARCH BRIEF:
 {research_brief}
 
-EXISTING TOPICS (do NOT repeat or closely overlap):
+EXISTING TOPICS — these have already been covered. Do NOT repeat them, and do NOT pick anything thematically overlapping.
+
 {existing_topics}
+
+DUPLICATION CHECK (mandatory before finalizing your pick):
+- Read each existing topic above carefully.
+- If your candidate topic shares the SAME core target (e.g. QBRs, health scores, CSM activity metrics, NPS, onboarding, the CS-vs-Sales renewal split), it is a DUPLICATE even if your headline differs.
+- If your candidate's underlying argument is "this CS ritual is theater and here's the replacement," check whether you've made that argument about a similar ritual in the last 4 weeks. If yes, pick something structurally different.
+- Vary the *target* week to week. Last week was X? This week target something other than X.
+- In your `rejected_alternatives`, list any topic you considered that was too close to an existing one, and explicitly say which existing topic it overlapped with.
 
 KUBER'S CONTEXT (use to inform angle, not to mention directly):
 - Customer Success Engineer at Splunk managing a large portfolio of top-tier enterprise accounts
