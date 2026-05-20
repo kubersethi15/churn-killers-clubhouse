@@ -944,7 +944,7 @@ def insert_newsletter_via_api(content, meta, pub_date):
     # Subject line variants for A/B testing — only included if generator produced them
     subject_variants = meta.get("subject_variants")
     if subject_variants and isinstance(subject_variants, list) and len(subject_variants) > 0:
-        full_payload["subject_line_variants"] = subject_variants  # column is subject_line_variants in DB
+        full_payload["subject_variants"] = subject_variants
 
     url = f"{supabase_url.rstrip('/')}/rest/v1/newsletters"
 
@@ -960,7 +960,7 @@ def insert_newsletter_via_api(content, meta, pub_date):
     # Try full payload first; on schema mismatch, try progressively reduced payloads
     attempts = [
         ("full", full_payload),
-        ("no_variants", {k: v for k, v in full_payload.items() if k != "subject_line_variants"}),
+        ("no_variants", {k: v for k, v in full_payload.items() if k != "subject_variants"}),
         ("base_only", base_payload),
     ]
     last_err = None
@@ -969,7 +969,7 @@ def insert_newsletter_via_api(content, meta, pub_date):
             result = _do_insert(payload)
             extras = []
             if "theme" in payload: extras.append(f"theme={payload['theme']}")
-            if "subject_line_variants" in payload: extras.append(f"{len(payload['subject_line_variants'])} subject variants")
+            if "subject_variants" in payload: extras.append(f"{len(payload['subject_variants'])} subject variants")
             print(f"   Newsletter inserted into Supabase: {result[0]['id']}"
                   + (f" ({', '.join(extras)})" if extras else ""))
             return result[0]
