@@ -38,8 +38,17 @@ def get_medium_user(token: str) -> dict:
     return data["data"]
 
 
-def publish_draft(token: str, user_id: str, title: str, content: str, tags: list, canonical_url: str, publish_status: str = "public") -> dict:
-    """Publish a post to Medium. Defaults to public (set MEDIUM_PUBLISH_STATUS=draft to override)."""
+def publish_post(token: str, user_id: str, title: str, content: str, tags: list, canonical_url: str, publish_status: str = "draft") -> dict:
+    """Publish a post to Medium.
+
+    publish_status: 'draft', 'unlisted', or 'public'
+      - draft: only the author can see it
+      - unlisted: anyone with the link can see, not in feeds
+      - public: full distribution
+    """
+    if publish_status not in ("draft", "unlisted", "public"):
+        publish_status = "draft"
+
     payload = json.dumps({
         "title": title,
         "contentFormat": "markdown",
@@ -63,6 +72,11 @@ def publish_draft(token: str, user_id: str, title: str, content: str, tags: list
     with urllib.request.urlopen(req) as resp:
         data = json.loads(resp.read().decode("utf-8"))
     return data["data"]
+
+
+# Backwards-compat alias
+def publish_draft(token: str, user_id: str, title: str, content: str, tags: list, canonical_url: str) -> dict:
+    return publish_post(token, user_id, title, content, tags, canonical_url, publish_status="draft")
 
 
 def parse_medium_article(filepath: Path) -> dict:
@@ -102,47 +116,77 @@ def parse_medium_article(filepath: Path) -> dict:
     }
 
 
+def get_latest_published_slug() -> str | None:
+    """Query Supabase for the most recent newsletter slug whose published_date <= now()."""
+    supabase_url = os.environ.get("SUPABASE_URL", "").rstrip("/")
+    service_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
+    if not supabase_url or not service_key:
+        return None
+    from datetime import datetime, timezone
+    now_iso = datetime.now(timezone.utc).isoformat()
+    url = f"{supabase_url}/rest/v1/newsletters?select=slug&published_date=lte.{now_iso}&order=published_date.desc&limit=1"
+    try:
+        req = urllib.request.Request(url)
+        req.add_header("apikey", service_key)
+        req.add_header("Authorization", f"Bearer {service_key}")
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            rows = json.loads(resp.read().decode("utf-8"))
+        if rows and "slug" in rows[0]:
+            return rows[0]["slug"].strip()
+    except Exception as e:
+        print(f"   Medium: Could not query Supabase for slug ({e})")
+    return None
+
+
 def main():
     token = os.environ.get("MEDIUM_TOKEN", "").strip()
     if not token:
         print("   Medium: MEDIUM_TOKEN not set — skipping Medium publish")
         return
 
-    # Get the slug from the newsletter generator
+    # PUBLISH_STATUS controls whether this is a draft or live post.
+    # - Sunday workflow (alongside generation): MEDIUM_PUBLISH_STATUS=draft (legacy default)
+    # - Wednesday workflow (after subscribers got email): MEDIUM_PUBLISH_STATUS=public
+    publish_status = os.environ.get("MEDIUM_PUBLISH_STATUS", "draft").strip().lower()
+
+    # Slug resolution: prefer /tmp file (set by generator on Sunday), then Supabase query (Wednesday job)
     slug_file = Path("/tmp/newsletter_slug.txt")
-    if not slug_file.exists():
-        print("   Medium: No slug file found — skipping")
+    slug = None
+    if slug_file.exists():
+        slug = slug_file.read_text().strip()
+        print(f"   Medium: Using slug from generator: {slug}")
+    elif os.environ.get("MEDIUM_SLUG_OVERRIDE"):
+        slug = os.environ["MEDIUM_SLUG_OVERRIDE"].strip()
+        print(f"   Medium: Using slug from env override: {slug}")
+    else:
+        slug = get_latest_published_slug()
+        if slug:
+            print(f"   Medium: Resolved latest published slug from Supabase: {slug}")
+
+    if not slug:
+        print("   Medium: No slug available (no /tmp file, no env override, no Supabase result) — skipping")
         return
 
-    slug = slug_file.read_text().strip()
     medium_file = DISTRIBUTION_DIR / slug / "medium_article.md"
-
     if not medium_file.exists():
         print(f"   Medium: No medium_article.md found for {slug} — skipping")
         return
 
-    print(f"   Medium: Publishing draft for '{slug}'...")
+    print(f"   Medium: Publishing as '{publish_status.upper()}' for '{slug}'...")
 
     try:
-        # Parse the article
         article = parse_medium_article(medium_file)
         if not article["title"] or not article["body"]:
             print("   Medium: Article title or body is empty — skipping")
             return
 
-        # Get user info
         user = get_medium_user(token)
         user_id = user["id"]
         username = user.get("username", "unknown")
         print(f"   Medium: Authenticated as @{username}")
 
-        # Publish (default: public; set MEDIUM_PUBLISH_STATUS=draft to keep as draft)
-        publish_status = os.environ.get("MEDIUM_PUBLISH_STATUS", "public").strip().lower()
-        if publish_status not in ("public", "draft", "unlisted"):
-            publish_status = "public"
-
         canonical_url = f"https://churnisdead.com/newsletter/{slug}"
-        result = publish_draft(
+        result = publish_post(
             token=token,
             user_id=user_id,
             title=article["title"],
@@ -153,7 +197,10 @@ def main():
         )
 
         post_url = result.get("url", "unknown")
-        print(f"   Medium: Post {publish_status.upper()}: {post_url}")
+        post_status = result.get("publishStatus", publish_status)
+        print(f"   Medium: Post created successfully!")
+        print(f"   Medium: URL: {post_url}")
+        print(f"   Medium: Status: {post_status.upper()}")
 
     except urllib.error.HTTPError as e:
         error_body = e.read().decode("utf-8") if e.fp else "No details"
