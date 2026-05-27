@@ -57,21 +57,8 @@ interface TriageChatProps {
   }) => void;
 }
 
-const INITIAL_MESSAGE: Message = {
-  id: "welcome",
-  role: "assistant",
-  content: `**Paste your call transcript below**
-
-I'll analyze it and:
-- **Classify the scenario** (Value, Risk, Internal, or Other)
-- **Extract context** (customer, stakeholders, key signals)
-- **Select the best analysis approach** automatically
-
-*More content types (QBR decks, success plans) coming soon.*`,
-};
-
 export const TriageChat = ({ onAnalysisReady }: TriageChatProps) => {
-  const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [lastClassification, setLastClassification] = useState<Classification | null>(null);
@@ -312,7 +299,7 @@ TRANSCRIPT:
   };
 
   const handleReset = () => {
-    setMessages([INITIAL_MESSAGE]);
+    setMessages([]);
     setInput("");
     setLastClassification(null);
     setOriginalContent("");
@@ -328,17 +315,18 @@ TRANSCRIPT:
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-12rem)] max-h-[800px]">
-      {/* Chat Messages */}
-      <div ref={chatScrollRef} className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={cn(
-              "flex gap-3",
-              message.role === "user" ? "justify-end" : "justify-start"
-            )}
-          >
+    <div className="flex flex-col">
+      {/* Chat Messages — only shown once there are messages */}
+      {messages.length > 0 && (
+        <div ref={chatScrollRef} className="max-h-[400px] overflow-y-auto p-4 space-y-4 border-b border-navy-dark/5">
+          {messages.map((message) => (
+            <div
+              key={message.id}
+              className={cn(
+                "flex gap-3",
+                message.role === "user" ? "justify-end" : "justify-start"
+              )}
+            >
             {message.role === "assistant" && (
               <div className="w-8 h-8 rounded-full bg-navy-dark/10 flex items-center justify-center flex-shrink-0">
                 <Bot className="w-4 h-4 text-navy-dark" />
@@ -431,6 +419,7 @@ TRANSCRIPT:
 
         <div ref={messagesEndRef} />
       </div>
+      )}
 
       {/* Action Bar - Shows when classification is ready */}
       {lastClassification && lastClassification.contentType === "call-transcript" && originalContent && (
@@ -519,14 +508,14 @@ TRANSCRIPT:
       )}
 
       {/* Input Area */}
-      <div className="p-4 border-t bg-background">
+      <div className="p-4 bg-background">
         <div className="flex gap-2">
           <Textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Paste your transcript, or upload a file below…"
-            className="min-h-[80px] resize-none"
+            className="min-h-[140px] resize-none font-mono text-sm"
             disabled={isLoading || isParsingFile}
           />
           <Button

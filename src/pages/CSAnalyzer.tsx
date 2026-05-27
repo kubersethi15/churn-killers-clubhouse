@@ -40,7 +40,6 @@ import {
   Loader2,
   FileType,
   PanelLeft,
-  Bot,
   Settings2,
   Layers,
   AlertTriangle,
@@ -174,9 +173,6 @@ const CSAnalyzer = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [analyzerMode, setAnalyzerMode] = useState<"manual" | "ai-triage">("ai-triage");
   const [isExportingPdf, setIsExportingPdf] = useState(false);
-  const [showWelcome, setShowWelcome] = useState(() => {
-    try { return !localStorage.getItem("cs-analyzer-onboarded"); } catch { return true; }
-  });
   const { toast } = useToast();
   const { user, profile, signOut, isLoading: authLoading } = useAuth();
   const { saveAnalysis, fetchAnalyses } = useAnalyses();
@@ -885,59 +881,43 @@ const CSAnalyzer = () => {
 
               {/* Step 1: Select Analysis Type */}
               {step === "select" && (
-                <div className="animate-fade-in">
-                  {/* AI Triage Mode (default) */}
+                <div className="animate-fade-in max-w-3xl mx-auto">
                   <div className="w-full">
-                      {/* First-time welcome banner */}
-                      {showWelcome && (
-                        <div className="mb-6 rounded-xl border border-navy-dark/10 bg-navy-dark/[0.03] px-5 py-4 relative animate-fade-in">
-                          <button
-                            onClick={() => {
-                              setShowWelcome(false);
-                              try { localStorage.setItem("cs-analyzer-onboarded", "1"); } catch {}
-                            }}
-                            className="absolute top-3 right-3 text-muted-foreground hover:text-foreground transition-colors"
-                            aria-label="Dismiss"
-                          >
-                            <X className="w-4 h-4" />
-                          </button>
-                          <h3 className="text-sm font-semibold text-navy-dark mb-1.5 font-serif">
-                            Welcome to CS Analyzer
-                          </h3>
-                          <ol className="text-xs text-muted-foreground space-y-1 list-decimal list-inside leading-relaxed">
-                            <li><strong>Paste</strong> a call transcript below</li>
-                            <li>AI <strong>auto-classifies</strong> the scenario and extracts context</li>
-                            <li>Five specialist agents produce a <strong>comprehensive report</strong> in ~45 seconds</li>
-                          </ol>
-                          <p className="text-xs text-muted-foreground mt-2">
-                            No transcript handy? Use <strong>Try a sample</strong> at the bottom.
-                          </p>
-                        </div>
-                      )}
-
-                      <div className="text-center mb-8">
-                        <h2 className="text-2xl md:text-3xl font-serif font-bold text-navy-dark mb-2">
-                          Paste your content to get started
-                        </h2>
-                        <p className="text-muted-foreground">
-                          Our AI will auto-detect the type and select the best analysis approach
+                      {/* Editorial header */}
+                      <div className="mb-8 md:mb-10">
+                        <p className="text-xs uppercase tracking-[0.18em] text-red font-semibold mb-3">
+                          The Analyzer
                         </p>
+                        <h2 className="text-3xl md:text-4xl font-serif font-black text-navy-dark mb-4 leading-[1.1] tracking-tight">
+                          Drop a call transcript in.
+                          <br />
+                          <span className="underline-red">Get the report you wish you'd written.</span>
+                        </h2>
+                        <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl">
+                          Paste a sales call, renewal conversation, or QBR transcript below. Five specialist agents read it line by line and produce a stakeholder map, risk breakdown, and a 14-day action plan — with the exact quotes that justify every conclusion.
+                        </p>
+                        <div className="flex items-center gap-4 mt-5 text-sm">
+                          <Link
+                            to="/cs-analyzer/demo"
+                            className="text-navy-dark hover:text-red font-medium underline underline-offset-4 decoration-2 decoration-red/30 hover:decoration-red transition-colors"
+                          >
+                            See an example report →
+                          </Link>
+                          <span className="text-muted-foreground/40">·</span>
+                          <span className="text-muted-foreground text-xs">
+                            Takes ~45 seconds. Your transcript stays private.
+                          </span>
+                        </div>
                       </div>
 
-                      <Card className="border-2 border-dashed border-navy-dark/20">
-                        <CardHeader className="text-center pb-2">
-                          <div className="w-14 h-14 rounded-full bg-navy-dark/10 flex items-center justify-center mx-auto mb-3">
-                            <Bot className="w-8 h-8 text-navy-dark" />
-                          </div>
-                          <CardTitle className="text-xl font-serif">AI Triage Assistant</CardTitle>
-                          <CardDescription>
-                            Paste your content and I'll automatically classify it and extract context
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent className="p-0">
-                          <TriageChat onAnalysisReady={handleTriageAnalysisReady} />
-                        </CardContent>
-                      </Card>
+                      {/* Triage input — no chatbot framing, no dashed card */}
+                      <div className="rounded-lg border border-navy-dark/10 bg-white shadow-sm overflow-hidden">
+                        <TriageChat onAnalysisReady={handleTriageAnalysisReady} />
+                      </div>
+
+                      <p className="text-xs text-muted-foreground/70 mt-4 text-center">
+                        Don't have a transcript handy? Use <strong className="text-navy-dark">Try a sample</strong> below the input.
+                      </p>
                   </div>
                 </div>
               )}
