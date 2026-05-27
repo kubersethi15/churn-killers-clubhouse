@@ -32,6 +32,7 @@ Legend: ✅ shipped · ⚠️ partial · 🛠️ in-flight · ❌ not started
 | Chat over the document (`useChat` w/ transcript context) | ❌ | Sidebar where users ask follow-ups about *this* transcript. |
 | Multi-document mode — pattern finding across N transcripts | ❌ | Killer feature. Drop 5 transcripts, find patterns. |
 | Per-customer memory (preferred report style, tone, structure) | ❌ | Subtle but huge for retention. |
+| AI explain on selection (backs the highlight-to-ask Ask button) | ❌ | New edge function: takes (selection, optional question, transcript context) → streams a 2-3 sentence explanation. Currently the Ask dialog is a stub. Could share infrastructure with chat-over-document. |
 
 ### File ingest
 | Item | Status | Notes |
@@ -56,9 +57,10 @@ Legend: ✅ shipped · ⚠️ partial · 🛠️ in-flight · ❌ not started
 |---|---|---|
 | Two-pane transcript + analysis with linked scrolling | ❌ | Currently tabbed: Analysis / Builder / Transcript. Top 1% has them side-by-side, scroll-linked, click-to-jump. |
 | Perplexity-style inline citation chips | ⚠️ | `EvidenceChip` exists but it's click-to-drawer, not hover-preview inline. Each claim should have a tiny `[1]` chip that hovers a quote popover. |
-| Highlight-to-ask floating menu | 🛠️ | UI shipped this PR (copy, mark, search). AI explain action is still ❌. |
+| Highlight-to-ask floating menu | ⚠️ | UI shipped this PR (Copy / Find similar / Risk / Opportunity / Action / Ask). The "Ask about this" action is a stub dialog — real AI explain endpoint still ❌ (see *Chat over the document* and *AI explain on selection* below). |
 | Transcript fuzzy search (`fuse.js` / `orama`) | ✅ | Shipped this PR — Cmd+F inside the transcript with keyboard nav. |
-| `floating-ui` for popover/menu positioning | ⚠️ | Radix uses it under the hood. Custom positioning for the highlight-menu uses native CSS for now. |
+| `floating-ui` for popover/menu positioning | ⚠️ | Radix uses it under the hood. `@floating-ui/react` is installed for advanced cases; current FloatingSelectionMenu uses native `Range.getBoundingClientRect()` which is enough for now. |
+| Persisted highlight annotations | ❌ | The Risk/Opportunity/Action highlights from the floating menu are local-only state — they disappear on reload. Needs a `transcript_annotations` table (transcript_id, line_index, kind, note) + RLS + a hook in `TranscriptViewer` to save on highlight. |
 
 ### Report editor (the 10x perceived-value zone)
 | Item | Status | Notes |
@@ -77,6 +79,7 @@ Legend: ✅ shipped · ⚠️ partial · 🛠️ in-flight · ❌ not started
 | One-click destinations (Markdown / Slack / Notion / Email) | ❌ | Only PDF + clipboard copy today. Each should have its own keyboard shortcut. |
 | Public share links | ✅ | Shipped PR #1. |
 | Password / expiry on shares | ❌ | Public-or-private only today. Vercel/Linear-tier polish. |
+| OG meta tags on `/cs-analyzer/share/:id` | ❌ | Currently the share page sets `document.title` after fetch, but no server-rendered OG tags. LinkedIn / Slack link previews show the generic site OG, not the report title. Needs SSR or a dedicated share-preview edge function that returns rendered HTML with OG tags. |
 
 ### Cross-cutting moves
 | Item | Status | Notes |
@@ -87,12 +90,14 @@ Legend: ✅ shipped · ⚠️ partial · 🛠️ in-flight · ❌ not started
 | Report version history / diff / restore | ❌ | Every save = a version. |
 | `?` opens a beautiful shortcuts overlay | ❌ | "This team cares" signal. |
 | Real-time collab (`yjs` / `tldraw/sync`) | ❌ | Long horizon. |
+| Sonner migration from legacy `useToast` | ❌ | Both `<Toaster />` and `<Sonner />` are already mounted in `App.tsx`. Toast calls currently go through the legacy shadcn `useToast` hook. Migrating to `import { toast } from "sonner"` gives nicer stacking + richer animations. Mechanical refactor across ~10 files. |
+| `vaul` bottom-sheet for mobile sidebar | ❌ | The `AnalysisSidebar` is a static `<aside>` today; on mobile it expands/collapses inline. A `vaul` drawer triggered from the analyzer's hamburger would be substantially better on small screens. Refactor of how `isCollapsed` propagates through the analyzer layout. |
 
 ### Aesthetics
 | Item | Status | Notes |
 |---|---|---|
 | Geist Mono for transcript / quote text | ✅ | Shipped this PR. |
-| Color-coded highlight strata (risk=red wash, opportunity=green wash, action=amber underline) | ⚠️ | Risk severity colors exist on risk items. Not yet on transcript itself. |
+| Color-coded highlight strata (risk=red wash, opportunity=green wash, action=amber underline) | ⚠️ | Currently shipped as left-border accents on transcript lines via highlight-to-ask (local state only, no persistence). Risk severity colors exist on risk items in the report. Full background-wash treatment + persisted annotations across sessions still ❌. |
 | Thinking cursor pulse (not three bouncing dots) | ✅ | Red-dot pulse on AnalyzingProgress. Linear-style. |
 | Spring physics on pane transitions | ⚠️ | `framer-motion` available; pane physics will apply when we ship the two-pane layout. |
 | `prosemirror-highlight` or Tiptap marks for highlight system | ❌ | Depends on shipping the block editor first. |
