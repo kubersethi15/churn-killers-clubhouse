@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
@@ -68,6 +69,7 @@ export const TriageChat = ({ onAnalysisReady }: TriageChatProps) => {
   const [isParsingFile, setIsParsingFile] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatScrollRef = useRef<HTMLDivElement>(null);
+  const [messagesParent] = useAutoAnimate<HTMLDivElement>();
   const { toast } = useToast();
 
   const scrollToBottom = () => {
@@ -318,7 +320,8 @@ TRANSCRIPT:
     <div className="flex flex-col">
       {/* Chat Messages — only shown once there are messages */}
       {messages.length > 0 && (
-        <div ref={chatScrollRef} className="max-h-[400px] overflow-y-auto p-4 space-y-4 border-b border-navy-dark/5">
+        <div ref={chatScrollRef} className="max-h-[400px] overflow-y-auto border-b border-navy-dark/5">
+          <div ref={messagesParent} className="p-4 space-y-4">
           {messages.map((message) => (
             <div
               key={message.id}
@@ -418,6 +421,7 @@ TRANSCRIPT:
         )}
 
         <div ref={messagesEndRef} />
+        </div>
       </div>
       )}
 

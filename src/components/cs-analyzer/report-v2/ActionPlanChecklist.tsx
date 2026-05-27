@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle, Circle, Clock, User, Target } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -21,6 +22,7 @@ const ownerColors: Record<string, string> = {
 
 export const ActionPlanChecklist = ({ actions }: ActionPlanChecklistProps) => {
   const [checked, setChecked] = useState<Set<number>>(new Set());
+  const [listParent] = useAutoAnimate<HTMLDivElement>();
 
   if (actions.length === 0) return null;
 
@@ -47,7 +49,7 @@ export const ActionPlanChecklist = ({ actions }: ActionPlanChecklistProps) => {
         </div>
       </div>
       <CardContent className="p-5">
-        <div className="space-y-3">
+        <div ref={listParent} className="space-y-3">
           {actions
             .sort((a, b) => a.due_in_days - b.due_in_days)
             .map((action, idx) => {
