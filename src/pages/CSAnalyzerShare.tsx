@@ -8,6 +8,7 @@ import type { PipelineResult } from "@/components/cs-analyzer/report-v2/types";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowRight } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { usePaletteContext, type PaletteCommand } from "@/components/CommandPalette";
 
 interface SharedAnalysis {
   id: string;
@@ -99,6 +100,33 @@ const CSAnalyzerShare = () => {
 
   const runCtaHref = user ? "/cs-analyzer" : "/auth?from=/cs-analyzer";
   const runCtaLabel = user ? "Run your own analysis" : "Sign in to run your own";
+
+  // Context-aware ⌘K commands for this page
+  const paletteCommands: PaletteCommand[] = [];
+  if (analysis?.public_share_id) {
+    const url = `${window.location.origin}/cs-analyzer/share/${analysis.public_share_id}`;
+    paletteCommands.push({
+      id: "copy-link",
+      label: "Copy this share link",
+      icon: "copy",
+      run: async () => {
+        try {
+          await navigator.clipboard.writeText(url);
+        } catch {
+          /* no-op */
+        }
+      },
+    });
+  }
+  paletteCommands.push({
+    id: "run-own",
+    label: runCtaLabel,
+    icon: "sparkles",
+    run: () => {
+      window.location.href = runCtaHref;
+    },
+  });
+  usePaletteContext("cs-analyzer-share", paletteCommands);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">

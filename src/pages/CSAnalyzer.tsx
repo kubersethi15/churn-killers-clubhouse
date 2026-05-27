@@ -14,6 +14,7 @@ import type { PipelineResult, FinalReport, EvidenceAnchor } from "@/components/c
 import { isValidCustomerName, getDisplayCustomerName } from "@/utils/customerNameUtils";
 import { TriageChat } from "@/components/cs-analyzer/TriageChat";
 import { AnalyzingProgress } from "@/components/cs-analyzer/AnalyzingProgress";
+import { TranscriptViewer } from "@/components/cs-analyzer/TranscriptViewer";
 import { FeedbackButton } from "@/components/cs-analyzer/FeedbackButton";
 import { AnalysisSidebar } from "@/components/analyzer/AnalysisSidebar";
 import { useAuth } from "@/contexts/AuthContext";
@@ -61,6 +62,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { stepVariants, staggerContainer, sectionFadeUp, popIn } from "@/lib/motion";
+import { usePaletteContext, type PaletteCommand } from "@/components/CommandPalette";
 
 type AnalysisType = "call-transcript" | "qbr-deck" | "success-plan" | "health-assessment" | null;
 type CallCategory = "customer-value" | "customer-risk" | "internal-strategy" | null;
@@ -736,7 +738,47 @@ const CSAnalyzer = () => {
     handleStartOver();
   };
 
-  // Handler for AI triage - when user confirms classification
+  // Register context-aware ⌘K commands for this page
+  const paletteCommands: PaletteCommand[] = [];
+  if (step === "results" && pipelineResult?.finalReport) {
+    paletteCommands.push(
+      { id: "new", label: "Run new analysis", icon: "sparkles", run: handleNewAnalysis, hint: "Start over" },
+      { id: "pdf", label: "Export this report as PDF", icon: "download", run: () => handleDownloadPDF() },
+    );
+    if (selectedSavedAnalysis?.id) {
+      paletteCommands.push({
+        id: "share",
+        label: selectedSavedAnalysis.is_public ? "Unshare this report" : "Share this report (public link)",
+        icon: "share",
+        run: () => handleToggleShare(),
+      });
+    }
+    if (selectedSavedAnalysis?.is_public && selectedSavedAnalysis.public_share_id) {
+      paletteCommands.push({
+        id: "copy-link",
+        label: "Copy public share link",
+        icon: "copy",
+        run: () => handleCopyShareLink(),
+      });
+    }
+  } else if (step === "select") {
+    paletteCommands.push({
+      id: "demo",
+      label: "See an example report",
+      icon: "layers",
+      run: () => navigate("/cs-analyzer/demo"),
+      hint: "Public demo",
+    });
+  } else if (step === "input") {
+    paletteCommands.push({
+      id: "back",
+      label: "Back to content type",
+      icon: "arrow",
+      run: () => handleBack(),
+    });
+  }
+  usePaletteContext("cs-analyzer", paletteCommands);
+
   // Handler for AI triage - when user confirms classification
   const handleTriageAnalysisReady = async (params: {
     contentType: string;
@@ -1360,17 +1402,15 @@ const CSAnalyzer = () => {
                                 Original Transcript
                               </CardTitle>
                               <CardDescription className="text-sm text-report-muted">
-                                The source material used for this analysis
+                                Search and jump to any line. ⌘F to focus, ⌘G for next match.
                               </CardDescription>
                             </div>
                           </div>
                         </CardHeader>
-                        <CardContent className="p-6">
-                          <div className="bg-muted/30 rounded-lg p-4 max-h-[600px] overflow-y-auto">
-                            <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-report-text">
-                              {content || selectedSavedAnalysis?.input_text || "No transcript available"}
-                            </pre>
-                          </div>
+                        <CardContent className="p-0">
+                          <TranscriptViewer
+                            transcript={content || selectedSavedAnalysis?.input_text || ""}
+                          />
                         </CardContent>
                       </Card>
                     </TabsContent>

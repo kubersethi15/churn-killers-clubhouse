@@ -4,6 +4,32 @@ This is Kuber Sethi's repo for [churnisdead.com](https://churnisdead.com) — th
 
 ---
 
+## The vision (for the CS Analyzer)
+
+The CS Analyzer is an AI-powered transcript-analysis + report-generator. The product target is **top 1% AI UI** — out-Granola Granola for CS leaders specifically. Five architectural moves separate top-1% from the rest:
+
+1. **Generative UI streaming via Vercel AI SDK.** The AI returns React components (`RiskCard`, `QuoteCard`, `TimelineEvent`), not text. Use `streamUI` / `streamObject` / `useChat`. The processing screen *is* the demo.
+2. **Highlight-to-ask in transcript.** Select text → floating menu (Explain · Find similar · Add to report). Use `floating-ui` for positioning.
+3. **Block-editor reports with AI diff suggestions.** Tiptap or BlockNote. Slash commands. Inline AI edits shown as diff-before-accept.
+4. **Multi-transcript pattern finding.** Drop 5 transcripts → find patterns. The killer feature.
+5. **Print-quality PDF export.** `react-pdf` or `pdfme`, never `html2pdf` hacks.
+
+When suggesting new analyzer features, **check `ROADMAP.md` first** — it tracks which of the ~40 capabilities in this vision are built, partial, or unbuilt, and has a sequenced argument for what to ship next based on user signal.
+
+**Specific defaults for analyzer work:**
+- Use Vercel AI SDK (`streamUI`, `streamObject`, `useChat`) for all model interactions. Stream React components, not text.
+- Two-pane transcript + analysis with linked scrolling. Click any insight → transcript scrolls and highlights. Hover transcript line → corresponding insight pulses.
+- Every AI claim has citation chips that hover-preview the source quote (Perplexity pattern).
+- Confidence labels on inferred output. Distinguish "observed" vs "inferred" with rationale.
+- Tiptap or BlockNote for the report editor with slash commands and inline AI diff suggestions.
+- `react-dropzone` with full-page drop targets and paste support.
+- `cmdk` palette is **context-aware per route**, not just global.
+- `react-pdf` for PDF export — print stylesheet must be production quality.
+- **Geist Mono** for all transcript / quote text. **Inter** for UI. **Playfair Display** for editorial headings.
+- Spring physics on pane transitions.
+
+---
+
 ## Stack — what's installed, what to reach for
 
 The UI stack is **already comprehensive**. Before installing anything new, check `package.json` — most things you'd want are already here. The default move is to *use* the existing stack, not bolt on alternatives.
