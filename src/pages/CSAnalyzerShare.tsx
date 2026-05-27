@@ -3,9 +3,10 @@ import { Link, useParams } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { V2ReportRenderer } from "@/components/cs-analyzer/report-v2/V2ReportRenderer";
+import { ReportSkeleton } from "@/components/cs-analyzer/ReportSkeleton";
 import type { PipelineResult } from "@/components/cs-analyzer/report-v2/types";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 interface SharedAnalysis {
@@ -128,12 +129,7 @@ const CSAnalyzerShare = () => {
         {/* Body */}
         <section className="bg-background">
           <div className="max-w-5xl mx-auto px-4 md:px-6 py-8 md:py-12">
-            {isLoading && (
-              <div className="flex items-center justify-center py-20 text-muted-foreground">
-                <Loader2 className="w-6 h-6 animate-spin mr-3" />
-                Loading the report…
-              </div>
-            )}
+            {isLoading && <ReportSkeleton />}
 
             {error && !isLoading && (
               <div className="max-w-xl mx-auto text-center py-20">
