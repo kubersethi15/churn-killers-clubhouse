@@ -14,6 +14,7 @@ import type { PipelineResult, FinalReport, EvidenceAnchor } from "@/components/c
 import { isValidCustomerName, getDisplayCustomerName } from "@/utils/customerNameUtils";
 import { TriageChat } from "@/components/cs-analyzer/TriageChat";
 import { AnalyzingProgress } from "@/components/cs-analyzer/AnalyzingProgress";
+import { TranscriptViewer } from "@/components/cs-analyzer/TranscriptViewer";
 import { FeedbackButton } from "@/components/cs-analyzer/FeedbackButton";
 import { AnalysisSidebar } from "@/components/analyzer/AnalysisSidebar";
 import { useAuth } from "@/contexts/AuthContext";
@@ -1360,17 +1361,15 @@ const CSAnalyzer = () => {
                                 Original Transcript
                               </CardTitle>
                               <CardDescription className="text-sm text-report-muted">
-                                The source material used for this analysis
+                                Search and jump to any line. ⌘F to focus, ⌘G for next match.
                               </CardDescription>
                             </div>
                           </div>
                         </CardHeader>
-                        <CardContent className="p-6">
-                          <div className="bg-muted/30 rounded-lg p-4 max-h-[600px] overflow-y-auto">
-                            <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-report-text">
-                              {content || selectedSavedAnalysis?.input_text || "No transcript available"}
-                            </pre>
-                          </div>
+                        <CardContent className="p-0">
+                          <TranscriptViewer
+                            transcript={content || selectedSavedAnalysis?.input_text || ""}
+                          />
                         </CardContent>
                       </Card>
                     </TabsContent>

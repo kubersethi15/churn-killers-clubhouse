@@ -56,8 +56,8 @@ export const EvidenceProvider = ({ anchors, children }: EvidenceProviderProps) =
                 <span className={reportTypography.labelSmall}>Verbatim excerpt</span>
               </div>
               <blockquote className="relative pl-4 border-l-2 border-navy-dark/30">
-                <p className={cn(reportTypography.bodyText, "italic leading-relaxed")}>
-                  "{selectedAnchor.quote}"
+                <p className="font-mono text-[13px] not-italic leading-relaxed text-report-heading">
+                  &ldquo;{selectedAnchor.quote}&rdquo;
                 </p>
               </blockquote>
               {/* Navigation between anchors */}
