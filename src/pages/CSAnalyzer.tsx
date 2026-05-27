@@ -40,11 +40,12 @@ import {
   Loader2,
   FileType,
   PanelLeft,
-  Bot,
   Settings2,
   Layers,
   AlertTriangle,
   X,
+  Share2,
+  Globe,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -174,12 +175,10 @@ const CSAnalyzer = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [analyzerMode, setAnalyzerMode] = useState<"manual" | "ai-triage">("ai-triage");
   const [isExportingPdf, setIsExportingPdf] = useState(false);
-  const [showWelcome, setShowWelcome] = useState(() => {
-    try { return !localStorage.getItem("cs-analyzer-onboarded"); } catch { return true; }
-  });
+  const [isTogglingShare, setIsTogglingShare] = useState(false);
   const { toast } = useToast();
   const { user, profile, signOut, isLoading: authLoading } = useAuth();
-  const { saveAnalysis, fetchAnalyses } = useAnalyses();
+  const { saveAnalysis, fetchAnalyses, setAnalysisPublic } = useAnalyses();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -219,14 +218,38 @@ const CSAnalyzer = () => {
     setSelectedSavedAnalysis(null);
   };
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const [isParsingFile, setIsParsingFile] = useState(false);
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) {
-      setFileName(file.name);
+    if (!file) return;
+
+    setIsParsingFile(true);
+    setFileName(file.name);
+
+    try {
+      const { extractTextFromFile } = await import("@/utils/fileTextExtractor");
+      const result = await extractTextFromFile(file);
+      setContent(result.text);
       toast({
-        title: "File uploaded",
-        description: `${file.name} ready for analysis`,
+        title: result.truncated ? "File loaded (trimmed)" : "File loaded",
+        description: result.truncated
+          ? `${file.name} — used the first ${result.charCount.toLocaleString()} characters.`
+          : `${file.name} — ${result.charCount.toLocaleString()} characters extracted.`,
       });
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Could not read this file.";
+      setFileName(null);
+      toast({
+        title: "Couldn't read that file",
+        description: message,
+        variant: "destructive",
+      });
+      // Reset the input so the same file can be re-selected after fixing
+      event.target.value = "";
+    } finally {
+      setIsParsingFile(false);
     }
   };
 
@@ -250,10 +273,10 @@ const CSAnalyzer = () => {
       });
       return;
     }
-    if (!content && !fileName) {
+    if (!content) {
       toast({
         title: "Content required",
-        description: "Please paste your content or upload a file",
+        description: "Paste your transcript or upload a file before running analysis.",
         variant: "destructive",
       });
       return;
@@ -308,7 +331,7 @@ const CSAnalyzer = () => {
         if (!data.pipelineResult.success && data.pipelineResult.error?.includes("too short")) {
           toast({
             title: "Transcript too short",
-            description: "This transcript is too short for analysis. Please upload a complete call transcript — typically at least a few minutes of conversation.",
+            description: "We need at least a few minutes of conversation to find anything worth surfacing. Paste a longer transcript and try again.",
             variant: "destructive",
           });
           setStep("input");
@@ -320,8 +343,8 @@ const CSAnalyzer = () => {
         setAnalysisResult(null);
         setStep("results");
         toast({
-          title: "Analysis complete!",
-          description: `Multi-pass pipeline finished${data.pipelineResult.success ? '' : ' with partial results'}.`,
+          title: "Report ready",
+          description: `Five-agent read complete${data.pipelineResult.success ? '' : ' (partial results — check the Debug tab)'}.`,
         });
 
         // Auto-save for logged-in users
@@ -331,10 +354,11 @@ const CSAnalyzer = () => {
           const title = reportCustomerName
             || data.pipelineResult.finalReport?.executive_snapshot?.one_liner?.slice(0, 60)
             || generateTitle(selectedType, content);
-          const { error } = await saveAnalysis(title, selectedType || "unknown", content, JSON.stringify({ pipelineResult: data.pipelineResult, reportVersion: 'v2_panel' }));
-          if (!error) {
+          const { data: savedRow, error } = await saveAnalysis(title, selectedType || "unknown", content, JSON.stringify({ pipelineResult: data.pipelineResult, reportVersion: 'v2_panel' }));
+          if (!error && savedRow) {
+            setSelectedSavedAnalysis(savedRow);
             window.dispatchEvent(new CustomEvent('analysis-saved'));
-            toast({ title: "Analysis saved", description: "You can access this analysis anytime from the sidebar." });
+            toast({ title: "Analysis saved", description: "It is in the sidebar whenever you need it." });
           }
         }
       } else if (data?.analysis) {
@@ -343,14 +367,15 @@ const CSAnalyzer = () => {
         setPipelineResult(null);
         setReportVersion('v1_single');
         setStep("results");
-        toast({ title: "Analysis complete!", description: "Your personalized insights are ready." });
+        toast({ title: "Report ready", description: "Scroll down — your report is below." });
 
         if (user) {
           const title = generateTitle(selectedType, content, data.analysis);
-          const { error } = await saveAnalysis(title, selectedType || "unknown", content, data.analysis);
-          if (!error) {
+          const { data: savedRow, error } = await saveAnalysis(title, selectedType || "unknown", content, data.analysis);
+          if (!error && savedRow) {
+            setSelectedSavedAnalysis(savedRow);
             window.dispatchEvent(new CustomEvent('analysis-saved'));
-            toast({ title: "Analysis saved", description: "You can access this analysis anytime from the sidebar." });
+            toast({ title: "Analysis saved", description: "It is in the sidebar whenever you need it." });
           }
         }
       } else {
@@ -420,6 +445,71 @@ const CSAnalyzer = () => {
     
     // Last resort: use type and date
     return `${typeLabel} - ${date}`;
+  };
+
+  const handleToggleShare = async () => {
+    if (!selectedSavedAnalysis?.id) {
+      toast({
+        title: "Saving first…",
+        description: "Give it a second — we're still saving the analysis.",
+      });
+      return;
+    }
+
+    const nextPublicState = !selectedSavedAnalysis.is_public;
+    setIsTogglingShare(true);
+
+    try {
+      const { data, error } = await setAnalysisPublic(selectedSavedAnalysis.id, nextPublicState);
+
+      if (error || !data) {
+        throw error || new Error("Could not update sharing.");
+      }
+
+      // Update local state so the button reflects new sharing state
+      setSelectedSavedAnalysis(data);
+
+      if (nextPublicState && data.public_share_id) {
+        const url = `${window.location.origin}/cs-analyzer/share/${data.public_share_id}`;
+        try {
+          await navigator.clipboard.writeText(url);
+          toast({
+            title: "Link copied",
+            description: "Anyone with this link can view the report. Click the button again to make it private.",
+          });
+        } catch {
+          // clipboard may fail in some browsers/contexts — still show URL
+          toast({
+            title: "Report is now public",
+            description: url,
+          });
+        }
+      } else {
+        toast({
+          title: "Report is private again",
+          description: "The shared link no longer works.",
+        });
+      }
+    } catch (err) {
+      toast({
+        title: "Couldn't update sharing",
+        description: err instanceof Error ? err.message : "Try again in a moment.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsTogglingShare(false);
+    }
+  };
+
+  const handleCopyShareLink = async () => {
+    if (!selectedSavedAnalysis?.public_share_id) return;
+    const url = `${window.location.origin}/cs-analyzer/share/${selectedSavedAnalysis.public_share_id}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      toast({ title: "Link copied", description: "Public share link is on your clipboard." });
+    } catch {
+      toast({ title: "Share link", description: url });
+    }
   };
 
   const handleStartOver = () => {
@@ -695,8 +785,8 @@ const CSAnalyzer = () => {
         setAnalysisResult(null);
         setStep("results");
         toast({
-          title: "Analysis complete!",
-          description: `Multi-pass pipeline finished${data.pipelineResult.success ? '' : ' with partial results'}.`,
+          title: "Report ready",
+          description: `Five-agent read complete${data.pipelineResult.success ? '' : ' (partial results — check the Debug tab)'}.`,
         });
 
         if (user) {
@@ -705,10 +795,11 @@ const CSAnalyzer = () => {
           const title = reportCustomerName
             || data.pipelineResult.finalReport?.executive_snapshot?.one_liner?.slice(0, 60)
             || generateTitle(params.contentType as AnalysisType, params.content);
-          const { error: saveError } = await saveAnalysis(title, params.contentType, params.content, JSON.stringify({ pipelineResult: data.pipelineResult, reportVersion: 'v2_panel' }));
-          if (!saveError) {
+          const { data: savedRow, error: saveError } = await saveAnalysis(title, params.contentType, params.content, JSON.stringify({ pipelineResult: data.pipelineResult, reportVersion: 'v2_panel' }));
+          if (!saveError && savedRow) {
+            setSelectedSavedAnalysis(savedRow);
             window.dispatchEvent(new CustomEvent('analysis-saved'));
-            toast({ title: "Analysis saved", description: "You can access this analysis anytime from the sidebar." });
+            toast({ title: "Analysis saved", description: "It is in the sidebar whenever you need it." });
           }
         }
       } else if (data?.analysis) {
@@ -718,16 +809,17 @@ const CSAnalyzer = () => {
         setReportVersion('v1_single');
         setStep("results");
         toast({
-          title: "Analysis complete!",
-          description: "Your personalized insights are ready.",
+          title: "Report ready",
+          description: "Scroll down — your report is below.",
         });
 
         if (user) {
           const title = generateTitle(params.contentType as AnalysisType, params.content, data.analysis);
-          const { error: saveError } = await saveAnalysis(title, params.contentType, params.content, data.analysis);
-          if (!saveError) {
+          const { data: savedRow, error: saveError } = await saveAnalysis(title, params.contentType, params.content, data.analysis);
+          if (!saveError && savedRow) {
+            setSelectedSavedAnalysis(savedRow);
             window.dispatchEvent(new CustomEvent('analysis-saved'));
-            toast({ title: "Analysis saved", description: "You can access this analysis anytime from the sidebar." });
+            toast({ title: "Analysis saved", description: "It is in the sidebar whenever you need it." });
           }
         }
       } else {
@@ -861,59 +953,43 @@ const CSAnalyzer = () => {
 
               {/* Step 1: Select Analysis Type */}
               {step === "select" && (
-                <div className="animate-fade-in">
-                  {/* AI Triage Mode (default) */}
+                <div className="animate-fade-in max-w-3xl mx-auto">
                   <div className="w-full">
-                      {/* First-time welcome banner */}
-                      {showWelcome && (
-                        <div className="mb-6 rounded-xl border border-navy-dark/10 bg-navy-dark/[0.03] px-5 py-4 relative animate-fade-in">
-                          <button
-                            onClick={() => {
-                              setShowWelcome(false);
-                              try { localStorage.setItem("cs-analyzer-onboarded", "1"); } catch {}
-                            }}
-                            className="absolute top-3 right-3 text-muted-foreground hover:text-foreground transition-colors"
-                            aria-label="Dismiss"
-                          >
-                            <X className="w-4 h-4" />
-                          </button>
-                          <h3 className="text-sm font-semibold text-navy-dark mb-1.5 font-serif">
-                            Welcome to CS Analyzer
-                          </h3>
-                          <ol className="text-xs text-muted-foreground space-y-1 list-decimal list-inside leading-relaxed">
-                            <li><strong>Paste</strong> a call transcript below</li>
-                            <li>AI <strong>auto-classifies</strong> the scenario and extracts context</li>
-                            <li>Five specialist agents produce a <strong>comprehensive report</strong> in ~45 seconds</li>
-                          </ol>
-                          <p className="text-xs text-muted-foreground mt-2">
-                            No transcript handy? Use <strong>Try a sample</strong> at the bottom.
-                          </p>
-                        </div>
-                      )}
-
-                      <div className="text-center mb-8">
-                        <h2 className="text-2xl md:text-3xl font-serif font-bold text-navy-dark mb-2">
-                          Paste your content to get started
-                        </h2>
-                        <p className="text-muted-foreground">
-                          Our AI will auto-detect the type and select the best analysis approach
+                      {/* Editorial header */}
+                      <div className="mb-8 md:mb-10">
+                        <p className="text-xs uppercase tracking-[0.18em] text-red font-semibold mb-3">
+                          The Analyzer
                         </p>
+                        <h2 className="text-3xl md:text-4xl font-serif font-black text-navy-dark mb-4 leading-[1.1] tracking-tight">
+                          Drop a call transcript in.
+                          <br />
+                          <span className="underline-red">Get the report you wish you'd written.</span>
+                        </h2>
+                        <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl">
+                          Paste a sales call, renewal conversation, or QBR transcript below. Five specialist agents read it line by line and produce a stakeholder map, risk breakdown, and a 14-day action plan — with the exact quotes that justify every conclusion.
+                        </p>
+                        <div className="flex items-center gap-4 mt-5 text-sm">
+                          <Link
+                            to="/cs-analyzer/demo"
+                            className="text-navy-dark hover:text-red font-medium underline underline-offset-4 decoration-2 decoration-red/30 hover:decoration-red transition-colors"
+                          >
+                            See an example report →
+                          </Link>
+                          <span className="text-muted-foreground/40">·</span>
+                          <span className="text-muted-foreground text-xs">
+                            Takes ~45 seconds. Your transcript stays private.
+                          </span>
+                        </div>
                       </div>
 
-                      <Card className="border-2 border-dashed border-navy-dark/20">
-                        <CardHeader className="text-center pb-2">
-                          <div className="w-14 h-14 rounded-full bg-navy-dark/10 flex items-center justify-center mx-auto mb-3">
-                            <Bot className="w-8 h-8 text-navy-dark" />
-                          </div>
-                          <CardTitle className="text-xl font-serif">AI Triage Assistant</CardTitle>
-                          <CardDescription>
-                            Paste your content and I'll automatically classify it and extract context
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent className="p-0">
-                          <TriageChat onAnalysisReady={handleTriageAnalysisReady} />
-                        </CardContent>
-                      </Card>
+                      {/* Triage input — no chatbot framing, no dashed card */}
+                      <div className="rounded-lg border border-navy-dark/10 bg-white shadow-sm overflow-hidden">
+                        <TriageChat onAnalysisReady={handleTriageAnalysisReady} />
+                      </div>
+
+                      <p className="text-xs text-muted-foreground/70 mt-4 text-center">
+                        Don't have a transcript handy? Use <strong className="text-navy-dark">Try a sample</strong> below the input.
+                      </p>
                   </div>
                 </div>
               )}
@@ -1032,19 +1108,32 @@ const CSAnalyzer = () => {
                             className="hidden"
                             accept={selectedOption.acceptedFormats}
                             onChange={handleFileUpload}
+                            disabled={isParsingFile}
                           />
-                          <label htmlFor="file-upload" className="cursor-pointer">
-                            <Upload className="w-10 h-10 mx-auto text-muted-foreground mb-3" />
-                            {fileName ? (
-                              <div>
-                                <p className="font-medium text-foreground">{fileName}</p>
-                                <p className="text-sm text-muted-foreground">Click to replace</p>
-                              </div>
+                          <label htmlFor="file-upload" className={cn("cursor-pointer", isParsingFile && "pointer-events-none opacity-60")}>
+                            {isParsingFile ? (
+                              <>
+                                <Loader2 className="w-10 h-10 mx-auto text-muted-foreground mb-3 animate-spin" />
+                                <p className="font-medium text-foreground">Reading file…</p>
+                                <p className="text-sm text-muted-foreground">Extracting text from {fileName}</p>
+                              </>
                             ) : (
-                              <div>
-                                <p className="font-medium text-foreground">Click to upload</p>
-                                <p className="text-sm text-muted-foreground">or drag and drop</p>
-                              </div>
+                              <>
+                                <Upload className="w-10 h-10 mx-auto text-muted-foreground mb-3" />
+                                {fileName && content ? (
+                                  <div>
+                                    <p className="font-medium text-foreground">{fileName}</p>
+                                    <p className="text-sm text-muted-foreground">
+                                      {content.length.toLocaleString()} characters loaded. Click to replace.
+                                    </p>
+                                  </div>
+                                ) : (
+                                  <div>
+                                    <p className="font-medium text-foreground">Click to upload</p>
+                                    <p className="text-sm text-muted-foreground">or drag and drop</p>
+                                  </div>
+                                )}
+                              </>
                             )}
                           </label>
                         </div>
@@ -1055,10 +1144,10 @@ const CSAnalyzer = () => {
                         onClick={handleAnalyze}
                         className="w-full bg-red hover:bg-red-dark text-white"
                         size="lg"
-                        disabled={isAnalyzing || (!content && !fileName)}
+                        disabled={isAnalyzing || isParsingFile || !content}
                       >
                         <Sparkles className="w-4 h-4 mr-2" />
-                        Analyze Now
+                        Run analysis
                         <ArrowRight className="w-4 h-4 ml-2" />
                       </Button>
 
@@ -1112,8 +1201,50 @@ const CSAnalyzer = () => {
               {/* Results State — V2 Pipeline (success) */}
               {step === "results" && reportVersion === "v2_panel" && pipelineResult?.finalReport && (
                 <div className="animate-fade-in">
-                    <div className="flex items-center justify-end mb-6">
-                    <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-between mb-4 gap-3 flex-wrap">
+                    {/* Public-share status indicator (left) */}
+                    {selectedSavedAnalysis?.is_public && selectedSavedAnalysis.public_share_id ? (
+                      <div className="flex items-center gap-2 text-xs">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">
+                          <Globe className="w-3 h-3" />
+                          Public
+                        </span>
+                        <button
+                          onClick={handleCopyShareLink}
+                          className="text-muted-foreground hover:text-navy-dark inline-flex items-center gap-1 underline-offset-2 hover:underline"
+                          title="Copy share link"
+                        >
+                          <Copy className="w-3 h-3" />
+                          Copy link
+                        </button>
+                      </div>
+                    ) : (
+                      <span /> /* spacer to keep right side aligned */
+                    )}
+
+                    {/* Action buttons (right) */}
+                    <div className="flex items-center gap-2 ml-auto">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="gap-2"
+                        disabled={isTogglingShare || !selectedSavedAnalysis?.id}
+                        onClick={handleToggleShare}
+                        title={selectedSavedAnalysis?.is_public ? "Make this report private again" : "Get a public link to share this report"}
+                      >
+                        {isTogglingShare ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Share2 className="w-4 h-4" />
+                        )}
+                        <span className="hidden sm:inline">
+                          {isTogglingShare
+                            ? "Updating…"
+                            : selectedSavedAnalysis?.is_public
+                            ? "Unshare"
+                            : "Share"}
+                        </span>
+                      </Button>
                       <Button
                         variant="outline"
                         size="sm"
@@ -1126,11 +1257,11 @@ const CSAnalyzer = () => {
                         ) : (
                           <FileDown className="w-4 h-4" />
                         )}
-                        <span className="hidden sm:inline">{isExportingPdf ? "Generating..." : "Export PDF"}</span>
+                        <span className="hidden sm:inline">{isExportingPdf ? "Generating…" : "Export PDF"}</span>
                       </Button>
                       <Button variant="outline" size="sm" onClick={handleStartOver} className="gap-2">
                         <RotateCcw className="w-4 h-4" />
-                        <span className="hidden sm:inline">New Analysis</span>
+                        <span className="hidden sm:inline">New analysis</span>
                       </Button>
                     </div>
                   </div>

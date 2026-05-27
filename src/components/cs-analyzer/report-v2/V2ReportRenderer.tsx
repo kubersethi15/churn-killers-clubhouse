@@ -33,15 +33,18 @@ export const V2ReportRenderer = ({ report, evidenceAnchors, title, createdAt }: 
 
   return (
     <EvidenceProvider anchors={evidenceAnchors}>
-      <div className="space-y-4">
-        {/* Report header */}
+      <div className="space-y-5">
+        {/* Editorial report masthead */}
         {title && (
-          <div className="mb-2">
-            <h1 className="text-lg md:text-xl font-serif font-bold text-navy-dark leading-tight">
+          <div className="mb-2 pb-4 border-b border-navy-dark/10">
+            <p className="text-[10px] uppercase tracking-[0.22em] text-red font-bold mb-2">
+              CS Analyzer Report
+            </p>
+            <h1 className="text-2xl md:text-3xl font-serif font-black text-navy-dark leading-tight tracking-tight">
               {title}
             </h1>
             {createdAt && (
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-xs text-muted-foreground mt-2">
                 {new Date(createdAt).toLocaleDateString("en-US", {
                   weekday: "long",
                   year: "numeric",

@@ -17,6 +17,7 @@ import {
   Edit2,
   Check,
   Wand2,
+  Upload,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -56,27 +57,15 @@ interface TriageChatProps {
   }) => void;
 }
 
-const INITIAL_MESSAGE: Message = {
-  id: "welcome",
-  role: "assistant",
-  content: `**Paste your call transcript below**
-
-I'll analyze it and:
-- **Classify the scenario** (Value, Risk, Internal, or Other)
-- **Extract context** (customer, stakeholders, key signals)
-- **Select the best analysis approach** automatically
-
-*More content types (QBR decks, success plans) coming soon.*`,
-};
-
 export const TriageChat = ({ onAnalysisReady }: TriageChatProps) => {
-  const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [lastClassification, setLastClassification] = useState<Classification | null>(null);
   const [originalContent, setOriginalContent] = useState<string>("");
   const [editableScenarioLabel, setEditableScenarioLabel] = useState<string>("");
   const [isEditingLabel, setIsEditingLabel] = useState(false);
+  const [isParsingFile, setIsParsingFile] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatScrollRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
@@ -91,6 +80,34 @@ export const TriageChat = ({ onAnalysisReady }: TriageChatProps) => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  const handleTriageFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsParsingFile(true);
+    try {
+      const { extractTextFromFile } = await import("@/utils/fileTextExtractor");
+      const result = await extractTextFromFile(file);
+      setInput(result.text);
+      toast({
+        title: result.truncated ? "File loaded (trimmed)" : "File loaded",
+        description: result.truncated
+          ? `${file.name} — used the first ${result.charCount.toLocaleString()} characters. Press Enter to classify.`
+          : `${file.name} — ${result.charCount.toLocaleString()} characters extracted. Press Enter to classify.`,
+      });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Could not read this file.";
+      toast({
+        title: "Couldn't read that file",
+        description: message,
+        variant: "destructive",
+      });
+      event.target.value = "";
+    } finally {
+      setIsParsingFile(false);
+    }
+  };
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -255,7 +272,7 @@ TRANSCRIPT:
     if (lastClassification.contentType !== "call-transcript") {
       toast({
         title: "Not yet supported",
-        description: "Currently only call transcripts can be analyzed. Other types are coming soon!",
+        description: "Right now the deep pipeline only runs on call transcripts. QBR decks + success plans coming soon.",
         variant: "destructive",
       });
       return;
@@ -282,7 +299,7 @@ TRANSCRIPT:
   };
 
   const handleReset = () => {
-    setMessages([INITIAL_MESSAGE]);
+    setMessages([]);
     setInput("");
     setLastClassification(null);
     setOriginalContent("");
@@ -298,17 +315,18 @@ TRANSCRIPT:
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-12rem)] max-h-[800px]">
-      {/* Chat Messages */}
-      <div ref={chatScrollRef} className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={cn(
-              "flex gap-3",
-              message.role === "user" ? "justify-end" : "justify-start"
-            )}
-          >
+    <div className="flex flex-col">
+      {/* Chat Messages — only shown once there are messages */}
+      {messages.length > 0 && (
+        <div ref={chatScrollRef} className="max-h-[400px] overflow-y-auto p-4 space-y-4 border-b border-navy-dark/5">
+          {messages.map((message) => (
+            <div
+              key={message.id}
+              className={cn(
+                "flex gap-3",
+                message.role === "user" ? "justify-end" : "justify-start"
+              )}
+            >
             {message.role === "assistant" && (
               <div className="w-8 h-8 rounded-full bg-navy-dark/10 flex items-center justify-center flex-shrink-0">
                 <Bot className="w-4 h-4 text-navy-dark" />
@@ -401,6 +419,7 @@ TRANSCRIPT:
 
         <div ref={messagesEndRef} />
       </div>
+      )}
 
       {/* Action Bar - Shows when classification is ready */}
       {lastClassification && lastClassification.contentType === "call-transcript" && originalContent && (
@@ -489,28 +508,58 @@ TRANSCRIPT:
       )}
 
       {/* Input Area */}
-      <div className="p-4 border-t bg-background">
+      <div className="p-4 bg-background">
         <div className="flex gap-2">
           <Textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Paste your content or ask a question..."
-            className="min-h-[80px] resize-none"
-            disabled={isLoading}
+            placeholder="Paste your transcript, or upload a file below…"
+            className="min-h-[140px] resize-none font-mono text-sm"
+            disabled={isLoading || isParsingFile}
           />
           <Button
             onClick={handleSend}
-            disabled={!input.trim() || isLoading}
+            disabled={!input.trim() || isLoading || isParsingFile}
             className="bg-navy-dark hover:bg-navy-dark/90 text-white self-end"
           >
             <Send className="w-4 h-4" />
           </Button>
         </div>
-        <div className="flex items-center justify-between mt-2">
-          <p className="text-xs text-muted-foreground">
-            Press Enter to send, Shift+Enter for new line
-          </p>
+        <div className="flex items-center justify-between mt-2 gap-3 flex-wrap">
+          <div className="flex items-center gap-3">
+            <p className="text-xs text-muted-foreground">
+              Press Enter to classify · Shift+Enter for new line
+            </p>
+            <span className="text-xs text-muted-foreground">·</span>
+            <input
+              type="file"
+              id="triage-file-upload"
+              className="hidden"
+              accept=".txt,.csv,.md,.docx,.pdf"
+              onChange={handleTriageFileUpload}
+              disabled={isParsingFile || isLoading}
+            />
+            <label
+              htmlFor="triage-file-upload"
+              className={cn(
+                "inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-navy-dark cursor-pointer transition-colors",
+                (isParsingFile || isLoading) && "pointer-events-none opacity-50"
+              )}
+            >
+              {isParsingFile ? (
+                <>
+                  <Loader2 className="w-3 h-3 animate-spin" />
+                  Reading file…
+                </>
+              ) : (
+                <>
+                  <Upload className="w-3 h-3" />
+                  Upload .txt, .docx, or .pdf
+                </>
+              )}
+            </label>
+          </div>
           {!input.trim() && !lastClassification && (
             <SampleTranscriptMenu 
               onSampleGenerated={(transcript) => setInput(transcript)}
