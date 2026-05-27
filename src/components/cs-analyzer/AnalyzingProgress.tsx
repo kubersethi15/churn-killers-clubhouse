@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import {
-  Sparkles,
   Search,
   ShieldCheck,
   TrendingUp,
@@ -75,17 +75,30 @@ interface AgentState {
   progress: number; // 0–100
 }
 
-const AgentCard = ({ agent, state }: { agent: PipelineAgent; state: AgentState }) => (
-  <div
+const AgentCard = ({ agent, state, index }: { agent: PipelineAgent; state: AgentState; index: number }) => (
+  <motion.div
+    layout
+    initial={{ opacity: 0, y: 8 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.4, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
     className={cn(
-      "relative rounded-xl border px-4 py-3 transition-all duration-500",
+      "relative rounded-xl border px-4 py-3 transition-colors duration-500",
       state.status === "active" && "border-red/30 bg-red/[0.03] shadow-sm",
       state.status === "complete" && "border-emerald-200 bg-emerald-50/50",
-      state.status === "pending" && "border-border bg-muted/30 opacity-50"
+      state.status === "pending" && "border-border bg-muted/30 opacity-60"
     )}
   >
-    <div className="flex items-start gap-3">
-      <div
+    {/* Active-state breathing edge */}
+    {state.status === "active" && (
+      <motion.div
+        className="absolute inset-0 rounded-xl border border-red/40 pointer-events-none"
+        animate={{ opacity: [0.4, 0.8, 0.4] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+      />
+    )}
+    <div className="flex items-start gap-3 relative">
+      <motion.div
+        layout
         className={cn(
           "w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 transition-colors duration-500",
           state.status === "active" && "bg-red/10 text-red",
@@ -93,14 +106,27 @@ const AgentCard = ({ agent, state }: { agent: PipelineAgent; state: AgentState }
           state.status === "pending" && "bg-muted text-muted-foreground"
         )}
       >
-        {state.status === "complete" ? (
-          <CheckCircle className="w-4 h-4" />
-        ) : state.status === "active" ? (
-          <Loader2 className="w-4 h-4 animate-spin" />
-        ) : (
-          agent.icon
-        )}
-      </div>
+        <AnimatePresence mode="wait" initial={false}>
+          {state.status === "complete" ? (
+            <motion.div
+              key="check"
+              initial={{ scale: 0, rotate: -90 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ type: "spring", stiffness: 400, damping: 18 }}
+            >
+              <CheckCircle className="w-4 h-4" />
+            </motion.div>
+          ) : state.status === "active" ? (
+            <motion.div key="spin" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+              <Loader2 className="w-4 h-4 animate-spin" />
+            </motion.div>
+          ) : (
+            <motion.div key="icon" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+              {agent.icon}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between gap-2">
           <h4
@@ -113,11 +139,19 @@ const AgentCard = ({ agent, state }: { agent: PipelineAgent; state: AgentState }
           >
             {agent.label}
           </h4>
-          {state.status === "complete" && (
-            <span className="text-[10px] text-emerald-600 font-medium uppercase tracking-wide">
-              Done
-            </span>
-          )}
+          <AnimatePresence>
+            {state.status === "complete" && (
+              <motion.span
+                key="done"
+                initial={{ opacity: 0, x: 6 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0 }}
+                className="text-[10px] text-emerald-600 font-medium uppercase tracking-wide"
+              >
+                Done
+              </motion.span>
+            )}
+          </AnimatePresence>
         </div>
         <p
           className={cn(
@@ -127,14 +161,22 @@ const AgentCard = ({ agent, state }: { agent: PipelineAgent; state: AgentState }
         >
           {state.status === "active" ? agent.detail : agent.description}
         </p>
-        {state.status === "active" && (
-          <div className="mt-2">
-            <Progress value={state.progress} className="h-1" />
-          </div>
-        )}
+        <AnimatePresence>
+          {state.status === "active" && (
+            <motion.div
+              key="bar"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="mt-2 overflow-hidden"
+            >
+              <Progress value={state.progress} className="h-1" />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
-  </div>
+  </motion.div>
 );
 
 export const AnalyzingProgress = () => {
@@ -209,20 +251,31 @@ export const AnalyzingProgress = () => {
   };
 
   return (
-    <div className="animate-fade-in max-w-2xl mx-auto py-8 md:py-12">
-      {/* Header */}
+    <div className="max-w-2xl mx-auto py-8 md:py-12">
+      {/* Editorial header */}
       <div className="text-center mb-10">
-        <div className="relative w-16 h-16 mx-auto mb-5">
-          <div className="absolute inset-0 rounded-full bg-red/10 animate-ping opacity-30" />
-          <div className="relative w-16 h-16 rounded-full bg-red/10 flex items-center justify-center">
-            <Sparkles className="w-7 h-7 text-red animate-pulse" />
-          </div>
+        <div className="relative w-14 h-14 mx-auto mb-5">
+          <motion.div
+            className="absolute inset-0 rounded-full bg-red/10"
+            animate={{ scale: [1, 1.25, 1], opacity: [0.4, 0, 0.4] }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: "easeOut" }}
+          />
+          <motion.div
+            className="relative w-14 h-14 rounded-full bg-red/10 flex items-center justify-center"
+            animate={{ scale: [1, 1.06, 1] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <div className="w-3 h-3 rounded-full bg-red" />
+          </motion.div>
         </div>
-        <h2 className="text-2xl md:text-3xl font-serif font-bold text-navy-dark mb-2">
-          Your analysis is underway
+        <p className="text-[10px] uppercase tracking-[0.22em] text-red font-bold mb-2">
+          Reading the call
+        </p>
+        <h2 className="text-2xl md:text-3xl font-serif font-black text-navy-dark mb-2 leading-tight tracking-tight">
+          Five agents are pulling this apart.
         </h2>
         <p className="text-muted-foreground text-sm max-w-md mx-auto">
-          Five specialized AI agents are reviewing your transcript from different angles to build a comprehensive report.
+          Evidence first, then commercial risk, then adoption, then a final pass that anchors every claim to a quote.
         </p>
       </div>
 
@@ -233,7 +286,14 @@ export const AnalyzingProgress = () => {
             <Clock className="w-3 h-3" />
             {formatTime(elapsedSeconds)} elapsed
           </span>
-          <span>{Math.round(overallProgress)}%</span>
+          <motion.span
+            key={Math.round(overallProgress / 5)}
+            initial={{ opacity: 0.5 }}
+            animate={{ opacity: 1 }}
+            className="tabular-nums"
+          >
+            {Math.round(overallProgress)}%
+          </motion.span>
         </div>
         <Progress value={overallProgress} className="h-2" />
       </div>
@@ -241,33 +301,38 @@ export const AnalyzingProgress = () => {
       {/* Agent Cards */}
       <div className="space-y-3">
         {/* Sequential agents: Preprocessor, Evidence */}
-        {PIPELINE_AGENTS.filter(a => a.id !== "commercial" && a.id !== "adoption" && a.id !== "judge").map((agent) => {
+        {PIPELINE_AGENTS.filter(a => a.id !== "commercial" && a.id !== "adoption" && a.id !== "judge").map((agent, i) => {
           const state = agentStates[agent.id];
           return (
-            <AgentCard key={agent.id} agent={agent} state={state} />
+            <AgentCard key={agent.id} agent={agent} state={state} index={i} />
           );
         })}
 
         {/* Parallel group: Commercial + Adoption */}
-        <div className="rounded-xl border border-dashed border-emerald-200/70 bg-emerald-50/20 p-3 space-y-3">
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
+          className="rounded-xl border border-dashed border-emerald-200/70 bg-emerald-50/20 p-3 space-y-3"
+        >
           <div className="flex items-center justify-center">
             <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
               Running in parallel
             </span>
           </div>
-          {PIPELINE_AGENTS.filter(a => a.id === "commercial" || a.id === "adoption").map((agent) => {
+          {PIPELINE_AGENTS.filter(a => a.id === "commercial" || a.id === "adoption").map((agent, i) => {
             const state = agentStates[agent.id];
             return (
-              <AgentCard key={agent.id} agent={agent} state={state} />
+              <AgentCard key={agent.id} agent={agent} state={state} index={i + 2} />
             );
           })}
-        </div>
+        </motion.div>
 
         {/* Judge */}
         {PIPELINE_AGENTS.filter(a => a.id === "judge").map((agent) => {
           const state = agentStates[agent.id];
           return (
-            <AgentCard key={agent.id} agent={agent} state={state} />
+            <AgentCard key={agent.id} agent={agent} state={state} index={4} />
           );
         })}
       </div>
