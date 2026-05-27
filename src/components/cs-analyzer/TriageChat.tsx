@@ -272,7 +272,7 @@ TRANSCRIPT:
     if (lastClassification.contentType !== "call-transcript") {
       toast({
         title: "Not yet supported",
-        description: "Currently only call transcripts can be analyzed. Other types are coming soon!",
+        description: "Right now the deep pipeline only runs on call transcripts. QBR decks + success plans coming soon.",
         variant: "destructive",
       });
       return;
@@ -529,7 +529,7 @@ TRANSCRIPT:
         <div className="flex items-center justify-between mt-2 gap-3 flex-wrap">
           <div className="flex items-center gap-3">
             <p className="text-xs text-muted-foreground">
-              Press Enter to send, Shift+Enter for new line
+              Press Enter to classify · Shift+Enter for new line
             </p>
             <span className="text-xs text-muted-foreground">·</span>
             <input

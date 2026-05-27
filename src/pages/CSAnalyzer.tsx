@@ -331,7 +331,7 @@ const CSAnalyzer = () => {
         if (!data.pipelineResult.success && data.pipelineResult.error?.includes("too short")) {
           toast({
             title: "Transcript too short",
-            description: "This transcript is too short for analysis. Please upload a complete call transcript — typically at least a few minutes of conversation.",
+            description: "We need at least a few minutes of conversation to find anything worth surfacing. Paste a longer transcript and try again.",
             variant: "destructive",
           });
           setStep("input");
@@ -343,8 +343,8 @@ const CSAnalyzer = () => {
         setAnalysisResult(null);
         setStep("results");
         toast({
-          title: "Analysis complete!",
-          description: `Multi-pass pipeline finished${data.pipelineResult.success ? '' : ' with partial results'}.`,
+          title: "Report ready",
+          description: `Five-agent read complete${data.pipelineResult.success ? '' : ' (partial results — check the Debug tab)'}.`,
         });
 
         // Auto-save for logged-in users
@@ -358,7 +358,7 @@ const CSAnalyzer = () => {
           if (!error && savedRow) {
             setSelectedSavedAnalysis(savedRow);
             window.dispatchEvent(new CustomEvent('analysis-saved'));
-            toast({ title: "Analysis saved", description: "You can access this analysis anytime from the sidebar." });
+            toast({ title: "Analysis saved", description: "It is in the sidebar whenever you need it." });
           }
         }
       } else if (data?.analysis) {
@@ -367,7 +367,7 @@ const CSAnalyzer = () => {
         setPipelineResult(null);
         setReportVersion('v1_single');
         setStep("results");
-        toast({ title: "Analysis complete!", description: "Your personalized insights are ready." });
+        toast({ title: "Report ready", description: "Scroll down — your report is below." });
 
         if (user) {
           const title = generateTitle(selectedType, content, data.analysis);
@@ -375,7 +375,7 @@ const CSAnalyzer = () => {
           if (!error && savedRow) {
             setSelectedSavedAnalysis(savedRow);
             window.dispatchEvent(new CustomEvent('analysis-saved'));
-            toast({ title: "Analysis saved", description: "You can access this analysis anytime from the sidebar." });
+            toast({ title: "Analysis saved", description: "It is in the sidebar whenever you need it." });
           }
         }
       } else {
@@ -785,8 +785,8 @@ const CSAnalyzer = () => {
         setAnalysisResult(null);
         setStep("results");
         toast({
-          title: "Analysis complete!",
-          description: `Multi-pass pipeline finished${data.pipelineResult.success ? '' : ' with partial results'}.`,
+          title: "Report ready",
+          description: `Five-agent read complete${data.pipelineResult.success ? '' : ' (partial results — check the Debug tab)'}.`,
         });
 
         if (user) {
@@ -799,7 +799,7 @@ const CSAnalyzer = () => {
           if (!saveError && savedRow) {
             setSelectedSavedAnalysis(savedRow);
             window.dispatchEvent(new CustomEvent('analysis-saved'));
-            toast({ title: "Analysis saved", description: "You can access this analysis anytime from the sidebar." });
+            toast({ title: "Analysis saved", description: "It is in the sidebar whenever you need it." });
           }
         }
       } else if (data?.analysis) {
@@ -809,8 +809,8 @@ const CSAnalyzer = () => {
         setReportVersion('v1_single');
         setStep("results");
         toast({
-          title: "Analysis complete!",
-          description: "Your personalized insights are ready.",
+          title: "Report ready",
+          description: "Scroll down — your report is below.",
         });
 
         if (user) {
@@ -819,7 +819,7 @@ const CSAnalyzer = () => {
           if (!saveError && savedRow) {
             setSelectedSavedAnalysis(savedRow);
             window.dispatchEvent(new CustomEvent('analysis-saved'));
-            toast({ title: "Analysis saved", description: "You can access this analysis anytime from the sidebar." });
+            toast({ title: "Analysis saved", description: "It is in the sidebar whenever you need it." });
           }
         }
       } else {
@@ -1147,7 +1147,7 @@ const CSAnalyzer = () => {
                         disabled={isAnalyzing || isParsingFile || !content}
                       >
                         <Sparkles className="w-4 h-4 mr-2" />
-                        Analyze Now
+                        Run analysis
                         <ArrowRight className="w-4 h-4 ml-2" />
                       </Button>
 
