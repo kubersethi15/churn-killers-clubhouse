@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import PastNewsletters from "./pages/PastNewsletters";
@@ -11,7 +11,6 @@ import NewsletterDetail from "./pages/NewsletterDetail";
 import About from "./pages/About";
 import Playbook from "./pages/Playbook";
 import CSAnalyzer from "./pages/CSAnalyzer";
-import CSAnalyzerWaitlist from "./pages/CSAnalyzerWaitlist";
 import AIExposureScore from "./pages/AIExposureScore";
 import StartHere from "./pages/StartHere";
 import Auth from "./pages/Auth";
@@ -35,7 +34,7 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/playbook" element={<Playbook />} />
             <Route path="/cs-analyzer" element={<CSAnalyzer />} />
-            <Route path="/cs-analyzer-waitlist" element={<CSAnalyzerWaitlist />} />
+            <Route path="/cs-analyzer-waitlist" element={<Navigate to="/cs-analyzer" replace />} />
             <Route path="/ai-exposure-score" element={<AIExposureScore />} />
             <Route path="/start" element={<StartHere />} />
             <Route path="/auth" element={<Auth />} />

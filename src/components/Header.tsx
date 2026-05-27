@@ -11,17 +11,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import NewsletterForm from "./NewsletterForm";
 import ContactDialog from "./ContactDialog";
-import WaitlistModal from "./WaitlistModal";
 import { useAuth } from "@/contexts/AuthContext";
 import { LogIn, User, LogOut, ChevronDown } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSubscribeOpen, setIsSubscribeOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
-  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, profile, signOut } = useAuth();
@@ -90,15 +87,9 @@ const Header = () => {
           <NavLink to="/playbook" className={getNavLinkClass}>
             Playbook Vault
           </NavLink>
-          <button
-            onClick={() => setIsWaitlistOpen(true)}
-            className="text-navy-dark hover:text-red-600 font-medium transition-colors flex items-center gap-2"
-          >
+          <NavLink to="/cs-analyzer" className={getNavLinkClass}>
             CS Analyzer
-            <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 border-amber-400 text-amber-600 bg-amber-50">
-              Soon
-            </Badge>
-          </button>
+          </NavLink>
           <button
             onClick={() => setIsSubscribeOpen(true)}
             className="ml-2 py-1.5 px-4 bg-red-600 text-white text-sm font-semibold rounded-lg hover:bg-red-700 transition-colors"
@@ -128,7 +119,7 @@ const Header = () => {
                   <DropdownMenuItem asChild>
                     <Link to="/cs-analyzer" className="cursor-pointer">
                       <User className="h-4 w-4 mr-2" />
-                      My Analyses
+                      CS Analyzer
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
@@ -213,18 +204,17 @@ const Header = () => {
             >
               Playbook Vault
             </NavLink>
-            <button
-              onClick={() => {
-                setIsMenuOpen(false);
-                setIsWaitlistOpen(true);
-              }}
-              className="text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1 flex items-center gap-2 text-left"
+            <NavLink 
+              to="/cs-analyzer" 
+              className={({ isActive }) => 
+                isActive 
+                  ? "text-red-600 font-medium transition-colors px-2 py-1" 
+                  : "text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
+              }
+              onClick={() => setIsMenuOpen(false)}
             >
               CS Analyzer
-              <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 border-amber-400 text-amber-600 bg-amber-50">
-                Soon
-              </Badge>
-            </button>
+            </NavLink>
             <div className="pt-2">
               <button
                 onClick={() => {
@@ -281,9 +271,6 @@ const Header = () => {
       
       {/* Contact Dialog */}
       <ContactDialog open={isContactOpen} onOpenChange={setIsContactOpen} />
-      
-      {/* Waitlist Modal */}
-      <WaitlistModal open={isWaitlistOpen} onOpenChange={setIsWaitlistOpen} source="nav" />
     </header>
   );
 };
