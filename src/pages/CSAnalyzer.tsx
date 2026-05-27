@@ -219,14 +219,38 @@ const CSAnalyzer = () => {
     setSelectedSavedAnalysis(null);
   };
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const [isParsingFile, setIsParsingFile] = useState(false);
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) {
-      setFileName(file.name);
+    if (!file) return;
+
+    setIsParsingFile(true);
+    setFileName(file.name);
+
+    try {
+      const { extractTextFromFile } = await import("@/utils/fileTextExtractor");
+      const result = await extractTextFromFile(file);
+      setContent(result.text);
       toast({
-        title: "File uploaded",
-        description: `${file.name} ready for analysis`,
+        title: result.truncated ? "File loaded (trimmed)" : "File loaded",
+        description: result.truncated
+          ? `${file.name} — used the first ${result.charCount.toLocaleString()} characters.`
+          : `${file.name} — ${result.charCount.toLocaleString()} characters extracted.`,
       });
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Could not read this file.";
+      setFileName(null);
+      toast({
+        title: "Couldn't read that file",
+        description: message,
+        variant: "destructive",
+      });
+      // Reset the input so the same file can be re-selected after fixing
+      event.target.value = "";
+    } finally {
+      setIsParsingFile(false);
     }
   };
 
@@ -250,10 +274,10 @@ const CSAnalyzer = () => {
       });
       return;
     }
-    if (!content && !fileName) {
+    if (!content) {
       toast({
         title: "Content required",
-        description: "Please paste your content or upload a file",
+        description: "Paste your transcript or upload a file before running analysis.",
         variant: "destructive",
       });
       return;
@@ -1032,19 +1056,32 @@ const CSAnalyzer = () => {
                             className="hidden"
                             accept={selectedOption.acceptedFormats}
                             onChange={handleFileUpload}
+                            disabled={isParsingFile}
                           />
-                          <label htmlFor="file-upload" className="cursor-pointer">
-                            <Upload className="w-10 h-10 mx-auto text-muted-foreground mb-3" />
-                            {fileName ? (
-                              <div>
-                                <p className="font-medium text-foreground">{fileName}</p>
-                                <p className="text-sm text-muted-foreground">Click to replace</p>
-                              </div>
+                          <label htmlFor="file-upload" className={cn("cursor-pointer", isParsingFile && "pointer-events-none opacity-60")}>
+                            {isParsingFile ? (
+                              <>
+                                <Loader2 className="w-10 h-10 mx-auto text-muted-foreground mb-3 animate-spin" />
+                                <p className="font-medium text-foreground">Reading file…</p>
+                                <p className="text-sm text-muted-foreground">Extracting text from {fileName}</p>
+                              </>
                             ) : (
-                              <div>
-                                <p className="font-medium text-foreground">Click to upload</p>
-                                <p className="text-sm text-muted-foreground">or drag and drop</p>
-                              </div>
+                              <>
+                                <Upload className="w-10 h-10 mx-auto text-muted-foreground mb-3" />
+                                {fileName && content ? (
+                                  <div>
+                                    <p className="font-medium text-foreground">{fileName}</p>
+                                    <p className="text-sm text-muted-foreground">
+                                      {content.length.toLocaleString()} characters loaded. Click to replace.
+                                    </p>
+                                  </div>
+                                ) : (
+                                  <div>
+                                    <p className="font-medium text-foreground">Click to upload</p>
+                                    <p className="text-sm text-muted-foreground">or drag and drop</p>
+                                  </div>
+                                )}
+                              </>
                             )}
                           </label>
                         </div>
@@ -1055,7 +1092,7 @@ const CSAnalyzer = () => {
                         onClick={handleAnalyze}
                         className="w-full bg-red hover:bg-red-dark text-white"
                         size="lg"
-                        disabled={isAnalyzing || (!content && !fileName)}
+                        disabled={isAnalyzing || isParsingFile || !content}
                       >
                         <Sparkles className="w-4 h-4 mr-2" />
                         Analyze Now

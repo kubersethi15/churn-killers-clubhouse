@@ -17,6 +17,7 @@ import {
   Edit2,
   Check,
   Wand2,
+  Upload,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -77,6 +78,7 @@ export const TriageChat = ({ onAnalysisReady }: TriageChatProps) => {
   const [originalContent, setOriginalContent] = useState<string>("");
   const [editableScenarioLabel, setEditableScenarioLabel] = useState<string>("");
   const [isEditingLabel, setIsEditingLabel] = useState(false);
+  const [isParsingFile, setIsParsingFile] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatScrollRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
@@ -91,6 +93,34 @@ export const TriageChat = ({ onAnalysisReady }: TriageChatProps) => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  const handleTriageFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsParsingFile(true);
+    try {
+      const { extractTextFromFile } = await import("@/utils/fileTextExtractor");
+      const result = await extractTextFromFile(file);
+      setInput(result.text);
+      toast({
+        title: result.truncated ? "File loaded (trimmed)" : "File loaded",
+        description: result.truncated
+          ? `${file.name} — used the first ${result.charCount.toLocaleString()} characters. Press Enter to classify.`
+          : `${file.name} — ${result.charCount.toLocaleString()} characters extracted. Press Enter to classify.`,
+      });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Could not read this file.";
+      toast({
+        title: "Couldn't read that file",
+        description: message,
+        variant: "destructive",
+      });
+      event.target.value = "";
+    } finally {
+      setIsParsingFile(false);
+    }
+  };
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -495,22 +525,52 @@ TRANSCRIPT:
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Paste your content or ask a question..."
+            placeholder="Paste your transcript, or upload a file below…"
             className="min-h-[80px] resize-none"
-            disabled={isLoading}
+            disabled={isLoading || isParsingFile}
           />
           <Button
             onClick={handleSend}
-            disabled={!input.trim() || isLoading}
+            disabled={!input.trim() || isLoading || isParsingFile}
             className="bg-navy-dark hover:bg-navy-dark/90 text-white self-end"
           >
             <Send className="w-4 h-4" />
           </Button>
         </div>
-        <div className="flex items-center justify-between mt-2">
-          <p className="text-xs text-muted-foreground">
-            Press Enter to send, Shift+Enter for new line
-          </p>
+        <div className="flex items-center justify-between mt-2 gap-3 flex-wrap">
+          <div className="flex items-center gap-3">
+            <p className="text-xs text-muted-foreground">
+              Press Enter to send, Shift+Enter for new line
+            </p>
+            <span className="text-xs text-muted-foreground">·</span>
+            <input
+              type="file"
+              id="triage-file-upload"
+              className="hidden"
+              accept=".txt,.csv,.md,.docx,.pdf"
+              onChange={handleTriageFileUpload}
+              disabled={isParsingFile || isLoading}
+            />
+            <label
+              htmlFor="triage-file-upload"
+              className={cn(
+                "inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-navy-dark cursor-pointer transition-colors",
+                (isParsingFile || isLoading) && "pointer-events-none opacity-50"
+              )}
+            >
+              {isParsingFile ? (
+                <>
+                  <Loader2 className="w-3 h-3 animate-spin" />
+                  Reading file…
+                </>
+              ) : (
+                <>
+                  <Upload className="w-3 h-3" />
+                  Upload .txt, .docx, or .pdf
+                </>
+              )}
+            </label>
+          </div>
           {!input.trim() && !lastClassification && (
             <SampleTranscriptMenu 
               onSampleGenerated={(transcript) => setInput(transcript)}
