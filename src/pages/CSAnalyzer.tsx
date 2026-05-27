@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
@@ -59,6 +60,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { stepVariants, staggerContainer, sectionFadeUp, popIn } from "@/lib/motion";
 
 type AnalysisType = "call-transcript" | "qbr-deck" | "success-plan" | "health-assessment" | null;
 type CallCategory = "customer-value" | "customer-risk" | "internal-strategy" | null;
@@ -951,9 +953,17 @@ const CSAnalyzer = () => {
                 </div>
               )}
 
+              <AnimatePresence mode="wait">
               {/* Step 1: Select Analysis Type */}
               {step === "select" && (
-                <div className="animate-fade-in max-w-3xl mx-auto">
+                <motion.div
+                  key="step-select"
+                  variants={stepVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className="max-w-3xl mx-auto"
+                >
                   <div className="w-full">
                       {/* Editorial header */}
                       <div className="mb-8 md:mb-10">
@@ -991,12 +1001,18 @@ const CSAnalyzer = () => {
                         Don't have a transcript handy? Use <strong className="text-navy-dark">Try a sample</strong> below the input.
                       </p>
                   </div>
-                </div>
+                </motion.div>
               )}
 
               {/* Step 2: Input Content */}
               {step === "input" && selectedOption && (
-                <div className="animate-fade-in">
+                <motion.div
+                  key="step-input"
+                  variants={stepVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                >
                   <Button
                     variant="ghost"
                     onClick={handleBack}
@@ -1161,17 +1177,32 @@ const CSAnalyzer = () => {
                       )}
                     </CardContent>
                   </Card>
-                </div>
+                </motion.div>
               )}
 
               {/* Analyzing State */}
               {step === "analyzing" && (
-                <AnalyzingProgress />
+                <motion.div
+                  key="step-analyzing"
+                  variants={stepVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                >
+                  <AnalyzingProgress />
+                </motion.div>
               )}
 
               {/* Results State — V2 Pipeline (failed — no finalReport) */}
               {step === "results" && reportVersion === "v2_panel" && pipelineResult && !pipelineResult.finalReport && (
-                <div className="animate-fade-in max-w-xl mx-auto py-8">
+                <motion.div
+                  key="step-results-failed"
+                  variants={stepVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className="max-w-xl mx-auto py-8"
+                >
                   <div className="text-center mb-6">
                     <div className="w-14 h-14 rounded-full bg-destructive/10 flex items-center justify-center mx-auto mb-4">
                       <AlertTriangle className="w-7 h-7 text-destructive" />
@@ -1195,32 +1226,47 @@ const CSAnalyzer = () => {
                       </Button>
                     </CardContent>
                   </Card>
-                </div>
+                </motion.div>
               )}
 
               {/* Results State — V2 Pipeline (success) */}
               {step === "results" && reportVersion === "v2_panel" && pipelineResult?.finalReport && (
-                <div className="animate-fade-in">
+                <motion.div
+                  key="step-results-success"
+                  variants={stepVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                >
                   <div className="flex items-center justify-between mb-4 gap-3 flex-wrap">
                     {/* Public-share status indicator (left) */}
-                    {selectedSavedAnalysis?.is_public && selectedSavedAnalysis.public_share_id ? (
-                      <div className="flex items-center gap-2 text-xs">
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">
-                          <Globe className="w-3 h-3" />
-                          Public
-                        </span>
-                        <button
-                          onClick={handleCopyShareLink}
-                          className="text-muted-foreground hover:text-navy-dark inline-flex items-center gap-1 underline-offset-2 hover:underline"
-                          title="Copy share link"
+                    <AnimatePresence>
+                      {selectedSavedAnalysis?.is_public && selectedSavedAnalysis.public_share_id ? (
+                        <motion.div
+                          key="public-indicator"
+                          variants={popIn}
+                          initial="initial"
+                          animate="animate"
+                          exit="exit"
+                          className="flex items-center gap-2 text-xs"
                         >
-                          <Copy className="w-3 h-3" />
-                          Copy link
-                        </button>
-                      </div>
-                    ) : (
-                      <span /> /* spacer to keep right side aligned */
-                    )}
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">
+                            <Globe className="w-3 h-3" />
+                            Public
+                          </span>
+                          <button
+                            onClick={handleCopyShareLink}
+                            className="text-muted-foreground hover:text-navy-dark inline-flex items-center gap-1 underline-offset-2 hover:underline"
+                            title="Copy share link"
+                          >
+                            <Copy className="w-3 h-3" />
+                            Copy link
+                          </button>
+                        </motion.div>
+                      ) : (
+                        <span key="spacer" />
+                      )}
+                    </AnimatePresence>
 
                     {/* Action buttons (right) */}
                     <div className="flex items-center gap-2 ml-auto">
@@ -1330,8 +1376,9 @@ const CSAnalyzer = () => {
                     </TabsContent>
 
                   </Tabs>
-                </div>
+                </motion.div>
               )}
+              </AnimatePresence>
           </div>
       </main>
       
