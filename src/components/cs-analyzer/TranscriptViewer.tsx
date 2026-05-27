@@ -1,8 +1,22 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import Fuse from "fuse.js";
 import { Input } from "@/components/ui/input";
-import { Search, ChevronUp, ChevronDown, X } from "lucide-react";
+import { Search, ChevronUp, ChevronDown, X, AlertTriangle, TrendingUp, Target, Sparkles, Link as LinkIcon } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import {
+  FloatingSelectionMenu,
+  buildDefaultTranscriptActions,
+  type HighlightKind,
+} from "./FloatingSelectionMenu";
+import { useToast } from "@/hooks/use-toast";
 
 interface TranscriptViewerProps {
   transcript: string;
@@ -25,6 +39,19 @@ export const TranscriptViewer = ({ transcript, viewerRef }: TranscriptViewerProp
   const [activeIdx, setActiveIdx] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const lineRefs = useRef<Record<number, HTMLDivElement | null>>({});
+  const transcriptRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
+
+  /**
+   * Per-line highlight kind (risk / opportunity / action). Local state only —
+   * not persisted to the DB yet (that's on the roadmap when we ship persisted
+   * annotations). Indexed by line index.
+   */
+  const [highlights, setHighlights] = useState<Record<number, HighlightKind>>({});
+  const [askDialog, setAskDialog] = useState<{ open: boolean; text: string }>({
+    open: false,
+    text: "",
+  });
 
   // Split transcript into lines, keeping blank lines so the original layout
   // is preserved. Empty trailing lines are dropped.
@@ -178,13 +205,14 @@ export const TranscriptViewer = ({ transcript, viewerRef }: TranscriptViewerProp
 
       {/* Lines */}
       <div className="p-4 max-h-[700px] overflow-y-auto">
-        <div className="font-mono text-[13px] leading-relaxed text-report-text">
+        <div ref={transcriptRef} className="font-mono text-[13px] leading-relaxed text-report-text relative">
           {lines.length === 0 ? (
             <p className="text-muted-foreground italic font-sans">No transcript available.</p>
           ) : (
             lines.map((line, idx) => {
               const isMatch = matchSet.has(idx);
               const isActive = idx === activeLineIdx;
+              const highlight = highlights[idx];
               return (
                 <div
                   key={idx}
@@ -195,7 +223,11 @@ export const TranscriptViewer = ({ transcript, viewerRef }: TranscriptViewerProp
                       ? "bg-red/15 ring-1 ring-red/40"
                       : isMatch
                       ? "bg-amber-100/60 dark:bg-amber-900/30"
-                      : ""
+                      : "",
+                    // Highlight strata stack with search but use a subtle underline accent
+                    highlight === "risk" && "border-l-2 border-red pl-2",
+                    highlight === "opportunity" && "border-l-2 border-emerald-500 pl-2",
+                    highlight === "action" && "border-l-2 border-amber-500 pl-2"
                   )}
                   data-line-index={idx}
                 >
@@ -204,8 +236,98 @@ export const TranscriptViewer = ({ transcript, viewerRef }: TranscriptViewerProp
               );
             })
           )}
+
+          {/* Highlight-to-ask floating menu, scoped to the transcript */}
+          <FloatingSelectionMenu
+            containerRef={transcriptRef}
+            actions={buildDefaultTranscriptActions({
+              onCopy: async (text) => {
+                try {
+                  await navigator.clipboard.writeText(text);
+                  toast({ title: "Copied", description: `${text.slice(0, 60)}${text.length > 60 ? "…" : ""}` });
+                } catch {
+                  toast({ title: "Couldn't copy", variant: "destructive" });
+                }
+              },
+              onSearch: (text) => {
+                setQuery(text.length > 40 ? text.slice(0, 40) : text);
+                inputRef.current?.focus();
+              },
+              onHighlight: (text, kind) => {
+                // Find which line(s) contain this selection
+                const idxs: number[] = [];
+                lines.forEach((line, i) => {
+                  if (line.includes(text) || text.includes(line.trim())) idxs.push(i);
+                });
+                if (idxs.length === 0) {
+                  toast({
+                    title: "Couldn't pin highlight",
+                    description: "Try selecting within a single line.",
+                  });
+                  return;
+                }
+                setHighlights((prev) => {
+                  const next = { ...prev };
+                  idxs.forEach((i) => {
+                    next[i] = kind;
+                  });
+                  return next;
+                });
+                window.getSelection()?.removeAllRanges();
+                const label = kind === "risk" ? "Risk" : kind === "opportunity" ? "Opportunity" : "Action";
+                toast({ title: `Marked as ${label}`, description: `${idxs.length} line${idxs.length > 1 ? "s" : ""}.` });
+              },
+            })}
+            onAsk={(text) => {
+              setAskDialog({ open: true, text });
+              window.getSelection()?.removeAllRanges();
+            }}
+          />
         </div>
       </div>
+
+      {/* "Ask about this" dialog — stub until chat-over-document ships */}
+      <Dialog open={askDialog.open} onOpenChange={(open) => setAskDialog((s) => ({ ...s, open }))}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="font-serif text-xl font-black text-navy-dark">
+              Ask about this snippet
+            </DialogTitle>
+            <DialogDescription>
+              Conversational follow-ups (chat-over-document) are on the roadmap. For now you can grab the snippet and use it in your CRM, Slack, or the next CSM 1:1.
+            </DialogDescription>
+          </DialogHeader>
+          <blockquote className="font-mono text-[13px] leading-relaxed text-navy-dark border-l-2 border-red pl-3 py-1 my-2 bg-red/[0.03]">
+            &ldquo;{askDialog.text}&rdquo;
+          </blockquote>
+          <div className="flex items-center gap-2 justify-end pt-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={async () => {
+                try {
+                  await navigator.clipboard.writeText(`"${askDialog.text}"`);
+                  toast({ title: "Copied as quote" });
+                  setAskDialog({ open: false, text: "" });
+                } catch {
+                  /* no-op */
+                }
+              }}
+            >
+              <LinkIcon className="w-3.5 h-3.5 mr-1.5" />
+              Copy as quote
+            </Button>
+            <Button
+              variant="default"
+              size="sm"
+              className="bg-red hover:bg-red-dark"
+              onClick={() => setAskDialog({ open: false, text: "" })}
+            >
+              Got it
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
