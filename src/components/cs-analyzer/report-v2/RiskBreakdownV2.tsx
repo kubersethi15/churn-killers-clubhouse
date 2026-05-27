@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { AlertTriangle, Shield } from "lucide-react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { cn } from "@/lib/utils";
 import { reportTypography, reportLayout } from "../report/reportStyles";
 import { EvidenceChip } from "./EvidenceChip";
@@ -28,6 +29,8 @@ const severityColors: Record<string, string> = {
 const severityOrder: Record<string, number> = { critical: 0, high: 1, medium: 2, low: 3 };
 
 export const RiskBreakdownV2 = ({ threatClassification, riskItems, sectionConfidences }: RiskBreakdownV2Props) => {
+  const [riskListParent] = useAutoAnimate<HTMLDivElement>();
+
   // Build chart data: group risks by severity
   const severityCounts = riskItems.reduce<Record<string, number>>((acc, r) => {
     acc[r.severity] = (acc[r.severity] || 0) + 1;
@@ -83,7 +86,7 @@ export const RiskBreakdownV2 = ({ threatClassification, riskItems, sectionConfid
             )}
 
             {/* Risk items list */}
-            <div className="space-y-2">
+            <div ref={riskListParent} className="space-y-2">
               {riskItems
                 .sort((a, b) => (severityOrder[a.severity] ?? 4) - (severityOrder[b.severity] ?? 4))
                 .map((risk, idx) => (

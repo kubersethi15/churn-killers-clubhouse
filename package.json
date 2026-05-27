@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^0.8.2",
     "@hookform/resolvers": "^3.9.0",
     "@nivo/bar": "^0.99.0",
     "@nivo/core": "^0.99.0",
@@ -51,6 +52,7 @@
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.3.0",
+    "framer-motion": "^11.11.17",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.462.0",
     "mammoth": "^1.8.0",

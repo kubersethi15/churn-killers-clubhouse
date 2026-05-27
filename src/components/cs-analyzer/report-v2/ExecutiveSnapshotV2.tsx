@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { AlertTriangle, Shield } from "lucide-react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { cn } from "@/lib/utils";
 import { reportTypography } from "../report/reportStyles";
 import { EvidenceChip } from "./EvidenceChip";
@@ -21,6 +22,7 @@ const threatConfig: Record<ThreatType, { label: string; color: string; bg: strin
 
 export const ExecutiveSnapshotV2 = ({ data }: ExecutiveSnapshotV2Props) => {
   const threat = threatConfig[data.primary_threat] || threatConfig.unknown;
+  const [takeawaysParent] = useAutoAnimate<HTMLOListElement>();
 
   return (
     <Card className="overflow-hidden border border-navy-dark/10 shadow-sm">
@@ -66,7 +68,7 @@ export const ExecutiveSnapshotV2 = ({ data }: ExecutiveSnapshotV2Props) => {
             <p className="text-[10px] uppercase tracking-[0.18em] text-navy-dark/60 font-bold">
               Top {data.top_3_takeaways.length} Takeaways
             </p>
-            <ol className="space-y-3">
+            <ol ref={takeawaysParent} className="space-y-3">
               {data.top_3_takeaways.map((t, idx) => (
                 <li
                   key={idx}

@@ -19,6 +19,7 @@ import Auth from "./pages/Auth";
 import AdminPanel from "./components/AdminPanel";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 import Distribution from "./pages/Distribution";
+import { CommandPalette } from "./components/CommandPalette";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <CommandPalette />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/newsletters" element={<PastNewsletters />} />

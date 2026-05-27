@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+import { staggerContainer, sectionFadeUp } from "@/lib/motion";
 import { EvidenceProvider } from "./EvidenceContext";
 import { ExecutiveSnapshotV2 } from "./ExecutiveSnapshotV2";
 import { RiskBreakdownV2 } from "./RiskBreakdownV2";
@@ -22,6 +24,14 @@ interface V2ReportRendererProps {
   createdAt?: string;
 }
 
+/**
+ * Wraps any child node in a fade-up section. Keeps the conditional-render
+ * logic below readable instead of repeating motion.div boilerplate.
+ */
+const Section = ({ children }: { children: React.ReactNode }) => (
+  <motion.div variants={sectionFadeUp}>{children}</motion.div>
+);
+
 export const V2ReportRenderer = ({ report, evidenceAnchors, title, createdAt }: V2ReportRendererProps) => {
   const si = report.section_included;
 
@@ -33,10 +43,15 @@ export const V2ReportRenderer = ({ report, evidenceAnchors, title, createdAt }: 
 
   return (
     <EvidenceProvider anchors={evidenceAnchors}>
-      <div className="space-y-5">
+      <motion.div
+        className="space-y-5"
+        variants={staggerContainer}
+        initial="initial"
+        animate="animate"
+      >
         {/* Editorial report masthead */}
         {title && (
-          <div className="mb-2 pb-4 border-b border-navy-dark/10">
+          <motion.div variants={sectionFadeUp} className="mb-2 pb-4 border-b border-navy-dark/10">
             <p className="text-[10px] uppercase tracking-[0.22em] text-red font-bold mb-2">
               CS Analyzer Report
             </p>
@@ -55,58 +70,94 @@ export const V2ReportRenderer = ({ report, evidenceAnchors, title, createdAt }: 
                 })}
               </p>
             )}
-          </div>
+          </motion.div>
         )}
 
         {/* Row 1: Executive Snapshot (always) */}
-        {si.executive_snapshot && <ExecutiveSnapshotV2 data={report.executive_snapshot} />}
+        {si.executive_snapshot && (
+          <Section>
+            <ExecutiveSnapshotV2 data={report.executive_snapshot} />
+          </Section>
+        )}
 
         {/* Row 2: Risk Breakdown + Section Confidence */}
         {si.risks_and_threats && (
-          <RiskBreakdownV2
-            threatClassification={report.risks_and_threats.threat_classification}
-            riskItems={report.risks_and_threats.risk_items}
-            sectionConfidences={sectionConfidences}
-          />
+          <Section>
+            <RiskBreakdownV2
+              threatClassification={report.risks_and_threats.threat_classification}
+              riskItems={report.risks_and_threats.risk_items}
+              sectionConfidences={sectionConfidences}
+            />
+          </Section>
         )}
 
         {/* Stakeholders (conditional) */}
         {si.stakeholder_power_map && report.stakeholder_power_map.stakeholders.length > 0 && (
-          <StakeholderMapV2
-            stakeholders={report.stakeholder_power_map.stakeholders}
-            summary={report.stakeholder_power_map.summary}
-          />
+          <Section>
+            <StakeholderMapV2
+              stakeholders={report.stakeholder_power_map.stakeholders}
+              summary={report.stakeholder_power_map.summary}
+            />
+          </Section>
         )}
 
         {/* Facts timeline (always if present) */}
         {si.evidence_backed_facts && report.evidence_backed_facts.length > 0 && (
-          <FactsTimeline facts={report.evidence_backed_facts} />
+          <Section>
+            <FactsTimeline facts={report.evidence_backed_facts} />
+          </Section>
         )}
 
         {/* Action Plan (always) */}
         {si.action_plan_14_days && report.action_plan_14_days.length > 0 && (
-          <ActionPlanChecklist actions={report.action_plan_14_days} />
+          <Section>
+            <ActionPlanChecklist actions={report.action_plan_14_days} />
+          </Section>
         )}
 
         {/* Conditional sections — compact cards only if included AND have content */}
-        {si.procurement_and_timeline && <ProcurementTimeline data={report.procurement_and_timeline} />}
-        {si.incident_impact && <IncidentImpact data={report.incident_impact} />}
-        {si.expansion_plays && report.expansion_plays.length > 0 && <ExpansionPlays data={report.expansion_plays} />}
+        {si.procurement_and_timeline && (
+          <Section>
+            <ProcurementTimeline data={report.procurement_and_timeline} />
+          </Section>
+        )}
+        {si.incident_impact && (
+          <Section>
+            <IncidentImpact data={report.incident_impact} />
+          </Section>
+        )}
+        {si.expansion_plays && report.expansion_plays.length > 0 && (
+          <Section>
+            <ExpansionPlays data={report.expansion_plays} />
+          </Section>
+        )}
 
         {/* Expansion Readiness (new) */}
         {report.expansion_readiness && (
-          <ExpansionReadinessSection data={report.expansion_readiness} />
+          <Section>
+            <ExpansionReadinessSection data={report.expansion_readiness} />
+          </Section>
         )}
 
-        {si.value_narrative_gaps && report.value_narrative_gaps.length > 0 && <ValueNarrativeGaps data={report.value_narrative_gaps} />}
+        {si.value_narrative_gaps && report.value_narrative_gaps.length > 0 && (
+          <Section>
+            <ValueNarrativeGaps data={report.value_narrative_gaps} />
+          </Section>
+        )}
 
         {/* Conversational Gaps (new) */}
         {si.conversational_gaps && report.conversational_gaps && report.conversational_gaps.length > 0 && (
-          <ConversationalGapsSection data={report.conversational_gaps} />
+          <Section>
+            <ConversationalGapsSection data={report.conversational_gaps} />
+          </Section>
         )}
 
-        {si.cs_rep_effectiveness && <CSRepEffectiveness data={report.cs_rep_effectiveness} />}
-      </div>
+        {si.cs_rep_effectiveness && (
+          <Section>
+            <CSRepEffectiveness data={report.cs_rep_effectiveness} />
+          </Section>
+        )}
+      </motion.div>
     </EvidenceProvider>
   );
 };

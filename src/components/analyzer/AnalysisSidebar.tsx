@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAnalyses, Analysis } from "@/hooks/useAnalyses";
@@ -57,6 +58,7 @@ export const AnalysisSidebar = ({
   const [editingTitle, setEditingTitle] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [allAnalysesOpen, setAllAnalysesOpen] = useState(false);
+  const [recentsParent] = useAutoAnimate<HTMLDivElement>();
 
   const recentAnalyses = analyses.slice(0, RECENTS_COUNT);
 
@@ -250,7 +252,7 @@ export const AnalysisSidebar = ({
                 <p className="px-3 text-[11px] font-medium text-white/40 uppercase tracking-wider mb-1">
                   Recents
                 </p>
-                <div className="px-2 space-y-0.5 flex-1 overflow-y-auto">
+                <div ref={recentsParent} className="px-2 space-y-0.5 flex-1 overflow-y-auto">
                   {recentAnalyses.map((analysis) => (
                     <div
                       key={analysis.id}
