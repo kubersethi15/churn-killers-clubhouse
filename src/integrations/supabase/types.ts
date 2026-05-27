@@ -21,6 +21,8 @@ export type Database = {
           group_id: string | null
           id: string
           input_text: string
+          is_public: boolean
+          public_share_id: string
           results: Json
           title: string
           user_id: string
@@ -31,6 +33,8 @@ export type Database = {
           group_id?: string | null
           id?: string
           input_text: string
+          is_public?: boolean
+          public_share_id?: string
           results: Json
           title: string
           user_id: string
@@ -41,6 +45,8 @@ export type Database = {
           group_id?: string | null
           id?: string
           input_text?: string
+          is_public?: boolean
+          public_share_id?: string
           results?: Json
           title?: string
           user_id?: string

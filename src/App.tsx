@@ -12,6 +12,7 @@ import About from "./pages/About";
 import Playbook from "./pages/Playbook";
 import CSAnalyzer from "./pages/CSAnalyzer";
 import CSAnalyzerDemo from "./pages/CSAnalyzerDemo";
+import CSAnalyzerShare from "./pages/CSAnalyzerShare";
 import AIExposureScore from "./pages/AIExposureScore";
 import StartHere from "./pages/StartHere";
 import Auth from "./pages/Auth";
@@ -36,6 +37,7 @@ const App = () => (
             <Route path="/playbook" element={<Playbook />} />
             <Route path="/cs-analyzer" element={<CSAnalyzer />} />
             <Route path="/cs-analyzer/demo" element={<CSAnalyzerDemo />} />
+            <Route path="/cs-analyzer/share/:shareId" element={<CSAnalyzerShare />} />
             <Route path="/cs-analyzer-waitlist" element={<Navigate to="/cs-analyzer" replace />} />
             <Route path="/ai-exposure-score" element={<AIExposureScore />} />
             <Route path="/start" element={<StartHere />} />

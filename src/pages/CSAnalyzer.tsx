@@ -44,6 +44,8 @@ import {
   Layers,
   AlertTriangle,
   X,
+  Share2,
+  Globe,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -173,9 +175,10 @@ const CSAnalyzer = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [analyzerMode, setAnalyzerMode] = useState<"manual" | "ai-triage">("ai-triage");
   const [isExportingPdf, setIsExportingPdf] = useState(false);
+  const [isTogglingShare, setIsTogglingShare] = useState(false);
   const { toast } = useToast();
   const { user, profile, signOut, isLoading: authLoading } = useAuth();
-  const { saveAnalysis, fetchAnalyses } = useAnalyses();
+  const { saveAnalysis, fetchAnalyses, setAnalysisPublic } = useAnalyses();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -351,8 +354,9 @@ const CSAnalyzer = () => {
           const title = reportCustomerName
             || data.pipelineResult.finalReport?.executive_snapshot?.one_liner?.slice(0, 60)
             || generateTitle(selectedType, content);
-          const { error } = await saveAnalysis(title, selectedType || "unknown", content, JSON.stringify({ pipelineResult: data.pipelineResult, reportVersion: 'v2_panel' }));
-          if (!error) {
+          const { data: savedRow, error } = await saveAnalysis(title, selectedType || "unknown", content, JSON.stringify({ pipelineResult: data.pipelineResult, reportVersion: 'v2_panel' }));
+          if (!error && savedRow) {
+            setSelectedSavedAnalysis(savedRow);
             window.dispatchEvent(new CustomEvent('analysis-saved'));
             toast({ title: "Analysis saved", description: "You can access this analysis anytime from the sidebar." });
           }
@@ -367,8 +371,9 @@ const CSAnalyzer = () => {
 
         if (user) {
           const title = generateTitle(selectedType, content, data.analysis);
-          const { error } = await saveAnalysis(title, selectedType || "unknown", content, data.analysis);
-          if (!error) {
+          const { data: savedRow, error } = await saveAnalysis(title, selectedType || "unknown", content, data.analysis);
+          if (!error && savedRow) {
+            setSelectedSavedAnalysis(savedRow);
             window.dispatchEvent(new CustomEvent('analysis-saved'));
             toast({ title: "Analysis saved", description: "You can access this analysis anytime from the sidebar." });
           }
@@ -440,6 +445,71 @@ const CSAnalyzer = () => {
     
     // Last resort: use type and date
     return `${typeLabel} - ${date}`;
+  };
+
+  const handleToggleShare = async () => {
+    if (!selectedSavedAnalysis?.id) {
+      toast({
+        title: "Saving first…",
+        description: "Give it a second — we're still saving the analysis.",
+      });
+      return;
+    }
+
+    const nextPublicState = !selectedSavedAnalysis.is_public;
+    setIsTogglingShare(true);
+
+    try {
+      const { data, error } = await setAnalysisPublic(selectedSavedAnalysis.id, nextPublicState);
+
+      if (error || !data) {
+        throw error || new Error("Could not update sharing.");
+      }
+
+      // Update local state so the button reflects new sharing state
+      setSelectedSavedAnalysis(data);
+
+      if (nextPublicState && data.public_share_id) {
+        const url = `${window.location.origin}/cs-analyzer/share/${data.public_share_id}`;
+        try {
+          await navigator.clipboard.writeText(url);
+          toast({
+            title: "Link copied",
+            description: "Anyone with this link can view the report. Click the button again to make it private.",
+          });
+        } catch {
+          // clipboard may fail in some browsers/contexts — still show URL
+          toast({
+            title: "Report is now public",
+            description: url,
+          });
+        }
+      } else {
+        toast({
+          title: "Report is private again",
+          description: "The shared link no longer works.",
+        });
+      }
+    } catch (err) {
+      toast({
+        title: "Couldn't update sharing",
+        description: err instanceof Error ? err.message : "Try again in a moment.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsTogglingShare(false);
+    }
+  };
+
+  const handleCopyShareLink = async () => {
+    if (!selectedSavedAnalysis?.public_share_id) return;
+    const url = `${window.location.origin}/cs-analyzer/share/${selectedSavedAnalysis.public_share_id}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      toast({ title: "Link copied", description: "Public share link is on your clipboard." });
+    } catch {
+      toast({ title: "Share link", description: url });
+    }
   };
 
   const handleStartOver = () => {
@@ -725,8 +795,9 @@ const CSAnalyzer = () => {
           const title = reportCustomerName
             || data.pipelineResult.finalReport?.executive_snapshot?.one_liner?.slice(0, 60)
             || generateTitle(params.contentType as AnalysisType, params.content);
-          const { error: saveError } = await saveAnalysis(title, params.contentType, params.content, JSON.stringify({ pipelineResult: data.pipelineResult, reportVersion: 'v2_panel' }));
-          if (!saveError) {
+          const { data: savedRow, error: saveError } = await saveAnalysis(title, params.contentType, params.content, JSON.stringify({ pipelineResult: data.pipelineResult, reportVersion: 'v2_panel' }));
+          if (!saveError && savedRow) {
+            setSelectedSavedAnalysis(savedRow);
             window.dispatchEvent(new CustomEvent('analysis-saved'));
             toast({ title: "Analysis saved", description: "You can access this analysis anytime from the sidebar." });
           }
@@ -744,8 +815,9 @@ const CSAnalyzer = () => {
 
         if (user) {
           const title = generateTitle(params.contentType as AnalysisType, params.content, data.analysis);
-          const { error: saveError } = await saveAnalysis(title, params.contentType, params.content, data.analysis);
-          if (!saveError) {
+          const { data: savedRow, error: saveError } = await saveAnalysis(title, params.contentType, params.content, data.analysis);
+          if (!saveError && savedRow) {
+            setSelectedSavedAnalysis(savedRow);
             window.dispatchEvent(new CustomEvent('analysis-saved'));
             toast({ title: "Analysis saved", description: "You can access this analysis anytime from the sidebar." });
           }
@@ -1129,8 +1201,50 @@ const CSAnalyzer = () => {
               {/* Results State — V2 Pipeline (success) */}
               {step === "results" && reportVersion === "v2_panel" && pipelineResult?.finalReport && (
                 <div className="animate-fade-in">
-                    <div className="flex items-center justify-end mb-6">
-                    <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-between mb-4 gap-3 flex-wrap">
+                    {/* Public-share status indicator (left) */}
+                    {selectedSavedAnalysis?.is_public && selectedSavedAnalysis.public_share_id ? (
+                      <div className="flex items-center gap-2 text-xs">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">
+                          <Globe className="w-3 h-3" />
+                          Public
+                        </span>
+                        <button
+                          onClick={handleCopyShareLink}
+                          className="text-muted-foreground hover:text-navy-dark inline-flex items-center gap-1 underline-offset-2 hover:underline"
+                          title="Copy share link"
+                        >
+                          <Copy className="w-3 h-3" />
+                          Copy link
+                        </button>
+                      </div>
+                    ) : (
+                      <span /> /* spacer to keep right side aligned */
+                    )}
+
+                    {/* Action buttons (right) */}
+                    <div className="flex items-center gap-2 ml-auto">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="gap-2"
+                        disabled={isTogglingShare || !selectedSavedAnalysis?.id}
+                        onClick={handleToggleShare}
+                        title={selectedSavedAnalysis?.is_public ? "Make this report private again" : "Get a public link to share this report"}
+                      >
+                        {isTogglingShare ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Share2 className="w-4 h-4" />
+                        )}
+                        <span className="hidden sm:inline">
+                          {isTogglingShare
+                            ? "Updating…"
+                            : selectedSavedAnalysis?.is_public
+                            ? "Unshare"
+                            : "Share"}
+                        </span>
+                      </Button>
                       <Button
                         variant="outline"
                         size="sm"
@@ -1143,11 +1257,11 @@ const CSAnalyzer = () => {
                         ) : (
                           <FileDown className="w-4 h-4" />
                         )}
-                        <span className="hidden sm:inline">{isExportingPdf ? "Generating..." : "Export PDF"}</span>
+                        <span className="hidden sm:inline">{isExportingPdf ? "Generating…" : "Export PDF"}</span>
                       </Button>
                       <Button variant="outline" size="sm" onClick={handleStartOver} className="gap-2">
                         <RotateCcw className="w-4 h-4" />
-                        <span className="hidden sm:inline">New Analysis</span>
+                        <span className="hidden sm:inline">New analysis</span>
                       </Button>
                     </div>
                   </div>

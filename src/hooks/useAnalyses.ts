@@ -11,6 +11,8 @@ export interface Analysis {
   input_text: string;
   results: Record<string, unknown>;
   created_at: string;
+  is_public?: boolean;
+  public_share_id?: string;
 }
 
 export const useAnalyses = () => {
@@ -153,6 +155,33 @@ export const useAnalyses = () => {
     return { data: data as Analysis | null, error: null };
   };
 
+  const setAnalysisPublic = async (
+    id: string,
+    isPublic: boolean
+  ): Promise<{ data: Analysis | null; error: Error | null }> => {
+    if (!user) {
+      return { data: null, error: new Error("Not authenticated") };
+    }
+
+    const { data, error: updateError } = await supabase
+      .from("analyses")
+      .update({ is_public: isPublic })
+      .eq("id", id)
+      .eq("user_id", user.id)
+      .select()
+      .single();
+
+    if (updateError) {
+      return { data: null, error: updateError as Error };
+    }
+
+    setAnalyses((prev) =>
+      prev.map((a) => (a.id === id ? { ...a, is_public: isPublic } : a))
+    );
+
+    return { data: data as Analysis, error: null };
+  };
+
   return {
     analyses,
     isLoading,
@@ -162,5 +191,6 @@ export const useAnalyses = () => {
     deleteAnalysis,
     renameAnalysis,
     getAnalysis,
+    setAnalysisPublic,
   };
 };
