@@ -234,6 +234,21 @@ KEY INDUSTRY VOICES AND PUBLISHERS:
 - LinkedIn CS creator ecosystem -- increasingly commoditized advice
 - McKinsey, Bain reports on customer retention -- enterprise strategy lens
 
+NAMED EXECUTIVE VOICES WORTH TRACKING (their PUBLIC statements are fair game for commentary):
+- Liz Centoni (Cisco, Chief Customer Experience Officer) -- agentic AI in CX, "time to relief" framing, Cisco IQ
+- Chuck Robbins (Cisco CEO) -- AI/security/infrastructure strategic framing
+- Nick Mehta (Gainsight CEO) -- CS evangelism, "human-first" AI
+- Jason Lemkin (SaaStr) -- blunt founder takes on CS ROI and headcount
+- Any Fortune 500 CCO / CX leader making public statements about the future of CS/CX
+These people post publicly on LinkedIn, give conference keynotes, and write company blogs. Their PUBLIC,
+CITABLE statements can be reacted to. Their internal strategy, private remarks, or anything non-public CANNOT.
+
+PRACTITIONER-PATTERN AWARENESS:
+Kuber is a senior CS practitioner running enterprise accounts at scale RIGHT NOW. Beyond industry news, surface
+the operational patterns a working enterprise CSM would be noticing this quarter -- the gap between what the
+LinkedIn CS discourse claims and what actually happens inside a Fortune 500 account. These ground-truth patterns
+are the rarest, most credible material the newsletter can use.
+
 COMMON CS DEBATES IN 2026:
 - Should CS own renewals or just influence them?
 - Is the CSM role dying or evolving?
@@ -246,9 +261,20 @@ COMMON CS DEBATES IN 2026:
 - The proactive vs reactive myth: are CSMs actually proactive?
 - Onboarding: CS responsibility or product responsibility?
 
-IMPORTANT: Use your web search tool to find CURRENT news, posts, and developments in the CS industry. \
+IMPORTANT: Use your web search tool aggressively to find CURRENT news, posts, and developments in the CS industry. \
 Search for recent CS layoffs, AI in customer success, SaaS earnings mentioning NRR or churn, \
-CS platform announcements, and what CS leaders are posting on LinkedIn this week.
+CS platform announcements, and what CS leaders are posting on LinkedIn this week. Also search for recent PUBLIC \
+statements, keynotes, coined frameworks, or viral posts from the named executive voices above -- these are \
+the raw material for practitioner-commentary editions.
+
+RESEARCH DEPTH BAR: A shallow brief produces a generic newsletter. Run multiple searches, follow the strongest \
+threads, and capture SPECIFICS -- real numbers, real dated events, the exact public phrasing a named exec used \
+(with the source URL). Vague gestures at "trends" are useless. Anything you want the newsletter to be able to \
+cite, you must capture verbatim-enough with a traceable source here.
+
+CITATION INTEGRITY: When you capture something a named person said publicly, record their EXACT public wording \
+and the URL. Never invent, embellish, or paraphrase a quote into something they didn't say. If you cannot find \
+the exact public statement, do not attribute anything to that person.
 
 Return ONLY valid JSON. No markdown fences. No explanation."""
 
@@ -260,11 +286,15 @@ Use web search to find current information about:
 3. Recent SaaS earnings calls mentioning NRR, churn, or customer retention
 4. What CS leaders are debating on LinkedIn and in communities this week
 5. Any recent Gainsight, Vitally, ChurnZero, or other CS platform news
+6. Recent PUBLIC statements, keynotes, coined frameworks, or viral posts from named CS/CX executives \
+(Liz Centoni, Chuck Robbins, Nick Mehta, Jason Lemkin, or any Fortune 500 CCO) -- capture exact wording + URL
 
 Then think about:
 1. What would a VP of CS at a Fortune 500 tech company be worrying about THIS WEEK?
 2. What "accepted wisdom" in CS is starting to crack under real-world pressure?
 3. What are CSMs experiencing on the ground that leadership isn't seeing?
+4. Which public exec statement this week is worth a sharp practitioner reaction (agree-and-extend, or push back)?
+5. What operational pattern would a senior enterprise CSM be noticing right now that the discourse is missing?
 
 Return a JSON object:
 
@@ -277,6 +307,24 @@ Return a JSON object:
       "conventional_take": "What most CS leaders would say about this",
       "contrarian_reality": "What's actually true that people don't want to admit",
       "who_feels_this": "Which CS personas feel this most acutely"
+    }
+  ],
+  "industry_moments": [
+    {
+      "who": "Named public figure or org (e.g. 'Liz Centoni, Cisco CCO')",
+      "what_they_said": "Their EXACT public statement or the framework/metric they coined, in their words",
+      "source_url": "The traceable public URL where this appeared (LinkedIn post, blog, keynote coverage)",
+      "date": "When it was published, as specific as you can find",
+      "why_it_matters": "Why a senior CS practitioner would have a strong reaction to this",
+      "the_practitioner_angle": "Where Kuber would AGREE-AND-EXTEND or PUSH BACK, from real enterprise experience"
+    }
+  ],
+  "practitioner_pattern_signals": [
+    {
+      "pattern": "An operational pattern a working enterprise CSM is seeing this quarter",
+      "discourse_says": "What the LinkedIn CS discourse claims is happening",
+      "ground_truth": "What actually happens inside a real Fortune 500 account",
+      "why_credible_from_kuber": "Why Kuber specifically can speak to this with authority"
     }
   ],
   "enterprise_reality_check": {
@@ -296,8 +344,10 @@ Return a JSON object:
   ]
 }
 
-Generate 5 top_tensions, 3 underexplored_angles, and 3 framework_opportunities.
-Be specific, not generic. Reference real dynamics, not platitudes."""
+Generate 5 top_tensions, up to 2 industry_moments (ONLY real, citable, recent ones -- if nothing this week is \
+genuinely worth reacting to, return an empty array; do NOT manufacture a moment), 2 practitioner_pattern_signals, \
+3 underexplored_angles, and 3 framework_opportunities.
+Be specific, not generic. Reference real dynamics, not platitudes. Every industry_moment MUST have a real source_url."""
 
 
 def run_stage_1_research():
@@ -305,12 +355,20 @@ def run_stage_1_research():
     raw = call_claude(
         RESEARCH_SYSTEM_PROMPT,
         RESEARCH_USER_PROMPT,
-        max_tokens=4000,
-        tools=[{"type": "web_search_20250305", "name": "web_search", "max_uses": 5}]
+        max_tokens=5500,
+        tools=[{"type": "web_search_20250305", "name": "web_search", "max_uses": 9}]
     )
     try:
         data = clean_json_response(raw)
         print(f"   Research complete: {len(data.get('top_tensions', []))} tensions identified")
+        moments = data.get('industry_moments', [])
+        if moments:
+            print(f"   Industry moments worth reacting to: {len(moments)}")
+            for m in moments[:2]:
+                print(f"      - {m.get('who', '?')}: {str(m.get('what_they_said',''))[:70]}...")
+        patterns = data.get('practitioner_pattern_signals', [])
+        if patterns:
+            print(f"   Practitioner patterns: {len(patterns)}")
         if data.get('web_research_summary'):
             print(f"   Web research: {data['web_research_summary'][:120]}...")
         return raw
@@ -340,6 +398,36 @@ TOPIC SELECTION CRITERIA (in order of priority):
 3. FRAMEWORK POTENTIAL -- Can we name a framework that becomes a tool people reference?
 4. PERSONAL AUTHORITY -- Can Kuber speak to this from direct enterprise experience?
 5. SHAREABILITY -- Would a CS leader share this with their team or their CEO?
+
+CONTENT MODE -- choose ONE for this issue:
+
+The newsletter has three modes. Most weeks are STANDARD. The other two fire only when the research supports them.
+
+- "standard" (DEFAULT, ~70% of issues): The classic Churn Is Dead contrarian beat. Hard truths about CS work,
+  a named framework, a Monday-morning playbook. Pick this unless there is a genuinely strong reason not to.
+
+- "industry_commentary" (~15% of issues, ONLY when research surfaced a real, citable industry_moment): A sharp
+  practitioner reaction to a SPECIFIC public statement by a named CS/CX exec. The piece cites the public source,
+  agrees-and-extends OR pushes back from real enterprise experience, then adds Kuber's own framework on top.
+  This positions Kuber as the practitioner who can critique the executives -- not echo them. ONLY pick this mode
+  if research returned an industry_moment with a real source_url that is genuinely worth a full issue. If the
+  moments are weak, do NOT force it -- fall back to standard.
+
+- "operator_patterns" (~15% of issues, every 3rd-4th issue): A "here's what I'm actually seeing this quarter"
+  piece grounded in anonymized enterprise patterns. Uses practitioner_pattern_signals from research. This is
+  Kuber's rarest edge: ground-truth from running enterprise accounts at scale, that no consultant or first-time
+  VP can replicate. Anonymized but specific.
+
+INTELLECTUAL-PROPERTY & EMPLOYER GUARDRAILS (NON-NEGOTIABLE -- apply to every mode, especially the latter two):
+- NEVER name, describe, or make identifiable any specific customer, deal, or account from Kuber's employer.
+- NEVER reveal internal strategy, roadmap, unreleased products, internal metrics, or anything learned under NDA.
+- NEVER position the newsletter as speaking for Cisco/Splunk. Kuber writes as an independent practitioner ("I"),
+  never "we at [employer]".
+- For industry_commentary: react ONLY to PUBLIC, already-published statements, and CITE the source. NEVER invent
+  or paraphrase a quote into something the person did not say. If the exact public statement isn't in the
+  research brief with a source_url, do NOT attribute anything to them -- pick a different mode.
+- Anonymized stories must be generalized to the point of being unrecognizable ("a Fortune 500 financial-services
+  CISO", never a real name or identifying detail).
 
 HEADLINE RULES -- CRITICAL:
 You MUST rotate headline structures. NEVER use "Your [X] Are [Y]" again. That formula has been used \
@@ -396,6 +484,12 @@ KUBER'S CONTEXT (use to inform angle, not to mention directly):
 
 Select the single best topic for this week and develop the full angle.
 
+FIRST, decide the CONTENT MODE (standard / industry_commentary / operator_patterns) per the rules in the system
+prompt. Check the research brief: if it contains a strong `industry_moments` entry with a real source_url that's
+worth a full issue, industry_commentary is on the table. If it's been ~3-4 issues since the last operator_patterns
+piece and the `practitioner_pattern_signals` are strong, operator_patterns is on the table. Otherwise default to
+standard. State your chosen mode and WHY.
+
 CRITICAL: Check the existing topics list. Your title MUST NOT follow the "Your [X] Are [Y]" pattern.
 Use one of the headline structures from the system prompt.
 
@@ -407,11 +501,17 @@ Also select a STRUCTURAL TEMPLATE for this issue (rotate -- don't repeat the sam
 - "before_after": Show the broken state in detail, then show the transformed state, framework bridges the gap
 - "letter_to": Written as a direct letter to a specific persona (Dear VP of CS, Dear CFO, Dear CSM)
 
+(Note: industry_commentary mode usually pairs best with manifesto or before_after; operator_patterns with
+case_study or interview_style. But you may pair as fits the angle.)
+
 Return:
 {{
   "selected_topic": {{
     "title": "Headline using a FRESH structure (NOT 'Your X Are Y')",
     "slug": "url-friendly-slug",
+    "content_mode": "EXACTLY one of: standard, industry_commentary, operator_patterns",
+    "content_mode_rationale": "Why this mode this week (1-2 sentences)",
+    "public_source_to_cite": "For industry_commentary ONLY: the who + exact public statement + source_url being reacted to, copied from the research brief's industry_moments. Empty string for other modes.",
     "theme": "EXACTLY one value from the ELIGIBLE THEMES list above",
     "structural_template": "One of: myth_buster, case_study, manifesto, interview_style, before_after, letter_to",
     "thesis": "The core argument in 2 sentences. What do you believe that most CS leaders don't?",
@@ -421,6 +521,7 @@ Return:
     "what_readers_will_feel": "The emotional arc: called out, curious, equipped, motivated",
     "framework_name": "A memorable 2-4 word name for the framework",
     "framework_components": ["Component 1", "Component 2", "Component 3", "Component 4"],
+    "signature_metric": "A memorable, repeatable metric or term to coin this issue (Liz Centoni's 'time to relief' is the bar). Short, sticky, quotable.",
     "playbook_concept": "What the downloadable audit/playbook should measure",
     "who_shares_this": "Which persona shares this and what they say when they do"
   }},
@@ -465,8 +566,11 @@ def run_stage_2_topic_selection(research_brief, existing_topics, recent_themes=N
         chosen_theme = topic.get("theme", "")
 
     print(f"   Topic selected: {topic.get('title', 'Unknown')}")
+    print(f"   Content mode: {topic.get('content_mode', 'standard')} — {topic.get('content_mode_rationale', '')[:70]}")
     print(f"   Theme: {chosen_theme or '(none set)'}")
     print(f"   Framework: {topic.get('framework_name', 'TBD')}")
+    if topic.get('signature_metric'):
+        print(f"   Signature metric: {topic.get('signature_metric')}")
     rejected = data.get("rejected_alternatives", [])
     if rejected:
         print(f"   Rejected {len(rejected)} alternatives:")
@@ -492,6 +596,42 @@ they felt but couldn't articulate.
 Don't hedge. Don't add disclaimers.
 - You're Australian with global enterprise experience. You see the US-centric CS \
 bubble from outside and call out its blind spots.
+
+CONTENT MODE -- the topic brief specifies one. Write accordingly:
+
+- "standard": The classic contrarian beat. Proceed exactly as the structure rules below describe.
+
+- "industry_commentary": You are reacting to a SPECIFIC public statement by a named CS/CX executive (provided
+  in the topic brief's public_source_to_cite). Structure: (1) Open by citing what they said -- accurately, in
+  their actual public words, naming them and the venue. (2) Give them their due -- what they got right. (3) Then
+  the practitioner turn: where the reality on the ground is harder/different than the executive framing admits,
+  from YOUR vantage point running enterprise accounts. (4) Add YOUR framework on top -- the thing the original
+  statement was missing. You are the practitioner who can critique the executives, not echo them. Be respectful
+  and precise, never a hit piece. CITE the source inline (e.g. "In her Cisco Live keynote, Liz Centoni called
+  it 'time to relief'"). NEVER invent a quote -- use ONLY the exact wording in public_source_to_cite.
+
+- "operator_patterns": A "here's what I'm actually seeing this quarter" piece. Open by naming the gap between
+  what the CS discourse claims and what you observe inside real enterprise accounts. Walk through 2-3 specific,
+  ANONYMIZED patterns (generalized so no customer is identifiable). The authority comes from specificity of the
+  PATTERN, not specificity of the customer. Then the framework that makes sense of the patterns.
+
+INTELLECTUAL-PROPERTY & EMPLOYER GUARDRAILS (NON-NEGOTIABLE):
+- NEVER name or make identifiable any specific customer, deal, or account from your employer.
+- NEVER reveal internal strategy, roadmap, unreleased products, internal numbers, or anything under NDA.
+- You write as an independent practitioner. Use "I", never "we at Cisco/Splunk". The newsletter does not speak
+  for any employer.
+- For industry_commentary: react ONLY to the exact public statement provided. Do NOT fabricate, embellish, or
+  paraphrase anyone into saying something they didn't. If you find yourself needing a quote that isn't in the
+  brief, don't use it.
+- Anonymized stories are generalized to the point of being unrecognizable -- a role and an industry, never a
+  name or identifying detail.
+
+CRAFT MOVES (apply to EVERY mode -- this is what separates senior thought leadership from generic CS content):
+- COIN A METRIC OR TERM: The topic brief gives you a signature_metric. Introduce it, define it in one line, and
+  repeat it 2-3 times so it sticks. The bar is Liz Centoni's "time to relief" -- short, sticky, quotable.
+- ANCHOR IN ONE STORY: Anchor the argument in a single concrete (anonymized) scene rather than abstract claims.
+- ONE CALLOUT LINE: Write at least one line engineered to be screenshotted and quoted -- a sentence that lands
+  as a standalone truth. Make it earn its place; don't force a dozen.
 
 ANTI-REPETITION RULES -- CRITICAL:
 These rules exist because the last 8 issues were structurally identical. Break the pattern.
@@ -602,7 +742,9 @@ Return a JSON object with this structure:
     "actionability_score": "1-10 with brief justification",
     "originality_score": "1-10 with brief justification",
     "memorability_score": "1-10 with brief justification",
-    "overall": "Average score. If below 7, explain what's weak and how it could improve."
+    "ip_safety_check": "PASS or FAIL. FAIL if the draft names a real customer/deal, reveals internal strategy, speaks for an employer, or attributes a quote not present in the topic brief's public_source_to_cite. If FAIL, you MUST rewrite before returning.",
+    "citation_integrity": "For industry_commentary only: confirm every quote/attribution traces to public_source_to_cite. 'N/A' for other modes.",
+    "overall": "Average score. If below 7 OR ip_safety_check is FAIL, explain what's weak and how it could improve."
   }},
   "playbook": {{
     "title": "The Framework Name Audit",
@@ -644,13 +786,24 @@ def run_stage_3_newsletter(topic_brief, research_brief):
     overall_str = str(quality.get('overall', '0'))
     overall_match = re.search(r'(\d+\.?\d*)', overall_str)
     overall = float(overall_match.group(1)) if overall_match else 0
+    ip_check = str(quality.get('ip_safety_check', '')).upper()
+    ip_failed = "FAIL" in ip_check
 
     print(f"   Quality score: {overall}/10")
-    if overall < 7:
-        print(f"   Below quality bar ({overall}/10) -- triggering rewrite...")
+    if ip_failed:
+        print("   ⚠️  IP-safety check FAILED — forcing rewrite...")
+    if overall < 7 or ip_failed:
+        reason = "IP-safety FAIL" if ip_failed else f"below quality bar ({overall}/10)"
+        print(f"   {reason} -- triggering rewrite...")
+        rewrite_note = (
+            "\n\nYour previous attempt FAILED the IP-safety check. Remove any named customer, internal "
+            "strategy, employer-voice framing, or unsourced attribution, then write a stronger version."
+            if ip_failed else
+            "\n\nYour previous attempt scored below 7. Write a stronger version."
+        )
         raw = call_claude(
             WRITING_SYSTEM_PROMPT,
-            user_prompt + "\n\nYour previous attempt scored below 7. Write a stronger version.",
+            user_prompt + rewrite_note,
             max_tokens=12000
         )
         data = clean_json_response(raw)
