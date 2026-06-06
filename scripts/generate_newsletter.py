@@ -25,6 +25,12 @@ MIGRATIONS_DIR = REPO_ROOT / "supabase" / "migrations"
 PDFS_DIR = REPO_ROOT / "public" / "pdfs"
 DISTRIBUTION_DIR = REPO_ROOT / "distribution"
 
+# --- MODEL ---
+# Claude Opus 4.8 — Anthropic's most capable model, with clearer, warmer prose.
+# Every stage of the pipeline (research, topic selection, writing) runs on it
+# so the newsletter is top-notch end to end. Change here to swap models globally.
+MODEL = "claude-opus-4-8"
+
 
 # ===============================================================
 # UTILITIES
@@ -185,7 +191,7 @@ def clean_json_response(raw):
 def call_claude(system_prompt, user_prompt, max_tokens=8000, tools=None):
     client = anthropic.Anthropic()
     kwargs = {
-        "model": "claude-sonnet-4-20250514",
+        "model": MODEL,
         "max_tokens": max_tokens,
         "system": system_prompt,
         "messages": [{"role": "user", "content": user_prompt}],

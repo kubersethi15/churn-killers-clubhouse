@@ -60,7 +60,7 @@ def get_existing_blog_slugs():
 def call_claude(system_prompt, user_prompt, max_tokens=6000):
     client = anthropic.Anthropic()
     message = client.messages.create(
-        model="claude-sonnet-4-20250514",
+        model="claude-opus-4-8",
         max_tokens=max_tokens,
         system=system_prompt,
         messages=[{"role": "user", "content": user_prompt}]
