@@ -25,7 +25,11 @@ export const supabase = createClient<Database>(
     auth: {
       persistSession: true,
       autoRefreshToken: true,
-      detectSessionInUrl: false, // Disable automatic URL detection to avoid warnings
+      // Must be true so Supabase consumes auth tokens from the URL on landing.
+      // Required for the password-recovery flow (#access_token=… in the email
+      // link) and for any other server-redirect auth callbacks. Setting this
+      // to false silently breaks "Set a new password" with "Auth session missing".
+      detectSessionInUrl: true,
     },
   }
 );
