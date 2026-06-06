@@ -1747,6 +1747,17 @@ def main():
     PDFS_DIR.mkdir(parents=True, exist_ok=True)
     build_playbook_pdf(pb, meta, pdf_path)
 
+    # Guarantee the playbook CTA is in the body. The split Stage-3 prose call can
+    # omit it, which leaves the published article with no funnel to the playbook PDF.
+    if "[CTA link=" not in content:
+        cta_label = (meta.get("playbook_title") or "the Audit").strip()
+        if cta_label.lower().startswith("the "):
+            cta_label = cta_label[4:]
+        content = content.rstrip() + f'\n\n[CTA link="/pdfs/{pdf_name}"]Download the {cta_label}[/CTA]'
+        print(f"   CTA missing from body — auto-appended /pdfs/{pdf_name}")
+    else:
+        print("   CTA present in body")
+
     print("\nInserting newsletter into Supabase...")
     pub = get_next_tuesday()
     insert_newsletter_via_api(content, meta, pub)

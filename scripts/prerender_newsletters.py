@@ -14,8 +14,10 @@ Output: public/newsletter/{slug}/index.html
 """
 
 import json
+import os
 import re
 import html as htmlmod
+import urllib.request
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).parent.parent
@@ -23,6 +25,47 @@ MIGRATIONS_DIR = REPO_ROOT / "supabase" / "migrations"
 PUBLIC_DIR = REPO_ROOT / "public"
 INDEX_HTML = REPO_ROOT / "index.html"
 SITE_URL = "https://churnisdead.com"
+
+# Live DB read so REST-inserted issues (not just migration-seeded ones) get prerendered.
+# The anon/publishable key is public (already shipped in the frontend bundle), safe here.
+SUPABASE_URL_DEFAULT = "https://xtwxemlxzbnadkkrvozr.supabase.co"
+SUPABASE_ANON_DEFAULT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh0d3hlbWx4emJuYWRra3J2b3pyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc0NTUzNDAsImV4cCI6MjA2MzAzMTM0MH0.FX3zb-zai6KIM24eW4pckqWLNIg0HFCPil8cJW7l3t4"
+
+
+def fetch_live_newsletters():
+    """Fetch published newsletters from the live Supabase DB so REST-inserted issues
+    (which never get a migration file) are prerendered too. Degrades gracefully:
+    on any failure, returns {} and the caller falls back to migration-seeded entries."""
+    base = os.environ.get("SUPABASE_URL", SUPABASE_URL_DEFAULT).rstrip("/")
+    key = (os.environ.get("SUPABASE_ANON_KEY")
+           or os.environ.get("SUPABASE_PUBLISHABLE_KEY")
+           or SUPABASE_ANON_DEFAULT)
+    url = (f"{base}/rest/v1/newsletters"
+           "?select=title,slug,excerpt,content,published_date,read_time,category"
+           "&order=published_date.desc&limit=200")
+    req = urllib.request.Request(url, headers={"apikey": key, "Authorization": f"Bearer {key}"})
+    out = {}
+    try:
+        with urllib.request.urlopen(req, timeout=20) as resp:
+            rows = json.loads(resp.read().decode("utf-8"))
+    except Exception as e:
+        print(f"  Live DB fetch failed ({e}); falling back to migrations only")
+        return out
+    for r in rows:
+        slug = r.get("slug")
+        if not slug:
+            continue
+        out[slug] = {
+            "title": r.get("title") or "",
+            "slug": slug,
+            "excerpt": r.get("excerpt") or r.get("title") or "",
+            "content": r.get("content") or "",
+            "published_date": r.get("published_date") or "2026-01-01T00:00:00+00:00",
+            "read_time": r.get("read_time") or "9 min read",
+            "category": r.get("category") or "Strategy",
+        }
+    print(f"  Live DB: {len(out)} newsletters")
+    return out
 
 
 def extract_newsletters():
@@ -194,7 +237,9 @@ def main():
     print("Pre-rendering newsletter pages (hybrid)...")
     base_html = INDEX_HTML.read_text()
     newsletters = extract_newsletters()
-    print(f"  Found {len(newsletters)} newsletters")
+    # Live DB is the source of truth; migration-seeded entries fill any gaps.
+    newsletters.update(fetch_live_newsletters())
+    print(f"  {len(newsletters)} newsletters (migrations + live DB)")
 
     generated = 0
     for slug, nl in newsletters.items():
