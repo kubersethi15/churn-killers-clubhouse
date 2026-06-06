@@ -511,31 +511,18 @@ TRANSCRIPT:
         </div>
       )}
 
-      {/* Input Area */}
+      {/* Input Area — tool-first layout: big textarea, labeled action button below */}
       <div className="p-4 bg-background">
-        <div className="flex gap-2">
-          <Textarea
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Paste your transcript, or upload a file below…"
-            className="min-h-[140px] resize-none font-mono text-sm"
-            disabled={isLoading || isParsingFile}
-          />
-          <Button
-            onClick={handleSend}
-            disabled={!input.trim() || isLoading || isParsingFile}
-            className="bg-navy-dark hover:bg-navy-dark/90 text-white self-end"
-          >
-            <Send className="w-4 h-4" />
-          </Button>
-        </div>
-        <div className="flex items-center justify-between mt-2 gap-3 flex-wrap">
+        <Textarea
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Paste transcript here, or drop a file."
+          className="w-full min-h-[260px] resize-y font-mono text-[13px] leading-relaxed border-navy-dark/15 focus-visible:ring-navy-dark/20"
+          disabled={isLoading || isParsingFile}
+        />
+        <div className="flex items-center justify-between mt-3 gap-3 flex-wrap">
           <div className="flex items-center gap-3">
-            <p className="text-xs text-muted-foreground">
-              Press Enter to classify · Shift+Enter for new line
-            </p>
-            <span className="text-xs text-muted-foreground">·</span>
             <input
               type="file"
               id="triage-file-upload"
@@ -559,17 +546,36 @@ TRANSCRIPT:
               ) : (
                 <>
                   <Upload className="w-3 h-3" />
-                  Upload .txt, .docx, or .pdf
+                  Upload file
                 </>
               )}
             </label>
+            {!input.trim() && !lastClassification && (
+              <>
+                <span className="text-muted-foreground/40 text-xs">·</span>
+                <SampleTranscriptMenu 
+                  onSampleGenerated={(transcript) => setInput(transcript)}
+                  disabled={isLoading}
+                />
+              </>
+            )}
           </div>
-          {!input.trim() && !lastClassification && (
-            <SampleTranscriptMenu 
-              onSampleGenerated={(transcript) => setInput(transcript)}
-              disabled={isLoading}
-            />
-          )}
+          <Button
+            onClick={handleSend}
+            disabled={!input.trim() || isLoading || isParsingFile}
+            size="sm"
+            className="bg-navy-dark hover:bg-navy-dark/90 text-white"
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />
+                Classifying…
+              </>
+            ) : (
+              "Classify"
+            )}
+            <span className="ml-2 text-[10px] opacity-60 font-mono hidden sm:inline">⏎</span>
+          </Button>
         </div>
       </div>
     </div>

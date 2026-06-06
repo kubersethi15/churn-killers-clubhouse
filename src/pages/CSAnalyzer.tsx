@@ -1007,41 +1007,28 @@ const CSAnalyzer = () => {
                   className="max-w-3xl mx-auto"
                 >
                   <div className="w-full">
-                      {/* Editorial header */}
-                      <div className="mb-8 md:mb-10">
-                        <p className="text-xs uppercase tracking-[0.18em] text-red font-semibold mb-3">
-                          The Analyzer
-                        </p>
-                        <h2 className="text-3xl md:text-4xl font-serif font-black text-navy-dark mb-4 leading-[1.1] tracking-tight">
-                          Drop a call transcript in.
-                          <br />
-                          <span className="underline-red">Get the report you wish you'd written.</span>
+                      {/* Notion-style compact greeting — no pitch */}
+                      <div className="mb-5 flex items-baseline justify-between gap-3 flex-wrap">
+                        <h2 className="text-xl md:text-2xl font-serif font-bold text-navy-dark leading-tight tracking-tight">
+                          {(() => {
+                            const name = profile?.display_name || user?.email?.split("@")[0] || "there";
+                            const hour = new Date().getHours();
+                            const greeting = hour < 5 ? "Still up" : hour < 12 ? "Morning" : hour < 17 ? "Afternoon" : hour < 22 ? "Evening" : "Late night";
+                            return `${greeting}, ${name}. What are we looking at?`;
+                          })()}
                         </h2>
-                        <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl">
-                          Paste a sales call, renewal conversation, or QBR transcript below. Five specialist agents read it line by line and produce a stakeholder map, risk breakdown, and a 14-day action plan — with the exact quotes that justify every conclusion.
-                        </p>
-                        <div className="flex items-center gap-4 mt-5 text-sm">
-                          <Link
-                            to="/cs-analyzer/demo"
-                            className="text-navy-dark hover:text-red font-medium underline underline-offset-4 decoration-2 decoration-red/30 hover:decoration-red transition-colors"
-                          >
-                            See an example report →
-                          </Link>
-                          <span className="text-muted-foreground/40">·</span>
-                          <span className="text-muted-foreground text-xs">
-                            Takes ~45 seconds. Your transcript stays private.
-                          </span>
-                        </div>
+                        <Link
+                          to="/cs-analyzer/demo"
+                          className="text-xs text-muted-foreground hover:text-navy-dark underline underline-offset-2 decoration-muted-foreground/30 hover:decoration-navy-dark whitespace-nowrap"
+                        >
+                          See an example →
+                        </Link>
                       </div>
 
-                      {/* Triage input — no chatbot framing, no dashed card */}
+                      {/* Triage input — the hero */}
                       <div className="rounded-lg border border-navy-dark/10 bg-white shadow-sm overflow-hidden">
                         <TriageChat onAnalysisReady={handleTriageAnalysisReady} />
                       </div>
-
-                      <p className="text-xs text-muted-foreground/70 mt-4 text-center">
-                        Don't have a transcript handy? Use <strong className="text-navy-dark">Try a sample</strong> below the input.
-                      </p>
                   </div>
                 </motion.div>
               )}
