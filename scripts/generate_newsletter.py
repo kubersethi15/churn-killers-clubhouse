@@ -123,10 +123,130 @@ ALL_THEMES = [
 ]
 
 
+def get_recent_issue_bodies(n=3):
+    """Fetch the title + content of the most recent n newsletters, for the
+    adversarial grader to compare structure against. Supabase first, migrations fallback.
+    Returns list of (title, content) tuples, newest first.
+    """
+    import urllib.request, urllib.error
+    supabase_url = os.environ.get("SUPABASE_URL")
+    service_role_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+    out = []
+    if supabase_url and service_role_key:
+        try:
+            url = (f"{supabase_url.rstrip('/')}/rest/v1/newsletters"
+                   f"?select=title,content,published_date&order=published_date.desc&limit={n}")
+            req = urllib.request.Request(url, method="GET")
+            req.add_header("apikey", service_role_key)
+            req.add_header("Authorization", f"Bearer {service_role_key}")
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                rows = json.loads(resp.read().decode("utf-8"))
+            out = [(r.get("title", ""), r.get("content", "")) for r in rows]
+            if out:
+                return out
+        except Exception as e:
+            print(f"   (recent bodies via Supabase unavailable: {e})")
+    # Fallback: parse migrations
+    if MIGRATIONS_DIR.exists():
+        files = sorted(MIGRATIONS_DIR.glob("*.sql"), reverse=True)
+        for f in files:
+            c = f.read_text()
+            if 'INSERT INTO public.newsletters' not in c:
+                continue
+            m = re.search(r"VALUES\s*\(\s*E?'((?:[^']|'')*)'.*?E'((?:[^'\\]|\\.|'')*)'", c, re.DOTALL)
+            if m:
+                title = m.group(1).replace("''", "'")
+                body = m.group(2).replace("''", "'").replace("\\n", "\n")
+                out.append((title, body))
+            if len(out) >= n:
+                break
+    return out
+
+
+def structure_fingerprint(recent_issues):
+    """Extract opening + section-header signatures from recent issues so Stage 2 can
+    actively avoid repeating them. More reliable than trusting self-reported labels.
+    Returns a formatted string for prompt injection.
+    """
+    if not recent_issues:
+        return "None available — no constraint."
+    lines = []
+    for title, body in recent_issues[:4]:
+        body = body or ""
+        # First non-header, non-rule content line = the opening move
+        opening = ""
+        for ln in body.split("\n"):
+            s = ln.strip()
+            if s and not s.startswith("#") and s != "---" and not s.startswith("*Issue"):
+                opening = s[:120]
+                break
+        headers = re.findall(r"^##+\s+(.+)$", body, re.M)
+        hdr_preview = " | ".join(h[:30] for h in headers[:4])
+        lines.append(f'- "{title}"\n    opens: "{opening}"\n    section pattern: {hdr_preview}')
+    return "\n".join(lines)
+
+
 def get_existing_topics():
     """Backwards-compat wrapper: returns just the topics list."""
     topics, _ = get_existing_topics_and_themes()
     return topics
+
+
+class DuplicateNewsletterError(Exception):
+    """Raised when a generated newsletter collides with an already-published one."""
+
+
+def _normalize_title(s):
+    """Lowercase, strip punctuation/filler, for fuzzy comparison."""
+    s = (s or "").lower()
+    s = re.sub(r"[^a-z0-9\s]", " ", s)
+    # Drop low-signal words so "Your CS Metrics Are Theater" ~ "CS Metrics: Pure Theater"
+    stop = {"your", "the", "a", "an", "are", "is", "of", "to", "and", "for", "in",
+            "you", "re", "s", "cs", "customer", "success"}
+    words = [w for w in s.split() if w not in stop]
+    return " ".join(words)
+
+
+def assert_not_duplicate(meta, existing_topics, threshold=0.85):
+    """Hard gate: abort the run if this newsletter duplicates an existing one.
+
+    Never trust the model to self-police dedup (it has shipped literal duplicates).
+    Compares both the exact slug and a fuzzy-normalized title against everything
+    already published. Raises DuplicateNewsletterError on collision so the GitHub
+    Action fails loudly instead of silently publishing issue #N twice.
+    """
+    from difflib import SequenceMatcher
+
+    new_title = meta.get("title", "")
+    new_slug = (meta.get("slug", "") or "").strip().lower()
+    new_norm = _normalize_title(new_title)
+
+    for existing in existing_topics:
+        # existing may be a title string
+        ex_title = existing if isinstance(existing, str) else existing.get("title", "")
+        ex_norm = _normalize_title(ex_title)
+
+        # Exact normalized-title collision
+        if new_norm and new_norm == ex_norm:
+            raise DuplicateNewsletterError(
+                f"Title duplicates existing issue.\n  New:      '{new_title}'\n  Existing: '{ex_title}'"
+            )
+        # Fuzzy similarity collision
+        if new_norm and ex_norm:
+            ratio = SequenceMatcher(None, new_norm, ex_norm).ratio()
+            if ratio >= threshold:
+                raise DuplicateNewsletterError(
+                    f"Title is {ratio:.0%} similar to an existing issue (threshold {threshold:.0%}).\n"
+                    f"  New:      '{new_title}'\n  Existing: '{ex_title}'"
+                )
+        # Exact slug collision
+        ex_slug = re.sub(r"[^a-z0-9]+", "-", ex_title.lower()).strip("-")
+        if new_slug and new_slug == ex_slug:
+            raise DuplicateNewsletterError(
+                f"Slug '{new_slug}' collides with existing issue '{ex_title}'"
+            )
+
+    print(f"   Dedup check passed: '{new_title}' is distinct from {len(existing_topics)} existing issues")
 
 
 def clean_json_response(raw):
@@ -333,6 +453,14 @@ Return a JSON object:
       "why_credible_from_kuber": "Why Kuber specifically can speak to this with authority"
     }
   ],
+  "whats_actually_working": [
+    {
+      "what": "A genuine win, working approach, or positive pattern (NOT a teardown) — something a CS team is doing that demonstrably works",
+      "evidence": "Real signal this works — a named company, a real data point, a credible source. Avoid generic claims.",
+      "why_underrated": "Why this deserves more attention than it gets",
+      "how_to_steal_it": "What a reader could actually adopt"
+    }
+  ],
   "enterprise_reality_check": {
     "what_leaders_say": "The narrative CS leadership pushes",
     "what_actually_happens": "What frontline CSMs and data actually show",
@@ -352,7 +480,8 @@ Return a JSON object:
 
 Generate 5 top_tensions, up to 2 industry_moments (ONLY real, citable, recent ones -- if nothing this week is \
 genuinely worth reacting to, return an empty array; do NOT manufacture a moment), 2 practitioner_pattern_signals, \
-3 underexplored_angles, and 3 framework_opportunities.
+2 whats_actually_working entries (real wins, not teardowns -- this is the constructive lane so the newsletter \
+isn't relentlessly negative), 3 underexplored_angles, and 3 framework_opportunities.
 Be specific, not generic. Reference real dynamics, not platitudes. Every industry_moment MUST have a real source_url."""
 
 
@@ -455,6 +584,10 @@ ANGLE DEVELOPMENT RULES:
 - The opening must tell a story from the trenches, not cite a statistic
 - The contrarian take must be EARNED through evidence, not just provocative for clicks
 - The framework must have a memorable name and be immediately applicable
+- FRAMEWORK NAMING — HARD RULE: framework names are sticky PHRASES or METAPHORS, NEVER forced acronyms.
+  Banned: TRACE, RAISE, SCALE, and any name reverse-engineered into an acronym. Acronyms are an AI-content
+  tell and read as junior. The bar is "time to relief" — a real phrase that sticks. "The Renewal Cliff",
+  "Silent Attrition", "The Adoption Tax" — good. "The R.E.N.E.W. Method" — banned.
 - The playbook must be something a CSM can use Monday morning
 
 Return ONLY valid JSON. No markdown fences."""
@@ -471,6 +604,18 @@ THEMES USED IN THE LAST 4 WEEKS (BANNED — pick a different theme):
 
 ELIGIBLE THEMES FOR THIS WEEK (pick exactly ONE):
 {eligible_themes}
+
+RECENT ISSUE STRUCTURES — you MUST NOT repeat these openings or section-header patterns:
+{recent_structures}
+
+STRUCTURAL DIVERSITY (mandatory — this is the #1 reason the newsletter felt repetitive):
+- Look at the openings above. If recent issues opened on "a [role] walked into a meeting" or any meeting scene,
+  you are BANNED from opening on a meeting scene. Pick a different opening type entirely.
+- Opening types to rotate through: in-medias-res moment / bold declaration / a question never asked /
+  first-person "I" anecdote / a single hard number / direct address ("You open your laptop...") / a short letter.
+- Look at the section patterns above. If recent issues used "The [X] Industrial Complex / Epidemic / Delusion"
+  headers or a "Five Lies" / numbered-myths body, you are BANNED from reusing that shape. Vary it.
+- Your chosen opening_type and structural_template must differ from the most recent issue's.
 
 DUPLICATION CHECK (mandatory before finalizing your pick):
 - Read each existing topic above carefully.
@@ -519,7 +664,8 @@ Return:
     "content_mode_rationale": "Why this mode this week (1-2 sentences)",
     "public_source_to_cite": "For industry_commentary ONLY: the who + exact public statement + source_url being reacted to, copied from the research brief's industry_moments. Empty string for other modes.",
     "theme": "EXACTLY one value from the ELIGIBLE THEMES list above",
-    "structural_template": "One of: myth_buster, case_study, manifesto, interview_style, before_after, letter_to",
+    "structural_template": "One of: myth_buster, case_study, manifesto, interview_style, before_after, letter_to. MUST differ from the most recent issue's structure shown above.",
+    "opening_type": "One of: in_medias_res, declaration, question, first_person, single_number, direct_address, letter. MUST differ from the most recent issue's opening shown above.",
     "thesis": "The core argument in 2 sentences. What do you believe that most CS leaders don't?",
     "why_this_week": "Why this topic is more relevant now than any other week",
     "opening_story_seed": "A 2-sentence scenario. NEVER use the name Sarah. Use a specific role title instead of a name (e.g. 'A VP of CS at a Series D company' or 'The head of enterprise accounts'). Or open without a character at all.",
@@ -540,8 +686,9 @@ Return:
 }}"""
 
 
-def run_stage_2_topic_selection(research_brief, existing_topics, recent_themes=None):
-    """Stage 2: pick a topic. recent_themes is a list of (theme, date) tuples for last 4 issues."""
+def run_stage_2_topic_selection(research_brief, existing_topics, recent_themes=None, recent_issues=None):
+    """Stage 2: pick a topic. recent_themes is a list of (theme, date) tuples for last 4 issues.
+    recent_issues is a list of (title, body) used to ban repeated openings/structures."""
     print("\n   Stage 2: Selecting topic and developing angle...")
     existing_list = "\n".join(f"- {t}" for t in existing_topics) if existing_topics else "None yet"
 
@@ -550,12 +697,14 @@ def run_stage_2_topic_selection(research_brief, existing_topics, recent_themes=N
     eligible = [t for t in ALL_THEMES if t not in banned]
     banned_str = ", ".join(banned) if banned else "None — first run with themes"
     eligible_str = ", ".join(eligible)
+    recent_structures = structure_fingerprint(recent_issues or [])
 
     user_prompt = TOPIC_USER_PROMPT_TEMPLATE.format(
         research_brief=research_brief,
         existing_topics=existing_list,
         banned_themes=banned_str,
-        eligible_themes=eligible_str
+        eligible_themes=eligible_str,
+        recent_structures=recent_structures
     )
     raw = call_claude(TOPIC_SYSTEM_PROMPT, user_prompt, max_tokens=3000)
     data = clean_json_response(raw)
@@ -574,6 +723,7 @@ def run_stage_2_topic_selection(research_brief, existing_topics, recent_themes=N
     print(f"   Topic selected: {topic.get('title', 'Unknown')}")
     print(f"   Content mode: {topic.get('content_mode', 'standard')} — {topic.get('content_mode_rationale', '')[:70]}")
     print(f"   Theme: {chosen_theme or '(none set)'}")
+    print(f"   Structure: {topic.get('structural_template', '?')} / opening: {topic.get('opening_type', '?')}")
     print(f"   Framework: {topic.get('framework_name', 'TBD')}")
     if topic.get('signature_metric'):
         print(f"   Signature metric: {topic.get('signature_metric')}")
@@ -742,6 +892,7 @@ Return a JSON object with this structure:
     ]
   }},
   "newsletter_content": "FULL NEWSLETTER IN MARKDOWN following the exact structure above",
+  "word_count": "Integer — your honest word count for newsletter_content. MUST be between 2200 and 2800.",
   "quality_self_check": {{
     "specificity_score": "1-10 with brief justification",
     "shareability_score": "1-10 with brief justification",
@@ -751,75 +902,293 @@ Return a JSON object with this structure:
     "ip_safety_check": "PASS or FAIL. FAIL if the draft names a real customer/deal, reveals internal strategy, speaks for an employer, or attributes a quote not present in the topic brief's public_source_to_cite. If FAIL, you MUST rewrite before returning.",
     "citation_integrity": "For industry_commentary only: confirm every quote/attribution traces to public_source_to_cite. 'N/A' for other modes.",
     "overall": "Average score. If below 7 OR ip_safety_check is FAIL, explain what's weak and how it could improve."
-  }},
-  "playbook": {{
-    "title": "The Framework Name Audit",
-    "subtitle": "A diagnostic tool for CS teams",
-    "intro_text": "1-2 sentence intro for the playbook",
-    "scoring_note": "Rate each item 1-5. 1 = not happening, 5 = embedded in operations.",
-    "sections": [
-      {{
-        "title": "Section Title (matches framework component)",
-        "why_it_matters": "1-2 sentences on why this dimension matters",
-        "headers": ["Criteria", "What Good Looks Like", "What Bad Looks Like"],
-        "col_ratios": [0.28, 0.36, 0.36],
-        "rows": [
-          ["Specific measurable criteria", "Description of excellence", "Description of failure"]
-        ],
-        "rubric": [
-          ["Rubric criteria description", "1-5"]
-        ]
-      }}
-    ],
-    "closing_quote": "A memorable closing line from the newsletter"
   }}
 }}
+
+LENGTH IS NOT OPTIONAL: newsletter_content MUST be 2,200-2,800 words. Recent issues shipped at ~1,000 words,
+which is a failure. If your draft is short, you have under-developed the argument: add a real example, deepen
+the framework explanation, or walk through how each framework component plays out. Do not pad with filler — earn the length.
 
 CRITICAL: If your quality_self_check overall score is below 7, REWRITE before returning.
 The reader deserves your best work. Their career might depend on what you write."""
 
 
-def run_stage_3_newsletter(topic_brief, research_brief):
-    print("\n   Stage 3: Writing newsletter...")
-    user_prompt = WRITING_USER_PROMPT_TEMPLATE.format(
-        topic_brief=topic_brief,
-        research_brief=research_brief
-    )
-    raw = call_claude(WRITING_SYSTEM_PROMPT, user_prompt, max_tokens=12000)
-    data = clean_json_response(raw)
+# ---------------------------------------------------------------
+# Stage 3a: write the newsletter body (full token budget for prose)
+# ---------------------------------------------------------------
 
+def _parse_quality(data):
     quality = data.get('quality_self_check', {})
-    overall_str = str(quality.get('overall', '0'))
-    overall_match = re.search(r'(\d+\.?\d*)', overall_str)
-    overall = float(overall_match.group(1)) if overall_match else 0
-    ip_check = str(quality.get('ip_safety_check', '')).upper()
-    ip_failed = "FAIL" in ip_check
+    m = re.search(r'(\d+\.?\d*)', str(quality.get('overall', '0')))
+    overall = float(m.group(1)) if m else 0
+    ip_failed = "FAIL" in str(quality.get('ip_safety_check', '')).upper()
+    return overall, ip_failed
 
-    print(f"   Quality score: {overall}/10")
+
+def _word_count(text):
+    return len((text or "").split())
+
+
+def write_newsletter_draft(topic_brief, research_brief, extra_note=""):
+    """Single writing call. Returns parsed dict (metadata + newsletter_content + quality)."""
+    user_prompt = WRITING_USER_PROMPT_TEMPLATE.format(
+        topic_brief=topic_brief, research_brief=research_brief
+    ) + extra_note
+    # 16k gives the prose room now that the playbook is a separate call
+    raw = call_claude(WRITING_SYSTEM_PROMPT, user_prompt, max_tokens=16000)
+    return clean_json_response(raw)
+
+
+# ---------------------------------------------------------------
+# Stage 3b: INDEPENDENT adversarial critique (Gemini, Claude fallback)
+# ---------------------------------------------------------------
+
+ADVERSARIAL_CRITIC_SYSTEM = """You are a hostile, brilliant editor who has read every issue of "Churn Is Dead" \
+and is sick of its tics. You do not work for the author. Your job is to find every reason this draft is \
+mediocre, generic, or repetitive BEFORE it ships. You are not here to be encouraging.
+
+You are an expert on the enterprise Customer Success space and on what separates genuine senior-operator thought \
+leadership from AI-generated content-mill filler. You know the difference between a real insight and a \
+confident-sounding platitude.
+
+Judge the draft against these failure modes the newsletter is known for:
+1. GENERIC STRAWMEN: Does it argue against invented hypotheticals ("a $200M SaaS company", "most CS teams") \
+instead of real, named, cited companies/events/data? Real specifics are mandatory for credibility.
+2. TEARDOWN MONOTONY: Is this yet another pure teardown? Does it ever build, teach, or show what works?
+3. STRUCTURAL REPETITION: Compare to the recent issues provided. Same opening type (scene/meeting), same \
+"The [X] Industrial Complex/Epidemic" section tic, same "Five Lies" body, same framework-then-action shape?
+4. BACKRONYM FRAMEWORKS: Is the framework a forced acronym (TRACE, RAISE)? That's an AI tell. Good frameworks \
+are sticky phrases ("time to relief"), not acronyms.
+5. FAKE DEPTH: Confident sentences that say nothing. Does every claim earn its place?
+6. SHALLOW ACTIONABILITY: Could a real VP of CS actually do something Monday, or is it vague?
+
+Return ONLY valid JSON. No markdown fences."""
+
+ADVERSARIAL_CRITIC_USER = """RECENT PUBLISHED ISSUES (for structural-repetition comparison):
+{recent_issues}
+
+DRAFT TO CRITIQUE (title: {title}):
+{draft}
+
+Tear this apart. Return JSON:
+{{
+  "verdict": "ship | revise | reject",
+  "is_generic_strawman": "true/false + the single most damning example from the draft",
+  "is_teardown_again": "true/false + whether that's a problem given the recent issues above",
+  "structural_similarity": "How structurally similar is this to the recent issues? Name the specific repeated move, or 'distinct' if genuinely fresh.",
+  "backronym_framework": "true/false — is the framework name a forced acronym?",
+  "weakest_sections": ["Specific section or line that is generic/weak, quoted briefly"],
+  "what_would_make_it_unmissable": ["Concrete, specific change that would materially raise quality"],
+  "line_level_fixes": ["Specific sentence-level fixes worth making"],
+  "harshest_honest_take": "One brutal sentence: why a senior CS leader might roll their eyes at this draft."
+}}"""
+
+
+def _gemini_critique(system, user):
+    """Call Gemini as an independent critic. Returns raw text or raises."""
+    import urllib.request
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        raise RuntimeError("GEMINI_API_KEY not set")
+    model = os.environ.get("GEMINI_MODEL", "gemini-2.5-pro")
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+    payload = {
+        "system_instruction": {"parts": [{"text": system}]},
+        "contents": [{"role": "user", "parts": [{"text": user}]}],
+        "generationConfig": {"temperature": 0.4, "maxOutputTokens": 3000},
+    }
+    req = urllib.request.Request(
+        url, data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json"}, method="POST"
+    )
+    with urllib.request.urlopen(req, timeout=60) as resp:
+        out = json.loads(resp.read().decode("utf-8"))
+    return out["candidates"][0]["content"]["parts"][0]["text"]
+
+
+def run_adversarial_critique(draft_content, title, recent_issues):
+    """Independent critique with graceful degradation:
+    Gemini if GEMINI_API_KEY is set, else a Claude adversarial-critic call.
+    A critic outage must NEVER break the run — returns None on total failure.
+    """
+    recent_str = "\n\n".join(
+        f"### {t}\n{(c or '')[:900]}" for t, c in recent_issues[:3]
+    ) or "None available."
+    user = ADVERSARIAL_CRITIC_USER.format(
+        recent_issues=recent_str, title=title, draft=draft_content[:9000]
+    )
+
+    # Try Gemini first (true cross-vendor independence)
+    if os.environ.get("GEMINI_API_KEY"):
+        try:
+            print("   Adversarial grader: Gemini (independent)...")
+            raw = _gemini_critique(ADVERSARIAL_CRITIC_SYSTEM, user)
+            return clean_json_response(raw)
+        except Exception as e:
+            print(f"   Gemini critic unavailable ({e}); falling back to Claude critic")
+
+    # Fallback: Claude with a hostile-editor persona (still independent of the writer call)
+    try:
+        print("   Adversarial grader: Claude (hostile-editor fallback)...")
+        raw = call_claude(ADVERSARIAL_CRITIC_SYSTEM, user, max_tokens=3000)
+        return clean_json_response(raw)
+    except Exception as e:
+        print(f"   Adversarial critique failed entirely ({e}); proceeding without it")
+        return None
+
+
+# ---------------------------------------------------------------
+# Stage 3c: revision — weigh the critique, don't blindly obey it
+# ---------------------------------------------------------------
+
+REVISION_NOTE_TEMPLATE = """\
+
+---
+An independent adversarial editor reviewed your draft. Their critique is below. You are the author and you
+keep judgment: ADOPT the points that genuinely improve the piece, and IGNORE any that would make it worse,
+off-voice, or that are wrong. Do not blandly comply — improve.
+
+CRITIQUE (JSON):
+{critique}
+
+Rewrite the newsletter incorporating what makes sense. Keep it 2,200-2,800 words. Return the SAME JSON schema
+as before (metadata, newsletter_content, word_count, quality_self_check)."""
+
+
+def run_stage_3_newsletter(topic_brief, research_brief, recent_issues=None):
+    """Write → independent adversarial critique → revise. Returns parsed dict (no playbook)."""
+    recent_issues = recent_issues or []
+    print("\n   Stage 3a: Writing newsletter draft...")
+    data = write_newsletter_draft(topic_brief, research_brief)
+
+    overall, ip_failed = _parse_quality(data)
+    wc = _word_count(data.get('newsletter_content', ''))
+    print(f"   Draft: {wc} words, self-score {overall}/10" + (" [IP FAIL]" if ip_failed else ""))
+
+    # IP-safety failure forces an immediate corrective rewrite (hard rule)
     if ip_failed:
-        print("   ⚠️  IP-safety check FAILED — forcing rewrite...")
-    if overall < 7 or ip_failed:
-        reason = "IP-safety FAIL" if ip_failed else f"below quality bar ({overall}/10)"
-        print(f"   {reason} -- triggering rewrite...")
-        rewrite_note = (
-            "\n\nYour previous attempt FAILED the IP-safety check. Remove any named customer, internal "
-            "strategy, employer-voice framing, or unsourced attribution, then write a stronger version."
-            if ip_failed else
-            "\n\nYour previous attempt scored below 7. Write a stronger version."
-        )
-        raw = call_claude(
-            WRITING_SYSTEM_PROMPT,
-            user_prompt + rewrite_note,
-            max_tokens=12000
-        )
-        data = clean_json_response(raw)
-        quality = data.get('quality_self_check', {})
-        overall_match = re.search(r'(\d+\.?\d*)', str(quality.get('overall', '0')))
-        overall = float(overall_match.group(1)) if overall_match else 0
-        print(f"   Rewrite quality score: {overall}/10")
+        print("   ⚠️  IP-safety FAILED — forcing corrective rewrite...")
+        data = write_newsletter_draft(
+            topic_brief, research_brief,
+            extra_note="\n\nYour previous attempt FAILED the IP-safety check. Remove any named customer, "
+                       "internal strategy, employer-voice framing, or unsourced attribution.")
+        overall, ip_failed = _parse_quality(data)
+        wc = _word_count(data.get('newsletter_content', ''))
 
-    print(f"   Newsletter written: {data.get('metadata', {}).get('title', 'Unknown')}")
+    title = data.get('metadata', {}).get('title', 'Unknown')
+
+    # Stage 3b: independent adversarial critique
+    print("\n   Stage 3b: Independent adversarial review...")
+    critique = run_adversarial_critique(data.get('newsletter_content', ''), title, recent_issues)
+
+    # Stage 3c: revise if the critic flags anything material OR if length/quality is off
+    needs_revision = False
+    if critique:
+        verdict = str(critique.get('verdict', '')).lower()
+        flags = [
+            "true" in str(critique.get('is_generic_strawman', '')).lower(),
+            "true" in str(critique.get('backronym_framework', '')).lower(),
+            "distinct" not in str(critique.get('structural_similarity', 'distinct')).lower(),
+            verdict in ("revise", "reject"),
+        ]
+        needs_revision = any(flags)
+        print(f"   Critic verdict: {verdict or 'n/a'} | revision needed: {needs_revision}")
+        if critique.get('harshest_honest_take'):
+            print(f"   Critic: \"{critique['harshest_honest_take'][:120]}\"")
+
+    if needs_revision or overall < 7 or not (2200 <= wc <= 2900):
+        print("   Stage 3c: Revising based on critique + targets...")
+        note = REVISION_NOTE_TEMPLATE.format(critique=json.dumps(critique, indent=2)) if critique else \
+            "\n\nYour previous attempt scored below target or missed the length window. Write a stronger, " \
+            "fuller version (2,200-2,800 words)."
+        revised = write_newsletter_draft(topic_brief, research_brief, extra_note=note)
+        # Only accept the revision if it didn't regress badly on length
+        rev_wc = _word_count(revised.get('newsletter_content', ''))
+        if rev_wc >= max(1500, wc * 0.8):
+            data = revised
+            overall, ip_failed = _parse_quality(data)
+            wc = rev_wc
+            print(f"   Revised: {wc} words, self-score {overall}/10")
+        else:
+            print(f"   Revision regressed length ({rev_wc}w); keeping stronger original ({wc}w)")
+
+    print(f"   Newsletter finalized: {title} ({wc} words)")
     return data
+
+
+# ---------------------------------------------------------------
+# Stage 3d: playbook — separate call so it never starves the prose
+# ---------------------------------------------------------------
+
+PLAYBOOK_SYSTEM_PROMPT = """You build the downloadable diagnostic playbook (PDF) that accompanies each \
+"Churn Is Dead" newsletter. It must map directly to the framework in the newsletter and be something a CS team \
+can actually score themselves against. Concrete criteria, no fluff. Return ONLY valid JSON. No markdown fences."""
+
+PLAYBOOK_USER_PROMPT_TEMPLATE = """Build the playbook for this newsletter.
+
+FRAMEWORK NAME: {framework_name}
+FRAMEWORK COMPONENTS: {framework_components}
+PLAYBOOK CONCEPT: {playbook_concept}
+
+NEWSLETTER (for grounding the playbook in the actual argument):
+{newsletter_content}
+
+Return JSON:
+{{
+  "title": "The {framework_name} Audit",
+  "subtitle": "A diagnostic tool for CS teams",
+  "intro_text": "1-2 sentence intro",
+  "scoring_note": "Rate each item 1-5. 1 = not happening, 5 = embedded in operations.",
+  "sections": [
+    {{
+      "title": "Section Title (matches a framework component)",
+      "why_it_matters": "1-2 sentences",
+      "headers": ["Criteria", "What Good Looks Like", "What Bad Looks Like"],
+      "col_ratios": [0.28, 0.36, 0.36],
+      "rows": [["Specific measurable criteria", "Description of excellence", "Description of failure"]],
+      "rubric": [["Rubric criteria description", "1-5"]]
+    }}
+  ],
+  "closing_quote": "A memorable closing line from the newsletter"
+}}
+
+Create one section per framework component. Each section needs 3-5 concrete rows."""
+
+
+def generate_playbook(newsletter_content, meta, topic_brief):
+    """Separate call for the playbook so the newsletter prose got the full budget."""
+    print("\n   Stage 3d: Generating playbook (separate call)...")
+    try:
+        tb = clean_json_response(topic_brief).get("selected_topic", {})
+    except Exception:
+        tb = {}
+    fw_name = tb.get("framework_name") or meta.get("playbook_title", "CS").replace(" Audit", "")
+    components = tb.get("framework_components", [])
+    user = PLAYBOOK_USER_PROMPT_TEMPLATE.format(
+        framework_name=fw_name,
+        framework_components=", ".join(components) if components else "Derive from the newsletter",
+        playbook_concept=tb.get("playbook_concept", "Measure what actually drives retention"),
+        newsletter_content=(newsletter_content or "")[:8000],
+    )
+    raw = call_claude(PLAYBOOK_SYSTEM_PROMPT, user, max_tokens=4000)
+    try:
+        pb = clean_json_response(raw)
+        print(f"   Playbook: {len(pb.get('sections', []))} sections")
+        return pb
+    except Exception as e:
+        print(f"   Playbook generation failed ({e}); using minimal fallback")
+        return {
+            "title": f"The {fw_name} Audit",
+            "subtitle": "A diagnostic tool for CS teams",
+            "intro_text": meta.get("playbook_description", ""),
+            "scoring_note": "Rate each item 1-5.",
+            "sections": [], "closing_quote": "",
+        }
+
+
+def _legacy_run_stage_3(topic_brief, research_brief):
+    """Deprecated single-call Stage 3 (kept for reference; no longer used)."""
+    raise NotImplementedError("Stage 3 is now write -> critique -> revise; see run_stage_3_newsletter")
 
 
 # ===============================================================
@@ -849,7 +1218,12 @@ def generate_newsletter_and_playbook(topic_override=None):
         })
     else:
         research_brief = run_stage_1_research()
-        topic_brief = run_stage_2_topic_selection(research_brief, existing_topics, recent_themes)
+        # Pull recent issue bodies up front: used by BOTH Stage 2 (avoid repeating
+        # openings/structures) and Stage 3b (adversarial structural comparison)
+        recent_issues = get_recent_issue_bodies(3)
+        topic_brief = run_stage_2_topic_selection(
+            research_brief, existing_topics, recent_themes, recent_issues=recent_issues
+        )
         # Extract chosen theme from the topic brief so we can store it in Supabase
         try:
             tb = clean_json_response(topic_brief)
@@ -857,7 +1231,17 @@ def generate_newsletter_and_playbook(topic_override=None):
         except Exception:
             chosen_theme = None
 
-    newsletter = run_stage_3_newsletter(topic_brief, research_brief)
+    if topic_override:
+        recent_issues = []
+
+    newsletter = run_stage_3_newsletter(topic_brief, research_brief, recent_issues=recent_issues)
+
+    # Playbook is generated in a SEPARATE call so the prose got the full token budget
+    meta = newsletter.get("metadata", {})
+    newsletter["playbook"] = generate_playbook(
+        newsletter.get("newsletter_content", ""), meta, topic_brief
+    )
+
     # Attach theme to metadata so insert_newsletter_via_api can write it
     if chosen_theme and isinstance(newsletter, dict) and "metadata" in newsletter:
         newsletter["metadata"]["theme"] = chosen_theme
@@ -1348,6 +1732,11 @@ def main():
     pb = data['playbook']
     print(f"\n   Final title: {meta['title']}")
     print(f"   Sections: {len(pb.get('sections', []))}")
+
+    # HARD DEDUP GATE — abort before any side effects (PDF, insert) if this collides
+    if not topic:  # skip for manual overrides
+        existing_topics, _ = get_existing_topics_and_themes()
+        assert_not_duplicate(meta, existing_topics)
 
     Path("/tmp/newsletter_title.txt").write_text(meta['title'])
     Path("/tmp/newsletter_slug.txt").write_text(meta['slug'])
