@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Wand2, FileText, Loader2, Sparkles } from "lucide-react";
+import { ChevronDown, FileText, Loader2, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -360,18 +360,18 @@ export const SampleTranscriptMenu = ({ onSampleGenerated, disabled }: SampleTran
         <Button
           variant="ghost"
           size="sm"
-          className="text-muted-foreground hover:text-foreground gap-1.5 h-auto py-1 px-2"
+          className="text-muted-foreground hover:text-foreground gap-1 h-auto py-1 px-1 font-normal"
           disabled={disabled || isGenerating}
         >
           {isGenerating ? (
             <>
-              <Loader2 className="w-3.5 h-3.5 animate-spin" />
-              <span className="text-xs">Generating...</span>
+              <Loader2 className="w-3 h-3 animate-spin" />
+              <span className="text-xs">Generating…</span>
             </>
           ) : (
             <>
-              <Wand2 className="w-3.5 h-3.5" />
-              <span className="text-xs">Try a sample</span>
+              <span className="text-xs">Use a sample</span>
+              <ChevronDown className="w-3 h-3 opacity-60" />
             </>
           )}
         </Button>
