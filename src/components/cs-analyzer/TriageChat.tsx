@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, forwardRef, useImperativeHandle } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -58,7 +58,18 @@ interface TriageChatProps {
   }) => void;
 }
 
-export const TriageChat = ({ onAnalysisReady }: TriageChatProps) => {
+/**
+ * Imperative handle exposed by TriageChat. Parent components can call
+ * setInput() to prefill the textarea (e.g. when the user clicks a starter
+ * card on first-run). Clear() resets the input + classification state.
+ */
+export interface TriageChatHandle {
+  setInput: (content: string) => void;
+  focusInput: () => void;
+  clear: () => void;
+}
+
+export const TriageChat = forwardRef<TriageChatHandle, TriageChatProps>(({ onAnalysisReady }, ref) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -69,8 +80,33 @@ export const TriageChat = ({ onAnalysisReady }: TriageChatProps) => {
   const [isParsingFile, setIsParsingFile] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatScrollRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [messagesParent] = useAutoAnimate<HTMLDivElement>();
   const { toast } = useToast();
+
+  // Expose imperative API for parent components (used by starter cards)
+  useImperativeHandle(
+    ref,
+    () => ({
+      setInput: (content: string) => {
+        setInput(content);
+        // Defer focus so the textarea picks up the value first, then scrolls
+        requestAnimationFrame(() => {
+          textareaRef.current?.focus();
+          textareaRef.current?.setSelectionRange(0, 0); // cursor to top of pasted content
+          textareaRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+        });
+      },
+      focusInput: () => textareaRef.current?.focus(),
+      clear: () => {
+        setInput("");
+        setLastClassification(null);
+        setOriginalContent("");
+        setMessages([]);
+      },
+    }),
+    []
+  );
 
   const scrollToBottom = () => {
     const container = chatScrollRef.current;
@@ -514,6 +550,7 @@ TRANSCRIPT:
       {/* Input Area — tool-first layout: big textarea, labeled action button below */}
       <div className="p-4 bg-background">
         <Textarea
+          ref={textareaRef}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -580,4 +617,6 @@ TRANSCRIPT:
       </div>
     </div>
   );
-};
+});
+
+TriageChat.displayName = "TriageChat";

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,7 +12,8 @@ import { ReportBuilder } from "@/components/cs-analyzer/report-v2/ReportBuilder"
 import { DebugSection } from "@/components/cs-analyzer/report-v2/DebugSection";
 import type { PipelineResult, FinalReport, EvidenceAnchor } from "@/components/cs-analyzer/report-v2/types";
 import { isValidCustomerName, getDisplayCustomerName } from "@/utils/customerNameUtils";
-import { TriageChat } from "@/components/cs-analyzer/TriageChat";
+import { TriageChat, type TriageChatHandle } from "@/components/cs-analyzer/TriageChat";
+import { STARTER_SCENARIOS } from "@/data/starterScenarios";
 import { AnalyzingProgress } from "@/components/cs-analyzer/AnalyzingProgress";
 import { TranscriptViewer } from "@/components/cs-analyzer/TranscriptViewer";
 import { FeedbackButton } from "@/components/cs-analyzer/FeedbackButton";
@@ -182,8 +183,39 @@ const CSAnalyzer = () => {
   const [isTogglingShare, setIsTogglingShare] = useState(false);
   const { toast } = useToast();
   const { user, profile, signOut, isLoading: authLoading } = useAuth();
-  const { saveAnalysis, fetchAnalyses, setAnalysisPublic } = useAnalyses();
+  const { analyses, isLoading: analysesLoading, saveAnalysis, fetchAnalyses, setAnalysisPublic } = useAnalyses();
   const navigate = useNavigate();
+
+  /**
+   * Ref to the TriageChat input so we can imperatively prefill it when the
+   * user clicks a first-run starter card (no prop drilling, no extra state).
+   */
+  const triageRef = useRef<TriageChatHandle>(null);
+
+  /**
+   * Persisted "did the user dismiss the first-run subhead?" flag.
+   * Once dismissed, the subhead stays hidden forever — but the starter cards
+   * still appear if they somehow end up with zero analyses again (rare).
+   */
+  const [subheadDismissed, setSubheadDismissed] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    try {
+      return window.localStorage.getItem("cs-analyzer:subhead-dismissed") === "true";
+    } catch {
+      return false;
+    }
+  });
+  const dismissSubhead = () => {
+    setSubheadDismissed(true);
+    try {
+      window.localStorage.setItem("cs-analyzer:subhead-dismissed", "true");
+    } catch {
+      /* no-op */
+    }
+  };
+
+  // First-run = signed in, analyses have loaded, and there are none.
+  const isFirstRun = !analysesLoading && analyses.length === 0;
 
   useEffect(() => {
     document.title = "CS Analyzer | Churn Is Dead";
@@ -1007,11 +1039,12 @@ const CSAnalyzer = () => {
                   className="max-w-3xl mx-auto"
                 >
                   <div className="w-full">
-                      {/* Notion-style compact greeting — no pitch */}
-                      <div className="mb-5 flex items-baseline justify-between gap-3 flex-wrap">
+                      {/* Greeting — welcome variant on first run, time-aware afterward */}
+                      <div className="mb-3 flex items-baseline justify-between gap-3 flex-wrap">
                         <h2 className="text-xl md:text-2xl font-serif font-bold text-navy-dark leading-tight tracking-tight">
                           {(() => {
                             const name = profile?.display_name || user?.email?.split("@")[0] || "there";
+                            if (isFirstRun) return `Welcome, ${name}.`;
                             const hour = new Date().getHours();
                             const greeting = hour < 5 ? "Still up" : hour < 12 ? "Morning" : hour < 17 ? "Afternoon" : hour < 22 ? "Evening" : "Late night";
                             return `${greeting}, ${name}. What are we looking at?`;
@@ -1025,10 +1058,77 @@ const CSAnalyzer = () => {
                         </Link>
                       </div>
 
+                      {/* Dismissible first-run subhead — explains what the tool does in one line */}
+                      <AnimatePresence>
+                        {isFirstRun && !subheadDismissed && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.25 }}
+                            className="mb-5"
+                          >
+                            <div className="flex items-start gap-3 text-sm text-muted-foreground leading-relaxed">
+                              <p className="flex-1">
+                                Paste any customer call transcript below. Five specialist agents read it line by line and produce a stakeholder map, risk breakdown, and 14-day action plan — with the exact quotes that justify every conclusion.
+                              </p>
+                              <button
+                                onClick={dismissSubhead}
+                                className="text-muted-foreground/60 hover:text-navy-dark p-0.5 -m-0.5"
+                                aria-label="Dismiss"
+                                title="Dismiss"
+                              >
+                                <X className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
                       {/* Triage input — the hero */}
                       <div className="rounded-lg border border-navy-dark/10 bg-white shadow-sm overflow-hidden">
-                        <TriageChat onAnalysisReady={handleTriageAnalysisReady} />
+                        <TriageChat ref={triageRef} onAnalysisReady={handleTriageAnalysisReady} />
                       </div>
+
+                      {/* First-run starter scenarios — vanish after first analysis */}
+                      <AnimatePresence>
+                        {isFirstRun && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -4 }}
+                            transition={{ delay: 0.1, duration: 0.3 }}
+                            className="mt-6"
+                          >
+                            <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground/70 font-semibold mb-2.5">
+                              Don't have a transcript handy? Try one of these
+                            </p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                              {STARTER_SCENARIOS.map((scenario) => (
+                                <button
+                                  key={scenario.id}
+                                  onClick={() => {
+                                    triageRef.current?.setInput(scenario.transcript);
+                                  }}
+                                  className="group text-left rounded-lg border border-navy-dark/10 bg-white hover:border-navy-dark/30 hover:shadow-sm px-4 py-3 transition-all"
+                                >
+                                  <div className="flex items-baseline justify-between gap-2 mb-1">
+                                    <span className="text-sm font-semibold text-navy-dark">
+                                      {scenario.label}
+                                    </span>
+                                    <span className="text-[10px] uppercase tracking-wider text-muted-foreground/60 font-medium whitespace-nowrap">
+                                      {scenario.customer}
+                                    </span>
+                                  </div>
+                                  <p className="text-xs text-muted-foreground leading-relaxed group-hover:text-navy-dark/70 transition-colors">
+                                    {scenario.description}
+                                  </p>
+                                </button>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                   </div>
                 </motion.div>
               )}

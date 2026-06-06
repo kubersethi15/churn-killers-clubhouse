@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { reportTypography, reportLayout } from "../report/reportStyles";
 import { EvidenceChip } from "./EvidenceChip";
 import { ConfidenceBadge } from "./ConfidenceBadge";
+import { StakeholderMatrix } from "./StakeholderMatrix";
 import type { StakeholderEntry } from "./types";
 
 interface StakeholderMapV2Props {
@@ -68,6 +69,9 @@ export const StakeholderMapV2 = ({ stakeholders, summary }: StakeholderMapV2Prop
         </div>
       </div>
       <CardContent className="p-5 space-y-5">
+        {/* Power × Stance matrix — the visual the consultants pay for */}
+        <StakeholderMatrix stakeholders={stakeholders} />
+
         {/* Summary badges */}
         <div className="flex flex-wrap gap-3">
           <div className="flex items-center gap-2 text-xs font-sans">
