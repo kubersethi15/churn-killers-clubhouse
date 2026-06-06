@@ -1,0 +1,124 @@
+# LinkedIn Posts -- The Day Your CSM Got Promoted to Babysitter
+# Newsletter URL: https://churnisdead.com/newsletter/csm-promoted-to-babysitter-agent-supervisor
+# Generated: 2026-06-06
+
+============================================================
+POST 1 -- TUESDAY
+Strategy: Leads with a credible name and a contrarian reframe. Validates the AI threat instead of dismissing it, which builds trust, then pivots to the split thesis that drives the click.
+============================================================
+
+An AI VP of Customer Success emailing 83 sponsors at 12:20am with custom check-ins. No human in the loop. That was his proof.
+
+He's right about the work. He's wrong about the conclusion.
+
+The role doesn't die. It splits.
+
+It splits into two jobs almost nobody was hired to do. The supervisor who stops the agent from sending a tone-deaf email to a grieving champion. The closer who navigates a procurement freeze the bot can't touch.
+
+The administrative core was 60 to 70 percent of the CSM week. That part is machine work now. Fine. It was always going to be.
+
+But here's the uncomfortable part. Most CSMs hired in the 2021 boom were hired for the layer the agent just absorbed. Relationship building. Being proactive. Cadence in green on a dashboard.
+
+If your CSM job could be done by an agent emailing 83 people at midnight, it was already a dead job. The agent didn't kill it. It made it visible.
+
+Most teams are about to sleepwalk into the worse half of the split while leadership calls it strategic transformation.
+
+I broke down both halves and the one number that tells you which one you're building.
+
+https://churnisdead.com/newsletter/csm-promoted-to-babysitter-agent-supervisor
+
+#CustomerSuccess #SaaS #AI
+
+
+============================================================
+POST 2 -- WEDNESDAY
+Strategy: Pure value with a vivid concrete scenario. No link. The closing question invites CSMs to self-assess and comment, driving engagement before the framework post lands.
+============================================================
+
+Picture a real Fortune 500 account.
+
+The renewal is a board-level budget fight. The champion just left for a competitor. Security flagged a data-residency issue that froze the expansion. Three internal stakeholders are quietly knifing each other over who owns the platform.
+
+Now drop an AI agent on it.
+
+It can send a beautiful, personalised, perfectly timed email to every stakeholder. It will do nothing.
+
+Because that account doesn't need outreach. It needs judgment.
+
+It needs someone to halt the send. To read the politics. To call the champion's old boss instead of emailing the new one. To know that the right move this week is silence.
+
+The agents won the high-volume transactional work. They earned it. They are better than a tired human at midnight.
+
+What they cannot do is the part we always mistook for admin. Reading a room. Holding a line in procurement. Knowing when not to act.
+
+That was always the actual job. The midnight emails were just the part we confused for it.
+
+So here's the question. What percentage of your week is judgment versus motion?
+
+#CustomerSuccess #CustomerExperience #SaaS
+
+
+============================================================
+POST 3 -- THURSDAY
+Strategy: Scannable two-list framework that delivers the core value standalone. The judgment ratio gives a memorable takeaway and a reason to click for the audit detail.
+============================================================
+
+Lemkin's AI agent killed the administrative CSM. What's left divides into two distinct human jobs.
+
+Most teams will build the wrong one by accident.
+
+The supervisor:
+
+1. Watches the agents. Reviews what they send.
+2. Catches the tone-deaf, the off-brand, the catastrophic.
+3. Manages by exception. Scales across hundreds of accounts.
+4. Lower leverage. Closer to QA than strategy.
+
+The closer:
+
+1. Owns the accounts agents cannot touch.
+2. Navigates board fights, procurement freezes, champion churn.
+3. Sits in the room where the renewal is actually decided.
+4. Higher leverage. Closer to sales than support.
+
+The trap:
+
+Most 2021-boom CSMs were hired for neither. They were hired for the relationship layer the agent just absorbed. So when the split happens, they get sorted into the supervisor seat by default. Babysitting bots. Calling it transformation.
+
+The number that decides it: your judgment ratio. The share of your week that requires reading a situation a machine cannot read.
+
+Low ratio, you're a supervisor. High ratio, you're a closer.
+
+Run the audit before the org chart runs it for you.
+
+Full breakdown and the playbook in comments.
+
+#CustomerSuccess #SaaS #AI
+
+
+============================================================
+POST 4 -- FRIDAY
+Strategy: Vulnerable first-person admission makes the threat personal and disarms defensiveness. The confession structure earns the subscribe CTA by ending on a sharp insight.
+============================================================
+
+I carried 40 accounts. My Monday was an inbox of escalations, a sales handoff with no notes, two fire drills in Slack, and the one account threatening to leave that quarter.
+
+I wrote check-in emails between meetings. I prepped QBR decks at 9pm. I updated the CRM on Friday so the forecast looked clean.
+
+I called it proactive work. My dashboard showed my outreach cadence in green. I was proud of it.
+
+Then I watched an AI agent do all of it. Better. At midnight. Without complaining.
+
+And I had to sit with an ugly truth. The work I was proudest of was the work that was easiest to replace. The cadence. The check-ins. The clean CRM. All of it motion, almost none of it judgment.
+
+The hard part of the job was the part I never had time for. The political read. The procurement fight. Knowing when not to send.
+
+The agent didn't take my job. It exposed which half of it ever mattered.
+
+If that lands uncomfortably, good. It should. I wrote the full audit so you can find your number before someone else assigns you to the wrong seat.
+
+Subscribe: https://churnisdead.com
+
+#CustomerSuccess #SaaS #CareerGrowth
+
+
