@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Mail, Lock, User, ArrowLeft, Check, X, Eye, EyeOff, MessageSquare, BookText, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -33,6 +34,25 @@ const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("signin");
   const [touched, setTouched] = useState({ password: false, confirmPassword: false });
+  /**
+   * Password-recovery mode. We enter this mode when:
+   *  (a) URL has `?reset=true` (set in AuthContext when resetPasswordForEmail is called), OR
+   *  (b) Supabase fires the PASSWORD_RECOVERY auth event after the user clicks
+   *      the email link (the recovery token in the URL hash is consumed by the
+   *      Supabase client, which then emits this event).
+   *
+   * While in recovery mode we suppress the auto-redirect that normally fires
+   * when `user` becomes truthy (because Supabase silently signs the user in
+   * via the recovery token).
+   */
+  const [isRecoveryMode, setIsRecoveryMode] = useState(() => {
+    if (typeof window === "undefined") return false;
+    const params = new URLSearchParams(window.location.search);
+    return params.get("reset") === "true" || window.location.hash.includes("type=recovery");
+  });
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [resetSubmitting, setResetSubmitting] = useState(false);
   const { signIn, signUp, resetPassword, user, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -42,14 +62,29 @@ const Auth = () => {
   const from = (location.state as { from?: string })?.from || "/cs-analyzer";
 
   useEffect(() => {
-    document.title = "Sign In | Churn Is Dead";
+    document.title = isRecoveryMode ? "Set a new password | Churn Is Dead" : "Sign In | Churn Is Dead";
+  }, [isRecoveryMode]);
+
+  // Listen for Supabase's PASSWORD_RECOVERY event — fires after Supabase
+  // consumes the recovery token from the URL hash on landing.
+  useEffect(() => {
+    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "PASSWORD_RECOVERY") {
+        setIsRecoveryMode(true);
+      }
+    });
+    return () => sub.subscription.unsubscribe();
   }, []);
 
   useEffect(() => {
+    // Do NOT redirect if we're in password-recovery mode — Supabase has
+    // silently signed the user in via the recovery token, but we need to
+    // keep them on this page to set a new password.
+    if (isRecoveryMode) return;
     if (!authLoading && user) {
       navigate(from, { replace: true });
     }
-  }, [user, authLoading, navigate, from]);
+  }, [user, authLoading, navigate, from, isRecoveryMode]);
 
   // Password validation
   const passwordChecks = useMemo(() => ({
@@ -68,6 +103,56 @@ const Auth = () => {
   const isPasswordValid = passwordChecks.minLength;
   const passwordsMatch = password === confirmPassword && confirmPassword.length > 0;
   const canSubmitSignUp = isPasswordValid && passwordsMatch && email.length > 0;
+
+  const handleSetNewPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPassword.length < 6) {
+      toast({
+        title: "Password too short",
+        description: "Use at least 6 characters.",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (newPassword !== confirmNewPassword) {
+      toast({
+        title: "Passwords don't match",
+        description: "Re-enter the new password.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setResetSubmitting(true);
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    setResetSubmitting(false);
+
+    if (error) {
+      toast({
+        title: "Couldn't set a new password",
+        description: error.message,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Sign the recovery session out so the user has to log in fresh with the
+    // new password — clearer mental model and confirms the new credential works.
+    await supabase.auth.signOut();
+
+    toast({
+      title: "Password updated",
+      description: "Sign in with your new password.",
+    });
+
+    // Clear recovery mode and any URL state, return to a clean sign-in form
+    setIsRecoveryMode(false);
+    setNewPassword("");
+    setConfirmNewPassword("");
+    setActiveTab("signin");
+    // Strip the recovery hash + ?reset=true from the URL so a refresh doesn't reactivate this UI
+    navigate("/auth", { replace: true });
+  };
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -162,17 +247,20 @@ const Auth = () => {
           {/* Left side - Value proposition (hidden on mobile) */}
           <div className="hidden lg:block text-white">
             <h1 className="text-4xl font-serif font-bold mb-4">
-              {activeTab === "signin" ? (
+              {isRecoveryMode ? (
+                <>Set a <span className="text-red-400">new password</span></>
+              ) : activeTab === "signin" ? (
                 <>Welcome Back to <span className="text-red-400">Churn Is Dead</span></>
               ) : (
                 <>Join <span className="text-red-400">Churn Is Dead</span></>
               )}
             </h1>
             <p className="text-xl text-gray-300 mb-8">
-              {activeTab === "signin" 
+              {isRecoveryMode
+                ? "Pick something you'll remember. You'll be signed in fresh on the next screen."
+                : activeTab === "signin"
                 ? "Sign in to access your AI-powered CS tools and tactical frameworks."
-                : "Create your account to unlock AI-powered CS tools and tactical frameworks."
-              }
+                : "Create your account to unlock AI-powered CS tools and tactical frameworks."}
             </p>
             <ul className="space-y-4">
               <li className="flex items-center gap-3 text-gray-200">
@@ -200,7 +288,96 @@ const Auth = () => {
           <div className="w-full max-w-md mx-auto lg:mx-0">
             <Card className="border-0 shadow-2xl">
               <CardContent className="pt-6">
-                <Tabs defaultValue="signup" value={activeTab} onValueChange={setActiveTab} className="w-full">
+                {isRecoveryMode ? (
+                  <form onSubmit={handleSetNewPassword} className="space-y-4">
+                    <div className="text-center mb-2">
+                      <h2 className="text-xl font-serif font-bold text-foreground">
+                        Set a new password
+                      </h2>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        You're verified. Choose a new password to finish.
+                      </p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="new-password">New password</Label>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                        <Input
+                          id="new-password"
+                          type={showPassword ? "text" : "password"}
+                          placeholder="At least 6 characters"
+                          value={newPassword}
+                          onChange={(e) => setNewPassword(e.target.value)}
+                          className="pl-10 pr-10"
+                          required
+                          autoFocus
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword((v) => !v)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                          aria-label={showPassword ? "Hide password" : "Show password"}
+                        >
+                          {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="confirm-new-password">Confirm new password</Label>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                        <Input
+                          id="confirm-new-password"
+                          type={showConfirmPassword ? "text" : "password"}
+                          placeholder="Type it again"
+                          value={confirmNewPassword}
+                          onChange={(e) => setConfirmNewPassword(e.target.value)}
+                          className="pl-10 pr-10"
+                          required
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirmPassword((v) => !v)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                          aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                        >
+                          {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <Button
+                      type="submit"
+                      className="w-full bg-red hover:bg-red-dark text-white"
+                      disabled={resetSubmitting || newPassword.length < 6 || newPassword !== confirmNewPassword}
+                    >
+                      {resetSubmitting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Updating…
+                        </>
+                      ) : (
+                        "Set new password"
+                      )}
+                    </Button>
+
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        await supabase.auth.signOut();
+                        setIsRecoveryMode(false);
+                        setActiveTab("signin");
+                        navigate("/auth", { replace: true });
+                      }}
+                      className="block mx-auto text-xs text-muted-foreground hover:text-foreground underline-offset-2 hover:underline"
+                    >
+                      Cancel and sign in instead
+                    </button>
+                  </form>
+                ) : (
+                  <Tabs defaultValue="signup" value={activeTab} onValueChange={setActiveTab} className="w-full">
                     <TabsList className="grid w-full grid-cols-2 mb-6">
                       <TabsTrigger value="signin">Sign In</TabsTrigger>
                       <TabsTrigger value="signup">Sign Up</TabsTrigger>
@@ -467,6 +644,7 @@ const Auth = () => {
                       </form>
                     </TabsContent>
                   </Tabs>
+                )}
               </CardContent>
 
               <CardFooter className="flex-col space-y-3 text-center text-sm text-muted-foreground border-t pt-6">
