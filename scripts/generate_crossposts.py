@@ -23,6 +23,11 @@ MIGRATIONS_DIR = REPO_ROOT / "supabase" / "migrations"
 DISTRIBUTION_DIR = REPO_ROOT / "distribution"
 SITE_URL = "https://churnisdead.com"
 
+# Claude Opus 4.8 — most capable model, clearer/warmer prose. These crossposts
+# are public-facing (Medium/Hashnode), so they run on the same top model as the
+# newsletter itself.
+MODEL = "claude-opus-4-8"
+
 
 def extract_newsletters():
     newsletters = {}
@@ -50,7 +55,7 @@ def extract_newsletters():
 def call_claude(system_prompt, user_prompt, max_tokens=4000):
     client = anthropic.Anthropic()
     message = client.messages.create(
-        model="claude-sonnet-4-20250514",
+        model=MODEL,
         max_tokens=max_tokens,
         system=system_prompt,
         messages=[{"role": "user", "content": user_prompt}]
