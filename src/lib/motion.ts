@@ -10,7 +10,7 @@
 import type { Variants, Transition } from "framer-motion";
 
 // Calm, slightly slow-out easing — matches editorial pacing
-const EASE: Transition["ease"] = [0.22, 1, 0.36, 1];
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const baseTransition: Transition = {
   duration: 0.45,
