@@ -3,11 +3,15 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import NewsletterForm from "@/components/NewsletterForm";
+import { applyRouteSeo } from "@/utils/seoMeta";
 
 const About = () => {
   useEffect(() => {
-    document.title = "About | Churn Is Dead";
-    document.querySelector('meta[name="description"]')?.setAttribute("content", "Churn Is Dead: weekly CS frameworks by Kuber Sethi. Hard truths, tactical plays, and no fluff.");
+    applyRouteSeo({
+      title: "About Kuber Sethi | Churn Is Dead",
+      description: "Why Churn Is Dead exists and who writes it. Kuber Sethi on building CS frameworks for enterprise operators tired of hope-as-strategy.",
+      path: "/about",
+    });
   }, []);
 
   return (

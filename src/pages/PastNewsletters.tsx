@@ -23,7 +23,13 @@ const PastNewsletters = () => {
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
-    document.title = "All Issues | Churn Is Dead";
+    import("@/utils/seoMeta").then(({ applyRouteSeo }) =>
+      applyRouteSeo({
+        title: "All Issues | Churn Is Dead Newsletter Archive",
+        description: "Every issue of Churn Is Dead. Weekly Customer Success frameworks, hard truths, and tactical plays for enterprise CS leaders by Kuber Sethi.",
+        path: "/newsletters",
+      })
+    );
   }, []);
 
   useEffect(() => {

@@ -1,0 +1,19 @@
+# Churn Is Dead
+
+> Weekly Customer Success frameworks for enterprise CS leaders by Kuber Sethi. Hard truths, tactical plays, and downloadable playbooks that replace hope with strategy.
+
+Churn Is Dead is a newsletter and tools site for senior Customer Success operators. It publishes a new issue every Tuesday covering CS strategy, renewal and expansion mechanics, QBR alternatives, AI's impact on CS roles, and the operating frameworks that separate effective CS teams from theater.
+
+## Pages
+
+- [Home](/): Latest issue, recent newsletters, and overview of Churn Is Dead.
+- [Start Here](/start): Three essential issues for new readers.
+- [All Issues](/newsletters): Full archive of every Churn Is Dead newsletter.
+- [Playbook Vault](/playbook): Downloadable CS audits and playbooks (QBR conversion, renewal readiness, AI exposure, churn attribution, and more).
+- [About](/about): Why Churn Is Dead exists and who writes it.
+- [CS Analyzer](/cs-analyzer): AI-powered customer call transcript analysis for CS leaders.
+- [AI Exposure Score](/ai-exposure-score): Self-assessment tool to gauge how exposed your CS role is to AI displacement.
+
+## Optional
+
+- [CS Analyzer Demo](/cs-analyzer/demo): Sample analyzer report without uploading a transcript.

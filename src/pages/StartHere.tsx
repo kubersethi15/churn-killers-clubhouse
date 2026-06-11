@@ -28,7 +28,13 @@ const essentialIssues = [
 
 const StartHere = () => {
   useEffect(() => {
-    document.title = "Start Here | Churn Is Dead";
+    import("@/utils/seoMeta").then(({ applyRouteSeo }) =>
+      applyRouteSeo({
+        title: "Start Here | Churn Is Dead",
+        description: "New to Churn Is Dead? Three essential issues that capture what this newsletter is about. Read these first, then decide if you want more every Tuesday.",
+        path: "/start",
+      })
+    );
     window.scrollTo(0, 0);
   }, []);
 
