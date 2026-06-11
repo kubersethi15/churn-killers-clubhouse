@@ -135,6 +135,72 @@ export type Database = {
           },
         ]
       }
+      email_events: {
+        Row: {
+          email: string
+          event_type: string
+          id: string
+          newsletter_slug: string | null
+          occurred_at: string | null
+          payload: Json | null
+          received_at: string | null
+          resend_message_id: string | null
+          subject: string | null
+        }
+        Insert: {
+          email: string
+          event_type: string
+          id?: string
+          newsletter_slug?: string | null
+          occurred_at?: string | null
+          payload?: Json | null
+          received_at?: string | null
+          resend_message_id?: string | null
+          subject?: string | null
+        }
+        Update: {
+          email?: string
+          event_type?: string
+          id?: string
+          newsletter_slug?: string | null
+          occurred_at?: string | null
+          payload?: Json | null
+          received_at?: string | null
+          resend_message_id?: string | null
+          subject?: string | null
+        }
+        Relationships: []
+      }
+      function_logs: {
+        Row: {
+          created_at: string
+          duration_ms: number | null
+          function_name: string
+          id: string
+          message: string | null
+          metadata: Json | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          duration_ms?: number | null
+          function_name: string
+          id?: string
+          message?: string | null
+          metadata?: Json | null
+          status: string
+        }
+        Update: {
+          created_at?: string
+          duration_ms?: number | null
+          function_name?: string
+          id?: string
+          message?: string | null
+          metadata?: Json | null
+          status?: string
+        }
+        Relationships: []
+      }
       internal_config: {
         Row: {
           key: string
@@ -150,6 +216,50 @@ export type Database = {
         }
         Relationships: []
       }
+      newsletter_send_log: {
+        Row: {
+          error_message: string | null
+          id: string
+          newsletter_id: string | null
+          resend_message_id: string | null
+          send_status: string | null
+          sent_at: string | null
+          subject_variant: string
+          subscriber_email: string
+          variant_index: number
+        }
+        Insert: {
+          error_message?: string | null
+          id?: string
+          newsletter_id?: string | null
+          resend_message_id?: string | null
+          send_status?: string | null
+          sent_at?: string | null
+          subject_variant: string
+          subscriber_email: string
+          variant_index: number
+        }
+        Update: {
+          error_message?: string | null
+          id?: string
+          newsletter_id?: string | null
+          resend_message_id?: string | null
+          send_status?: string | null
+          sent_at?: string | null
+          subject_variant?: string
+          subscriber_email?: string
+          variant_index?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "newsletter_send_log_newsletter_id_fkey"
+            columns: ["newsletter_id"]
+            isOneToOne: false
+            referencedRelation: "newsletters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       newsletters: {
         Row: {
           category: string | null
@@ -159,6 +269,8 @@ export type Database = {
           published_date: string
           read_time: string
           slug: string
+          subject_variants: Json | null
+          theme: string | null
           title: string
         }
         Insert: {
@@ -169,6 +281,8 @@ export type Database = {
           published_date?: string
           read_time: string
           slug: string
+          subject_variants?: Json | null
+          theme?: string | null
           title: string
         }
         Update: {
@@ -179,6 +293,8 @@ export type Database = {
           published_date?: string
           read_time?: string
           slug?: string
+          subject_variants?: Json | null
+          theme?: string | null
           title?: string
         }
         Relationships: []
@@ -217,19 +333,28 @@ export type Database = {
         Row: {
           created_at: string
           email: string
+          external_referrer: string | null
           id: string
+          last_subject_variant: string | null
+          source_page: string | null
           subscribed: boolean
         }
         Insert: {
           created_at?: string
           email: string
+          external_referrer?: string | null
           id?: string
+          last_subject_variant?: string | null
+          source_page?: string | null
           subscribed?: boolean
         }
         Update: {
           created_at?: string
           email?: string
+          external_referrer?: string | null
           id?: string
+          last_subject_variant?: string | null
+          source_page?: string | null
           subscribed?: boolean
         }
         Relationships: []
@@ -281,7 +406,75 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      function_health_24h: {
+        Row: {
+          avg_duration_ms: number | null
+          failures: number | null
+          function_name: string | null
+          last_run: string | null
+          successes: number | null
+          total_runs: number | null
+        }
+        Relationships: []
+      }
+      recent_function_failures: {
+        Row: {
+          created_at: string | null
+          duration_ms: number | null
+          error_message: string | null
+          function_name: string | null
+          metadata: Json | null
+          status: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          duration_ms?: number | null
+          error_message?: string | null
+          function_name?: string | null
+          metadata?: Json | null
+          status?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          duration_ms?: number | null
+          error_message?: string | null
+          function_name?: string | null
+          metadata?: Json | null
+          status?: string | null
+        }
+        Relationships: []
+      }
+      subject_line_performance: {
+        Row: {
+          delivered_count: number | null
+          failed_count: number | null
+          newsletter: string | null
+          open_rate_pct: number | null
+          opens: number | null
+          sent_count: number | null
+          slug: string | null
+          subject_variant: string | null
+          variant_index: number | null
+        }
+        Relationships: []
+      }
+      subscriber_acquisition_summary: {
+        Row: {
+          first_seen: string | null
+          last_seen: string | null
+          source: string | null
+          subscribers: number | null
+        }
+        Relationships: []
+      }
+      subscriber_growth_weekly: {
+        Row: {
+          new_subscribers: number | null
+          total_subscribers: number | null
+          week: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       create_newsletter_invoke_function: { Args: never; Returns: undefined }
@@ -302,7 +495,6 @@ export type Database = {
       setup_newsletter_test_cron_job: { Args: never; Returns: undefined }
       setup_newsletter_weekly: { Args: never; Returns: undefined }
       setup_newsletter_weekly_11pm: { Args: never; Returns: undefined }
-      sql: { Args: { query: string }; Returns: undefined }
       unschedule_job: { Args: { job_name: string }; Returns: undefined }
     }
     Enums: {
