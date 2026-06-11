@@ -479,6 +479,17 @@ export type Database = {
     Functions: {
       create_newsletter_invoke_function: { Args: never; Returns: undefined }
       enable_pg_cron: { Args: never; Returns: undefined }
+      get_shared_analysis: {
+        Args: { _share_id: string }
+        Returns: {
+          created_at: string
+          id: string
+          is_public: boolean
+          public_share_id: string
+          results: Json
+          title: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
