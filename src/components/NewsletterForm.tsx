@@ -74,7 +74,7 @@ const NewsletterForm = ({
 
       // Insert new subscriber (with source if columns exist; fallback to email-only)
       let insertError;
-      const insertPayload: Record<string, unknown> = {
+      const insertPayload = {
         email,
         source_page: sourcePage,
         external_referrer: externalReferrer || null,
