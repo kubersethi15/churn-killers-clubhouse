@@ -43,10 +43,7 @@ const CSAnalyzerShare = () => {
       // here — the raw transcript may contain PII and isn't part of what
       // gets shared publicly.
       const { data, error: fetchError } = await supabase
-        .from("analyses")
-        .select("id, title, results, created_at, public_share_id, is_public")
-        .eq("public_share_id", shareId)
-        .eq("is_public", true)
+        .rpc("get_shared_analysis", { _share_id: shareId })
         .maybeSingle();
 
       if (cancelled) return;
