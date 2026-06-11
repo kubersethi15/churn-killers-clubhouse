@@ -68,10 +68,10 @@ const Header = () => {
       }`}
     >
       <div className="container mx-auto flex justify-between items-center px-4 md:px-6">
-        <Link to="/" className="flex items-center">
-          <h1 className="text-xl md:text-2xl font-serif font-black text-navy-dark">
+        <Link to="/" className="flex items-center" aria-label="Churn Is Dead — Home">
+          <div className="text-xl md:text-2xl font-serif font-black text-navy-dark">
             <span className="underline-red">Churn</span> Is Dead
-          </h1>
+          </div>
         </Link>
         
         <nav className="hidden md:flex items-center gap-6">

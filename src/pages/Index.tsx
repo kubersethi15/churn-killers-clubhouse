@@ -34,7 +34,13 @@ const Index = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Churn Is Dead | Weekly CS Frameworks That Replace Hope With Strategy";
+    import("@/utils/seoMeta").then(({ applyRouteSeo }) =>
+      applyRouteSeo({
+        title: "Churn Is Dead | Bold Customer Success Strategies",
+        description: "Weekly Customer Success frameworks for enterprise CS leaders by Kuber Sethi. Hard truths, tactical plays, and downloadable playbooks that replace hope with strategy.",
+        path: "/",
+      })
+    );
 
     // Homepage structured data
     const existingJsonLd = document.querySelector('script[data-seo="homepage-jsonld"]');

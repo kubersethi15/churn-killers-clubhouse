@@ -106,7 +106,13 @@ const PlaybookVault = () => {
   const loading = false;
 
   useEffect(() => {
-    document.title = "Playbook Vault | Churn Is Dead";
+    import("@/utils/seoMeta").then(({ applyRouteSeo }) =>
+      applyRouteSeo({
+        title: "Playbook Vault | Churn Is Dead",
+        description: "Downloadable CS playbooks and audits: QBR conversion, renewal readiness, AI exposure, churn attribution, and more. Built for enterprise CS operators.",
+        path: "/playbook",
+      })
+    );
     window.scrollTo(0, 0);
   }, []);
 

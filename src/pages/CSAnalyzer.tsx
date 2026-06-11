@@ -951,8 +951,10 @@ const CSAnalyzer = () => {
                 size="icon"
                 onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
                 className="md:hidden text-white/60 hover:text-white hover:bg-white/10 h-8 w-8"
+                aria-label={sidebarCollapsed ? "Open sidebar" : "Close sidebar"}
+                aria-expanded={!sidebarCollapsed}
               >
-                <PanelLeft className="h-4 w-4" />
+                <PanelLeft className="h-4 w-4" aria-hidden="true" />
               </Button>
               <h1 className="text-lg font-serif font-bold tracking-tight">CS Analyzer</h1>
             </div>
