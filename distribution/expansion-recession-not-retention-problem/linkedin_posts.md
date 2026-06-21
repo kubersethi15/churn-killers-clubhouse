@@ -1,0 +1,122 @@
+# LinkedIn Posts -- The Expansion Recession Is Here. Stop Calling It a Retention Problem.
+# Newsletter URL: https://churnisdead.com/newsletter/expansion-recession-not-retention-problem
+# Generated: 2026-06-21
+
+============================================================
+POST 1 -- TUESDAY
+Strategy: Hot take that reframes a number everyone obsesses over. Leads with a fear hook (you will be blamed) that CS leaders feel acutely during planning season.
+============================================================
+
+Median private SaaS NRR fell from 105% in 2021 to 101% in 2024.
+
+Here is the part nobody says out loud: gross retention barely moved during that slide.
+
+That changes who is responsible.
+
+Gross retention holding flat means customers are not leaving. Net retention falling means they stopped buying more. Those are two completely different failures.
+
+The second one is not yours.
+
+Upsell stalled. Cross-sell stalled. Price increases stalled. CIOs are openly asking if they even need to renew at the same level. None of that is a value-realization problem you can fix in a QBR.
+
+It is a pricing-power and roadmap problem.
+
+Yet NRR still sits proudly on the goals slide of nearly every VP of CS I know. It was the number that finally got CS into the board deck.
+
+Now that same number is sliding for reasons no CSM can touch. And the person who volunteered to own it is about to get asked why.
+
+If you accept a raw NRR target this planning cycle, you have signed up to be blamed for a decline you could not have prevented.
+
+I broke down how to stop that here: https://churnisdead.com/newsletter/expansion-recession-not-retention-problem
+
+#CustomerSuccess #SaaS #NRR
+
+
+============================================================
+POST 2 -- WEDNESDAY
+Strategy: Pure value. The three-account framework is the most concrete insight in the piece. Ends with a question that forces self-reflection and invites comments.
+============================================================
+
+Here is what a falling NRR actually looks like inside a real enterprise book.
+
+Three types of accounts. All rolling into one blended number.
+
+Type one: accounts that adopted everything you sold them. Usage healthy. Champion engaged. Renewal locked. They love you. They are also done. No new module, no new tier, no reason to spend another dollar. You did your job perfectly and the account is flat.
+
+Type two: accounts that grew only because a contractual price escalator finally got enforced after years of being waived. The book grew. You ran no expansion play. The clause did the work.
+
+Type three: a thin slice where something genuinely new landed. A second team picked up the product for a use case nobody scoped at signing. Real net-new value, real net-new spend.
+
+All three roll into one blended NRR.
+
+When it goes up, you get credit for the price clause you never negotiated. When it goes down, you inherit the whole drop, including the expansion the roadmap never gave you anything to sell.
+
+That is the trap.
+
+One number, three jobs, and you only own one of them.
+
+So here is my question: if you decomposed your NRR tomorrow, which slice would actually be yours?
+
+#CustomerSuccess #SaaS #CustomerRetention
+
+
+============================================================
+POST 3 -- THURSDAY
+Strategy: Numbered framework with a memorable payoff (the CFO question). Listicle format performs well and the audit offer drives clicks via comments.
+============================================================
+
+The CS leaders who survive the expansion recession will not be the ones who expanded hardest.
+
+They will be the ones who knew exactly which slice of the number was theirs.
+
+Here is how to decompose a blended NRR before anyone decides it for you:
+
+1. The Floor. Gross retention. Are customers staying? If yes, this is healthy and it is yours. Lead with it.
+
+2. The Clause. Growth from contractual price escalators you did not negotiate. Strip it out. It inflates good years and hides bad ones.
+
+3. The Lever. Real net-new expansion. New use cases, new teams, new tiers. This is the only slice that reflects expansion motion.
+
+4. The Lever Gap. The distance between the expansion you ran and the expansion the roadmap actually made possible. Quantify it. This is the ceiling.
+
+When you bring this breakdown, the conversation changes.
+
+In one room I sat in, the CFO went quiet and asked the only question that matters: "So how much of this is actually a pricing decision we haven't made?"
+
+That is the question you want asked. It only gets asked if you bring the decomposition that forces it.
+
+Bring the blended number and you defend a decline for a year. Bring the breakdown and you turn an interrogation into a strategy conversation.
+
+Full framework and a free audit in comments.
+
+#CustomerSuccess #SaaS #RevenueGrowth
+
+
+============================================================
+POST 4 -- FRIDAY
+Strategy: Vulnerability and a confession. Admitting he volunteered for the trap builds trust and makes the advice land harder than a lecture would.
+============================================================
+
+Owning NRR felt like a win at the time.
+
+It was the number that got Customer Success into the board deck. Proof we drove revenue and not just goodwill. I wanted it. I raised my hand for it.
+
+Then the macro shifted. Upsell stalled. Roadmap stopped shipping things I could sell. CIOs started asking if they even needed to renew at the same level.
+
+And I sat in a room defending a blended number that was falling for reasons no QBR could touch.
+
+The worst part was watching the credit get rewritten. The year it went up, leadership thanked CS, including the price clauses I never negotiated. The year it fell, I owned the whole drop.
+
+Here is what I learned the hard way.
+
+Owning a number you do not control is not ambition. It is exposure.
+
+The job is not to expand harder in a recession that will not let you. The job is to know exactly which slice of the number is yours and say so out loud before anyone decides it for you.
+
+I was the person who did not do that. I am writing so you do not have to be.
+
+I break this down every week for CS leaders. Subscribe: https://churnisdead.com
+
+#CustomerSuccess #SaaS #Leadership
+
+
