@@ -45,6 +45,45 @@ def get_next_tuesday():
     return tuesday.strftime("%Y-%m-%dT08:00:00+00:00")
 
 
+def _occupied_publish_dates():
+    """Set of YYYY-MM-DD strings already taken in the newsletters table."""
+    import urllib.request, urllib.error
+    supabase_url = os.environ.get("SUPABASE_URL")
+    service_role_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+    if not (supabase_url and service_role_key):
+        return set()
+    try:
+        url = (f"{supabase_url.rstrip('/')}/rest/v1/newsletters"
+               f"?select=published_date&order=published_date.desc&limit=200")
+        req = urllib.request.Request(url, method="GET")
+        req.add_header("apikey", service_role_key)
+        req.add_header("Authorization", f"Bearer {service_role_key}")
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            rows = json.loads(resp.read().decode("utf-8"))
+        return {(r.get("published_date") or "")[:10] for r in rows if r.get("published_date")}
+    except Exception as e:
+        print(f"   (occupied dates unavailable: {e})")
+        return set()
+
+
+def get_next_free_tuesday(max_weeks=8):
+    """Next Tuesday 08:00 UTC whose date is NOT already taken in Supabase. Prevents
+    the Sunday cron from colliding with a manually-held / scheduled issue. Falls back
+    to the naive next Tuesday if Supabase is unreachable (never blocks the cron)."""
+    occupied = _occupied_publish_dates()
+    today = datetime.now(timezone.utc)
+    days_ahead = 1 - today.weekday()
+    if days_ahead <= 0:
+        days_ahead += 7
+    candidate = today + timedelta(days=days_ahead)
+    for _ in range(max_weeks):
+        if candidate.strftime("%Y-%m-%d") not in occupied:
+            return candidate.strftime("%Y-%m-%dT08:00:00+00:00")
+        print(f"   ⚠️  {candidate.strftime('%Y-%m-%d')} already has an issue — bumping a week.")
+        candidate += timedelta(days=7)
+    return candidate.strftime("%Y-%m-%dT08:00:00+00:00")
+
+
 def get_existing_topics_and_themes():
     """Fetch existing newsletter titles AND themes from Supabase.
 
@@ -72,14 +111,14 @@ def get_existing_topics_and_themes():
                 with urllib.request.urlopen(req, timeout=15) as resp:
                     rows = json.loads(resp.read().decode("utf-8"))
                 topics = [r.get("title", "") for r in rows if r.get("title")]
-                # Capture themes from last 4 newsletters if column exists
+                # Capture themes from last 6 newsletters if column exists
                 if "theme" in select_clause:
-                    for r in rows[:4]:
+                    for r in rows[:6]:
                         if r.get("theme"):
                             recent_themes.append((r["theme"], r.get("published_date", "")))
                 print(f"   Loaded {len(topics)} existing topics from Supabase")
                 if recent_themes:
-                    print(f"   Recent themes (last 4): {[t[0] for t in recent_themes]}")
+                    print(f"   Recent themes (last 6): {[t[0] for t in recent_themes]}")
                 else:
                     print(f"   No theme data yet (column may not exist or is empty)")
                 return topics, recent_themes
@@ -120,7 +159,35 @@ ALL_THEMES = [
     "strategic_relevance",   # CS as strategic vs tactical
     "data_intelligence",     # Customer intelligence beyond health scores
     "executive_alignment",   # CFO/CRO/board relationships
+    # --- Constructive themes (build-not-burn) — break the teardown monotony ---
+    "whats_working",         # What's actually working in CS right now (constructive)
+    "operator_playbook",     # A concrete build/playbook, not a teardown (constructive)
+    "career_growth",         # CSM->leader growth, skills, positioning (constructive)
 ]
+
+# Themes that argue overlapping theses are grouped into families. Rotation bans the
+# whole FAMILY for the look-back window, so "your metrics lie to you" can't recur
+# under three different labels (health_scores / data_intelligence / metrics_theater).
+THEME_FAMILIES = {
+    "measurement":  {"health_scores", "data_intelligence", "metrics_theater"},
+    "renewals":     {"renewals_ownership", "expansion_revenue"},
+    "ai_shift":     {"ai_replacement", "csm_role_evolution"},
+    "rituals":      {"qbrs", "onboarding"},
+    "org":          {"cs_org_design", "executive_alignment", "strategic_relevance"},
+    "tooling":      {"cs_platforms", "digital_cs"},
+    "segmentation": {"customer_segmentation"},
+    "constructive": {"whats_working", "operator_playbook", "career_growth"},
+}
+
+CONSTRUCTIVE_THEMES = THEME_FAMILIES["constructive"]
+
+
+def _family_of(theme):
+    """Return the family name a theme belongs to, or None."""
+    for fam, members in THEME_FAMILIES.items():
+        if theme in members:
+            return fam
+    return None
 
 
 def get_recent_issue_bodies(n=3):
@@ -247,6 +314,74 @@ def assert_not_duplicate(meta, existing_topics, threshold=0.85):
             )
 
     print(f"   Dedup check passed: '{new_title}' is distinct from {len(existing_topics)} existing issues")
+
+
+CLAIM_VOCAB = [
+    "health score", "qbr", "nps", "csat", "onboarding", "renewal", "expansion",
+    "upsell", "churn", "ai", "agent", "automation", "platform", "gainsight",
+    "segmentation", "ratio", "metric", "playbook", "adoption", "cfo", "cro",
+    "board", "budget", "layoff", "ticket", "escalation",
+]
+SPECIFIC_TARGETS = {"health score", "qbr", "nps", "csat", "onboarding",
+                    "segmentation", "platform", "gainsight", "ratio", "adoption"}
+
+
+def _normalize_claim(s):
+    s = (s or "").lower()
+    s = re.sub(r"[^a-z0-9\s]", " ", s)
+    stop = {"the", "a", "an", "is", "are", "of", "to", "and", "for", "in", "you",
+            "your", "it", "that", "this", "cs", "customer", "success", "they",
+            "their", "not", "but", "its", "on", "with", "as"}
+    return " ".join(w for w in s.split() if w not in stop)
+
+
+def _claim_keywords(s):
+    s = (s or "").lower()
+    return {kw for kw in CLAIM_VOCAB if kw in s}
+
+
+def _thesis_duplicate_of(claim, recent_claims, ratio_threshold=0.62):
+    """Return the recent claim this one duplicates, else None. Two signals: fuzzy
+    string similarity, OR >=2 shared controlled-vocab targets incl. a specific one.
+    Deliberately SOFT -- a hit triggers a single re-pick, never an abort, so a fuzzy
+    false positive can't kill the Sunday cron.
+    """
+    from difflib import SequenceMatcher
+    if not claim:
+        return None
+    nc = _normalize_claim(claim)
+    kc = _claim_keywords(claim)
+    for rc in recent_claims:
+        if not rc:
+            continue
+        if SequenceMatcher(None, nc, _normalize_claim(rc)).ratio() >= ratio_threshold:
+            return rc
+        shared = kc & _claim_keywords(rc)
+        if len(shared) >= 2 and (shared & SPECIFIC_TARGETS):
+            return rc
+    return None
+
+
+def get_recent_core_claims(n=8):
+    """Fetch core_claim from the most recent n newsletters (Supabase). Newest first.
+    Returns [] if the column/data is unavailable -- never raises, never blocks the cron."""
+    import urllib.request, urllib.error
+    supabase_url = os.environ.get("SUPABASE_URL")
+    service_role_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+    if not (supabase_url and service_role_key):
+        return []
+    try:
+        url = (f"{supabase_url.rstrip('/')}/rest/v1/newsletters"
+               f"?select=core_claim&order=published_date.desc&limit={n}")
+        req = urllib.request.Request(url, method="GET")
+        req.add_header("apikey", service_role_key)
+        req.add_header("Authorization", f"Bearer {service_role_key}")
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            rows = json.loads(resp.read().decode("utf-8"))
+        return [r.get("core_claim", "") for r in rows if r.get("core_claim")]
+    except Exception as e:
+        print(f"   (core_claims unavailable: {e})")
+        return []
 
 
 def clean_json_response(raw):
@@ -675,6 +810,7 @@ Return:
     "framework_components": ["Component 1", "Component 2", "Component 3", "Component 4"],
     "signature_metric": "A memorable, repeatable metric or term to coin this issue (Liz Centoni's 'time to relief' is the bar). Short, sticky, quotable.",
     "playbook_concept": "What the downloadable audit/playbook should measure",
+    "core_claim": "The ONE-sentence core argument of THIS issue, plainly stated (e.g. 'Health scores measure the past, so they miss churn that is already decided'). Used to block issues that repeat a recent thesis -- make it specific to this angle, not generic.",
     "who_shares_this": "Which persona shares this and what they say when they do"
   }},
   "rejected_alternatives": [
@@ -686,7 +822,7 @@ Return:
 }}"""
 
 
-def run_stage_2_topic_selection(research_brief, existing_topics, recent_themes=None, recent_issues=None):
+def run_stage_2_topic_selection(research_brief, existing_topics, recent_themes=None, recent_issues=None, extra_note=""):
     """Stage 2: pick a topic. recent_themes is a list of (theme, date) tuples for last 4 issues.
     recent_issues is a list of (title, body) used to ban repeated openings/structures."""
     print("\n   Stage 2: Selecting topic and developing angle...")
@@ -694,8 +830,25 @@ def run_stage_2_topic_selection(research_brief, existing_topics, recent_themes=N
 
     recent_themes = recent_themes or []
     banned = [t[0] for t in recent_themes if t[0]]
-    eligible = [t for t in ALL_THEMES if t not in banned]
+    # Ban at the FAMILY level: if a recent theme belongs to a family, the whole
+    # family is off-limits, stopping the same thesis recurring under a different label.
+    banned_families = {_family_of(t) for t in banned if _family_of(t)}
+    eligible = [t for t in ALL_THEMES
+                if t not in banned and _family_of(t) not in banned_families]
+    # Safety: never let the eligible set collapse to empty (would break the cron).
+    if not eligible:
+        eligible = [t for t in ALL_THEMES if t not in banned] or list(ALL_THEMES)
+    # Constructive nudge: if the last 3 issues were all teardowns, surface the
+    # constructive options first so the newsletter isn't "contrarian on a loop".
+    recent3 = [t[0] for t in recent_themes[:3] if t[0]]
+    if recent3 and not any(t in CONSTRUCTIVE_THEMES for t in recent3):
+        c_first = [t for t in eligible if t in CONSTRUCTIVE_THEMES]
+        if c_first:
+            eligible = c_first + [t for t in eligible if t not in CONSTRUCTIVE_THEMES]
     banned_str = ", ".join(banned) if banned else "None — first run with themes"
+    if banned_families:
+        fams = ", ".join(sorted(f for f in banned_families if f))
+        banned_str += f"  (families also banned: {fams})"
     eligible_str = ", ".join(eligible)
     recent_structures = structure_fingerprint(recent_issues or [])
 
@@ -706,13 +859,16 @@ def run_stage_2_topic_selection(research_brief, existing_topics, recent_themes=N
         eligible_themes=eligible_str,
         recent_structures=recent_structures
     )
+    if extra_note:
+        user_prompt += extra_note
     raw = call_claude(TOPIC_SYSTEM_PROMPT, user_prompt, max_tokens=3000)
     data = clean_json_response(raw)
     topic = data.get("selected_topic", {})
 
     # Validate theme is one of the eligible ones; if not, fail fast so we can fix the prompt
     chosen_theme = topic.get("theme", "")
-    if chosen_theme and chosen_theme in banned:
+    _banned_fams = {_family_of(t) for t in banned if _family_of(t)}
+    if chosen_theme and (chosen_theme in banned or _family_of(chosen_theme) in _banned_fams):
         print(f"   ⚠️  Stage 2 picked a BANNED theme '{chosen_theme}'. Retrying...")
         retry_prompt = user_prompt + f"\n\nYour previous attempt picked the banned theme '{chosen_theme}'. Pick from eligible themes only."
         raw = call_claude(TOPIC_SYSTEM_PROMPT, retry_prompt, max_tokens=3000)
@@ -1198,6 +1354,7 @@ def _legacy_run_stage_3(topic_brief, research_brief):
 def generate_newsletter_and_playbook(topic_override=None):
     existing_topics, recent_themes = get_existing_topics_and_themes()
     chosen_theme = None
+    chosen_core_claim = None
 
     if topic_override:
         print(f"   Topic override: {topic_override}")
@@ -1228,8 +1385,29 @@ def generate_newsletter_and_playbook(topic_override=None):
         try:
             tb = clean_json_response(topic_brief)
             chosen_theme = tb.get("selected_topic", {}).get("theme")
+            chosen_core_claim = tb.get("selected_topic", {}).get("core_claim")
         except Exception:
             chosen_theme = None
+            chosen_core_claim = None
+
+        # Thesis-level dedup: if this issue's core argument is too close to a recent
+        # issue's, re-pick ONCE with an explicit avoid-note. Soft by design.
+        recent_claims = get_recent_core_claims(8)
+        dup_of = _thesis_duplicate_of(chosen_core_claim, recent_claims)
+        if dup_of:
+            print(f"   ⚠️  Core claim overlaps a recent issue; re-picking once.")
+            print(f"      overlaps: \"{dup_of[:80]}\"")
+            note = ("\n\nYour previous pick's core_claim was too close to a recent issue: "
+                    f"\"{dup_of}\". Choose a genuinely DIFFERENT argument, target, and theme.")
+            topic_brief = run_stage_2_topic_selection(
+                research_brief, existing_topics, recent_themes,
+                recent_issues=recent_issues, extra_note=note)
+            try:
+                tb = clean_json_response(topic_brief)
+                chosen_theme = tb.get("selected_topic", {}).get("theme")
+                chosen_core_claim = tb.get("selected_topic", {}).get("core_claim")
+            except Exception:
+                pass
 
     if topic_override:
         recent_issues = []
@@ -1245,6 +1423,8 @@ def generate_newsletter_and_playbook(topic_override=None):
     # Attach theme to metadata so insert_newsletter_via_api can write it
     if chosen_theme and isinstance(newsletter, dict) and "metadata" in newsletter:
         newsletter["metadata"]["theme"] = chosen_theme
+    if chosen_core_claim and isinstance(newsletter, dict) and "metadata" in newsletter:
+        newsletter["metadata"]["core_claim"] = chosen_core_claim
     return newsletter
 
 # ===============================================================
@@ -1483,6 +1663,9 @@ def insert_newsletter_via_api(content, meta, pub_date):
     full_payload = dict(base_payload)
     if theme:
         full_payload["theme"] = theme
+    core_claim = meta.get("core_claim")
+    if core_claim:
+        full_payload["core_claim"] = core_claim
 
     # Subject line variants for A/B testing — only included if generator produced them
     subject_variants = meta.get("subject_variants")
@@ -1504,6 +1687,8 @@ def insert_newsletter_via_api(content, meta, pub_date):
     attempts = [
         ("full", full_payload),
         ("no_variants", {k: v for k, v in full_payload.items() if k != "subject_variants"}),
+        ("no_core_claim", {k: v for k, v in full_payload.items()
+                            if k not in ("subject_variants", "core_claim")}),
         ("base_only", base_payload),
     ]
     last_err = None
@@ -1759,7 +1944,7 @@ def main():
         print("   CTA present in body")
 
     print("\nInserting newsletter into Supabase...")
-    pub = get_next_tuesday()
+    pub = get_next_free_tuesday()
     insert_newsletter_via_api(content, meta, pub)
 
     print("\nGenerating distribution content...")
