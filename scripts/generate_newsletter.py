@@ -453,7 +453,19 @@ def call_claude(system_prompt, user_prompt, max_tokens=8000, tools=None):
     }
     if tools:
         kwargs["tools"] = tools
-    message = client.messages.create(**kwargs)
+    # Retry with exponential backoff: a transient API blip must not kill the Sunday cron.
+    message = None
+    for _attempt in range(3):
+        try:
+            message = client.messages.create(**kwargs)
+            break
+        except Exception as _e:
+            if _attempt == 2:
+                raise
+            import time as _time
+            _wait = 5 * (4 ** _attempt)  # 5s, 20s
+            print(f"   API call failed (attempt {_attempt + 1}/3): {_e} -- retrying in {_wait}s")
+            _time.sleep(_wait)
     text_parts = []
     for block in message.content:
         if hasattr(block, 'text'):
@@ -536,6 +548,18 @@ cite, you must capture verbatim-enough with a traceable source here.
 CITATION INTEGRITY: When you capture something a named person said publicly, record their EXACT public wording \
 and the URL. Never invent, embellish, or paraphrase a quote into something they didn't say. If you cannot find \
 the exact public statement, do not attribute anything to that person.
+
+STATIC-CONTEXT EXPIRY: The macro trends, voices, and debates listed above were written at a point in time \
+and WILL go stale. If your web research contradicts or outdates any of it, TRUST THE WEB RESULTS over this \
+static context, and note the correction in the brief.
+
+MANDATORY SURPRISE BAR: A brief that only confirms what a well-read VP of CS already believes is a FAILED \
+brief. Every brief MUST include: (1) at least one specific, sourced data point that would genuinely surprise \
+a senior CS leader; (2) at least one insight imported from OUTSIDE the CS echo chamber -- earnings-call \
+transcripts, adjacent disciplines (SRE/incident management, product ops, sales compensation, supply chain), \
+academic or analyst research, or macro news -- applied concretely to CS; (3) at least one widely-repeated CS \
+claim that the evidence suggests is factually wrong or unsupported. Return these in a "surprise_findings" \
+array, each with a source URL. The newsletter is only as eye-opening as this brief.
 
 Return ONLY valid JSON. No markdown fences. No explanation."""
 
@@ -620,13 +644,40 @@ isn't relentlessly negative), 3 underexplored_angles, and 3 framework_opportunit
 Be specific, not generic. Reference real dynamics, not platitudes. Every industry_moment MUST have a real source_url."""
 
 
+# Each week gets a different primary research lens so the pipeline never asks the same
+# questions of the same sources two weeks running. Deterministic by ISO week number.
+RESEARCH_LENSES = [
+    ("earnings_and_numbers",
+     "Prioritize HARD NUMBERS this week: recent SaaS earnings calls and shareholder letters mentioning NRR, "
+     "GRR, churn, or CS headcount. Find the number the CS discourse hasn't noticed yet."),
+    ("exec_statements",
+     "Prioritize NAMED PUBLIC STATEMENTS this week: keynotes, LinkedIn posts, podcast quotes from named "
+     "CS/CX executives. Find the statement most worth a sharp practitioner reaction -- capture exact wording + URL."),
+    ("adjacent_disciplines",
+     "Prioritize OUTSIDE-CS IMPORTS this week: how do SRE/incident management, product operations, sales "
+     "compensation design, or professional services handle a problem CS handles badly? Find the transferable mechanism."),
+    ("contrarian_data",
+     "Prioritize MYTH-KILLING this week: pick 2-3 claims the CS discourse repeats constantly and hunt for "
+     "evidence they are wrong, unsupported, or based on a single ancient vendor survey. The gap between belief and evidence is the story."),
+    ("community_ground_truth",
+     "Prioritize PRACTITIONER REALITY this week: what are working CSMs actually complaining about in "
+     "communities, reviews (G2/Reddit/forums), and comment sections -- versus what leadership content claims? The gap is the story."),
+    ("macro_to_micro",
+     "Prioritize MACRO-TO-CS translation this week: take a major macro/AI/economic development from the last "
+     "two weeks and work out its concrete, non-obvious implication for enterprise CS teams before anyone else does."),
+]
+
+
 def run_stage_1_research():
     print("\n   Stage 1: Researching CS industry landscape...")
+    _week = datetime.now(timezone.utc).isocalendar()[1]
+    _lens_name, _lens_note = RESEARCH_LENSES[_week % len(RESEARCH_LENSES)]
+    print(f"   Research lens this week: {_lens_name}")
     raw = call_claude(
         RESEARCH_SYSTEM_PROMPT,
-        RESEARCH_USER_PROMPT,
-        max_tokens=5500,
-        tools=[{"type": "web_search_20250305", "name": "web_search", "max_uses": 9}]
+        RESEARCH_USER_PROMPT + "\n\nTHIS WEEK'S PRIMARY RESEARCH LENS (weight your searches toward this): " + _lens_note,
+        max_tokens=6500,
+        tools=[{"type": "web_search_20250305", "name": "web_search", "max_uses": 12}]
     )
     try:
         data = clean_json_response(raw)
@@ -945,6 +996,11 @@ CRAFT MOVES (apply to EVERY mode -- this is what separates senior thought leader
 - ONE CALLOUT LINE: Write at least one line engineered to be screenshotted and quoted -- a sentence that lands
   as a standalone truth. Make it earn its place; don't force a dozen.
 
+- THE 60-SECOND VERSION: Directly under the title, BEFORE the opening scene, include a section headed
+  "## The 60-Second Version" with exactly three single-sentence lines: (1) the hard truth of this issue,
+  (2) the framework in one line, (3) the one thing to do this week. A time-poor senior leader who reads
+  ONLY this section must still walk away with the core value. Then write the full piece for the reader who stays.
+
 ANTI-REPETITION RULES -- CRITICAL:
 These rules exist because the last 8 issues were structurally identical. Break the pattern.
 
@@ -1083,6 +1139,37 @@ def _parse_quality(data):
 
 def _word_count(text):
     return len((text or "").split())
+
+
+def _normalize_quote_text(s):
+    s = (s or "").lower()
+    s = s.replace("\u2019", "'").replace("\u2018", "'").replace("\u201c", '"').replace("\u201d", '"')
+    s = re.sub(r"[^a-z0-9\s]", " ", s)
+    return re.sub(r"\s+", " ", s)
+
+
+# Matches: <Proper Name> ... "quoted words of 25+ chars"  (straight or curly quotes)
+_ATTR_QUOTE_RE = re.compile(
+    r'([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z\.]+){1,2})[^"\u201c\n]{0,80}["\u201c]([^"\u201d\u201c]{25,300})["\u201d]'
+)
+_ATTR_STOPWORDS = {"The", "A", "An", "In", "On", "At", "And", "But", "Your", "Their",
+                   "This", "That", "Most", "Every", "When", "If", "Customer", "Net",
+                   "Churn", "Fortune", "New", "Dear"}
+
+
+def _unverified_quotes(text, normalized_corpus):
+    """Attributed quotes in the draft that do NOT appear in the research/topic brief.
+    Instructions tell the writer never to invent quotes; this ENFORCES it. A fabricated
+    quote attributed to a real executive is the single worst failure this pipeline can ship."""
+    bad = []
+    for m in _ATTR_QUOTE_RE.finditer(text or ""):
+        name, quote = m.group(1), m.group(2)
+        if name.split()[0] in _ATTR_STOPWORDS:
+            continue
+        probe = _normalize_quote_text(quote)[:60].strip()
+        if probe and probe not in normalized_corpus:
+            bad.append((name, quote))
+    return bad
 
 
 def write_newsletter_draft(topic_brief, research_brief, extra_note=""):
@@ -1261,12 +1348,38 @@ def run_stage_3_newsletter(topic_brief, research_brief, recent_issues=None):
         # Only accept the revision if it didn't regress badly on length
         rev_wc = _word_count(revised.get('newsletter_content', ''))
         if rev_wc >= max(1500, wc * 0.8):
+            original_data, original_wc = data, wc
             data = revised
             overall, ip_failed = _parse_quality(data)
             wc = rev_wc
             print(f"   Revised: {wc} words, self-score {overall}/10")
+            # Re-check: a revision must not be WORSE than the draft it replaced.
+            recheck = run_adversarial_critique(data.get('newsletter_content', ''), title, recent_issues)
+            if recheck and str(recheck.get('verdict', '')).lower() == 'reject':
+                print("   Recheck verdict: REJECT -- revision made it worse; keeping original draft")
+                data, wc = original_data, original_wc
+                overall, ip_failed = _parse_quality(data)
         else:
             print(f"   Revision regressed length ({rev_wc}w); keeping stronger original ({wc}w)")
+
+    # Stage 3e: quote-integrity gate -- every attributed quote must exist in the brief
+    corpus = _normalize_quote_text(str(research_brief or "") + " " + str(topic_brief or ""))
+    bad = _unverified_quotes(data.get('newsletter_content', ''), corpus)
+    if bad:
+        print(f"   ⚠️  Quote-integrity: {len(bad)} attributed quote(s) NOT found in research brief -- corrective rewrite...")
+        for n, q in bad[:3]:
+            print(f'      {n}: "{q[:70]}..."')
+        note = ("\n\nQUOTE-INTEGRITY FAILURE: The following attributed quotes do NOT appear in the research "
+                "brief. Remove each one, or replace it with the exact sourced wording from the brief, or "
+                "paraphrase the idea WITHOUT quotation marks and WITHOUT attributing exact words:\n" +
+                "\n".join(f'- {n}: "{q}"' for n, q in bad))
+        data2 = write_newsletter_draft(topic_brief, research_brief, extra_note=note)
+        wc2 = _word_count(data2.get('newsletter_content', ''))
+        if wc2 >= 1500:
+            data, wc = data2, wc2
+        still_bad = _unverified_quotes(data.get('newsletter_content', ''), corpus)
+        if still_bad:
+            print(f"   🚨 UNVERIFIED QUOTES REMAIN after rewrite ({len(still_bad)}) -- REVIEW THIS ISSUE MANUALLY BEFORE TUESDAY.")
 
     print(f"   Newsletter finalized: {title} ({wc} words)")
     return data
