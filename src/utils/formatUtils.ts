@@ -82,7 +82,7 @@ export const formatContent = (content: string) => {
   // Step 5.6: Process [CTA link="..." ]...[/CTA] button blocks
   formattedContent = formattedContent.replace(
     /\[CTA\s+link="([^"]+)"\s*\]([\s\S]*?)\[\/CTA\]/g,
-    '<div class="my-8 text-center"><a href="$1" target="_blank" rel="noopener noreferrer" download class="inline-block px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-lg rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl">$2 &rarr;</a></div>'
+    '<div class="my-8 text-center"><a href="$1" target="_blank" rel="noopener noreferrer" download class="inline-block px-8 py-4 bg-red-600 hover:bg-red-700 !text-white !no-underline font-bold text-lg rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl">$2 &rarr;</a></div>'
   );
 
   // Step 6: Process paragraphs - split on blank lines and preserve single line breaks
