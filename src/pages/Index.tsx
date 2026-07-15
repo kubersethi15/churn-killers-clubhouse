@@ -13,6 +13,11 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import NewsletterForm from "@/components/NewsletterForm";
 
+// Real reader quotes ONLY. The "What readers say" section renders nothing while
+// this list is empty. Add entries as {quote, name, role} when readers give
+// permission to be quoted. Never add invented testimonials.
+const TESTIMONIALS: { quote: string; name: string; role: string }[] = [];
+
 type Newsletter = {
   id: string;
   title: string;
@@ -159,7 +164,8 @@ const Index = () => {
                 buttonText="Subscribe"
                 subscribeText=""
               />
-              <p className="text-xs text-gray-400 mt-3">Free. Every Tuesday. Unsubscribe anytime.</p>
+              <p className="text-sm text-gray-300 mt-4 font-medium">Read by 2,000+ enterprise CS leaders every Tuesday.</p>
+              <p className="text-xs text-gray-400 mt-2">Free. Instant access to the full Playbook Vault. Unsubscribe anytime.</p>
             </div>
           </div>
         </div>
@@ -283,9 +289,45 @@ const Index = () => {
                 <p className="text-sm text-gray-500 leading-relaxed">A downloadable audit or diagnostic to measure what actually matters.</p>
               </div>
             </div>
+
+            {/* Vault lead magnet */}
+            <div className="rounded-lg border border-gray-100 bg-gray-50 p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <h3 className="font-semibold text-navy-dark mb-1">Every playbook. The moment you subscribe.</h3>
+                <p className="text-sm text-gray-500">Subscribers get the full Playbook Vault — every audit and diagnostic from every past issue. Free.</p>
+              </div>
+              <Link
+                to="/playbook"
+                className="inline-flex items-center justify-center px-5 py-2.5 bg-navy-dark text-white text-sm font-semibold rounded-lg hover:opacity-90 transition-opacity whitespace-nowrap"
+              >
+                Browse the Vault
+              </Link>
+            </div>
           </div>
         </div>
       </section>
+
+      {/* ── WHAT READERS SAY (renders only when real quotes exist) ── */}
+      {TESTIMONIALS.length > 0 && (
+        <section className="py-16 md:py-24 border-t border-gray-100 bg-gray-50">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="max-w-3xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-serif font-black text-navy-dark mb-10">
+                What readers say
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {TESTIMONIALS.map((t, i) => (
+                  <div key={i} className="bg-white p-6 rounded-lg border border-gray-100">
+                    <p className="text-gray-700 leading-relaxed mb-4">"{t.quote}"</p>
+                    <p className="text-sm font-semibold text-navy-dark">{t.name}</p>
+                    <p className="text-xs text-gray-500">{t.role}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── FINAL CTA ── */}
       <section className="py-16 md:py-20 bg-navy-dark text-white">
@@ -305,6 +347,7 @@ const Index = () => {
                 buttonText="Subscribe"
                 subscribeText=""
               />
+              <p className="text-sm text-gray-400 mt-4">Join 2,000+ enterprise CS leaders. Free, every Tuesday, plus the full Playbook Vault.</p>
             </div>
           </div>
         </div>
