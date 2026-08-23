@@ -1,0 +1,52 @@
+[
+  {
+    "id": "E01",
+    "claim": "OSHA distinguishes proactive and preventive leading indicators from lagging indicators that measure past events, and states that leading indicators should drive change while lagging indicators measure effectiveness.",
+    "source_title": "Leading Indicators",
+    "url": "https://www.osha.gov/leading-indicators/",
+    "publisher": "Occupational Safety and Health Administration",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-24",
+    "notes": "Used only for the general distinction between proactive measures, action, and outcome review. Workplace-safety claims and thresholds are not transferred to Customer Success."
+  },
+  {
+    "id": "E02",
+    "claim": "NIST describes control charts as measurements over time with a center line and control limits, explains that limit choice changes the risk of investigating normal variation, and notes that systematic patterns may matter even when individual points remain within limits.",
+    "source_title": "What are Control Charts?",
+    "url": "https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc31.htm",
+    "publisher": "National Institute of Standards and Technology",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-24",
+    "notes": "Supports explicit baselines, thresholds, and false-alarm trade-offs. The article does not prescribe statistical control limits for sparse account-level CS data."
+  },
+  {
+    "id": "E03",
+    "claim": "Google SRE guidance says noisy component-level alerts are not actionable, recommends alerting on higher-level objectives while retaining diagnostic detail, and describes persistence and routing rules that distinguish urgent alerts, tickets, and informational dashboard data.",
+    "source_title": "Practical Alerting from Time-Series Data",
+    "url": "https://sre.google/sre-book/practical-alerting/",
+    "publisher": "Google Site Reliability Engineering",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-24",
+    "notes": "Applied as an operating analogy for CS signal design. Software incident thresholds are not presented as CS benchmarks."
+  },
+  {
+    "id": "E04",
+    "claim": "Google's SRE Workbook evaluates alert rules through trade-offs including precision, recall, detection time, and reset time, and shows that longer or sustained windows can improve precision while delaying or missing important events.",
+    "source_title": "Alerting on SLOs",
+    "url": "https://sre.google/workbook/alerting-on-slos/",
+    "publisher": "Google Site Reliability Engineering",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-24",
+    "notes": "Supports recording trigger windows and reset rules. The numeric SLO examples belong to service reliability and are not reused in the proposed CS framework."
+  },
+  {
+    "id": "E05",
+    "claim": "GitLab's public customer-health handbook describes multiple health inputs and states that an early multi-metric black-box approach was difficult to understand and not action-oriented for users.",
+    "source_title": "Customer Health Scoring",
+    "url": "https://handbook.gitlab.com/handbook/customer-success/customer-health-scoring/",
+    "publisher": "GitLab",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-24",
+    "notes": "A transparent company-specific example, not an industry benchmark or independent validation of a particular health model."
+  }
+]

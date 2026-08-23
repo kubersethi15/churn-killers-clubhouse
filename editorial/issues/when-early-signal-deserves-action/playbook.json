@@ -1,0 +1,82 @@
+{
+  "title": "The Intervention Trigger Ledger",
+  "subtitle": "Turn one early customer signal into a bounded, reviewable action before the aggregate score changes.",
+  "assessment_mode": "decision_record",
+  "intro_text": "Use this ledger for one recurring customer risk. Define the consequence, source, baseline, trigger rule, verification step, response, and reset condition before the next signal appears.",
+  "scoring_note": "Do not create a trigger score. Record a decision rule, test it against known timelines, and review the resulting action.",
+  "closing_quote": "A signal earns intervention rights only when the team knows what changed, compared with what, for how long, and what happens next.",
+  "next_action": "Choose one recurring risk. Complete one ledger entry, test it against three historical or illustrative timelines, then run it prospectively without changing the aggregate health score.",
+  "final_record": {
+    "title": "Trigger Activation Record",
+    "headers": ["Record", "Complete this"],
+    "col_ratios": [0.35, 0.65],
+    "rows": [
+      ["Signal, baseline, and rule", "____________________________________________"],
+      ["Observed evidence and verification", "____________________________________________"],
+      ["Response owner and due date", "____________________________________________"],
+      ["Reset condition and review date", "____________________________________________"]
+    ]
+  },
+  "interpretation_col_ratios": [0.17, 0.31, 0.52],
+  "interpretation": [
+    ["State", "Use when", "Required record"],
+    ["Observe", "The signal is visible but the trigger rule is not met", "Trend and next observation date"],
+    ["Verify", "The rule is met but evidence quality or customer context needs confirmation", "Verifier, evidence, and deadline"],
+    ["Intervene", "The rule is met, verified, and linked to a named customer consequence", "Action, owner, due date, and communication"],
+    ["Retire", "The signal repeatedly creates noise or does not change a useful decision", "Reason, replacement, or activity to stop"]
+  ],
+  "sections": [
+    {
+      "title": "Customer Consequence and Signal",
+      "why_it_matters": "An early metric matters only when it is connected to a customer decision, milestone, or outcome.",
+      "review_prompt": "What customer consequence could this signal reveal early enough to change?",
+      "headers": ["Record", "Question", "Evidence"],
+      "col_ratios": [0.24, 0.50, 0.26],
+      "rows": [
+        ["Customer consequence", "Which decision, milestone, or outcome may be affected?", "Named consequence"],
+        ["Signal", "What exact observation may change before the consequence?", "Measure and unit"],
+        ["Source", "Which system or human record supplies it?", "System of record"],
+        ["Freshness", "How current and complete must the evidence be?", "Cadence and data rule"]
+      ]
+    },
+    {
+      "title": "Baseline and Trigger Rule",
+      "why_it_matters": "Without an explicit baseline and window, normal variation becomes arbitrary escalation.",
+      "review_prompt": "Compared with what, for how long, does the observation become decision-relevant?",
+      "headers": ["Rule field", "Record this", "Decision test"],
+      "col_ratios": [0.22, 0.50, 0.28],
+      "rows": [
+        ["Baseline", "Expected pattern for this customer, workflow, and stage", "Relevant comparison"],
+        ["Threshold", "Direction and magnitude of the meaningful deviation", "Condition crossed"],
+        ["Window", "Observation period and required persistence", "Noise filter"],
+        ["Exceptions", "Seasonality, rollout phase, planned change, or missing data", "Do not fire when"]
+      ]
+    },
+    {
+      "title": "Verification and Response",
+      "why_it_matters": "A trigger should create a bounded action, not an unexplained red flag.",
+      "review_prompt": "What must be confirmed, who acts, and by when?",
+      "headers": ["Record", "Required detail", "Owner/date"],
+      "col_ratios": [0.23, 0.51, 0.26],
+      "rows": [
+        ["Verification", "Data-quality and customer-context evidence to confirm", "Verifier and deadline"],
+        ["Severity", "Observe, verify, or intervene based on consequence and timing", "Named route"],
+        ["Response", "The exact play, decision, or customer action created", "Accountable owner"],
+        ["Communication", "Who needs an update and what decision is requested?", "Channel and due date"]
+      ]
+    },
+    {
+      "title": "Reset and Learning",
+      "why_it_matters": "A trigger without a reset and review rule becomes permanent risk theatre.",
+      "review_prompt": "What closes this trigger, and how will the team learn whether it deserved action?",
+      "headers": ["Record", "Required detail", "Review evidence"],
+      "col_ratios": [0.23, 0.51, 0.26],
+      "rows": [
+        ["Reset", "Observable condition that closes or downgrades the trigger", "Closure evidence"],
+        ["Expiry", "Date the trigger must be revalidated or retired", "Review date"],
+        ["False signal", "Normal variation or data defect that created avoidable work", "Cause and change"],
+        ["Outcome review", "Did the action change the customer decision or milestone?", "Result and next rule"]
+      ]
+    }
+  ]
+}

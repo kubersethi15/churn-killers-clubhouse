@@ -1,0 +1,20 @@
+{
+  "title": "When Does an Early Warning Signal Deserve Action?",
+  "slug": "when-early-signal-deserves-action",
+  "excerpt": "Convert one early customer signal into a precommitted intervention rule with a baseline, persistence test, owner, verification step, and reset condition.",
+  "category": "Measurement",
+  "theme": "constructive_measurement_system",
+  "format": "measurement",
+  "primary_goal": "Help CS leaders decide which early customer signal merits intervention before an aggregate health score changes.",
+  "primary_cta": "Build one Intervention Trigger Ledger entry for a recurring customer risk.",
+  "read_time": "8 min read",
+  "published_date": "2026-09-15T08:00:00+00:00",
+  "pdf_filename": "Intervention_Trigger_Ledger_ChurnIsDead.pdf",
+  "playbook_title": "The Intervention Trigger Ledger",
+  "playbook_description": "A signal definition, baseline, trigger rule, verification step, response owner, reset condition, and review record for acting before an aggregate health score changes.",
+  "subject_variants": [
+    {"label": "framework", "subject": "The Intervention Trigger Ledger"},
+    {"label": "problem", "subject": "Your health score changed too late"},
+    {"label": "outcome", "subject": "Know when an early signal deserves action"}
+  ]
+}
