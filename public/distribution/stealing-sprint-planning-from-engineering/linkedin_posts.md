@@ -31,5 +31,5 @@ This does not give CS control of the roadmap.
 It gives customers something more credible than “it is in the backlog.”
 
 Full framework and the free review template:
-https://churnisdead.com/newsletter/stealing-sprint-planning-from-engineering?utm_source=linkedin&utm_medium=post&utm_campaign=stealing-sprint-planning-from-engineering
+https://churnisdead.com/newsletter/stealing-sprint-planning-from-engineering?utm_source=linkedin&utm_medium=post&utm_campaign=stealing-sprint-planning-from-engineering&utm_content=tuesday_launch
 ============================================================
