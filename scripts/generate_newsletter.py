@@ -1735,6 +1735,7 @@ def build_playbook_pdf(playbook_data, metadata, output_path):
 
     pb = playbook_data
     sections = pb.get('sections', [])
+    uses_scores = pb.get('assessment_mode', 'scored') != 'decision_record'
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -1783,7 +1784,8 @@ def build_playbook_pdf(playbook_data, metadata, output_path):
     story.append(sp(12))
     story.append(cbox(pb.get('intro_text', '')))
     story.append(sp(12))
-    story.append(Paragraph(f"<b>Scoring:</b> {pb.get('scoring_note', '')}", st['se']))
+    cover_label = "Scoring" if uses_scores else "Use"
+    story.append(Paragraph(f"<b>{cover_label}:</b> {pb.get('scoring_note', '')}", st['se']))
     story.append(sp(8))
     for lbl, val in [["Created by", "Kuber Sethi"], ["Source", "churnisdead.com"], ["Version", f"1.0 -- {datetime.now(timezone.utc).strftime('%B %Y')}"]]:
         story.append(Paragraph(f"<b>{lbl}:</b>  {val}", st['sm']))
@@ -1808,36 +1810,65 @@ def build_playbook_pdf(playbook_data, metadata, output_path):
             tdata = [hdrs, ["No criteria defined"] + [""]*(len(hdrs)-1)]
         story.append(mk_table(tdata, [CW*r for r in rats]))
         story.append(sp(8))
-        story.append(Paragraph("Score This Section", st['sh']))
-        rub = sec.get('rubric', [])
-        if rub:
-            story.append(mk_table([["Criteria", "Score"]] + rub, [CW*0.78, CW*0.22]))
-        story.append(sp(6))
-        story.append(Paragraph("<b>Your Score:  ____  / 5</b>", st['se']))
+        if uses_scores:
+            story.append(Paragraph("Score This Section", st['sh']))
+            rub = sec.get('rubric', [])
+            if rub:
+                story.append(mk_table([["Criteria", "Score"]] + rub, [CW*0.78, CW*0.22]))
+            story.append(sp(6))
+            story.append(Paragraph("<b>Your Score:  ____  / 5</b>", st['se']))
+        else:
+            story.append(Paragraph("Review This Section", st['sh']))
+            prompt = sec.get('review_prompt', 'What changes the decision after reviewing this evidence?')
+            story.append(cbox(f"<b>Decision prompt:</b> {prompt}<br/><br/>Record: ________________________________________________"))
         story.append(PageBreak())
 
-    # Final scorecard
+    # Final scorecard or decision record
     story.append(sp(12))
     story.append(Paragraph("CHURN IS DEAD", st['brand']))
     story.append(sp(4))
-    story.append(Paragraph("Your Scorecard", ParagraphStyle('ftt', fontName='Helvetica-Bold', fontSize=24, textColor=BLACK, leading=30, spaceAfter=6)))
+    final_title = "Your Scorecard" if uses_scores else "Forecast Review Record"
+    story.append(Paragraph(final_title, ParagraphStyle('ftt', fontName='Helvetica-Bold', fontSize=24, textColor=BLACK, leading=30, spaceAfter=6)))
     story.append(hr_line(ACCENT, 1.5))
     story.append(sp(8))
-    mx = len(sections)*5
-    fd = [["Dimension", "Your Score", "Max"]]
-    for i, s in enumerate(sections, 1):
-        fd.append([f"{i}. {s.get('title','')}", "____", "5"])
-    fd.append(["TOTAL", "____", str(mx)])
-    story.append(mk_table(fd, [CW*0.55, CW*0.225, CW*0.225]))
+    if uses_scores:
+        mx = len(sections)*5
+        fd = [["Dimension", "Your Score", "Max"]]
+        for i, s in enumerate(sections, 1):
+            fd.append([f"{i}. {s.get('title','')}", "____", "5"])
+        fd.append(["TOTAL", "____", str(mx)])
+        story.append(mk_table(fd, [CW*0.55, CW*0.225, CW*0.225]))
+    else:
+        fd = [
+            ["Record", "Complete this"],
+            ["Account and renewal date", "____________________________________________"],
+            ["Current forecast state", "____________________________________________"],
+            ["Review outcome", "Retain / Promote / Demote / Unverify"],
+            ["Evidence that changed", "____________________________________________"],
+            ["Reason", "____________________________________________"],
+            ["Reviewer and date", "____________________________________________"],
+            ["Next evidence or review date", "____________________________________________"],
+        ]
+        story.append(mk_table(fd, [CW*0.35, CW*0.65]))
     story.append(sp(12))
-    hi = mx
-    interp = pb.get('interpretation') or [
-        ["Total Score", "Assessment", "What It Means"],
-        [f"{int(hi*0.8)}-{hi}", "Uncuttable", "Embedded, measurable, strategically irreplaceable."],
-        [f"{int(hi*0.6)}-{int(hi*0.8)-1}", "Defensible", "Solid but gaps remain. Focus on lowest dimension."],
-        [f"{int(hi*0.4)}-{int(hi*0.6)-1}", "Vulnerable", "Real risk ahead. Treat as urgent."],
-        [f"{len(sections)}-{int(hi*0.4)-1}", "Critical", "Cannot survive scrutiny. Major changes needed."],
-    ]
+    if uses_scores:
+        hi = len(sections)*5
+        default_interpretation = [
+            ["Total Score", "Assessment", "What It Means"],
+            [f"{int(hi*0.8)}-{hi}", "Uncuttable", "Embedded, measurable, strategically irreplaceable."],
+            [f"{int(hi*0.6)}-{int(hi*0.8)-1}", "Defensible", "Solid but gaps remain. Focus on lowest dimension."],
+            [f"{int(hi*0.4)}-{int(hi*0.6)-1}", "Vulnerable", "Real risk ahead. Treat as urgent."],
+            [f"{len(sections)}-{int(hi*0.4)-1}", "Critical", "Cannot survive scrutiny. Major changes needed."],
+        ]
+    else:
+        default_interpretation = [
+            ["Review outcome", "Use when", "Required record"],
+            ["Retain", "Current evidence still supports the state", "Reason and next review date"],
+            ["Promote", "New evidence satisfies the next state's rule", "Changed evidence and approver"],
+            ["Demote", "Contrary, stale, or missing evidence breaks the rule", "Broken rule and recovery action"],
+            ["Unverified", "The packet cannot support a directional judgement", "Missing evidence, owner, and due date"],
+        ]
+    interp = pb.get('interpretation') or default_interpretation
     story.append(mk_table(interp, [CW*0.15, CW*0.17, CW*0.68]))
     story.append(sp(12))
     next_action = pb.get(
@@ -1849,10 +1880,11 @@ def build_playbook_pdf(playbook_data, metadata, output_path):
     story.append(hr_line(BORDER_LIGHT, 0.3))
     story.append(sp(4))
     story.append(Paragraph(pb.get('closing_quote', ''), ParagraphStyle('clq', fontName='Helvetica-Oblique', fontSize=10, textColor=MID_GRAY, leading=16)))
-    story.append(sp(4))
-    story.append(Paragraph("Kuber", ParagraphStyle('sig2', fontName='Helvetica-Bold', fontSize=11, textColor=BLACK)))
-    story.append(sp(2))
-    story.append(Paragraph("churnisdead.com  |  Weekly frameworks that replace hope with strategy.", st['sm']))
+    if uses_scores:
+        story.append(sp(4))
+        story.append(Paragraph("Kuber", ParagraphStyle('sig2', fontName='Helvetica-Bold', fontSize=11, textColor=BLACK)))
+        story.append(sp(2))
+        story.append(Paragraph("churnisdead.com  |  Weekly frameworks that replace hope with strategy.", st['sm']))
 
     doc.build(story)
     fsize = os.path.getsize(output_path)

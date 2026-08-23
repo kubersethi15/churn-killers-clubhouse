@@ -5,7 +5,7 @@ This is a portfolio, not a promise to publish unresearched titles. Each row name
 | Slot | Portfolio type | Operator decision | Primary artifact | Status |
 |---|---|---|---|---|
 | 1 | Operating system | How should CS package product friction for an explicit decision? | Product Friction Review | Approved for Tuesday website publication |
-| 2 | Commercial mechanics | What evidence must exist before a renewal forecast is credible? | Renewal evidence packet | Research backlog |
+| 2 | Commercial mechanics | What evidence must exist before a renewal forecast is credible? | Renewal evidence packet | Draft prepared for review |
 | 3 | Leadership | Which customer work should a senior CSM stop owning? | Work ownership decision matrix | Research backlog |
 | 4 | Measurement | Which leading indicators justify intervention before a health score changes? | Intervention trigger ledger | Research backlog |
 | 5 | AI implications | Which CS decisions can AI support without pretending to own judgment? | Decision rights map | Research backlog |

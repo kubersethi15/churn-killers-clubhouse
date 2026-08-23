@@ -1,0 +1,70 @@
+{
+  "title": "The Renewal Evidence Packet",
+  "subtitle": "Make the forecast inspectable before you ask the business to trust it.",
+  "assessment_mode": "decision_record",
+  "intro_text": "Complete this packet for one renewal before the forecast review. Label the quality and freshness of every item, record contrary evidence, then decide whether the current forecast state can be defended. This is a decision aid, not a prediction guarantee.",
+  "scoring_note": "Do not total these sections into a probability. Use the packet to identify missing or stale evidence and apply your own documented promotion rules.",
+  "closing_quote": "Confidence belongs in the forecast only when the evidence can survive inspection.",
+  "next_action": "Choose one renewal currently marked Commit. Complete all sections, challenge its weakest evidence, and record whether to retain, promote, demote, or unverify the forecast.",
+  "interpretation": [
+    ["Review outcome", "Use when", "Required record"],
+    ["Retain", "Current evidence still supports the state", "Reason and next review date"],
+    ["Promote", "New evidence satisfies the next state's rule", "Changed evidence and approver"],
+    ["Demote", "Contrary, stale, or missing evidence breaks the rule", "Broken rule and recovery action"],
+    ["Unverified", "The packet cannot support a directional judgement", "Missing evidence, owner, and due date"]
+  ],
+  "sections": [
+    {
+      "title": "Contract Reality and Decision Path",
+      "why_it_matters": "A correct renewal date does not prove that the buying path, scope, or approvals are understood.",
+      "review_prompt": "Which missing or stale item could change the renewal scope, date, or buying path?",
+      "headers": ["Evidence field", "Record this", "Source and date"],
+      "col_ratios": [0.24, 0.50, 0.26],
+      "rows": [
+        ["Commercial scope", "Available-to-renew scope, expected scope, known change", "Contract, quote, or CRM"],
+        ["Timing", "Renewal date, notice period, and customer decision date", "Contract plus customer confirmation"],
+        ["Decision steps", "Remaining budget, security, procurement, legal, and signature steps", "Named customer or internal source"],
+        ["Ownership", "Owner and expected date for every remaining step", "Customer-confirmed or internally asserted"]
+      ]
+    },
+    {
+      "title": "Customer Authority and Value Proof",
+      "why_it_matters": "A champion's enthusiasm and internal usage analysis are not substitutes for decision authority or customer-recognised value.",
+      "review_prompt": "Which authority or value claim is still only internally asserted?",
+      "headers": ["Evidence field", "Record this", "Quality test"],
+      "col_ratios": [0.24, 0.50, 0.26],
+      "rows": [
+        ["Decision roles", "Budget owner, approver, blocker, operator, and champion", "Role verified by the customer"],
+        ["Recent access", "Last direct interaction with every critical role", "Date and interaction record"],
+        ["Expected outcome", "Outcome the customer intended to achieve", "Customer-confirmed"],
+        ["Value evidence", "Observed result and customer acknowledgement", "Separate observation from assertion"]
+      ]
+    },
+    {
+      "title": "Risk, Response, and Contrary Evidence",
+      "why_it_matters": "A credible packet makes uncertainty and disconfirming facts visible instead of averaging them into sentiment.",
+      "review_prompt": "What contrary evidence most weakens the current forecast, and who will test it?",
+      "headers": ["Evidence field", "Record this", "Required follow-through"],
+      "col_ratios": [0.24, 0.48, 0.28],
+      "rows": [
+        ["Specific risk", "Uncertain event, source, and potential effect", "Do not record a mood as a risk"],
+        ["Response", "Action, owner, and next evidence date", "Name the decision the action should change"],
+        ["Contrary evidence", "Facts that weaken scope, timing, intent, or value", "Never leave blank; write none found"],
+        ["Unknowns", "Information still required to defend the forecast", "Owner and due date"]
+      ]
+    },
+    {
+      "title": "Evidence Register and Forecast Decision",
+      "why_it_matters": "Quality and freshness determine whether an evidence item should influence today's forecast.",
+      "review_prompt": "Does the current state survive the evidence test: retain, promote, demote, or unverify?",
+      "headers": ["Record", "Allowed values", "Decision rule"],
+      "col_ratios": [0.22, 0.45, 0.33],
+      "rows": [
+        ["Quality", "Customer-confirmed; Observed; Internally asserted; Missing", "State the strongest defensible label"],
+        ["Freshness", "Source date; expiry date; stale yes or no", "Use intervals defined for your business"],
+        ["Current state", "Unverified; Evidence building; Credible path; Commit; Closed", "Apply documented local criteria"],
+        ["Review outcome", "Retain; Promote; Demote; Unverify", "Record reason, reviewer, and next date"]
+      ]
+    }
+  ]
+}
