@@ -80,12 +80,14 @@ Run one clean variable at a time.
 ### Current experiment: measured Tuesday distribution
 
 - **Hypothesis:** an approved Tuesday LinkedIn post with its article link in the first comment will generate attributable qualified visits and subscriber signups.
-- **Test window:** the seven days after the 25 August issue is published.
+- **Test window:** 25 August 2026 at 08:15 UTC through 1 September 2026 at 08:14 UTC, the seven days after the planned LinkedIn post.
 - **Variant:** `tuesday_launch` on the LinkedIn first-comment URL.
 - **Primary read:** acquired signups divided by unique tagged visits. Keep acquired signups in the campaign history even if someone later unsubscribes.
-- **Guardrail:** report how many acquired subscribers are still active, but do not call this retention until the cohort has had time to mature.
+- **Secondary read:** qualified-action sessions divided by unique tagged visits. A qualified session opens a resource, shares, answers the reader pulse, or visits the CS Analyzer demo.
+- **Guardrails:** report form-view sessions and how many acquired subscribers are still active, but do not call this retention until the cohort has had time to mature. Record meaningful replies only as an aggregate manual count; do not copy identities or message content into analytics.
 - **Constants:** do not change the website CTA, add Medium syndication, add a second launch post, or alter the Tuesday issue structure during the window.
-- **Decision:** use this week to establish a baseline. Do not declare the format a winner from one issue or from impressions alone.
+- **Measurement gate:** the exact approved URL was posted, at least one tagged unique visit was recorded, the full seven-day window elapsed, and no competing asset used the same campaign label. If the post is confirmed live but zero tagged visits appear, treat the run as an instrumentation or execution failure rather than weak audience demand.
+- **Decision:** use this week to establish a baseline. Fewer than 20 tagged unique visits is descriptive only and extends baseline collection; 20 is an internal operating floor, not statistical significance. Do not declare the format a winner from one issue or from impressions alone.
 
 | Window | Test | Keep constant | Decision rule |
 |---|---|---|---|
