@@ -16,6 +16,12 @@ The weekly promise is deliberately narrow:
 
 The website remains canonical. LinkedIn is the primary discovery channel. Medium is a selective evergreen syndication channel after the canonical article is live. External copy always keeps its own approval record.
 
+## Organic discovery baseline
+
+Google Search Console, read on 24 August 2026 for the preceding three months, reported 18 web-search clicks from 246 impressions, a 7.3% click-through rate, and an average position of 12.4. Sixteen pages were indexed and two older issues were crawled but not indexed. The submitted sitemap had last been read on 7 April and showed 16 discovered pages, while the current live sitemap contains 62 URLs.
+
+The current sitemap was resubmitted successfully on 24 August. Review the aggregate index count, impressions, non-brand queries, and organic subscriber attribution after Google has had at least seven days to recrawl. Do not treat branded homepage clicks or a one-week indexing change as proof that an editorial topic won.
+
 ## Eight-week editorial portfolio
 
 These are research briefs, not approved headlines. Each issue still requires primary-source research, an evidence ledger, a complete playbook, validation, and named approval.

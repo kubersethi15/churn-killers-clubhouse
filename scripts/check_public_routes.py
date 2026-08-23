@@ -45,6 +45,20 @@ def main() -> None:
         if "<h1" not in source or "<noscript>" not in source:
             errors.append(f"/{route}: missing semantic no-script fallback")
 
+    archive_path = DIST / "newsletters" / "index.html"
+    if archive_path.exists():
+        archive_source = archive_path.read_text(encoding="utf-8")
+        archive_slugs = set(re.findall(r'href="/newsletter/([a-z0-9-]+)"', archive_source))
+        generated_slugs = {path.parent.name for path in (DIST / "newsletter").glob("*/index.html")}
+        missing_links = sorted(generated_slugs - archive_slugs)
+        stale_links = sorted(archive_slugs - generated_slugs)
+        if missing_links:
+            errors.append(f"/newsletters: generated issues missing from crawlable archive: {', '.join(missing_links)}")
+        if stale_links:
+            errors.append(f"/newsletters: crawlable archive links unavailable issues: {', '.join(stale_links)}")
+        if not archive_slugs:
+            errors.append("/newsletters: no crawlable issue links")
+
     if errors:
         raise SystemExit("Public route checks failed:\n- " + "\n- ".join(errors))
     print(f"Validated {len(ROUTES)} crawlable public routes")
