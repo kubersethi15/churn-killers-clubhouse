@@ -145,8 +145,12 @@ def generate_sitemap(newsletters):
         (f"{SITE_URL}/playbook", today, "0.8", "weekly"),
         (f"{SITE_URL}/start", today, "0.9", "monthly"),
         (f"{SITE_URL}/ai-exposure-score", today, "0.8", "monthly"),
+        (f"{SITE_URL}/cs-analyzer/demo", today, "0.7", "monthly"),
         (f"{SITE_URL}/about", "2026-02-24", "0.5", "monthly"),
         (f"{SITE_URL}/editorial-standards", today, "0.6", "monthly"),
+        (f"{SITE_URL}/privacy", today, "0.3", "yearly"),
+        (f"{SITE_URL}/terms", today, "0.3", "yearly"),
+        (f"{SITE_URL}/analyzer-data-handling", today, "0.5", "monthly"),
     ]
 
     now = datetime.now(timezone.utc)
