@@ -249,6 +249,21 @@ export type Database = {
         }
         Relationships: []
       }
+      growth_measurement_state: {
+        Row: {
+          metric: string
+          tracked_from: string
+        }
+        Insert: {
+          metric: string
+          tracked_from: string
+        }
+        Update: {
+          metric?: string
+          tracked_from?: string
+        }
+        Relationships: []
+      }
       internal_config: {
         Row: {
           key: string
@@ -475,6 +490,38 @@ export type Database = {
           },
         ]
       }
+      subscriber_status_events: {
+        Row: {
+          event_source: string
+          id: string
+          occurred_at: string
+          subscribed: boolean
+          subscriber_id: string
+        }
+        Insert: {
+          event_source: string
+          id?: string
+          occurred_at?: string
+          subscribed: boolean
+          subscriber_id: string
+        }
+        Update: {
+          event_source?: string
+          id?: string
+          occurred_at?: string
+          subscribed?: boolean
+          subscriber_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriber_status_events_subscriber_id_fkey"
+            columns: ["subscriber_id"]
+            isOneToOne: false
+            referencedRelation: "subscribers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           id: string
@@ -611,6 +658,7 @@ export type Database = {
         }[]
       }
       get_growth_dashboard: { Args: never; Returns: Json }
+      get_growth_retention_dashboard: { Args: never; Returns: Json }
       get_growth_variant_dashboard: { Args: never; Returns: Json }
       get_reactivation_dashboard: { Args: never; Returns: Json }
       has_role: {
