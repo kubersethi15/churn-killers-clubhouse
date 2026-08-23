@@ -137,8 +137,15 @@ def stage_issue(issue, dry_run: bool = False) -> None:
         "newsletter_title": meta["title"],
         "published_date": meta["published_date"],
     }
-    playbook_result = _upsert_by_column("playbooks", "newsletter_slug", meta["slug"], playbook_payload)
-    print(f"Supabase playbook {playbook_result['action']}: {meta['playbook_title']}")
+    try:
+        playbook_result = _upsert_by_column("playbooks", "newsletter_slug", meta["slug"], playbook_payload)
+        print(f"Supabase playbook {playbook_result['action']}: {meta['playbook_title']}")
+    except RuntimeError as exc:
+        if 'relation "public.playbooks" does not exist' not in str(exc):
+            raise
+        # Some production projects predate the optional playbooks table. The
+        # generated public manifest remains the canonical vault data source.
+        print("WARNING: Supabase playbooks table is unavailable; using the public PDF manifest")
 
 
 def main() -> int:
