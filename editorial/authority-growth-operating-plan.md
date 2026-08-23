@@ -115,3 +115,5 @@ Ask five questions:
 5. What should be stopped because it adds production volume without reader value?
 
 The brand does not need more content for its own sake. It needs a body of work that becomes more useful, more trustworthy, and easier to navigate every week.
+
+Monetization follows the separate evidence gates in `editorial/monetization-evidence-plan.md`. No audience size, page-view spike, or popular post is permission to launch a paid offer.

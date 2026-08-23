@@ -1,0 +1,22 @@
+{
+  "status": "research_only",
+  "offer_name": null,
+  "problem": null,
+  "audience": null,
+  "evidence_window": null,
+  "aggregate_evidence": [],
+  "qualified_research_count": 0,
+  "price_hypothesis": null,
+  "capacity_limit": null,
+  "approved_by": null,
+  "approved_at": null,
+  "channels": {
+    "private_research": "not_authorized",
+    "website": "not_authorized",
+    "email": "not_authorized",
+    "linkedin": "not_authorized",
+    "payment": "not_authorized",
+    "delivery": "not_authorized"
+  },
+  "notes": "Do not include participant identities, customer data, interview notes, or testimonials in this file."
+}
