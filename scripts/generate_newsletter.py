@@ -27,13 +27,16 @@ DISTRIBUTION_DIR = REPO_ROOT / "distribution"
 
 # --- MODELS ---
 # Gemini is the production default so the weekly run does not depend on Anthropic
-# credits. Gemini 2.5 Flash-Lite retains free-tier Google Search grounding;
-# Gemini 3.6 Flash handles long-form writing and adversarial editing.
+# credits. Gemini 3.6 Flash handles research synthesis, long-form writing, and
+# adversarial editing. Paid Google Search grounding is opt-in.
 LLM_PROVIDER = os.environ.get("LLM_PROVIDER", "gemini").strip().lower()
 ANTHROPIC_MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-opus-4-8")
 GEMINI_PRIMARY_MODEL = os.environ.get("GEMINI_PRIMARY_MODEL", "gemini-3.6-flash")
-GEMINI_RESEARCH_MODEL = os.environ.get("GEMINI_RESEARCH_MODEL", "gemini-2.5-flash-lite")
+GEMINI_RESEARCH_MODEL = os.environ.get("GEMINI_RESEARCH_MODEL", "gemini-3.6-flash")
 GEMINI_CRITIC_MODEL = os.environ.get("GEMINI_CRITIC_MODEL", "gemini-3.6-flash")
+GEMINI_ENABLE_GOOGLE_SEARCH = os.environ.get(
+    "GEMINI_ENABLE_GOOGLE_SEARCH", "false"
+).strip().lower() in {"1", "true", "yes"}
 
 
 # ===============================================================
@@ -546,11 +549,13 @@ def _call_gemini(system_prompt, user_prompt, max_tokens=8000,
 def call_llm(system_prompt, user_prompt, max_tokens=8000, tools=None):
     """Provider-neutral generation entry point used by the entire pipeline."""
     if LLM_PROVIDER == "gemini":
+        use_google_search = bool(tools) and GEMINI_ENABLE_GOOGLE_SEARCH
         return _call_gemini(
             system_prompt,
             user_prompt,
             max_tokens=max_tokens,
-            enable_web_search=bool(tools),
+            enable_web_search=use_google_search,
+            model=GEMINI_RESEARCH_MODEL if tools else None,
         )
     if LLM_PROVIDER == "anthropic":
         return _call_anthropic(
@@ -761,9 +766,24 @@ def run_stage_1_research():
     _week = datetime.now(timezone.utc).isocalendar()[1]
     _lens_name, _lens_note = RESEARCH_LENSES[_week % len(RESEARCH_LENSES)]
     print(f"   Research lens this week: {_lens_name}")
+    if GEMINI_ENABLE_GOOGLE_SEARCH:
+        _research_mode = (
+            "Use live search and include only source URLs you actually inspected."
+        )
+    else:
+        _research_mode = (
+            "LIVE WEB SEARCH IS DISABLED. Do not invent or guess recent events, "
+            "URLs, quotations, statistics, study findings, or first-person "
+            "experience. Select an evergreen practitioner tension that can stand "
+            "without current factual claims. Leave source-specific fields empty "
+            "when they cannot be verified and describe this as desk synthesis, "
+            "not live research."
+        )
     raw = call_llm(
         RESEARCH_SYSTEM_PROMPT,
-        RESEARCH_USER_PROMPT + "\n\nTHIS WEEK'S PRIMARY RESEARCH LENS (weight your searches toward this): " + _lens_note,
+        RESEARCH_USER_PROMPT
+        + "\n\nTHIS WEEK'S PRIMARY RESEARCH LENS: " + _lens_note
+        + "\n\nRESEARCH MODE: " + _research_mode,
         max_tokens=6500,
         tools=[{"type": "web_search_20250305", "name": "web_search", "max_uses": 12}]
     )

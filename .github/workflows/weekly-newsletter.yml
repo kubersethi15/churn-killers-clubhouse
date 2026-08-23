@@ -38,8 +38,9 @@ jobs:
         env:
           LLM_PROVIDER: gemini
           GEMINI_PRIMARY_MODEL: gemini-3.6-flash
-          GEMINI_RESEARCH_MODEL: gemini-2.5-flash-lite
+          GEMINI_RESEARCH_MODEL: gemini-3.6-flash
           GEMINI_CRITIC_MODEL: gemini-3.6-flash
+          GEMINI_ENABLE_GOOGLE_SEARCH: "false"
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
