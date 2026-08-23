@@ -78,11 +78,11 @@ const Header = () => {
           <NavLink to="/start" className={getNavLinkClass}>
             Start Here
           </NavLink>
-          <NavLink to="/ai-exposure-score" className={getNavLinkClass}>
-            AI Score
+          <NavLink to="/topics" className={getNavLinkClass}>
+            Topics
           </NavLink>
           <NavLink to="/newsletters" className={getNavLinkClass}>
-            Newsletters
+            Issues
           </NavLink>
           <NavLink to="/playbook" className={getNavLinkClass}>
             Playbook Vault
@@ -172,7 +172,7 @@ const Header = () => {
               Start Here
             </NavLink>
             <NavLink 
-              to="/ai-exposure-score" 
+              to="/topics"
               className={({ isActive }) => 
                 isActive 
                   ? "text-red-600 font-medium transition-colors px-2 py-1" 
@@ -180,7 +180,7 @@ const Header = () => {
               }
               onClick={() => setIsMenuOpen(false)}
             >
-              AI Exposure Score
+              Topics
             </NavLink>
             <NavLink 
               to="/newsletters" 
@@ -191,7 +191,7 @@ const Header = () => {
               }
               onClick={() => setIsMenuOpen(false)}
             >
-              Newsletters
+              Issues
             </NavLink>
             <NavLink 
               to="/playbook" 

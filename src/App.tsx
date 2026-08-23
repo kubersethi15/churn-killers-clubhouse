@@ -28,6 +28,8 @@ const GrowthDashboard = lazy(() => import("./pages/GrowthDashboard"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
 const AnalyzerDataHandling = lazy(() => import("./pages/AnalyzerDataHandling"));
+const Topics = lazy(() => import("./pages/Topics"));
+const TopicHub = lazy(() => import("./pages/TopicHub"));
 
 const queryClient = new QueryClient();
 
@@ -58,6 +60,8 @@ const App = () => (
               <Route path="/cs-analyzer-waitlist" element={<Navigate to="/cs-analyzer" replace />} />
               <Route path="/ai-exposure-score" element={<AIExposureScore />} />
               <Route path="/start" element={<StartHere />} />
+              <Route path="/topics" element={<Topics />} />
+              <Route path="/topics/:slug" element={<TopicHub />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/admin" element={<ProtectedAdminRoute><AdminPanel /></ProtectedAdminRoute>} />
               <Route path="/distribute" element={<ProtectedAdminRoute><Distribution /></ProtectedAdminRoute>} />
