@@ -1,0 +1,42 @@
+[
+  {
+    "id": "E01",
+    "claim": "Salesforce uses standard forecast categories including Pipeline, Best Case, Commit, Omitted, and Closed, with opportunity stages mapped to forecast categories and user override available.",
+    "source_title": "Customize Pipeline Forecast Categories",
+    "url": "https://help.salesforce.com/s/articleView?id=sf.forecasts3_customizing_forecasts_categories.htm&language=en_US&type=5",
+    "publisher": "Salesforce",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-24",
+    "notes": "Supports the distinction between a useful forecast classification and the evidence required to justify it. The Churn Is Dead packet and promotion rules are original proposals."
+  },
+  {
+    "id": "E02",
+    "claim": "GitLab's public renewals methodology records forecast, risk, next steps, notes, ownership, intervention, and scenario fields separately, and uses forecast ranges across renewal opportunities.",
+    "source_title": "Renewals Managers: What We Do",
+    "url": "https://handbook.gitlab.com/handbook/customer-success/renewals-managers/what/",
+    "publisher": "GitLab",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-24",
+    "notes": "A transparent example from one company, not a universal standard. Used to show that a renewal operating record contains several distinct evidence and decision fields."
+  },
+  {
+    "id": "E03",
+    "claim": "GitLab distinguishes lack of information, sponsor loss, adoption issues, and specific retention threats, and requires more frequent progress and next-step updates for at-risk customers.",
+    "source_title": "Customer Health Assessment and Management",
+    "url": "https://handbook.gitlab.com/handbook/customer-success/csm/health-score-triage/",
+    "publisher": "GitLab",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-24",
+    "notes": "Supports separating uncertainty from specific risk and making review cadence responsive to risk. The article does not adopt GitLab's thresholds or process as a benchmark."
+  },
+  {
+    "id": "E04",
+    "claim": "HM Treasury defines assurance as confidence derived from objective information about activities, controls, compliance, and credible information, and notes that uncertainty about information integrity reduces confidence.",
+    "source_title": "The Orange Book: Management of Risk, Principles and Concepts",
+    "url": "https://www.gov.uk/government/publications/orange-book/the-orange-book-management-of-risk-principles-and-concepts",
+    "publisher": "HM Treasury",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-24",
+    "notes": "Used for the general assurance principle only. The Renewal Evidence Packet applies that principle to CS forecasting as an original proposal."
+  }
+]

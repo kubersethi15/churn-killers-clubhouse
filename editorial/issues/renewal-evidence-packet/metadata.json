@@ -1,0 +1,20 @@
+{
+  "title": "Your Renewal Forecast Needs Receipts",
+  "slug": "renewal-evidence-packet",
+  "excerpt": "Replace renewal confidence percentages with an auditable packet that shows what the customer has decided, what remains uncertain, and what must happen next.",
+  "category": "Commercial",
+  "theme": "constructive_commercial_system",
+  "format": "commercial_mechanics",
+  "primary_goal": "Help CS and Renewals leaders decide whether a renewal forecast has enough current evidence to be credible.",
+  "primary_cta": "Build one Renewal Evidence Packet before the next forecast review.",
+  "read_time": "8 min read",
+  "published_date": "2026-09-01T08:00:00+00:00",
+  "pdf_filename": "Renewal_Evidence_Packet_ChurnIsDead.pdf",
+  "playbook_title": "The Renewal Evidence Packet",
+  "playbook_description": "An evidence register, forecast-state test, contradiction log, and review record for making renewal forecasts auditable.",
+  "subject_variants": [
+    {"label": "framework", "subject": "The Renewal Evidence Packet"},
+    {"label": "problem", "subject": "Your renewal forecast needs receipts"},
+    {"label": "outcome", "subject": "Make the renewal forecast auditable"}
+  ]
+}
