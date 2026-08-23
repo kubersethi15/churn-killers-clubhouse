@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ExternalLink, Download, FileText } from "lucide-react";
+import { ExternalLink, Download, Search } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import NewsletterForm from "@/components/NewsletterForm";
+import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
+import { trackGrowthEvent } from "@/utils/growthTracking";
 
 interface Playbook {
   id: string;
@@ -100,6 +103,7 @@ const STATIC_PLAYBOOKS: Playbook[] = [
 ];
 
 const PlaybookVault = () => {
+  const [query, setQuery] = useState("");
   const [playbooks, setPlaybooks] = useState<Playbook[]>(
     STATIC_PLAYBOOKS.sort((a, b) => {
       if (!a.published_date) return 1;
@@ -136,6 +140,10 @@ const PlaybookVault = () => {
   }, []);
 
   const formatDate = (dateString: string) => format(new Date(dateString), "MMM yyyy");
+  const filteredPlaybooks = playbooks.filter(playbook => {
+    const searchable = `${playbook.title} ${playbook.description} ${playbook.newsletter_title ?? ""}`.toLowerCase();
+    return searchable.includes(query.trim().toLowerCase());
+  });
 
   return (
     <div className="min-h-screen bg-white">
@@ -159,6 +167,20 @@ const PlaybookVault = () => {
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-2xl mx-auto">
+            <label htmlFor="playbook-search" className="text-[10px] uppercase tracking-[0.22em] text-red font-bold">
+              Find the operating problem
+            </label>
+            <div className="relative mt-3 mb-10">
+              <Input
+                id="playbook-search"
+                type="search"
+                value={query}
+                onChange={event => setQuery(event.target.value)}
+                placeholder="Renewals, QBRs, AI, metrics, expansion..."
+                className="h-12 pl-11"
+              />
+              <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            </div>
             {loading ? (
               <div className="space-y-8">
                 {[1, 2, 3, 4].map(i => (
@@ -169,11 +191,11 @@ const PlaybookVault = () => {
                   </div>
                 ))}
               </div>
-            ) : playbooks.length === 0 ? (
-              <p className="text-gray-400 py-16 text-center">No playbooks yet. Check back soon.</p>
+            ) : filteredPlaybooks.length === 0 ? (
+              <p className="text-gray-400 py-16 text-center">No playbook matches that problem yet.</p>
             ) : (
               <div className="space-y-0 divide-y divide-gray-100">
-                {playbooks.map((pb) => (
+                {filteredPlaybooks.map((pb) => (
                   <div key={pb.id} className="py-7 first:pt-0 last:pb-0">
                     {/* Title + date */}
                     <div className="flex items-start justify-between gap-4 mb-2">
@@ -198,6 +220,7 @@ const PlaybookVault = () => {
                         <a
                           href={pb.pdf_path}
                           download
+                          onClick={() => void trackGrowthEvent({ eventName: "resource_open", resourceId: pb.id })}
                           className="inline-flex items-center gap-1.5 text-sm font-semibold text-red-600 hover:text-red-700 transition-colors"
                         >
                           <Download className="w-3.5 h-3.5" />
@@ -209,6 +232,7 @@ const PlaybookVault = () => {
                           href={pb.notion_link}
                           target="_blank"
                           rel="noopener noreferrer"
+                          onClick={() => void trackGrowthEvent({ eventName: "resource_open", resourceId: pb.id })}
                           className="inline-flex items-center gap-1.5 text-sm font-semibold text-navy-dark hover:text-red-600 transition-colors"
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
@@ -235,14 +259,13 @@ const PlaybookVault = () => {
         </div>
       </section>
 
-      {/* Bottom note */}
-      <section className="py-10 border-t border-gray-100">
+      <section className="py-12 border-t border-gray-100 bg-cream/30">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-2xl mx-auto text-center">
-            <p className="text-sm text-gray-400">
-              New playbook every Tuesday with each newsletter issue. 
-              <Link to="/newsletters" className="text-red-600 hover:underline ml-1">Subscribe to get them first.</Link>
-            </p>
+          <div className="max-w-xl mx-auto text-center">
+            <p className="text-[10px] uppercase tracking-[0.22em] text-red font-bold mb-3">New every Tuesday</p>
+            <h2 className="text-2xl font-serif font-bold text-navy-dark mb-2">Do not wait for the archive.</h2>
+            <p className="text-sm text-gray-500 mb-6">Get the argument, framework, and playbook as each issue publishes.</p>
+            <NewsletterForm location="playbook" buttonVariant="vibrant-red" buttonText="Join the list" subscribeText="" />
           </div>
         </div>
       </section>

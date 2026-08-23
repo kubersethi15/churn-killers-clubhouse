@@ -14,7 +14,7 @@ interface DistributionPack {
   linkedinNewsletter: string;
   communityPosts: string;
   mediumPost: string;
-  hashnodePost: string;
+  mediumGuide: string;
 }
 
 // Map slugs to display titles
@@ -124,7 +124,7 @@ const NewsletterDistribution = ({ pack }: { pack: DistributionPack }) => {
     for (let i = 0; i < sections.length; i++) {
       const section = sections[i].trim();
       if (section.startsWith("POST")) {
-        const labelMatch = section.match(/^POST \d+ — (\w+)/);
+        const labelMatch = section.match(/^POST \d+ [-–—] (\w+)/);
         const label = labelMatch ? labelMatch[1] : `Post ${posts.length + 1}`;
         // The actual content is in the next section
         if (i + 1 < sections.length) {
@@ -212,14 +212,13 @@ const NewsletterDistribution = ({ pack }: { pack: DistributionPack }) => {
             />
           )}
 
-          {/* Hashnode Cross-Post */}
-          {pack.hashnodePost && (
+          {pack.mediumGuide && (
             <ContentBlock
-              icon={<Globe className="w-5 h-5 text-blue-600" />}
-              title="Hashnode Cross-Post"
-              subtitle="Paste into Hashnode — canonical URL included in frontmatter"
-              content={pack.hashnodePost}
-              platform="Hashnode post"
+              icon={<Globe className="w-5 h-5 text-navy-dark" />}
+              title="Medium import checklist"
+              subtitle="Approval-gated canonical import, not an automatic cross-post"
+              content={pack.mediumGuide}
+              platform="Medium import checklist"
             />
           )}
 
@@ -257,10 +256,15 @@ const Distribution = () => {
 
   const loadDistributionContent = async () => {
     const loaded: DistributionPack[] = [];
+    const manifest = await fetch("/distribution/manifest.json")
+      .then(response => response.ok ? response.json() as Promise<{ slug: string; title: string }[]> : [])
+      .catch(() => [] as { slug: string; title: string }[]);
+    const manifestTitles = new Map(manifest.map(row => [row.slug, row.title]));
+    const slugs = Array.from(new Set([...DISTRIBUTION_SLUGS, ...manifest.map(row => row.slug)]));
 
-    for (const slug of DISTRIBUTION_SLUGS) {
+    for (const slug of slugs) {
       try {
-        const [postsRes, nlRes, commRes, medRes, hashRes] = await Promise.allSettled([
+        const [postsRes, nlRes, commRes, medRes, mediumGuideRes] = await Promise.allSettled([
           fetch(`/distribution/${slug}/linkedin_posts.md`).then((r) =>
             r.ok ? r.text() : ""
           ),
@@ -273,14 +277,14 @@ const Distribution = () => {
           fetch(`/distribution/${slug}/medium.md`).then((r) =>
             r.ok ? r.text() : ""
           ),
-          fetch(`/distribution/${slug}/hashnode.md`).then((r) =>
+          fetch(`/distribution/${slug}/medium_import.md`).then((r) =>
             r.ok ? r.text() : ""
           ),
         ]);
 
         loaded.push({
           slug,
-          title: NEWSLETTER_TITLES[slug] || slug,
+          title: manifestTitles.get(slug) || NEWSLETTER_TITLES[slug] || slug,
           linkedinPosts:
             postsRes.status === "fulfilled" ? postsRes.value : "",
           linkedinNewsletter:
@@ -289,8 +293,8 @@ const Distribution = () => {
             commRes.status === "fulfilled" ? commRes.value : "",
           mediumPost:
             medRes.status === "fulfilled" ? medRes.value : "",
-          hashnodePost:
-            hashRes.status === "fulfilled" ? hashRes.value : "",
+          mediumGuide:
+            mediumGuideRes.status === "fulfilled" ? mediumGuideRes.value : "",
         });
       } catch (err) {
         console.error(`Failed to load distribution for ${slug}:`, err);
@@ -312,7 +316,7 @@ const Distribution = () => {
               Distribution Dashboard
             </h1>
             <p className="text-lg text-gray-400">
-              Copy-paste ready content for every platform. Click copy, paste, post.
+              Approved source material, platform drafts, and manual publishing checks.
             </p>
           </div>
         </div>

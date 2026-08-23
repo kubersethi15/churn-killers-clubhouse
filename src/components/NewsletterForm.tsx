@@ -1,13 +1,14 @@
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Mail } from "lucide-react";
+import { currentContentSlug, getGrowthAttribution, trackGrowthEvent } from "@/utils/growthTracking";
 
 interface NewsletterFormProps {
-  location?: "hero" | "footer" | "article" | "mid-article";
+  location?: "hero" | "footer" | "article" | "mid-article" | "playbook" | "start";
   className?: string;
   title?: string;
   description?: string;
@@ -29,6 +30,22 @@ const NewsletterForm = ({
 }: NewsletterFormProps) => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    const form = formRef.current;
+    if (!form) return;
+    const observer = new IntersectionObserver(
+      entries => {
+        if (!entries.some(entry => entry.isIntersecting)) return;
+        void trackGrowthEvent({ eventName: "form_view", signupLocation: location });
+        observer.disconnect();
+      },
+      { threshold: 0.5 },
+    );
+    observer.observe(form);
+    return () => observer.disconnect();
+  }, [location]);
 
   // Handle input change event
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,80 +55,52 @@ const NewsletterForm = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    const normalizedEmail = email.trim().toLowerCase();
+    void trackGrowthEvent({ eventName: "form_submit", signupLocation: location });
 
     try {
-      // Check if email already exists in subscribers
-      const { data: existingSubscriber, error: checkError } = await supabase
-        .from('subscribers')
-        .select('email')
-        .eq('email', email)
-        .single();
-
-      if (checkError && checkError.code !== 'PGRST116') {
-        // This is an actual error, not just "no rows returned"
-        console.error("Error checking for existing subscriber:", checkError);
-        throw checkError;
-      }
-
-      if (existingSubscriber) {
-        // Handle case where user is already subscribed - show a friendly message
-        toast.info("You're already subscribed!", {
-          description: "You'll continue to receive our newsletter.",
-        });
-        setEmail("");
-        setIsLoading(false);
-        return;
-      }
-
-      // Capture acquisition source — where on the site did this person subscribe from?
-      // Falls back to document.referrer (external) or "direct" if neither available.
       const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
-      const newsletterSlugMatch = currentPath.match(/\/newsletter\/([^/]+)/);
+      const newsletterSlugMatch = currentContentSlug();
       const sourcePage = newsletterSlugMatch
-        ? `newsletter:${newsletterSlugMatch[1]}`
+        ? `newsletter:${newsletterSlugMatch}`
         : (currentPath || '/').replace(/^\/$/, 'homepage');
-      const externalReferrer = typeof document !== 'undefined' ? document.referrer : '';
+      const attribution = getGrowthAttribution();
 
-      // Insert new subscriber (with source if columns exist; fallback to email-only)
-      let insertError;
       const insertPayload = {
-        email,
+        email: normalizedEmail,
         source_page: sourcePage,
-        external_referrer: externalReferrer || null,
+        external_referrer: attribution.referrerHost,
+        signup_location: location,
+        landing_page: attribution.landingPage,
+        utm_source: attribution.source,
+        utm_medium: attribution.medium,
+        utm_campaign: attribution.campaign,
       };
       const result = await supabase.from('subscribers').insert([insertPayload]);
-      insertError = result.error;
-
-      // If the columns don't exist yet, retry with email only (graceful fallback)
-      if (insertError && (insertError.code === '42703' || /column.*does not exist/i.test(insertError.message))) {
-        const retry = await supabase.from('subscribers').insert([{ email }]);
-        insertError = retry.error;
-      }
+      const insertError = result.error;
 
       if (insertError) {
-        // Check if this is a duplicate key violation
         if (insertError.code === '23505') {
-          // This is a duplicate email - handle gracefully
+          void trackGrowthEvent({ eventName: "signup_duplicate", signupLocation: location });
           toast.info("You're already subscribed!", {
-            description: "You'll continue to receive our newsletter.",
+            description: "You are already on the list.",
           });
           setEmail("");
-          setIsLoading(false);
           return;
         }
-        
         throw insertError;
       }
 
+      void trackGrowthEvent({ eventName: "signup_success", signupLocation: location });
+
       // Send welcome email with better error handling
       try {
-        console.log("Calling welcome email function for:", email);
         const response = await fetch("https://xtwxemlxzbnadkkrvozr.supabase.co/functions/v1/send-welcome-email", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email }), // Make sure email is correctly passed in the body
+          body: JSON.stringify({ email: normalizedEmail }),
         });
 
         if (!response.ok) {
@@ -119,7 +108,6 @@ const NewsletterForm = ({
         }
 
         const result = await response.json();
-        console.log("Welcome email function response:", result);
         
         // Check for errors in the response
         if (result.error || !result.success) {
@@ -132,11 +120,12 @@ const NewsletterForm = ({
       }
 
       toast.success("You're subscribed!", {
-        description: "Thanks for joining. The next issue lands in your inbox soon.",
+        description: "You are on the list. New frameworks publish every Tuesday.",
       });
       setEmail("");
     } catch (error) {
       console.error("Error subscribing:", error);
+      void trackGrowthEvent({ eventName: "signup_error", signupLocation: location });
       toast.error("Subscription failed", {
         description: "Please try again or contact support if the problem persists.",
       });
@@ -166,6 +155,7 @@ const NewsletterForm = ({
       {description && <p className={`text-sm mb-4 ${textColor === "text-gray-700" ? "opacity-80" : ""} ${textColor}`}>{description}</p>}
       
       <form 
+        ref={formRef}
         onSubmit={handleSubmit} 
         className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
       >
