@@ -53,11 +53,14 @@ The website release is independent from email. If subscriber delivery is enabled
 - one individually addressed message per subscriber, never BCC;
 - a signed per-subscriber unsubscribe URL and one-click unsubscribe headers;
 - verified Resend webhook signatures using `RESEND_WEBHOOK_SECRET`;
+- the production gate `NEWSLETTER_SEND_ENABLED=true` set only after the current provider deliverability review passes;
 - idempotency keys and recorded provider message IDs;
 - bounce and complaint suppression;
 - a test send reviewed on mobile and desktop.
 
 If any prerequisite is missing, publish to the website and hold the email send.
+
+Use `editorial/email-operations.md` for the cutover and post-send checks. Never use the retired correction sender or any BCC-based workaround.
 
 ## Quality review
 

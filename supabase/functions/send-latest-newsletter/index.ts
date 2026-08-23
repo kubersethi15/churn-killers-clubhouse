@@ -10,6 +10,7 @@ import { createUnsubscribeToken } from "./unsubscribeToken.ts";
 const supabaseUrl = Deno.env.get("SUPABASE_URL");
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 const unsubscribeSecret = Deno.env.get("NEWSLETTER_UNSUBSCRIBE_SECRET") || supabaseServiceKey;
+const resendWebhookSecret = Deno.env.get("RESEND_WEBHOOK_SECRET");
 
 if (!supabaseUrl || !supabaseServiceKey) {
   console.error("Missing Supabase environment variables");
@@ -133,6 +134,27 @@ const handler = async (req: Request): Promise<Response> => {
       }
     } catch (e) {
       console.log("No request body provided - treating as regular newsletter sending");
+    }
+
+    // Production broadcasts fail closed. Website publication is independent of email,
+    // and an operator must deliberately enable sends after the deliverability review.
+    if (!testEmailAddress && Deno.env.get("NEWSLETTER_SEND_ENABLED") !== "true") {
+      await logRun('info', 'Newsletter broadcast held by NEWSLETTER_SEND_ENABLED');
+      return new Response(
+        JSON.stringify({
+          error: "Newsletter broadcast is held",
+          action: "Complete the email safety checklist before setting NEWSLETTER_SEND_ENABLED=true",
+        }),
+        { status: 423, headers: { "Content-Type": "application/json", ...corsHeaders } },
+      );
+    }
+
+    if (!testEmailAddress && !resendWebhookSecret) {
+      await logRun('failure', 'Newsletter broadcast blocked: RESEND_WEBHOOK_SECRET is missing');
+      return new Response(
+        JSON.stringify({ error: "Newsletter broadcast blocked because delivery-event verification is not configured" }),
+        { status: 503, headers: { "Content-Type": "application/json", ...corsHeaders } },
+      );
     }
 
     // 1. Fetch the next unsent newsletter (sequential delivery)
