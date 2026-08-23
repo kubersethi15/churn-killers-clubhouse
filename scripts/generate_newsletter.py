@@ -499,7 +499,13 @@ def _call_gemini(system_prompt, user_prompt, max_tokens=8000,
     payload = {
         "system_instruction": {"parts": [{"text": system_prompt}]},
         "contents": [{"role": "user", "parts": [{"text": user_prompt}]}],
-        "generationConfig": {"maxOutputTokens": max_tokens},
+        "generationConfig": {
+            "maxOutputTokens": max_tokens,
+            # Every pipeline call returns a JSON envelope, including the prose
+            # draft. Native JSON mode prevents markdown fences and truncation-prone
+            # preambles that the former Anthropic path tolerated.
+            "responseMimeType": "application/json",
+        },
     }
     if enable_web_search:
         payload["tools"] = [{"google_search": {}}]
@@ -524,12 +530,16 @@ def _call_gemini(system_prompt, user_prompt, max_tokens=8000,
             if not candidates:
                 feedback = result.get("promptFeedback", {})
                 raise RuntimeError(f"Gemini returned no candidates: {feedback}")
-            parts = candidates[0].get("content", {}).get("parts", [])
+            candidate = candidates[0]
+            parts = candidate.get("content", {}).get("parts", [])
             text = "\n".join(
                 part.get("text", "") for part in parts if part.get("text")
             ).strip()
             if not text:
-                raise RuntimeError("Gemini returned an empty text response")
+                reason = candidate.get("finishReason", "unknown")
+                raise RuntimeError(
+                    f"Gemini returned an empty text response (finishReason={reason})"
+                )
             return text
         except urllib.error.HTTPError as e:
             body = e.read().decode("utf-8", errors="replace")
@@ -1020,7 +1030,7 @@ def run_stage_2_topic_selection(research_brief, existing_topics, recent_themes=N
     )
     if extra_note:
         user_prompt += extra_note
-    raw = call_llm(TOPIC_SYSTEM_PROMPT, user_prompt, max_tokens=3000)
+    raw = call_llm(TOPIC_SYSTEM_PROMPT, user_prompt, max_tokens=6000)
     data = clean_json_response(raw)
     topic = data.get("selected_topic", {})
 
@@ -1030,7 +1040,7 @@ def run_stage_2_topic_selection(research_brief, existing_topics, recent_themes=N
     if chosen_theme and (chosen_theme in banned or _family_of(chosen_theme) in _banned_fams):
         print(f"   ⚠️  Stage 2 picked a BANNED theme '{chosen_theme}'. Retrying...")
         retry_prompt = user_prompt + f"\n\nYour previous attempt picked the banned theme '{chosen_theme}'. Pick from eligible themes only."
-        raw = call_llm(TOPIC_SYSTEM_PROMPT, retry_prompt, max_tokens=3000)
+        raw = call_llm(TOPIC_SYSTEM_PROMPT, retry_prompt, max_tokens=6000)
         data = clean_json_response(raw)
         topic = data.get("selected_topic", {})
         chosen_theme = topic.get("theme", "")
