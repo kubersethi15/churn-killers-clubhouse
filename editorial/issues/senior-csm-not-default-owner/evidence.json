@@ -1,0 +1,52 @@
+[
+  {
+    "id": "E01",
+    "claim": "Google SRE defines toil through attributes including manual, repetitive, automatable, tactical work with no enduring value that scales linearly with service growth, and warns that excessive toil can blur role clarity, slow progress, and create a precedent for shifting more work onto the team.",
+    "source_title": "Eliminating Toil",
+    "url": "https://sre.google/sre-book/eliminating-toil/",
+    "publisher": "Google Site Reliability Engineering",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-24",
+    "notes": "The SRE definition is applied as an analogy for inspecting recurring CS work. The article does not transfer Google's staffing targets to Customer Success."
+  },
+  {
+    "id": "E02",
+    "claim": "The Scrum Guide assigns distinct accountabilities: the Product Owner is accountable for product value and Product Backlog management, may delegate work while remaining accountable, and represents stakeholder needs as one person rather than a committee.",
+    "source_title": "The 2020 Scrum Guide",
+    "url": "https://scrumguides.org/scrum-guide.html",
+    "publisher": "Scrum Guides",
+    "source_type": "primary",
+    "accessed_at": "2026-08-24",
+    "notes": "Used to illustrate the separation between supplying stakeholder evidence and owning a product decision. The Work Ownership Decision Matrix is an original Churn Is Dead proposal, not part of Scrum."
+  },
+  {
+    "id": "E03",
+    "claim": "GitLab's public DRI guidance assigns final decision power to a directly responsible individual who consults relevant stakeholders, recommends one accountable person per task, and gives product prioritization and engineering delivery as examples of distinct ownership.",
+    "source_title": "Directly Responsible Individuals (DRI)",
+    "url": "https://handbook.gitlab.com/handbook/people-group/directly-responsible-individuals/",
+    "publisher": "GitLab",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-24",
+    "notes": "A transparent company operating model, not a universal standard. Supports separating consultation, accountability, prioritization, and delivery."
+  },
+  {
+    "id": "E04",
+    "claim": "GitLab's public CSM services guidance describes the CSM as a customer champion and liaison, while stating that CSMs may provide high-level infrastructure guidance and technical implementation should ideally be delivered by Professional Services.",
+    "source_title": "CSM Responsibilities and Services",
+    "url": "https://handbook.gitlab.com/handbook/customer-success/csm/services/",
+    "publisher": "GitLab",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-24",
+    "notes": "Used as one public example of a company distinguishing customer coordination from technical implementation. It does not define the correct boundary for every CS organisation."
+  },
+  {
+    "id": "E05",
+    "claim": "GitLab's public CSM and Support guidance assigns CSM activities such as establishing support access, educating customers on ticket quality, reviewing tickets, and relaying feedback, while the Support process owns technical ticket handling and resolution interactions.",
+    "source_title": "CSM and Support Interaction",
+    "url": "https://handbook.gitlab.com/handbook/customer-success/csm/support/",
+    "publisher": "GitLab",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-24",
+    "notes": "Supports distinguishing context and customer communication from technical resolution ownership. This is a company-specific example."
+  }
+]

@@ -1,0 +1,82 @@
+{
+  "title": "The Work Ownership Decision Matrix",
+  "subtitle": "Give recurring customer work to the person who can make the binding decision.",
+  "assessment_mode": "decision_record",
+  "intro_text": "Use this matrix for one recurring task that currently lands with a senior CSM. Separate the customer consequence from the binding decision, identify the person with authority, then choose whether CS should own, prepare, coordinate, or remove the work.",
+  "scoring_note": "Do not total the rows into an ownership score. Record the decision, the rightful owner, the CSM contribution, and the stop rule.",
+  "closing_quote": "Customer proximity creates responsibility for context. It does not create authority over every decision.",
+  "next_action": "Choose one task that recurs at least monthly. Complete the four sections, name the rightful DRI, and change the next occurrence before redesigning the entire role.",
+  "final_record": {
+    "title": "Ownership Change Record",
+    "headers": ["Record", "Complete this"],
+    "col_ratios": [0.35, 0.65],
+    "rows": [
+      ["Recurring work and chosen mode", "____________________________________________"],
+      ["Rightful DRI and authority", "____________________________________________"],
+      ["CS contribution and due date", "____________________________________________"],
+      ["Stop rule and review date", "____________________________________________"]
+    ]
+  },
+  "interpretation_col_ratios": [0.17, 0.31, 0.52],
+  "interpretation": [
+    ["CS mode", "Use when", "Required record"],
+    ["Own", "CS has the authority, capability, and customer obligation to make the decision", "Outcome, decision boundary, and review date"],
+    ["Prepare", "Another function decides and CS contributes customer evidence or a recommendation", "DRI, input package, and decision date"],
+    ["Coordinate", "CS must preserve customer continuity across a time-bounded handoff", "Operational owner, update cadence, escalation path, and stop rule"],
+    ["Remove", "The work is repetitive, automatable, duplicative, or creates no durable improvement", "Automation, process change, or activity to stop"]
+  ],
+  "sections": [
+    {
+      "title": "Work and Customer Consequence",
+      "why_it_matters": "A task can matter deeply to the customer without belonging to the CSM.",
+      "review_prompt": "What customer decision or consequence makes this work necessary?",
+      "headers": ["Record", "Question", "Evidence"],
+      "col_ratios": [0.24, 0.50, 0.26],
+      "rows": [
+        ["Recurring work", "What happens, how often, and what triggers it?", "Workflow or recent example"],
+        ["Customer consequence", "What changes for the customer if it is late, wrong, or absent?", "Observed consequence"],
+        ["Required output", "Is the output a decision, execution, evidence package, update, or handoff?", "Named deliverable"],
+        ["End condition", "What observable state means this occurrence is complete?", "Completion test"]
+      ]
+    },
+    {
+      "title": "Authority and Capability Test",
+      "why_it_matters": "Accountability without authority turns the CSM into a permanent escalation layer.",
+      "review_prompt": "Who can make the binding trade-off and control the resources required?",
+      "headers": ["Test", "Record this", "Ownership signal"],
+      "col_ratios": [0.22, 0.50, 0.28],
+      "rows": [
+        ["Binding decision", "The exact choice that must be made", "Who has final authority?"],
+        ["Resources", "Budget, backlog, technical access, policy, or people required", "Who controls them?"],
+        ["Capability", "Expert judgement or execution skill the work requires", "Which function holds it?"],
+        ["Current mismatch", "What is CS held responsible for but unable to decide?", "Evidence of the gap"]
+      ]
+    },
+    {
+      "title": "Ownership Mode Decision",
+      "why_it_matters": "A useful boundary specifies what CS still contributes instead of merely rejecting the work.",
+      "review_prompt": "Should CS own, prepare, coordinate, or remove this work?",
+      "headers": ["Mode", "Use when", "Record the boundary"],
+      "col_ratios": [0.20, 0.46, 0.34],
+      "rows": [
+        ["Own", "CS can decide and the work requires customer judgement", "Authority and outcome"],
+        ["Prepare", "Another DRI decides; CS supplies evidence and recommendation", "Input and answer date"],
+        ["Coordinate", "A handoff needs temporary customer continuity", "Owner, cadence, and stop rule"],
+        ["Remove", "Work is repeated, automatable, duplicated, or non-durable", "Process change and owner"]
+      ]
+    },
+    {
+      "title": "Handoff and Review Record",
+      "why_it_matters": "Reassignment fails when the new owner, decision date, and customer communication remain implicit.",
+      "review_prompt": "What changes at the next occurrence, and how will the team know the boundary held?",
+      "headers": ["Record", "Required detail", "Owner/date"],
+      "col_ratios": [0.24, 0.50, 0.26],
+      "rows": [
+        ["Rightful DRI", "One person with final authority for the decision or execution", "Name and function"],
+        ["CS contribution", "Evidence, recommendation, context, or customer communication", "Deliverable and date"],
+        ["Stop rule", "Event after which CS coordination ends", "Observable state"],
+        ["Review", "Did the decision move and did the task return to CS?", "Review date and action"]
+      ]
+    }
+  ]
+}

@@ -1827,7 +1827,8 @@ def build_playbook_pdf(playbook_data, metadata, output_path):
     story.append(sp(12))
     story.append(Paragraph("CHURN IS DEAD", st['brand']))
     story.append(sp(4))
-    final_title = "Your Scorecard" if uses_scores else "Forecast Review Record"
+    final_record = pb.get('final_record', {}) if not uses_scores else {}
+    final_title = "Your Scorecard" if uses_scores else final_record.get('title', "Forecast Review Record")
     story.append(Paragraph(final_title, ParagraphStyle('ftt', fontName='Helvetica-Bold', fontSize=24, textColor=BLACK, leading=30, spaceAfter=6)))
     story.append(hr_line(ACCENT, 1.5))
     story.append(sp(8))
@@ -1839,7 +1840,7 @@ def build_playbook_pdf(playbook_data, metadata, output_path):
         fd.append(["TOTAL", "____", str(mx)])
         story.append(mk_table(fd, [CW*0.55, CW*0.225, CW*0.225]))
     else:
-        fd = [
+        default_final_rows = [
             ["Record", "Complete this"],
             ["Account and renewal date", "____________________________________________"],
             ["Current forecast state", "____________________________________________"],
@@ -1849,7 +1850,9 @@ def build_playbook_pdf(playbook_data, metadata, output_path):
             ["Reviewer and date", "____________________________________________"],
             ["Next evidence or review date", "____________________________________________"],
         ]
-        story.append(mk_table(fd, [CW*0.35, CW*0.65]))
+        fd = [final_record.get('headers', default_final_rows[0])] + final_record.get('rows', default_final_rows[1:])
+        final_ratios = final_record.get('col_ratios', [0.35, 0.65])
+        story.append(mk_table(fd, [CW*r for r in final_ratios]))
     story.append(sp(12))
     if uses_scores:
         hi = len(sections)*5
@@ -1869,7 +1872,8 @@ def build_playbook_pdf(playbook_data, metadata, output_path):
             ["Unverified", "The packet cannot support a directional judgement", "Missing evidence, owner, and due date"],
         ]
     interp = pb.get('interpretation') or default_interpretation
-    story.append(mk_table(interp, [CW*0.15, CW*0.17, CW*0.68]))
+    interpretation_ratios = pb.get('interpretation_col_ratios', [0.15, 0.17, 0.68])
+    story.append(mk_table(interp, [CW*r for r in interpretation_ratios]))
     story.append(sp(12))
     next_action = pb.get(
         'next_action',
