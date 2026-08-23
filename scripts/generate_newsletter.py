@@ -12,12 +12,16 @@ Runs every Sunday via GitHub Actions.
 6. Distribution content generator (LinkedIn, Reddit, Slack)
 """
 
-import anthropic
 import json
 import os
 import re
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
+
+try:
+    import anthropic
+except ImportError:
+    anthropic = None
 
 # --- PATHS ---
 REPO_ROOT = Path(__file__).parent.parent
@@ -451,6 +455,8 @@ def clean_json_response(raw):
 
 
 def _call_anthropic(system_prompt, user_prompt, max_tokens=8000, tools=None):
+    if anthropic is None:
+        raise RuntimeError("Anthropic provider selected but the anthropic package is not installed")
     client = anthropic.Anthropic()
     kwargs = {
         "model": ANTHROPIC_MODEL,
@@ -1825,7 +1831,7 @@ def build_playbook_pdf(playbook_data, metadata, output_path):
     story.append(mk_table(fd, [CW*0.55, CW*0.225, CW*0.225]))
     story.append(sp(12))
     hi = mx
-    interp = [
+    interp = pb.get('interpretation') or [
         ["Total Score", "Assessment", "What It Means"],
         [f"{int(hi*0.8)}-{hi}", "Uncuttable", "Embedded, measurable, strategically irreplaceable."],
         [f"{int(hi*0.6)}-{int(hi*0.8)-1}", "Defensible", "Solid but gaps remain. Focus on lowest dimension."],
@@ -1834,13 +1840,17 @@ def build_playbook_pdf(playbook_data, metadata, output_path):
     ]
     story.append(mk_table(interp, [CW*0.15, CW*0.17, CW*0.68]))
     story.append(sp(12))
-    story.append(cbox("<b>What to do next:</b> Take your lowest-scoring section and build a 30-day action plan. One at a time. Then share this with leadership -- not to ask permission, but to show you know where the gaps are."))
+    next_action = pb.get(
+        'next_action',
+        "Take your lowest-scoring section and build a 30-day action plan. One at a time. Then share this with leadership, not to ask permission, but to show you know where the gaps are."
+    )
+    story.append(cbox(f"<b>What to do next:</b> {next_action}"))
     story.append(sp(12))
     story.append(hr_line(BORDER_LIGHT, 0.3))
     story.append(sp(4))
     story.append(Paragraph(pb.get('closing_quote', ''), ParagraphStyle('clq', fontName='Helvetica-Oblique', fontSize=10, textColor=MID_GRAY, leading=16)))
     story.append(sp(4))
-    story.append(Paragraph("-- Kuber", ParagraphStyle('sig2', fontName='Helvetica-Bold', fontSize=11, textColor=BLACK)))
+    story.append(Paragraph("Kuber", ParagraphStyle('sig2', fontName='Helvetica-Bold', fontSize=11, textColor=BLACK)))
     story.append(sp(2))
     story.append(Paragraph("churnisdead.com  |  Weekly frameworks that replace hope with strategy.", st['sm']))
 
@@ -2123,59 +2133,11 @@ IMPORTANT:
 # ===============================================================
 
 def main():
-    topic = os.environ.get("TOPIC_OVERRIDE", "").strip() or None
-    print("=" * 60)
-    print("CHURN IS DEAD -- Newsletter Generator v4")
-    print("3-Stage Pipeline with Web Search Research")
-    print("=" * 60)
-
-    print("\nRunning 3-stage content pipeline...")
-    data = generate_newsletter_and_playbook(topic)
-    meta = data['metadata']
-    content = data['newsletter_content']
-    pb = data['playbook']
-    print(f"\n   Final title: {meta['title']}")
-    print(f"   Sections: {len(pb.get('sections', []))}")
-
-    # HARD DEDUP GATE — abort before any side effects (PDF, insert) if this collides
-    if not topic:  # skip for manual overrides
-        existing_topics, _ = get_existing_topics_and_themes()
-        assert_not_duplicate(meta, existing_topics)
-
-    Path("/tmp/newsletter_title.txt").write_text(meta['title'])
-    Path("/tmp/newsletter_slug.txt").write_text(meta['slug'])
-
-    print("\nBuilding playbook PDF...")
-    pdf_name = meta.get('pdf_filename', f"{meta['slug'].replace('-','_')}_ChurnIsDead.pdf")
-    pdf_path = PDFS_DIR / pdf_name
-    PDFS_DIR.mkdir(parents=True, exist_ok=True)
-    build_playbook_pdf(pb, meta, pdf_path)
-
-    # Guarantee the playbook CTA is in the body. The split Stage-3 prose call can
-    # omit it, which leaves the published article with no funnel to the playbook PDF.
-    if "[CTA link=" not in content:
-        cta_label = (meta.get("playbook_title") or "the Audit").strip()
-        if cta_label.lower().startswith("the "):
-            cta_label = cta_label[4:]
-        content = content.rstrip() + f'\n\n[CTA link="/pdfs/{pdf_name}"]Download the {cta_label}[/CTA]'
-        print(f"   CTA missing from body — auto-appended /pdfs/{pdf_name}")
-    else:
-        print("   CTA present in body")
-
-    print("\nInserting newsletter into Supabase...")
-    pub = get_next_free_tuesday()
-    insert_newsletter_via_api(content, meta, pub)
-
-    print("\nGenerating distribution content...")
-    try:
-        dist_dir = generate_distribution_content(content, meta)
-        print(f"   Output: {dist_dir}")
-    except Exception as e:
-        print(f"   Distribution generation failed (non-fatal): {e}")
-
-    print(f"\nDone! Goes live: {pub}")
-    print(f"   Newsletter + PDF + distribution content ready.")
-    print(f"   Social media manager: check distribution/{meta['slug']}/")
+    raise SystemExit(
+        "The legacy API-driven generator is disabled. "
+        "Prepare a sourced issue package with the churn-is-dead-editorial Codex skill, "
+        "validate it, obtain approval, and run scripts/publish_editorial_issue.py."
+    )
 
 
 if __name__ == "__main__":

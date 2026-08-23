@@ -5,8 +5,12 @@ Run after generate_newsletter.py or standalone.
 """
 
 import re
-from datetime import datetime
+from datetime import datetime, timezone
+from html import escape
 from pathlib import Path
+
+from editorial_issue import SLUG_RE, approved_newsletters
+from prerender_newsletters import fetch_live_newsletters
 
 REPO_ROOT = Path(__file__).parent.parent
 MIGRATIONS_DIR = REPO_ROOT / "supabase" / "migrations"
@@ -133,7 +137,7 @@ def extract_newsletters():
 
 def generate_sitemap(newsletters):
     """Generate sitemap.xml."""
-    today = datetime.utcnow().strftime("%Y-%m-%d")
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
     urls = [
         (f"{SITE_URL}/", today, "1.0", "weekly"),
@@ -144,7 +148,18 @@ def generate_sitemap(newsletters):
         (f"{SITE_URL}/about", "2026-02-24", "0.5", "monthly"),
     ]
 
+    now = datetime.now(timezone.utc)
     for nl in newsletters.values():
+        if not SLUG_RE.fullmatch(nl['slug']):
+            continue
+        try:
+            published_at = datetime.fromisoformat(nl['published_date'].replace('Z', '+00:00'))
+        except ValueError:
+            continue
+        if published_at.tzinfo is None:
+            published_at = published_at.replace(tzinfo=timezone.utc)
+        if published_at > now:
+            continue
         date = nl['published_date'][:10]
         urls.append((
             f"{SITE_URL}/newsletter/{nl['slug']}",
@@ -157,7 +172,7 @@ def generate_sitemap(newsletters):
     xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     for loc, lastmod, priority, freq in urls:
         xml += f"  <url>\n"
-        xml += f"    <loc>{loc}</loc>\n"
+        xml += f"    <loc>{escape(loc)}</loc>\n"
         xml += f"    <lastmod>{lastmod}</lastmod>\n"
         xml += f"    <changefreq>{freq}</changefreq>\n"
         xml += f"    <priority>{priority}</priority>\n"
@@ -180,8 +195,20 @@ def generate_rss(newsletters):
     )
 
     # Only include published (past dates)
-    now = datetime.utcnow().isoformat()
-    sorted_nls = [nl for nl in sorted_nls if nl['published_date'][:19] <= now[:19]]
+    now = datetime.now(timezone.utc)
+    published = []
+    for nl in sorted_nls:
+        if not SLUG_RE.fullmatch(nl['slug']):
+            continue
+        try:
+            published_at = datetime.fromisoformat(nl['published_date'].replace('Z', '+00:00'))
+        except ValueError:
+            continue
+        if published_at.tzinfo is None:
+            published_at = published_at.replace(tzinfo=timezone.utc)
+        if published_at <= now:
+            published.append(nl)
+    sorted_nls = published
 
     xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
     xml += '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n'
@@ -191,7 +218,7 @@ def generate_rss(newsletters):
     xml += '    <description>Weekly CS frameworks for enterprise Customer Success leaders. Hard truths, tactical plays, and downloadable playbooks.</description>\n'
     xml += '    <language>en</language>\n'
     xml += '    <managingEditor>kuber@churnisdead.com (Kuber Sethi)</managingEditor>\n'
-    xml += f'    <lastBuildDate>{datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S +0000")}</lastBuildDate>\n'
+    xml += f'    <lastBuildDate>{datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S +0000")}</lastBuildDate>\n'
     xml += f'    <atom:link href="{SITE_URL}/rss.xml" rel="self" type="application/rss+xml" />\n'
 
     for nl in sorted_nls[:20]:  # Last 20 issues
@@ -223,6 +250,8 @@ def generate_rss(newsletters):
 def main():
     print("Generating sitemap + RSS...")
     newsletters = extract_newsletters()
+    newsletters.update(fetch_live_newsletters())
+    newsletters.update(approved_newsletters())
     print(f"   Found {len(newsletters)} newsletters")
     generate_sitemap(newsletters)
     generate_rss(newsletters)

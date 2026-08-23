@@ -1,0 +1,69 @@
+{
+  "title": "The Product Friction Review",
+  "subtitle": "Turn customer friction into explicit Product decisions without confusing urgency with roadmap control.",
+  "intro_text": "Use this before a Product Friction Review. Complete the packet, run the decision meeting, then record what the customer team can honestly communicate. This is a decision tool, not a delivery SLA.",
+  "scoring_note": "Score readiness from 1 to 5 in each section. A low score means the request is not ready for a Product decision.",
+  "closing_quote": "The goal is not to win every roadmap argument. The goal is to end backlog ambiguity.",
+  "next_action": "Complete the lowest-scoring part of the packet before asking Product for a decision. Then book one review and record the decision state, owner, and answer date.",
+  "interpretation": [
+    ["Total Score", "Assessment", "What It Means"],
+    ["16-20", "Decision ready", "The packet is ready for an explicit Product decision."],
+    ["12-15", "Almost ready", "Close the lowest-scoring evidence gap before review."],
+    ["8-11", "Evidence gaps", "Important context is missing. Return it to the packet owner."],
+    ["4-7", "Not ready", "This is still a request or escalation, not a decision packet."]
+  ],
+  "sections": [
+    {
+      "title": "Customer Consequence",
+      "why_it_matters": "Product cannot assess a complaint that has no defined user, workflow, or consequence.",
+      "headers": ["Field", "Record This", "Reject This"],
+      "col_ratios": [0.22, 0.39, 0.39],
+      "rows": [
+        ["User", "Role affected and relevant context", "The customer"],
+        ["Workflow", "Action the user is trying to complete", "Needs feature X"],
+        ["Consequence", "What happens when the action fails", "They are unhappy"],
+        ["Frequency", "How often and for whom it occurs", "It happens a lot"]
+      ],
+      "rubric": [["Clear user, workflow, consequence, and frequency", "5"], ["Some context but material ambiguity remains", "3"], ["Request is only a solution statement", "1"]]
+    },
+    {
+      "title": "Evidence and Workaround",
+      "why_it_matters": "Separate observed behaviour from account-team inference, then show the cost and limits of the current workaround.",
+      "headers": ["Field", "Evidence Required", "Owner"],
+      "col_ratios": [0.24, 0.51, 0.25],
+      "rows": [
+        ["Reproduction", "Steps, product area, expected and actual behaviour", "CS or Support"],
+        ["Artifacts", "Screenshots, logs, quotes, or ticket references", "CS or Support"],
+        ["Workaround", "Current method, operator, frequency, and limits", "CS"],
+        ["Unknowns", "Facts still requiring investigation", "Named owner"]
+      ],
+      "rubric": [["Reproducible evidence and workaround limits are clear", "5"], ["Evidence exists but important unknowns remain", "3"], ["Only urgency or hearsay is provided", "1"]]
+    },
+    {
+      "title": "Commercial Timing and Privacy",
+      "why_it_matters": "Explain the next customer decision without spreading sensitive account data into broad product channels.",
+      "headers": ["Field", "Record Privately", "Boundary"],
+      "col_ratios": [0.23, 0.42, 0.35],
+      "rows": [
+        ["Decision", "Renewal, rollout, review, expansion, or checkpoint", "Do not call all friction renewal risk"],
+        ["Date", "When the customer will make that decision", "Use a real date, not soon"],
+        ["Context", "Why this friction affects that decision", "Do not paste contract value publicly"],
+        ["Promise", "What has already been communicated", "A request is not a commitment"]
+      ],
+      "rubric": [["Decision, date, context, and prior promises are clear", "5"], ["Timing is known but the causal link is weak", "3"], ["Revenue pressure is asserted without context", "1"]]
+    },
+    {
+      "title": "Decision and Follow-through",
+      "why_it_matters": "Every accepted packet needs an explicit state, owner, answer date, and customer communication plan.",
+      "headers": ["Decision State", "Required Record", "Customer Message"],
+      "col_ratios": [0.23, 0.42, 0.35],
+      "rows": [
+        ["Committed", "Next step, owner, and date", "State scope and what is not promised"],
+        ["Investigating", "Specific unknown, owner, and answer date", "Share when the next answer arrives"],
+        ["Declined", "Reason and relevant alternative", "Give a direct answer without backlog theatre"],
+        ["Evidence needed", "Missing evidence and packet owner", "Do not imply Product has accepted it"]
+      ],
+      "rubric": [["State, owner, date, and communication are recorded", "5"], ["Decision exists but follow-through is incomplete", "3"], ["Request returns to the backlog without a decision", "1"]]
+    }
+  ]
+}

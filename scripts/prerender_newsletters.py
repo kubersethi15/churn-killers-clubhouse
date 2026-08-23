@@ -18,7 +18,10 @@ import os
 import re
 import html as htmlmod
 import urllib.request
+from datetime import datetime, timezone
 from pathlib import Path
+
+from editorial_issue import SLUG_RE, approved_newsletters
 
 REPO_ROOT = Path(__file__).parent.parent
 MIGRATIONS_DIR = REPO_ROOT / "supabase" / "migrations"
@@ -53,7 +56,9 @@ def fetch_live_newsletters():
         return out
     for r in rows:
         slug = r.get("slug")
-        if not slug:
+        if not slug or not SLUG_RE.fullmatch(slug):
+            if slug:
+                print(f"  Skip unsafe live slug: {slug!r}")
             continue
         out[slug] = {
             "title": r.get("title") or "",
@@ -118,6 +123,19 @@ def extract_newsletters():
     return newsletters
 
 
+def inline_md(text):
+    escaped = htmlmod.escape(text)
+
+    def replace_link(match):
+        label, url = match.group(1), htmlmod.unescape(match.group(2))
+        if not (url.startswith("https://") or url.startswith("http://") or url.startswith("/")):
+            return match.group(0)
+        return f'<a href="{htmlmod.escape(url, quote=True)}">{label}</a>'
+
+    escaped = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', replace_link, escaped)
+    return re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', escaped)
+
+
 def md_to_html(md):
     parts, in_list = [], False
     for line in md.split('\n'):
@@ -136,16 +154,16 @@ def md_to_html(md):
             parts.append('<hr>')
         elif s.startswith(('- ', '* ')):
             if not in_list: parts.append('<ul>'); in_list = True
-            t = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', htmlmod.escape(s[2:]))
+            t = inline_md(s[2:])
             parts.append(f'<li>{t}</li>')
         elif s.startswith('> '):
             if in_list: parts.append('</ul>'); in_list = False
-            parts.append(f'<blockquote>{htmlmod.escape(s[2:])}</blockquote>')
+            parts.append(f'<blockquote>{inline_md(s[2:])}</blockquote>')
         elif s.startswith('[CTA'):
             continue
         else:
             if in_list: parts.append('</ul>'); in_list = False
-            t = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', htmlmod.escape(s))
+            t = inline_md(s)
             parts.append(f'<p>{t}</p>')
     if in_list: parts.append('</ul>')
     return '\n      '.join(parts)
@@ -202,7 +220,7 @@ def build_page(base_html, nl):
     "author": {{
       "@type": "Person",
       "name": "Kuber Sethi",
-      "url": "https://www.linkedin.com/in/kubersethi/",
+      "url": "https://www.linkedin.com/in/kuber-cs-strategist/",
       "jobTitle": "Customer Success Leader"
     }},
     "publisher": {{
@@ -237,12 +255,37 @@ def main():
     print("Pre-rendering newsletter pages (hybrid)...")
     base_html = INDEX_HTML.read_text()
     newsletters = extract_newsletters()
-    # Live DB is the source of truth; migration-seeded entries fill any gaps.
+    # Live DB is the delivery store. Approved repository packages override it so
+    # a corrected issue is deterministic even before the API update completes.
     newsletters.update(fetch_live_newsletters())
-    print(f"  {len(newsletters)} newsletters (migrations + live DB)")
+    newsletters.update(approved_newsletters())
+    print(f"  {len(newsletters)} newsletters (migrations + live DB + approved packages)")
 
     generated = 0
+    now = datetime.now(timezone.utc)
     for slug, nl in newsletters.items():
+        if not SLUG_RE.fullmatch(slug):
+            print(f"  Skip unsafe slug: {slug!r}")
+            continue
+        try:
+            published_at = datetime.fromisoformat(nl['published_date'].replace('Z', '+00:00'))
+        except ValueError:
+            print(f"  Skip {slug} (invalid publication date)")
+            continue
+        if published_at.tzinfo is None:
+            published_at = published_at.replace(tzinfo=timezone.utc)
+        if published_at > now:
+            # A previously generated file may contain an early or superseded
+            # draft. Remove it so future issues are unavailable before launch.
+            held_page = PUBLIC_DIR / "newsletter" / slug / "index.html"
+            if held_page.exists():
+                held_page.unlink()
+                try:
+                    held_page.parent.rmdir()
+                except OSError:
+                    pass
+            print(f"  Hold {slug} until {nl['published_date']}")
+            continue
         if not nl.get('content'):
             print(f"  Skip {slug} (no content)")
             continue

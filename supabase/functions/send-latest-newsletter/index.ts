@@ -2,11 +2,14 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { formatContentForEmail } from "./formatUtils.ts";
 import { generateNewsletterEmailTemplate, replacePlaceholders } from "./emailTemplate.ts";
-import { sendNewsletterBatch, sendTestNewsletter, filterValidEmails } from "./emailSender.ts";
+import { sendNewsletterBatch, sendTestNewsletter } from "./emailSender.ts";
+import type { NewsletterMessage } from "./emailSender.ts";
+import { createUnsubscribeToken } from "./unsubscribeToken.ts";
 
 // Initialize Supabase client (service role for DB operations)
 const supabaseUrl = Deno.env.get("SUPABASE_URL");
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+const unsubscribeSecret = Deno.env.get("NEWSLETTER_UNSUBSCRIBE_SECRET") || supabaseServiceKey;
 
 if (!supabaseUrl || !supabaseServiceKey) {
   console.error("Missing Supabase environment variables");
@@ -111,7 +114,7 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     // Check if this is a test email request
     let testEmailAddress: string | null = null;
-    let batchSize = 20;
+    let batchSize = 100;
     let requestBody = {};
     
     try {
@@ -124,7 +127,7 @@ const handler = async (req: Request): Promise<Response> => {
             console.log(`Test email requested for: ${testEmailAddress}`);
           }
           if ('batchSize' in requestBody) {
-            batchSize = Math.min(20, Number(requestBody.batchSize) || 20);
+            batchSize = Math.min(100, Math.max(1, Number(requestBody.batchSize) || 100));
           }
         }
       }
@@ -219,7 +222,10 @@ const handler = async (req: Request): Promise<Response> => {
         latestNewsletter.title, formattedDate, latestNewsletter.read_time,
         '', mainContent, latestNewsletter.slug, latestNewsletter.category
       );
-      const customizedEmail = replacePlaceholders(emailTemplate, { email: testEmailAddress });
+      const customizedEmail = replacePlaceholders(emailTemplate, {
+        email: testEmailAddress,
+        unsubscribe_url: "https://churnisdead.com",
+      });
       
       try {
         await sendTestNewsletter(testEmailAddress, latestNewsletter.title, customizedEmail);
@@ -239,7 +245,7 @@ const handler = async (req: Request): Promise<Response> => {
     // 2. Fetch all active subscribers
     const { data: subscribers, error: subscribersError } = await supabase
       .from("subscribers")
-      .select("email")
+      .select("id,email")
       .eq("subscribed", true);
 
     if (subscribersError) {
@@ -291,48 +297,84 @@ const handler = async (req: Request): Promise<Response> => {
       subject_variant: string;
       variant_index: number;
       send_status: string;
+      resend_message_id?: string;
       error_message?: string;
     }> = [];
 
     for (const [batchIndex, batch] of batches.entries()) {
-      const emailAddresses = batch.map(subscriber => subscriber.email);
-      const variant = pickVariantForIndex(batchIndex);
-      const variantIdx = batchIndex % variants.length;
+      if (!unsubscribeSecret) throw new Error("Missing unsubscribe signing secret");
+      const messages: NewsletterMessage[] = await Promise.all(batch.map(async (subscriber, localIndex) => {
+        const globalIndex = batchIndex * batchSize + localIndex;
+        const variant = pickVariantForIndex(globalIndex);
+        const token = await createUnsubscribeToken(subscriber.id, unsubscribeSecret);
+        const unsubscribeUrl = `${supabaseUrl}/functions/v1/unsubscribe-newsletter?token=${encodeURIComponent(token)}`;
+        return {
+          subscriberId: subscriber.id,
+          email: subscriber.email,
+          subject: variant.subject,
+          html: replacePlaceholders(emailTemplate, {
+            email: subscriber.email,
+            unsubscribe_url: unsubscribeUrl,
+          }),
+          unsubscribeUrl,
+          newsletterId: latestNewsletter.id,
+          newsletterSlug: latestNewsletter.slug,
+          variantLabel: variant.label,
+        };
+      }));
       try {
-        const customizedEmail = replacePlaceholders(emailTemplate, { email: batch[0].email });
-        await sendNewsletterBatch(emailAddresses, variant.subject, customizedEmail, batchIndex);
-        successCount += batch.length;
-        if (!variantStats[variant.label]) variantStats[variant.label] = { sent: 0, subscriberIds: [] };
-        variantStats[variant.label].sent += batch.length;
-        variantStats[variant.label].subscriberIds.push(...batch.map(s => s.id).filter(Boolean));
+        const delivery = await sendNewsletterBatch(
+          messages,
+          batchIndex,
+          `newsletter-${latestNewsletter.id}-batch-${batchIndex}`,
+        );
+        successCount += delivery.count;
+        failureCount += delivery.skipped;
+        const deliveredSubscriberIds = new Set(delivery.deliveries.map(item => item.subscriberId));
 
-        // Per-recipient send log for A/B analysis
-        for (const sub of batch) {
+        for (const item of delivery.deliveries) {
+          const variantIdx = variants.findIndex(variant => variant.label === item.variantLabel);
+          if (!variantStats[item.variantLabel]) variantStats[item.variantLabel] = { sent: 0, subscriberIds: [] };
+          variantStats[item.variantLabel].sent += 1;
+          variantStats[item.variantLabel].subscriberIds.push(item.subscriberId);
           sendLogRows.push({
             newsletter_id: latestNewsletter.id,
-            subscriber_email: sub.email,
-            subject_variant: variant.label,
-            variant_index: variantIdx,
+            subscriber_email: item.email,
+            subject_variant: item.variantLabel,
+            variant_index: Math.max(0, variantIdx),
             send_status: 'sent',
+            resend_message_id: item.resendMessageId,
+          });
+        }
+
+        for (const message of messages.filter(item => !deliveredSubscriberIds.has(item.subscriberId))) {
+          const variantIdx = variants.findIndex(variant => variant.label === message.variantLabel);
+          sendLogRows.push({
+            newsletter_id: latestNewsletter.id,
+            subscriber_email: message.email,
+            subject_variant: message.variantLabel,
+            variant_index: Math.max(0, variantIdx),
+            send_status: 'failed',
+            error_message: 'Invalid email address',
           });
         }
 
         if (batchIndex < batches.length - 1) {
-          await new Promise(resolve => setTimeout(resolve, 3000));
+          await new Promise(resolve => setTimeout(resolve, 500));
         }
       } catch (error: unknown) {
         const msg = error instanceof Error ? error.message : "Unknown error";
-        console.error(`Error sending batch ${batchIndex + 1} (variant ${variant.label}):`, error);
+        console.error(`Error sending private batch ${batchIndex + 1}:`, error);
         failureCount += batch.length;
-        errors.push(`[${variant.label}] ${msg}`);
+        errors.push(`[batch ${batchIndex + 1}] ${msg}`);
 
-        // Log the failed batch in send log
-        for (const sub of batch) {
+        for (const message of messages) {
+          const variantIdx = variants.findIndex(variant => variant.label === message.variantLabel);
           sendLogRows.push({
             newsletter_id: latestNewsletter.id,
-            subscriber_email: sub.email,
-            subject_variant: variant.label,
-            variant_index: variantIdx,
+            subscriber_email: message.email,
+            subject_variant: message.variantLabel,
+            variant_index: Math.max(0, variantIdx),
             send_status: 'failed',
             error_message: msg.slice(0, 500),
           });

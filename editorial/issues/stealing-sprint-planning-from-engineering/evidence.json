@@ -1,0 +1,42 @@
+[
+  {
+    "id": "E01",
+    "claim": "Sprint Planning creates a Sprint Goal, selects Product Backlog items, and creates a plan; developers use past performance and upcoming capacity to make a forecast.",
+    "source_title": "The 2020 Scrum Guide",
+    "url": "https://scrumguides.org/scrum-guide.html",
+    "publisher": "Ken Schwaber and Jeff Sutherland",
+    "source_type": "primary",
+    "accessed_at": "2026-08-23",
+    "notes": "Used as an analogy for decision preparation and capacity awareness, not as evidence that CS teams should run Scrum."
+  },
+  {
+    "id": "E02",
+    "claim": "GitLab's public process lets customer-facing teams provide structured customer context while Product retains final prioritisation autonomy.",
+    "source_title": "Customer Issues Prioritization Framework",
+    "url": "https://handbook.gitlab.com/handbook/product/product-processes/customer-issues-prioritization-framework/",
+    "publisher": "GitLab",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-23",
+    "notes": "A transparent example from one company, not a universal best practice or benchmark."
+  },
+  {
+    "id": "E03",
+    "claim": "GitLab advises keeping customer-sensitive context in internal notes and not treating customer labels as delivery promises.",
+    "source_title": "Customer Issues Prioritization Framework and Product Processes",
+    "url": "https://handbook.gitlab.com/handbook/product/product-processes/",
+    "publisher": "GitLab",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-23",
+    "notes": "Supports the privacy and expectation-setting boundaries in the proposed review."
+  },
+  {
+    "id": "E04",
+    "claim": "Google SRE uses a written error-budget policy to turn cross-functional trade-offs into an agreed, repeatable decision process.",
+    "source_title": "Error Budget Policy for Service Reliability",
+    "url": "https://sre.google/workbook/error-budget-policy/",
+    "publisher": "Google SRE",
+    "source_type": "primary",
+    "accessed_at": "2026-08-23",
+    "notes": "Used for the principle of an agreed decision policy. The article does not transplant Google's thresholds into CS."
+  }
+]

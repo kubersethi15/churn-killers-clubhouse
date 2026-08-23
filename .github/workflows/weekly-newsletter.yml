@@ -1,87 +1,85 @@
-name: Weekly Newsletter Generator
+name: Approved Newsletter Publisher
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'editorial/issues/**'
+      - 'scripts/editorial_issue.py'
+      - 'scripts/publish_editorial_issue.py'
   schedule:
-    # Every Sunday at 00:00 UTC = 11:00 AM AEDT / 10:00 AM AEST
-    # First auto-run: Sunday March 29, 2026 (after the 4 pre-scheduled issues end March 25)
-    - cron: '0 0 * * 0'
+    # Tuesday 08:05 UTC. Supabase controls the exact 08:00 UTC publication time;
+    # this run refreshes public SEO assets after the issue becomes eligible.
+    - cron: '5 8 * * 2'
   workflow_dispatch:
     inputs:
-      topic_override:
-        description: 'Override the auto-selected topic (leave empty for auto)'
+      issue_path:
+        description: 'Optional approved issue directory. Blank stages every approved package.'
         required: false
         default: ''
 
 permissions:
   contents: write
 
+concurrency:
+  group: approved-newsletter-publisher
+  cancel-in-progress: false
+
 jobs:
-  generate-newsletter:
+  stage-approved-newsletters:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.PAT_TOKEN }}
 
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Install dependencies
-        run: pip install anthropic reportlab Pillow
+      - name: Install deterministic build dependencies
+        run: pip install reportlab Pillow
 
-      - name: Generate newsletter and playbook
+      - name: Validate, build, and stage approved issue
         env:
-          LLM_PROVIDER: gemini
-          GEMINI_PRIMARY_MODEL: gemini-3.6-flash
-          GEMINI_RESEARCH_MODEL: gemini-3.6-flash
-          GEMINI_CRITIC_MODEL: gemini-3.6-flash
-          GEMINI_ENABLE_GOOGLE_SEARCH: "false"
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          TOPIC_OVERRIDE: ${{ github.event.inputs.topic_override || '' }}
-        run: python scripts/generate_newsletter.py
-
-      - name: Generate OG image for new newsletter
+          ISSUE_PATH: ${{ github.event.inputs.issue_path || '' }}
         run: |
-          SLUG=$(cat /tmp/newsletter_slug.txt 2>/dev/null || echo "")
-          TITLE=$(cat /tmp/newsletter_title.txt 2>/dev/null || echo "")
+          if [ -n "$ISSUE_PATH" ]; then
+            python scripts/publish_editorial_issue.py "$ISSUE_PATH"
+          else
+            python scripts/publish_editorial_issue.py --all-approved
+          fi
+
+      - name: Generate public discovery assets
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          SLUG=$(cat /tmp/newsletter_slug.txt 2>/dev/null || true)
+          TITLE=$(cat /tmp/newsletter_title.txt 2>/dev/null || true)
           if [ -n "$SLUG" ] && [ -n "$TITLE" ]; then
             python scripts/generate_og_images.py --slug "$SLUG" --title "$TITLE"
           fi
+          python scripts/generate_sitemap_rss.py
+          python scripts/prerender_newsletters.py
+          python scripts/generate_playbook_manifest.py
 
-      - name: Regenerate sitemap and RSS
-        run: python scripts/generate_sitemap_rss.py
-
-      - name: Pre-render newsletter pages for SEO
-        run: python scripts/prerender_newsletters.py
-
-      # Medium publishing moved to medium-wednesday.yml (runs after Tuesday email send)
-      # so subscribers get the content 24h before it goes live on Medium.
-
-      - name: Export LinkedIn schedule
-        run: python scripts/export_linkedin_schedule.py
-
-      - name: Commit and push
+      - name: Commit generated assets
         run: |
-          git config user.name "Churn Is Dead Bot"
+          git config user.name "Churn Is Dead Publisher"
           git config user.email "newsletter@churnisdead.com"
-          git add public/pdfs/*.pdf public/sitemap.xml public/rss.xml public/og/*.png public/newsletter/ distribution/
-          
-          # Check if there are changes to commit
+          git add public/pdfs/*.pdf public/pdfs/manifest.json public/sitemap.xml public/rss.xml public/og/*.png public/newsletter/ distribution/
           if git diff --cached --quiet; then
-            echo "No changes to commit"
+            echo "No generated changes to commit"
             exit 0
           fi
-          
-          # Extract newsletter title from the generated metadata
-          TITLE=$(cat /tmp/newsletter_title.txt 2>/dev/null || echo "Weekly Newsletter")
-          git commit -m "📰 New newsletter: ${TITLE}"
+          TITLE=$(cat /tmp/newsletter_title.txt 2>/dev/null || echo "Approved newsletter")
+          git commit -m "chore: stage ${TITLE}"
           git pull --rebase origin main
           git push origin main

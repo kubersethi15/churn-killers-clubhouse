@@ -71,7 +71,7 @@ const Index = () => {
         "jobTitle": "Customer Success Leader",
         "description": "Enterprise Customer Success leader and author of the Churn Is Dead newsletter. Building frameworks that replace hope with strategy.",
         "sameAs": [
-          "https://www.linkedin.com/in/kubersethi/",
+          "https://www.linkedin.com/in/kuber-cs-strategist/",
           "https://churnisdead.com"
         ],
         "knowsAbout": [
@@ -164,7 +164,7 @@ const Index = () => {
                 buttonText="Subscribe"
                 subscribeText=""
               />
-              <p className="text-sm text-gray-300 mt-4 font-medium">Read by 2,000+ enterprise CS leaders every Tuesday.</p>
+              <p className="text-sm text-gray-300 mt-4 font-medium">Read by enterprise CS operators every Tuesday.</p>
               <p className="text-xs text-gray-400 mt-2">Free. Instant access to the full Playbook Vault. Unsubscribe anytime.</p>
             </div>
           </div>
@@ -347,7 +347,7 @@ const Index = () => {
                 buttonText="Subscribe"
                 subscribeText=""
               />
-              <p className="text-sm text-gray-400 mt-4">Join 2,000+ enterprise CS leaders. Free, every Tuesday, plus the full Playbook Vault.</p>
+              <p className="text-sm text-gray-400 mt-4">Free every Tuesday, with access to the full Playbook Vault.</p>
             </div>
           </div>
         </div>

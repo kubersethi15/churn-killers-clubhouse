@@ -218,7 +218,7 @@ def prerender_blog_post(post, index_html_template):
         "@context": "https://schema.org", "@type": "Article",
         "headline": post['title'], "description": post['excerpt'],
         "datePublished": pub, "wordCount": wc, "url": url,
-        "author": {"@type": "Person", "name": "Kuber Sethi", "url": "https://www.linkedin.com/in/kubersethi/"},
+        "author": {"@type": "Person", "name": "Kuber Sethi", "url": "https://www.linkedin.com/in/kuber-cs-strategist/"},
         "publisher": {"@type": "Organization", "name": "Churn Is Dead", "url": SITE_URL}
     }, indent=2)
 
