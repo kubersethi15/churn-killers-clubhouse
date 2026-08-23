@@ -5,6 +5,13 @@ import { supabase } from "@/integrations/supabase/client";
 type SignupRow = { source?: string; page?: string; campaign?: string; week?: string; signups: number };
 type ResourceRow = { resource: string; opens: number };
 type PulseRow = { answer: string; responses: number };
+type ReactivationSourceRow = { source: string; requested: number; confirmed: number };
+type ReactivationData = {
+  requested_30_days: number;
+  confirmed_30_days: number;
+  pending_30_days: number;
+  sources_30_days: ReactivationSourceRow[];
+};
 type VariantRow = {
   source: string;
   medium: string;
@@ -37,6 +44,7 @@ type DashboardData = {
   top_resources_30_days: ResourceRow[];
   reader_pulse_30_days: PulseRow[];
   content_variants_30_days: VariantRow[];
+  reactivation: ReactivationData;
 };
 
 const MetricCard = ({ label, value, note, suffix = "" }: { label: string; value: number; note: string; suffix?: string }) => (
@@ -101,21 +109,27 @@ const GrowthDashboard = () => {
   const [data, setData] = useState<DashboardData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [variantError, setVariantError] = useState<string | null>(null);
+  const [reactivationError, setReactivationError] = useState<string | null>(null);
 
   useEffect(() => {
     const load = async () => {
-      const [dashboardResult, variantResult] = await Promise.all([
+      const [dashboardResult, variantResult, reactivationResult] = await Promise.all([
         supabase.rpc("get_growth_dashboard"),
         supabase.rpc("get_growth_variant_dashboard"),
+        supabase.rpc("get_reactivation_dashboard"),
       ]);
       if (dashboardResult.error) {
         setError(dashboardResult.error.message);
         return;
       }
       if (variantResult.error) setVariantError(variantResult.error.message);
+      if (reactivationResult.error) setReactivationError(reactivationResult.error.message);
       setData({
-        ...(dashboardResult.data as unknown as Omit<DashboardData, "content_variants_30_days">),
+        ...(dashboardResult.data as unknown as Omit<DashboardData, "content_variants_30_days" | "reactivation">),
         content_variants_30_days: variantResult.error ? [] : variantResult.data as unknown as VariantRow[],
+        reactivation: reactivationResult.error
+          ? { requested_30_days: 0, confirmed_30_days: 0, pending_30_days: 0, sources_30_days: [] }
+          : reactivationResult.data as unknown as ReactivationData,
       });
     };
     void load();
@@ -127,6 +141,9 @@ const GrowthDashboard = () => {
   const funnel = data.funnel_30_days;
   const formConversion = funnel.form_views > 0 ? Math.round((funnel.signup_successes / funnel.form_views) * 100) : 0;
   const growthChange = data.subscribers.new_30_days - data.subscribers.previous_30_days;
+  const reactivationRate = data.reactivation.requested_30_days > 0
+    ? Math.round((data.reactivation.confirmed_30_days / data.reactivation.requested_30_days) * 100)
+    : 0;
   const readout = [
     growthChange < 0
       ? `Subscriber pace is down ${Math.abs(growthChange)} versus the previous 30-day window. Prioritise distribution and offer clarity.`
@@ -176,6 +193,40 @@ const GrowthDashboard = () => {
               </div>
             ))}
           </div>
+        </section>
+
+        <section className="mb-8 rounded-xl border border-gray-200 bg-white p-6">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h2 className="font-serif text-lg font-bold text-navy-dark">Returning subscribers, 30 days</h2>
+              <p className="mt-1 text-xs text-gray-500">A rejoin counts only after the reader confirms by email. Original acquisition history remains unchanged.</p>
+            </div>
+            {reactivationError && <p className="text-xs text-amber-700">Reactivation tracking is waiting for its database update.</p>}
+          </div>
+          <div className="grid gap-5 sm:grid-cols-4">
+            <MetricCard label="Rejoin requests" value={data.reactivation.requested_30_days} note="Consent links sent" />
+            <MetricCard label="Confirmed" value={data.reactivation.confirmed_30_days} note="Returned to active list" />
+            <MetricCard label="Pending" value={data.reactivation.pending_30_days} note="Unexpired links" />
+            <MetricCard label="Confirmation rate" value={reactivationRate} suffix="%" note="Confirmed per request" />
+          </div>
+          {data.reactivation.sources_30_days.length > 0 && (
+            <div className="mt-6 overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead className="border-b border-gray-200 text-[10px] uppercase tracking-[0.16em] text-gray-500">
+                  <tr><th className="pb-3">Source</th><th className="pb-3 text-right">Requested</th><th className="pb-3 text-right">Confirmed</th></tr>
+                </thead>
+                <tbody>
+                  {data.reactivation.sources_30_days.map(row => (
+                    <tr key={row.source} className="border-b border-gray-100 last:border-0">
+                      <td className="py-3 text-gray-600">{row.source.replaceAll("_", " ")}</td>
+                      <td className="py-3 text-right text-gray-600">{row.requested}</td>
+                      <td className="py-3 text-right font-semibold text-navy-dark">{row.confirmed}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </section>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

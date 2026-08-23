@@ -428,6 +428,53 @@ export type Database = {
         }
         Relationships: []
       }
+      subscriber_reactivation_requests: {
+        Row: {
+          campaign: string | null
+          confirmed_at: string | null
+          expires_at: string
+          id: string
+          medium: string | null
+          requested_at: string
+          source: string | null
+          source_page: string | null
+          subscriber_id: string
+          utm_content: string | null
+        }
+        Insert: {
+          campaign?: string | null
+          confirmed_at?: string | null
+          expires_at: string
+          id?: string
+          medium?: string | null
+          requested_at?: string
+          source?: string | null
+          source_page?: string | null
+          subscriber_id: string
+          utm_content?: string | null
+        }
+        Update: {
+          campaign?: string | null
+          confirmed_at?: string | null
+          expires_at?: string
+          id?: string
+          medium?: string | null
+          requested_at?: string
+          source?: string | null
+          source_page?: string | null
+          subscriber_id?: string
+          utm_content?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriber_reactivation_requests_subscriber_id_fkey"
+            columns: ["subscriber_id"]
+            isOneToOne: false
+            referencedRelation: "subscribers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           id: string
@@ -546,6 +593,10 @@ export type Database = {
       }
     }
     Functions: {
+      confirm_subscriber_reactivation: {
+        Args: { _request_id: string }
+        Returns: boolean
+      }
       create_newsletter_invoke_function: { Args: never; Returns: undefined }
       enable_pg_cron: { Args: never; Returns: undefined }
       get_shared_analysis: {
@@ -561,6 +612,7 @@ export type Database = {
       }
       get_growth_dashboard: { Args: never; Returns: Json }
       get_growth_variant_dashboard: { Args: never; Returns: Json }
+      get_reactivation_dashboard: { Args: never; Returns: Json }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
