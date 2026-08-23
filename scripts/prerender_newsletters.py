@@ -22,6 +22,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from editorial_issue import SLUG_RE, approved_newsletters
+from newsletter_catalog import load_newsletter_catalog
 
 REPO_ROOT = Path(__file__).parent.parent
 MIGRATIONS_DIR = REPO_ROOT / "supabase" / "migrations"
@@ -235,12 +236,19 @@ def build_page(base_html, nl):
 
     # Inject noscript article after <div id="root">
     article_html = md_to_html(nl['content'])
+    archive_note = ""
+    try:
+        if datetime.fromisoformat(pub.replace('Z', '+00:00')) < datetime(2026, 8, 25, tzinfo=timezone.utc):
+            archive_note = '<p><strong>Archive note:</strong> This issue predates the evidence ledger introduced in August 2026. Treat uncited benchmarks and examples as editorial analysis, not independently verified findings.</p>'
+    except ValueError:
+        archive_note = ""
     noscript = f"""
   <noscript>
     <div style="max-width:680px;margin:40px auto;padding:0 16px;font-family:Georgia,serif;line-height:1.7;color:#1a1a1a">
       <p style="font-size:11px;letter-spacing:3px;color:#C8553D;font-weight:bold;text-transform:uppercase">CHURN IS DEAD</p>
       <h1 style="font-family:Helvetica,Arial,sans-serif;font-size:32px">{title_esc}</h1>
       <p style="color:#999;font-size:13px">{nl['read_time']} · {nl['category']}</p>
+      {archive_note}
       {article_html}
       <hr>
       <p style="font-size:13px;color:#999">By <strong>Kuber Sethi</strong> · <a href="{SITE_URL}/newsletters">All issues</a> · <a href="{SITE_URL}/start">Subscribe</a></p>
@@ -254,11 +262,7 @@ def build_page(base_html, nl):
 def main():
     print("Pre-rendering newsletter pages (hybrid)...")
     base_html = INDEX_HTML.read_text()
-    newsletters = extract_newsletters()
-    # Live DB is the delivery store. Approved repository packages override it so
-    # a corrected issue is deterministic even before the API update completes.
-    newsletters.update(fetch_live_newsletters())
-    newsletters.update(approved_newsletters())
+    newsletters = load_newsletter_catalog()
     print(f"  {len(newsletters)} newsletters (migrations + live DB + approved packages)")
 
     generated = 0

@@ -10,7 +10,7 @@ from html import escape
 from pathlib import Path
 
 from editorial_issue import SLUG_RE, approved_newsletters
-from prerender_newsletters import fetch_live_newsletters
+from newsletter_catalog import load_newsletter_catalog
 
 REPO_ROOT = Path(__file__).parent.parent
 MIGRATIONS_DIR = REPO_ROOT / "supabase" / "migrations"
@@ -146,6 +146,7 @@ def generate_sitemap(newsletters):
         (f"{SITE_URL}/start", today, "0.9", "monthly"),
         (f"{SITE_URL}/ai-exposure-score", today, "0.8", "monthly"),
         (f"{SITE_URL}/about", "2026-02-24", "0.5", "monthly"),
+        (f"{SITE_URL}/editorial-standards", today, "0.6", "monthly"),
     ]
 
     now = datetime.now(timezone.utc)
@@ -249,9 +250,7 @@ def generate_rss(newsletters):
 
 def main():
     print("Generating sitemap + RSS...")
-    newsletters = extract_newsletters()
-    newsletters.update(fetch_live_newsletters())
-    newsletters.update(approved_newsletters())
+    newsletters = load_newsletter_catalog()
     print(f"   Found {len(newsletters)} newsletters")
     generate_sitemap(newsletters)
     generate_rss(newsletters)
