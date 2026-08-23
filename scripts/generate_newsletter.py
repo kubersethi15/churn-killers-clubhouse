@@ -25,11 +25,15 @@ MIGRATIONS_DIR = REPO_ROOT / "supabase" / "migrations"
 PDFS_DIR = REPO_ROOT / "public" / "pdfs"
 DISTRIBUTION_DIR = REPO_ROOT / "distribution"
 
-# --- MODEL ---
-# Claude Opus 4.8 — Anthropic's most capable model, with clearer, warmer prose.
-# Every stage of the pipeline (research, topic selection, writing) runs on it
-# so the newsletter is top-notch end to end. Change here to swap models globally.
-MODEL = "claude-opus-4-8"
+# --- MODELS ---
+# Gemini is the production default so the weekly run does not depend on Anthropic
+# credits. Flash handles grounded research; Pro handles strategy and long-form
+# writing; a separate Flash pass acts as the adversarial editor.
+LLM_PROVIDER = os.environ.get("LLM_PROVIDER", "gemini").strip().lower()
+ANTHROPIC_MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-opus-4-8")
+GEMINI_PRIMARY_MODEL = os.environ.get("GEMINI_PRIMARY_MODEL", "gemini-2.5-pro")
+GEMINI_RESEARCH_MODEL = os.environ.get("GEMINI_RESEARCH_MODEL", "gemini-2.5-flash")
+GEMINI_CRITIC_MODEL = os.environ.get("GEMINI_CRITIC_MODEL", "gemini-2.5-flash")
 
 
 # ===============================================================
@@ -443,10 +447,10 @@ def clean_json_response(raw):
     raise json.JSONDecodeError("No complete JSON object found in response", text, 0)
 
 
-def call_claude(system_prompt, user_prompt, max_tokens=8000, tools=None):
+def _call_anthropic(system_prompt, user_prompt, max_tokens=8000, tools=None):
     client = anthropic.Anthropic()
     kwargs = {
-        "model": MODEL,
+        "model": ANTHROPIC_MODEL,
         "max_tokens": max_tokens,
         "system": system_prompt,
         "messages": [{"role": "user", "content": user_prompt}],
@@ -471,6 +475,90 @@ def call_claude(system_prompt, user_prompt, max_tokens=8000, tools=None):
         if hasattr(block, 'text'):
             text_parts.append(block.text)
     return "\n".join(text_parts)
+
+
+def _call_gemini(system_prompt, user_prompt, max_tokens=8000,
+                 enable_web_search=False, model=None):
+    """Call Gemini's REST API without putting the API key in the request URL."""
+    import time
+    import urllib.error
+    import urllib.request
+
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        raise RuntimeError("GEMINI_API_KEY must be set as a GitHub secret")
+
+    selected_model = model or (
+        GEMINI_RESEARCH_MODEL if enable_web_search else GEMINI_PRIMARY_MODEL
+    )
+    url = ("https://generativelanguage.googleapis.com/v1beta/models/"
+           f"{selected_model}:generateContent")
+    payload = {
+        "system_instruction": {"parts": [{"text": system_prompt}]},
+        "contents": [{"role": "user", "parts": [{"text": user_prompt}]}],
+        "generationConfig": {"maxOutputTokens": max_tokens},
+    }
+    if enable_web_search:
+        payload["tools"] = [{"google_search": {}}]
+
+    print(f"   LLM: Gemini ({selected_model})"
+          f"{' + Google Search' if enable_web_search else ''}")
+    last_error = None
+    for attempt in range(3):
+        req = urllib.request.Request(
+            url,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={
+                "Content-Type": "application/json",
+                "x-goog-api-key": api_key,
+            },
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=180) as resp:
+                result = json.loads(resp.read().decode("utf-8"))
+            candidates = result.get("candidates") or []
+            if not candidates:
+                feedback = result.get("promptFeedback", {})
+                raise RuntimeError(f"Gemini returned no candidates: {feedback}")
+            parts = candidates[0].get("content", {}).get("parts", [])
+            text = "\n".join(
+                part.get("text", "") for part in parts if part.get("text")
+            ).strip()
+            if not text:
+                raise RuntimeError("Gemini returned an empty text response")
+            return text
+        except urllib.error.HTTPError as e:
+            body = e.read().decode("utf-8", errors="replace")
+            last_error = RuntimeError(f"Gemini API error {e.code}: {body}")
+        except Exception as e:
+            last_error = e
+
+        if attempt < 2:
+            wait = 5 * (4 ** attempt)  # 5s, 20s
+            print(f"   Gemini call failed (attempt {attempt + 1}/3): "
+                  f"{last_error} -- retrying in {wait}s")
+            time.sleep(wait)
+
+    raise last_error
+
+
+def call_llm(system_prompt, user_prompt, max_tokens=8000, tools=None):
+    """Provider-neutral generation entry point used by the entire pipeline."""
+    if LLM_PROVIDER == "gemini":
+        return _call_gemini(
+            system_prompt,
+            user_prompt,
+            max_tokens=max_tokens,
+            enable_web_search=bool(tools),
+        )
+    if LLM_PROVIDER == "anthropic":
+        return _call_anthropic(
+            system_prompt, user_prompt, max_tokens=max_tokens, tools=tools
+        )
+    raise RuntimeError(
+        f"Unsupported LLM_PROVIDER '{LLM_PROVIDER}'. Use 'gemini' or 'anthropic'."
+    )
 
 # ===============================================================
 # STAGE 1: RESEARCH & INTELLIGENCE (WITH WEB SEARCH)
@@ -673,7 +761,7 @@ def run_stage_1_research():
     _week = datetime.now(timezone.utc).isocalendar()[1]
     _lens_name, _lens_note = RESEARCH_LENSES[_week % len(RESEARCH_LENSES)]
     print(f"   Research lens this week: {_lens_name}")
-    raw = call_claude(
+    raw = call_llm(
         RESEARCH_SYSTEM_PROMPT,
         RESEARCH_USER_PROMPT + "\n\nTHIS WEEK'S PRIMARY RESEARCH LENS (weight your searches toward this): " + _lens_note,
         max_tokens=6500,
@@ -912,7 +1000,7 @@ def run_stage_2_topic_selection(research_brief, existing_topics, recent_themes=N
     )
     if extra_note:
         user_prompt += extra_note
-    raw = call_claude(TOPIC_SYSTEM_PROMPT, user_prompt, max_tokens=3000)
+    raw = call_llm(TOPIC_SYSTEM_PROMPT, user_prompt, max_tokens=3000)
     data = clean_json_response(raw)
     topic = data.get("selected_topic", {})
 
@@ -922,7 +1010,7 @@ def run_stage_2_topic_selection(research_brief, existing_topics, recent_themes=N
     if chosen_theme and (chosen_theme in banned or _family_of(chosen_theme) in _banned_fams):
         print(f"   ⚠️  Stage 2 picked a BANNED theme '{chosen_theme}'. Retrying...")
         retry_prompt = user_prompt + f"\n\nYour previous attempt picked the banned theme '{chosen_theme}'. Pick from eligible themes only."
-        raw = call_claude(TOPIC_SYSTEM_PROMPT, retry_prompt, max_tokens=3000)
+        raw = call_llm(TOPIC_SYSTEM_PROMPT, retry_prompt, max_tokens=3000)
         data = clean_json_response(raw)
         topic = data.get("selected_topic", {})
         chosen_theme = topic.get("theme", "")
@@ -1178,7 +1266,7 @@ def write_newsletter_draft(topic_brief, research_brief, extra_note=""):
         topic_brief=topic_brief, research_brief=research_brief
     ) + extra_note
     # 16k gives the prose room now that the playbook is a separate call
-    raw = call_claude(WRITING_SYSTEM_PROMPT, user_prompt, max_tokens=16000)
+    raw = call_llm(WRITING_SYSTEM_PROMPT, user_prompt, max_tokens=16000)
     return clean_json_response(raw)
 
 
@@ -1229,24 +1317,9 @@ Tear this apart. Return JSON:
 
 def _gemini_critique(system, user):
     """Call Gemini as an independent critic. Returns raw text or raises."""
-    import urllib.request
-    api_key = os.environ.get("GEMINI_API_KEY")
-    if not api_key:
-        raise RuntimeError("GEMINI_API_KEY not set")
-    model = os.environ.get("GEMINI_MODEL", "gemini-2.5-pro")
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
-    payload = {
-        "system_instruction": {"parts": [{"text": system}]},
-        "contents": [{"role": "user", "parts": [{"text": user}]}],
-        "generationConfig": {"temperature": 0.4, "maxOutputTokens": 3000},
-    }
-    req = urllib.request.Request(
-        url, data=json.dumps(payload).encode("utf-8"),
-        headers={"Content-Type": "application/json"}, method="POST"
+    return _call_gemini(
+        system, user, max_tokens=3000, model=GEMINI_CRITIC_MODEL
     )
-    with urllib.request.urlopen(req, timeout=60) as resp:
-        out = json.loads(resp.read().decode("utf-8"))
-    return out["candidates"][0]["content"]["parts"][0]["text"]
 
 
 def run_adversarial_critique(draft_content, title, recent_issues):
@@ -1273,7 +1346,7 @@ def run_adversarial_critique(draft_content, title, recent_issues):
     # Fallback: Claude with a hostile-editor persona (still independent of the writer call)
     try:
         print("   Adversarial grader: Claude (hostile-editor fallback)...")
-        raw = call_claude(ADVERSARIAL_CRITIC_SYSTEM, user, max_tokens=3000)
+        raw = call_llm(ADVERSARIAL_CRITIC_SYSTEM, user, max_tokens=3000)
         return clean_json_response(raw)
     except Exception as e:
         print(f"   Adversarial critique failed entirely ({e}); proceeding without it")
@@ -1439,7 +1512,7 @@ def generate_playbook(newsletter_content, meta, topic_brief):
         playbook_concept=tb.get("playbook_concept", "Measure what actually drives retention"),
         newsletter_content=(newsletter_content or "")[:8000],
     )
-    raw = call_claude(PLAYBOOK_SYSTEM_PROMPT, user, max_tokens=4000)
+    raw = call_llm(PLAYBOOK_SYSTEM_PROMPT, user, max_tokens=4000)
     try:
         pb = clean_json_response(raw)
         print(f"   Playbook: {len(pb.get('sections', []))} sections")
@@ -1938,7 +2011,7 @@ IMPORTANT:
 - Community posts should feel like a peer sharing, not a marketer promoting.
 - No em dashes anywhere."""
 
-    raw = call_claude(system_prompt, user_prompt, max_tokens=10000)
+    raw = call_llm(system_prompt, user_prompt, max_tokens=10000)
     data = clean_json_response(raw)
 
     slug = meta['slug']
