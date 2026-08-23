@@ -8,7 +8,8 @@ export type GrowthEventName =
   | "signup_duplicate"
   | "signup_error"
   | "content_share"
-  | "resource_open";
+  | "resource_open"
+  | "reader_pulse_response";
 
 type Attribution = {
   landingPage: string;

@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
-type MetricRow = { source?: string; page?: string; month?: string; signups: number };
+type SignupRow = { source?: string; page?: string; campaign?: string; week?: string; signups: number };
+type ResourceRow = { resource: string; opens: number };
+type PulseRow = { answer: string; responses: number };
 type DashboardData = {
-  subscribers: { total: number; new_7_days: number; new_30_days: number };
+  subscribers: { total: number; new_7_days: number; new_30_days: number; previous_30_days: number };
   funnel_30_days: {
     page_views: number;
     form_views: number;
@@ -12,31 +14,37 @@ type DashboardData = {
     signup_successes: number;
     shares: number;
     resource_opens: number;
+    starter_kit_views: number;
+    topic_views: number;
+    analyzer_demo_views: number;
   };
-  sources_30_days: MetricRow[];
-  signup_pages_30_days: MetricRow[];
-  monthly_growth: MetricRow[];
+  sources_30_days: SignupRow[];
+  signup_pages_30_days: SignupRow[];
+  campaigns_30_days: SignupRow[];
+  weekly_growth: SignupRow[];
+  top_resources_30_days: ResourceRow[];
+  reader_pulse_30_days: PulseRow[];
 };
 
 const MetricCard = ({ label, value, note, suffix = "" }: { label: string; value: number; note: string; suffix?: string }) => (
   <div className="rounded-xl border border-gray-200 bg-white p-5">
-    <p className="text-[10px] uppercase tracking-[0.18em] text-gray-400 font-bold mb-2">{label}</p>
-    <p className="text-3xl font-serif font-black text-navy-dark">{value}{suffix}</p>
-    <p className="text-xs text-gray-400 mt-1">{note}</p>
+    <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500">{label}</p>
+    <p className="font-serif text-3xl font-black text-navy-dark">{value}{suffix}</p>
+    <p className="mt-1 text-xs text-gray-500">{note}</p>
   </div>
 );
 
-const RankedList = ({ title, rows, labelKey }: { title: string; rows: MetricRow[]; labelKey: "source" | "page" | "month" }) => (
+const RankedList = ({ title, rows, labelKey, valueKey = "signups" }: { title: string; rows: Array<SignupRow | ResourceRow | PulseRow>; labelKey: "source" | "page" | "campaign" | "week" | "resource" | "answer"; valueKey?: "signups" | "opens" | "responses" }) => (
   <section className="rounded-xl border border-gray-200 bg-white p-6">
-    <h2 className="text-lg font-serif font-bold text-navy-dark mb-5">{title}</h2>
+    <h2 className="mb-5 font-serif text-lg font-bold text-navy-dark">{title}</h2>
     <div className="space-y-3">
       {rows.map((row, index) => (
-        <div key={`${row[labelKey]}-${index}`} className="flex items-center justify-between gap-4 text-sm">
-          <span className="text-gray-600 truncate">{row[labelKey] ?? "unknown"}</span>
-          <span className="font-semibold text-navy-dark">{row.signups}</span>
+        <div key={`${String(row[labelKey as keyof typeof row])}-${index}`} className="flex items-center justify-between gap-4 text-sm">
+          <span className="truncate text-gray-600">{String(row[labelKey as keyof typeof row] ?? "unknown").replaceAll("_", " ")}</span>
+          <span className="font-semibold text-navy-dark">{Number(row[valueKey as keyof typeof row] ?? 0)}</span>
         </div>
       ))}
-      {rows.length === 0 && <p className="text-sm text-gray-400">No data yet.</p>}
+      {rows.length === 0 && <p className="text-sm text-gray-500">No measured activity yet.</p>}
     </div>
   </section>
 );
@@ -55,45 +63,69 @@ const GrowthDashboard = () => {
   }, []);
 
   if (error) return <main className="min-h-screen p-24 text-center text-red">Growth data unavailable: {error}</main>;
-  if (!data) return <main className="min-h-screen p-24 text-center text-gray-400">Loading growth data...</main>;
+  if (!data) return <main className="min-h-screen p-24 text-center text-gray-500">Loading growth data...</main>;
 
   const funnel = data.funnel_30_days;
   const formConversion = funnel.form_views > 0 ? Math.round((funnel.signup_successes / funnel.form_views) * 100) : 0;
+  const growthChange = data.subscribers.new_30_days - data.subscribers.previous_30_days;
+  const readout = [
+    growthChange < 0
+      ? `Subscriber pace is down ${Math.abs(growthChange)} versus the previous 30-day window. Prioritise distribution and offer clarity.`
+      : `Subscriber pace is up ${growthChange} versus the previous 30-day window. Identify which source and page produced the lift.`,
+    funnel.form_views > 0
+      ? `${formConversion}% of measured form viewers subscribed. Compare this by page before changing every CTA at once.`
+      : "The acquisition baseline is still forming. Avoid declaring a winning CTA until form-view data accumulates.",
+    funnel.resource_opens > funnel.signup_successes
+      ? "Readers are using tools after discovery. Keep the article-to-playbook path prominent."
+      : "Tool activation trails signup activity. The welcome email and Starter Kit should be the next activation test.",
+  ];
 
   return (
     <main className="min-h-screen bg-cream/30 px-4 py-20">
-      <div className="max-w-5xl mx-auto">
-        <div className="flex items-end justify-between gap-4 mb-8">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-8 flex items-end justify-between gap-4">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.22em] text-red font-bold mb-2">Aggregate only</p>
-            <h1 className="text-3xl md:text-4xl font-serif font-black text-navy-dark">Newsletter growth</h1>
+            <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-red">Aggregate only</p>
+            <h1 className="font-serif text-3xl font-black text-navy-dark md:text-4xl">Growth and activation</h1>
+            <p className="mt-2 text-sm text-gray-600">Internal decision signals. Not universal benchmarks.</p>
           </div>
-          <Link to="/admin" className="text-sm font-semibold text-gray-500 hover:text-navy-dark">Admin home</Link>
+          <Link to="/admin" className="text-sm font-semibold text-gray-600 hover:text-navy-dark">Admin home</Link>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+        <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           <MetricCard label="Active subscribers" value={data.subscribers.total} note="Current list" />
-          <MetricCard label="New in 30 days" value={data.subscribers.new_30_days} note="Net active signups" />
+          <MetricCard label="New in 30 days" value={data.subscribers.new_30_days} note="Current window" />
+          <MetricCard label="Previous 30 days" value={data.subscribers.previous_30_days} note="Comparison window" />
           <MetricCard label="New in 7 days" value={data.subscribers.new_7_days} note="Recent pace" />
-          <MetricCard label="Form conversion" value={formConversion} suffix="%" note="Measured form views to signups" />
+          <MetricCard label="Form conversion" value={formConversion} suffix="%" note="Measured views to signups" />
         </div>
 
-        <section className="rounded-xl border border-gray-200 bg-white p-6 mb-8">
-          <h2 className="text-lg font-serif font-bold text-navy-dark mb-5">Measured funnel, last 30 days</h2>
-          <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-6">
+        <section className="mb-8 rounded-xl bg-navy-dark p-6 text-white">
+          <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.2em] text-red-400">operator readout</p>
+          <div className="grid gap-5 md:grid-cols-3">
+            {readout.map((item, index) => <p key={item} className="text-sm leading-relaxed text-gray-200"><span className="mr-2 font-serif text-xl font-black text-red-400">0{index + 1}</span>{item}</p>)}
+          </div>
+        </section>
+
+        <section className="mb-8 rounded-xl border border-gray-200 bg-white p-6">
+          <h2 className="mb-5 font-serif text-lg font-bold text-navy-dark">Measured journey, last 30 days</h2>
+          <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-9">
             {Object.entries(funnel).map(([label, value]) => (
               <div key={label}>
-                <p className="text-2xl font-serif font-black text-navy-dark">{value}</p>
-                <p className="text-xs text-gray-400 mt-1">{label.replaceAll("_", " ")}</p>
+                <p className="font-serif text-2xl font-black text-navy-dark">{value}</p>
+                <p className="mt-1 text-xs text-gray-500">{label.replaceAll("_", " ")}</p>
               </div>
             ))}
           </div>
         </section>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <RankedList title="Signup sources, 30 days" rows={data.sources_30_days} labelKey="source" />
           <RankedList title="Signup pages, 30 days" rows={data.signup_pages_30_days} labelKey="page" />
-          <RankedList title="Monthly growth" rows={data.monthly_growth} labelKey="month" />
+          <RankedList title="Campaigns, 30 days" rows={data.campaigns_30_days} labelKey="campaign" />
+          <RankedList title="Top tools and topics" rows={data.top_resources_30_days} labelKey="resource" valueKey="opens" />
+          <RankedList title="Reader pulse" rows={data.reader_pulse_30_days} labelKey="answer" valueKey="responses" />
+          <RankedList title="Weekly growth" rows={data.weekly_growth} labelKey="week" />
         </div>
       </div>
     </main>
