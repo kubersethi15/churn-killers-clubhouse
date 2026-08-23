@@ -40,6 +40,8 @@ Confirm:
 4. No pre-publication draft is available at the article URL.
 5. If publishing on LinkedIn, paste from `linkedin.md`, re-read it in context, and post manually.
 
+The pre-publication check must cover the database boundary as well as the rendered page. Before the timestamp, an anonymous REST query for the exact future slug must return no rows. An authenticated admin may still use preview mode. After the timestamp, repeat the anonymous query and confirm the approved row is visible.
+
 ## Corrections and rollback
 
 Never create a second issue to correct a scheduled draft. Keep the same slug, update the package, revalidate it, and merge the correction. The publisher performs an exact-slug update.
