@@ -388,6 +388,7 @@ export type Database = {
           utm_campaign: string | null
           utm_medium: string | null
           utm_source: string | null
+          welcome_email_sent_at: string | null
         }
         Insert: {
           created_at?: string
@@ -402,6 +403,7 @@ export type Database = {
           utm_campaign?: string | null
           utm_medium?: string | null
           utm_source?: string | null
+          welcome_email_sent_at?: string | null
         }
         Update: {
           created_at?: string
@@ -416,6 +418,7 @@ export type Database = {
           utm_campaign?: string | null
           utm_medium?: string | null
           utm_source?: string | null
+          welcome_email_sent_at?: string | null
         }
         Relationships: []
       }

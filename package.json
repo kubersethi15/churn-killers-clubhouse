@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && python3 scripts/fix_prerender_entrypoints.py && python3 scripts/prerender_public_routes.py",
+    "build": "vite build && python3 scripts/fix_prerender_entrypoints.py && python3 scripts/prerender_public_routes.py && python3 scripts/check_public_routes.py",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview"

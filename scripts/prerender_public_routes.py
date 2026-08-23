@@ -28,9 +28,39 @@ ROUTES = {
     ),
     "start": (
         "Start Here | Churn Is Dead",
-        "Three essential Churn Is Dead issues for Customer Success leaders who want practical operating models instead of vague advice.",
+        "A problem-led starting point for Customer Success leaders who want practical operating models instead of vague advice.",
         "New here? Start here.",
-        "Read the three essential issues, then explore the newsletter, playbooks, and diagnostics.",
+        "Choose the operating problem on your desk, follow a focused reading path, and run one practical tool.",
+    ),
+    "topics": (
+        "Customer Success Topics | Churn Is Dead",
+        "Explore practical operating systems for renewal economics, CS measurement, AI role design, and cross-functional Customer Success operations.",
+        "Start with the decision on your desk.",
+        "Four durable Customer Success problems, each with a focused reading path and one tool to run.",
+    ),
+    "topics/renewal-economics": (
+        "Renewal Economics | Churn Is Dead",
+        "Separate the work Customer Success can influence from the pricing, product, contract, and commercial mechanics it does not control.",
+        "Renewal economics",
+        "Map the customer decision, the evidence, the contributing causes, and the cross-functional owners.",
+    ),
+    "topics/measurement-decisions": (
+        "Measurement That Changes a Decision | Churn Is Dead",
+        "Replace decorative Customer Success dashboards with signals that tell the team when to intervene and what to do next.",
+        "Measurement that changes a decision",
+        "Define the decision first, then choose the evidence and intervention signal.",
+    ),
+    "topics/ai-role-design": (
+        "AI and Defensible CS Work | Churn Is Dead",
+        "Redesign Customer Success work around accountable judgment, evidence, and decisions instead of protecting every current task.",
+        "AI and defensible CS work",
+        "Decide where AI supports preparation and where accountable human judgment still belongs.",
+    ),
+    "topics/operating-systems": (
+        "Customer Success Operating Systems | Churn Is Dead",
+        "Turn recurring cross-functional friction into explicit inputs, decisions, owners, and customer communication.",
+        "Customer Success operating systems",
+        "Replace escalation ambiguity with a repeatable operating mechanism.",
     ),
     "about": (
         "About Kuber Sethi | Churn Is Dead",

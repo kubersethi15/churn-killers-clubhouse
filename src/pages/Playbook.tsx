@@ -103,6 +103,12 @@ const STATIC_PLAYBOOKS: Playbook[] = [
 ];
 
 const PROBLEMS = ["All", "Renewal risk", "Executive value", "AI readiness", "Operating cadence"] as const;
+const KIT_FILTERS: Record<string, typeof PROBLEMS[number]> = {
+  renewal: "Renewal risk",
+  executive: "Executive value",
+  ai: "AI readiness",
+  cadence: "Operating cadence",
+};
 
 const matchesProblem = (playbook: Playbook, problem: typeof PROBLEMS[number]) => {
   if (problem === "All") return true;
@@ -118,7 +124,10 @@ const matchesProblem = (playbook: Playbook, problem: typeof PROBLEMS[number]) =>
 
 const PlaybookVault = () => {
   const [query, setQuery] = useState("");
-  const [problem, setProblem] = useState<typeof PROBLEMS[number]>("All");
+  const [problem, setProblem] = useState<typeof PROBLEMS[number]>(() => {
+    if (typeof window === "undefined") return "All";
+    return KIT_FILTERS[new URLSearchParams(window.location.search).get("kit") || ""] || "All";
+  });
   const [playbooks, setPlaybooks] = useState<Playbook[]>(
     STATIC_PLAYBOOKS.sort((a, b) => {
       if (!a.published_date) return 1;

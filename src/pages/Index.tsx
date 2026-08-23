@@ -10,6 +10,7 @@ import Footer from "@/components/Footer";
 import { isPreviewMode } from "@/utils/preview";
 import { formatContent as formatNewsletterContent } from "@/utils/formatUtils";
 import NewsletterForm from "@/components/NewsletterForm";
+import { topicHubs } from "@/data/topicHubs";
 
 // Real reader quotes ONLY. The "What readers say" section renders nothing while
 // this list is empty. Add entries as {quote, name, role} when readers give
@@ -278,14 +279,14 @@ const Index = () => {
               Every Tuesday, straight to your inbox.
             </h2>
             <p className="text-lg text-gray-500 mb-10">
-              No fluff. No "just checking in." Just the plays that work.
+              No fluff. No "just checking in." Just an argument, an operating model, and a tool you can test.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
               <div>
                 <div className="text-3xl font-serif font-black text-red-600 mb-2">01</div>
                 <h3 className="font-semibold text-navy-dark mb-1.5">The Hard Truth</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">What the CS industry gets wrong this week, backed by real examples and data.</p>
+                <p className="text-sm text-gray-500 leading-relaxed">A direct argument with visible sourcing when it relies on external facts.</p>
               </div>
               <div>
                 <div className="text-3xl font-serif font-black text-red-600 mb-2">02</div>
@@ -311,6 +312,33 @@ const Index = () => {
               >
                 Browse the Vault
               </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-gray-100 bg-cream/30 py-16 md:py-20">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="mx-auto max-w-5xl">
+            <div className="mb-9 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+              <div>
+                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-red-600">problem-led library</p>
+                <h2 className="font-serif text-3xl font-black text-navy-dark md:text-4xl">Start with the decision on your desk.</h2>
+              </div>
+              <Link to="/topics" className="inline-flex items-center gap-2 text-sm font-semibold text-red-600 hover:text-red-700">Explore all topics <ArrowRight className="h-4 w-4" /></Link>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              {topicHubs.map((topic, index) => (
+                <Link key={topic.slug} to={`/topics/${topic.slug}`} className="group rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:border-red-300">
+                  <div className="flex gap-4">
+                    <span className="font-serif text-2xl font-black text-red-600">0{index + 1}</span>
+                    <div>
+                      <h3 className="font-serif text-xl font-bold text-navy-dark transition-colors group-hover:text-red-600">{topic.title}</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-gray-600">{topic.description}</p>
+                    </div>
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
         </div>

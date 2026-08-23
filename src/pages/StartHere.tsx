@@ -4,34 +4,14 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import NewsletterForm from "@/components/NewsletterForm";
 import { ArrowRight } from "lucide-react";
-
-const essentialIssues = [
-  {
-    number: "01",
-    slug: "ai-didnt-kill-customer-success",
-    title: "AI Didn't Kill Customer Success. It Exposed It.",
-    description: "The issue that started it all. Why AI isn't replacing CS — it's revealing which parts were never defensible. Includes the AI Exposure framework.",
-  },
-  {
-    number: "02",
-    slug: "customer-success-doesnt-deserve-to-survive",
-    title: "Customer Success Doesn't Deserve to Survive",
-    description: "The three lies CS teams tell themselves, and the 5 Non-Negotiables of teams that are untouchable. Includes the CS Survival Audit playbook.",
-  },
-  {
-    number: "03",
-    slug: "stop-calling-yourself-strategic",
-    title: "Stop Calling Yourself Strategic — You're Just Expensive",
-    description: "The four levels of CS impact, from information delivery to decision architecture. Includes the Strategic Impact Scorecard.",
-  },
-];
+import { topicHubs } from "@/data/topicHubs";
 
 const StartHere = () => {
   useEffect(() => {
     import("@/utils/seoMeta").then(({ applyRouteSeo }) =>
       applyRouteSeo({
         title: "Start Here | Churn Is Dead",
-        description: "New to Churn Is Dead? Three essential issues that capture what this newsletter is about. Read these first, then decide if you want more every Tuesday.",
+        description: "New to Churn Is Dead? Choose the Customer Success problem on your desk, follow a focused reading path, and run one practical tool.",
         path: "/start",
       })
     );
@@ -51,7 +31,7 @@ const StartHere = () => {
               New here? Start here.
             </h1>
             <p className="text-lg text-gray-600">
-              Three issues that capture what Churn Is Dead is about. Read these first, then decide if you want more every Tuesday.
+              Pick the operating problem on your desk. You will get a focused reading path and a tool to run.
             </p>
           </div>
         </div>
@@ -63,47 +43,47 @@ const StartHere = () => {
           <div className="max-w-2xl mx-auto">
             <div className="text-[1.0625rem] leading-relaxed text-gray-700 space-y-5">
               <p>
-                <strong className="text-navy-dark">Churn Is Dead</strong> is a weekly newsletter for CS leaders at B2B SaaS companies. Every Tuesday, you get one contrarian take, one actionable framework, and one downloadable playbook.
+                <strong className="text-navy-dark">Churn Is Dead</strong> is a weekly publication for experienced CS operators. Every Tuesday, you get one clear argument, one operating model, and one downloadable playbook.
               </p>
               <p>
                 The premise is simple: most CS advice is too vague to be useful. "Build relationships." "Prove your value." "Be strategic." None of that tells you what to do Monday morning.
               </p>
               <p>
-                This newsletter does. Named frameworks. Scoring rubrics. Diagnostic templates. Stuff you can run on your team this week.
+                This publication is built for action. Named frameworks. Decision rubrics. Diagnostic templates. Tools you can test with your team this week.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Essential Issues */}
+      {/* Problem-led paths */}
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-2xl mx-auto">
             <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-600 mb-8">
-              The essential three
+              Pick your starting point
             </h2>
 
-            <div className="space-y-10">
-              {essentialIssues.map((issue) => (
+            <div className="grid gap-5 sm:grid-cols-2">
+              {topicHubs.map((topic, index) => (
                 <Link
-                  key={issue.slug}
-                  to={`/newsletter/${issue.slug}`}
-                  className="group block"
+                  key={topic.slug}
+                  to={`/topics/${topic.slug}`}
+                  className="group rounded-xl border border-gray-200 p-5 hover:border-red-300"
                 >
-                  <div className="flex gap-5">
+                  <div className="flex gap-4">
                     <span className="text-2xl font-serif font-black text-red-600 flex-shrink-0 w-10 mt-0.5">
-                      {issue.number}
+                      0{index + 1}
                     </span>
                     <div className="flex-1">
                       <h3 className="text-lg md:text-xl font-serif font-bold text-navy-dark leading-snug group-hover:text-red-600 transition-colors mb-2">
-                        {issue.title}
+                        {topic.title}
                       </h3>
                       <p className="text-sm text-gray-500 leading-relaxed">
-                        {issue.description}
+                        {topic.description}
                       </p>
                       <span className="inline-flex items-center gap-1 text-sm font-semibold text-red-600 mt-3 group-hover:gap-2 transition-all">
-                        Read this issue <ArrowRight className="w-3.5 h-3.5" />
+                        Open this topic <ArrowRight className="w-3.5 h-3.5" />
                       </span>
                     </div>
                   </div>
@@ -119,17 +99,16 @@ const StartHere = () => {
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-xl md:text-2xl font-serif font-bold text-navy-dark mb-3">
-              Want a quick diagnostic instead?
+              Build a useful baseline in twenty minutes.
             </h2>
             <p className="text-gray-500 mb-6">
-              Take the AI Exposure Score quiz. 8 questions, 2 minutes. Find out how much of your CS role is automatable today.
+              Take the directional AI Exposure Score, inspect an example call analysis, or choose a practical tool from the Playbook Vault.
             </p>
-            <Link
-              to="/ai-exposure-score"
-              className="inline-flex items-center gap-2 py-3 px-6 bg-navy-dark text-white font-semibold rounded-lg hover:bg-navy-dark/90 transition-colors"
-            >
-              Take the quiz <ArrowRight className="w-4 h-4" />
-            </Link>
+            <div className="flex flex-wrap justify-center gap-3">
+              <Link to="/ai-exposure-score" className="inline-flex items-center gap-2 rounded-lg bg-navy-dark px-5 py-3 font-semibold text-white hover:bg-navy-dark/90">Take the AI score <ArrowRight className="h-4 w-4" /></Link>
+              <Link to="/cs-analyzer/demo" className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-5 py-3 font-semibold text-navy-dark hover:border-navy-dark">Inspect an analysis</Link>
+              <Link to="/playbook" className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-5 py-3 font-semibold text-navy-dark hover:border-navy-dark">Choose a playbook</Link>
+            </div>
           </div>
         </div>
       </section>

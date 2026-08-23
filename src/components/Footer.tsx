@@ -25,6 +25,7 @@ const Footer = () => {
               {/* Links */}
               <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm sm:flex sm:flex-wrap sm:items-center sm:gap-5">
                 <Link to="/newsletters" className="text-gray-600 hover:text-navy-dark transition-colors">Issues</Link>
+                <Link to="/topics" className="text-gray-600 hover:text-navy-dark transition-colors">Topics</Link>
                 <Link to="/playbook" className="text-gray-600 hover:text-navy-dark transition-colors">Playbooks</Link>
                 <Link to="/about" className="text-gray-600 hover:text-navy-dark transition-colors">About</Link>
                 <Link to="/editorial-standards" className="text-gray-600 hover:text-navy-dark transition-colors">Standards</Link>

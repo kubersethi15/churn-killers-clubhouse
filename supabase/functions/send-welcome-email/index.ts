@@ -1,193 +1,143 @@
-
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
+import { createUnsubscribeToken } from "../send-latest-newsletter/unsubscribeToken.ts";
 
-// Initialize Resend with proper error handling
 const resendApiKey = Deno.env.get("RESEND_API_KEY");
-if (!resendApiKey) {
-  console.error("Missing RESEND_API_KEY environment variable");
-}
-const resend = new Resend(resendApiKey);
-
-// Supabase client for observability logging (best-effort, never blocks the response)
 const supabaseUrl = Deno.env.get("SUPABASE_URL");
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-const supabase = supabaseUrl && supabaseServiceKey
-  ? createClient(supabaseUrl, supabaseServiceKey)
-  : null;
+const unsubscribeSecret = Deno.env.get("NEWSLETTER_UNSUBSCRIBE_SECRET") || supabaseServiceKey;
+
+const resend = new Resend(resendApiKey);
+const supabase = supabaseUrl && supabaseServiceKey ? createClient(supabaseUrl, supabaseServiceKey) : null;
+
+const allowedOrigins = new Set([
+  "https://churnisdead.com",
+  "https://www.churnisdead.com",
+  "http://localhost:4173",
+  "http://localhost:4174",
+]);
+
+const corsHeaders = (req: Request) => {
+  const origin = req.headers.get("origin") || "";
+  return {
+    "Access-Control-Allow-Origin": allowedOrigins.has(origin) ? origin : "https://churnisdead.com",
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+    "Vary": "Origin",
+  };
+};
 
 const logRun = async (
-  status: 'success' | 'failure' | 'info',
+  status: "success" | "failure" | "info",
   message: string,
   metadata: Record<string, unknown> = {},
-  startedAt: number = Date.now()
+  startedAt = Date.now(),
 ) => {
   if (!supabase) return;
   try {
-    await supabase.from('function_logs').insert([{
-      function_name: 'send-welcome-email',
+    await supabase.from("function_logs").insert([{
+      function_name: "send-welcome-email",
       status,
       message: message.slice(0, 500),
       metadata,
       duration_ms: Date.now() - startedAt,
     }]);
-  } catch (err) {
-    console.warn('function_logs write failed (non-fatal):', err);
+  } catch (error) {
+    console.warn("function_logs write failed", error);
   }
 };
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
-};
+const validEmail = (value: unknown): value is string =>
+  typeof value === "string" && value.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
-interface EmailRequest {
-  email: string;
-}
-
-const handler = async (req: Request): Promise<Response> => {
+serve(async (req: Request): Promise<Response> => {
   const startedAt = Date.now();
-  console.log("Edge function received request:", req.method);
+  const headers = { "Content-Type": "application/json", ...corsHeaders(req) };
 
-  // Handle CORS preflight requests
-  if (req.method === "OPTIONS") {
-    console.log("Handling OPTIONS request (CORS preflight)");
-    return new Response(null, { headers: corsHeaders });
+  if (req.method === "OPTIONS") return new Response(null, { headers });
+  if (req.method !== "POST") return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers });
+  if (!supabase || !supabaseUrl || !resendApiKey || !unsubscribeSecret) {
+    await logRun("failure", "welcome email configuration is incomplete", {}, startedAt);
+    return new Response(JSON.stringify({ error: "Email service unavailable" }), { status: 503, headers });
   }
 
   try {
-    const body = await req.text();
-    console.log("Received request body:", body);
-    
-    let data: EmailRequest;
-    try {
-      data = JSON.parse(body);
-    } catch (parseError) {
-      console.error("Failed to parse JSON body:", parseError);
-      return new Response(
-        JSON.stringify({ error: "Invalid JSON payload" }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
-        }
-      );
+    const body = await req.json().catch(() => null) as { email?: unknown } | null;
+    if (!body || !validEmail(body.email)) {
+      await logRun("failure", "invalid welcome email payload", {}, startedAt);
+      return new Response(JSON.stringify({ error: "Valid email is required" }), { status: 400, headers });
     }
-    
-    const { email } = data;
-    
-    if (!email || typeof email !== "string") {
-      console.error("Invalid email in request:", email);
-      await logRun('failure', 'invalid email payload', { received_type: typeof email }, startedAt);
-      return new Response(
-        JSON.stringify({ error: "Valid email is required" }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
-        }
-      );
-    }
-    
-    console.log(`Sending welcome email to: ${email}`);
 
-    // Improved email configuration for better deliverability
-    const emailResponse = await resend.emails.send({
-      from: "Churn Is Dead <newsletter@churnisdead.com>",
+    const email = body.email.trim().toLowerCase();
+    const { data: subscriber, error: lookupError } = await supabase
+      .from("subscribers")
+      .select("id, email, subscribed, welcome_email_sent_at")
+      .eq("email", email)
+      .maybeSingle();
+
+    if (lookupError || !subscriber || !subscriber.subscribed) {
+      await logRun("failure", "active subscriber record not found", {}, startedAt);
+      return new Response(JSON.stringify({ error: "Active subscription not found" }), { status: 404, headers });
+    }
+
+    if (subscriber.welcome_email_sent_at) {
+      return new Response(JSON.stringify({ success: true, alreadySent: true }), { status: 200, headers });
+    }
+
+    const claimedAt = new Date().toISOString();
+    const { data: claimed } = await supabase
+      .from("subscribers")
+      .update({ welcome_email_sent_at: claimedAt })
+      .eq("id", subscriber.id)
+      .is("welcome_email_sent_at", null)
+      .select("id")
+      .maybeSingle();
+
+    if (!claimed) return new Response(JSON.stringify({ success: true, alreadySent: true }), { status: 200, headers });
+
+    const token = await createUnsubscribeToken(subscriber.id, unsubscribeSecret);
+    const unsubscribeUrl = `${supabaseUrl}/functions/v1/unsubscribe-newsletter?token=${encodeURIComponent(token)}`;
+    const startUrl = "https://churnisdead.com/start?utm_source=welcome&utm_medium=email&utm_campaign=starter_kit";
+    const vaultUrl = "https://churnisdead.com/playbook?utm_source=welcome&utm_medium=email&utm_campaign=starter_kit";
+    const diagnosticUrl = "https://churnisdead.com/ai-exposure-score?utm_source=welcome&utm_medium=email&utm_campaign=starter_kit";
+
+    const response = await resend.emails.send({
+      from: "Kuber at Churn Is Dead <newsletter@churnisdead.com>",
       to: [email],
-      subject: "Welcome to Churn Is Dead Newsletter!",
-      reply_to: "support@churnisdead.com", // Adding reply-to address improves legitimacy
+      subject: "Start here: three operating tools for serious CS teams",
+      reply_to: "support@churnisdead.com",
       headers: {
-        "List-Unsubscribe": "<mailto:unsubscribe@churnisdead.com?subject=unsubscribe>", // This helps avoid spam filters
-        "Precedence": "bulk" // Common header for bulk emails/newsletters
+        "List-Unsubscribe": `<${unsubscribeUrl}>, <mailto:unsubscribe@churnisdead.com?subject=unsubscribe>`,
+        "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+        "Precedence": "bulk",
       },
+      text: `You're on the Churn Is Dead Tuesday list.\n\nStart with the operating problem on your desk: ${startUrl}\nBrowse the Playbook Vault: ${vaultUrl}\nTake the directional AI Exposure Score: ${diagnosticUrl}\n\nReply and tell me: what is the hardest CS decision your team is making this quarter?\n\nKuber\n\nUnsubscribe: ${unsubscribeUrl}`,
       html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <h1 style="color: #172554; margin-top: 30px;">You're In!</h1>
-          <p style="font-size: 16px; line-height: 1.5; margin: 20px 0; color: #333;">
-            Thanks for subscribing to <strong>Churn Is Dead</strong> — your weekly dose of no-fluff CS strategies.
-          </p>
-          <p style="font-size: 16px; line-height: 1.5; margin: 20px 0; color: #333;">
-            Every Tuesday, you'll get battle-tested plays to drive trust, revenue, and real outcomes with your customers.
-          </p>
-          <p style="font-size: 16px; line-height: 1.5; margin: 20px 0; color: #333;">
-            The next issue lands in your inbox soon. In the meantime, you can check out our 
-            <a href="https://churnisdead.com/newsletters" style="color: #dc2626; text-decoration: underline;">past newsletters</a>.
-          </p>
-          <div style="background-color: #f8f8f8; padding: 20px; border-left: 4px solid #dc2626; margin: 25px 0;">
-            <p style="font-size: 16px; font-style: italic; color: #555;">
-              "Churn isn't an event. It's the outcome of missed opportunities to deliver value." 
-            </p>
+        <div style="font-family:Inter,Arial,sans-serif;max-width:600px;margin:0 auto;padding:32px 22px;color:#17233a">
+          <p style="margin:0 0 22px;color:#dc2626;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">Churn Is Dead</p>
+          <h1 style="margin:0;font-family:Georgia,serif;font-size:34px;line-height:1.12;color:#17233a">You are on the Tuesday list.</h1>
+          <p style="margin:22px 0 0;font-size:17px;line-height:1.65;color:#475569">Every issue gives you one argument, one operating model, and one tool you can test with your team.</p>
+          <div style="margin:28px 0;border-top:1px solid #e5e7eb">
+            <p style="margin:0;padding:20px 0;border-bottom:1px solid #e5e7eb"><strong style="display:block;margin-bottom:5px">01. Start with the problem</strong><a href="${startUrl}" style="color:#dc2626">Choose renewal, measurement, AI role design, or CS operations</a></p>
+            <p style="margin:0;padding:20px 0;border-bottom:1px solid #e5e7eb"><strong style="display:block;margin-bottom:5px">02. Run a tool</strong><a href="${vaultUrl}" style="color:#dc2626">Open the free Playbook Vault</a></p>
+            <p style="margin:0;padding:20px 0;border-bottom:1px solid #e5e7eb"><strong style="display:block;margin-bottom:5px">03. Examine the role</strong><a href="${diagnosticUrl}" style="color:#dc2626">Take the two-minute AI Exposure Score</a></p>
           </div>
-          <p style="font-size: 16px; line-height: 1.5; margin: 20px 0; color: #333;">
-            Looking forward to killing churn together,<br>
-            The Churn Is Dead Team
-          </p>
-          <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eaeaea; font-size: 12px; color: #666;">
-            <p>
-              You received this email because you signed up for the Churn Is Dead newsletter.
-              If you'd like to unsubscribe, please 
-              <a href="mailto:unsubscribe@churnisdead.com?subject=Unsubscribe" style="color: #666;">click here</a>.
-            </p>
-            <p style="margin-top: 10px; color: #888;">
-              Churn Is Dead — Weekly CS frameworks by Kuber Sethi<br>
-              <a href="https://churnisdead.com" style="color: #888;">churnisdead.com</a>
-            </p>
-          </div>
-        </div>
-      `,
+          <p style="font-size:17px;line-height:1.65;color:#17233a"><strong>One useful reply:</strong> what is the hardest CS decision your team is making this quarter?</p>
+          <p style="margin-top:26px;font-size:16px;line-height:1.6">Kuber</p>
+          <p style="margin-top:34px;padding-top:18px;border-top:1px solid #e5e7eb;font-size:12px;line-height:1.6;color:#64748b">You received this because you subscribed at churnisdead.com. <a href="${unsubscribeUrl}" style="color:#64748b;text-decoration:underline">Unsubscribe in one click</a>.</p>
+        </div>`,
     });
 
-    console.log("Email sent response:", emailResponse);
-
-    // Properly handle Resend API specific errors
-    if (emailResponse.error) {
-      console.error("Resend API error:", emailResponse.error);
-      await logRun('failure', 'resend api error', {
-        email,
-        resend_error: emailResponse.error,
-      }, startedAt);
-
-      // Return error details so we can diagnose the issue
-      return new Response(
-        JSON.stringify({ 
-          success: false, 
-          message: "Email delivery had an issue.",
-          error: emailResponse.error
-        }), 
-        {
-          status: 500,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
-        }
-      );
+    if (response.error) {
+      await supabase.from("subscribers").update({ welcome_email_sent_at: null }).eq("id", subscriber.id).eq("welcome_email_sent_at", claimedAt);
+      await logRun("failure", "welcome email provider rejected send", { subscriber_id: subscriber.id, provider_error: response.error }, startedAt);
+      return new Response(JSON.stringify({ error: "Email delivery failed" }), { status: 502, headers });
     }
 
-    await logRun('success', `welcome email sent to ${email}`, {
-      email,
-      resend_id: (emailResponse as { data?: { id?: string } }).data?.id,
-    }, startedAt);
-    return new Response(JSON.stringify({ success: true, message: "Email sent" }), {
-      status: 200,
-      headers: { "Content-Type": "application/json", ...corsHeaders },
-    });
-  } catch (error: any) {
-    console.error("Error sending welcome email:", error);
-    await logRun('failure', `unexpected error: ${error.message || 'unknown'}`, {
-      error_name: error.name,
-      stack: error.stack?.slice(0, 1000),
-    }, startedAt);
-    return new Response(
-      JSON.stringify({ 
-        error: error.message,
-        stack: error.stack,
-        name: error.name 
-      }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-      }
-    );
+    await logRun("success", "welcome email sent", { subscriber_id: subscriber.id, resend_id: response.data?.id }, startedAt);
+    return new Response(JSON.stringify({ success: true }), { status: 200, headers });
+  } catch (error) {
+    await logRun("failure", "unexpected welcome email error", { error: error instanceof Error ? error.message : "unknown" }, startedAt);
+    return new Response(JSON.stringify({ error: "Unexpected email error" }), { status: 500, headers });
   }
-};
-
-serve(handler);
+});
