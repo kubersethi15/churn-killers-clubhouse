@@ -16,6 +16,7 @@ type Attribution = {
   source: string | null;
   medium: string | null;
   campaign: string | null;
+  content: string | null;
   referrerHost: string | null;
 };
 
@@ -61,13 +62,21 @@ const sessionId = () => {
 
 export const getGrowthAttribution = (): Attribution => {
   if (typeof window === "undefined") {
-    return { landingPage: "/", source: null, medium: null, campaign: null, referrerHost: null };
+    return { landingPage: "/", source: null, medium: null, campaign: null, content: null, referrerHost: null };
   }
 
   const stored = window.sessionStorage.getItem(ATTRIBUTION_KEY);
   if (stored) {
     try {
-      return JSON.parse(stored) as Attribution;
+      const parsed = JSON.parse(stored) as Partial<Attribution>;
+      return {
+        landingPage: parsed.landingPage ?? "/",
+        source: parsed.source ?? null,
+        medium: parsed.medium ?? null,
+        campaign: parsed.campaign ?? null,
+        content: parsed.content ?? null,
+        referrerHost: parsed.referrerHost ?? null,
+      };
     } catch {
       window.sessionStorage.removeItem(ATTRIBUTION_KEY);
     }
@@ -80,6 +89,7 @@ export const getGrowthAttribution = (): Attribution => {
     source: clean(params.get("utm_source"), 120) ?? referrerHost ?? "direct",
     medium: clean(params.get("utm_medium"), 120),
     campaign: clean(params.get("utm_campaign"), 160),
+    content: clean(params.get("utm_content"), 160),
     referrerHost,
   };
   window.sessionStorage.setItem(ATTRIBUTION_KEY, JSON.stringify(attribution));
@@ -109,6 +119,7 @@ export const trackGrowthEvent = async ({
     source: attribution.source,
     medium: attribution.medium,
     campaign: attribution.campaign,
+    utm_content: attribution.content,
     referrer_host: attribution.referrerHost,
     resource_id: clean(resourceId, 180),
   });

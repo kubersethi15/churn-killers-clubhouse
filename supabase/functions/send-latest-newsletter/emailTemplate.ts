@@ -21,10 +21,11 @@ export const generateNewsletterEmailTemplate = (
   const teaser = extractTeaser(mainContent);
   const canonicalNewsletterUrl = `https://churnisdead.com/newsletter/${slug}`;
   const campaign = encodeURIComponent(slug);
-  const emailNewsletterUrl = `${canonicalNewsletterUrl}?utm_source=newsletter&utm_medium=email&utm_campaign=${campaign}`;
-  const referralNewsletterUrl = `${canonicalNewsletterUrl}?utm_source=subscriber_referral&utm_medium=share&utm_campaign=${campaign}`;
+  const emailPrimaryUrl = `${canonicalNewsletterUrl}?utm_source=newsletter&utm_medium=email&utm_campaign=${campaign}&utm_content=primary_cta`;
+  const emailSecondaryUrl = `${canonicalNewsletterUrl}?utm_source=newsletter&utm_medium=email&utm_campaign=${campaign}&utm_content=secondary_cta`;
+  const referralNewsletterUrl = `${canonicalNewsletterUrl}?utm_source=subscriber_referral&utm_medium=share&utm_campaign=${campaign}&utm_content=email_share`;
   const linkedinShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(referralNewsletterUrl)}`;
-  const starterKitUrl = `https://churnisdead.com/start?utm_source=newsletter&utm_medium=email&utm_campaign=${campaign}`;
+  const starterKitUrl = `https://churnisdead.com/start?utm_source=newsletter&utm_medium=email&utm_campaign=${campaign}&utm_content=starter_kit`;
   
   return `
 <!DOCTYPE html>
@@ -106,7 +107,7 @@ export const generateNewsletterEmailTemplate = (
               <table role="presentation" cellpadding="0" cellspacing="0">
                 <tr>
                   <td style="background-color: #1a1a2e; border-radius: 4px;">
-                    <a href="${emailNewsletterUrl}"
+                    <a href="${emailPrimaryUrl}"
                        style="display: inline-block; padding: 14px 32px; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: bold; color: #ffffff; text-decoration: none;">
                       Read the Full Issue →
                     </a>
@@ -129,7 +130,7 @@ export const generateNewsletterEmailTemplate = (
           <!-- Secondary CTA -->
           <tr>
             <td align="center" style="padding: 0 40px 40px 40px;">
-              <a href="${emailNewsletterUrl}"
+              <a href="${emailSecondaryUrl}"
                  style="font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; color: #1a1a2e; text-decoration: underline;">
                 Continue Reading on churnisdead.com
               </a>

@@ -77,6 +77,7 @@ const NewsletterForm = ({
         utm_source: attribution.source,
         utm_medium: attribution.medium,
         utm_campaign: attribution.campaign,
+        utm_content: attribution.content,
       };
       const result = await supabase.from('subscribers').insert([insertPayload]);
       const insertError = result.error;
@@ -139,8 +140,10 @@ const NewsletterForm = ({
 
   const isFooter = location === "footer";
   const isHero = location === "hero";
-  const referralUrl = "https://churnisdead.com/?utm_source=subscriber_referral&utm_medium=share&utm_campaign=weekly_newsletter";
-  const referralShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(referralUrl)}`;
+  const referralBaseUrl = "https://churnisdead.com/?utm_source=subscriber_referral&utm_medium=share&utm_campaign=weekly_newsletter";
+  const referralLinkedInUrl = `${referralBaseUrl}&utm_content=post_signup_linkedin`;
+  const referralCopyUrl = `${referralBaseUrl}&utm_content=post_signup_copy`;
+  const referralShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(referralLinkedInUrl)}`;
   
   // Apply special styling for footer to match the reference image
   const inputClass = isFooter 
@@ -165,7 +168,7 @@ const NewsletterForm = ({
           <p className={`mt-1 text-xs ${textColor === "text-gray-700" ? "text-gray-600" : "text-white/70"}`}>Know one CS operator who would use this? Send them Churn Is Dead.</p>
           <div className="mt-3 flex flex-wrap gap-2">
             <a href={referralShareUrl} target="_blank" rel="noopener noreferrer" onClick={() => void trackGrowthEvent({ eventName: "content_share", resourceId: "subscriber_referral_linkedin" })} className="rounded-md bg-[#0A66C2] px-3 py-2 text-xs font-semibold text-white">Share on LinkedIn</a>
-            <button type="button" onClick={() => { void navigator.clipboard.writeText(referralUrl); void trackGrowthEvent({ eventName: "content_share", resourceId: "subscriber_referral_copy" }); toast.success("Referral link copied"); }} className={`inline-flex items-center gap-1.5 rounded-md border px-3 py-2 text-xs font-semibold ${textColor === "text-gray-700" ? "border-gray-300 text-navy-dark" : "border-white/30 text-white"}`}><Copy className="h-3.5 w-3.5" /> Copy link</button>
+            <button type="button" onClick={() => { void navigator.clipboard.writeText(referralCopyUrl); void trackGrowthEvent({ eventName: "content_share", resourceId: "subscriber_referral_copy" }); toast.success("Referral link copied"); }} className={`inline-flex items-center gap-1.5 rounded-md border px-3 py-2 text-xs font-semibold ${textColor === "text-gray-700" ? "border-gray-300 text-navy-dark" : "border-white/30 text-white"}`}><Copy className="h-3.5 w-3.5" /> Copy link</button>
           </div>
         </div>
       ) : (

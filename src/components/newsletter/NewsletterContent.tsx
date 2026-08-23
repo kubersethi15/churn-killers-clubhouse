@@ -29,8 +29,10 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
     return `<h2${attributes} id="${id}">${innerHtml}</h2>`;
   });
   const newsletterUrl = `https://churnisdead.com/newsletter/${newsletter.slug}`;
-  const referralUrl = `${newsletterUrl}?utm_source=reader_referral&utm_medium=share&utm_campaign=${encodeURIComponent(newsletter.slug)}`;
-  const linkedinShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(referralUrl)}`;
+  const referralBaseUrl = `${newsletterUrl}?utm_source=reader_referral&utm_medium=share&utm_campaign=${encodeURIComponent(newsletter.slug)}`;
+  const referralLinkedInUrl = `${referralBaseUrl}&utm_content=article_linkedin`;
+  const referralCopyUrl = `${referralBaseUrl}&utm_content=article_copy`;
+  const linkedinShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(referralLinkedInUrl)}`;
   const usesCurrentEditorialStandard = new Date(newsletter.published_date).getTime() >= new Date("2026-08-25T00:00:00Z").getTime();
 
   const shareBar = (
@@ -47,7 +49,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
       </a>
       <button
         onClick={() => {
-          navigator.clipboard.writeText(referralUrl);
+          navigator.clipboard.writeText(referralCopyUrl);
           void trackGrowthEvent({ eventName: "content_share", resourceId: "copy_link" });
         }}
         className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 text-gray-600 text-xs font-semibold rounded hover:bg-gray-50 transition-colors"
