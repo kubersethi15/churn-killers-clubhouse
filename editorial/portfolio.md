@@ -6,7 +6,7 @@ This is a portfolio, not a promise to publish unresearched titles. Each row name
 |---|---|---|---|---|
 | 1 | Operating system | How should CS package product friction for an explicit decision? | Product Friction Review | Approved for Tuesday website publication |
 | 2 | Commercial mechanics | What evidence must exist before a renewal forecast is credible? | Renewal evidence packet | Draft prepared for review |
-| 3 | Leadership | Which customer work should a senior CSM stop owning? | Work ownership decision matrix | Research backlog |
+| 3 | Leadership | Which customer work should a senior CSM stop owning? | Work ownership decision matrix | Draft prepared for review |
 | 4 | Measurement | Which leading indicators justify intervention before a health score changes? | Intervention trigger ledger | Research backlog |
 | 5 | AI implications | Which CS decisions can AI support without pretending to own judgment? | Decision rights map | Research backlog |
 | 6 | Operating system | How should an enterprise account move from onboarding to value proof? | Value proof cadence | Research backlog |

@@ -1,0 +1,12 @@
+{
+  "linkedin": {
+    "status": "draft",
+    "approved_by": null,
+    "approved_at": null
+  },
+  "medium": {
+    "status": "hold_until_canonical_is_live",
+    "approved_by": null,
+    "approved_at": null
+  }
+}
