@@ -19,7 +19,12 @@ export const generateNewsletterEmailTemplate = (
 ) => {
   // Extract a teaser from the main content (first ~600 chars of actual text)
   const teaser = extractTeaser(mainContent);
-  const newsletterUrl = `https://churnisdead.com/newsletter/${slug}`;
+  const canonicalNewsletterUrl = `https://churnisdead.com/newsletter/${slug}`;
+  const campaign = encodeURIComponent(slug);
+  const emailNewsletterUrl = `${canonicalNewsletterUrl}?utm_source=newsletter&utm_medium=email&utm_campaign=${campaign}`;
+  const referralNewsletterUrl = `${canonicalNewsletterUrl}?utm_source=subscriber_referral&utm_medium=share&utm_campaign=${campaign}`;
+  const linkedinShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(referralNewsletterUrl)}`;
+  const starterKitUrl = `https://churnisdead.com/start?utm_source=newsletter&utm_medium=email&utm_campaign=${campaign}`;
   
   return `
 <!DOCTYPE html>
@@ -101,7 +106,7 @@ export const generateNewsletterEmailTemplate = (
               <table role="presentation" cellpadding="0" cellspacing="0">
                 <tr>
                   <td style="background-color: #1a1a2e; border-radius: 4px;">
-                    <a href="https://churnisdead.com/newsletter/${slug}" 
+                    <a href="${emailNewsletterUrl}"
                        style="display: inline-block; padding: 14px 32px; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: bold; color: #ffffff; text-decoration: none;">
                       Read the Full Issue →
                     </a>
@@ -124,7 +129,7 @@ export const generateNewsletterEmailTemplate = (
           <!-- Secondary CTA -->
           <tr>
             <td align="center" style="padding: 0 40px 40px 40px;">
-              <a href="https://churnisdead.com/newsletter/${slug}" 
+              <a href="${emailNewsletterUrl}"
                  style="font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; color: #1a1a2e; text-decoration: underline;">
                 Continue Reading on churnisdead.com
               </a>
@@ -148,7 +153,7 @@ export const generateNewsletterEmailTemplate = (
                       <tr>
                         <!-- LinkedIn Share -->
                         <td style="padding-right: 10px;">
-                          <a href="https://www.linkedin.com/sharing/share-offsite/?url=${newsletterUrl}" 
+                          <a href="${linkedinShareUrl}"
                              target="_blank"
                              style="display: inline-block; padding: 10px 20px; background-color: #0A66C2; border-radius: 4px; font-family: Helvetica, Arial, sans-serif; font-size: 13px; font-weight: bold; color: #ffffff; text-decoration: none;">
                             Share on LinkedIn
@@ -156,9 +161,9 @@ export const generateNewsletterEmailTemplate = (
                         </td>
                         <!-- Forward / Subscribe -->
                         <td>
-                          <a href="https://churnisdead.com/start" 
+                          <a href="${starterKitUrl}"
                              style="display: inline-block; padding: 10px 20px; border: 1px solid #555; border-radius: 4px; font-family: Helvetica, Arial, sans-serif; font-size: 13px; font-weight: bold; color: #b0b0c0; text-decoration: none;">
-                            Send to a Friend
+                            Open the Starter Kit
                           </a>
                         </td>
                       </tr>
