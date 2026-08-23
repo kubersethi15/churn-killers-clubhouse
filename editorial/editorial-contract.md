@@ -12,6 +12,8 @@ Every issue must pass these gates before it can be staged:
 6. The playbook implements the article rather than summarising it.
 7. A named approval exists in `approval.json`.
 8. The deterministic validator passes before Supabase is changed.
+9. Metadata names one portfolio format, one reader decision, and one primary CTA.
+10. External distribution has its own approval record and never publishes automatically.
 
 ## Editorial mix
 

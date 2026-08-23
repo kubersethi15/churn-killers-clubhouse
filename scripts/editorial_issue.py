@@ -25,6 +25,9 @@ REQUIRED_METADATA = {
     "pdf_filename",
     "playbook_title",
     "playbook_description",
+    "format",
+    "primary_goal",
+    "primary_cta",
 }
 ALLOWED_SOURCE_TYPES = {"primary", "official_guidance", "original_research", "secondary"}
 
@@ -132,6 +135,13 @@ def validate_issue(issue: EditorialIssue, require_approved: bool = False) -> Val
         errors.append("house style forbids em dashes")
     if re.search(r"(^|\s)#[A-Za-z]", issue.content) or (issue.linkedin and re.search(r"(^|\s)#[A-Za-z]", issue.linkedin)):
         errors.append("publishable copy must not contain hashtags")
+
+    if meta.get("format") not in {"operating_system", "leadership", "commercial_mechanics", "measurement", "evidence_teardown"}:
+        errors.append("format must use an approved editorial portfolio type")
+    if not str(meta.get("primary_goal", "")).strip():
+        errors.append("primary_goal must name the reader decision this issue improves")
+    if not str(meta.get("primary_cta", "")).strip():
+        errors.append("primary_cta must name one primary next action")
     risky_first_person = re.compile(
         r"\b(I|we)\s+(saw|saved|helped|worked with|advised|led|managed|learned from)|"
         r"\b(my|our)\s+(customer|client|team|company|account|renewal)",

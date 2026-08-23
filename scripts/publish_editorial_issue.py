@@ -15,6 +15,7 @@ from typing import Any
 
 from editorial_issue import SLUG_RE, approved_issue_directories, load_issue, validate_issue
 from generate_newsletter import build_playbook_pdf
+from prepare_distribution import package as package_distribution, write_manifest as write_distribution_manifest
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 PDF_DIR = REPO_ROOT / "public" / "pdfs"
@@ -95,6 +96,7 @@ def build_assets(issue) -> Path:
         (output_dir / "linkedin.md").write_text(issue.linkedin + "\n", encoding="utf-8")
     Path("/tmp/newsletter_slug.txt").write_text(issue.metadata["slug"], encoding="utf-8")
     Path("/tmp/newsletter_title.txt").write_text(issue.metadata["title"], encoding="utf-8")
+    write_distribution_manifest([package_distribution(issue.directory)])
     return pdf_path
 
 
