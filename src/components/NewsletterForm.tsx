@@ -85,8 +85,24 @@ const NewsletterForm = ({
       if (insertError) {
         if (insertError.code === '23505') {
           void trackGrowthEvent({ eventName: "signup_duplicate", signupLocation: location });
-          toast.info("You're already subscribed!", {
-            description: "You are already on the list.",
+          try {
+            await fetch("https://xtwxemlxzbnadkkrvozr.supabase.co/functions/v1/request-newsletter-reactivation", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: normalizedEmail,
+                source: attribution.source,
+                medium: attribution.medium,
+                campaign: attribution.campaign,
+                content: attribution.content,
+                sourcePage,
+              }),
+            });
+          } catch (reactivationError) {
+            console.error("Reactivation request failed", reactivationError);
+          }
+          toast.info("Check your inbox", {
+            description: "If you previously unsubscribed, we sent a secure rejoin link. Otherwise, you're already on the list.",
           });
           setEmail("");
           return;
