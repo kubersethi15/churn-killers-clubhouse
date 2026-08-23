@@ -2054,7 +2054,10 @@ IMPORTANT:
     for i, post in enumerate(data['linkedin_posts'], 1):
         posts_content += f"{'='*60}\n"
         posts_content += f"POST {i} -- {post['day'].upper()}\n"
-        posts_content += f"Strategy: {post['strategy']}\n"
+        # Strategy is internal metadata, not publishable copy. Some models omit
+        # it even in JSON mode, so it must never make distribution generation fail.
+        strategy = post.get('strategy', 'No internal strategy note returned')
+        posts_content += f"Strategy: {strategy}\n"
         posts_content += f"{'='*60}\n\n"
         posts_content += f"{post['body']}\n\n\n"
     (week_dir / "linkedin_posts.md").write_text(posts_content)
