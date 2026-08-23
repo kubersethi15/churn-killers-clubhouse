@@ -255,7 +255,7 @@ const Header = () => {
       <Dialog open={isSubscribeOpen} onOpenChange={setIsSubscribeOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-center text-2xl font-serif font-bold mb-2">Join 150+ CS leaders</DialogTitle>
+            <DialogTitle className="text-center text-2xl font-serif font-bold mb-2">Join serious CS operators</DialogTitle>
           </DialogHeader>
           <div className="py-4">
             <p className="text-center text-gray-600 mb-6">

@@ -6,113 +6,167 @@
     <description>Weekly CS frameworks for enterprise Customer Success leaders. Hard truths, tactical plays, and downloadable playbooks.</description>
     <language>en</language>
     <managingEditor>kuber@churnisdead.com (Kuber Sethi)</managingEditor>
-    <lastBuildDate>Sun, 23 Aug 2026 09:46:04 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 23 Aug 2026 10:46:41 +0000</lastBuildDate>
     <atom:link href="https://churnisdead.com/rss.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Your CS Metrics Are Performance Theater</title>
-      <link>https://churnisdead.com/newsletter/cs-metrics-performance-theater</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/cs-metrics-performance-theater</guid>
-      <pubDate>Tue, 31 Mar 2026 08:00:00 +0000</pubDate>
-      <description>Most CS metrics measure motion, not progress. Here's how to spot the difference and build measurements that actually drive retention.</description>
+      <title>You Bought 'Full Coverage.' What You Actually Bought Was Silence.</title>
+      <link>https://churnisdead.com/newsletter/digital-cs-coverage-silence</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/digital-cs-coverage-silence</guid>
+      <pubDate>Tue, 18 Aug 2026 08:00:00 +0000</pubDate>
+      <description>Digital CS is sold as scale. For the long tail it usually means the customer speaks to no human until the renewal fails. Here's how to audit the silence.</description>
       <category>Strategy</category>
     </item>
     <item>
-      <title>Health Scores Are Astrology for CS Teams</title>
-      <link>https://churnisdead.com/newsletter/health-scores-are-astrology</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/health-scores-are-astrology</guid>
-      <pubDate>Tue, 24 Mar 2026 08:00:00 +0000</pubDate>
-      <description>Your greenest account just decided to leave and your dashboard has no idea. Here's the 7-lens framework that replaces health scores with actual predictability.</description>
+      <title>The Renewal Is Not Yours to Own. The Change Order Is.</title>
+      <link>https://churnisdead.com/newsletter/renewal-not-yours-change-order-is</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/renewal-not-yours-change-order-is</guid>
+      <pubDate>Tue, 11 Aug 2026 08:00:00 +0000</pubDate>
+      <description>CS imported professional services' 'do whatever it takes' ethos and left behind the one discipline that made it survivable: the change order.</description>
       <category>Strategy</category>
     </item>
     <item>
-      <title>Your CSMs Are Selling You Snake Oil</title>
-      <link>https://churnisdead.com/newsletter/csms-selling-snake-oil</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/csms-selling-snake-oil</guid>
-      <pubDate>Tue, 24 Mar 2026 08:00:00 +0000</pubDate>
-      <description>Most CSMs have become professional excuse-makers who confuse customer complaints with customer insights.</description>
+      <title>The CSM Title Is Now a Liability. The Rebrand Everyone's Reaching For Won't Fix It.</title>
+      <link>https://churnisdead.com/newsletter/csm-title-liability-rebrand-wont-fix-it</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/csm-title-liability-rebrand-wont-fix-it</guid>
+      <pubDate>Tue, 04 Aug 2026 08:00:00 +0000</pubDate>
+      <description>Renaming your CSMs to Forward Deployed Engineers fixes your recruiting funnel and moves your credibility gap to the exact place the customer finds it later: the renewal.</description>
+      <category>Team Design</category>
+    </item>
+    <item>
+      <title>The 125% NRR That No CSM Ever Touched</title>
+      <link>https://churnisdead.com/newsletter/nrr-no-csm-touched-consumption-illusion</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/nrr-no-csm-touched-consumption-illusion</guid>
+      <pubDate>Tue, 28 Jul 2026 08:00:00 +0000</pubDate>
+      <description>In consumption pricing, your best NRR quarters are the ones you deserve the least credit for. Here's the spreadsheet that separates the retention you caused from the retention you witnessed.</description>
+      <category>Revenue</category>
+    </item>
+    <item>
+      <title>You Don't Own NRR. You Rent It From Pricing.</title>
+      <link>https://churnisdead.com/newsletter/you-dont-own-nrr-you-rent-it-from-pricing</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/you-dont-own-nrr-you-rent-it-from-pricing</guid>
+      <pubDate>Tue, 21 Jul 2026 08:00:00 +0000</pubDate>
+      <description>Most of your NRR is inherited from the pricing model, not earned by your team. Here's how to prove it, and how to earn a seat in the room that actually moves the number.</description>
+      <category>Revenue</category>
+    </item>
+    <item>
+      <title>Onboarding Isn't the Start of Retention. It's the Only Renewal You'll Ever Fully Control.</title>
+      <link>https://churnisdead.com/newsletter/onboarding-only-renewal-you-control</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/onboarding-only-renewal-you-control</guid>
+      <pubDate>Tue, 14 Jul 2026 08:00:00 +0000</pubDate>
+      <description>By the time the health score turns yellow in month nine, you're not preventing churn. You're documenting a decision made three quarters ago, during the one phase you actually controlled.</description>
       <category>Strategy</category>
     </item>
     <item>
-      <title>Stop Calling Yourself Strategic — You're Just Expensive</title>
-      <link>https://churnisdead.com/newsletter/stop-calling-yourself-strategic</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/stop-calling-yourself-strategic</guid>
-      <pubDate>Tue, 17 Mar 2026 08:00:00 +0000</pubDate>
-      <description>Most CSMs confuse having executive meetings with providing strategic value. Here's the 4-level hierarchy that reveals where you actually operate.</description>
+      <title>The Renewal Clause Your Lawyers Wrote and Your CS Team Forgot</title>
+      <link>https://churnisdead.com/newsletter/renewal-clause-lawyers-wrote-cs-forgot</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/renewal-clause-lawyers-wrote-cs-forgot</guid>
+      <pubDate>Tue, 07 Jul 2026 08:00:00 +0000</pubDate>
+      <description>The fastest NRR in your portfolio this year isn't in your expansion pipeline. It's in your filing cabinet, in the escalator clause nobody enforced.</description>
+      <category>Revenue</category>
+    </item>
+    <item>
+      <title>The Two-Vendor Trick: How CS Platforms Quietly Became Org Charts You Can't Edit</title>
+      <link>https://churnisdead.com/newsletter/cs-platform-org-chart-you-cant-edit</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/cs-platform-org-chart-you-cant-edit</guid>
+      <pubDate>Tue, 30 Jun 2026 08:00:00 +0000</pubDate>
+      <description>You bought a CS platform to operationalize your strategy. Instead it operationalized the vendor's. Here's how to find out which decisions you never actually made.</description>
+      <category>Operations</category>
+    </item>
+    <item>
+      <title>The Expansion Recession Is Here. Stop Calling It a Retention Problem.</title>
+      <link>https://churnisdead.com/newsletter/expansion-recession-not-retention-problem</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/expansion-recession-not-retention-problem</guid>
+      <pubDate>Tue, 23 Jun 2026 08:00:00 +0000</pubDate>
+      <description>When gross retention holds but net retention falls, the problem isn't churn. It's an expansion ceiling set by pricing and roadmap. Here's how to decompose your NRR before leadership blames you for it.</description>
+      <category>Revenue</category>
+    </item>
+    <item>
+      <title>The Day Your CSM Got Promoted to Babysitter</title>
+      <link>https://churnisdead.com/newsletter/csm-promoted-to-babysitter-agent-supervisor</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/csm-promoted-to-babysitter-agent-supervisor</guid>
+      <pubDate>Tue, 16 Jun 2026 08:00:00 +0000</pubDate>
+      <description>AI isn't killing the CSM role. It's quietly demoting it into babysitting automated busywork while leadership calls it transformation. Here's the job that actually survives.</description>
+      <category>Team Design</category>
+    </item>
+    <item>
+      <title>The Renewal Cliff Nobody Charted: Why CS Doesn't Own Half the Churn It's Blamed For</title>
+      <link>https://churnisdead.com/newsletter/renewal-cliff-data-intelligence-blind-spot</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/renewal-cliff-data-intelligence-blind-spot</guid>
+      <pubDate>Tue, 09 Jun 2026 08:00:00 +0000</pubDate>
+      <description>Your churn model isn't getting smarter. It's getting more confident about the half of the problem it can see, and staying blind to the half that kills renewals.</description>
+      <category>Data &amp; Intelligence</category>
+    </item>
+    <item>
+      <title>CS Teams Don't Have a Churn Problem. They Have a Courage Problem.</title>
+      <link>https://churnisdead.com/newsletter/cs-teams-courage-problem</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/cs-teams-courage-problem</guid>
+      <pubDate>Tue, 02 Jun 2026 08:00:00 +0000</pubDate>
+      <description>CS teams have become professional excuse-makers who optimize for customer comfort instead of customer outcomes.</description>
       <category>Strategy</category>
     </item>
     <item>
-      <title>Your CSMs Are Task Collectors, Not Problem Solvers</title>
-      <link>https://churnisdead.com/newsletter/csms-task-collectors-not-problem-solvers</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/csms-task-collectors-not-problem-solvers</guid>
-      <pubDate>Tue, 17 Mar 2026 08:00:00 +0000</pubDate>
-      <description>Most CSMs collect tasks instead of solving problems. Here's how to break the cycle and build actual strategic value.</description>
+      <title>3 Things Your CFO Knows About CS That You Don't</title>
+      <link>https://churnisdead.com/newsletter/3-things-your-cfo-knows-about-cs</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/3-things-your-cfo-knows-about-cs</guid>
+      <pubDate>Tue, 26 May 2026 08:00:00 +0000</pubDate>
+      <description>CFOs measure CS impact through financial models that most CS leaders don't understand—and those hidden metrics determine your budget.</description>
       <category>Strategy</category>
     </item>
     <item>
-      <title>Your Renewal Reviews Are Theater</title>
-      <link>https://churnisdead.com/newsletter/renewal-reviews-are-theater</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/renewal-reviews-are-theater</guid>
-      <pubDate>Tue, 17 Mar 2026 08:00:00 +0000</pubDate>
-      <description>Most renewal reviews are performative quarterly ceremonies that mask the fact that renewal decisions happen every day.</description>
+      <title>Fire Your QBR. Here's What to Do Instead.</title>
+      <link>https://churnisdead.com/newsletter/fire-your-qbr-heres-what-to-do-instead</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/fire-your-qbr-heres-what-to-do-instead</guid>
+      <pubDate>Tue, 19 May 2026 08:00:00 +0000</pubDate>
+      <description>QBRs waste executive time by reporting on history instead of driving decisions. Here's the Monthly Business Review that actually moves the needle.</description>
       <category>Strategy</category>
     </item>
     <item>
-      <title>The Revenue Ownership Trap</title>
-      <link>https://churnisdead.com/newsletter/the-revenue-ownership-trap</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/the-revenue-ownership-trap</guid>
-      <pubDate>Tue, 10 Mar 2026 08:00:00 +0000</pubDate>
-      <description>t giving CS revenue ownership. They're giving CS revenue blame. Here's the 5-prerequisite framework before your team should accept a quota.</description>
+      <title>Fire Your QBR. Here's What to Do Instead.</title>
+      <link>https://churnisdead.com/newsletter/fire-your-qbr-what-to-do-instead</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/fire-your-qbr-what-to-do-instead</guid>
+      <pubDate>Tue, 12 May 2026 08:00:00 +0000</pubDate>
+      <description>QBRs are elaborate customer success theater. The highest-retention SaaS companies deliver success through continuous, in-product experiences instead.</description>
       <category>Strategy</category>
     </item>
     <item>
-      <title>Your Customer Journey Maps Are Fiction</title>
-      <link>https://churnisdead.com/newsletter/customer-journey-maps-are-fiction</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/customer-journey-maps-are-fiction</guid>
-      <pubDate>Tue, 10 Mar 2026 08:00:00 +0000</pubDate>
-      <description>Enterprise CS teams waste months building beautiful journey maps that exist nowhere but PowerPoint slides.</description>
+      <title>I Stopped Tracking Health Scores. Here's What I Found Instead.</title>
+      <link>https://churnisdead.com/newsletter/stopped-tracking-health-scores</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/stopped-tracking-health-scores</guid>
+      <pubDate>Tue, 05 May 2026 08:00:00 +0000</pubDate>
+      <description>Health scores predict the past, not the future. Here's how to focus on what actually drives churn.</description>
       <category>Strategy</category>
     </item>
     <item>
-      <title>AI Won't Save Customer Success. It'll Finish It Off.</title>
-      <link>https://churnisdead.com/newsletter/ai-wont-save-customer-success</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/ai-wont-save-customer-success</guid>
-      <pubDate>Tue, 03 Mar 2026 08:00:00 +0000</pubDate>
-      <description>re not investing in your team. You</description>
+      <title>The Case Against Customer Health Scores</title>
+      <link>https://churnisdead.com/newsletter/case-against-customer-health-scores</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/case-against-customer-health-scores</guid>
+      <pubDate>Tue, 28 Apr 2026 08:00:00 +0000</pubDate>
+      <description>Health scores are the astrology of customer success—providing false confidence while real churn drivers remain invisible.</description>
       <category>Strategy</category>
     </item>
     <item>
-      <title>Your CS Team Is Hoarding Work</title>
-      <link>https://churnisdead.com/newsletter/cs-team-hoarding-work</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/cs-team-hoarding-work</guid>
-      <pubDate>Tue, 03 Mar 2026 08:00:00 +0000</pubDate>
-      <description>Why customer success teams resist giving work back to sales and product — and how it's destroying your margins.</description>
-      <category>Strategy</category>
+      <title>Your AI Customer Success Strategy Is Actually Firing People</title>
+      <link>https://churnisdead.com/newsletter/ai-customer-success-firing-people</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/ai-customer-success-firing-people</guid>
+      <pubDate>Tue, 21 Apr 2026 08:00:00 +0000</pubDate>
+      <description>CS leaders are using AI transformation as cover for headcount reduction while selling it as productivity enhancement.</description>
+      <category>AI &amp; Automation</category>
     </item>
     <item>
-      <title>Customer Success Doesn't Deserve to Survive</title>
-      <link>https://churnisdead.com/newsletter/customer-success-doesnt-deserve-to-survive</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/customer-success-doesnt-deserve-to-survive</guid>
-      <pubDate>Tue, 24 Feb 2026 08:00:00 +0000</pubDate>
-      <description>d expect. LinkedIn erupted with the usual chorus:
-
-&gt; "CS is more important than ever!"
-
-&gt; "Companies will regret this!"
-
-&gt; "We just need to prove our value!"
-
-And here's the part nobody wants to hear:
-
-**Most CS teams don</description>
-      <category>Strategy</category>
+      <title>Your AI Strategy Is Just Expensive Layoffs</title>
+      <link>https://churnisdead.com/newsletter/your-ai-strategy-is-just-expensive-layoffs</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/your-ai-strategy-is-just-expensive-layoffs</guid>
+      <pubDate>Tue, 14 Apr 2026 08:00:00 +0000</pubDate>
+      <description>CS leaders are using AI transformation as cover for workforce reduction while pretending it's about efficiency.</description>
+      <category>AI &amp; Automation</category>
     </item>
     <item>
-      <title>AI Didn't Kill Customer Success. It Exposed It.</title>
-      <link>https://churnisdead.com/newsletter/ai-didnt-kill-customer-success</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/ai-didnt-kill-customer-success</guid>
-      <pubDate>Tue, 13 Jan 2026 08:00:00 +0000</pubDate>
-      <description>Every CS leader is being asked: how much of Customer Success can we automate now? The answer reveals more than you think.</description>
-      <category>Trust</category>
+      <title>Your CS Platform Is A $200K Spreadsheet</title>
+      <link>https://churnisdead.com/newsletter/cs-platform-expensive-spreadsheet</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/cs-platform-expensive-spreadsheet</guid>
+      <pubDate>Tue, 07 Apr 2026 08:00:00 +0000</pubDate>
+      <description>Most CS platforms create expensive busywork instead of customer outcomes. Here's how to audit what you actually need.</description>
+      <category>Operations</category>
     </item>
   </channel>
 </rss>

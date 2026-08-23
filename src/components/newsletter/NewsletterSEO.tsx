@@ -24,7 +24,11 @@ const NewsletterSEO = ({ newsletter }: NewsletterSEOProps) => {
     document.title = title;
 
     // Get excerpt for description - strip any markdown
-    const description = (newsletter as any).excerpt || newsletter.content.substring(0, 160).replace(/[#*_\[\]]/g, '');
+    const stripMarkdown = (value: string) => value
+      .replace(/[#*_]/g, "")
+      .replaceAll("[", "")
+      .replaceAll("]", "");
+    const description = newsletter.excerpt || stripMarkdown(newsletter.content.substring(0, 160));
 
     setMeta("description", description);
     setMeta("og:title", title, true);
@@ -55,7 +59,7 @@ const NewsletterSEO = ({ newsletter }: NewsletterSEOProps) => {
     const existingJsonLd = document.querySelector('script[data-seo="newsletter-jsonld"]');
     if (existingJsonLd) existingJsonLd.remove();
 
-    const plainTextContent = newsletter.content.replace(/<[^>]*>/g, '').replace(/[#*_\[\]]/g, '').trim();
+    const plainTextContent = stripMarkdown(newsletter.content.replace(/<[^>]*>/g, "")).trim();
     const wordCount = plainTextContent.split(/\s+/).length;
 
     const jsonLd = document.createElement("script");
@@ -78,10 +82,10 @@ const NewsletterSEO = ({ newsletter }: NewsletterSEOProps) => {
       "author": {
         "@type": "Person",
         "name": "Kuber Sethi",
-        "url": "https://www.linkedin.com/in/kubersethi/",
+        "url": "https://www.linkedin.com/in/kuber-cs-strategist/",
         "jobTitle": "Customer Success Leader",
         "sameAs": [
-          "https://www.linkedin.com/in/kubersethi/",
+          "https://www.linkedin.com/in/kuber-cs-strategist/",
           "https://churnisdead.com/about"
         ]
       },

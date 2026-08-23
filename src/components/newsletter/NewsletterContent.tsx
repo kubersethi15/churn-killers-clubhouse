@@ -22,7 +22,6 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
   const formattedContent = formatContent(newsletter.content);
   const newsletterUrl = `https://churnisdead.com/newsletter/${newsletter.slug}`;
   const linkedinShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(newsletterUrl)}`;
-  const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(newsletter.title + ' — from the Churn Is Dead newsletter')}&url=${encodeURIComponent(newsletterUrl)}`;
 
   // Find a good midpoint to inject a CTA (after ~40% of paragraphs)
   const paragraphs = formattedContent.split('</p>');
@@ -41,7 +40,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
         Getting value from this? Don't miss the next one.
       </p>
       <p className="text-xs text-gray-400 mb-4">
-        Join 2,000+ CS leaders. New framework every Tuesday.
+        New framework every Tuesday for serious CS operators.
       </p>
       <div className="max-w-xs mx-auto">
         <NewsletterForm
@@ -64,14 +63,6 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
         className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#0A66C2] text-white text-xs font-semibold rounded hover:bg-opacity-90 transition-colors"
       >
         LinkedIn
-      </a>
-      <a
-        href={twitterShareUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-black text-white text-xs font-semibold rounded hover:bg-opacity-90 transition-colors"
-      >
-        X
       </a>
       <button
         onClick={() => {

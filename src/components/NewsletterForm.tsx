@@ -192,7 +192,7 @@ const NewsletterForm = ({
       </form>
       {subscribeText !== "" && (
         <p className={`text-xs mt-2.5 text-center ${textColor === "text-gray-700" ? "text-gray-500" : "text-white/70"}`}>
-          {subscribeText || "Join 150+ CS leaders getting tactical frameworks every Tuesday."}
+          {subscribeText || "Join CS leaders getting tactical frameworks every Tuesday."}
         </p>
       )}
     </div>

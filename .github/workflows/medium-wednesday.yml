@@ -4,10 +4,6 @@ name: Wednesday Medium Publisher
 # 24+ hours after subscribers got the email Tuesday morning.
 
 on:
-  schedule:
-    # Wednesdays 18:00 UTC = Thursday 4:00 AM AEST
-    # Tuesday 08:00 UTC email → 34h later = Wednesday 18:00 UTC
-    - cron: '0 18 * * 3'
   workflow_dispatch:
     inputs:
       slug:

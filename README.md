@@ -1,73 +1,38 @@
-# Welcome to your Lovable project
+# Churn Is Dead
 
-## Project info
+Churn Is Dead is Kuber Sethi's evidence-led publication for Customer Success operators. The website is the canonical home for each issue. LinkedIn is an optional, manually reviewed distribution channel.
 
-**URL**: https://lovable.dev/projects/6e0fea1a-7b20-4f35-aac1-28c17aa57724
+## Editorial system
 
-## How can I edit this code?
+The production newsletter does not call Anthropic, Gemini, or another model. Research and drafting happen in Codex before publication, with source evidence and human approval stored in a versioned issue package.
 
-There are several ways of editing your application.
+The core files are:
 
-**Use Lovable**
+- `editorial/editorial-contract.md`: evidence, voice, and approval rules.
+- `editorial/author-experience.md`: verified first-person experience ledger.
+- `editorial/issues/<slug>/`: article, evidence, playbook, metadata, LinkedIn draft, and approval.
+- `scripts/validate_editorial_issue.py`: editorial and safety checks.
+- `scripts/publish_editorial_issue.py`: deterministic Supabase and asset publisher.
+- `editorial/RUNBOOK.md`: weekly operating procedure and recovery steps.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/6e0fea1a-7b20-4f35-aac1-28c17aa57724) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+## Local development
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Validate an issue without publishing:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```sh
+python3 scripts/validate_editorial_issue.py editorial/issues/<slug> --require-approved
+python3 scripts/publish_editorial_issue.py editorial/issues/<slug> --dry-run
+```
 
-**Use GitHub Codespaces**
+## Release model
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Approved packages are staged on `main`. The website exposes an issue only when its Tuesday publication timestamp arrives. The Tuesday workflow then refreshes the static article, sitemap, RSS feed, social image, and Playbook Vault manifest. See `editorial/RUNBOOK.md` for the complete process.
 
-## What technologies are used for this project?
+## Stack
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/6e0fea1a-7b20-4f35-aac1-28c17aa57724) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+React, TypeScript, Vite, Tailwind CSS, Supabase, and GitHub Actions.

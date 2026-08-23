@@ -34,7 +34,7 @@ const Footer = () => {
                   Contact
                 </button>
                 <a 
-                  href="https://www.linkedin.com/in/kuber-s-79521946/" 
+                  href="https://www.linkedin.com/in/kuber-cs-strategist/"
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="text-gray-400 hover:text-navy-dark transition-colors"

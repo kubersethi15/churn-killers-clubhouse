@@ -19,7 +19,6 @@ export const generateNewsletterEmailTemplate = (
 ) => {
   // Extract a teaser from the main content (first ~600 chars of actual text)
   const teaser = extractTeaser(mainContent);
-  const tweetText = encodeURIComponent(title + ' — from the Churn Is Dead newsletter');
   const newsletterUrl = `https://churnisdead.com/newsletter/${slug}`;
   
   return `
@@ -155,14 +154,6 @@ export const generateNewsletterEmailTemplate = (
                             Share on LinkedIn
                           </a>
                         </td>
-                        <!-- X/Twitter Share -->
-                        <td style="padding-right: 10px;">
-                          <a href="https://twitter.com/intent/tweet?text=${tweetText}&url=${newsletterUrl}" 
-                             target="_blank"
-                             style="display: inline-block; padding: 10px 20px; background-color: #000000; border-radius: 4px; font-family: Helvetica, Arial, sans-serif; font-size: 13px; font-weight: bold; color: #ffffff; text-decoration: none;">
-                            Share on X
-                          </a>
-                        </td>
                         <!-- Forward / Subscribe -->
                         <td>
                           <a href="https://churnisdead.com/start" 
@@ -191,7 +182,7 @@ export const generateNewsletterEmailTemplate = (
               <p style="font-family: Helvetica, Arial, sans-serif; font-size: 12px; margin: 0;">
                 <a href="https://churnisdead.com/newsletters" style="color: #C8553D; text-decoration: underline;">Past issues</a>
                 &nbsp;&nbsp;·&nbsp;&nbsp;
-                <a href="mailto:unsubscribe@churnisdead.com?subject=Unsubscribe&body=Email: {{email}}" style="color: #9A9A9A; text-decoration: underline;">Unsubscribe</a>
+                <a href="{{unsubscribe_url}}" style="color: #9A9A9A; text-decoration: underline;">Unsubscribe</a>
               </p>
             </td>
           </tr>

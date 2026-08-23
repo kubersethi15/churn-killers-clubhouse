@@ -1,74 +1,103 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 
-/**
- * Resend Webhook Receiver
- *
- * Configure in Resend dashboard → Webhooks:
- *   Endpoint: https://xtwxemlxzbnadkkrvozr.supabase.co/functions/v1/resend-webhook
- *   Events: email.sent, email.delivered, email.opened, email.clicked, email.bounced, email.complained
- *
- * For each event, this function:
- *   1. Inserts a row into email_events for analysis
- *   2. Updates newsletter_send_log with bounce/complaint flags if the email matches
- *   3. Logs success/failure to function_logs
- */
-
 const supabaseUrl = Deno.env.get("SUPABASE_URL");
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-
-if (!supabaseUrl || !supabaseServiceKey) {
-  console.error("Missing Supabase environment variables");
-}
-
+const webhookSecret = Deno.env.get("RESEND_WEBHOOK_SECRET");
 const supabase = createClient(supabaseUrl!, supabaseServiceKey!);
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, svix-id, svix-signature, svix-timestamp",
+  "Access-Control-Allow-Headers": "content-type, svix-id, svix-signature, svix-timestamp",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
 const logRun = async (
-  status: 'success' | 'failure' | 'info',
+  status: "success" | "failure" | "info",
   message: string,
   metadata: Record<string, unknown> = {},
-  startedAt: number = Date.now()
+  startedAt = Date.now(),
 ) => {
   try {
-    await supabase.from('function_logs').insert([{
-      function_name: 'resend-webhook',
+    await supabase.from("function_logs").insert([{
+      function_name: "resend-webhook",
       status,
       message: message.slice(0, 500),
       metadata,
       duration_ms: Date.now() - startedAt,
     }]);
-  } catch (err) {
-    console.warn('function_logs write failed (non-fatal):', err);
+  } catch (error) {
+    console.warn("function_logs write failed", error);
   }
 };
 
+const constantTimeEqual = (left: string, right: string): boolean => {
+  if (left.length !== right.length) return false;
+  let mismatch = 0;
+  for (let index = 0; index < left.length; index += 1) {
+    mismatch |= left.charCodeAt(index) ^ right.charCodeAt(index);
+  }
+  return mismatch === 0;
+};
+
+const verifySvixSignature = async (req: Request, rawBody: string): Promise<boolean> => {
+  if (!webhookSecret) throw new Error("RESEND_WEBHOOK_SECRET is not configured");
+  const messageId = req.headers.get("svix-id") ?? "";
+  const timestamp = req.headers.get("svix-timestamp") ?? "";
+  const supplied = req.headers.get("svix-signature") ?? "";
+  if (!messageId || !timestamp || !supplied) return false;
+
+  const timestampSeconds = Number(timestamp);
+  if (!Number.isFinite(timestampSeconds) || Math.abs(Date.now() / 1000 - timestampSeconds) > 300) {
+    return false;
+  }
+
+  const encodedSecret = webhookSecret.startsWith("whsec_") ? webhookSecret.slice(6) : webhookSecret;
+  let keyBytes: Uint8Array;
+  try {
+    keyBytes = Uint8Array.from(atob(encodedSecret), character => character.charCodeAt(0));
+  } catch {
+    return false;
+  }
+  const key = await crypto.subtle.importKey(
+    "raw",
+    keyBytes,
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"],
+  );
+  const signature = await crypto.subtle.sign(
+    "HMAC",
+    key,
+    new TextEncoder().encode(`${messageId}.${timestamp}.${rawBody}`),
+  );
+  const expected = btoa(String.fromCharCode(...new Uint8Array(signature)));
+  return supplied.split(/\s+/).some(candidate => {
+    const [version, value] = candidate.split(",", 2);
+    return version === "v1" && Boolean(value) && constantTimeEqual(value, expected);
+  });
+};
+
 interface ResendEvent {
-  type: string;  // email.sent, email.delivered, email.opened, email.clicked, email.bounced, email.complained
+  type: string;
   created_at: string;
   data: {
     email_id?: string;
     to?: string[] | string;
     from?: string;
     subject?: string;
-    headers?: Record<string, string>;
+    tags?: Array<{ name: string; value: string }>;
     click?: { link: string; ipAddress?: string; userAgent?: string };
     bounce?: { type: string; subType?: string; reason?: string };
   };
 }
 
-const handler = async (req: Request): Promise<Response> => {
+const tagValue = (event: ResendEvent, name: string): string | null =>
+  event.data.tags?.find(tag => tag.name === name)?.value ?? null;
+
+serve(async (req: Request): Promise<Response> => {
   const startedAt = Date.now();
-
-  if (req.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders });
-  }
-
+  if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
   if (req.method !== "POST") {
     return new Response(JSON.stringify({ error: "Method not allowed" }), {
       status: 405,
@@ -77,83 +106,70 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const event = await req.json() as ResendEvent;
+    const rawBody = await req.text();
+    if (!(await verifySvixSignature(req, rawBody))) {
+      await logRun("failure", "Rejected webhook with invalid signature", {}, startedAt);
+      return new Response(JSON.stringify({ error: "Invalid signature" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
 
-    if (!event || !event.type || !event.data) {
-      await logRun('failure', 'malformed webhook payload', { sample: JSON.stringify(event).slice(0, 200) }, startedAt);
+    const event = JSON.parse(rawBody) as ResendEvent;
+    if (!event?.type || !event.data) {
       return new Response(JSON.stringify({ error: "Malformed payload" }), {
         status: 400,
         headers: { "Content-Type": "application/json", ...corsHeaders },
       });
     }
 
-    // Extract email — Resend can send `to` as string or array
-    let email = '';
-    if (Array.isArray(event.data.to)) {
-      email = event.data.to[0] || '';
-    } else if (typeof event.data.to === 'string') {
-      email = event.data.to;
-    }
-    email = email.toLowerCase().trim();
+    const recipient = Array.isArray(event.data.to) ? event.data.to[0] : event.data.to;
+    const email = (recipient ?? "").toLowerCase().trim();
+    const newsletterSlug = tagValue(event, "newsletter_slug");
+    const subscriberId = tagValue(event, "subscriber_id");
 
-    // Insert the event
-    const { error: insertError } = await supabase.from('email_events').insert([{
+    const { error: insertError } = await supabase.from("email_events").insert([{
       resend_message_id: event.data.email_id,
       event_type: event.type,
       email,
       subject: event.data.subject,
+      newsletter_slug: newsletterSlug,
       payload: event.data as unknown as Record<string, unknown>,
       occurred_at: event.created_at || new Date().toISOString(),
     }]);
+    if (insertError) throw insertError;
 
-    if (insertError) {
-      console.error('Failed to insert email_event:', insertError);
-      await logRun('failure', 'email_events insert failed', {
-        error: insertError.message,
-        event_type: event.type,
-        email,
-      }, startedAt);
-      return new Response(JSON.stringify({ error: "Insert failed" }), {
-        status: 500,
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-      });
-    }
-
-    // For bounce/complaint events, also flag in newsletter_send_log
-    if (event.type === 'email.bounced' || event.type === 'email.complained') {
-      const newStatus = event.type === 'email.bounced' ? 'bounced' : 'complained';
-      try {
+    if (event.type === "email.bounced" || event.type === "email.complained") {
+      const sendStatus = event.type === "email.bounced" ? "bounced" : "complained";
+      if (event.data.email_id) {
         await supabase
-          .from('newsletter_send_log')
-          .update({ send_status: newStatus })
-          .eq('subscriber_email', email)
-          .eq('send_status', 'sent');  // only update most recent sent rows
-      } catch (err) {
-        console.warn('Failed to flag bounce in send log:', err);
+          .from("newsletter_send_log")
+          .update({ send_status: sendStatus })
+          .eq("resend_message_id", event.data.email_id);
+      }
+      if (subscriberId) {
+        await supabase.from("subscribers").update({ subscribed: false }).eq("id", subscriberId);
+      } else if (email) {
+        await supabase.from("subscribers").update({ subscribed: false }).eq("email", email);
       }
     }
 
-    await logRun('success', `${event.type} processed for ${email}`, {
+    await logRun("success", `${event.type} processed`, {
       event_type: event.type,
-      email,
       resend_id: event.data.email_id,
+      newsletter_slug: newsletterSlug,
     }, startedAt);
-
     return new Response(JSON.stringify({ received: true }), {
       status: 200,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "unknown";
-    console.error('Webhook error:', error);
-    await logRun('failure', `unexpected error: ${msg}`, {
-      stack: error instanceof Error ? error.stack?.slice(0, 1000) : undefined,
-    }, startedAt);
-    return new Response(JSON.stringify({ error: msg }), {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error("Webhook error", error);
+    await logRun("failure", `Webhook processing failed: ${message}`, {}, startedAt);
+    return new Response(JSON.stringify({ error: "Webhook processing failed" }), {
       status: 500,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });
   }
-};
-
-serve(handler);
+});

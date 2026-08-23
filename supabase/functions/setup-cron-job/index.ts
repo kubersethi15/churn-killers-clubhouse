@@ -116,81 +116,14 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    console.log("Checking cron job status...");
-
-    // Check if the cron job already exists
-    const { data: jobs, error: jobsError } = await supabase
-      .from('cron.job')
-      .select('*')
-      .eq('jobname', 'send-latest-newsletter-weekly');
-
-    if (jobsError) {
-      console.error("Error checking cron jobs:", jobsError);
-    }
-
-    const jobExists = jobs && jobs.length > 0;
-    
-    if (jobExists) {
-      console.log("Cron job already exists and is configured");
-    } else {
-      console.log("Setting up cron job...");
-      
-      const { data, error } = await supabase.rpc('setup_newsletter_weekly_11pm');
-
-      if (error) {
-        console.error("Error setting up cron job:", error);
-        return new Response(
-          JSON.stringify({ 
-            error: "Failed to setup cron job", 
-            details: error,
-            timestamp: new Date().toISOString()
-          }),
-          {
-            status: 500,
-            headers: { "Content-Type": "application/json", ...corsHeaders },
-          }
-        );
-      }
-    }
-
-    console.log("Cron job setup completed successfully");
-
-    // Calculate next Tuesday at 6:00 PM AEST for display
-    const nextTuesday = new Date();
-    const daysUntilTuesday = (2 + 7 - nextTuesday.getDay()) % 7;
-    nextTuesday.setDate(nextTuesday.getDate() + (daysUntilTuesday || 7));
-    nextTuesday.setHours(18, 0, 0, 0);
-    
-    const now = new Date();
-    if (now.getDay() === 2 && now.getHours() < 18) {
-      nextTuesday.setDate(now.getDate());
-    }
-    
-    const formattedNextTuesday = nextTuesday.toLocaleString('en-US', {
-      weekday: 'long',
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true,
-      timeZone: 'Australia/Sydney'
-    });
-
     return new Response(
       JSON.stringify({
-        success: true,
-        message: "Newsletter cron job successfully configured for weekly delivery at 6:00 PM AEST!",
-        recurringSchedule: {
-          description: "Every Tuesday at 6:00 PM AEST (8:00 AM UTC)",
-          cronExpression: "0 8 * * 2",
-          nextScheduledRun: formattedNextTuesday
-        },
-        endpoint: `${supabaseUrl}/functions/v1/send-latest-newsletter`,
+        success: false,
+        error: "Subscriber email automation is disabled. Churn Is Dead publishes to the website and uses manually reviewed LinkedIn distribution.",
         timestamp: new Date().toISOString()
       }),
       {
-        status: 200,
+        status: 409,
         headers: { "Content-Type": "application/json", ...corsHeaders },
       }
     );

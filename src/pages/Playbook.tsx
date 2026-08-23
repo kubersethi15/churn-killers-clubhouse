@@ -13,7 +13,7 @@ interface Playbook {
   notion_link: string | null;
   newsletter_slug: string | null;
   newsletter_title: string | null;
-  published_date: string;
+  published_date: string | null;
 }
 
 const STATIC_PLAYBOOKS: Playbook[] = [
@@ -50,7 +50,7 @@ const STATIC_PLAYBOOKS: Playbook[] = [
   {
     id: "3",
     title: "CO-OP Framework",
-    description: "The exact system that helped save a $2M renewal — now used by 10+ enterprise CS teams to increase renewal predictability and expansion velocity.",
+    description: "A practical operating framework for improving renewal predictability and creating clearer expansion decisions.",
     pdf_path: null,
     notion_link: "https://www.notion.so/CO-OP-Framework-2235d0709c998059a8a4dc2c18393b25",
     newsletter_slug: "customer-momentum-over-health-score",
@@ -100,8 +100,12 @@ const STATIC_PLAYBOOKS: Playbook[] = [
 ];
 
 const PlaybookVault = () => {
-  const [playbooks] = useState<Playbook[]>(
-    STATIC_PLAYBOOKS.sort((a, b) => new Date(b.published_date).getTime() - new Date(a.published_date).getTime())
+  const [playbooks, setPlaybooks] = useState<Playbook[]>(
+    STATIC_PLAYBOOKS.sort((a, b) => {
+      if (!a.published_date) return 1;
+      if (!b.published_date) return -1;
+      return new Date(b.published_date).getTime() - new Date(a.published_date).getTime();
+    })
   );
   const loading = false;
 
@@ -114,6 +118,21 @@ const PlaybookVault = () => {
       })
     );
     window.scrollTo(0, 0);
+
+    fetch("/pdfs/manifest.json")
+      .then(response => response.ok ? response.json() : [])
+      .then((archive: Playbook[]) => {
+        setPlaybooks(current => {
+          const knownPaths = new Set(current.map(playbook => playbook.pdf_path).filter(Boolean));
+          const supplemental = archive.filter(playbook => playbook.pdf_path && !knownPaths.has(playbook.pdf_path));
+          return [...current, ...supplemental].sort((left, right) => {
+            if (!left.published_date) return 1;
+            if (!right.published_date) return -1;
+            return new Date(right.published_date).getTime() - new Date(left.published_date).getTime();
+          });
+        });
+      })
+      .catch(error => console.warn("Playbook archive manifest unavailable", error));
   }, []);
 
   const formatDate = (dateString: string) => format(new Date(dateString), "MMM yyyy");
@@ -161,9 +180,11 @@ const PlaybookVault = () => {
                       <h3 className="text-lg md:text-xl font-serif font-bold text-navy-dark leading-snug">
                         {pb.title}
                       </h3>
-                      <span className="text-xs text-gray-300 flex-shrink-0 mt-1">
-                        {formatDate(pb.published_date)}
-                      </span>
+                      {pb.published_date && (
+                        <span className="text-xs text-gray-300 flex-shrink-0 mt-1">
+                          {formatDate(pb.published_date)}
+                        </span>
+                      )}
                     </div>
 
                     {/* Description */}

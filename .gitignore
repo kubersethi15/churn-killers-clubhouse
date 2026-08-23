@@ -39,3 +39,5 @@ venv/
 
 # Temp files
 *.tmp
+tmp/
+supabase/.temp/
