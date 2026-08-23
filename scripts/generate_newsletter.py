@@ -27,12 +27,12 @@ DISTRIBUTION_DIR = REPO_ROOT / "distribution"
 
 # --- MODELS ---
 # Gemini is the production default so the weekly run does not depend on Anthropic
-# credits. Gemini 3.6 Flash handles grounded research, long-form writing, and
-# adversarial editing on the free tier. The roles remain separately configurable.
+# credits. Gemini 2.5 Flash-Lite retains free-tier Google Search grounding;
+# Gemini 3.6 Flash handles long-form writing and adversarial editing.
 LLM_PROVIDER = os.environ.get("LLM_PROVIDER", "gemini").strip().lower()
 ANTHROPIC_MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-opus-4-8")
 GEMINI_PRIMARY_MODEL = os.environ.get("GEMINI_PRIMARY_MODEL", "gemini-3.6-flash")
-GEMINI_RESEARCH_MODEL = os.environ.get("GEMINI_RESEARCH_MODEL", "gemini-3.6-flash")
+GEMINI_RESEARCH_MODEL = os.environ.get("GEMINI_RESEARCH_MODEL", "gemini-2.5-flash-lite")
 GEMINI_CRITIC_MODEL = os.environ.get("GEMINI_CRITIC_MODEL", "gemini-3.6-flash")
 
 
