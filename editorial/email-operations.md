@@ -24,11 +24,13 @@ Before enabling a production send:
 8. Review Resend's current provider health signals and suppressions. Use the provider's current risk classification rather than a static benchmark copied into this runbook.
 9. Enable `NEWSLETTER_SEND_ENABLED=true` only for the approved production window.
 
+Webhook retries and manual replays must return success without creating a second `email_events` row. Permanent bounces and complaints suppress the subscriber. An explicitly temporary bounce is recorded against the send but does not unsubscribe the reader.
+
 ## After a production send
 
 1. Confirm every accepted message has a recorded Resend message ID.
 2. Confirm webhook events are arriving and signature failures are not present in function logs.
-3. Confirm bounces and complaints suppress the affected subscriber before the next send.
+3. Confirm permanent bounces and complaints suppress the affected subscriber before the next send; confirm temporary delivery failures do not silently remove readers.
 4. Record delivered, bounced, complained, opened, and clicked counts for the issue. Keep reporting aggregate.
 5. Return `NEWSLETTER_SEND_ENABLED` to `false` after the approved send window.
 6. If the provider flags risk, stop the next broadcast and diagnose the recipient and sending pattern. Do not route around a suppression.

@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
+import { shouldSuppressSubscriber, tagValue, type ResendTags } from "./eventUtils.ts";
 
 const supabaseUrl = Deno.env.get("SUPABASE_URL");
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
@@ -86,14 +87,11 @@ interface ResendEvent {
     to?: string[] | string;
     from?: string;
     subject?: string;
-    tags?: Array<{ name: string; value: string }>;
+    tags?: ResendTags;
     click?: { link: string; ipAddress?: string; userAgent?: string };
-    bounce?: { type: string; subType?: string; reason?: string };
+    bounce?: { type?: string; subType?: string; message?: string; diagnosticCode?: string[] };
   };
 }
-
-const tagValue = (event: ResendEvent, name: string): string | null =>
-  event.data.tags?.find(tag => tag.name === name)?.value ?? null;
 
 serve(async (req: Request): Promise<Response> => {
   const startedAt = Date.now();
@@ -125,10 +123,39 @@ serve(async (req: Request): Promise<Response> => {
 
     const recipient = Array.isArray(event.data.to) ? event.data.to[0] : event.data.to;
     const email = (recipient ?? "").toLowerCase().trim();
-    const newsletterSlug = tagValue(event, "newsletter_slug");
-    const subscriberId = tagValue(event, "subscriber_id");
+    const newsletterSlug = tagValue(event.data.tags, "newsletter_slug");
+    const subscriberId = tagValue(event.data.tags, "subscriber_id");
+    const webhookEventId = req.headers.get("svix-id") ?? "";
+
+    if (event.type === "email.bounced" || event.type === "email.complained") {
+      const sendStatus = event.type === "email.bounced" ? "bounced" : "complained";
+      if (event.data.email_id) {
+        const { error: sendLogError } = await supabase
+          .from("newsletter_send_log")
+          .update({ send_status: sendStatus })
+          .eq("resend_message_id", event.data.email_id);
+        if (sendLogError) throw sendLogError;
+      }
+
+      if (shouldSuppressSubscriber(event.type, event.data.bounce?.type)) {
+        if (subscriberId) {
+          const { error: suppressionError } = await supabase
+            .from("subscribers")
+            .update({ subscribed: false })
+            .eq("id", subscriberId);
+          if (suppressionError) throw suppressionError;
+        } else if (email) {
+          const { error: suppressionError } = await supabase
+            .from("subscribers")
+            .update({ subscribed: false })
+            .eq("email", email);
+          if (suppressionError) throw suppressionError;
+        }
+      }
+    }
 
     const { error: insertError } = await supabase.from("email_events").insert([{
+      webhook_event_id: webhookEventId,
       resend_message_id: event.data.email_id,
       event_type: event.type,
       email,
@@ -137,22 +164,17 @@ serve(async (req: Request): Promise<Response> => {
       payload: event.data as unknown as Record<string, unknown>,
       occurred_at: event.created_at || new Date().toISOString(),
     }]);
-    if (insertError) throw insertError;
-
-    if (event.type === "email.bounced" || event.type === "email.complained") {
-      const sendStatus = event.type === "email.bounced" ? "bounced" : "complained";
-      if (event.data.email_id) {
-        await supabase
-          .from("newsletter_send_log")
-          .update({ send_status: sendStatus })
-          .eq("resend_message_id", event.data.email_id);
-      }
-      if (subscriberId) {
-        await supabase.from("subscribers").update({ subscribed: false }).eq("id", subscriberId);
-      } else if (email) {
-        await supabase.from("subscribers").update({ subscribed: false }).eq("email", email);
-      }
+    if (insertError?.code === "23505") {
+      await logRun("info", "Duplicate webhook replay ignored", {
+        event_type: event.type,
+        resend_id: event.data.email_id,
+      }, startedAt);
+      return new Response(JSON.stringify({ received: true, duplicate: true }), {
+        status: 200,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
     }
+    if (insertError) throw insertError;
 
     await logRun("success", `${event.type} processed`, {
       event_type: event.type,
