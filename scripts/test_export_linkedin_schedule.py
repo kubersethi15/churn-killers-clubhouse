@@ -48,11 +48,13 @@ class LinkedInScheduleExporterTests(unittest.TestCase):
             [{"day": "Tuesday", "content": "Draft post", "strategy": "Newsletter launch"}],
             "example-issue",
             publication,
+            "Tracked first comment",
         )
 
         self.assertEqual(rows[0]["Status"], "Draft - approval required")
         self.assertEqual(rows[0]["Time"], "18:15")
         self.assertEqual(rows[0]["Timezone"], "Australia/Sydney")
+        self.assertEqual(rows[0]["First Comment"], "Tracked first comment")
 
 
 if __name__ == "__main__":

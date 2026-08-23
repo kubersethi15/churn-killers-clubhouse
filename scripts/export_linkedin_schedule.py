@@ -101,7 +101,12 @@ def scheduled_time(day_name: str, publication_time: datetime | None, now: dateti
     return candidate
 
 
-def manager_rows(posts: list[dict[str, str]], slug: str, publication_time: datetime | None) -> list[dict[str, str]]:
+def manager_rows(
+    posts: list[dict[str, str]],
+    slug: str,
+    publication_time: datetime | None,
+    first_comment: str = "",
+) -> list[dict[str, str]]:
     rows: list[dict[str, str]] = []
     for post in posts:
         scheduled_at = scheduled_time(post["day"], publication_time)
@@ -111,6 +116,7 @@ def manager_rows(posts: list[dict[str, str]], slug: str, publication_time: datet
             "Timezone": "Australia/Sydney",
             "Day": post["day"],
             "Content": post["content"],
+            "First Comment": first_comment,
             "Platform": "LinkedIn",
             "Status": "Draft - approval required",
             "Newsletter": slug,
@@ -121,9 +127,9 @@ def manager_rows(posts: list[dict[str, str]], slug: str, publication_time: datet
 
 def write_csv(rows: list[dict[str, str]], output_path: Path) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    fieldnames = ["Date", "Time", "Timezone", "Day", "Content", "Platform", "Status", "Newsletter", "Strategy"]
+    fieldnames = ["Date", "Time", "Timezone", "Day", "Content", "First Comment", "Platform", "Status", "Newsletter", "Strategy"]
     with output_path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -138,7 +144,7 @@ def linkedin_is_approved(slug: str) -> bool:
 
 def write_buffer_csv(rows: list[dict[str, str]], output_path: Path) -> None:
     with output_path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["Text", "Scheduled At"])
+        writer = csv.DictWriter(handle, fieldnames=["Text", "Scheduled At"], lineterminator="\n")
         writer.writeheader()
         for row in rows:
             local_date = date.fromisoformat(row["Date"])
@@ -175,7 +181,9 @@ def main() -> int:
     if not posts:
         raise ValueError(f"No posts parsed from {posts_file}")
 
-    rows = manager_rows(posts, slug, load_publication_time(slug))
+    first_comment_path = issue_dir / "linkedin_first_comment.md"
+    first_comment = first_comment_path.read_text(encoding="utf-8").strip() if first_comment_path.exists() else ""
+    rows = manager_rows(posts, slug, load_publication_time(slug), first_comment)
     schedule_path = issue_dir / "linkedin_schedule.csv"
     write_csv(rows, schedule_path)
     print(f"LinkedIn manager draft: {len(rows)} post(s) -> {schedule_path}")

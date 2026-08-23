@@ -63,6 +63,16 @@ The 20 October slot is held for the strongest evidence-backed follow-up from rea
 - Publish one approved LinkedIn adaptation with a campaign-specific UTM.
 - Record any correction immediately and preserve a visible history.
 
+## Social manager handoff
+
+The repository issue package is the editorial source of truth. The shared manager sheet is the execution source of truth. A distribution change is not complete until both contain the same final copy, date, Sydney time, asset instruction, tracked link, and approval status.
+
+- The manager ZIP is a baseline package. A later row revision in the shared sheet supersedes the ZIP.
+- Every content, timing, link, or asset change must be written into the affected sheet row and called out in the feedback column.
+- Notify the manager after the sheet is updated. Name the dates affected and summarise the exact change so no one schedules from stale copy.
+- Keep rows at `Ready for Review` or `Revised after feedback` until Kuber explicitly approves posting. Never infer approval from a completed draft or asset.
+- When the Tuesday website issue changes, replace the existing Tuesday LinkedIn slot. Do not add an extra post merely to preserve the earlier calendar.
+
 ## Distribution experiments
 
 Run one clean variable at a time.
