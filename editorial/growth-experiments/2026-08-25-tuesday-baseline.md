@@ -1,8 +1,11 @@
 # Tuesday distribution baseline: 25 August 2026
 
-**Status:** Preregistered. External activation requires Kuber's explicit LinkedIn approval.  
-**Observation window:** 25 August 2026 08:15 UTC to 1 September 2026 08:14 UTC.  
-**Canonical issue:** `stealing-sprint-planning-from-engineering`  
+**Status:** Preregistered. External activation requires Kuber's explicit LinkedIn approval.
+
+**Observation window:** 25 August 2026 08:15 UTC to 1 September 2026 08:14 UTC.
+
+**Canonical issue:** `stealing-sprint-planning-from-engineering`
+
 **Tracked variant:** `linkedin / post / stealing-sprint-planning-from-engineering / tuesday_launch`
 
 ## Decision this run supports
@@ -34,7 +37,8 @@ The issue thesis, article CTA, playbook, posting time, first-comment placement, 
 | Still active | Acquired signup records currently subscribed | Early safety signal, not mature retention |
 | Meaningful replies | Manual aggregate count of replies that discuss the operating problem | Qualitative signal; store no identity or message content |
 
-Primary observed rate: acquired signups / tagged visits.  
+Primary observed rate: acquired signups / tagged visits.
+
 Secondary observed rate: qualified-action sessions / tagged visits.
 
 ## Validity and decision rules
