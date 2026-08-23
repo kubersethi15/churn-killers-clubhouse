@@ -77,6 +77,16 @@ The repository issue package is the editorial source of truth. The shared manage
 
 Run one clean variable at a time.
 
+### Current experiment: measured Tuesday distribution
+
+- **Hypothesis:** an approved Tuesday LinkedIn post with its article link in the first comment will generate attributable qualified visits and subscriber signups.
+- **Test window:** the seven days after the 25 August issue is published.
+- **Variant:** `tuesday_launch` on the LinkedIn first-comment URL.
+- **Primary read:** acquired signups divided by unique tagged visits. Keep acquired signups in the campaign history even if someone later unsubscribes.
+- **Guardrail:** report how many acquired subscribers are still active, but do not call this retention until the cohort has had time to mature.
+- **Constants:** do not change the website CTA, add Medium syndication, add a second launch post, or alter the Tuesday issue structure during the window.
+- **Decision:** use this week to establish a baseline. Do not declare the format a winner from one issue or from impressions alone.
+
 | Window | Test | Keep constant | Decision rule |
 |---|---|---|---|
 | Weeks 1–2 | Establish complete site and welcome-email baseline | Tuesday issue structure and CTA | Do not declare a winner |

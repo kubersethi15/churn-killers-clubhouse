@@ -47,10 +47,10 @@ BEGIN
       lower(COALESCE(NULLIF(utm_medium, ''), 'none')) AS medium,
       lower(COALESCE(NULLIF(utm_campaign, ''), 'none')) AS campaign,
       lower(utm_content) AS variant,
-      count(*) AS signups
+      count(*) AS signups,
+      count(*) FILTER (WHERE subscribed = true) AS active_subscribers
     FROM public.subscribers
-    WHERE subscribed = true
-      AND created_at >= now() - interval '30 days'
+    WHERE created_at >= now() - interval '30 days'
       AND NULLIF(utm_content, '') IS NOT NULL
     GROUP BY 1, 2, 3, 4
   )
@@ -60,7 +60,8 @@ BEGIN
     'campaign', COALESCE(visits.campaign, signups.campaign),
     'variant', COALESCE(visits.variant, signups.variant),
     'visits', COALESCE(visits.visits, 0),
-    'signups', COALESCE(signups.signups, 0)
+    'signups', COALESCE(signups.signups, 0),
+    'active_subscribers', COALESCE(signups.active_subscribers, 0)
   ) ORDER BY COALESCE(signups.signups, 0) DESC, COALESCE(visits.visits, 0) DESC), '[]'::jsonb)
   INTO result
   FROM visit_rows visits
@@ -82,4 +83,4 @@ COMMENT ON COLUMN public.subscribers.utm_content IS
 COMMENT ON COLUMN public.growth_events.utm_content IS
   'Campaign creative or placement variant. UTM values must never contain PII.';
 COMMENT ON FUNCTION public.get_growth_variant_dashboard() IS
-  'Returns aggregate-only 30-day unique sessions and signups by campaign variant to authenticated admins.';
+  'Returns aggregate-only 30-day unique sessions, acquired signups, and currently active subscribers by campaign variant to authenticated admins.';
