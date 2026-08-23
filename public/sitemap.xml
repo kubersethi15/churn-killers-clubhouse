@@ -259,8 +259,26 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://churnisdead.com/newsletter/co-op-renewal-framework</loc>
+    <lastmod>2025-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://churnisdead.com/newsletter/cs-leader-to-ceo</loc>
     <lastmod>2025-06-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://churnisdead.com/newsletter/onboarding-is-the-first-revenue-moment</loc>
+    <lastmod>2025-06-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://churnisdead.com/newsletter/customer-momentum-over-health-score</loc>
+    <lastmod>2025-06-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -273,6 +291,18 @@
   <url>
     <loc>https://churnisdead.com/newsletter/usage-is-not-success</loc>
     <lastmod>2025-05-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://churnisdead.com/newsletter/their-timeline-not-yours</loc>
+    <lastmod>2025-05-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://churnisdead.com/newsletter/the-perfect-kickoff-call</loc>
+    <lastmod>2025-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
