@@ -6,7 +6,11 @@ from __future__ import annotations
 import html
 import json
 import re
+from datetime import datetime, timezone
 from pathlib import Path
+
+from editorial_issue import SLUG_RE
+from newsletter_catalog import load_newsletter_catalog
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -107,6 +111,39 @@ ROUTES = {
 }
 
 
+def published_archive_items(catalog: dict[str, dict], now: datetime | None = None) -> list[dict[str, str]]:
+    """Return publication-safe archive links, newest first."""
+    current_time = now or datetime.now(timezone.utc)
+    items: list[dict[str, str]] = []
+    for newsletter in catalog.values():
+        slug = str(newsletter.get("slug") or "")
+        title = str(newsletter.get("title") or "").strip()
+        published_date = str(newsletter.get("published_date") or "")
+        if not title or not SLUG_RE.fullmatch(slug):
+            continue
+        try:
+            published_at = datetime.fromisoformat(published_date.replace("Z", "+00:00"))
+        except ValueError:
+            continue
+        if published_at.tzinfo is None:
+            published_at = published_at.replace(tzinfo=timezone.utc)
+        if published_at > current_time:
+            continue
+        items.append({"slug": slug, "title": title, "published_date": published_at.isoformat()})
+    return sorted(items, key=lambda item: item["published_date"], reverse=True)
+
+
+def archive_markup(items: list[dict[str, str]]) -> str:
+    links = "".join(
+        f'<li><a href="/newsletter/{html.escape(item["slug"], quote=True)}">{html.escape(item["title"])}</a></li>'
+        for item in items
+    )
+    return f'''<section aria-labelledby="published-issues" style="margin-top:40px">
+      <h2 id="published-issues" style="font-family:Georgia,serif;font-size:28px">Published issues</h2>
+      <ol style="padding-left:22px;line-height:1.8">{links}</ol>
+    </section>'''
+
+
 def replace_meta(source: str, selector: str, value: str) -> str:
     escaped = html.escape(value, quote=True)
     pattern = rf'(<meta\s+{selector}\s+content=")[^"]*("\s*/?>)'
@@ -116,7 +153,15 @@ def replace_meta(source: str, selector: str, value: str) -> str:
     return updated
 
 
-def render(route: str, title: str, description: str, heading: str, intro: str, template: str) -> str:
+def render(
+    route: str,
+    title: str,
+    description: str,
+    heading: str,
+    intro: str,
+    template: str,
+    archive_items: list[dict[str, str]] | None = None,
+) -> str:
     url = f"{ORIGIN}/{route}"
     source = re.sub(r"<title>.*?</title>", f"<title>{html.escape(title)}</title>", template, count=1, flags=re.DOTALL)
     source = re.sub(r'(<link\s+rel="canonical"\s+href=")[^"]*("\s*/?>)', rf"\g<1>{url}\g<2>", source, count=1)
@@ -138,7 +183,23 @@ def render(route: str, title: str, description: str, heading: str, intro: str, t
         "url": url,
         "isPartOf": {"@type": "WebSite", "name": "Churn Is Dead", "url": ORIGIN},
     }
+    if archive_items:
+        structured["@type"] = "CollectionPage"
+        structured["mainEntity"] = {
+            "@type": "ItemList",
+            "numberOfItems": len(archive_items),
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": position,
+                    "url": f'{ORIGIN}/newsletter/{item["slug"]}',
+                    "name": item["title"],
+                }
+                for position, item in enumerate(archive_items, start=1)
+            ],
+        }
     source = source.replace("</head>", f'<script type="application/ld+json">{json.dumps(structured)}</script>\n  </head>', 1)
+    issue_archive = archive_markup(archive_items) if archive_items else ""
     static_content = f'''<main id="static-route" style="max-width:760px;margin:0 auto;padding:96px 24px;font-family:Inter,Arial,sans-serif;color:#17233a">
       <p style="color:#dc2626;font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:12px">Churn Is Dead</p>
       <h1 style="font-family:Georgia,serif;font-size:44px;line-height:1.1;margin:18px 0">{html.escape(heading)}</h1>
@@ -146,6 +207,7 @@ def render(route: str, title: str, description: str, heading: str, intro: str, t
       <nav aria-label="Explore Churn Is Dead" style="margin-top:32px;display:flex;gap:20px;flex-wrap:wrap">
         <a href="/start">Start here</a><a href="/newsletters">All issues</a><a href="/playbook">Playbooks</a><a href="/cs-analyzer/demo">CS Analyzer example</a>
       </nav>
+      {issue_archive}
     </main>'''
     # Keep the client mount empty to avoid layout shift when React starts. The
     # semantic fallback remains available when JavaScript is unavailable.
@@ -158,15 +220,16 @@ def main() -> None:
     if not index.exists():
         raise SystemExit("dist/index.html does not exist; run Vite first")
     template = index.read_text(encoding="utf-8")
+    archive_items = published_archive_items(load_newsletter_catalog())
     for route, values in ROUTES.items():
         target = DIST / route / "index.html"
         target.parent.mkdir(parents=True, exist_ok=True)
-        rendered = render(route, *values, template)
+        rendered = render(route, *values, template, archive_items=archive_items if route == "newsletters" else None)
         expected = f'{ORIGIN}/{route}'
         if f'<link rel="canonical" href="{expected}"' not in rendered:
             raise RuntimeError(f"Canonical validation failed for {route}")
         target.write_text(rendered, encoding="utf-8")
-    print(f"Created crawlable production entrypoints for {len(ROUTES)} public routes")
+    print(f"Created crawlable production entrypoints for {len(ROUTES)} public routes; archive links {len(archive_items)} published issues")
 
 
 if __name__ == "__main__":
