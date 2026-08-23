@@ -20,6 +20,8 @@ Track these in order:
 
 LinkedIn profile views and follower growth are relationship indicators. They are not newsletter growth unless the site action is attributable.
 
+The LinkedIn Premium `View my newsletter` profile button is the always-on exception: it uses a dedicated tagged HTTPS URL and stays unchanged while a time-boxed acquisition experiment is running.
+
 ## The four growth loops
 
 ### 1. Founder relationship loop
