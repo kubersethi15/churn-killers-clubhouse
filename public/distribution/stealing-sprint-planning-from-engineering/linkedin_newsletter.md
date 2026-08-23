@@ -45,4 +45,4 @@ This does not eliminate disagreement. It makes disagreement explicit while there
 The full issue includes the operating cadence, decision states, evidence standard, and a free Product Friction Review template.
 
 Read it on Churn Is Dead:
-https://churnisdead.com/newsletter/stealing-sprint-planning-from-engineering?utm_source=linkedin&utm_medium=newsletter&utm_campaign=product-friction-review
+https://churnisdead.com/newsletter/stealing-sprint-planning-from-engineering?utm_source=linkedin&utm_medium=newsletter&utm_campaign=stealing-sprint-planning-from-engineering
