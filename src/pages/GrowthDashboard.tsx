@@ -12,6 +12,22 @@ type ReactivationData = {
   pending_30_days: number;
   sources_30_days: ReactivationSourceRow[];
 };
+type RetentionCohortRow = {
+  cohort_week: string;
+  acquired: number;
+  retained_at_30_days: number;
+  currently_active: number;
+};
+type RetentionData = {
+  tracking_started_at: string;
+  first_eligible_at: string;
+  awaiting_maturity: number;
+  eligible_acquisitions: number;
+  retained_at_30_days: number;
+  currently_active_after_30_days: number;
+  retention_rate: number | null;
+  cohorts: RetentionCohortRow[];
+};
 type VariantRow = {
   source: string;
   medium: string;
@@ -25,7 +41,14 @@ type VariantRow = {
   active_subscribers: number;
 };
 type DashboardData = {
-  subscribers: { total: number; new_7_days: number; new_30_days: number; previous_30_days: number };
+  subscribers: {
+    total: number;
+    acquired_7_days: number;
+    active_from_7_day_acquisitions: number;
+    acquired_30_days: number;
+    active_from_30_day_acquisitions: number;
+    acquired_previous_30_days: number;
+  };
   funnel_30_days: {
     page_views: number;
     form_views: number;
@@ -45,6 +68,7 @@ type DashboardData = {
   reader_pulse_30_days: PulseRow[];
   content_variants_30_days: VariantRow[];
   reactivation: ReactivationData;
+  retention: RetentionData;
 };
 
 const MetricCard = ({ label, value, note, suffix = "" }: { label: string; value: number; note: string; suffix?: string }) => (
@@ -110,13 +134,15 @@ const GrowthDashboard = () => {
   const [error, setError] = useState<string | null>(null);
   const [variantError, setVariantError] = useState<string | null>(null);
   const [reactivationError, setReactivationError] = useState<string | null>(null);
+  const [retentionError, setRetentionError] = useState<string | null>(null);
 
   useEffect(() => {
     const load = async () => {
-      const [dashboardResult, variantResult, reactivationResult] = await Promise.all([
+      const [dashboardResult, variantResult, reactivationResult, retentionResult] = await Promise.all([
         supabase.rpc("get_growth_dashboard"),
         supabase.rpc("get_growth_variant_dashboard"),
         supabase.rpc("get_reactivation_dashboard"),
+        supabase.rpc("get_growth_retention_dashboard"),
       ]);
       if (dashboardResult.error) {
         setError(dashboardResult.error.message);
@@ -124,12 +150,25 @@ const GrowthDashboard = () => {
       }
       if (variantResult.error) setVariantError(variantResult.error.message);
       if (reactivationResult.error) setReactivationError(reactivationResult.error.message);
+      if (retentionResult.error) setRetentionError(retentionResult.error.message);
       setData({
-        ...(dashboardResult.data as unknown as Omit<DashboardData, "content_variants_30_days" | "reactivation">),
+        ...(dashboardResult.data as unknown as Omit<DashboardData, "content_variants_30_days" | "reactivation" | "retention">),
         content_variants_30_days: variantResult.error ? [] : variantResult.data as unknown as VariantRow[],
         reactivation: reactivationResult.error
           ? { requested_30_days: 0, confirmed_30_days: 0, pending_30_days: 0, sources_30_days: [] }
           : reactivationResult.data as unknown as ReactivationData,
+        retention: retentionResult.error
+          ? {
+            tracking_started_at: "",
+            first_eligible_at: "",
+            awaiting_maturity: 0,
+            eligible_acquisitions: 0,
+            retained_at_30_days: 0,
+            currently_active_after_30_days: 0,
+            retention_rate: null,
+            cohorts: [],
+          }
+          : retentionResult.data as unknown as RetentionData,
       });
     };
     void load();
@@ -139,8 +178,8 @@ const GrowthDashboard = () => {
   if (!data) return <main className="min-h-screen p-24 text-center text-gray-500">Loading growth data...</main>;
 
   const funnel = data.funnel_30_days;
-  const formConversion = funnel.form_views > 0 ? Math.round((funnel.signup_successes / funnel.form_views) * 100) : 0;
-  const growthChange = data.subscribers.new_30_days - data.subscribers.previous_30_days;
+  const formConversion = funnel.form_views > 0 ? Math.round((data.subscribers.acquired_30_days / funnel.form_views) * 100) : 0;
+  const growthChange = data.subscribers.acquired_30_days - data.subscribers.acquired_previous_30_days;
   const reactivationRate = data.reactivation.requested_30_days > 0
     ? Math.round((data.reactivation.confirmed_30_days / data.reactivation.requested_30_days) * 100)
     : 0;
@@ -170,11 +209,30 @@ const GrowthDashboard = () => {
 
         <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           <MetricCard label="Active subscribers" value={data.subscribers.total} note="Current list" />
-          <MetricCard label="New in 30 days" value={data.subscribers.new_30_days} note="Current window" />
-          <MetricCard label="Previous 30 days" value={data.subscribers.previous_30_days} note="Comparison window" />
-          <MetricCard label="New in 7 days" value={data.subscribers.new_7_days} note="Recent pace" />
+          <MetricCard label="Acquired in 30 days" value={data.subscribers.acquired_30_days} note={`${data.subscribers.active_from_30_day_acquisitions} still active`} />
+          <MetricCard label="Previous 30 days" value={data.subscribers.acquired_previous_30_days} note="All acquired" />
+          <MetricCard label="Acquired in 7 days" value={data.subscribers.acquired_7_days} note={`${data.subscribers.active_from_7_day_acquisitions} still active`} />
           <MetricCard label="Form conversion" value={formConversion} suffix="%" note="Measured views to signups" />
         </div>
+
+        <section className="mb-8 rounded-xl border border-gray-200 bg-white p-6">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h2 className="font-serif text-lg font-bold text-navy-dark">30-day subscriber retention</h2>
+              <p className="mt-1 text-xs text-gray-500">Exact aggregate cohort measurement starts with this release; historical retention is not guessed.</p>
+            </div>
+            {retentionError && <p className="text-xs text-amber-700">Retention tracking is waiting for its database update.</p>}
+          </div>
+          <div className="grid gap-5 sm:grid-cols-4">
+            <MetricCard label="Awaiting day 30" value={data.retention.awaiting_maturity} note="New measured cohort" />
+            <MetricCard label="Eligible acquisitions" value={data.retention.eligible_acquisitions} note="Reached day 30" />
+            <MetricCard label="Retained at day 30" value={data.retention.retained_at_30_days} note="Exact status at maturity" />
+            <MetricCard label="30-day retention" value={data.retention.retention_rate ?? 0} suffix="%" note={data.retention.retention_rate === null ? "First result after 30 days" : "Retained per eligible acquisition"} />
+          </div>
+          {data.retention.first_eligible_at && data.retention.eligible_acquisitions === 0 && (
+            <p className="mt-4 text-xs text-gray-500">First exact cohort result can appear after {new Date(data.retention.first_eligible_at).toLocaleDateString()}.</p>
+          )}
+        </section>
 
         <section className="mb-8 rounded-xl bg-navy-dark p-6 text-white">
           <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.2em] text-red-400">operator readout</p>
@@ -184,7 +242,8 @@ const GrowthDashboard = () => {
         </section>
 
         <section className="mb-8 rounded-xl border border-gray-200 bg-white p-6">
-          <h2 className="mb-5 font-serif text-lg font-bold text-navy-dark">Measured journey, last 30 days</h2>
+          <h2 className="mb-2 font-serif text-lg font-bold text-navy-dark">Measured journey, last 30 days</h2>
+          <p className="mb-5 text-xs text-gray-500">Unique sessions, not repeat event rows.</p>
           <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-9">
             {Object.entries(funnel).map(([label, value]) => (
               <div key={label}>
