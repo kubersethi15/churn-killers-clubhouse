@@ -4,7 +4,8 @@ These pitches describe Churn Is Dead's published operating ideas. They do not ma
 
 ## Customer Success Collective: contributed article
 
-**To:** contribute@customersuccesscollective.com  
+**To:** contribute@customersuccesscollective.com
+
 **Subject:** Contribution idea: stop putting customer friction into backlog limbo
 
 Hi CSC team,
@@ -19,13 +20,16 @@ This is a non-promotional operating article with a reusable review agenda and de
 
 Would this fit your Product and CS, cross-functional collaboration, or reducing churn coverage?
 
-Kuber Sethi  
-Churn Is Dead  
+Kuber Sethi
+
+Churn Is Dead
+
 https://churnisdead.com/
 
 ## Customer Success Collective: podcast
 
-**To:** contribute@customersuccesscollective.com  
+**To:** contribute@customersuccesscollective.com
+
 **Subject:** Podcast idea: the hidden metric behind Product and CS trust
 
 Hi CSC team,
@@ -43,13 +47,16 @@ A useful episode could cover:
 
 Listeners would leave with a review format and a decision record they can use immediately. I am happy to adapt the angle to your audience and keep the conversation educational rather than promotional.
 
-Kuber Sethi  
-Churn Is Dead  
+Kuber Sethi
+
+Churn Is Dead
+
 https://churnisdead.com/
 
 ## Customer Success Network: guest insight
 
-**To:** community@customersuccess.network  
+**To:** community@customersuccess.network
+
 **Subject:** Guest article idea: measure decision latency, not backlog activity
 
 Hi CSN team,
@@ -62,7 +69,8 @@ The piece would be non-promotional, source-led, and written for practitioners. R
 
 Would this be useful for your community?
 
-Kuber Sethi  
-Churn Is Dead  
-https://churnisdead.com/
+Kuber Sethi
 
+Churn Is Dead
+
+https://churnisdead.com/

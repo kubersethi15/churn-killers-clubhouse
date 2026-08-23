@@ -1,6 +1,7 @@
 # Churn Is Dead growth operating system
 
-**Start:** 24 August 2026  
+**Start:** 24 August 2026
+
 **Goal:** turn borrowed attention into attributable, retained newsletter subscribers and repeat use of Churn Is Dead tools.
 
 Editorial quality is the product foundation. It is not the distribution strategy. Growth runs through four loops that can operate outside the weekly publishing workflow.
@@ -111,4 +112,3 @@ Every Monday:
 3. keep, revise, or stop the tested motion;
 4. activate at most one next tagged experiment;
 5. choose one relationship or partner action that compounds even if no link is published.
-

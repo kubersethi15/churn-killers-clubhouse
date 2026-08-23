@@ -13,4 +13,3 @@ This log records consequential external growth actions. It contains aggregate op
 - Sent and verified a non-promotional contributed-article pitch to Customer Success Collective.
 - Added a `Growth Partnerships` tab to the shared manager sheet with eight sequenced opportunities, status, next action, and attribution labels.
 - Remote table statistics estimated roughly 325 subscriber rows and 179 growth-event rows. These are database estimates, not an exact active-subscriber report; exact acquisition and 30-day retention remain the reporting standard.
-
