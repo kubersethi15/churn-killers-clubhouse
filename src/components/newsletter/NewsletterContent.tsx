@@ -4,6 +4,7 @@ import { ExternalLink, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import NewsletterForm from "@/components/NewsletterForm";
 import { Newsletter } from "@/types/newsletter";
+import { trackGrowthEvent } from "@/utils/growthTracking";
 
 type VaultResource = {
   title: string;
@@ -22,6 +23,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
   const formattedContent = formatContent(newsletter.content);
   const newsletterUrl = `https://churnisdead.com/newsletter/${newsletter.slug}`;
   const linkedinShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(newsletterUrl)}`;
+  const usesCurrentEditorialStandard = new Date(newsletter.published_date).getTime() >= new Date("2026-08-25T00:00:00Z").getTime();
 
   // Find a good midpoint to inject a CTA (after ~40% of paragraphs)
   const paragraphs = formattedContent.split('</p>');
@@ -37,10 +39,10 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
   const midArticleCta = (
     <div className="my-10 py-6 px-6 border border-gray-200 rounded-lg bg-gray-50 text-center">
       <p className="text-sm font-semibold text-navy-dark mb-1">
-        Getting value from this? Don't miss the next one.
+        Put the next framework to work before everyone else.
       </p>
       <p className="text-xs text-gray-400 mb-4">
-        New framework every Tuesday for serious CS operators.
+        One evidence-led operating model and one usable playbook every Tuesday.
       </p>
       <div className="max-w-xs mx-auto">
         <NewsletterForm
@@ -60,6 +62,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
         href={linkedinShareUrl}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() => void trackGrowthEvent({ eventName: "content_share", resourceId: "linkedin" })}
         className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#0A66C2] text-white text-xs font-semibold rounded hover:bg-opacity-90 transition-colors"
       >
         LinkedIn
@@ -67,6 +70,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
       <button
         onClick={() => {
           navigator.clipboard.writeText(newsletterUrl);
+          void trackGrowthEvent({ eventName: "content_share", resourceId: "copy_link" });
         }}
         className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 text-gray-600 text-xs font-semibold rounded hover:bg-gray-50 transition-colors"
       >
@@ -77,6 +81,11 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
 
   const fullContent = (
     <>
+      {!usesCurrentEditorialStandard && (
+        <aside className="mb-10 rounded-lg border border-amber-200 bg-amber-50 px-5 py-4 text-sm leading-relaxed text-amber-900">
+          <strong>Archive note:</strong> This issue predates the evidence ledger introduced in August 2026. Treat uncited benchmarks and examples as editorial analysis, not independently verified findings.
+        </aside>
+      )}
       {/* Main article content with mid-article CTA */}
       {hasMidSplit ? (
         <>
@@ -115,6 +124,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
                   href={resource.notionLink} 
                   target="_blank" 
                   rel="noopener noreferrer"
+                  onClick={() => void trackGrowthEvent({ eventName: "resource_open", resourceId: resource.title })}
                   className="inline-flex items-center gap-1.5 text-sm font-semibold text-red-600 hover:underline"
                 >
                   Open in Notion <ExternalLink className="w-3.5 h-3.5" />
@@ -128,10 +138,10 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
       {/* Subscribe CTA */}
       <div className="my-14 py-10 px-8 bg-navy-dark rounded-lg text-center">
         <h3 className="text-xl font-serif font-bold text-white mb-2">
-          Enjoyed this? There's more every Tuesday.
+          The article is the argument. The next issue is the operating system.
         </h3>
         <p className="text-sm text-gray-400 mb-6">
-          Frameworks, hard truths, and plays you can run this week.
+          Join senior CS operators getting a researched framework and free playbook every Tuesday.
         </p>
         <div className="max-w-sm mx-auto">
           <NewsletterForm 

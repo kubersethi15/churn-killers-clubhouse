@@ -201,6 +201,51 @@ export type Database = {
         }
         Relationships: []
       }
+      growth_events: {
+        Row: {
+          campaign: string | null
+          content_slug: string | null
+          created_at: string
+          event_name: string
+          id: string
+          medium: string | null
+          page_path: string
+          referrer_host: string | null
+          resource_id: string | null
+          session_id: string
+          signup_location: string | null
+          source: string | null
+        }
+        Insert: {
+          campaign?: string | null
+          content_slug?: string | null
+          created_at?: string
+          event_name: string
+          id?: string
+          medium?: string | null
+          page_path: string
+          referrer_host?: string | null
+          resource_id?: string | null
+          session_id: string
+          signup_location?: string | null
+          source?: string | null
+        }
+        Update: {
+          campaign?: string | null
+          content_slug?: string | null
+          created_at?: string
+          event_name?: string
+          id?: string
+          medium?: string | null
+          page_path?: string
+          referrer_host?: string | null
+          resource_id?: string | null
+          session_id?: string
+          signup_location?: string | null
+          source?: string | null
+        }
+        Relationships: []
+      }
       internal_config: {
         Row: {
           key: string
@@ -335,27 +380,42 @@ export type Database = {
           email: string
           external_referrer: string | null
           id: string
+          landing_page: string | null
           last_subject_variant: string | null
+          signup_location: string | null
           source_page: string | null
           subscribed: boolean
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
         }
         Insert: {
           created_at?: string
           email: string
           external_referrer?: string | null
           id?: string
+          landing_page?: string | null
           last_subject_variant?: string | null
+          signup_location?: string | null
           source_page?: string | null
           subscribed?: boolean
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
         }
         Update: {
           created_at?: string
           email?: string
           external_referrer?: string | null
           id?: string
+          landing_page?: string | null
           last_subject_variant?: string | null
+          signup_location?: string | null
           source_page?: string | null
           subscribed?: boolean
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
         }
         Relationships: []
       }
@@ -490,6 +550,7 @@ export type Database = {
           title: string
         }[]
       }
+      get_growth_dashboard: { Args: never; Returns: Json }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

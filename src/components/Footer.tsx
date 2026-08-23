@@ -27,6 +27,7 @@ const Footer = () => {
                 <Link to="/newsletters" className="text-gray-400 hover:text-navy-dark transition-colors">Issues</Link>
                 <Link to="/playbook" className="text-gray-400 hover:text-navy-dark transition-colors">Playbooks</Link>
                 <Link to="/about" className="text-gray-400 hover:text-navy-dark transition-colors">About</Link>
+                <Link to="/editorial-standards" className="text-gray-400 hover:text-navy-dark transition-colors">Standards</Link>
                 <button 
                   onClick={() => setIsContactOpen(true)} 
                   className="text-gray-400 hover:text-navy-dark transition-colors bg-transparent border-none p-0 cursor-pointer"
