@@ -29,16 +29,27 @@ BEGIN
     RAISE EXCEPTION 'Admin access required';
   END IF;
 
-  WITH visit_rows AS (
+  WITH activity_rows AS (
     SELECT
       lower(COALESCE(NULLIF(source, ''), 'direct')) AS source,
       lower(COALESCE(NULLIF(medium, ''), 'none')) AS medium,
       lower(COALESCE(NULLIF(campaign, ''), 'none')) AS campaign,
       lower(utm_content) AS variant,
-      count(DISTINCT session_id) AS visits
+      count(DISTINCT session_id) FILTER (
+        WHERE event_name = 'page_view'
+      ) AS visits,
+      count(DISTINCT session_id) FILTER (
+        WHERE event_name = 'form_view'
+      ) AS form_view_sessions,
+      count(DISTINCT session_id) FILTER (
+        WHERE event_name = 'form_submit'
+      ) AS form_submit_sessions,
+      count(DISTINCT session_id) FILTER (
+        WHERE event_name IN ('resource_open', 'content_share', 'reader_pulse_response')
+          OR (event_name = 'page_view' AND page_path = '/cs-analyzer/demo')
+      ) AS qualified_action_sessions
     FROM public.growth_events
-    WHERE event_name = 'page_view'
-      AND created_at >= now() - interval '30 days'
+    WHERE created_at >= now() - interval '30 days'
       AND NULLIF(utm_content, '') IS NOT NULL
     GROUP BY 1, 2, 3, 4
   ), signup_rows AS (
@@ -47,28 +58,32 @@ BEGIN
       lower(COALESCE(NULLIF(utm_medium, ''), 'none')) AS medium,
       lower(COALESCE(NULLIF(utm_campaign, ''), 'none')) AS campaign,
       lower(utm_content) AS variant,
-      count(*) AS signups
+      count(*) AS signups,
+      count(*) FILTER (WHERE subscribed = true) AS active_subscribers
     FROM public.subscribers
-    WHERE subscribed = true
-      AND created_at >= now() - interval '30 days'
+    WHERE created_at >= now() - interval '30 days'
       AND NULLIF(utm_content, '') IS NOT NULL
     GROUP BY 1, 2, 3, 4
   )
   SELECT COALESCE(jsonb_agg(jsonb_build_object(
-    'source', COALESCE(visits.source, signups.source),
-    'medium', COALESCE(visits.medium, signups.medium),
-    'campaign', COALESCE(visits.campaign, signups.campaign),
-    'variant', COALESCE(visits.variant, signups.variant),
-    'visits', COALESCE(visits.visits, 0),
-    'signups', COALESCE(signups.signups, 0)
-  ) ORDER BY COALESCE(signups.signups, 0) DESC, COALESCE(visits.visits, 0) DESC), '[]'::jsonb)
+    'source', COALESCE(activity.source, signups.source),
+    'medium', COALESCE(activity.medium, signups.medium),
+    'campaign', COALESCE(activity.campaign, signups.campaign),
+    'variant', COALESCE(activity.variant, signups.variant),
+    'visits', COALESCE(activity.visits, 0),
+    'form_view_sessions', COALESCE(activity.form_view_sessions, 0),
+    'form_submit_sessions', COALESCE(activity.form_submit_sessions, 0),
+    'qualified_action_sessions', COALESCE(activity.qualified_action_sessions, 0),
+    'signups', COALESCE(signups.signups, 0),
+    'active_subscribers', COALESCE(signups.active_subscribers, 0)
+  ) ORDER BY COALESCE(signups.signups, 0) DESC, COALESCE(activity.qualified_action_sessions, 0) DESC, COALESCE(activity.visits, 0) DESC), '[]'::jsonb)
   INTO result
-  FROM visit_rows visits
+  FROM activity_rows activity
   FULL OUTER JOIN signup_rows signups
-    ON visits.source = signups.source
-    AND visits.medium = signups.medium
-    AND visits.campaign = signups.campaign
-    AND visits.variant = signups.variant;
+    ON activity.source = signups.source
+    AND activity.medium = signups.medium
+    AND activity.campaign = signups.campaign
+    AND activity.variant = signups.variant;
 
   RETURN result;
 END;
@@ -82,4 +97,4 @@ COMMENT ON COLUMN public.subscribers.utm_content IS
 COMMENT ON COLUMN public.growth_events.utm_content IS
   'Campaign creative or placement variant. UTM values must never contain PII.';
 COMMENT ON FUNCTION public.get_growth_variant_dashboard() IS
-  'Returns aggregate-only 30-day unique sessions and signups by campaign variant to authenticated admins.';
+  'Returns aggregate-only 30-day visits, funnel sessions, qualified-action sessions, acquired signups, and currently active subscribers by campaign variant to authenticated admins.';
