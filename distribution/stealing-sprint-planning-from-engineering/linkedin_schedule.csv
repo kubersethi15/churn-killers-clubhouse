@@ -1,4 +1,5 @@
-Most product requests do not have a prioritisation problem.
+Date,Time,Timezone,Day,Content,First Comment,Platform,Status,Newsletter,Strategy
+2026-08-25,18:15,Australia/Sydney,Tuesday,"Most product requests do not have a prioritisation problem.
 
 They have a decision-quality problem.
 
@@ -28,5 +29,7 @@ This does not give CS control of the roadmap.
 
 It gives customers something more credible than “it is in the backlog.”
 
-Full framework and the free review template:
+The full framework and free review template are in the first comment.","The Product Friction Review and free template:
 https://churnisdead.com/newsletter/stealing-sprint-planning-from-engineering?utm_source=linkedin&utm_medium=post&utm_campaign=stealing-sprint-planning-from-engineering&utm_content=tuesday_launch
+
+Churn Is Dead publishes one evidence-led CS operating framework each Tuesday.",LinkedIn,Draft - approval required,stealing-sprint-planning-from-engineering,Newsletter launch

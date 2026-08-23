@@ -1,187 +1,200 @@
 #!/usr/bin/env python3
-"""
-Export LinkedIn posts to a CSV file compatible with Buffer, Typefully, and other schedulers.
-Reads from distribution/{slug}/linkedin_posts.md
-Also creates a consolidated schedule.csv in distribution/ with all posts for the week.
+"""Create an approval-safe LinkedIn manager handoff for one editorial issue.
+
+The website remains canonical. Tuesday's LinkedIn adaptation is timed after the
+issue is live in Sydney and remains a draft until distribution approval exists.
 
 Usage:
-  python scripts/export_linkedin_schedule.py
-  # Reads slug from /tmp/newsletter_slug.txt (set by generate_newsletter.py)
+  python scripts/export_linkedin_schedule.py <slug>
+  python scripts/export_linkedin_schedule.py <slug> --approved-buffer
 
-Output:
-  distribution/{slug}/linkedin_schedule.csv
-  distribution/weekly_schedule.csv (append mode)
+The Buffer export is deliberately unavailable until the issue's
+distribution-approval.json records LinkedIn as approved.
 """
 
+from __future__ import annotations
+
+import argparse
 import csv
-import os
+import json
 import re
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, time, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
-REPO_ROOT = Path(__file__).parent.parent
+REPO_ROOT = Path(__file__).resolve().parent.parent
 DISTRIBUTION_DIR = REPO_ROOT / "distribution"
-
-# Default posting times in AEST (UTC+10 during non-DST, UTC+11 during DST)
-# LinkedIn best engagement: 7-8am, 12pm, 5-6pm AEST
-POST_TIMES = {
-    "Tuesday": "08:00",
-    "Wednesday": "12:00",
-    "Thursday": "08:00",
-    "Friday": "17:00",
+EDITORIAL_DIR = REPO_ROOT / "editorial" / "issues"
+SYDNEY = ZoneInfo("Australia/Sydney")
+DEFAULT_POST_TIME = time(17, 30)
+TUESDAY_LAUNCH_DELAY = timedelta(minutes=15)
+WEEKDAYS = {
+    "Monday": 0,
+    "Tuesday": 1,
+    "Wednesday": 2,
+    "Thursday": 3,
+    "Friday": 4,
+    "Saturday": 5,
+    "Sunday": 6,
 }
 
 
-def get_next_weekday(target_day: str) -> datetime:
-    """Get the next occurrence of a weekday from today."""
-    days = {"Monday": 0, "Tuesday": 1, "Wednesday": 2, "Thursday": 3,
-            "Friday": 4, "Saturday": 5, "Sunday": 6}
-    today = datetime.now(timezone.utc)
-    target = days.get(target_day, 1)
-    days_ahead = target - today.weekday()
-    if days_ahead <= 0:
-        days_ahead += 7
-    return today + timedelta(days=days_ahead)
+def parse_linkedin_posts(filepath: Path) -> list[dict[str, str]]:
+    """Parse the deterministic POST N - DAY distribution format."""
+    blocks = re.split(r"={50,}", filepath.read_text(encoding="utf-8"))
+    posts: list[dict[str, str]] = []
+    current_day: str | None = None
+    current_strategy = ""
 
-
-def parse_linkedin_posts(filepath: Path) -> list:
-    """Parse linkedin_posts.md into structured posts."""
-    text = filepath.read_text()
-    posts = []
-
-    # Split by the separator pattern
-    blocks = re.split(r'={50,}', text)
-
-    current_day = None
-    current_strategy = None
-
-    for block in blocks:
-        block = block.strip()
+    for raw_block in blocks:
+        block = raw_block.strip()
         if not block:
             continue
 
-        # Check if this is a header block (POST N -- DAY)
-        day_match = re.search(r'POST \d+ -- (\w+)', block)
+        day_match = re.search(r"POST\s+\d+\s+-{1,2}\s+([A-Za-z]+)", block, re.IGNORECASE)
         if day_match:
             current_day = day_match.group(1).title()
-            # Extract strategy
-            strat_match = re.search(r'Strategy: (.+)', block)
-            current_strategy = strat_match.group(1) if strat_match else ""
+            strategy_match = re.search(r"Strategy:\s*(.+)", block, re.IGNORECASE)
+            current_strategy = strategy_match.group(1).strip() if strategy_match else "Newsletter launch"
             continue
 
-        # This is a content block
-        if current_day and block:
-            # Clean up the content
-            content = block.strip()
-            if content and len(content) > 20:  # Skip very short fragments
-                posts.append({
-                    "day": current_day,
-                    "content": content,
-                    "strategy": current_strategy or "",
-                })
-                current_day = None  # Reset for next post
+        if current_day and len(block) > 20:
+            posts.append({"day": current_day, "content": block, "strategy": current_strategy})
+            current_day = None
+            current_strategy = ""
 
     return posts
 
 
-def create_schedule_csv(posts: list, slug: str, output_path: Path):
-    """Create a CSV file compatible with Buffer and Typefully."""
-    rows = []
+def load_publication_time(slug: str) -> datetime | None:
+    metadata_path = EDITORIAL_DIR / slug / "metadata.json"
+    if not metadata_path.exists():
+        return None
+    metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+    published_date = metadata.get("published_date")
+    if not published_date:
+        return None
+    parsed = datetime.fromisoformat(str(published_date).replace("Z", "+00:00"))
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(SYDNEY)
 
+
+def scheduled_time(day_name: str, publication_time: datetime | None, now: datetime | None = None) -> datetime:
+    target_weekday = WEEKDAYS.get(day_name)
+    if target_weekday is None:
+        raise ValueError(f"Unknown weekday in LinkedIn pack: {day_name}")
+
+    if publication_time is not None:
+        if day_name == "Tuesday":
+            return publication_time + TUESDAY_LAUNCH_DELAY
+        week_start = publication_time.date() - timedelta(days=publication_time.weekday())
+        target_date = week_start + timedelta(days=target_weekday)
+        return datetime.combine(target_date, DEFAULT_POST_TIME, tzinfo=SYDNEY)
+
+    current = (now or datetime.now(SYDNEY)).astimezone(SYDNEY)
+    days_ahead = (target_weekday - current.weekday()) % 7
+    target_date = current.date() + timedelta(days=days_ahead)
+    candidate = datetime.combine(target_date, DEFAULT_POST_TIME, tzinfo=SYDNEY)
+    if candidate <= current:
+        candidate += timedelta(days=7)
+    return candidate
+
+
+def manager_rows(
+    posts: list[dict[str, str]],
+    slug: str,
+    publication_time: datetime | None,
+    first_comment: str = "",
+) -> list[dict[str, str]]:
+    rows: list[dict[str, str]] = []
     for post in posts:
-        day = post["day"]
-        time = POST_TIMES.get(day, "08:00")
-        date = get_next_weekday(day)
-        scheduled_dt = date.strftime(f"%Y-%m-%d") + f" {time}"
-
+        scheduled_at = scheduled_time(post["day"], publication_time)
         rows.append({
-            "Date": scheduled_dt,
-            "Day": day,
+            "Date": scheduled_at.strftime("%Y-%m-%d"),
+            "Time": scheduled_at.strftime("%H:%M"),
+            "Timezone": "Australia/Sydney",
+            "Day": post["day"],
             "Content": post["content"],
+            "First Comment": first_comment,
             "Platform": "LinkedIn",
-            "Status": "Scheduled",
+            "Status": "Draft - approval required",
             "Newsletter": slug,
             "Strategy": post["strategy"],
         })
+    return rows
 
+
+def write_csv(rows: list[dict[str, str]], output_path: Path) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
-
-    with open(output_path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=["Date", "Day", "Content", "Platform", "Status", "Newsletter", "Strategy"])
+    fieldnames = ["Date", "Time", "Timezone", "Day", "Content", "First Comment", "Platform", "Status", "Newsletter", "Strategy"]
+    with output_path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
-    return rows
+
+def linkedin_is_approved(slug: str) -> bool:
+    approval_path = EDITORIAL_DIR / slug / "distribution-approval.json"
+    if not approval_path.exists():
+        return False
+    approval = json.loads(approval_path.read_text(encoding="utf-8"))
+    return approval.get("linkedin", {}).get("status") == "approved"
 
 
-def create_buffer_csv(posts: list, slug: str, output_path: Path):
-    """Create a simplified CSV for Buffer bulk upload (Text, Scheduled At)."""
-    rows = []
-
-    for post in posts:
-        day = post["day"]
-        time = POST_TIMES.get(day, "08:00")
-        date = get_next_weekday(day)
-        # Buffer expects: Text, Scheduled At (ISO format)
-        scheduled_iso = date.strftime(f"%Y-%m-%dT{time}:00+10:00")
-
-        rows.append({
-            "Text": post["content"],
-            "Scheduled At": scheduled_iso,
-        })
-
-    with open(output_path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=["Text", "Scheduled At"])
+def write_buffer_csv(rows: list[dict[str, str]], output_path: Path) -> None:
+    with output_path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["Text", "Scheduled At"], lineterminator="\n")
         writer.writeheader()
-        writer.writerows(rows)
+        for row in rows:
+            local_date = date.fromisoformat(row["Date"])
+            local_time = time.fromisoformat(row["Time"])
+            scheduled_at = datetime.combine(local_date, local_time, tzinfo=SYDNEY)
+            writer.writerow({"Text": row["Content"], "Scheduled At": scheduled_at.isoformat()})
 
-    return rows
+
+def resolve_slug(explicit_slug: str | None) -> str:
+    if explicit_slug:
+        return explicit_slug
+    legacy_slug_file = Path("/tmp/newsletter_slug.txt")
+    if legacy_slug_file.exists():
+        return legacy_slug_file.read_text(encoding="utf-8").strip()
+    raise ValueError("Pass the editorial issue slug explicitly.")
 
 
-def main():
-    # Get the slug
-    slug_file = Path("/tmp/newsletter_slug.txt")
-    if not slug_file.exists():
-        print("   LinkedIn export: No slug file found — skipping")
-        return
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("slug", nargs="?")
+    parser.add_argument("--approved-buffer", action="store_true", help="Create a Buffer import only after recorded LinkedIn approval")
+    args = parser.parse_args()
 
-    slug = slug_file.read_text().strip()
-    posts_file = DISTRIBUTION_DIR / slug / "linkedin_posts.md"
+    slug = resolve_slug(args.slug)
+    if args.approved_buffer and not linkedin_is_approved(slug):
+        parser.error("LinkedIn distribution is not approved; Buffer export was not created.")
 
+    issue_dir = DISTRIBUTION_DIR / slug
+    posts_file = issue_dir / "linkedin_posts.md"
     if not posts_file.exists():
-        print(f"   LinkedIn export: No linkedin_posts.md found for {slug} — skipping")
-        return
-
-    print(f"   LinkedIn export: Processing posts for '{slug}'...")
+        raise FileNotFoundError(f"No LinkedIn distribution pack found for {slug}")
 
     posts = parse_linkedin_posts(posts_file)
-
     if not posts:
-        print("   LinkedIn export: No posts parsed — skipping")
-        return
+        raise ValueError(f"No posts parsed from {posts_file}")
 
-    # Create detailed schedule CSV
-    schedule_path = DISTRIBUTION_DIR / slug / "linkedin_schedule.csv"
-    rows = create_schedule_csv(posts, slug, schedule_path)
-    print(f"   LinkedIn export: {len(rows)} posts → {schedule_path}")
+    first_comment_path = issue_dir / "linkedin_first_comment.md"
+    first_comment = first_comment_path.read_text(encoding="utf-8").strip() if first_comment_path.exists() else ""
+    rows = manager_rows(posts, slug, load_publication_time(slug), first_comment)
+    schedule_path = issue_dir / "linkedin_schedule.csv"
+    write_csv(rows, schedule_path)
+    print(f"LinkedIn manager draft: {len(rows)} post(s) -> {schedule_path}")
 
-    # Create Buffer-compatible CSV
-    buffer_path = DISTRIBUTION_DIR / slug / "buffer_import.csv"
-    create_buffer_csv(posts, slug, buffer_path)
-    print(f"   LinkedIn export: Buffer CSV → {buffer_path}")
+    if args.approved_buffer:
+        buffer_path = issue_dir / "buffer_import.csv"
+        write_buffer_csv(rows, buffer_path)
+        print(f"Approved Buffer import -> {buffer_path}")
 
-    # Create/update consolidated weekly schedule
-    weekly_path = DISTRIBUTION_DIR / "weekly_schedule.csv"
-    file_exists = weekly_path.exists()
-
-    with open(weekly_path, "a", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=["Date", "Day", "Content", "Platform", "Status", "Newsletter", "Strategy"])
-        if not file_exists:
-            writer.writeheader()
-        writer.writerows(rows)
-
-    print(f"   LinkedIn export: Appended to {weekly_path}")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

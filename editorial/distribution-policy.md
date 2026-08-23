@@ -24,7 +24,11 @@ Use these campaign parameters on external links:
 
 `utm_campaign`: the canonical issue slug or a short campaign name
 
+`utm_content`: a stable, non-personal label for the specific asset or placement, such as `tuesday_launch`, `follow_up`, or `linkedin_newsletter`
+
 Never put email addresses, names, customer data, or free-text audience descriptions in campaign parameters.
+
+Use one `utm_content` value per published asset. Do not change the label after publication. Compare unique sessions, subscriptions, and useful playbook activity by variant, not raw impressions alone.
 
 ## Eight-week growth test
 

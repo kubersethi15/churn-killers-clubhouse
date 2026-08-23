@@ -54,6 +54,11 @@ def package(issue_dir: Path) -> dict[str, str]:
         (private_dir / "linkedin_posts.md").write_text(linkedin_posts, encoding="utf-8")
         (public_dir / "linkedin_posts.md").write_text(linkedin_posts, encoding="utf-8")
 
+    first_comment_source = issue_dir / "linkedin-first-comment.md"
+    if first_comment_source.exists():
+        for output_dir in (private_dir, public_dir):
+            shutil.copyfile(first_comment_source, output_dir / "linkedin_first_comment.md")
+
     newsletter_source = issue_dir / "linkedin-newsletter.md"
     if newsletter_source.exists():
         for output_dir in (private_dir, public_dir):

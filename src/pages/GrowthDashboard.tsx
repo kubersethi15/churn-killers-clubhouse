@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 type SignupRow = { source?: string; page?: string; campaign?: string; week?: string; signups: number };
 type ResourceRow = { resource: string; opens: number };
 type PulseRow = { answer: string; responses: number };
+type VariantRow = { source: string; medium: string; campaign: string; variant: string; visits: number; signups: number };
 type DashboardData = {
   subscribers: { total: number; new_7_days: number; new_30_days: number; previous_30_days: number };
   funnel_30_days: {
@@ -24,6 +25,7 @@ type DashboardData = {
   weekly_growth: SignupRow[];
   top_resources_30_days: ResourceRow[];
   reader_pulse_30_days: PulseRow[];
+  content_variants_30_days: VariantRow[];
 };
 
 const MetricCard = ({ label, value, note, suffix = "" }: { label: string; value: number; note: string; suffix?: string }) => (
@@ -49,15 +51,56 @@ const RankedList = ({ title, rows, labelKey, valueKey = "signups" }: { title: st
   </section>
 );
 
+const VariantTable = ({ rows }: { rows: VariantRow[] }) => (
+  <section className="rounded-xl border border-gray-200 bg-white p-6">
+    <h2 className="mb-2 font-serif text-lg font-bold text-navy-dark">Distribution variants, 30 days</h2>
+    <p className="mb-5 text-xs text-gray-500">Compare qualified visits and subscriptions only after each variant has enough traffic to judge.</p>
+    <div className="overflow-x-auto">
+      <table className="w-full min-w-[640px] text-left text-sm">
+        <thead className="border-b border-gray-200 text-[10px] uppercase tracking-[0.16em] text-gray-500">
+          <tr><th className="pb-3 pr-4">Channel</th><th className="pb-3 pr-4">Campaign</th><th className="pb-3 pr-4">Variant</th><th className="pb-3 pr-4 text-right">Visits</th><th className="pb-3 pr-4 text-right">Signups</th><th className="pb-3 text-right">Rate</th></tr>
+        </thead>
+        <tbody>
+          {rows.map(row => {
+            const rate = row.visits > 0 ? `${Math.round((row.signups / row.visits) * 100)}%` : "—";
+            return (
+              <tr key={`${row.source}:${row.medium}:${row.campaign}:${row.variant}`} className="border-b border-gray-100 last:border-0">
+                <td className="py-3 pr-4 text-gray-600">{row.source} / {row.medium}</td>
+                <td className="py-3 pr-4 text-gray-600">{row.campaign}</td>
+                <td className="py-3 pr-4 font-semibold text-navy-dark">{row.variant.replaceAll("_", " ")}</td>
+                <td className="py-3 pr-4 text-right text-gray-600">{row.visits}</td>
+                <td className="py-3 pr-4 text-right font-semibold text-navy-dark">{row.signups}</td>
+                <td className="py-3 text-right text-gray-600">{rate}</td>
+              </tr>
+            );
+          })}
+          {rows.length === 0 && <tr><td colSpan={6} className="py-5 text-gray-500">No tagged variants yet.</td></tr>}
+        </tbody>
+      </table>
+    </div>
+  </section>
+);
+
 const GrowthDashboard = () => {
   const [data, setData] = useState<DashboardData | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [variantError, setVariantError] = useState<string | null>(null);
 
   useEffect(() => {
     const load = async () => {
-      const result = await supabase.rpc("get_growth_dashboard");
-      if (result.error) setError(result.error.message);
-      else setData(result.data as unknown as DashboardData);
+      const [dashboardResult, variantResult] = await Promise.all([
+        supabase.rpc("get_growth_dashboard"),
+        supabase.rpc("get_growth_variant_dashboard"),
+      ]);
+      if (dashboardResult.error) {
+        setError(dashboardResult.error.message);
+        return;
+      }
+      if (variantResult.error) setVariantError(variantResult.error.message);
+      setData({
+        ...(dashboardResult.data as unknown as Omit<DashboardData, "content_variants_30_days">),
+        content_variants_30_days: variantResult.error ? [] : variantResult.data as unknown as VariantRow[],
+      });
     };
     void load();
   }, []);
@@ -126,6 +169,10 @@ const GrowthDashboard = () => {
           <RankedList title="Top tools and topics" rows={data.top_resources_30_days} labelKey="resource" valueKey="opens" />
           <RankedList title="Reader pulse" rows={data.reader_pulse_30_days} labelKey="answer" valueKey="responses" />
           <RankedList title="Weekly growth" rows={data.weekly_growth} labelKey="week" />
+          <div className="md:col-span-2 lg:col-span-3">
+            {variantError && <p className="mb-3 text-xs text-amber-700">Variant attribution is waiting for its database update. The rest of the dashboard remains current.</p>}
+            <VariantTable rows={data.content_variants_30_days} />
+          </div>
         </div>
       </div>
     </main>

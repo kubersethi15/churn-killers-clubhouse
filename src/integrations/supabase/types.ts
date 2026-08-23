@@ -215,6 +215,7 @@ export type Database = {
           session_id: string
           signup_location: string | null
           source: string | null
+          utm_content: string | null
         }
         Insert: {
           campaign?: string | null
@@ -229,6 +230,7 @@ export type Database = {
           session_id: string
           signup_location?: string | null
           source?: string | null
+          utm_content?: string | null
         }
         Update: {
           campaign?: string | null
@@ -243,6 +245,7 @@ export type Database = {
           session_id?: string
           signup_location?: string | null
           source?: string | null
+          utm_content?: string | null
         }
         Relationships: []
       }
@@ -386,6 +389,7 @@ export type Database = {
           source_page: string | null
           subscribed: boolean
           utm_campaign: string | null
+          utm_content: string | null
           utm_medium: string | null
           utm_source: string | null
           welcome_email_sent_at: string | null
@@ -401,6 +405,7 @@ export type Database = {
           source_page?: string | null
           subscribed?: boolean
           utm_campaign?: string | null
+          utm_content?: string | null
           utm_medium?: string | null
           utm_source?: string | null
           welcome_email_sent_at?: string | null
@@ -416,6 +421,7 @@ export type Database = {
           source_page?: string | null
           subscribed?: boolean
           utm_campaign?: string | null
+          utm_content?: string | null
           utm_medium?: string | null
           utm_source?: string | null
           welcome_email_sent_at?: string | null
@@ -554,6 +560,7 @@ export type Database = {
         }[]
       }
       get_growth_dashboard: { Args: never; Returns: Json }
+      get_growth_variant_dashboard: { Args: never; Returns: Json }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
