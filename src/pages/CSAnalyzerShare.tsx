@@ -129,7 +129,7 @@ const CSAnalyzerShare = () => {
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
 
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         {/* Banner */}
         <section className="border-b border-navy-dark/10 bg-cream/40">
           <div className="max-w-5xl mx-auto px-4 md:px-6 py-6 flex items-center justify-between gap-4 flex-wrap">

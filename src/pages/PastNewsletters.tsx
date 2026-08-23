@@ -6,7 +6,8 @@ import NewsletterForm from "@/components/NewsletterForm";
 import { supabase } from "@/integrations/supabase/client";
 import { isPreviewMode } from "@/utils/preview";
 import { format } from "date-fns";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 type Newsletter = {
   id: string;
@@ -21,6 +22,9 @@ type Newsletter = {
 const PastNewsletters = () => {
   const [newsletters, setNewsletters] = useState<Newsletter[]>([]);
   const [loading, setLoading] = useState(true);
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("All");
+  const [visibleCount, setVisibleCount] = useState(18);
   
   useEffect(() => {
     import("@/utils/seoMeta").then(({ applyRouteSeo }) =>
@@ -64,8 +68,16 @@ const PastNewsletters = () => {
 
   const formatDate = (dateString: string) => format(new Date(dateString), "MMM d, yyyy");
 
-  // Group newsletters by year-month
-  const grouped = newsletters.reduce<Record<string, Newsletter[]>>((acc, nl) => {
+  const categories = ["All", ...Array.from(new Set(newsletters.map(item => item.category).filter(Boolean) as string[])).sort()];
+  const filtered = newsletters.filter(item => {
+    const matchesCategory = category === "All" || item.category === category;
+    const haystack = `${item.title} ${item.excerpt} ${item.category ?? ""}`.toLowerCase();
+    return matchesCategory && haystack.includes(query.trim().toLowerCase());
+  });
+  const visible = filtered.slice(0, visibleCount);
+
+  // Group the visible result set by year-month.
+  const grouped = visible.reduce<Record<string, Newsletter[]>>((acc, nl) => {
     const key = format(new Date(nl.published_date), "MMMM yyyy");
     if (!acc[key]) acc[key] = [];
     acc[key].push(nl);
@@ -75,6 +87,7 @@ const PastNewsletters = () => {
   return (
     <div className="min-h-screen bg-white">
       <Header />
+      <main id="main-content">
       
       {/* Header */}
       <section className="pt-28 pb-10 md:pt-36 md:pb-14 bg-white border-b border-gray-100">
@@ -83,8 +96,8 @@ const PastNewsletters = () => {
             <h1 className="text-3xl md:text-5xl font-serif font-black text-navy-dark mb-3">
               All Issues
             </h1>
-            <p className="text-lg text-gray-400">
-              Every framework, hard truth, and tactical play we've published.
+            <p className="text-lg text-gray-600">
+              Search 40+ evidence-led frameworks by the operating problem on your desk.
             </p>
           </div>
         </div>
@@ -94,6 +107,48 @@ const PastNewsletters = () => {
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-2xl mx-auto">
+            <div className="mb-12 min-h-[365px] rounded-xl border border-gray-200 bg-gray-50 p-5 sm:min-h-[210px]">
+              {loading ? (
+                <div className="animate-pulse" aria-hidden="true">
+                  <div className="mb-4 h-3 w-24 rounded bg-gray-200" />
+                  <div className="mb-4 h-12 rounded bg-white" />
+                  <div className="flex flex-wrap gap-2">
+                    {[72, 110, 128, 84, 102, 118, 74, 132].map((width, index) => <div key={index} className="h-8 rounded-full bg-white" style={{ width }} />)}
+                  </div>
+                </div>
+              ) : newsletters.length > 0 ? (
+                <>
+                <label htmlFor="issue-search" className="text-xs font-bold uppercase tracking-widest text-navy-dark">Find an issue</label>
+                <div className="relative mt-3">
+                  <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+                  <Input
+                    id="issue-search"
+                    type="search"
+                    value={query}
+                    onChange={event => { setQuery(event.target.value); setVisibleCount(18); }}
+                    placeholder="Renewals, QBRs, risk, AI, expansion..."
+                    className="h-12 bg-white pl-11"
+                  />
+                </div>
+                <div className="mt-4 flex flex-wrap gap-2" aria-label="Filter by topic">
+                  {categories.map(item => (
+                    <button
+                      key={item}
+                      type="button"
+                      onClick={() => { setCategory(item); setVisibleCount(18); }}
+                      aria-pressed={category === item}
+                      className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${category === item ? "bg-navy-dark text-white" : "border border-gray-200 bg-white text-gray-700 hover:border-navy-dark"}`}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+                <p className="mt-4 text-xs text-gray-600" aria-live="polite">{filtered.length} {filtered.length === 1 ? "issue" : "issues"} found</p>
+                </>
+              ) : (
+                <p className="text-sm text-gray-600">The archive is loading.</p>
+              )}
+            </div>
             {loading ? (
               <div className="space-y-6">
                 {[1,2,3,4].map(i => (
@@ -104,14 +159,16 @@ const PastNewsletters = () => {
                 ))}
               </div>
             ) : newsletters.length === 0 ? (
-              <p className="text-gray-400 py-16 text-center">No issues published yet.</p>
+              <p className="text-gray-600 py-16 text-center">No issues published yet.</p>
+            ) : filtered.length === 0 ? (
+              <p className="text-gray-600 py-16 text-center">No issue matches that search. Try a broader topic.</p>
             ) : (
               <div className="space-y-14">
                 {Object.entries(grouped).map(([monthYear, items]) => (
                   <div key={monthYear}>
                     {/* Month label */}
                     <div className="flex items-center gap-3 mb-6">
-                      <span className="text-xs font-semibold uppercase tracking-widest text-gray-400">{monthYear}</span>
+                      <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-600">{monthYear}</h2>
                       <div className="flex-1 h-px bg-gray-100" />
                     </div>
 
@@ -133,7 +190,7 @@ const PastNewsletters = () => {
                               <h3 className="text-lg md:text-xl font-serif font-bold text-navy-dark leading-snug group-hover:text-red-600 transition-colors duration-200">
                                 {nl.title}
                               </h3>
-                              <p className="text-sm text-gray-400 mt-1">
+                              <p className="text-sm text-gray-600 mt-1">
                                 {formatDate(nl.published_date)} · {nl.read_time}
                               </p>
                               {nl.excerpt && (
@@ -149,6 +206,13 @@ const PastNewsletters = () => {
                     </div>
                   </div>
                 ))}
+                {visibleCount < filtered.length && (
+                  <div className="pt-2 text-center">
+                    <button onClick={() => setVisibleCount(count => count + 18)} className="rounded-lg border border-navy-dark px-5 py-2.5 text-sm font-semibold text-navy-dark hover:bg-navy-dark hover:text-white">
+                      Show more issues
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -177,6 +241,7 @@ const PastNewsletters = () => {
           </div>
         </div>
       </section>
+      </main>
       
       <Footer />
     </div>

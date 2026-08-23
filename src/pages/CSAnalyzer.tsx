@@ -997,7 +997,7 @@ const CSAnalyzer = () => {
         </header>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-auto bg-background">
+        <main id="main-content" className="flex-1 overflow-auto bg-background">
             <div className={cn("container mx-auto px-4 py-8 md:px-6", step === "results" ? "max-w-7xl" : "max-w-4xl")}>
               
               {/* Step Indicator - Only show for Manual mode */}
@@ -1233,6 +1233,9 @@ const CSAnalyzer = () => {
                           onChange={(e) => setContent(e.target.value)}
                           className="mt-2 min-h-[250px] font-mono text-sm"
                         />
+                        <p className="mt-3 rounded-md border border-amber-200 bg-amber-50 p-3 text-xs leading-relaxed text-amber-950">
+                          Redact names, contact details, credentials, and sensitive commercial data. Only submit content you are authorised to use. Transcript text is processed by external AI providers and saved with the analysis until you delete it. <Link to="/analyzer-data-handling" className="font-semibold underline">Read the data-handling details.</Link>
+                        </p>
                       </div>
 
                       {/* Divider */}

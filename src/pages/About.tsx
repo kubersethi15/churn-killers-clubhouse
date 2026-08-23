@@ -17,6 +17,7 @@ const About = () => {
   return (
     <div className="min-h-screen bg-white">
       <Header />
+      <main id="main-content">
       
       {/* Header */}
       <section className="pt-28 pb-10 md:pt-36 md:pb-14 bg-white border-b border-gray-100">
@@ -25,7 +26,7 @@ const About = () => {
             <h1 className="text-3xl md:text-5xl font-serif font-black text-navy-dark mb-3">
               About
             </h1>
-            <p className="text-lg text-gray-400">
+            <p className="text-lg text-gray-600">
               Why this exists and who writes it.
             </p>
           </div>
@@ -57,13 +58,13 @@ const About = () => {
                   The longer version
                 </h2>
                 <p className="mb-5">
-                  I'm <strong className="text-navy-dark">Kuber Sethi</strong>. I've spent 10+ years in Customer Success, mostly in enterprise environments where a single renewal can be worth millions and the politics are always more complex than the product.
+                  I'm <strong className="text-navy-dark">Kuber Sethi</strong>, the editor of Churn Is Dead. I focus on the operating questions enterprise Customer Success teams have to answer: what creates real customer movement, what makes risk visible, and how CS can show its value in decisions rather than activity.
                 </p>
                 <p className="mb-5">
                   During that time, I watched the CS industry develop a habit of confusing activity with impact. QBR decks that nobody reads. Health scores that predict nothing. Check-in calls where both parties wonder why they're there. Teams that measure themselves by meetings attended instead of decisions influenced.
                 </p>
                 <p className="mb-5">
-                  The layoffs of 2024 and 2025 weren't a surprise. They were the logical outcome of a function that struggled to prove its value in financial terms.
+                  The core problem is that activity is easy to count while decision influence is harder to prove. This publication is built to close that gap with systems a team can inspect and use.
                 </p>
                 <p className="mb-5">
                   I started Churn Is Dead because I believed the answer wasn't more inspirational LinkedIn posts about "the power of customer relationships." The answer was tactical, measurable, sometimes uncomfortable frameworks that force CS teams to confront the gap between what they do and what actually drives retention and expansion.
@@ -94,7 +95,7 @@ const About = () => {
                     <span className="text-xl font-serif font-black text-red-600 flex-shrink-0 w-8">03</span>
                     <div>
                       <p className="font-semibold text-navy-dark mb-0.5">Downloadable playbooks</p>
-                      <p className="text-sm text-gray-500">Every issue comes with a diagnostic PDF. Print it. Run it on your team. Score yourself honestly.</p>
+                      <p className="text-sm text-gray-500">Many issues include a practical audit or diagnostic. Print it. Run it on your team. Score yourself honestly.</p>
                     </div>
                   </div>
                 </div>
@@ -167,6 +168,7 @@ const About = () => {
           </div>
         </div>
       </section>
+      </main>
       
       <Footer />
     </div>

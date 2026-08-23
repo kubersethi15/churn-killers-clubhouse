@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import WaitlistModal from "@/components/WaitlistModal";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
 import Footer from "@/components/Footer";
 import { isPreviewMode } from "@/utils/preview";
 import { formatContent as formatNewsletterContent } from "@/utils/formatUtils";
-import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/contexts/AuthContext";
 import NewsletterForm from "@/components/NewsletterForm";
 
 // Real reader quotes ONLY. The "What readers say" section renders nothing while
@@ -33,10 +31,6 @@ const Index = () => {
   const [recentNewsletters, setRecentNewsletters] = useState<Newsletter[]>([]);
   const [loading, setLoading] = useState(true);
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
-  const [searchParams] = useSearchParams();
-  const { toast } = useToast();
-  const { user } = useAuth();
-  const navigate = useNavigate();
 
   useEffect(() => {
     import("@/utils/seoMeta").then(({ applyRouteSeo }) =>
@@ -131,6 +125,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white">
       <Header />
+      <main id="main-content">
       
       {/* ── HERO ── */}
       <section className="pt-28 pb-16 md:pt-36 md:pb-24 bg-navy-dark text-white relative overflow-hidden">
@@ -140,10 +135,14 @@ const Index = () => {
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-2xl mx-auto text-center">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm mb-8 text-sm text-gray-300">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm mb-5 text-sm text-gray-300">
               <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
               New issue every Tuesday
             </div>
+
+            <p className="mb-7 text-xs font-bold uppercase tracking-[0.2em] text-red-400">
+              Evidence-led operating systems for enterprise Customer Success
+            </p>
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-black mb-6 leading-[1.05] tracking-tight">
               The CS newsletter<br />
@@ -165,8 +164,18 @@ const Index = () => {
                 subscribeText=""
               />
               <p className="text-sm text-gray-300 mt-4 font-medium">Read by enterprise CS operators every Tuesday.</p>
-              <p className="text-xs text-gray-400 mt-2">Free. Instant access to the full Playbook Vault. Unsubscribe anytime.</p>
+              <p className="text-xs text-gray-400 mt-2">Free. The full Playbook Vault is open to everyone.</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-label="Publication facts" className="border-b border-gray-200 bg-cream/40">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="mx-auto grid max-w-3xl grid-cols-3 divide-x divide-gray-200 py-6 text-center">
+            <div className="px-2"><strong className="block text-xl font-serif text-navy-dark">40+</strong><span className="text-xs text-gray-600">published issues</span></div>
+            <div className="px-2"><strong className="block text-xl font-serif text-navy-dark">Tuesday</strong><span className="text-xs text-gray-600">weekly cadence</span></div>
+            <div className="px-2"><strong className="block text-xl font-serif text-navy-dark">Free</strong><span className="text-xs text-gray-600">tools &amp; playbooks</span></div>
           </div>
         </div>
       </section>
@@ -182,19 +191,19 @@ const Index = () => {
             </div>
 
             {loading ? (
-              <div className="py-16 text-center text-gray-400">Loading...</div>
+              <div className="py-16 text-center text-gray-600">Loading...</div>
             ) : latestNewsletter ? (
               <Link to={`/newsletter/${latestNewsletter.slug}`} className="group block">
                 <article>
                   {latestNewsletter.category && (
-                    <span className="text-xs font-medium uppercase tracking-wider text-gray-400 mb-3 block">
+                    <span className="text-xs font-medium uppercase tracking-wider text-gray-600 mb-3 block">
                       {latestNewsletter.category}
                     </span>
                   )}
                   <h2 className="text-3xl md:text-5xl font-serif font-black text-navy-dark mb-4 leading-tight group-hover:text-red-600 transition-colors duration-200">
                     {latestNewsletter.title}
                   </h2>
-                  <p className="text-sm text-gray-400 mb-5">
+                  <p className="text-sm text-gray-600 mb-5">
                     {formatDate(latestNewsletter.published_date)} · {latestNewsletter.read_time}
                   </p>
                   <div
@@ -207,7 +216,7 @@ const Index = () => {
                 </article>
               </Link>
             ) : (
-              <div className="py-16 text-center text-gray-400">No newsletters yet.</div>
+              <div className="py-16 text-center text-gray-600">No newsletters yet.</div>
             )}
           </div>
         </div>
@@ -235,7 +244,7 @@ const Index = () => {
                         <h3 className="text-xl md:text-2xl font-serif font-bold text-navy-dark leading-snug group-hover:text-red-600 transition-colors duration-200">
                           {nl.title}
                         </h3>
-                        <p className="text-sm text-gray-400 mt-1.5">
+                        <p className="text-sm text-gray-600 mt-1.5">
                           {formatDate(nl.published_date)} · {nl.read_time}
                         </p>
                       </div>
@@ -293,8 +302,8 @@ const Index = () => {
             {/* Vault lead magnet */}
             <div className="rounded-lg border border-gray-100 bg-gray-50 p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
-                <h3 className="font-semibold text-navy-dark mb-1">Every playbook. The moment you subscribe.</h3>
-                <p className="text-sm text-gray-500">Subscribers get the full Playbook Vault — every audit and diagnostic from every past issue. Free.</p>
+                <h3 className="font-semibold text-navy-dark mb-1">The Playbook Vault is open.</h3>
+                <p className="text-sm text-gray-500">Browse every available audit, framework, and diagnostic. No gatekeeping and no email required.</p>
               </div>
               <Link
                 to="/playbook"
@@ -303,6 +312,20 @@ const Index = () => {
                 Browse the Vault
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-gray-100 bg-cream/30 py-14 md:py-16">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="mx-auto flex max-w-3xl flex-col gap-7 md:flex-row md:items-center">
+            <div aria-hidden="true" className="flex h-16 w-16 flex-none items-center justify-center rounded-full bg-navy-dark font-serif text-xl font-black text-white">KS</div>
+            <div className="flex-1">
+              <p className="mb-1 text-xs font-bold uppercase tracking-widest text-red-600">Written by Kuber Sethi</p>
+              <h2 className="mb-2 text-2xl font-serif font-black text-navy-dark">Strong opinions. Visible evidence. Usable systems.</h2>
+              <p className="text-sm leading-relaxed text-gray-600">Churn Is Dead turns difficult CS questions into an argument you can test, an operating model your team can run, and a playbook you can use immediately.</p>
+            </div>
+            <Link to="/about" className="inline-flex items-center gap-2 text-sm font-semibold text-red-600 hover:text-red-700">Why it exists <ArrowRight className="h-4 w-4" /></Link>
           </div>
         </div>
       </section>
@@ -337,7 +360,7 @@ const Index = () => {
               Stop hoping your accounts renew.
             </h2>
             <p className="text-gray-400 mb-8">
-              Start running the frameworks that make it inevitable.
+              Start running the frameworks that make renewals more predictable.
             </p>
             <div className="max-w-md mx-auto">
               <NewsletterForm 
@@ -352,6 +375,7 @@ const Index = () => {
           </div>
         </div>
       </section>
+      </main>
       
       <Footer />
       <WaitlistModal open={isWaitlistOpen} onOpenChange={setIsWaitlistOpen} source="homepage" />

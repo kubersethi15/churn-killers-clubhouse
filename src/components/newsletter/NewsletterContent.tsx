@@ -19,45 +19,22 @@ type NewsletterContentProps = {
 };
 
 const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: NewsletterContentProps) => {
-  // Split content to inject mid-article CTA
-  const formattedContent = formatContent(newsletter.content);
+  const rawFormattedContent = formatContent(newsletter.content);
+  const headings: { id: string; label: string }[] = [];
+  const formattedContent = rawFormattedContent.replace(/<h2([^>]*)>(.*?)<\/h2>/gi, (_match, attributes: string, innerHtml: string) => {
+    const label = innerHtml.replace(/<[^>]+>/g, "").trim();
+    const baseId = label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "section";
+    const id = headings.some(item => item.id === baseId) ? `${baseId}-${headings.length + 1}` : baseId;
+    headings.push({ id, label });
+    return `<h2${attributes} id="${id}">${innerHtml}</h2>`;
+  });
   const newsletterUrl = `https://churnisdead.com/newsletter/${newsletter.slug}`;
   const linkedinShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(newsletterUrl)}`;
   const usesCurrentEditorialStandard = new Date(newsletter.published_date).getTime() >= new Date("2026-08-25T00:00:00Z").getTime();
 
-  // Find a good midpoint to inject a CTA (after ~40% of paragraphs)
-  const paragraphs = formattedContent.split('</p>');
-  const midPoint = Math.floor(paragraphs.length * 0.4);
-  let beforeMid = '';
-  let afterMid = '';
-  if (paragraphs.length > 6) {
-    beforeMid = paragraphs.slice(0, midPoint).join('</p>') + '</p>';
-    afterMid = paragraphs.slice(midPoint).join('</p>');
-  }
-  const hasMidSplit = paragraphs.length > 6;
-
-  const midArticleCta = (
-    <div className="my-10 py-6 px-6 border border-gray-200 rounded-lg bg-gray-50 text-center">
-      <p className="text-sm font-semibold text-navy-dark mb-1">
-        Put the next framework to work before everyone else.
-      </p>
-      <p className="text-xs text-gray-400 mb-4">
-        One evidence-led operating model and one usable playbook every Tuesday.
-      </p>
-      <div className="max-w-xs mx-auto">
-        <NewsletterForm
-          location="mid-article"
-          buttonVariant="vibrant-red"
-          buttonText="Subscribe"
-          subscribeText=""
-        />
-      </div>
-    </div>
-  );
-
   const shareBar = (
     <div className="my-8 flex items-center justify-center gap-3">
-      <span className="text-xs text-gray-400 mr-1">Share this:</span>
+      <span className="text-xs text-gray-600 mr-1">Share this:</span>
       <a
         href={linkedinShareUrl}
         target="_blank"
@@ -86,25 +63,21 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
           <strong>Archive note:</strong> This issue predates the evidence ledger introduced in August 2026. Treat uncited benchmarks and examples as editorial analysis, not independently verified findings.
         </aside>
       )}
-      {/* Main article content with mid-article CTA */}
-      {hasMidSplit ? (
-        <>
-          <div 
-            className="article-content"
-            dangerouslySetInnerHTML={{ __html: beforeMid }}
-          />
-          {midArticleCta}
-          <div 
-            className="article-content"
-            dangerouslySetInnerHTML={{ __html: afterMid }}
-          />
-        </>
-      ) : (
-        <div 
-          className="article-content"
-          dangerouslySetInnerHTML={{ __html: formattedContent }}
-        />
+      {headings.length >= 4 && (
+        <nav aria-label="In this issue" className="mb-10 rounded-lg border border-gray-200 bg-gray-50 p-5">
+          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-red-600">In this issue</p>
+          <ol className="space-y-2">
+            {headings.map((heading, index) => (
+              <li key={heading.id}>
+                <a href={`#${heading.id}`} className="text-sm text-gray-700 hover:text-red-600">
+                  <span className="mr-2 font-mono text-xs text-gray-500">{String(index + 1).padStart(2, "0")}</span>{heading.label}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
       )}
+      <div className="article-content" dangerouslySetInnerHTML={{ __html: formattedContent }} />
 
       {/* Share bar */}
       {shareBar}

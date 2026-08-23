@@ -115,15 +115,15 @@ type ResultTier = {
 const tiers: ResultTier[] = [
   {
     range: [0, 25],
-    title: "AI-Proof",
-    subtitle: "You're doing the work AI can't touch.",
+    title: "Lower Exposure",
+    subtitle: "More of your work depends on judgment and influence.",
     color: "text-emerald-600",
     description: "Your role is built on judgment, trust, and strategic influence. AI is a tool for you, not a threat. You're shaping customer decisions, not just reporting on them.",
     advice: "Your next move: document your frameworks and make them repeatable across your team. That's how you go from valuable individual contributor to irreplaceable leader.",
   },
   {
     range: [26, 45],
-    title: "Mostly Defended",
+    title: "More Defended",
     subtitle: "Strong foundation, but gaps remain.",
     color: "text-blue-600",
     description: "You have real strategic impact in some areas, but parts of your week are still spent on work that AI could handle. The good news: you have the skills to shift fully into defensible territory.",
@@ -153,9 +153,14 @@ const AIExposureScore = () => {
   const [answerTags, setAnswerTags] = useState<Record<string, string>>({});
   const [showResult, setShowResult] = useState(false);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const [hasStarted, setHasStarted] = useState(false);
 
   useEffect(() => {
-    document.title = "AI Exposure Score | Churn Is Dead";
+    import("@/utils/seoMeta").then(({ applyRouteSeo }) => applyRouteSeo({
+      title: "AI Exposure Score | Churn Is Dead",
+      description: "An eight-question directional diagnostic for Customer Success professionals to examine which parts of their work are easier to automate.",
+      path: "/ai-exposure-score",
+    }));
     window.scrollTo(0, 0);
   }, []);
 
@@ -193,6 +198,7 @@ const AIExposureScore = () => {
     setAnswerTags({});
     setShowResult(false);
     setSelectedOption(null);
+    setHasStarted(false);
   };
 
   const totalScore = Math.round(
@@ -211,13 +217,13 @@ const AIExposureScore = () => {
     return (
       <div className="min-h-screen bg-white">
         <Header />
-        <section className="pt-28 pb-20 md:pt-36">
+        <main id="main-content" className="pt-28 pb-20 md:pt-36">
           <div className="container mx-auto px-4 md:px-6">
             <div className="max-w-2xl mx-auto">
 
               {/* Score */}
               <div className="text-center mb-12">
-                <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">Your AI Exposure Score</p>
+                <p className="text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">Your AI Exposure Score</p>
                 <div className="text-7xl md:text-8xl font-serif font-black text-navy-dark mb-2">
                   {totalScore}%
                 </div>
@@ -234,10 +240,10 @@ const AIExposureScore = () => {
                   <div className="bg-amber-400 transition-all duration-700" style={{ width: `${(mixedCount / questions.length) * 100}%` }} />
                   <div className="bg-emerald-500 transition-all duration-700" style={{ width: `${(proofCount / questions.length) * 100}%` }} />
                 </div>
-                <div className="flex justify-between mt-2 text-xs text-gray-400">
+                <div className="flex justify-between mt-2 text-xs text-gray-600">
                   <span>{exposedCount} exposed</span>
                   <span>{mixedCount} mixed</span>
-                  <span>{proofCount} AI-proof</span>
+                  <span>{proofCount} lower exposure</span>
                 </div>
               </div>
 
@@ -264,8 +270,8 @@ const AIExposureScore = () => {
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                   Share on LinkedIn
                 </a>
-                <p className="text-xs text-gray-400 mt-2">
-                  See how your score compares to other CS professionals.
+                <p className="text-xs text-gray-600 mt-2">
+                  Invite another CS professional to examine their own work.
                 </p>
               </div>
 
@@ -304,7 +310,7 @@ const AIExposureScore = () => {
 
             </div>
           </div>
-        </section>
+        </main>
         <Footer />
       </div>
     );
@@ -312,17 +318,44 @@ const AIExposureScore = () => {
 
   const q = questions[currentQ];
 
+  if (!hasStarted) {
+    return (
+      <div className="min-h-screen bg-white">
+        <Header />
+        <main id="main-content" className="pt-28 pb-20 md:pt-36">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="mx-auto max-w-2xl">
+              <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-red-600">Directional diagnostic · 8 questions · about 2 minutes</p>
+              <h1 className="mb-5 text-4xl font-serif font-black leading-tight text-navy-dark md:text-6xl">Which parts of your CS work are easier to automate?</h1>
+              <p className="mb-8 text-lg leading-relaxed text-gray-700">Examine your reporting, QBR preparation, customer conversations, risk response, expansion work, technical depth, and decision influence. You’ll leave with a directional score and one practical next move.</p>
+              <div className="mb-8 grid gap-3 sm:grid-cols-3">
+                {["Answer from real recent work", "No email required for the result", "Built for reflection—not prediction"].map(item => (
+                  <div key={item} className="rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm font-medium text-navy-dark">{item}</div>
+                ))}
+              </div>
+              <button onClick={() => setHasStarted(true)} className="inline-flex items-center gap-2 rounded-lg bg-red-600 px-6 py-3 font-semibold text-white hover:bg-red-700">
+                Begin the diagnostic <ArrowRight className="h-4 w-4" />
+              </button>
+              <p className="mt-5 max-w-xl text-xs leading-relaxed text-gray-600">This is an editorial self-assessment, not a validated scientific instrument or employment forecast. The score reflects only your answers and should be used as a prompt for discussion.</p>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
-      <section className="pt-28 pb-20 md:pt-36">
+      <main id="main-content" className="pt-28 pb-20 md:pt-36">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-2xl mx-auto">
 
             {/* Progress */}
             <div className="mb-10">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-semibold uppercase tracking-widest text-gray-400">
+                <span className="text-xs font-semibold uppercase tracking-widest text-gray-600">
                   AI Exposure Score
                 </span>
                 <span className="text-xs text-gray-300">
@@ -342,7 +375,7 @@ const AIExposureScore = () => {
               <h2 className="text-xl md:text-2xl font-serif font-bold text-navy-dark leading-snug mb-2">
                 {q.text}
               </h2>
-              <p className="text-sm text-gray-400">{q.subtext}</p>
+              <p className="text-sm text-gray-600">{q.subtext}</p>
             </div>
 
             {/* Options */}
@@ -366,7 +399,7 @@ const AIExposureScore = () => {
             {currentQ > 0 && (
               <button
                 onClick={handleBack}
-                className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-navy-dark transition-colors"
+                className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-navy-dark transition-colors"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 Previous question
@@ -375,7 +408,7 @@ const AIExposureScore = () => {
 
           </div>
         </div>
-      </section>
+      </main>
       <Footer />
     </div>
   );

@@ -12,7 +12,7 @@ import {
 import NewsletterForm from "./NewsletterForm";
 import ContactDialog from "./ContactDialog";
 import { useAuth } from "@/contexts/AuthContext";
-import { LogIn, User, LogOut, ChevronDown } from "lucide-react";
+import { User, LogOut, ChevronDown } from "lucide-react";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -87,8 +87,8 @@ const Header = () => {
           <NavLink to="/playbook" className={getNavLinkClass}>
             Playbook Vault
           </NavLink>
-          <NavLink to="/cs-analyzer" className={getNavLinkClass}>
-            CS Analyzer
+          <NavLink to={user ? "/cs-analyzer" : "/cs-analyzer/demo"} className={getNavLinkClass}>
+            Analyze a Call
           </NavLink>
           <button
             onClick={() => setIsSubscribeOpen(true)}
@@ -205,7 +205,7 @@ const Header = () => {
               Playbook Vault
             </NavLink>
             <NavLink 
-              to="/cs-analyzer" 
+              to={user ? "/cs-analyzer" : "/cs-analyzer/demo"}
               className={({ isActive }) => 
                 isActive 
                   ? "text-red-600 font-medium transition-colors px-2 py-1" 
@@ -213,7 +213,7 @@ const Header = () => {
               }
               onClick={() => setIsMenuOpen(false)}
             >
-              CS Analyzer
+              Analyze a Call
             </NavLink>
             <div className="pt-2">
               <button

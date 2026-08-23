@@ -41,6 +41,7 @@ const StartHere = () => {
   return (
     <div className="min-h-screen bg-white">
       <Header />
+      <main id="main-content">
 
       {/* Header */}
       <section className="pt-28 pb-10 md:pt-36 md:pb-14 bg-white border-b border-gray-100">
@@ -49,7 +50,7 @@ const StartHere = () => {
             <h1 className="text-3xl md:text-5xl font-serif font-black text-navy-dark mb-3">
               New here? Start here.
             </h1>
-            <p className="text-lg text-gray-400">
+            <p className="text-lg text-gray-600">
               Three issues that capture what Churn Is Dead is about. Read these first, then decide if you want more every Tuesday.
             </p>
           </div>
@@ -79,7 +80,7 @@ const StartHere = () => {
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-2xl mx-auto">
-            <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-8">
+            <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-600 mb-8">
               The essential three
             </h2>
 
@@ -155,6 +156,7 @@ const StartHere = () => {
           </div>
         </div>
       </section>
+      </main>
 
       <Footer />
     </div>

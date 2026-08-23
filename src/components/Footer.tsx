@@ -17,20 +17,23 @@ const Footer = () => {
                 <Link to="/" className="text-lg font-serif font-black text-navy-dark hover:text-red-600 transition-colors">
                   <span className="underline-red">Churn</span> Is Dead
                 </Link>
-                <p className="text-xs text-gray-400 mt-1">
-                  Weekly CS frameworks by Kuber Sethi
+                <p className="text-xs text-gray-600 mt-1 max-w-xs">
+                  Evidence-led operating systems for enterprise Customer Success.
                 </p>
               </div>
               
               {/* Links */}
-              <div className="flex items-center gap-5 text-sm">
-                <Link to="/newsletters" className="text-gray-400 hover:text-navy-dark transition-colors">Issues</Link>
-                <Link to="/playbook" className="text-gray-400 hover:text-navy-dark transition-colors">Playbooks</Link>
-                <Link to="/about" className="text-gray-400 hover:text-navy-dark transition-colors">About</Link>
-                <Link to="/editorial-standards" className="text-gray-400 hover:text-navy-dark transition-colors">Standards</Link>
+              <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm sm:flex sm:flex-wrap sm:items-center sm:gap-5">
+                <Link to="/newsletters" className="text-gray-600 hover:text-navy-dark transition-colors">Issues</Link>
+                <Link to="/playbook" className="text-gray-600 hover:text-navy-dark transition-colors">Playbooks</Link>
+                <Link to="/about" className="text-gray-600 hover:text-navy-dark transition-colors">About</Link>
+                <Link to="/editorial-standards" className="text-gray-600 hover:text-navy-dark transition-colors">Standards</Link>
+                <Link to="/privacy" className="text-gray-600 hover:text-navy-dark transition-colors">Privacy</Link>
+                <Link to="/terms" className="text-gray-600 hover:text-navy-dark transition-colors">Terms</Link>
+                <Link to="/analyzer-data-handling" className="text-gray-600 hover:text-navy-dark transition-colors">Data handling</Link>
                 <button 
                   onClick={() => setIsContactOpen(true)} 
-                  className="text-gray-400 hover:text-navy-dark transition-colors bg-transparent border-none p-0 cursor-pointer"
+                  className="text-left text-gray-600 hover:text-navy-dark transition-colors bg-transparent border-none p-0 cursor-pointer"
                 >
                   Contact
                 </button>
@@ -38,14 +41,14 @@ const Footer = () => {
                   href="https://www.linkedin.com/in/kuber-cs-strategist/"
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-gray-400 hover:text-navy-dark transition-colors"
+                  className="text-gray-600 hover:text-navy-dark transition-colors"
                 >
                   LinkedIn
                 </a>
               </div>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-gray-100 text-xs text-gray-300">
+            <div className="mt-8 pt-6 border-t border-gray-100 text-xs text-gray-500">
               &copy; {currentYear} Churn Is Dead. All rights reserved.
             </div>
           </div>

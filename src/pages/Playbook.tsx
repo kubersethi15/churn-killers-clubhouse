@@ -102,8 +102,23 @@ const STATIC_PLAYBOOKS: Playbook[] = [
   },
 ];
 
+const PROBLEMS = ["All", "Renewal risk", "Executive value", "AI readiness", "Operating cadence"] as const;
+
+const matchesProblem = (playbook: Playbook, problem: typeof PROBLEMS[number]) => {
+  if (problem === "All") return true;
+  const text = `${playbook.title} ${playbook.description}`.toLowerCase();
+  const terms: Record<Exclude<typeof PROBLEMS[number], "All">, string[]> = {
+    "Renewal risk": ["renewal", "churn", "predictability", "momentum", "survival"],
+    "Executive value": ["revenue", "strategic", "impact", "expansion", "qbr"],
+    "AI readiness": ["ai", "exposure"],
+    "Operating cadence": ["qbr", "framework", "momentum", "co-op"],
+  };
+  return terms[problem].some(term => text.includes(term));
+};
+
 const PlaybookVault = () => {
   const [query, setQuery] = useState("");
+  const [problem, setProblem] = useState<typeof PROBLEMS[number]>("All");
   const [playbooks, setPlaybooks] = useState<Playbook[]>(
     STATIC_PLAYBOOKS.sort((a, b) => {
       if (!a.published_date) return 1;
@@ -142,12 +157,13 @@ const PlaybookVault = () => {
   const formatDate = (dateString: string) => format(new Date(dateString), "MMM yyyy");
   const filteredPlaybooks = playbooks.filter(playbook => {
     const searchable = `${playbook.title} ${playbook.description} ${playbook.newsletter_title ?? ""}`.toLowerCase();
-    return searchable.includes(query.trim().toLowerCase());
+    return searchable.includes(query.trim().toLowerCase()) && matchesProblem(playbook, problem);
   });
 
   return (
     <div className="min-h-screen bg-white">
       <Header />
+      <main id="main-content">
 
       {/* Header */}
       <section className="pt-28 pb-10 md:pt-36 md:pb-14 bg-white border-b border-gray-100">
@@ -156,8 +172,8 @@ const PlaybookVault = () => {
             <h1 className="text-3xl md:text-5xl font-serif font-black text-navy-dark mb-3">
               Playbook Vault
             </h1>
-            <p className="text-lg text-gray-400">
-              Every framework, audit, and diagnostic we've published. Free. Always.
+            <p className="text-lg text-gray-600">
+              Pick the operating problem. Leave with a tool you can run this week.
             </p>
           </div>
         </div>
@@ -167,6 +183,18 @@ const PlaybookVault = () => {
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-2xl mx-auto">
+            <div className="mb-10 grid gap-3 sm:grid-cols-3">
+              {[
+                ["Protect a renewal", "Renewal risk", "Diagnose hidden risk and customer predictability."],
+                ["Prove CS value", "Executive value", "Connect CS work to decisions, revenue, and impact."],
+                ["Redesign the cadence", "Operating cadence", "Replace status meetings with working systems."],
+              ].map(([title, target, description]) => (
+                <button key={title} type="button" onClick={() => setProblem(target as typeof PROBLEMS[number])} className="rounded-lg border border-gray-200 p-4 text-left transition-all hover:-translate-y-0.5 hover:border-red-600 hover:shadow-sm">
+                  <span className="mb-1 block font-serif text-base font-bold text-navy-dark">{title}</span>
+                  <span className="block text-xs leading-relaxed text-gray-600">{description}</span>
+                </button>
+              ))}
+            </div>
             <label htmlFor="playbook-search" className="text-[10px] uppercase tracking-[0.22em] text-red font-bold">
               Find the operating problem
             </label>
@@ -179,7 +207,14 @@ const PlaybookVault = () => {
                 placeholder="Renewals, QBRs, AI, metrics, expansion..."
                 className="h-12 pl-11"
               />
-              <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-600" />
+            </div>
+            <div className="mb-10 flex flex-wrap gap-2" aria-label="Filter playbooks by problem">
+              {PROBLEMS.map(item => (
+                <button key={item} type="button" onClick={() => setProblem(item)} aria-pressed={problem === item} className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${problem === item ? "bg-navy-dark text-white" : "border border-gray-200 text-gray-700 hover:border-navy-dark"}`}>
+                  {item}
+                </button>
+              ))}
             </div>
             {loading ? (
               <div className="space-y-8">
@@ -192,7 +227,7 @@ const PlaybookVault = () => {
                 ))}
               </div>
             ) : filteredPlaybooks.length === 0 ? (
-              <p className="text-gray-400 py-16 text-center">No playbook matches that problem yet.</p>
+              <p className="text-gray-600 py-16 text-center">No playbook matches that problem yet.</p>
             ) : (
               <div className="space-y-0 divide-y divide-gray-100">
                 {filteredPlaybooks.map((pb) => (
@@ -203,7 +238,7 @@ const PlaybookVault = () => {
                         {pb.title}
                       </h3>
                       {pb.published_date && (
-                        <span className="text-xs text-gray-300 flex-shrink-0 mt-1">
+                        <span className="text-xs text-gray-600 flex-shrink-0 mt-1">
                           {formatDate(pb.published_date)}
                         </span>
                       )}
@@ -241,10 +276,10 @@ const PlaybookVault = () => {
                       )}
                       {pb.newsletter_slug && (
                         <>
-                          <span className="text-gray-200">·</span>
+                          <span className="text-gray-400">·</span>
                           <Link
                             to={`/newsletter/${pb.newsletter_slug}`}
-                            className="text-sm text-gray-400 hover:text-navy-dark transition-colors"
+                            className="text-sm text-gray-600 hover:text-navy-dark transition-colors"
                           >
                             From: {pb.newsletter_title}
                           </Link>
@@ -269,6 +304,7 @@ const PlaybookVault = () => {
           </div>
         </div>
       </section>
+      </main>
 
       <Footer />
     </div>
