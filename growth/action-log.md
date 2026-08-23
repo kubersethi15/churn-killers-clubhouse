@@ -19,3 +19,5 @@ This log records consequential external growth actions. It contains aggregate op
 - Joined current operator discussions about decision discipline and implementation dependencies. The comments were published on Markus Rentsch's people-skills discussion and Jeff Kushmerek's kickoff-design discussion, then logged in the shared sheet.
 - Merged and deployed the consent-safe subscriber reactivation flow. The live site now lets an unsubscribed reader request a confirmation link and rejoin without losing the original acquisition history.
 - Published the latest site build and verified that the public JavaScript contains both campaign-content attribution and the reactivation endpoint.
+- Submitted and verified a guest application to the active SaaS Therapy podcast. The proposed episode gives listeners a Work Ownership Decision Matrix, a five-field dependency contract, and a way to identify renewal risk before a health score moves.
+- Tested CHURN.FM's public guest route. Its form was blocked by an invalid reCAPTCHA and a direct LinkedIn invitation did not persist, so the route was changed to a warm-introduction sequence rather than repeated blind outreach.
