@@ -1,6 +1,5 @@
 
 import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import { useNewsletter } from "@/hooks/useNewsletter";
 import { formatDate, formatContent } from "@/utils/formatUtils";
@@ -10,8 +9,6 @@ import NewsletterFooter from "@/components/newsletter/NewsletterFooter";
 import NewsletterSEO from "@/components/newsletter/NewsletterSEO";
 import ReadingProgressBar from "@/components/newsletter/ReadingProgressBar";
 import RelatedNewsletters from "@/components/newsletter/RelatedNewsletters";
-import { Button } from "@/components/ui/button";
-import { ExternalLink } from "lucide-react";
 
 const NewsletterDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -52,24 +49,26 @@ const NewsletterDetail = () => {
       <ReadingProgressBar />
       <NewsletterSEO newsletter={newsletter} />
       <Header />
-      
-      <NewsletterHeader 
-        newsletter={newsletter} 
-        loading={loading} 
-        error={error}
-        formatDate={formatDate}
-      />
-
-      {!loading && !error && newsletter && (
-        <>
+      <main id="main-content">
+        <article>
+          <NewsletterHeader
+            newsletter={newsletter}
+            loading={loading}
+            error={error}
+            formatDate={formatDate}
+          />
+          {!loading && !error && newsletter && (
           <NewsletterContent 
             newsletter={newsletter} 
             formatContent={formatContent} 
             vaultResources={vaultResources}
           />
-          {slug && <RelatedNewsletters currentSlug={slug} />}
-        </>
-      )}
+          )}
+        </article>
+        {!loading && !error && newsletter && slug && (
+          <RelatedNewsletters currentSlug={slug} category={newsletter.category || undefined} />
+        )}
+      </main>
       
       <NewsletterFooter />
     </div>

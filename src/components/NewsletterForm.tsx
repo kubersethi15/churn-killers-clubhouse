@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { Mail } from "lucide-react";
+import { Check, Copy, Mail } from "lucide-react";
 import { currentContentSlug, getGrowthAttribution, trackGrowthEvent } from "@/utils/growthTracking";
+import { Link } from "react-router-dom";
 
 interface NewsletterFormProps {
   location?: "hero" | "footer" | "article" | "mid-article" | "playbook" | "start";
@@ -30,6 +31,7 @@ const NewsletterForm = ({
 }: NewsletterFormProps) => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
@@ -123,6 +125,7 @@ const NewsletterForm = ({
         description: "You are on the list. New frameworks publish every Tuesday.",
       });
       setEmail("");
+      setIsSubscribed(true);
     } catch (error) {
       console.error("Error subscribing:", error);
       void trackGrowthEvent({ eventName: "signup_error", signupLocation: location });
@@ -136,6 +139,8 @@ const NewsletterForm = ({
 
   const isFooter = location === "footer";
   const isHero = location === "hero";
+  const referralUrl = "https://churnisdead.com/?utm_source=subscriber_referral&utm_medium=share&utm_campaign=weekly_newsletter";
+  const referralShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(referralUrl)}`;
   
   // Apply special styling for footer to match the reference image
   const inputClass = isFooter 
@@ -154,7 +159,17 @@ const NewsletterForm = ({
       {title && <h3 className={`text-xl font-medium mb-3 ${textColor}`}>{title}</h3>}
       {description && <p className={`text-sm mb-4 ${textColor === "text-gray-700" ? "opacity-80" : ""} ${textColor}`}>{description}</p>}
       
-      <form 
+      {isSubscribed ? (
+        <div className={`rounded-lg border p-4 text-left ${textColor === "text-gray-700" ? "border-gray-200 bg-gray-50" : "border-white/20 bg-white/5"}`} aria-live="polite">
+          <p className={`flex items-center gap-2 text-sm font-semibold ${textColor}`}><Check className="h-4 w-4 text-emerald-500" /> You’re on the Tuesday list.</p>
+          <p className={`mt-1 text-xs ${textColor === "text-gray-700" ? "text-gray-600" : "text-white/70"}`}>Know one CS operator who would use this? Send them Churn Is Dead.</p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <a href={referralShareUrl} target="_blank" rel="noopener noreferrer" onClick={() => void trackGrowthEvent({ eventName: "content_share", resourceId: "subscriber_referral_linkedin" })} className="rounded-md bg-[#0A66C2] px-3 py-2 text-xs font-semibold text-white">Share on LinkedIn</a>
+            <button type="button" onClick={() => { void navigator.clipboard.writeText(referralUrl); void trackGrowthEvent({ eventName: "content_share", resourceId: "subscriber_referral_copy" }); toast.success("Referral link copied"); }} className={`inline-flex items-center gap-1.5 rounded-md border px-3 py-2 text-xs font-semibold ${textColor === "text-gray-700" ? "border-gray-300 text-navy-dark" : "border-white/30 text-white"}`}><Copy className="h-3.5 w-3.5" /> Copy link</button>
+          </div>
+        </div>
+      ) : (
+      <form
         ref={formRef}
         onSubmit={handleSubmit} 
         className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
@@ -162,6 +177,7 @@ const NewsletterForm = ({
         <div className="flex-1 relative">
           <Input
             type="email"
+            aria-label="Your email address"
             placeholder="Your email address"
             value={email}
             onChange={handleEmailChange}
@@ -180,11 +196,15 @@ const NewsletterForm = ({
           {isLoading ? "Subscribing..." : buttonText}
         </Button>
       </form>
+      )}
       {subscribeText !== "" && (
         <p className={`text-xs mt-2.5 text-center ${textColor === "text-gray-700" ? "text-gray-500" : "text-white/70"}`}>
           {subscribeText || "Join CS leaders getting tactical frameworks every Tuesday."}
         </p>
       )}
+      <p className={`mt-2 text-center text-[11px] ${textColor === "text-gray-700" ? "text-gray-500" : "text-white/70"}`}>
+        By subscribing, you agree to receive the weekly email. See our <Link to="/privacy" className="underline underline-offset-2 hover:text-red-500">privacy policy</Link>. Unsubscribe anytime.
+      </p>
     </div>
   );
 };

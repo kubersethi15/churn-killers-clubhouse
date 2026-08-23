@@ -1,4 +1,50 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap');
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-display: optional;
+  font-weight: 400;
+  src: url("../node_modules/@fontsource/inter/files/inter-latin-400-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-display: optional;
+  font-weight: 500;
+  src: url("../node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-display: optional;
+  font-weight: 600;
+  src: url("../node_modules/@fontsource/inter/files/inter-latin-600-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-display: optional;
+  font-weight: 700;
+  src: url("../node_modules/@fontsource/inter/files/inter-latin-700-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-display: optional;
+  font-weight: 700;
+  src: url("../node_modules/@fontsource/playfair-display/files/playfair-display-latin-700-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-display: optional;
+  font-weight: 900;
+  src: url("../node_modules/@fontsource/playfair-display/files/playfair-display-latin-900-normal.woff2") format("woff2");
+}
 
 @tailwind base;
 @tailwind components;
@@ -109,12 +155,27 @@
     @apply bg-background text-foreground font-sans;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-red-600 ring-offset-2;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif font-bold;
   }
 }
 
 @layer components {
+  .skip-link {
+    @apply fixed left-4 top-3 z-[100] -translate-y-20 rounded-md bg-white px-4 py-2 text-sm font-semibold text-navy-dark shadow-lg transition-transform;
+  }
+
+  .skip-link:focus {
+    @apply translate-y-0;
+  }
   .underline-red {
     @apply relative inline-block;
   }
@@ -196,5 +257,13 @@
   /* CTA buttons in newsletter content */
   .prose-custom .article-content .newsletter-cta {
     @apply block my-8 py-4 px-6 bg-red-600 text-white text-center font-semibold rounded-lg no-underline hover:bg-red-700 transition-colors;
+  }
+
+  .policy-content h2 {
+    @apply mb-3 text-xl font-serif font-bold text-navy-dark;
+  }
+
+  .policy-content p + p {
+    @apply mt-4;
   }
 }

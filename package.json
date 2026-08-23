@@ -5,13 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && python3 scripts/fix_prerender_entrypoints.py",
+    "build": "vite build && python3 scripts/fix_prerender_entrypoints.py && python3 scripts/prerender_public_routes.py",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.0",
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/playfair-display": "^5.3.0",
     "@formkit/auto-animate": "^0.8.2",
     "@hookform/resolvers": "^3.9.0",
     "@nivo/bar": "^0.99.0",

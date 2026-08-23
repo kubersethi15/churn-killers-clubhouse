@@ -46,7 +46,7 @@ const EditorialStandards = () => {
   return (
     <div className="min-h-screen bg-white">
       <Header />
-      <main>
+      <main id="main-content">
         <section className="pt-28 pb-10 md:pt-36 md:pb-14 border-b border-gray-100">
           <div className="container mx-auto px-4 md:px-6">
             <div className="max-w-2xl mx-auto">

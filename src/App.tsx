@@ -25,6 +25,9 @@ const ProtectedAdminRoute = lazy(() => import("./components/ProtectedAdminRoute"
 const Distribution = lazy(() => import("./pages/Distribution"));
 const EditorialStandards = lazy(() => import("./pages/EditorialStandards"));
 const GrowthDashboard = lazy(() => import("./pages/GrowthDashboard"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const Terms = lazy(() => import("./pages/Terms"));
+const AnalyzerDataHandling = lazy(() => import("./pages/AnalyzerDataHandling"));
 
 const queryClient = new QueryClient();
 
@@ -35,6 +38,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <a href="#main-content" className="skip-link">Skip to main content</a>
           <CommandPalette />
           <GrowthPageTracker />
           <Suspense fallback={<div className="min-h-screen bg-white" />}>
@@ -44,6 +48,9 @@ const App = () => (
               <Route path="/newsletter/:slug" element={<NewsletterDetail />} />
               <Route path="/about" element={<About />} />
               <Route path="/editorial-standards" element={<EditorialStandards />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/analyzer-data-handling" element={<AnalyzerDataHandling />} />
               <Route path="/playbook" element={<Playbook />} />
               <Route path="/cs-analyzer" element={<CSAnalyzer />} />
               <Route path="/cs-analyzer/demo" element={<CSAnalyzerDemo />} />

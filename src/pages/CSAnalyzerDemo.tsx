@@ -21,7 +21,7 @@ const CSAnalyzerDemo = () => {
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
 
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         {/* Editorial intro band */}
         <section className="border-b border-navy-dark/10 bg-cream/40">
           <div className="max-w-4xl mx-auto px-4 md:px-6 py-10 md:py-14">
@@ -34,7 +34,7 @@ const CSAnalyzerDemo = () => {
               actually <span className="underline-red">produces</span>.
             </h1>
             <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mb-6">
-              A real transcript was run through the same five-agent pipeline you'd use. Names changed, structure intact. Scroll through, then run one of your own.
+              A realistic example transcript was run through the same five-agent pipeline you'd use. It is illustrative—not a customer claim. Scroll through, inspect the evidence, then run one of your own.
             </p>
             <div className="flex items-center gap-4 flex-wrap">
               <Link
@@ -47,6 +47,9 @@ const CSAnalyzerDemo = () => {
               <p className="text-xs text-muted-foreground">
                 Takes ~45 seconds. Free while we're testing.
               </p>
+              <Link to="/analyzer-data-handling" className="text-xs font-semibold text-navy-dark underline underline-offset-4 hover:text-red-600">
+                How transcript data is handled
+              </Link>
             </div>
 
             <div className="mt-8 pt-6 border-t border-navy-dark/10 grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">

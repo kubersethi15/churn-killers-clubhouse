@@ -5,6 +5,7 @@ import { formatDate } from "@/utils/formatUtils";
 
 interface RelatedNewslettersProps {
   currentSlug: string;
+  category?: string;
   limit?: number;
 }
 
@@ -22,7 +23,7 @@ interface NewsletterCard {
  * Designed to live at the bottom of NewsletterDetail to drive pages-per-session
  * and prevent the dead-end reading experience.
  */
-const RelatedNewsletters = ({ currentSlug, limit = 3 }: RelatedNewslettersProps) => {
+const RelatedNewsletters = ({ currentSlug, category, limit = 3 }: RelatedNewslettersProps) => {
   const [items, setItems] = useState<NewsletterCard[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -30,18 +31,31 @@ const RelatedNewsletters = ({ currentSlug, limit = 3 }: RelatedNewslettersProps)
     const fetchRecent = async () => {
       try {
         const nowIso = new Date().toISOString();
-        const { data, error } = await supabase
+        let query = supabase
           .from("newsletters")
           .select("slug, title, excerpt, published_date, read_time, category")
           .lte("published_date", nowIso)
           .neq("slug", currentSlug)
-          .order("published_date", { ascending: false })
-          .limit(limit);
+          .order("published_date", { ascending: false });
+
+        if (category) query = query.eq("category", category);
+        const { data, error } = await query.limit(limit);
 
         if (error) {
           console.error("Failed to load related newsletters:", error);
         } else if (data) {
-          setItems(data as NewsletterCard[]);
+          if (data.length > 0) {
+            setItems(data as NewsletterCard[]);
+          } else if (category) {
+            const { data: fallback } = await supabase
+              .from("newsletters")
+              .select("slug, title, excerpt, published_date, read_time, category")
+              .lte("published_date", nowIso)
+              .neq("slug", currentSlug)
+              .order("published_date", { ascending: false })
+              .limit(limit);
+            setItems((fallback || []) as NewsletterCard[]);
+          }
         }
       } catch (err) {
         console.error("RelatedNewsletters fetch error:", err);
@@ -50,17 +64,17 @@ const RelatedNewsletters = ({ currentSlug, limit = 3 }: RelatedNewslettersProps)
       }
     };
     fetchRecent();
-  }, [currentSlug, limit]);
+  }, [category, currentSlug, limit]);
 
   if (loading || items.length === 0) return null;
 
   return (
     <section className="max-w-3xl mx-auto px-4 sm:px-6 py-12 border-t border-gray-200 mt-12">
-      <p className="text-xs font-bold tracking-widest text-[#C8553D] uppercase mb-2">
+      <p className="text-xs font-bold tracking-widest text-red-700 uppercase mb-2">
         Keep Reading
       </p>
       <h2 className="text-2xl sm:text-3xl font-bold mb-8 text-gray-900">
-        Recent issues
+        {category ? `More on ${category}` : "Recent issues"}
       </h2>
       <div className="grid gap-6 md:grid-cols-3">
         {items.map((nl) => (
@@ -87,7 +101,7 @@ const RelatedNewsletters = ({ currentSlug, limit = 3 }: RelatedNewslettersProps)
       <div className="mt-8 text-center">
         <Link
           to="/newsletters"
-          className="inline-block text-sm font-semibold text-[#C8553D] hover:underline"
+          className="inline-block text-sm font-semibold text-red-700 hover:underline"
         >
           See all issues →
         </Link>

@@ -18,7 +18,7 @@ const NewsletterHeader = ({ newsletter, loading, error, formatDate }: Newsletter
           {/* Back link */}
           <Link 
             to="/newsletters" 
-            className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-navy-dark transition-colors mb-8"
+            className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-navy-dark transition-colors mb-8"
           >
             <ArrowLeft size={14} />
             All Issues
@@ -49,8 +49,8 @@ const NewsletterHeader = ({ newsletter, loading, error, formatDate }: Newsletter
               <h1 className="text-3xl md:text-5xl font-serif font-black text-navy-dark leading-[1.1] mb-5">
                 {newsletter.title}
               </h1>
-              <div className="flex items-center gap-3 text-sm text-gray-400">
-                <span>By Kuber Sethi</span>
+              <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600">
+                <Link to="/about" className="font-medium hover:text-red-600">By Kuber Sethi</Link>
                 <span className="text-gray-300">·</span>
                 <span>{formatDate(newsletter.published_date)}</span>
                 <span className="text-gray-300">·</span>

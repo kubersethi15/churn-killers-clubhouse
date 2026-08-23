@@ -649,7 +649,7 @@ const Auth = () => {
 
               <CardFooter className="flex-col space-y-3 text-center text-sm text-muted-foreground border-t pt-6">
                 <p className="w-full">
-                  By continuing, you agree to our Terms of Service and Privacy Policy.
+                  By continuing, you agree to our <Link to="/terms" className="underline hover:text-foreground">Terms of Use</Link> and <Link to="/privacy" className="underline hover:text-foreground">Privacy Policy</Link>.
                 </p>
               </CardFooter>
             </Card>
