@@ -141,7 +141,8 @@ def stage_issue(issue, dry_run: bool = False) -> None:
         playbook_result = _upsert_by_column("playbooks", "newsletter_slug", meta["slug"], playbook_payload)
         print(f"Supabase playbook {playbook_result['action']}: {meta['playbook_title']}")
     except RuntimeError as exc:
-        if 'relation "public.playbooks" does not exist' not in str(exc):
+        error_text = str(exc)
+        if '"code":"42P01"' not in error_text or "public.playbooks" not in error_text:
             raise
         # Some production projects predate the optional playbooks table. The
         # generated public manifest remains the canonical vault data source.
