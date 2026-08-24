@@ -665,6 +665,7 @@ export type Database = {
       get_growth_retention_dashboard: { Args: never; Returns: Json }
       get_growth_variant_dashboard: { Args: never; Returns: Json }
       get_reactivation_dashboard: { Args: never; Returns: Json }
+      get_welcome_activation_dashboard: { Args: never; Returns: Json }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
