@@ -17,6 +17,49 @@ ROOT = Path(__file__).resolve().parent.parent
 DIST = ROOT / "dist"
 ORIGIN = "https://churnisdead.com"
 
+HOMEPAGE_STRUCTURED_DATA = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebSite",
+            "@id": f"{ORIGIN}/#website",
+            "name": "Churn Is Dead",
+            "url": f"{ORIGIN}/",
+            "description": (
+                "Weekly Customer Success frameworks for enterprise CS leaders. "
+                "Hard truths, tactical plays, and downloadable playbooks by Kuber Sethi."
+            ),
+            "publisher": {"@id": f"{ORIGIN}/#publisher"},
+        },
+        {
+            "@type": "Organization",
+            "@id": f"{ORIGIN}/#publisher",
+            "name": "Churn Is Dead",
+            "url": f"{ORIGIN}/",
+            "logo": {"@type": "ImageObject", "url": f"{ORIGIN}/favicon.png"},
+        },
+        {
+            "@type": "Person",
+            "@id": f"{ORIGIN}/about#kuber-sethi",
+            "name": "Kuber Sethi",
+            "url": f"{ORIGIN}/about",
+            "jobTitle": "Customer Success Leader",
+            "description": (
+                "Enterprise Customer Success leader and author of the Churn Is Dead newsletter."
+            ),
+            "sameAs": ["https://www.linkedin.com/in/kuber-cs-strategist/"],
+            "worksFor": {"@id": f"{ORIGIN}/#publisher"},
+            "knowsAbout": [
+                "Customer Success",
+                "Enterprise SaaS",
+                "Customer Retention",
+                "Net Revenue Retention",
+                "Customer Success Strategy",
+            ],
+        },
+    ],
+}
+
 ROUTES = {
     "newsletters": (
         "All Issues | Churn Is Dead Newsletter Archive",
@@ -165,6 +208,19 @@ def replace_meta(source: str, selector: str, value: str) -> str:
     return updated
 
 
+def render_homepage(template: str) -> str:
+    """Add crawlable homepage-only identity markup to the built root document."""
+    marker = 'data-seo="homepage-jsonld"'
+    if marker in template:
+        raise RuntimeError("Homepage JSON-LD already exists in the build template")
+    payload = json.dumps(HOMEPAGE_STRUCTURED_DATA, separators=(",", ":"))
+    return template.replace(
+        "</head>",
+        f'<script type="application/ld+json" {marker}>{payload}</script>\n  </head>',
+        1,
+    )
+
+
 def render(
     route: str,
     title: str,
@@ -241,6 +297,9 @@ def main() -> None:
         if f'<link rel="canonical" href="{expected}"' not in rendered:
             raise RuntimeError(f"Canonical validation failed for {route}")
         target.write_text(rendered, encoding="utf-8")
+    # Do this last. Non-home public routes are rendered from the unmodified Vite
+    # template above, so homepage identity markup cannot leak onto them.
+    index.write_text(render_homepage(template), encoding="utf-8")
     print(f"Created crawlable production entrypoints for {len(ROUTES)} public routes; archive links {len(archive_items)} published issues")
 
 
