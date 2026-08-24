@@ -239,10 +239,14 @@ def build_page(base_html, nl, related=None, hub_slug=None, catalog=None):
     article_html = md_to_html(nl['content'])
     archive_note = ""
     try:
-        if datetime.fromisoformat(pub.replace('Z', '+00:00')) < datetime(2026, 8, 25, tzinfo=timezone.utc):
+        if (
+            datetime.fromisoformat(pub.replace('Z', '+00:00')) < datetime(2026, 8, 25, tzinfo=timezone.utc)
+            and "## Sources and methodology" not in (nl.get("content") or "")
+        ):
             archive_note = '<p><strong>Archive note:</strong> This issue predates the evidence ledger introduced in August 2026. Treat uncited benchmarks and examples as editorial analysis, not independently verified findings.</p>'
     except ValueError:
         archive_note = ""
+    archive_markup = f"      {archive_note}\n" if archive_note else ""
     # Crawlable lateral links. Previously each issue offered only "All issues"
     # and "Subscribe", so half the archive had no inbound internal link at all
     # and the rest pooled on the three newest issues per category.
@@ -285,9 +289,23 @@ def build_page(base_html, nl, related=None, hub_slug=None, catalog=None):
         ensure_ascii=False,
     )
     payload = payload.replace("</", "<\\/")
+    article_payload = json.dumps(
+        {
+            "id": f"static-{slug}",
+            "title": nl["title"],
+            "slug": slug,
+            "excerpt": nl.get("excerpt") or nl["title"],
+            "content": nl.get("content") or "",
+            "published_date": nl["published_date"],
+            "read_time": nl.get("read_time") or "9 min read",
+            "category": nl.get("category") or "Strategy",
+        },
+        ensure_ascii=False,
+    ).replace("</", "<\\/")
     result = result.replace(
         "</head>",
-        f'<script type="application/json" id="ci-related-issues">{payload}</script>\n  </head>',
+        f'<script type="application/json" id="ci-newsletter">{article_payload}</script>\n'
+        f'  <script type="application/json" id="ci-related-issues">{payload}</script>\n  </head>',
         1,
     )
 
@@ -297,8 +315,7 @@ def build_page(base_html, nl, related=None, hub_slug=None, catalog=None):
       <p style="font-size:11px;letter-spacing:3px;color:#C8553D;font-weight:bold;text-transform:uppercase">CHURN IS DEAD</p>
       <h1 style="font-family:Helvetica,Arial,sans-serif;font-size:32px">{title_esc}</h1>
       <p style="color:#999;font-size:13px">{nl['read_time']} · {nl['category']}</p>
-      {archive_note}
-      {article_html}
+{archive_markup}      {article_html}
       <hr>
       {related_markup}
       <p style="font-size:13px;color:#999">By <strong>Kuber Sethi</strong> · <a href="{SITE_URL}/newsletters">All issues</a> · <a href="{SITE_URL}/start">Subscribe</a></p>
@@ -335,6 +352,7 @@ def main():
 
     generated = 0
     now = datetime.now(timezone.utc)
+    public_catalog = []
     for slug, nl in newsletters.items():
         if not SLUG_RE.fullmatch(slug):
             print(f"  Skip unsafe slug: {slug!r}")
@@ -361,6 +379,15 @@ def main():
         if not nl.get('content'):
             print(f"  Skip {slug} (no content)")
             continue
+        public_catalog.append({
+            "id": f"static-{slug}",
+            "title": nl["title"],
+            "slug": slug,
+            "excerpt": nl.get("excerpt") or nl["title"],
+            "published_date": nl["published_date"],
+            "read_time": nl.get("read_time") or "9 min read",
+            "category": nl.get("category") or "Strategy",
+        })
         out_dir = PUBLIC_DIR / "newsletter" / slug
         out_dir.mkdir(parents=True, exist_ok=True)
         (out_dir / "index.html").write_text(
@@ -375,7 +402,15 @@ def main():
         generated += 1
         print(f"  ✓ /newsletter/{slug}/")
 
-    print(f"  {generated} pages generated")
+    public_catalog.sort(key=lambda row: row["published_date"], reverse=True)
+    catalog_dir = PUBLIC_DIR / "newsletter"
+    catalog_dir.mkdir(parents=True, exist_ok=True)
+    (catalog_dir / "catalog.json").write_text(
+        json.dumps(public_catalog, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+    print(f"  {generated} pages generated; catalog {len(public_catalog)} issues")
 
 
 if __name__ == "__main__":

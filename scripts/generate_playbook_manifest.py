@@ -27,6 +27,11 @@ def title_from_filename(filename: str) -> str:
     return re.sub(r"\s+", " ", stem).strip()
 
 
+def download_description(title: str) -> str:
+    article = "" if title.lower().startswith("the ") else "the "
+    return f"Download {article}{title} worksheet from the Churn Is Dead archive."
+
+
 def legacy_slug_index(catalog: dict[str, dict]) -> dict[str, tuple[str, str, str]]:
     """Recover pdf -> issue links for playbooks that predate editorial/issues/.
 
@@ -95,7 +100,7 @@ def build_rows(live: dict[str, dict], current: datetime) -> list[dict]:
         rows.append({
             "id": f"pdf-{pdf.stem.lower()}",
             "title": title,
-            "description": issue.metadata["playbook_description"] if issue else f"Download the {title} worksheet from the Churn Is Dead archive.",
+            "description": issue.metadata["playbook_description"] if issue else download_description(title),
             "pdf_path": f"/pdfs/{pdf.name}",
             "notion_link": None,
             "newsletter_slug": source_slug,

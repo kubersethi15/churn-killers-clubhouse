@@ -1,0 +1,84 @@
+{
+  "title": "The Silence Ledger",
+  "subtitle": "Separate automated reach from customer movement and make the next human intervention explicit.",
+  "assessment_mode": "decision_record",
+  "intro_text": "Complete this ledger for one digital segment. Record what the system sent, what the customer did, what remains unknown, and the condition that requires a person to step in. This is an operating aid, not a retention prediction.",
+  "scoring_note": "Do not convert this ledger into a universal score. Use it to expose missing evidence, unresolved silence, and unowned intervention decisions.",
+  "closing_quote": "Automation earns the word coverage only when the team can see silence and knows what to do next.",
+  "next_action": "Choose one digital segment and inspect the last complete customer cycle. Find one account where reach was recorded but response, movement, or ownership was not. Assign the next intervention and its review date.",
+  "interpretation": [
+    ["Ledger state", "Use when", "Required record"],
+    ["Movement visible", "The customer completed a meaningful next action", "Evidence, source date, and next decision"],
+    ["Response without movement", "The customer engaged but the intended outcome did not change", "Blocker, owner, and next test"],
+    ["Unresolved silence", "The programme reached the account but no useful response is visible", "Trigger, human owner, and intervention date"],
+    ["Unverified reach", "Delivery or identity evidence is incomplete", "Data repair owner and due date"]
+  ],
+  "final_record": {
+    "title": "Digital Programme Review Record",
+    "headers": ["Record", "Complete this"],
+    "col_ratios": [0.35, 0.65],
+    "rows": [
+      ["Programme and segment", "____________________________________________"],
+      ["Intended customer movement", "____________________________________________"],
+      ["Ledger state", "Movement / Response / Silence / Unverified"],
+      ["Decision", "Keep / Change / Narrow / Stop"],
+      ["Human intervention", "____________________________________________"],
+      ["Owner and date", "____________________________________________"],
+      ["Next review date", "____________________________________________"]
+    ]
+  },
+  "sections": [
+    {
+      "title": "Programme Intent",
+      "why_it_matters": "A send is not useful until the team names the customer decision or behaviour it is intended to change.",
+      "review_prompt": "What customer movement should this programme create, and how would the team recognise it?",
+      "headers": ["Record", "Complete this", "Evidence"],
+      "col_ratios": [0.22, 0.48, 0.30],
+      "rows": [
+        ["Segment", "The accounts and contacts included", "Selection rule and date"],
+        ["Customer job", "The problem the programme helps the customer complete", "Customer-facing language"],
+        ["Intended movement", "The decision or behaviour expected next", "Observable completion signal"],
+        ["Review window", "When the team will inspect the result", "Named owner and date"]
+      ]
+    },
+    {
+      "title": "Reach and Response",
+      "why_it_matters": "Delivery, opening, responding, and changing behaviour are different events. Combining them hides uncertainty.",
+      "review_prompt": "Which accounts were technically reached but still produced no useful evidence?",
+      "headers": ["Layer", "Record", "Quality test"],
+      "col_ratios": [0.22, 0.48, 0.30],
+      "rows": [
+        ["Eligible", "Accounts and contacts that should receive the programme", "Identity and eligibility verified"],
+        ["Reached", "Delivery or in-product exposure", "System evidence and timestamp"],
+        ["Responded", "Reply, click, attendance, request, or other response", "Do not treat an open as intent"],
+        ["Moved", "The intended customer action or decision occurred", "Observable evidence attached"]
+      ]
+    },
+    {
+      "title": "Silence and Intervention",
+      "why_it_matters": "Silence becomes operational only when it has a trigger, an owner, and a bounded response.",
+      "review_prompt": "When does silence stop being an automated journey and become a human decision?",
+      "headers": ["Decision", "Record", "Owner"],
+      "col_ratios": [0.24, 0.48, 0.28],
+      "rows": [
+        ["Silence condition", "The missing response or movement that matters", "Programme owner"],
+        ["Trigger", "The event or elapsed time that changes the treatment", "Data owner"],
+        ["Human response", "The smallest useful intervention", "Named role or person"],
+        ["Reset", "What returns the account to a digital path", "Review date"]
+      ]
+    },
+    {
+      "title": "Learning Record",
+      "why_it_matters": "The programme should become more useful because the team can inspect what changed, not because more activity was sent.",
+      "review_prompt": "What did this cycle teach the team about the segment, message, trigger, or human response?",
+      "headers": ["Record", "Complete this", "Next decision"],
+      "col_ratios": [0.22, 0.48, 0.30],
+      "rows": [
+        ["Observed pattern", "What happened across the segment", "Keep, change, or stop"],
+        ["Contrary evidence", "What weakens the current programme theory", "New test required"],
+        ["Customer input", "What customers said or requested", "Content or journey change"],
+        ["Next cycle", "One controlled change", "Owner and review date"]
+      ]
+    }
+  ]
+}

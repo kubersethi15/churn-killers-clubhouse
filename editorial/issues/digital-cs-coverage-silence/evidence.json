@@ -1,0 +1,32 @@
+[
+  {
+    "id": "E01",
+    "claim": "GitLab documents digital customer programmes including onboarding resources, enablement email series, newsletters, webinars, education and playbook maintenance.",
+    "source_title": "Digital Customer Programs",
+    "url": "https://handbook.gitlab.com/handbook/customer-success/csm/digital-journey/",
+    "publisher": "GitLab",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-24",
+    "notes": "One transparent company example. It supports the distinction between a digital programme and a complete customer outcome, not a universal programme design."
+  },
+  {
+    "id": "E02",
+    "claim": "GitLab documents the use of A/B tests and control groups to assess digital programme effectiveness and adjust programmes before wider use.",
+    "source_title": "Getting Help from Digital Customer Success Programs",
+    "url": "https://handbook.gitlab.com/handbook/sales/field-operations/customer-success-operations/cs-ops-programs/getting-help-from-dcs/",
+    "publisher": "GitLab",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-24",
+    "notes": "Supports measuring programme effect rather than treating delivery activity as proof. No benchmark or causal result is imported."
+  },
+  {
+    "id": "E03",
+    "claim": "Gainsight describes Digital Customer Success as combining personalised, proactive and predictive digital experiences with human touchpoints.",
+    "source_title": "Digital Customer Success Maturity Model",
+    "url": "https://www.gainsight.com/resource/digital-customer-success-maturity-model-ebook/",
+    "publisher": "Gainsight",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-24",
+    "notes": "Vendor guidance, not independent industry evidence. Used only to show that even a digital-CS vendor frames the model as a mix of digital and human touchpoints."
+  }
+]

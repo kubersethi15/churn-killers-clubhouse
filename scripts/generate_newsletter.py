@@ -1751,6 +1751,10 @@ def build_playbook_pdf(playbook_data, metadata, output_path):
 
         def _cover_page(self, canvas, doc):
             canvas.saveState()
+            canvas.setTitle(pb.get('title', 'Churn Is Dead Playbook'))
+            canvas.setAuthor('Kuber Sethi')
+            canvas.setSubject(pb.get('subtitle', 'Customer Success operating playbook'))
+            canvas.setKeywords('Customer Success, Churn Is Dead, playbook, operating system')
             canvas.setFillColor(WARM_BG)
             canvas.rect(0, 0, PAGE_W, PAGE_H, fill=1)
             canvas.setStrokeColor(ACCENT)
@@ -1836,7 +1840,8 @@ def build_playbook_pdf(playbook_data, metadata, output_path):
         mx = len(sections)*5
         fd = [["Dimension", "Your Score", "Max"]]
         for i, s in enumerate(sections, 1):
-            fd.append([f"{i}. {s.get('title','')}", "____", "5"])
+            clean_title = re.sub(r'^\s*\d+[.)]\s*', '', s.get('title', ''))
+            fd.append([f"{i}. {clean_title}", "____", "5"])
         fd.append(["TOTAL", "____", str(mx)])
         story.append(mk_table(fd, [CW*0.55, CW*0.225, CW*0.225]))
     else:
@@ -1880,10 +1885,11 @@ def build_playbook_pdf(playbook_data, metadata, output_path):
         "Take your lowest-scoring section and build a 30-day action plan. One at a time. Then share this with leadership, not to ask permission, but to show you know where the gaps are."
     )
     story.append(cbox(f"<b>What to do next:</b> {next_action}"))
-    story.append(sp(12))
-    story.append(hr_line(BORDER_LIGHT, 0.3))
-    story.append(sp(4))
-    story.append(Paragraph(pb.get('closing_quote', ''), ParagraphStyle('clq', fontName='Helvetica-Oblique', fontSize=10, textColor=MID_GRAY, leading=16)))
+    if uses_scores:
+        story.append(sp(12))
+        story.append(hr_line(BORDER_LIGHT, 0.3))
+        story.append(sp(4))
+        story.append(Paragraph(pb.get('closing_quote', ''), ParagraphStyle('clq', fontName='Helvetica-Oblique', fontSize=10, textColor=MID_GRAY, leading=16)))
     if uses_scores:
         story.append(sp(4))
         story.append(Paragraph("Kuber", ParagraphStyle('sig2', fontName='Helvetica-Bold', fontSize=11, textColor=BLACK)))

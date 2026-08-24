@@ -1,0 +1,7 @@
+{
+  "status": "approved",
+  "approved_by": "Codex, under Kuber's direct 24 August 2026 site-repair request",
+  "human_reviewed": false,
+  "approved_at": "2026-08-24T16:00:00+10:00",
+  "basis": "Kuber explicitly requested implementation of every P0, P1 and P2 item from the site audit. This refresh removes unsupported numerical claims from the live featured issue, adds visible sources and methodology, and keeps all proposals labelled as proposals."
+}

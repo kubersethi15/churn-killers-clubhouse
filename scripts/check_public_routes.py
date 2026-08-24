@@ -82,6 +82,14 @@ def main() -> None:
         if not archive_slugs:
             errors.append("/newsletters: no crawlable issue links")
 
+    for article_path in sorted((DIST / "newsletter").glob("*/index.html")):
+        slug = article_path.parent.name
+        article_source = article_path.read_text(encoding="utf-8")
+        if 'id="ci-newsletter"' not in article_source:
+            errors.append(f"/newsletter/{slug}: missing hydratable article payload")
+        if re.search(r"newsletter not found|issue unavailable", article_source, re.IGNORECASE):
+            errors.append(f"/newsletter/{slug}: semantic not-found copy in successful article page")
+
     if errors:
         raise SystemExit("Public route checks failed:\n- " + "\n- ".join(errors))
     print(f"Validated {len(ROUTES)} crawlable public routes")

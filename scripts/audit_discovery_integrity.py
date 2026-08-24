@@ -39,6 +39,14 @@ def inspect_html(url: str, status: int, final_url: str, html: str) -> dict[str, 
     title_match = re.search(r"<title>([^<]*)</title>", html, re.IGNORECASE)
     canonical = canonical_match.group(1) if canonical_match else None
     robots = robots_match.group(1) if robots_match else None
+    is_issue = bool(re.search(r"/newsletter/[a-z0-9-]+/?$", url))
+    semantic_dead = bool(
+        status == 200
+        and (
+            re.search(r"newsletter not found|issue unavailable", html, re.IGNORECASE)
+            or (is_issue and 'id="ci-newsletter"' not in html)
+        )
+    )
     return {
         "url": url,
         "status": status,
@@ -51,6 +59,7 @@ def inspect_html(url: str, status: int, final_url: str, html: str) -> dict[str, 
         "jsonld": len(re.findall(r"application/ld\+json", html, re.IGNORECASE)),
         "title": (title_match.group(1) if title_match else "")[:70],
         "desc_len": len(description_match.group(1)) if description_match else 0,
+        "semantic_dead": semantic_dead,
     }
 
 
@@ -85,10 +94,11 @@ def summarise(results: list[dict[str, object]]) -> tuple[dict[str, list[dict[str
         "no meta description": [
             row for row in results if row.get("status") == 200 and row.get("desc_len") == 0
         ],
+        "semantic dead page": [row for row in results if row.get("semantic_dead")],
     }
     blockers = sum(
         len(groups[name])
-        for name in ("non-200", "redirected", "canonical mismatch", "noindex", "no meta description")
+        for name in ("non-200", "redirected", "canonical mismatch", "noindex", "no meta description", "semantic dead page")
     )
     return groups, blockers
 
