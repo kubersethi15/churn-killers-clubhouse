@@ -33,9 +33,9 @@ in this file.
 
 **Why now:** roughly 8,200 followers create attention, but the owned-site transfer is weak. Useful participation in active operator conversations can widen qualified reach without disturbing the Tuesday launch.
 
-**Deliverable:** each weekday, find three current discussions from credible CS, SaaS, Product, RevOps, or founder operators. Check Kuber's existing comments on the exact post. Publish one substantive no-link comment on each thread. Log the public post URL, public comment URL, date, and operating topic in the shared `Engagement List` only.
+**Deliverable:** each weekday, find up to three current discussions from credible CS, SaaS, Product, RevOps, or founder operators. This agent lane is additional to the social manager's five to seven weekday comments. Claim and duplicate-check every exact post in the live `Engagement List`, then publish one substantive no-link comment on each separately owned thread. Log the public post URL, public comment URL, date, and operating topic in the shared `Engagement List` only.
 
-**Quality bar:** add an operating distinction, implementation question, trade-off, failure mode, or counterexample. Agreement, praise, generic summaries, hashtags, emojis, and Churn Is Dead promotion do not count.
+**Quality bar:** add one operating distinction, implementation question, trade-off, failure mode, or counterexample. Agreement, praise, generic summaries, hashtags, emojis, and Churn Is Dead promotion do not count. Apply the naturalness gate in `growth/channel-operating-system.md`: vary length and shape, avoid reusable AI-like structures, preserve only organic imperfections, and never reduce factual accuracy to look human.
 
 **Proof:** three verified live comments per weekday; aggregate weekly profile views, out-of-network reach, relevant inbound, and tagged site visits.
 

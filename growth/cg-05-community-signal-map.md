@@ -2,13 +2,15 @@
 
 **Prepared:** 24 August 2026
 
-**Status:** staged for Kuber's action-time approval. No external link.
+**Status:** Reddit answer parked because the available session could not sign in. A no-link LinkedIn fallback contribution was approved, published, and verified from Kuber's profile on 24 August 2026.
 
 ## Decision
 
-Use one complete answer in the live r/CustomerSuccess discussion [How do you reduce churn for “nice-to-have” SaaS products?](https://www.reddit.com/r/CustomerSuccess/comments/1vv3oa8/how_do_you_reduce_churn_for_nicetohave_saas/).
+Keep the complete answer for the live r/CustomerSuccess discussion [How do you reduce churn for “nice-to-have” SaaS products?](https://www.reddit.com/r/CustomerSuccess/comments/1vv3oa8/how_do_you_reduce_churn_for_nicetohave_saas/) parked until a legitimate signed-in account and fresh rules check are available. Do not create a promotional account or work around Reddit authentication.
 
-This is the strongest immediate fit because it is two days old, asks for an operator framework rather than a tool recommendation, and maps directly to Kuber's confirmed change of view about product and relationships. The answer stays useful without mentioning Churn Is Dead or linking to the site. That respects the community's no-self-promotion position and the CID-001 rule against a community link drop before 1 September 2026 at 18:14 Sydney.
+This remains the strongest community fit because it is two days old, asks for an operator framework rather than a tool recommendation, and maps directly to Kuber's confirmed change of view about product and relationships. The answer stays useful without mentioning Churn Is Dead or linking to the site. That respects the community's no-self-promotion position and the CID-001 rule against a community link drop before 1 September 2026 at 18:14 Sydney.
+
+The immediate fallback was a current LinkedIn discussion from Seán Reid asking for the biggest Customer Success trend heading into 2027. Kuber approved one research-led, no-link comment. It was published and verified at [activity 7497229861959380992](https://www.linkedin.com/feed/update/urn:li:activity:7497229861959380992/) on 24 August 2026. The visible profile headline carried `Churn Is Dead newsletter`; the comment itself did not pitch or link.
 
 ## Aggregate signal map
 
@@ -104,4 +106,3 @@ The strongest recurring pattern is not a demand for another churn tool. It is a 
 - **Approval gate:** Kuber confirms immediately before the Reddit comment is submitted.
 - **Review:** record aggregate score and replies after 72 hours. Do not record usernames or DM participants.
 - **Stop:** if the signed-in account is new, promotion-only, community-banned, or the composer surfaces a stricter rule, do not publish.
-

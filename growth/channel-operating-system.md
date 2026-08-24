@@ -26,12 +26,23 @@ The LinkedIn Premium `View my newsletter` profile button is the always-on except
 
 ### 1. Founder relationship loop
 
-The social manager leaves three substantive, no-link comments per weekday on active posts from relevant CS operators already listed in the shared Engagement List.
+The social manager leaves five to seven substantive, no-link comments per weekday on active posts from relevant CS operators already listed in the shared Engagement List. The agent research lane may add up to three more high-value comments on separately claimed discussions. Kuber confirmed on 24 August 2026 that the manager volume is additional to the agent lane, not the total across both.
 
 - Add an operating insight, useful distinction, or real question.
 - Do not pitch Churn Is Dead, paste a link, or use generic praise.
+- Claim the exact post in the live Engagement List before drafting. One comment per thread across manager and agent lanes unless another participant asks a real question.
 - Log the profile, post, and comment URLs in columns K:P of the Engagement List.
 - Review replies, profile views, invitations, and eventual direct traffic weekly.
+
+Naturalness is a quality gate, not a typo quota:
+
+- Respond to one exact point in the post. Do not paste a reusable mini-essay.
+- Vary length and shape. Most comments should be 40 to 120 words, but a sharp two-sentence answer is allowed.
+- Start with the point rather than praise. Avoid repeated openings, symmetrical lists, hashtags, emojis, generic summaries, and the same closing takeaway across threads.
+- Preserve an occasional natural fragment, lowercase word, contraction, or missing apostrophe when it sounds like Kuber. Never insert mistakes mechanically or make a claim less accurate to look human.
+- Use first-person experience only when it is confirmed in `editorial/author-experience.md`.
+- Before posting, compare the draft with the last ten logged comments. If the structure or signature phrase repeats, rewrite it.
+- Read the comment aloud once. Remove the final sentence if it merely restates the argument.
 
 This is always-on relationship work, not a tagged acquisition experiment.
 

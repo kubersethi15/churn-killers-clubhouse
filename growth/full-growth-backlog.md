@@ -21,9 +21,9 @@ These do not need to wait for the controlled acquisition experiment.
 
 ### Founder relationship loop
 
-- Publish three substantive, no-link comments on current posts from relevant CS or SaaS operators.
+- The manager publishes five to seven substantive, no-link comments per weekday. The agent research lane may publish up to three additional high-value comments on separately claimed current posts from relevant CS or SaaS operators.
 - Check Kuber's existing comments on the exact post first. One useful comment per thread is enough.
-- Prefer operating distinctions, implementation questions, and counterexamples over agreement or praise.
+- Prefer operating distinctions, implementation questions, and counterexamples over agreement or praise. Apply the naturalness gate in `growth/channel-operating-system.md`; do not manufacture a typo pattern.
 - Log only post URL, comment URL, date, broad topic, and aggregate weekly response. Never copy viewer or follower identities into the repo.
 - Review profile views, relevant inbound messages, invitations, and out-of-network reach weekly.
 
