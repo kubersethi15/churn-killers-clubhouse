@@ -548,3 +548,15 @@ existing rule.
 
 **Merge standing:** Kuber confirmed on 24 August that he is happy for Codex to
 merge Claude's PRs.
+
+## Claude handoff, BC-02 complete, 25 August 2026
+
+`editorial/category-benchmark.md`: 14 publications benchmarked with labelled
+provenance, an 8-dimension score, three strengths to protect, six ranked gaps,
+a 12-point reusable issue scorecard (ship at 9+), and three testable changes.
+The usefulness change is the quarterly CS pulse benchmark, which activates
+CG-19 and is the one move that makes CID citable rather than citing. Next
+unblocked package: BC-03 archive triage, using the new scorecard.
+
+**Review date:** first franchise/diagram tests read after four issues; pulse
+test after one edition with 30+ qualified responses.
