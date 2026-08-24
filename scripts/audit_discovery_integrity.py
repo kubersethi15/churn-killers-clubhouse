@@ -1,64 +1,141 @@
-"""Crawl every sitemap URL and check discovery integrity.
+#!/usr/bin/env python3
+"""Audit crawlability and metadata for every URL in a sitemap.
 
-Checks status, redirects, canonical self-reference, robots noindex,
-JSON-LD presence and meta description presence. Read-only.
-
-Usage:
-  curl -s https://churnisdead.com/sitemap.xml | grep -oE "<loc>[^<]+" \\
-    | sed "s/<loc>//" > urls.txt && python3 scripts/audit_discovery_integrity.py
+The audit is read-only. It prints an aggregate summary and writes URL-level JSON
+only when ``--json-output`` is explicitly supplied.
 """
-import re, sys, json
-from concurrent.futures import ThreadPoolExecutor
+
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import sys
 import urllib.request
+import xml.etree.ElementTree as ET
+from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 
-UA = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
-urls = [u.strip() for u in open('urls.txt') if u.strip()]
 
-def check(u):
-    r = {"url": u}
+USER_AGENT = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+
+
+def normalise_url(url: str) -> str:
+    return url.rstrip("/")
+
+
+def inspect_html(url: str, status: int, final_url: str, html: str) -> dict[str, object]:
+    canonical_match = re.search(
+        r'<link[^>]+rel=["\']canonical["\'][^>]+href=["\']([^"\']+)', html, re.IGNORECASE
+    )
+    robots_match = re.search(
+        r'<meta[^>]+name=["\']robots["\'][^>]+content=["\']([^"\']*)', html, re.IGNORECASE
+    )
+    description_match = re.search(
+        r'<meta[^>]+name=["\']description["\'][^>]+content=["\']([^"\']*)',
+        html,
+        re.IGNORECASE,
+    )
+    title_match = re.search(r"<title>([^<]*)</title>", html, re.IGNORECASE)
+    canonical = canonical_match.group(1) if canonical_match else None
+    robots = robots_match.group(1) if robots_match else None
+    return {
+        "url": url,
+        "status": status,
+        "final": final_url,
+        "redirected": normalise_url(final_url) != normalise_url(url),
+        "canonical": canonical,
+        "canonical_ok": normalise_url(canonical or "") == normalise_url(url),
+        "robots": robots,
+        "noindex": bool(robots and "noindex" in robots.lower()),
+        "jsonld": len(re.findall(r"application/ld\+json", html, re.IGNORECASE)),
+        "title": (title_match.group(1) if title_match else "")[:70],
+        "desc_len": len(description_match.group(1)) if description_match else 0,
+    }
+
+
+def fetch_url(url: str) -> dict[str, object]:
     try:
-        req = urllib.request.Request(u, headers={"User-Agent": UA})
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            r["status"] = resp.status
-            r["final"] = resp.geturl()
-            html = resp.read().decode("utf-8", "replace")
-    except Exception as e:
-        r["status"] = f"ERR {e}"
-        return r
-    m = re.search(r'<link rel="canonical" href="([^"]*)"', html)
-    r["canonical"] = m.group(1) if m else None
-    r["canonical_ok"] = (r["canonical"] or "").rstrip("/") == u.rstrip("/")
-    rob = re.search(r'<meta name="robots" content="([^"]*)"', html, re.I)
-    r["robots"] = rob.group(1) if rob else None
-    r["noindex"] = bool(rob and "noindex" in rob.group(1).lower())
-    r["jsonld"] = len(re.findall(r'application/ld\+json', html))
-    ttl = re.search(r'<title>([^<]*)</title>', html)
-    r["title"] = (ttl.group(1) if ttl else "")[:70]
-    desc = re.search(r'<meta name="description" content="([^"]*)"', html)
-    r["desc_len"] = len(desc.group(1)) if desc else 0
-    r["redirected"] = r["final"].rstrip("/") != u.rstrip("/")
-    return r
+        request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+        with urllib.request.urlopen(request, timeout=30) as response:
+            html = response.read().decode("utf-8", "replace")
+            return inspect_html(url, response.status, response.geturl(), html)
+    except Exception as exc:  # network failures must remain visible in the audit
+        return {"url": url, "status": f"ERR {exc}"}
 
-with ThreadPoolExecutor(max_workers=6) as ex:
-    res = list(ex.map(check, urls))
 
-json.dump(res, open("audit.json","w"), indent=1)
-bad_status = [r for r in res if r["status"] != 200]
-bad_canon  = [r for r in res if r["status"]==200 and not r["canonical_ok"]]
-noindex    = [r for r in res if r.get("noindex")]
-no_jsonld  = [r for r in res if r["status"]==200 and r["jsonld"]==0]
-redir      = [r for r in res if r.get("redirected")]
-no_desc    = [r for r in res if r["status"]==200 and r["desc_len"]==0]
+def urls_from_sitemap(sitemap_url: str) -> list[str]:
+    request = urllib.request.Request(sitemap_url, headers={"User-Agent": USER_AGENT})
+    with urllib.request.urlopen(request, timeout=30) as response:
+        root = ET.fromstring(response.read())
+    return [node.text.strip() for node in root.findall("{*}url/{*}loc") if node.text]
 
-print(f"checked {len(res)} URLs")
-print(f"  non-200:            {len(bad_status)}")
-print(f"  redirected:         {len(redir)}")
-print(f"  canonical mismatch: {len(bad_canon)}")
-print(f"  noindex:            {len(noindex)}")
-print(f"  no JSON-LD:         {len(no_jsonld)}")
-print(f"  no meta description:{len(no_desc)}")
-for label, rows in (("NON-200",bad_status),("REDIRECT",redir),("CANONICAL MISMATCH",bad_canon),("NOINDEX",noindex),("NO JSON-LD",no_jsonld)):
-    if rows:
-        print(f"\n{label}:")
-        for r in rows[:12]:
-            print(f"  {r['url'].replace('https://churnisdead.com','')}  status={r['status']} canonical={(r.get('canonical') or '').replace('https://churnisdead.com','')}")
+
+def summarise(results: list[dict[str, object]]) -> tuple[dict[str, list[dict[str, object]]], int]:
+    groups = {
+        "non-200": [row for row in results if row.get("status") != 200],
+        "redirected": [row for row in results if row.get("redirected")],
+        "canonical mismatch": [
+            row for row in results if row.get("status") == 200 and not row.get("canonical_ok")
+        ],
+        "noindex": [row for row in results if row.get("noindex")],
+        "no JSON-LD": [
+            row for row in results if row.get("status") == 200 and row.get("jsonld") == 0
+        ],
+        "no meta description": [
+            row for row in results if row.get("status") == 200 and row.get("desc_len") == 0
+        ],
+    }
+    blockers = sum(
+        len(groups[name])
+        for name in ("non-200", "redirected", "canonical mismatch", "noindex", "no meta description")
+    )
+    return groups, blockers
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    source = parser.add_mutually_exclusive_group()
+    source.add_argument(
+        "--sitemap-url",
+        default="https://churnisdead.com/sitemap.xml",
+        help="Sitemap to audit (default: the live Churn Is Dead sitemap)",
+    )
+    source.add_argument("--url-file", type=Path, help="Newline-delimited URL file")
+    parser.add_argument("--json-output", type=Path, help="Optional path for URL-level evidence")
+    parser.add_argument("--workers", type=int, default=6)
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_args()
+    urls = (
+        [line.strip() for line in args.url_file.read_text(encoding="utf-8").splitlines() if line.strip()]
+        if args.url_file
+        else urls_from_sitemap(args.sitemap_url)
+    )
+    if not urls:
+        print("FAIL: no URLs found", file=sys.stderr)
+        return 2
+
+    with ThreadPoolExecutor(max_workers=max(1, args.workers)) as executor:
+        results = list(executor.map(fetch_url, urls))
+
+    groups, blockers = summarise(results)
+    print(f"checked {len(results)} URLs")
+    for label, rows in groups.items():
+        print(f"  {label + ':':22}{len(rows)}")
+
+    if args.json_output:
+        args.json_output.write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
+
+    for label, rows in groups.items():
+        if rows:
+            print(f"\n{label.upper()}:")
+            for row in rows[:12]:
+                print(f"  {row['url']}  status={row.get('status')} canonical={row.get('canonical', '')}")
+    return 1 if blockers else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
