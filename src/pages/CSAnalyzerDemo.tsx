@@ -34,7 +34,7 @@ const CSAnalyzerDemo = () => {
               actually <span className="underline-red">produces</span>.
             </h1>
             <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mb-6">
-              A realistic example transcript was run through the same five-agent pipeline you'd use. It is illustrative—not a customer claim. Scroll through, inspect the evidence, then run one of your own.
+              A realistic example transcript was analysed for risks, evidence, stakeholders, and next actions. It is illustrative, not a customer claim. Scroll through, inspect the evidence, then run one of your own.
             </p>
             <div className="flex items-center gap-4 flex-wrap">
               <Link
@@ -66,8 +66,8 @@ const CSAnalyzerDemo = () => {
                 <p className="font-semibold text-navy-dark">~28 minutes</p>
               </div>
               <div>
-                <p className="text-muted-foreground/70 mb-1">Analyzer pipeline</p>
-                <p className="font-semibold text-navy-dark">5 specialist agents</p>
+                <p className="text-muted-foreground/70 mb-1">Output</p>
+                <p className="font-semibold text-navy-dark">Evidence-linked report</p>
               </div>
             </div>
           </div>

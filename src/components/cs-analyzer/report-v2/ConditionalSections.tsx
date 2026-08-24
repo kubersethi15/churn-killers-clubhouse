@@ -50,7 +50,7 @@ export const ProcurementTimeline = ({ data }: { data: FinalReport["procurement_a
         <div className="space-y-2 mb-3">
           <p className={reportTypography.labelUppercase}>Timeline</p>
           {data.timeline_items.map((t, i) => (
-            <div key={i} className={reportLayout.listItemCard}>
+            <div key={i} className={cn(reportLayout.listItemCard, "flex-wrap sm:flex-nowrap")}>
               <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold font-sans bg-amber-100 text-amber-700 shrink-0">
                 {t.topic || t.event || "—"}
               </span>
@@ -65,7 +65,7 @@ export const ProcurementTimeline = ({ data }: { data: FinalReport["procurement_a
         <div className="space-y-2">
           <p className={reportTypography.labelUppercase}>Procurement Risks</p>
           {data.procurement_risks.map((r, i) => (
-            <div key={i} className={reportLayout.listItemCard}>
+            <div key={i} className={cn(reportLayout.listItemCard, "flex-wrap sm:flex-nowrap")}>
               <AlertCircle className="w-3.5 h-3.5 text-red-500 shrink-0 mt-0.5" />
               <span className={reportTypography.bodyText}>{r.risk}</span>
               <EvidenceChip anchorIds={r.anchor_ids} />
