@@ -55,10 +55,11 @@ set aside wholesale rather than any row being labelled, which is a coarser but
 honest treatment.
 
 **The cutoff.** `growth_measurement_state.growth_events_clean_from` is set to
-`2026-08-24T05:10:00Z`, just after the #90 merge and after the last observed
-pre-guard event at 04:50:52Z. The report drops every row before it: on the live
-table that is 584 of 595 rows dropped, 11 kept. Advance the cutoff to the
-confirmed production-deploy time if it is later than the merge.
+`2026-08-24T05:30:00Z`, rounded up from the verified production deployment at
+05:29:38Z. PR #90 merged at 05:09:50Z, but readers between merge and deployment
+still received the unguarded build. The report drops every earlier row; counts
+must be recomputed from the live table rather than copied from the old 05:10
+window.
 
 ## Current state: blocked, and the data is not yet trustworthy
 
