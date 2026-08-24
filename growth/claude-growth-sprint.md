@@ -8,6 +8,14 @@
 
 This is Claude's ready-to-run queue. It replaces the three-item rolling queue as the default source of new work. Claude should claim one item at a time in `growth/agent-coordination.md`, ship or park it with evidence, then immediately take the next unblocked item. A missing connection is not permission to idle: complete the research, draft, test, or repository portion and move to the next unblocked item.
 
+Kuber's best-in-class expansion is defined in
+[`growth/claude-best-in-class-wave.md`](claude-best-in-class-wave.md). Its nine
+packages add a measurement correction, category benchmark, full-archive
+credibility triage, flagship formats, original evidence, collaborations,
+practitioner review, reader-journey QA, and a weekly growth-and-quality review.
+Follow its immediate order before returning to a lower-priority unclaimed item
+in this file.
+
 ## Fixed operating boundaries
 
 - The website is the canonical publication.
