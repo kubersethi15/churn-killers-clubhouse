@@ -38,9 +38,9 @@ ROUTES = {
     ),
     "topics": (
         "Customer Success Topics | Churn Is Dead",
-        "Explore practical operating systems for renewal economics, CS measurement, AI role design, and cross-functional Customer Success operations.",
+        "Explore practical operating systems for renewal economics, CS measurement, health-score alternatives, AI role design, and cross-functional operations.",
         "Start with the decision on your desk.",
-        "Four durable Customer Success problems, each with a focused reading path and one tool to run.",
+        "Five durable Customer Success problems, each with a focused reading path and one tool to run.",
     ),
     "topics/renewal-economics": (
         "Renewal Economics | Churn Is Dead",
@@ -65,6 +65,12 @@ ROUTES = {
         "Turn recurring cross-functional friction into explicit inputs, decisions, owners, and customer communication.",
         "Customer Success operating systems",
         "Replace escalation ambiguity with a repeatable operating mechanism.",
+    ),
+    "topics/health-score-alternatives": (
+        "Customer Health Score Alternatives | Churn Is Dead",
+        "Replace red, amber, and green account health scores with observed movement, outcome evidence, and explicit intervention signals.",
+        "Customer health score alternatives",
+        "Use customer movement and outcome evidence to decide when and how to intervene.",
     ),
     "about": (
         "About Kuber Sethi | Churn Is Dead",
