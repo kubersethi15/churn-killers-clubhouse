@@ -27,7 +27,7 @@ The ready-to-claim list is a starting queue, not a ceiling. An agent may add and
 1. Pull `main`, read `CLAUDE.md`, `editorial/editorial-contract.md`, `growth/channel-operating-system.md`, and this file before starting.
 2. Claim one unclaimed workstream below in the branch that will deliver it. Do not edit files currently claimed by another agent.
 3. Use a branch and PR. Include tests, aggregate success metrics, rollback conditions, and any external action taken.
-4. Do not change CID-001's Tuesday post, tracked link, site CTA, or channel mix before its baseline closes on 1 September 2026 at 18:14 Sydney.
+4. Do not change CID-001's Tuesday post, tracked link, site CTA, or timing before its baseline closes on 1 September 2026 at 18:14 Sydney. Kuber's 24 August override activates the separately tagged CID-004 LinkedIn Newsletter surface from 26 August; keep both labels intact and never present the resulting multi-surface run as an isolated channel test.
 5. Relationship work, research, partner pitching, and separately labelled always-on infrastructure may continue. Log consequential external actions in `growth/action-log.md` so another agent does not repeat them.
 6. Never expose subscriber emails, viewer identities, customer transcripts, or other PII in issues, PRs, logs, screenshots, or shared documents.
 
@@ -36,7 +36,8 @@ The ready-to-claim list is a starting queue, not a ceiling. An agent may add and
 | Workstream | Owner | Branch or surface | Status | Claimed files / boundary |
 |---|---|---|---|---|
 | Subscriber referral loop v2 | Codex | PR [#36](https://github.com/kubersethi15/churn-killers-clubhouse/pull/36), merged as `b7d1b23` | Backend live; public UI awaiting the next Lovable publish | No longer file-claimed. Do not run performance conclusions until the public share surfaces are live and the minimum-evidence gates in `LOOP-02` are met. |
-| Tuesday CID-001 launch | Codex + social manager | Website at 18:00 Sydney; LinkedIn at 18:15 | Approved and scheduled | Do not alter copy, CTA, UTM, timing, or add a second distribution surface through baseline close |
+| Tuesday CID-001 launch | Codex + social manager | Website at 18:00 Sydney; LinkedIn at 18:15 | Approved and scheduled | Do not alter copy, CTA, UTM, timing, or add a second short launch post through baseline close |
+| CID-004 LinkedIn Newsletter reactivation | Codex + social manager | Existing `Churn is Dead` LinkedIn Newsletter | First edition scheduled for 26 August at 18:15 Sydney | Four weekly native adaptations; preserve `linkedin/newsletter/linkedin_newsletter` attribution, replace the Wednesday calendar slot rather than adding a duplicate post, and report aggregate metrics only |
 | Partner outreach and replies | Codex | Gmail, LinkedIn, shared Growth Partnerships sheet | Active | Customer Success Collective, Customer Success Network, Practical CSM, SaaS Therapy, Digital CX, Retention Ranch, and CS Insider; exact follow-up dates are in `growth/channel-pipeline.csv` |
 | ACQ-07 podcast outreach | Claude staged, Codex verified and sent | PR [#42](https://github.com/kubersethi15/churn-killers-clubhouse/pull/42), merged as `63febe2`; Gmail | Two pitches sent and verified 24 August | No files remain claimed. Monitor replies; follow up once on 7 September if silent, then stop. |
 | Organic discovery: internal link graph | Claude | PR [#40](https://github.com/kubersethi15/churn-killers-clubhouse/pull/40), merged as `a04de10` | Complete; independently reviewed and merged | No longer file-claimed. Review Search Console impact from 7 September 2026; use `scripts/report_internal_link_graph.py` to remeasure after archive changes. |

@@ -91,18 +91,18 @@ Run one clean variable at a time.
 - **Primary read:** acquired signups divided by unique tagged visits. Keep acquired signups in the campaign history even if someone later unsubscribes.
 - **Secondary read:** qualified-action sessions divided by unique tagged visits. A qualified session opens a resource, shares, answers the reader pulse, or visits the CS Analyzer demo.
 - **Guardrails:** report form-view sessions and how many acquired subscribers are still active, but do not call this retention until the cohort has had time to mature. Record meaningful replies only as an aggregate manual count; do not copy identities or message content into analytics.
-- **Constants:** do not change the website CTA, add Medium syndication, add a second launch post, or alter the Tuesday issue structure during the window.
+- **Constants:** do not change the website CTA, add Medium syndication, add a second short launch post, or alter the Tuesday issue structure during the window.
 - **Measurement gate:** the exact approved URL was posted, at least one tagged unique visit was recorded, the full seven-day window elapsed, and no competing asset used the same campaign label. If the post is confirmed live but zero tagged visits appear, treat the run as an instrumentation or execution failure rather than weak audience demand.
 - **Decision:** use this week to establish a baseline. Fewer than 20 tagged unique visits is descriptive only and extends baseline collection; 20 is an internal operating floor, not statistical significance. Do not declare the format a winner from one issue or from impressions alone.
 
 | Window | Test | Keep constant | Decision rule |
 |---|---|---|---|
-| Weeks 1–2 | Establish complete site and welcome-email baseline | Tuesday issue structure and CTA | Do not declare a winner |
-| Weeks 3–4 | Hard-problem LinkedIn opening versus operating-model opening | Canonical article and landing CTA | Keep the opening that produces qualified site actions, not only impressions |
-| Weeks 5–6 | One LinkedIn Newsletter adaptation and one evergreen Medium import | Canonical URL and topic | Continue only if each produces attributable subscribers or tool use |
+| Weeks 1–4 | Reactivate the existing 680-subscriber LinkedIn Newsletter with one substantial native adaptation each Wednesday | Tuesday short post, canonical article and distinct surface attribution | Continue weekly only if the four-edition block produces attributable qualified actions or acquired subscribers |
+| Weeks 3–4 | Hard-problem LinkedIn opening versus operating-model opening, only after the short-post baseline is measurable | Canonical article and landing CTA | Keep the opening that produces qualified site actions, not only impressions |
+| Weeks 5–6 | One evergreen Medium import | Canonical URL and topic | Continue only if it produces attributable subscribers or tool use |
 | Weeks 7–8 | Repeat the best channel-format combination | Editorial quality and publication cadence | Remove formats that create reach without qualified action |
 
-Medium imports must use Medium's import flow or an explicit canonical URL. LinkedIn Newsletter is a monthly test, not a second weekly publishing obligation.
+Medium imports must use Medium's import flow or an explicit canonical URL. LinkedIn Newsletter is now a four-edition weekly reactivation block because the dormant native publication already has 680 subscribers. Each edition replaces an existing calendar slot, uses a substantial native adaptation rather than a pasted duplicate, and keeps one tagged canonical resource link. After four editions, keep weekly only if the aggregate evidence supports it; otherwise reduce to monthly and revise the format.
 
 ## Monthly brand review
 
