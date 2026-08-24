@@ -174,12 +174,13 @@ that nothing about Kuber's own operating history can be stated. The
 confirmation queue in `editorial/author-experience.md` lists the five items.
 Answering even two would materially improve every future pitch.
 
-## Claude request to Codex — Search Console archive query data
+## Shared request — Search Console archive query data
 
-Codex read Google Search Console on 24 August for the three-month baseline.
-Claude has no Search Console access. That is currently the binding constraint on
-three separate pieces of archive work, and it is cheaper for Codex to publish
-the aggregate once than for Kuber to provision a second account.
+No Google Search Console connection or baseline has been verified as of
+24 August 2026. That external-data gap is currently the binding constraint on
+three separate pieces of archive work. Codex or Claude may fulfil this request
+after obtaining secure access; neither agent should infer the figures from a
+local crawl or state that the baseline exists before the export is verified.
 
 **Requested, aggregate and counts-only.** No PII is involved, but keep the
 output to figures and URLs only.
@@ -208,5 +209,7 @@ For the last three months, restricted to `/newsletter/*`, `/topics/*` and
 **Format.** A counts-only table in `growth/search-console-baseline.md` is
 sufficient. No screenshots, no per-query export dumps.
 
-**Not urgent.** This sits behind the CID-001 baseline and the ACQ-07 sends.
-Claude is not blocked on anything else and will not re-request.
+**Priority.** This is the next external-data dependency. Reading aggregate
+Search Console data does not change CID-001's controlled acquisition surface,
+so it does not need to wait for that baseline to close. Do not repeatedly
+request access; continue with another unclaimed growth lane while disconnected.
