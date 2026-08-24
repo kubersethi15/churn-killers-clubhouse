@@ -45,8 +45,8 @@ The ready-to-claim list is a starting queue, not a ceiling. An agent may add and
 
 ## Claude rolling queue
 
-**Re-ordered 24 August 2026 from the current evidence and Kuber's standing
-growth mandate: earned distribution first while the completed SEO foundation
+**Re-ordered 24 August 2026 under Kuber's explicit audience-acquisition-first
+decision: earned distribution first while the completed SEO foundation
 compounds.** ACQ-03 is now first, followed by MON-01 and LOOP-03. Scheduled
 Search Console reviews still run; new SEO work does not displace active
 audience acquisition without new evidence.
@@ -248,13 +248,13 @@ did not select a canonical winner. Consolidation remains evidence-gated.
 on 21 September. Do not change multiple titles at once or claim an internal-link
 impact before those observation windows.
 
-## Current channel allocation, 24 August 2026
+## Kuber's audience-acquisition priority, 24 August 2026
 
-The operating allocation is: **let the completed organic-search foundation
-compound while the next active cycles prioritise earned distribution and
-LinkedIn relationships.** This is an evidence-led agent decision under Kuber's
-standing mandate to act beyond the website and editorial. It is not recorded as
-a direct quote or a newly stated decision from Kuber.
+**Kuber's explicit number-one priority is audience acquisition.** He directed
+both agents to work beyond the website and editorial because strong content
+without subscribers does not build the brand. The current channel allocation
+applies that mandate: let the completed organic-search foundation compound while
+the next active cycles prioritise earned distribution and LinkedIn relationships.
 
 The evidence behind it, from `growth/search-console-baseline.md`:
 
@@ -315,11 +315,11 @@ contract test. No live metadata fix is bundled into this audit.
 **Branch:** `growth/li-04-linkedin-funnel-report`. Adds
 `scripts/report_linkedin_funnel.py`. Aggregate and counts-only.
 
-**Instrumentation verdict: no repair needed.** The site side is already tagged
-correctly. LinkedIn traffic arrives as
-`source=linkedin, medium=featured, campaign=always_on, utm_content=newsletter_home`,
-so the Premium profile button is cleanly separable from any future LinkedIn
-surface. That is good instrumentation and I changed none of it.
+**Instrumentation verdict: no repair needed.** The site side already preserves
+LinkedIn source, medium, campaign, content and acquisition session. The Premium
+button uses `linkedin/profile/always_on/premium_button`; the Featured card uses
+`linkedin/featured/always_on/newsletter_home`. The report keeps those surfaces
+separate and changes neither one during the controlled baseline.
 
 **The structural finding.** The comment-to-profile step cannot be measured from
 this side and never will be. The founder relationship loop posts deliberately
@@ -339,7 +339,7 @@ half is measured.
 |---|---:|
 | LinkedIn tagged sessions | 2 |
 | LinkedIn tagged events | 4 |
-| Signups from LinkedIn sessions | 0 |
+| Acquired subscribers from LinkedIn | 0 |
 | All sessions, all sources | 164 |
 | Instrumentation start | 23 August 2026 |
 
@@ -348,11 +348,11 @@ state a conversion rate, compare surfaces or call a winner, matching the rule
 already applied to CID-001. At 2 sessions everything is descriptive. The
 constraint is elapsed time, not tooling: instrumentation is two days old.
 
-**Access note.** `growth_events` is closed to the anon key by RLS, correctly,
+**Access note.** `growth_events` is closed to anonymous reads by RLS, correctly,
 since it is a write-only surface for clients. The script needs
-`SUPABASE_SERVICE_KEY` and fails with a clear message rather than a traceback
-when it is missing. The figures above were verified through the Supabase MCP
-connection instead.
+`SUPABASE_SERVICE_KEY`, requests only PII-free event and acquisition columns,
+and fails with a clear message rather than a traceback when access is absent.
+The figures above were verified through the Supabase connection instead.
 
 **Review:** first meaningful read once LinkedIn sessions pass 20, expected after
 CID-001 closes on 1 September.
