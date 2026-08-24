@@ -38,6 +38,7 @@ The ready-to-claim list is a starting queue, not a ceiling. An agent may add and
 | Subscriber referral loop v2 | Codex | PR [#36](https://github.com/kubersethi15/churn-killers-clubhouse/pull/36), merged as `b7d1b23` | Backend live; public UI awaiting the next Lovable publish | No longer file-claimed. Do not run performance conclusions until the public share surfaces are live and the minimum-evidence gates in `LOOP-02` are met. |
 | Tuesday CID-001 launch | Codex + social manager | Website at 18:00 Sydney; LinkedIn at 18:15 | Approved and scheduled | Do not alter copy, CTA, UTM, timing, or add a second distribution surface through baseline close |
 | Partner outreach and replies | Codex | Gmail, LinkedIn, shared Growth Partnerships sheet | Active | Customer Success Collective, Customer Success Network, Practical CSM, SaaS Therapy; follow-up dates are in `growth/channel-pipeline.csv` |
+| ACQ-07 podcast outreach (staged) | Claude builds, Codex sends | `growth/podcast-outreach-acq-07` | Staged, awaiting dispatch by Codex | `growth/outreach-pitches.md` podcast sections, `growth/channel-pipeline.csv` rows 14-17, `editorial/author-experience.md` |
 | Organic discovery: internal link graph | Claude | PR [#40](https://github.com/kubersethi15/churn-killers-clubhouse/pull/40), merged as `a04de10` | Complete; independently reviewed and merged | No longer file-claimed. Review Search Console impact from 7 September 2026; use `scripts/report_internal_link_graph.py` to remeasure after archive changes. |
 
 ## Ready for Claude to claim or replace with a higher-leverage lane
@@ -112,3 +113,63 @@ is connected. Otherwise claim a read-only problem-led hub coverage audit or a
 new earned-distribution route. Only 13 of 46 issues have a curated topic-hub
 mapping, so most pages show no "More on this topic" link; extending
 `topicHubs.ts` requires editorial judgment and should not be done mechanically.
+
+## Claude handoff — ACQ-07 podcast outreach, staged for Codex to send
+
+Kuber confirmed on 24 August 2026 that Claude stages outreach and **Codex sends
+it on his behalf**. This section is the dispatch instruction.
+
+### Send these two
+
+Both are new routes. Neither duplicates an existing pipeline row, and both use a
+distinct operating idea not used in any pitch already sent.
+
+1. **The Digital CX Podcast** to `alex@digitalcustomersuccess.com`. Angle: CS
+   Decision Rights Map. The address was verified first-party on
+   `https://digitalcustomersuccess.com/contact/` on 24 August 2026. Copy is in
+   `growth/outreach-pitches.md`.
+2. **Retention Ranch** through the contact form at
+   `https://www.retentionranch.com/contact`. The guest criteria at
+   `https://www.retentionranch.com/guest` and the contact form were both
+   verified first-party on 24 August 2026. Angle: Value Proof Cadence. Copy is
+   in the same file.
+
+Follow up once each on 7 September 2026 if no reply, then stop. Do not send a
+second nudge. Log the send in `growth/action-log.md` with route, date and
+status only.
+
+### Do not send these two
+
+- **Unchurned (UpdateAI)**: no first-party guest route exists. Relationship
+  route through LinkedIn only.
+- **The Customer Success Channel (Planhat)**: the show is mid host transition
+  and the only address found is from an aggregator. Verify the current host and
+  a first-party route first.
+
+### Constraints carried into the copy
+
+- The author-experience ledger was empty, so neither pitch claims any Kuber
+  experience, customer outcome, or commercial result. Both are built on the
+  published operating artifacts, which are verifiable.
+- Kuber confirmed roughly 8,200 LinkedIn followers and active Premium on
+  24 August. Both are now recorded in `editorial/author-experience.md` as
+  bounded, re-confirmable claims. **Neither pitch cites the follower count**: a
+  distinct operating idea is stronger currency with practitioner shows, and
+  reach is not evidence of results.
+- Neither pitch touches CID-001's Tuesday post, tracked link, site CTA, timing
+  or channel mix. Outreach and relationship work are explicitly permitted
+  during the baseline window.
+
+### Metric and review
+
+Aggregate only: replies received, invitations accepted, and tagged resource
+visits from any resulting episode. Review 8 September 2026, after the single
+follow-up date. Stop rule per ACQ-07: one tailored follow-up only.
+
+### Open, needs Kuber
+
+The author-experience ledger is otherwise still empty. It is the single biggest
+constraint on pitch strength, because every pitch has to route around the fact
+that nothing about Kuber's own operating history can be stated. The
+confirmation queue in `editorial/author-experience.md` lists the five items.
+Answering even two would materially improve every future pitch.
