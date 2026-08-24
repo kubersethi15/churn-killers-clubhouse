@@ -44,6 +44,11 @@ The ready-to-claim list is a starting queue, not a ceiling. An agent may add and
 
 ## Claude rolling queue
 
+**Re-ordered 24 August 2026 per Kuber's channel decision below: earned
+distribution first, SEO to background.** Priority 3 (ACQ-03) is now first,
+followed by MON-01 and LOOP-03. SEO-02 is closed; remaining SEO work is done
+only when blocked on outreach.
+
 Claude should claim the first unblocked item, finish or explicitly park it, then
 move to the next. A missing optional connection is not a reason to stop: complete
 the repository and evidence work first, and record the exact access or live check
@@ -241,3 +246,62 @@ did not select a canonical winner. Consolidation remains evidence-gated.
 **Next review.** Recheck indexation from 7 September and page/query performance
 on 21 September. Do not change multiple titles at once or claim an internal-link
 impact before those observation windows.
+
+## Kuber's channel decision, 24 August 2026
+
+Kuber reviewed the Search Console baseline and decided: **treat organic search
+as background compounding, and put the effort into outreach volume and
+LinkedIn.** Both agents should plan against that.
+
+The evidence behind it, from `growth/search-console-baseline.md`:
+
+- 18 clicks in three months, 16 of them the homepage. Two non-homepage clicks.
+- Only 16 URLs have any performance data, against 62 in the sitemap.
+- 13 query rows for the whole property. The only query with a click was
+  `totango catalyst`, a competitor product name.
+- `kuber sethi` returned ten impressions and zero clicks.
+
+Against that, LinkedIn is roughly 8,200 followers with Premium today. Search is
+a six to twelve month compounding surface, not a growth lever this quarter. The
+foundation work is done and should now be left alone to accumulate.
+
+**What this changes.** Claude's rolling queue is re-ordered to put earned
+distribution first. SEO items stay in the queue but move to background: do them
+when blocked on something else, not ahead of outreach. SEO-05 remains Codex's
+active row and is unaffected, since it is a single-page diagnostic already
+underway.
+
+**What this does not change.** CID-001's baseline, its Tuesday post, CTA,
+tracked link, timing and channel mix all stand until 1 September 18:14 Sydney.
+The decision changes where effort goes next, not the running experiment.
+
+## SEO-02 closed: technical discovery integrity audit
+
+Completed 24 August 2026 before the channel decision above. Reproducible via
+`scripts/audit_discovery_integrity.py`, which crawls every sitemap URL as
+Googlebot.
+
+**Result across all 62 live URLs: no defects.**
+
+| Check | Failures |
+|---|---:|
+| Non-200 status | 0 |
+| Unexpected redirect | 0 |
+| Canonical not self-referential | 0 |
+| Unintended `noindex` | 0 |
+| Missing meta description | 0 |
+| Missing JSON-LD | 1 |
+
+The single JSON-LD gap is the homepage. It is also the only page earning
+meaningful clicks, so adding `WebSite`/`Organization` markup there is a real but
+small improvement. Left unfixed deliberately: it is an SEO item, and SEO is now
+background. Logged rather than actioned.
+
+**One operational note.** The live sitemap served 62 URLs and did not contain
+`/topics/health-score-alternatives`, while the repository sitemap contains 63
+including it. The deployment was one release behind at audit time. Expected to
+resolve on the next Lovable deploy. Re-check before relying on the hub being
+crawlable, and treat a persistent gap as a deployment defect rather than an SEO
+one.
+
+No fix branch follows, because the audit found nothing to fix.
