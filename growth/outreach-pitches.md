@@ -235,3 +235,44 @@ Kuber Sethi
 Churn Is Dead
 
 https://churnisdead.com/
+
+## Lifetime Value Media: The Daily Standup
+
+**Status:** Sent and verified 24 August 2026 to the public address on
+`https://www.lifetimevaluemedia.com/podcasts`. Gmail duplicate search was clear.
+Follow up once on 7 September if there is no reply, then stop.
+
+**Subject:** Daily Standup idea: turn QBRs into decision meetings
+
+Hi Lifetime Value Media team,
+
+I publish Churn Is Dead, an evidence-led set of operating systems for Customer
+Success leaders.
+
+The Daily Standup's focus on post-sale operators workshopping current challenges
+looks like a strong fit for a practical conversation on replacing the QBR as a
+reporting ritual.
+
+The central idea is simple: a customer review should not end with everyone
+better informed. It should end with a decision, an owner, a date, and the next
+customer communication.
+
+A useful Daily Standup conversation could cover:
+
+1. what to remove from a backward-looking QBR;
+2. four forward-looking questions about obstacles, resource gaps, executive
+   support, and customer decisions;
+3. how to separate evidence from interpretation;
+4. a compact Monthly Business Review format teams can run immediately.
+
+The operating artifact is a 30-minute review agenda built around decisions
+rather than slides. I am happy to keep the discussion practical and
+non-promotional, and to adapt it to the format your hosts prefer.
+
+Would this be useful for The Daily Standup?
+
+Kuber Sethi
+
+Churn Is Dead
+
+https://churnisdead.com/
