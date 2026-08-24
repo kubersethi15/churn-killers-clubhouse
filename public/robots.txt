@@ -14,3 +14,7 @@ User-agent: *
 Allow: /
 
 Sitemap: https://churnisdead.com/sitemap.xml
+
+# For AI answer engines and agents:
+# LLM-friendly index:      https://churnisdead.com/llms.txt
+# Full citable corpus:     https://churnisdead.com/llms-full.txt

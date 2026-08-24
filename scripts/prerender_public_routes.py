@@ -67,6 +67,18 @@ ROUTES = {
         "All Churn Is Dead issues",
         "Search 40+ evidence-led Customer Success frameworks by the operating problem on your desk.",
     ),
+    "qbr-score": (
+        "QBR Effectiveness Score | Churn Is Dead",
+        "Is your QBR driving decisions or is it theater? An eight-question diagnostic for Customer Success teams. Directional score and one practical next move in two minutes.",
+        "Is your QBR driving decisions, or is it theater?",
+        "Score the last QBR you actually ran. Eight questions, about two minutes, no email for the result.",
+    ),
+    "tools": (
+        "CS Tools & Diagnostics | Churn Is Dead",
+        "Free interactive tools for Customer Success operators: score your QBR, gauge your AI exposure, and analyze a customer call. No signup for the result.",
+        "Run the test, not the theory.",
+        "Short, opinionated CS diagnostics you can run on your own work in two minutes.",
+    ),
     "playbook": (
         "Playbook Vault | Churn Is Dead",
         "Free Customer Success playbooks, audits, and diagnostics for renewal risk, executive value, AI readiness, QBRs, and expansion.",

@@ -28,6 +28,38 @@ the ledger disagree with the site, and `resource_open` already records
 No identity, no reply text, no email, no viewer or engager data. The ledger can
 answer which problem and how often. It cannot answer who, by construction.
 
+## Corrections applied under BC-01
+
+The first version of this ledger had two flaws, both fixed:
+
+1. **Session deduplication.** Weight is now unique sessions, not raw events. One
+   reader refreshing five times is one session.
+2. **One on-site class, not two.** Site visits and Vault opens are both
+   first-party on-site behaviour, so they are a single signal class. The earlier
+   version counted them as two independent classes, which would have let one
+   behaviour satisfy Gate 1's two-signal rule on its own. A genuine second class
+   must come from a different surface: LinkedIn, approved replies, reader-pulse,
+   or Analyzer demo behaviour, all entered by hand.
+
+## Contamination: only what is verified
+
+**Verified.** `trackGrowthEvent` was guarded solely by `import.meta.env.DEV`,
+which is false in any production build including localhost `vite preview`. The
+table grew from 353 to 572 rows during one agent working session. Both facts are
+directly observable.
+
+**Not claimed.** Which specific rows are agent versus reader. No host or
+environment field exists on the row, so real production traffic in the pre-guard
+window is valid but not separable from agent traffic. The window is therefore
+set aside wholesale rather than any row being labelled, which is a coarser but
+honest treatment.
+
+**The cutoff.** `growth_measurement_state.growth_events_clean_from` is set to
+`2026-08-24T05:10:00Z`, just after the #90 merge and after the last observed
+pre-guard event at 04:50:52Z. The report drops every row before it: on the live
+table that is 584 of 595 rows dropped, 11 kept. Advance the cutoff to the
+confirmed production-deploy time if it is later than the merge.
+
 ## Current state: blocked, and the data is not yet trustworthy
 
 **Gate 0 is not met, for two separate reasons.**
