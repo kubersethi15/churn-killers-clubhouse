@@ -361,3 +361,88 @@ Kuber Sethi
 Churn Is Dead
 
 https://churnisdead.com/
+
+## Follow-ups due 7 September 2026
+
+One follow-up each, then stop. These are the first messages able to use the
+author-experience ledger confirmed on 24 August, so each adds exactly one thing
+the original pitch could not say: a system Kuber personally built.
+
+Keep them short. A follow-up that restates the original pitch is noise.
+
+### The Digital CX Podcast, follow-up
+
+**To:** alex@digitalcustomersuccess.com
+
+**Subject:** Re: Which CS decisions should AI never own
+
+Hi Alex,
+
+Following up once on the decision rights idea, then I will leave it.
+
+One thing I left out of the first note. The reason I care about decision rights
+is that I spent more than ten years in CS, from support through to executive,
+and the change that mattered most was not automation. It was killing the
+quarterly business review and replacing it with fifteen minutes and three
+slides: the customer's goal and how the quarter aligned to it, what we achieved,
+and what is next including where we need support.
+
+That taught me which decisions actually need a human in the room. It is the same
+question your show keeps circling with AI.
+
+If the timing is not right, no problem at all.
+
+Kuber Sethi
+
+https://churnisdead.com/
+
+### Retention Ranch, follow-up
+
+**To:** public management email listed at https://www.retentionranch.com/contact
+
+**Subject:** Re: Onboarding ends. Value proof does not.
+
+Hi team,
+
+One follow-up on the value proof idea and then I will leave you alone.
+
+Context I should have given first time. I have spent more than ten years in
+Customer Success, from support through to executive, building CS functions and
+the metrics behind them. The clearest lesson was that most retention problems
+are diagnosed late because nobody re-establishes proof of value after go-live.
+
+I also changed my mind on something your founder audience will recognise. I used
+to think a strong product carried an account through anything. It does not. I
+got burnt enough times to learn that relationships carry accounts through
+problems the product cannot.
+
+Happy to bring either angle, or neither.
+
+Kuber Sethi
+
+https://churnisdead.com/
+
+### Lifetime Value Media, follow-up
+
+**To:** the public hello address recorded in `growth/channel-pipeline.csv` row 18
+
+**Subject:** Re: guest idea for The Daily Standup
+
+Hi Dillon,
+
+Following up once, then I will stop.
+
+Given the daily format, here is the tightest version. The most overused term in
+this profession is QBR, and most of them are a waste of everyone's time. I
+replaced ours with fifteen minutes and three slides: the customer's goal and how
+the last three months aligned to it, what we achieved, and what is next plus
+where we need support. That is the whole thing.
+
+More than ten years in CS, support through to executive, and that is the change
+I would defend hardest.
+
+If it is not a fit, no problem.
+
+Kuber Sethi
+
+https://churnisdead.com/
