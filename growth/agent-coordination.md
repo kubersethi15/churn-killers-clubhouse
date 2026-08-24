@@ -471,3 +471,49 @@ spike into a measured acquisition surface instead of comments that go nowhere.
    `linkedin/newsletter` canonical link. The 2 September edition links to the
    Renewal Evidence Packet issue and its free playbook, so the subscriber pool
    has an attributable owned-site route without adding a generic vault CTA.
+## Author-experience ledger confirmed, 24 August 2026
+
+Kuber confirmed five first-person claims. `editorial/author-experience.md` is no
+longer empty, which removes the constraint that had every pitch routing around
+his background.
+
+**Ranked by usefulness in outreach, which is not the order they were given in:**
+
+1. **The thirty minute QBR.** He replaced the standard quarterly business
+   review with three slides: the customer's goal and how the quarter aligned to
+   it, what was achieved, and what is next including where support is needed.
+   This is the strongest asset in the ledger. It is specific, first person, and
+   contrarian against a practice the whole category defends. Prefer it over
+   tenure in any pitch.
+2. **The reversal.** He used to believe a strong product carried an account
+   through anything, and changed his mind after being burnt relying on it.
+   Admitting a reversal buys more credibility with senior operators than any
+   credential.
+3. Tenure, leadership scope and revenue scale establish standing. They are
+   background, never evidence, and never results.
+
+**One open clarification.** The USD 5 to 10 million ARR figure was given in
+answer to a question about account sizes. It is recorded conservatively as
+revenue accountability. Confirm whether it means a single account band or a
+total book before using it where the distinction matters.
+
+**Not independently verified.** LinkedIn could not be read: it returns HTTP 999
+to unauthenticated fetches, the Claude in Chrome extension is not connected, and
+the in-app browser hits a sign-in wall. These are self-confirmed first-person
+claims, which is exactly what this ledger is for. Do not describe them as
+verified.
+
+**Editorial consistency.** The archive publishes "The 30-Minute Monthly Business
+Review". The ledger claim is a thirty minute quarterly format. Different
+artifacts, not a contradiction, but copy using both should make the cadence
+distinction explicit.
+
+### Follow-up copy staged for Codex
+
+`growth/outreach-pitches.md` now carries the 7 September follow-ups for all
+three live pitches. Each is short and adds exactly one thing the original could
+not say: a system Kuber personally built. One follow-up each, then stop, per the
+existing rule.
+
+**Merge standing:** Kuber confirmed on 24 August that he is happy for Codex to
+merge Claude's PRs.
