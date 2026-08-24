@@ -77,11 +77,20 @@ https://churnisdead.com/
 
 ## CS Insider: guest contribution
 
-**Route:** Build rapport with Brandon Cestrone through one useful, no-link LinkedIn interaction before sending the pitch.
+**Status:** Sent and verified 24 August 2026. The prerequisite no-link
+interaction was published on CS Insider's current reporting-decisions post.
+The first-party address `brandon@csinsider.co` was verified at
+`https://www.csinsider.co/contact`, and Gmail duplicate search returned no
+existing thread. Follow up once on 31 August if there is no reply, then stop.
 
 **Subject:** Guest contribution idea: your renewal forecast needs receipts
 
 Hi Brandon,
+
+Your recent CS Insider piece on turning reporting questions into better
+decisions is exactly the kind of operator-level framing I value. I added one
+distinction in the LinkedIn discussion: a metric matters only if something
+changes when it moves.
 
 I publish Churn Is Dead, an evidence-led set of operating systems for Customer Success leaders.
 
