@@ -50,7 +50,17 @@ const NewsletterHeader = ({ newsletter, loading, error, formatDate }: Newsletter
                 {newsletter.title}
               </h1>
               <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600">
-                <Link to="/about" className="font-medium hover:text-red-600">By Kuber Sethi</Link>
+                <Link to="/about" className="inline-flex items-center gap-2 font-medium hover:text-red-600">
+                  <img
+                    src="/kuber-sethi.jpg"
+                    alt=""
+                    width="36"
+                    height="36"
+                    className="h-9 w-9 rounded-full border border-gray-200 object-cover"
+                    loading="lazy"
+                  />
+                  <span>By Kuber Sethi</span>
+                </Link>
                 <span className="text-gray-300">·</span>
                 <span>{formatDate(newsletter.published_date)}</span>
                 <span className="text-gray-300">·</span>

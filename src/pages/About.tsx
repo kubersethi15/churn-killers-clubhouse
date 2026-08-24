@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { ArrowRight, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
-import BrandMark from "@/components/BrandMark";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import NewsletterForm from "@/components/NewsletterForm";
@@ -38,8 +37,16 @@ const About = () => {
                   <Link to="/editorial-standards" className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-5 py-3 text-sm font-semibold text-white hover:border-white/50">Read the standards <ArrowRight className="h-4 w-4" /></Link>
                 </div>
               </div>
-              <div className="relative mx-auto flex aspect-square w-full max-w-[280px] items-center justify-center rounded-3xl border border-white/15 bg-white/[0.06] shadow-2xl shadow-black/20">
-                <BrandMark className="h-28 w-28 rounded-2xl text-3xl" />
+              <div className="relative mx-auto aspect-square w-full max-w-[280px] overflow-hidden rounded-3xl border border-white/15 bg-white/[0.06] shadow-2xl shadow-black/20">
+                <img
+                  src="/kuber-sethi.jpg"
+                  alt="Kuber Sethi, founder and editor of Churn Is Dead"
+                  width="800"
+                  height="800"
+                  className="h-full w-full object-cover"
+                  loading="eager"
+                  fetchPriority="high"
+                />
                 <div className="absolute bottom-5 left-5 right-5 rounded-xl border border-white/10 bg-navy-dark/80 p-4 backdrop-blur">
                   <p className="text-xs font-bold uppercase tracking-wider text-red-300">Kuber Sethi</p>
                   <p className="mt-1 text-sm text-gray-300">Customer Success operator and editor</p>
