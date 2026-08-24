@@ -8,6 +8,7 @@ Churn Is Dead is a newsletter and tools site for senior Customer Success operato
 
 - [Home](/): Latest issue, recent newsletters, and overview of Churn Is Dead.
 - [Start Here](/start): Three essential issues for new readers.
+- [Subscribe](/subscribe): Join the Tuesday Churn Is Dead email list.
 - [All Issues](/newsletters): Full archive of every Churn Is Dead newsletter.
 - [Playbook Vault](/playbook): Downloadable CS audits and playbooks (QBR conversion, renewal readiness, AI exposure, churn attribution, and more).
 - [About](/about): Why Churn Is Dead exists and who writes it.

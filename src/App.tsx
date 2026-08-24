@@ -19,6 +19,7 @@ const CSAnalyzerDemo = lazy(() => import("./pages/CSAnalyzerDemo"));
 const CSAnalyzerShare = lazy(() => import("./pages/CSAnalyzerShare"));
 const AIExposureScore = lazy(() => import("./pages/AIExposureScore"));
 const StartHere = lazy(() => import("./pages/StartHere"));
+const Subscribe = lazy(() => import("./pages/Subscribe"));
 const Auth = lazy(() => import("./pages/Auth"));
 const AdminPanel = lazy(() => import("./components/AdminPanel"));
 const ProtectedAdminRoute = lazy(() => import("./components/ProtectedAdminRoute"));
@@ -60,6 +61,7 @@ const App = () => (
               <Route path="/cs-analyzer-waitlist" element={<Navigate to="/cs-analyzer" replace />} />
               <Route path="/ai-exposure-score" element={<AIExposureScore />} />
               <Route path="/start" element={<StartHere />} />
+              <Route path="/subscribe" element={<Subscribe />} />
               <Route path="/topics" element={<Topics />} />
               <Route path="/topics/:slug" element={<TopicHub />} />
               <Route path="/auth" element={<Auth />} />
