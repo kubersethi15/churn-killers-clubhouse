@@ -48,6 +48,8 @@ type ReferralRow = {
   active: number;
 };
 type ReferralData = {
+  share_tracking_started_at: string;
+  share_intent_sessions_30_days: number;
   share_action_sessions_30_days: number;
   referred_visits_30_days: number;
   acquired_30_days: number;
@@ -163,12 +165,13 @@ const ReferralTable = ({ data }: { data: ReferralData }) => (
     <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
       <div>
         <h2 className="font-serif text-lg font-bold text-navy-dark">Subscriber referral loop, 30 days</h2>
-        <p className="mt-1 text-xs text-gray-500">Exact tagged, session-matched activity only. Direct visits are not guessed as referrals. Welcome-email share-button opens are excluded.</p>
+        <p className="mt-1 text-xs text-gray-500">Exact tagged, session-matched activity only. LinkedIn composer opens are intents, not completed shares. Welcome-email share-button opens are excluded.</p>
       </div>
       <p className="text-xs font-semibold text-gray-600">Visit to signup: {data.visit_to_signup_rate === null ? "forming" : `${data.visit_to_signup_rate}%`}</p>
     </div>
-    <div className="mb-6 grid gap-4 sm:grid-cols-4">
-      <MetricCard label="Share-path actions" value={data.share_action_sessions_30_days} note="Unique post-signup sessions that opened or successfully copied a sharing path" />
+    <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <MetricCard label="Share intents" value={data.share_intent_sessions_30_days} note="LinkedIn composer opened; completion is not inferred" />
+      <MetricCard label="Completed share paths" value={data.share_action_sessions_30_days} note="Native share completed or a link/message was copied" />
       <MetricCard label="Referred visits" value={data.referred_visits_30_days} note="Unique tagged sessions" />
       <MetricCard label="Acquired" value={data.acquired_30_days} note="All referred signups" />
       <MetricCard label="Still active" value={data.active_30_days} note="Current status" />
@@ -284,6 +287,8 @@ const GrowthDashboard = () => {
           : retentionResult.data as unknown as RetentionData,
         referrals: referralResult.error
           ? {
+            share_tracking_started_at: "",
+            share_intent_sessions_30_days: 0,
             share_action_sessions_30_days: 0,
             referred_visits_30_days: 0,
             acquired_30_days: 0,

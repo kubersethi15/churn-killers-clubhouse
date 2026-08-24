@@ -7,6 +7,7 @@ export type GrowthEventName =
   | "signup_success"
   | "signup_duplicate"
   | "signup_error"
+  | "share_intent"
   | "content_share"
   | "resource_open"
   | "reader_pulse_response";
