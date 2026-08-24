@@ -14,29 +14,29 @@ On another account, a customer-confirmed implementation milestone has slipped tw
 
 The dashboard noticed movement. It did not know when the team should intervene.
 
-A metric is not a signal. A signal is not a trigger.
+A changed metric is not yet a reason to interrupt a CSM.
 
-**An intervention trigger is an observed customer condition connected to a pre-agreed response.**
+It becomes useful when the team has already agreed what the change could mean, who should respond, and what they should do.
 
-## Separate four different things
+## Four things often get mixed together
 
-Measurement is an observation: active users, unresolved cases, stakeholder attendance, completed tasks, or time since the customer last confirmed an outcome.
+A measure is something you observed: active users, unresolved cases, stakeholder attendance, completed tasks, or time since the customer last confirmed an outcome.
 
-State is a summary: green, yellow, red, healthy or at risk.
+A status is a summary: green, yellow, red, healthy, or at risk.
 
-Signal is a change that may matter: usage falls outside its established range, an agreed milestone passes without evidence, a decision-maker leaves, or procurement remains unconfirmed near its deadline.
+A warning is a change that might matter: usage falls outside its normal range, an agreed milestone passes, a decision-maker leaves, or procurement is still unconfirmed near its deadline.
 
-Trigger is the rule that converts the signal into action: when this condition occurs, over this window, with these exclusions checked, this owner takes this response by this time.
+An action rule says what happens next: when this change lasts for this long, after we check these exceptions, this person takes this action by this time.
 
-A composite score can summarise an account without specifying the intervention. The CSM still has to unpack the colour, locate the movement, decide whether it matters, discover the cause and invent a response.
+A health score can summarise an account without telling anyone what to do. The CSM still has to unpack the colour, find the change, decide whether it matters, discover the cause, and invent a response.
 
-That latency is the problem.
+That is where the wasted work begins.
 
-## Start with the customer consequence
+## Start with what the customer could lose
 
 “Logins fell 18%” is an observation.
 
-“The implementation team may miss the workflow required for the customer's 30 September launch” is a consequence.
+“The customer may miss the workflow required for its 30 September launch” tells us why the change matters.
 
 Start with a commitment or decision that could fail:
 
@@ -46,71 +46,71 @@ Start with a commitment or decision that could fail:
 - a procurement step required for renewal;
 - an executive decision the success plan depends on.
 
-Then find the observable change that gives the team enough time to protect it.
+Then find the change that would give the team enough time to help.
 
-Do not start with the easiest metric in the platform. Data availability is not customer significance.
+Do not start with the easiest metric in the platform. Easy to measure does not mean important to the customer.
 
-## Build one trigger
+## Build one useful alert
 
-Record seven fields.
+Answer seven questions.
 
-### 1. Customer consequence
+### 1. What is at risk?
 
-Name the commitment, outcome or decision at risk and its customer-confirmed date.
+Name the customer promise, outcome, or decision and the date the customer confirmed.
 
-### 2. Observable event
+### 2. What happened?
 
-Record the smallest event that can be inspected consistently. Include the source and refresh cadence. Preserve the raw observation rather than hiding it inside another score.
+Record the smallest change the team can check consistently. Include the source and how often it updates. Keep the raw observation instead of hiding it inside another score.
 
-### 3. Baseline and window
+### 3. What is normal?
 
-State what normal means for this account, use case, segment or lifecycle stage. Record how long the movement must persist.
+Define normal for this account, use case, segment, or stage. Decide how long the change must last before anyone acts.
 
-If no credible baseline exists, label the trigger provisional.
+If there is no reliable baseline yet, say so.
 
-### 4. Trigger rule
+### 4. When should someone act?
 
-Write a complete sentence:
+Write one complete sentence:
 
-**When [observable condition] persists for [window], before [customer consequence date], and [disqualifiers] are absent, create [response class].**
+**When [this change] lasts for [this long], before [the customer date], and [known exceptions] do not apply, ask [this person] to take [this action].**
 
-### 5. Action and owner
+### 5. Who does what?
 
 “Investigate health” is not an action.
 
 “CSM confirms whether the milestone moved, records the customer's reason, and routes a technical blocker to the implementation owner by Thursday” is.
 
-Name the person who can resolve the underlying condition separately when CS does not have that authority.
+If CS cannot fix the underlying problem, also name the person who can.
 
-### 6. Disqualifiers and reset
+### 6. When should the alert not fire, or disappear?
 
-Check known benign conditions: planned migration, seasonal shutdown, reduced scope, test environment, data outage or a customer-confirmed schedule change.
+Check common harmless explanations: a planned migration, seasonal shutdown, reduced scope, test environment, data outage, or a customer-confirmed schedule change.
 
-Then define what clears the trigger. Resolution, a disproved assumption, a new customer date or an explicit decision can reset it.
+Then decide what clears the alert: the problem is resolved, the assumption was wrong, the customer set a new date, or a decision was made.
 
-### 7. Review outcome
+### 7. Was the alert useful?
 
-After the trigger, classify what happened:
+Afterwards, ask:
 
-- consequential and correctly timed;
-- consequential but late;
-- benign movement;
-- wrong owner or response;
-- missed condition discovered elsewhere.
+- Did it find a real problem at the right time?
+- Was it too late?
+- Was the change harmless?
+- Did it go to the wrong person?
+- Did the team discover the real problem somewhere else?
 
-Use the result to improve the trigger, not to score the CSM.
+Use the answer to improve the alert, not to score the CSM.
 
-## Use three response classes
+## Not every alert is urgent
 
-Interrupt when delay materially reduces recovery options.
+Interrupt when waiting would remove a real chance to help.
 
-Next working day when the condition matters but does not justify disrupting current work.
+Respond next working day when the issue matters but does not justify dropping current work.
 
-Monitor when another observation is needed before intervention.
+Monitor when you need one more observation before contacting the customer or changing the plan.
 
-This prevents every unusual movement from becoming urgent while preserving speed when the recovery window is genuinely closing.
+This stops every unusual movement becoming urgent while keeping speed for the moments that really matter.
 
-## Replace one vague alert
+## Fix one vague alert
 
 Choose an alert that currently creates work for the team.
 
@@ -122,13 +122,13 @@ Review its five most recent occurrences:
 4. Was it urgent, suitable for the next working day, or only worth monitoring?
 5. What cleared it?
 
-If the answers vary every time, the alert is not a trigger. It is an invitation to improvise.
+If the answers vary every time, the alert is just an invitation to improvise.
 
-Keep the health score if leaders need a portfolio summary. Stop pretending its colour is an intervention design.
+Keep the health score if leaders need a portfolio summary. Stop treating its colour as an instruction to the CSM.
 
 The goal is not to predict churn from every movement.
 
-It is to create enough justified notice for someone to protect a customer decision.
+It is to notice the right change early enough for someone to help.
 
-The complete framework and free Intervention Trigger Ledger are on Churn Is Dead:
+The complete guide and free alert checklist are on Churn Is Dead:
 https://churnisdead.com/newsletter/health-score-is-not-an-intervention-trigger?utm_source=linkedin&utm_medium=newsletter&utm_campaign=health-score-is-not-an-intervention-trigger&utm_content=linkedin_newsletter

@@ -1,34 +1,30 @@
 POST 1 - TUESDAY
 ============================================================
-Most product requests do not have a prioritisation problem.
+A customer asks for a product change.
 
-They have a decision-quality problem.
+CS says it is urgent. Product asks for evidence. Sales adds the size of the account. The request goes into a backlog.
 
-CS sends urgency. Product asks for evidence. Sales adds another logo. The request enters a backlog and everybody quietly interprets that as progress.
+Everyone calls that progress.
 
-Nothing was decided.
+But nobody has made a decision.
 
-A cleaner operating model is the Product Friction Review.
+Before CS sends a request to Product, answer five questions:
 
-CS brings five things:
+What can the user not do?
+What evidence do we have?
+Which customer decision is affected, and when?
+Is there a workaround? What does it really cost?
+What decision do we need from Product?
 
-The user consequence.
-The evidence.
-The commercial decision and date.
-The real workaround.
-The exact decision requested.
+Product still decides the roadmap. It can commit, investigate, decline, or ask for more evidence.
 
-Product keeps roadmap authority. It can commit, investigate, decline, or ask for missing evidence.
+The important part is that the request leaves with an answer, an owner, and a date.
 
-But every qualified request leaves with a decision state, an owner, and a date.
+Do not judge this by how quickly something ships. That invites promises nobody can keep.
 
-The metric is not time to ship. That would reward fake promises.
+Judge it by how long a complete customer problem waits for a clear Product decision.
 
-Measure decision latency instead: how long a complete customer problem sits without an explicit Product decision.
+Customers deserve a better answer than “it is in the backlog.”
 
-This does not give CS control of the roadmap.
-
-It gives customers something more credible than “it is in the backlog.”
-
-The full framework and free review template are in the first comment.
+The full guide and free review template are in the first comment.
 ============================================================

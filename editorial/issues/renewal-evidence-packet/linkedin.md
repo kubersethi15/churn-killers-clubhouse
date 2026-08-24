@@ -1,37 +1,28 @@
-A renewal forecast can be precise and still be impossible to defend.
-
 The account is 80% likely to renew.
 
-Fine. What has the customer actually done or said that makes 80% credible?
+My first question would be: what has the customer actually done or said that makes 80% believable?
 
-If the answer lives across call notes, Slack threads and CSM instinct, the number is hiding the uncertainty.
+If the answer is scattered across call notes, Slack threads, and one CSM's instinct, the number is hiding what we do not know.
 
-A better operating model is the Renewal Evidence Packet.
+For every important renewal, put six things on one page:
 
-For every material renewal, record six things:
+What does the contract say?
+Who can approve the renewal?
+What value has the customer recognised?
+What still has to happen?
+What could derail it, and who is responding?
+What evidence points the other way?
 
-Contract reality.
-Customer authority.
-Value proof.
-The remaining decision path.
-Specific risks and responses.
-Contrary evidence.
+For each answer, say whether it came from the customer, was observed by your team, is only an internal belief, or is still missing.
 
-Then label every item:
+Add the source and the date. Old evidence can create false confidence.
 
-Customer-confirmed.
-Observed.
-Internally asserted.
-Missing.
+An account should not move to Commit because the CSM feels better this week.
 
-Add a source date and an expiry date.
+It should move because the facts changed and anyone in the review can see why.
 
-An account should not enter Commit because the CSM feels better this week.
+This is not about making the forecast more pessimistic.
 
-It should enter Commit because the evidence changed and the packet can show how.
+It is about making it believable.
 
-The goal is not to make the forecast pessimistic.
-
-It is to make it credible.
-
-The full framework and free Renewal Evidence Packet are in the first comment.
+The full guide and free Renewal Evidence Packet are in the first comment.
