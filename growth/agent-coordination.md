@@ -38,15 +38,16 @@ The ready-to-claim list is a starting queue, not a ceiling. An agent may add and
 | Subscriber referral loop v2 | Codex | PR [#36](https://github.com/kubersethi15/churn-killers-clubhouse/pull/36), merged as `b7d1b23` | Backend live; public UI awaiting the next Lovable publish | No longer file-claimed. Do not run performance conclusions until the public share surfaces are live and the minimum-evidence gates in `LOOP-02` are met. |
 | Tuesday CID-001 launch | Codex + social manager | Website at 18:00 Sydney; LinkedIn at 18:15 | Approved and scheduled | Do not alter copy, CTA, UTM, timing, or add a second distribution surface through baseline close |
 | Partner outreach and replies | Codex | Gmail, LinkedIn, shared Growth Partnerships sheet | Active | Customer Success Collective, Customer Success Network, Practical CSM, SaaS Therapy; follow-up dates are in `growth/channel-pipeline.csv` |
-| Organic discovery: internal link graph | Claude | PR [#40](https://github.com/kubersethi15/churn-killers-clubhouse/pull/40) | PR open; independently reviewed, cleanup and final checks in progress | `scripts/related_graph.py`, `scripts/test_related_graph.py`, `scripts/report_internal_link_graph.py`, `scripts/prerender_newsletters.py`, `src/components/newsletter/RelatedNewsletters.tsx`, regenerated `public/newsletter/*/index.html` |
+| Organic discovery: internal link graph | Claude | PR [#40](https://github.com/kubersethi15/churn-killers-clubhouse/pull/40), merged as `a04de10` | Complete; independently reviewed and merged | No longer file-claimed. Review Search Console impact from 7 September 2026; use `scripts/report_internal_link_graph.py` to remeasure after archive changes. |
 
 ## Ready for Claude to claim or replace with a higher-leverage lane
 
 | Priority | Workstream | Outcome | Boundaries | Proof required |
 |---|---|---|---|---|
-| 1 | Organic discovery acquisition | Find and ship the single highest-leverage search/discovery improvement that compounds the existing 40+ issue archive into qualified subscriber visits | Do not rewrite the Tuesday issue or alter CID-001. Avoid generic SEO checklists. Prefer a measurable route, internal-link, structured-data, indexation, or search-intent improvement grounded in current evidence. Do not touch the files claimed by Codex above. | PR with before/after crawl or rendered-route evidence, production build, exact tagged or Search Console metric to review, and rollback condition |
-| 2 | Earned distribution inventory | Verify one new high-fit practitioner audience and prepare a source-led, non-promotional contribution route | Check `growth/channel-pipeline.csv` first and do not duplicate an existing pitch. Do not send unless the route and message are recorded. | Primary-source eligibility evidence, distinct angle, target URL, attribution label, and follow-up rule |
-| 3 | Monetisation discovery instrument | Design one low-friction, aggregate demand signal for a future manually delivered CS operating review or workshop | No prices, checkout, or paid launch yet. Must follow `editorial/monetization-evidence-plan.md` readiness gates. | Implementation or validated specification with event schema, threshold, and stop rule |
+| 1 | Search Console baseline and indexation evidence | Connect the verified domain property and establish page, query, click, impression, CTR, sitemap, and indexation baselines before the 7 September internal-link review | Requires a secure Search Console connection. Aggregate data only. Do not infer rankings from local crawls or change Tuesday's controlled acquisition surface. | Dated aggregate baseline, sitemap/indexation evidence, non-brand `/newsletter/*` segment, review query, and rollback or escalation rule |
+| 2 | Problem-led archive and hub coverage | Map the remaining useful archive to non-duplicative reader problems and identify the smallest curated hub extension worth shipping | Do not generate thin SEO pages or mechanically assign every issue. Preserve editorial meaning and check `topicHubs.ts` plus the merged graph first. | Coverage map, cannibalisation check, proposed file boundary, measured internal-link effect, and explicit no-change cases |
+| 3 | Earned distribution inventory | Verify one new high-fit practitioner audience and prepare a source-led, non-promotional contribution route | Check `growth/channel-pipeline.csv` first and do not duplicate an existing pitch. Do not send unless the route and message are recorded. | Primary-source eligibility evidence, distinct angle, target URL, attribution label, and follow-up rule |
+| 4 | Monetisation discovery instrument | Design one low-friction, aggregate demand signal for a future manually delivered CS operating review or workshop | No prices, checkout, or paid launch yet. Must follow `editorial/monetization-evidence-plan.md` readiness gates. | Implementation or validated specification with event schema, threshold, and stop rule |
 
 ## Handoff format
 
@@ -65,6 +66,8 @@ If two branches conflict, the agent who claimed the file first keeps ownership. 
 ## Claude handoff — organic discovery, internal link graph
 
 **Branch:** `growth/topical-internal-link-graph`
+
+**Merged:** PR [#40](https://github.com/kubersethi15/churn-killers-clubhouse/pull/40), `a04de10`
 
 **Problem, measured.** `RelatedNewsletters` selected the three most recent
 issues in the same category rather than the three most related. Measured over
@@ -104,6 +107,8 @@ tracked link, and channel mix, none of which this branch touches.
 Supabase recency query automatically when the embedded payload is absent, so a
 revert restores previous behaviour with no data migration.
 
-**Not done / open.** Only 13 of 46 issues have a curated topic-hub mapping, so
-most pages show no "More on this topic" link. Extending `topicHubs.ts` reads is
-an editorial decision, not mine to make. Left for Kuber or a follow-up.
+**Next owner action.** Claim the Search Console baseline first if that account
+is connected. Otherwise claim a read-only problem-led hub coverage audit or a
+new earned-distribution route. Only 13 of 46 issues have a curated topic-hub
+mapping, so most pages show no "More on this topic" link; extending
+`topicHubs.ts` requires editorial judgment and should not be done mechanically.
