@@ -146,6 +146,46 @@ Churn Is Dead
 
 https://churnisdead.com/
 
+## Gain Grow Retain: community-native contribution
+
+**Status:** Sent and verified 24 August 2026 to the community manager address
+published in Gain Grow Retain's current community guidelines. The public
+community reported 12,855 members at the time of the check. The signed-in
+browser had no connected GGR member account, so no account was created and no
+profile details were invented. Follow up once on 31 August if there is no reply,
+then stop.
+
+**Subject:** GGR contribution idea: when should a CSM override a health score?
+
+Hi Heather,
+
+I saw Lachu's new GGR discussion asking when CSMs stop overriding health scores,
+and I also read the community guidelines—especially the emphasis on useful
+discussion rather than promotion.
+
+I'd like to contribute a practical, community-native follow-up: "When should a
+CSM override a health score?"
+
+The core would be a short decision protocol:
+
+- record the override reason in a small set of consistent categories;
+- give every override an expiry date;
+- compare the human override with the model's prediction after 30–60 days;
+- treat repeated disagreement as a health-model QA signal, not CSM
+  non-compliance; and
+- retire weights that consistently conflict with observed outcomes.
+
+I can adapt this as a concise GGR discussion, resource, or a 20-minute
+office-hours segment. It would include no email gate, product pitch, or
+newsletter link.
+
+Would that be useful for the community? If so, I'm happy to fit your preferred
+format.
+
+Kuber Sethi
+
+Founder, Churn Is Dead
+
 ## The Digital CX Podcast: guest conversation
 
 **To:** alex@digitalcustomersuccess.com (verified 24 August 2026 on
