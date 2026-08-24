@@ -26,6 +26,7 @@ from datetime import datetime, timedelta, timezone
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://xtwxemlxzbnadkkrvozr.supabase.co")
 SERVICE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
 MIN_EVIDENCE_SESSIONS = 20
+QUALIFIED_EVENT_NAMES = {"resource_open", "content_share", "reader_pulse_response"}
 
 
 def fetch(path: str) -> list[dict]:
@@ -58,6 +59,12 @@ def is_linkedin(row: dict) -> bool:
     return str(row.get("utm_source") or row.get("source") or "").lower() == "linkedin"
 
 
+def is_linkedin_newsletter(row: dict) -> bool:
+    medium = str(row.get("utm_medium") or row.get("medium") or "").lower()
+    content = str(row.get("utm_content") or "").lower()
+    return is_linkedin(row) and medium == "newsletter" and content == "linkedin_newsletter"
+
+
 def public_path(value: object) -> str:
     """Return a query-free public path without carrying arbitrary URL data into reports."""
     raw = str(value or "").strip()
@@ -70,18 +77,33 @@ def public_path(value: object) -> str:
     return path[:300]
 
 
+def is_qualified_action(row: dict) -> bool:
+    event_name = str(row.get("event_name") or "")
+    return event_name in QUALIFIED_EVENT_NAMES or (
+        event_name == "page_view" and public_path(row.get("page_path")) == "/cs-analyzer/demo"
+    )
+
+
 def summarise(events: list[dict], subscribers: list[dict]) -> dict[str, object]:
     linkedin_events = [row for row in events if is_linkedin(row)]
     linkedin_subscribers = [row for row in subscribers if is_linkedin(row)]
     linkedin_sessions = {
         row["session_id"] for row in linkedin_events if row.get("session_id")
     }
+    linkedin_qualified_sessions = {
+        row["session_id"]
+        for row in linkedin_events
+        if row.get("session_id") and is_qualified_action(row)
+    }
     all_sessions = {row["session_id"] for row in events if row.get("session_id")}
 
     sessions_by_surface: dict[str, set[str]] = {}
+    qualified_sessions_by_surface: dict[str, set[str]] = {}
     for row in linkedin_events:
         if row.get("session_id"):
             sessions_by_surface.setdefault(surface(row), set()).add(row["session_id"])
+            if is_qualified_action(row):
+                qualified_sessions_by_surface.setdefault(surface(row), set()).add(row["session_id"])
 
     acquisitions_by_surface: dict[str, int] = {}
     for row in linkedin_subscribers:
@@ -127,8 +149,52 @@ def summarise(events: list[dict], subscribers: list[dict]) -> dict[str, object]:
         location = str(row.get("signup_location") or "unknown").strip().lower()[:80] or "unknown"
         signup_locations[location] = signup_locations.get(location, 0) + 1
 
+    newsletter_events = [row for row in linkedin_events if is_linkedin_newsletter(row)]
+    newsletter_subscribers = [row for row in linkedin_subscribers if is_linkedin_newsletter(row)]
+    newsletter_campaigns: dict[str, dict[str, object]] = {}
+    for row in newsletter_events:
+        campaign = str(row.get("campaign") or row.get("utm_campaign") or "-").lower()
+        record = newsletter_campaigns.setdefault(
+            campaign,
+            {"campaign": campaign, "sessions": set(), "qualified_sessions": set(), "acquired": 0, "active": 0},
+        )
+        session_id = row.get("session_id")
+        if session_id:
+            record["sessions"].add(session_id)
+            if is_qualified_action(row):
+                record["qualified_sessions"].add(session_id)
+    for row in newsletter_subscribers:
+        campaign = str(row.get("utm_campaign") or row.get("campaign") or "-").lower()
+        record = newsletter_campaigns.setdefault(
+            campaign,
+            {"campaign": campaign, "sessions": set(), "qualified_sessions": set(), "acquired": 0, "active": 0},
+        )
+        record["acquired"] = int(record["acquired"]) + 1
+        if row.get("subscribed") is True:
+            record["active"] = int(record["active"]) + 1
+
+    newsletter_rows = []
+    for record in newsletter_campaigns.values():
+        newsletter_rows.append({
+            "campaign": record["campaign"],
+            "sessions": len(record["sessions"]),
+            "qualified_sessions": len(record["qualified_sessions"]),
+            "acquired": record["acquired"],
+            "active": record["active"],
+        })
+    newsletter_rows.sort(key=lambda row: str(row["campaign"]))
+    newsletter_sessions = {
+        row["session_id"] for row in newsletter_events if row.get("session_id")
+    }
+    newsletter_qualified_sessions = {
+        row["session_id"]
+        for row in newsletter_events
+        if row.get("session_id") and is_qualified_action(row)
+    }
+
     return {
         "linkedin_sessions": len(linkedin_sessions),
+        "linkedin_qualified_sessions": len(linkedin_qualified_sessions),
         "linkedin_events": len(linkedin_events),
         "linkedin_acquisitions": len(linkedin_subscribers),
         "linkedin_currently_active": sum(
@@ -139,12 +205,22 @@ def summarise(events: list[dict], subscribers: list[dict]) -> dict[str, object]:
         "sessions_by_surface": {
             key: len(value) for key, value in sessions_by_surface.items()
         },
+        "qualified_sessions_by_surface": {
+            key: len(value) for key, value in qualified_sessions_by_surface.items()
+        },
         "acquisitions_by_surface": acquisitions_by_surface,
         "destinations": sorted(
             destination_rows.values(),
             key=lambda row: (str(row["surface"]), str(row["landing_page"])),
         ),
         "signup_locations": signup_locations,
+        "newsletter_block": {
+            "sessions": len(newsletter_sessions),
+            "qualified_sessions": len(newsletter_qualified_sessions),
+            "acquired": len(newsletter_subscribers),
+            "active": sum(1 for row in newsletter_subscribers if row.get("subscribed") is True),
+            "campaigns": newsletter_rows,
+        },
     }
 
 
@@ -175,6 +251,7 @@ def main() -> int:
     print("=" * 48)
     print("\nMEASURED (first-party aggregate data)")
     print(f"  LinkedIn tagged sessions          {report['linkedin_sessions']}")
+    print(f"  LinkedIn qualified-action sessions {report['linkedin_qualified_sessions']}")
     print(f"  LinkedIn tagged events            {report['linkedin_events']}")
     print(f"  LinkedIn acquired subscribers     {report['linkedin_acquisitions']}")
     print(f"  LinkedIn acquisitions active now  {report['linkedin_currently_active']}")
@@ -182,14 +259,28 @@ def main() -> int:
     print(f"  All acquired subscribers          {report['all_acquisitions']}")
 
     session_surfaces = report["sessions_by_surface"]
+    qualified_surfaces = report["qualified_sessions_by_surface"]
     acquisition_surfaces = report["acquisitions_by_surface"]
     if session_surfaces or acquisition_surfaces:
         print("\n  LinkedIn surfaces (medium/campaign/content)")
         for key in sorted(set(session_surfaces) | set(acquisition_surfaces)):
             print(
                 f"    {key:44} {session_surfaces.get(key, 0)} sessions, "
+                f"{qualified_surfaces.get(key, 0)} qualified, "
                 f"{acquisition_surfaces.get(key, 0)} acquisitions"
             )
+
+    newsletter_block = report["newsletter_block"]
+    print("\n  CID-004 LinkedIn Newsletter block")
+    print(f"    Tagged sessions                            {newsletter_block['sessions']}")
+    print(f"    Qualified-action sessions                  {newsletter_block['qualified_sessions']}")
+    print(f"    Acquired website subscribers               {newsletter_block['acquired']}")
+    print(f"    Acquisitions currently active              {newsletter_block['active']}")
+    for row in newsletter_block["campaigns"]:
+        print(
+            f"    {row['campaign']:42} {row['sessions']} sessions, "
+            f"{row['qualified_sessions']} qualified, {row['acquired']} acquired, {row['active']} active"
+        )
 
     destinations = report["destinations"]
     if destinations:
@@ -232,6 +323,22 @@ def main() -> int:
         rate = 100.0 * linkedin_acquisitions / linkedin_sessions
         print(f"\nVERDICT: acquisition rate {rate:.1f}% of LinkedIn-tagged sessions.")
         print("  Do not attribute movement to comments without the manual Premium figures.")
+
+    newsletter_session_count = int(newsletter_block["sessions"])
+    if newsletter_session_count < MIN_EVIDENCE_SESSIONS:
+        print(
+            f"\nCID-004 VERDICT: descriptive only. {newsletter_session_count} newsletter sessions is "
+            f"below the {MIN_EVIDENCE_SESSIONS}-session four-edition floor."
+        )
+    else:
+        newsletter_acquired = int(newsletter_block["acquired"])
+        newsletter_qualified = int(newsletter_block["qualified_sessions"])
+        print(
+            f"\nCID-004 VERDICT: {100.0 * newsletter_qualified / newsletter_session_count:.1f}% "
+            "qualified-action rate and "
+            f"{100.0 * newsletter_acquired / newsletter_session_count:.1f}% acquisition rate."
+        )
+        print("  Apply the written weekly-versus-monthly rule only after all four editions and maturity checks.")
     return 0
 
 
