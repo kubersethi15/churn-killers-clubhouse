@@ -175,13 +175,13 @@ that nothing about Kuber's own operating history can be stated. The
 confirmation queue in `editorial/author-experience.md` lists the five items.
 Answering even two would materially improve every future pitch.
 
-## Shared request — Search Console archive query data
+## Completed baseline — Search Console archive query data
 
-No Google Search Console connection or baseline has been verified as of
-24 August 2026. That external-data gap is currently the binding constraint on
-three separate pieces of archive work. Codex or Claude may fulfil this request
-after obtaining secure access; neither agent should infer the figures from a
-local crawl or state that the baseline exists before the export is verified.
+Codex verified the `https://churnisdead.com/` property through the signed-in
+Search Console browser on 24 August 2026. The aggregate three-month baseline is
+recorded in `growth/search-console-baseline.md`. It contains counts and public
+URLs only. No screenshot, raw export, identity data, or inferred ranking is in
+the repository.
 
 **Requested, aggregate and counts-only.** No PII is involved, but keep the
 output to figures and URLs only.
@@ -207,10 +207,11 @@ For the last three months, restricted to `/newsletter/*`, `/topics/*` and
 - Verifying the #40 internal link graph actually moved indexation, reviewable
   from 7 September.
 
-**Format.** A counts-only table in `growth/search-console-baseline.md` is
-sufficient. No screenshots, no per-query export dumps.
+**Result.** Search Console showed 18 clicks, 246 impressions, 16 indexed pages,
+two crawled-not-indexed pages, and a successful sitemap with 62 discovered
+pages. The explicit `health score` query filter returned no impressions, so it
+did not select a canonical winner. Consolidation remains evidence-gated.
 
-**Priority.** This is the next external-data dependency. Reading aggregate
-Search Console data does not change CID-001's controlled acquisition surface,
-so it does not need to wait for that baseline to close. Do not repeatedly
-request access; continue with another unclaimed growth lane while disconnected.
+**Next review.** Recheck indexation from 7 September and page/query performance
+on 21 September. Do not change multiple titles at once or claim an internal-link
+impact before those observation windows.
