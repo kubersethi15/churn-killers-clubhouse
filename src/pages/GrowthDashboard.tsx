@@ -55,6 +55,18 @@ type ReferralData = {
   visit_to_signup_rate: number | null;
   rows: ReferralRow[];
 };
+type WelcomePathRow = {
+  path: string;
+  sessions: number;
+  qualified_action_sessions: number;
+};
+type WelcomeActivationData = {
+  welcome_emails_accepted_30_days: number;
+  tagged_click_sessions_30_days: number;
+  qualified_action_sessions_30_days: number;
+  no_qualified_action_sessions_30_days: number;
+  paths_30_days: WelcomePathRow[];
+};
 type DashboardData = {
   subscribers: {
     total: number;
@@ -85,6 +97,7 @@ type DashboardData = {
   reactivation: ReactivationData;
   retention: RetentionData;
   referrals: ReferralData;
+  welcome_activation: WelcomeActivationData;
 };
 
 const MetricCard = ({ label, value, note, suffix = "" }: { label: string; value: number; note: string; suffix?: string }) => (
@@ -182,6 +195,47 @@ const ReferralTable = ({ data }: { data: ReferralData }) => (
   </section>
 );
 
+const WelcomeActivationPanel = ({ data, error }: { data: WelcomeActivationData; error: string | null }) => {
+  const enoughEvidence = data.tagged_click_sessions_30_days >= 20;
+  return (
+    <section className="mb-8 rounded-xl border border-gray-200 bg-white p-6">
+      <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h2 className="font-serif text-lg font-bold text-navy-dark">Welcome starter-kit activation, 30 days</h2>
+          <p className="mt-1 text-xs text-gray-500">Exact tagged sessions from the first-party welcome email. Email replies are reviewed only as an aggregate provider signal and are not read or stored here.</p>
+        </div>
+        <p className={`text-xs font-semibold ${enoughEvidence ? "text-emerald-700" : "text-amber-700"}`}>
+          {enoughEvidence ? "Evidence gate met" : `${Math.max(0, 20 - data.tagged_click_sessions_30_days)} more tagged click sessions before a copy test`}
+        </p>
+      </div>
+      {error && <p className="mb-4 text-xs text-amber-700">Welcome activation reporting is waiting for its database update.</p>}
+      <div className="mb-6 grid gap-4 sm:grid-cols-4">
+        <MetricCard label="Welcome emails accepted" value={data.welcome_emails_accepted_30_days} note="Provider accepted sends; not inferred opens" />
+        <MetricCard label="Tagged click sessions" value={data.tagged_click_sessions_30_days} note="Unique sessions reaching a welcome path" />
+        <MetricCard label="Qualified actions" value={data.qualified_action_sessions_30_days} note="Tool open, share, pulse response, or Analyzer demo" />
+        <MetricCard label="No qualified action" value={data.no_qualified_action_sessions_30_days} note="Clicked a welcome path but did not reach a measured action" />
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[560px] text-left text-sm">
+          <thead className="border-b border-gray-200 text-[10px] uppercase tracking-[0.16em] text-gray-500">
+            <tr><th className="pb-3 pr-4">First path</th><th className="pb-3 pr-4 text-right">Tagged sessions</th><th className="pb-3 text-right">Qualified actions</th></tr>
+          </thead>
+          <tbody>
+            {data.paths_30_days.map(row => (
+              <tr key={row.path} className="border-b border-gray-100 last:border-0">
+                <td className="py-3 pr-4 font-semibold text-navy-dark">{row.path.replaceAll("_", " ")}</td>
+                <td className="py-3 pr-4 text-right text-gray-600">{row.sessions}</td>
+                <td className="py-3 text-right font-semibold text-navy-dark">{row.qualified_action_sessions}</td>
+              </tr>
+            ))}
+            {data.paths_30_days.length === 0 && <tr><td colSpan={3} className="py-5 text-gray-500">No tagged welcome activity yet.</td></tr>}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+};
+
 const GrowthDashboard = () => {
   const [data, setData] = useState<DashboardData | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -189,15 +243,17 @@ const GrowthDashboard = () => {
   const [reactivationError, setReactivationError] = useState<string | null>(null);
   const [retentionError, setRetentionError] = useState<string | null>(null);
   const [referralError, setReferralError] = useState<string | null>(null);
+  const [welcomeActivationError, setWelcomeActivationError] = useState<string | null>(null);
 
   useEffect(() => {
     const load = async () => {
-      const [dashboardResult, variantResult, reactivationResult, retentionResult, referralResult] = await Promise.all([
+      const [dashboardResult, variantResult, reactivationResult, retentionResult, referralResult, welcomeActivationResult] = await Promise.all([
         supabase.rpc("get_growth_dashboard"),
         supabase.rpc("get_growth_variant_dashboard"),
         supabase.rpc("get_reactivation_dashboard"),
         supabase.rpc("get_growth_retention_dashboard"),
         supabase.rpc("get_referral_dashboard"),
+        supabase.rpc("get_welcome_activation_dashboard"),
       ]);
       if (dashboardResult.error) {
         setError(dashboardResult.error.message);
@@ -207,8 +263,9 @@ const GrowthDashboard = () => {
       if (reactivationResult.error) setReactivationError(reactivationResult.error.message);
       if (retentionResult.error) setRetentionError(retentionResult.error.message);
       if (referralResult.error) setReferralError(referralResult.error.message);
+      if (welcomeActivationResult.error) setWelcomeActivationError(welcomeActivationResult.error.message);
       setData({
-        ...(dashboardResult.data as unknown as Omit<DashboardData, "content_variants_30_days" | "reactivation" | "retention">),
+        ...(dashboardResult.data as unknown as Omit<DashboardData, "content_variants_30_days" | "reactivation" | "retention" | "referrals" | "welcome_activation">),
         content_variants_30_days: variantResult.error ? [] : variantResult.data as unknown as VariantRow[],
         reactivation: reactivationResult.error
           ? { requested_30_days: 0, confirmed_30_days: 0, pending_30_days: 0, sources_30_days: [] }
@@ -235,6 +292,15 @@ const GrowthDashboard = () => {
             rows: [],
           }
           : referralResult.data as unknown as ReferralData,
+        welcome_activation: welcomeActivationResult.error
+          ? {
+            welcome_emails_accepted_30_days: 0,
+            tagged_click_sessions_30_days: 0,
+            qualified_action_sessions_30_days: 0,
+            no_qualified_action_sessions_30_days: 0,
+            paths_30_days: [],
+          }
+          : welcomeActivationResult.data as unknown as WelcomeActivationData,
       });
     };
     void load();
@@ -306,6 +372,8 @@ const GrowthDashboard = () => {
             {readout.map((item, index) => <p key={item} className="text-sm leading-relaxed text-gray-200"><span className="mr-2 font-serif text-xl font-black text-red-400">0{index + 1}</span>{item}</p>)}
           </div>
         </section>
+
+        <WelcomeActivationPanel data={data.welcome_activation} error={welcomeActivationError} />
 
         <div className="mb-8">
           {referralError && <p className="mb-3 text-xs text-amber-700">Referral reporting is waiting for its database update. Sharing remains available.</p>}

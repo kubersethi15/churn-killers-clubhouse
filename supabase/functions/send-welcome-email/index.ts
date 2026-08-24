@@ -97,9 +97,9 @@ serve(async (req: Request): Promise<Response> => {
 
     const token = await createUnsubscribeToken(subscriber.id, unsubscribeSecret);
     const unsubscribeUrl = `${supabaseUrl}/functions/v1/unsubscribe-newsletter?token=${encodeURIComponent(token)}`;
-    const startUrl = "https://churnisdead.com/start?utm_source=welcome&utm_medium=email&utm_campaign=starter_kit";
-    const vaultUrl = "https://churnisdead.com/playbook?utm_source=welcome&utm_medium=email&utm_campaign=starter_kit";
-    const diagnosticUrl = "https://churnisdead.com/ai-exposure-score?utm_source=welcome&utm_medium=email&utm_campaign=starter_kit";
+    const startUrl = "https://churnisdead.com/start?utm_source=welcome&utm_medium=email&utm_campaign=starter_kit&utm_content=start";
+    const vaultUrl = "https://churnisdead.com/playbook?utm_source=welcome&utm_medium=email&utm_campaign=starter_kit&utm_content=vault";
+    const diagnosticUrl = "https://churnisdead.com/ai-exposure-score?utm_source=welcome&utm_medium=email&utm_campaign=starter_kit&utm_content=diagnostic";
     const referralBaseUrl = "https://churnisdead.com/start?utm_source=subscriber_referral&utm_medium=share&utm_campaign=welcome_starter_kit";
     const linkedinReferralUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${referralBaseUrl}&utm_content=welcome_linkedin`)}`;
     const textReferralUrl = `${referralBaseUrl}&utm_content=welcome_forward`;
