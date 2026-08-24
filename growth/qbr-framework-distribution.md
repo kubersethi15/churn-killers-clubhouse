@@ -47,18 +47,35 @@ https://churnisdead.com/playbook?utm_source=linkedin&utm_medium=comment&utm_camp
 Reported separately from the CID-001 Tuesday link and from the always-on Premium
 profile button, per the channel-discipline rule.
 
-## Why this waits until 1 September
+## Launch timing: the original reason no longer holds
 
-CID-001 runs to 1 September at 18:14 Sydney and measures the Tuesday post
-through to the website. A new LinkedIn surface driving traffic in the same
-window changes the channel mix mid-test and contaminates the baseline everything
-else is being measured against.
+**Written 24 August, before PR #60 merged.** The original plan held this to
+1 September so a new LinkedIn surface would not change the channel mix inside
+the CID-001 window.
 
-The backlog is eight days old at worst and these commenters are not going
-anywhere. Spending a clean baseline to save eight days is a bad trade.
+**That reason is now obsolete.** PR #60 reactivated the LinkedIn Newsletter and
+scheduled a native edition for Wednesday 26 August at 18:15 Sydney, six days
+inside the same window. CID-001 will therefore be a mixed-surface window
+whatever this document does.
 
-If Kuber wants it out sooner, that is his call, but the CID-001 readout should
-then be marked contaminated rather than quietly reported as clean.
+Holding this backlog to 1 September would now cost eight days on 342 warm
+hand-raisers to protect a cleanliness that no longer exists.
+
+**Two consistent options. Kuber decides; both PRs must be treated the same way.**
+
+1. **Release now.** Accept that CID-001 is a mixed-surface window, label its
+   readout accordingly, and stop paying for a baseline already spent. This is
+   the recommended option.
+2. **Hold both.** Pull the Wednesday edition and keep this at 1 September. More
+   disruptive, since the manager calendar is already changed and the
+   notification already sent, but it does preserve a clean single-variable read.
+
+What must not happen is one surface shipping inside the window while the other
+waits for a baseline the first one already contaminated.
+
+**Required either way:** the CID-001 readout must be reported as a
+**mixed-surface window**, not a clean single-variable baseline. That label
+protects whoever reads the number later from over-reading it.
 
 ## Staged copy
 
