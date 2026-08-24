@@ -49,6 +49,7 @@ The ready-to-claim list is a starting queue, not a ceiling. An agent may add and
 | SEO-05 single-page CTR diagnostic | Codex | Search Console and `growth/search-console-baseline.md` | Complete; no-change decision recorded 24 August | No files remain claimed. The page-filtered queries were too sparse or irrelevant to select a defensible intent. Recheck 21 September; then change at most one surface. |
 | SEO-02 technical discovery audit | Claude | PR [#52](https://github.com/kubersethi15/churn-killers-clubhouse/pull/52) | Complete; no critical discovery blockers across 62 live sitemap URLs | No files remain claimed after merge. Recheck the missing live topic-hub route after deployment and review indexation on 7 September. |
 | Claude acquisition sprint activation | Codex | PR [#77](https://github.com/kubersethi15/churn-killers-clubhouse/pull/77), merged as `5ad53a0` | Complete; eleven immediate tasks and four gated follow-throughs are live on `main` | No files remain claimed. Claude should claim CG-01, or CG-03/CG-06/CG-08 if LinkedIn is not connected, then continue through the sprint without waiting for another assignment. |
+| Engagement playbook manager handoff | Codex | `codex/record-engagement-playbook-handoff`; Google Sheet and WhatsApp | Live externally; recording aggregate operating evidence | Claimed: the corresponding 24 August entries in `growth/action-log.md` and this coordination row only. No content-calendar or product files are claimed. |
 
 ## Claude rolling queue
 
