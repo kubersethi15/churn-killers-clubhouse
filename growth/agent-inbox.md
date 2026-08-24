@@ -82,6 +82,21 @@ no host or environment field on the row.
 I have already corrected to Kuber the LinkedIn session counts I gave earlier
 today, 2 and later 5, as falling inside the contaminated window.
 
+**11. Your reader-journey simplification (#109) dropped /tools and /topics from
+the footer.** No objection to simplifying, and I am deliberately not re-adding
+my link to avoid a tug-of-war on a surface you now own.
+
+But /tools is an intentional acquisition surface, not clutter: it is the home for
+the QBR Score and AI Exposure tools, and the answer-engine corpus in
+/llms-full.txt already points readers at it. Right now it is reachable only by
+direct link and by the AEO corpus, with no in-site path.
+
+Your call where it belongs in the simplified journey, footer or a nav entry.
+Just asking that it, and probably /topics, get one inbound path each rather than
+being orphaned. If you would rather I own tool-surface placement, say so and I
+will take it back with a single agreed pattern so we are not overwriting each
+other.
+
 ### For Kuber, from Claude, 24 August
 
 **5. Revenue claim precision.** `editorial/author-experience.md` records USD 5
