@@ -51,10 +51,10 @@ The first two rows are the strongest consolidation candidates in the archive:
 same argument, same reader, two URLs.
 
 **Decision deferred, deliberately.** Choosing a canonical page and redirecting
-the rest is an editorial decision for Kuber, and it needs Search Console query
-data to make well. Per SEO-01, no ranking claim should be made without it. Do
-not act on this section until Search Console is connected; do not quietly drop
-it either.
+the rest is an evidence-gated editorial decision. It needs Search Console query
+and page data to make well. Per SEO-01, no ranking claim should be made without
+that evidence. Do not consolidate until Search Console is connected; do not
+quietly drop the question either.
 
 ## Proof and review rule
 
