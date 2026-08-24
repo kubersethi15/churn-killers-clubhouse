@@ -1,7 +1,8 @@
 # The 30-Minute QBR Framework: converting the comment backlog
 
 **Written:** 24 August 2026
-**Launch:** 1 September 2026, after CID-001 closes at 18:14 Sydney
+**Launch:** Original-thread comment published 24 August 2026; full feed post
+approved in the manager calendar for 3 September 2026 at 17:30 Sydney
 **Attribution label:** `linkedin/comment/qbr_framework`
 
 ## The finding
@@ -10,8 +11,9 @@ Kuber's featured LinkedIn post asking readers to comment "FRAMEWORK" for the
 30-Minute QBR structure has **342 comments**. Churn Is Dead has **325
 subscribers**.
 
-One post produced more hand-raises than the entire subscriber list, and Churn Is
-Dead was not promoted to any of them.
+One post produced more hand-raises than the entire subscriber list. Live review
+of the thread shows that some commenters received individual DMs, but the thread
+never received one public, tracked destination that everyone could use.
 
 ## What already exists
 
@@ -25,8 +27,8 @@ Nothing needs building. The asset and the plumbing are live:
 | Newsletter capture | `NewsletterForm` already on the Playbook page |
 | URL parameter support | `?kit=` already supported on `/playbook` |
 
-This is a routing problem. The people who asked were never pointed at the thing
-they asked for.
+This is a routing problem. Individual replies did not create a durable,
+measurable route for the whole demand pool.
 
 ## Deliberately not gating the download
 
@@ -61,55 +63,40 @@ cost eight days on 342 warm hand-raisers to protect a cleanliness already spent.
 surfaces moved inside it. Anyone reading that number later must be able to see
 that before drawing a conclusion about the Tuesday post.
 
-## Dispatch instruction for Codex
+The public reply was released immediately on 24 August. It closes the original
+thread's routing gap without mass messaging. The larger follower-facing post is
+approved in the manager calendar for Thursday 3 September at 17:30, using a
+previously blank slot so it does not compete with the 1 September issue launch
+or the 2 September native newsletter edition.
 
-Kuber has approved posting. Per the operating plan the shared manager sheet is
-the execution source of truth, so this does not bypass it.
+## Codex execution answers
 
-1. Add the post copy below to the manager sheet as an approved row, with
-   Kuber's 24 August approval recorded in the approval column. Name the date
-   and time affected so nobody schedules from stale copy.
-2. Notify the manager that a row changed, per the standing handoff rule.
-3. Publish the reply on the original QBR post the same day the new post goes
-   live, so commenters who only watch that thread are covered.
-4. Register the tracked URL exactly as written below. Do not shorten it or
-   strip parameters, or the campaign cannot be separated from `tuesday_launch`
-   or the always-on profile button.
-5. Log the send in `growth/action-log.md`: route, date, status. No PII.
-
-**Timing recommendation.** Not Tuesday and not Wednesday. The Tuesday post and
-the 26 August newsletter edition already occupy those. Thursday 27 or Friday
-28 August keeps this a third distinguishable surface rather than a third thing
-competing in the same 48 hours. Codex owns the calendar and should overrule this
-if the manager sheet says otherwise.
-
-## Questions for Codex
-
-1. Can you post to LinkedIn directly, or does everything route through the
-   manager sheet and the social manager? The dispatch steps assume the sheet.
-   Correct them if that is wrong.
-2. Do you agree the CID-001 readout should carry a mixed-surface label? If you
-   disagree, say why on the board rather than reverting it silently.
-3. ACQ-04's recorded earliest start is "after opening test", which is after
-   CID-001 closes, and #60 shipped it inside the window. Should the backlog
-   sequencing be corrected to match what we now actually do, or should the
-   window rule be enforced more strictly next time? Either answer is fine, but
-   the written rule and the practice should agree. Right now they do not.
-4. Is there an existing tagged route from the LinkedIn Newsletter's 680
-   subscribers to the Playbook Vault? If not, that is the same leak as this one
-   on a larger audience, and it is worth a separate claim.
+1. LinkedIn is a hybrid route. Codex can execute directly in the signed-in
+   account, while the manager sheet remains the source of truth so the social
+   manager does not duplicate scheduled work.
+2. CID-001 is explicitly a mixed-surface window. No isolated-channel inference
+   should be made from it.
+3. The operating rule now matches practice: independently tagged acquisition
+   surfaces may run concurrently when each has its own campaign label. Readouts
+   must name the overlap. Clean single-variable windows are used only when one
+   is explicitly declared and actually enforced.
+4. The native Newsletter editions use a dedicated tracked route to the
+   canonical issue. The 2 September edition also links directly to its free
+   playbook. A separate generic vault link is unnecessary inside that edition.
 
 ## Staged copy
 
-### A. New post, 1 September
+### A. New post, 3 September at 17:30
 
 Not a mass direct message. 342 individual DMs is slow, looks like automation,
-and risks the account. A single post reaches every commenter through their
-thread notification plus the full follower base.
+and risks the account. A new feed post can reach followers and other feed
+readers, but it must not be described as notifying every original commenter.
 
 > A while back I asked people to comment if they wanted the 30-minute QBR
-> framework. Hundreds of you did. I sent it to some of you and then lost the
-> thread completely, which is on me.
+> framework. Hundreds of you did. I sent it individually to some people, but
+> the thread never got one public place where everyone could find it.
+>
+> That was a bad distribution system.
 >
 > So here it is properly, and it is not going behind anything.
 >
@@ -125,10 +112,16 @@ thread notification plus the full follower base.
 >
 > If you commented and never got it, sorry it took this long.
 
-### B. Reply on the original post, same day
+### B. Reply on the original post, published 24 August
 
-> Reposting this properly since a lot of people commented and never got it. The
-> framework is here, free, no form: [tracked link]
+> Update: some of you received this by DM, but this thread never got one public
+> place to find it. The 30-Minute QBR Framework is now free in the Churn Is Dead
+> Playbook Vault, alongside the other audits and tools:
+>
+> https://churnisdead.com/playbook?utm_source=linkedin&utm_medium=comment&utm_campaign=qbr_framework
+>
+> If you commented and I missed you, this fixes that. No form is required to
+> download it.
 
 ### C. Website
 
