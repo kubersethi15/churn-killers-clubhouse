@@ -14,6 +14,7 @@ This is an execution queue, not an ideas document. Before starting an item, clai
 - The Premium LinkedIn profile button remains the separately tagged always-on control.
 - Subscriber broadcast email remains paused until deliverability risk is back inside the written safety gate. Website and LinkedIn publishing continue.
 - Relationship comments, reply handling, research, partner pitching, technical fixes, and separately labelled always-on infrastructure can continue.
+- From 25 August through the 1 September CID-001 read, keep no more than three outcome lanes active across both agents: the two labelled LinkedIn releases, qualified conversation/reply work, and one earned-distribution route. Do not create process-only documents, another dashboard, or a site restyle during this window.
 
 ## Every-workday lanes
 
