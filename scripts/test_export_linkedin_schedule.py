@@ -56,6 +56,19 @@ class LinkedInScheduleExporterTests(unittest.TestCase):
         self.assertEqual(rows[0]["Timezone"], "Australia/Sydney")
         self.assertEqual(rows[0]["First Comment"], "Tracked first comment")
 
+    def test_approved_manager_rows_are_ready_for_posting(self) -> None:
+        publication = datetime.fromisoformat("2026-08-25T18:00:00+10:00")
+
+        rows = exporter.manager_rows(
+            [{"day": "Tuesday", "content": "Approved post", "strategy": "Newsletter launch"}],
+            "example-issue",
+            publication,
+            "Tracked first comment",
+            approved=True,
+        )
+
+        self.assertEqual(rows[0]["Status"], "Approved for Posting")
+
 
 if __name__ == "__main__":
     unittest.main()
