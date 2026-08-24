@@ -1,20 +1,27 @@
 # Churn Is Dead
 
-> Weekly Customer Success frameworks for enterprise CS leaders by Kuber Sethi. Hard truths, tactical plays, and downloadable playbooks that replace hope with strategy.
+> Evidence-led Customer Success operating systems for enterprise CS leaders, by Kuber Sethi. Every issue ships one defensible argument, one operating model, and one tool a reader can run.
 
-Churn Is Dead is a newsletter and tools site for senior Customer Success operators. It publishes a new issue every Tuesday covering CS strategy, renewal and expansion mechanics, QBR alternatives, AI's impact on CS roles, and the operating frameworks that separate effective CS teams from theater.
+Churn Is Dead is a newsletter and tools site for senior Customer Success operators. It covers renewal and expansion mechanics, QBR alternatives, customer health-score alternatives, measurement that drives intervention, and AI's effect on CS roles. The full citable corpus of every issue is in /llms-full.txt.
 
-## Pages
+## Interactive tools
+- [QBR Effectiveness Score](https://churnisdead.com/qbr-score): Two-minute diagnostic scoring how much of a QBR is theater versus decision-driven, based on the 30-minute three-block framework.
+- [AI Exposure Score](https://churnisdead.com/ai-exposure-score): Eight-question diagnostic gauging how much of a CS role is exposed to automation, and where to move toward decision-shaping work.
+- [CS Analyzer](https://churnisdead.com/cs-analyzer): AI analysis of a customer call transcript into risk, adoption, and expansion signals.
 
-- [Home](/): Latest issue, recent newsletters, and overview of Churn Is Dead.
-- [Start Here](/start): Three essential issues for new readers.
-- [Subscribe](/subscribe): Join the Tuesday Churn Is Dead email list.
-- [All Issues](/newsletters): Full archive of every Churn Is Dead newsletter.
-- [Playbook Vault](/playbook): Downloadable CS audits and playbooks (QBR conversion, renewal readiness, AI exposure, churn attribution, and more).
-- [About](/about): Why Churn Is Dead exists and who writes it.
-- [CS Analyzer](/cs-analyzer): AI-powered customer call transcript analysis for CS leaders.
-- [AI Exposure Score](/ai-exposure-score): Self-assessment tool to gauge how exposed your CS role is to AI displacement.
+## Problem-led topic guides
+- [Renewal economics: what CS controls versus pricing and contract mechanics](https://churnisdead.com/topics/renewal-economics)
+- [Measurement that changes a decision, not decorative dashboards](https://churnisdead.com/topics/measurement-decisions)
+- [Redesigning CS work around defensible judgment in the age of AI](https://churnisdead.com/topics/ai-role-design)
+- [Operating systems for enterprise CS: reviews, cadences, and handoffs](https://churnisdead.com/topics/operating-systems)
+- [Alternatives to blended customer health scores](https://churnisdead.com/topics/health-score-alternatives)
 
-## Optional
+## Key pages
+- [All issues](https://churnisdead.com/newsletters): full archive.
+- [Playbook Vault](https://churnisdead.com/playbook): free downloadable CS audits and playbooks.
+- [Start here](https://churnisdead.com/start): problem-led entry points for new readers.
+- [Subscribe](https://churnisdead.com/subscribe): the free Tuesday email.
+- [About](https://churnisdead.com/about): who writes it and why.
 
-- [CS Analyzer Demo](/cs-analyzer/demo): Sample analyzer report without uploading a transcript.
+## Full corpus
+- [Every issue, described](https://churnisdead.com/llms-full.txt): 46 published issues with one-line summaries and stable URLs, for citation.
