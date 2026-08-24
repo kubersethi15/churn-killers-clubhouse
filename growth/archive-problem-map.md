@@ -50,11 +50,24 @@ consolidation does not.
 The first two rows are the strongest consolidation candidates in the archive:
 same argument, same reader, two URLs.
 
-**Decision deferred, deliberately.** Choosing a canonical page and redirecting
-the rest is an evidence-gated editorial decision. It needs Search Console query
-and page data to make well. Per SEO-01, no ranking claim should be made without
-that evidence. Do not consolidate until Search Console is connected; do not
-quietly drop the question either.
+**Resolved 24 August 2026: do not consolidate.**
+
+The Search Console baseline in `growth/search-console-baseline.md` answers this.
+An explicit `Queries containing: health score` filter returned **zero clicks and
+zero impressions** for the property over 22 May to 21 August 2026. Only one of
+the five pages, `your-health-score-wont-save-you`, appears in the page table at
+all, with a single impression.
+
+That removes the premise. Cannibalisation means several pages splitting a query
+Google already serves them for. Here there is no measured query, no traffic to
+split, and therefore nothing to consolidate. Redirecting these URLs now would
+destroy working pages to fix a problem that is not evidenced.
+
+The concern was reasonable from structure and wrong on evidence. Recorded that
+way so it is not re-raised from the title list.
+
+**Revisit only if** health-score queries later show impressions across more than
+one of these URLs in the same window. Until then this is closed, not deferred.
 
 ## Proof and review rule
 
