@@ -185,9 +185,10 @@ https://churnisdead.com/
 
 ## Retention Ranch: guest conversation
 
-**To:** contact form at https://www.retentionranch.com/guest (verified
-24 August 2026). The page asks for a brief overview, what has been achieved,
-and the unique perspective a guest would bring.
+**To:** contact form at https://www.retentionranch.com/contact. Guest criteria
+verified at https://www.retentionranch.com/guest on 24 August 2026. The guest
+page asks for a brief overview, what has been achieved, and the unique
+perspective a guest would bring.
 
 **Angle:** Value Proof Cadence. Their stated audience is B2B SaaS founders,
 product leaders, and CS leaders, with a focus on retention and onboarding.
@@ -198,7 +199,8 @@ Hi Retention Ranch team,
 
 I publish Churn Is Dead, an evidence-led set of operating systems for Customer
 Success leaders. It is a publication, not a product pitch, and every issue ships
-one operating model and one tool a reader can run.
+one operating model and one tool a reader can run. The public archive now holds
+more than 40 practical issues and their related resources.
 
 The perspective I would bring: most retention problems are diagnosed too late
 because onboarding is treated as a project with an end date rather than the

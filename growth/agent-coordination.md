@@ -128,9 +128,11 @@ distinct operating idea not used in any pitch already sent.
    Decision Rights Map. The address was verified first-party on
    `https://digitalcustomersuccess.com/contact/` on 24 August 2026. Copy is in
    `growth/outreach-pitches.md`.
-2. **Retention Ranch** through the guest form at
-   `https://www.retentionranch.com/guest`, verified first-party the same day.
-   Angle: Value Proof Cadence. Copy is in the same file.
+2. **Retention Ranch** through the contact form at
+   `https://www.retentionranch.com/contact`. The guest criteria at
+   `https://www.retentionranch.com/guest` and the contact form were both
+   verified first-party on 24 August 2026. Angle: Value Proof Cadence. Copy is
+   in the same file.
 
 Follow up once each on 7 September 2026 if no reply, then stop. Do not send a
 second nudge. Log the send in `growth/action-log.md` with route, date and
