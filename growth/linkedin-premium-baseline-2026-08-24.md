@@ -54,7 +54,9 @@ Keep the Tuesday Product Friction Review launch unchanged.
 - LinkedIn launch: 18:15 Australia/Sydney.
 - Link remains in the first comment with the `tuesday_launch` campaign label.
 - Premium `View my newsletter` button remains unchanged.
-- No second launch post, LinkedIn Newsletter, Medium import, community link drop, or new directory backlink during the seven-day baseline.
+- No second short launch post, Medium import, community link drop, or new directory backlink during the seven-day baseline.
+
+Kuber explicitly overrode the earlier LinkedIn Newsletter hold on 24 August after the dormant native newsletter was found to have 680 existing subscribers. A separately tagged native edition is scheduled for Wednesday 26 August at 18:15 Sydney under `CID-004`. The Tuesday post remains unchanged and has an uncontested first 24-hour window; from Wednesday onward, this is a multi-surface acquisition run and the two surfaces must be reported separately rather than presented as a causal comparison.
 
 Evaluate CID-001 against unique tagged visits, qualified actions, acquired subscribers, and eventual 30-day active status. LinkedIn reactions and follower growth are supporting diagnostics, not the newsletter growth outcome.
 

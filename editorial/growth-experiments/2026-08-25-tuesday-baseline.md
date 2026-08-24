@@ -1,6 +1,6 @@
 # Tuesday distribution baseline: 25 August 2026
 
-**Status:** Preregistered. External activation requires Kuber's explicit LinkedIn approval.
+**Status:** Activated. Kuber approved the Tuesday short post and explicitly added a separately tagged native LinkedIn Newsletter edition for Wednesday.
 
 **Observation window:** 25 August 2026 08:15 UTC to 1 September 2026 08:14 UTC.
 
@@ -10,7 +10,7 @@
 
 ## Decision this run supports
 
-Can Churn Is Dead reliably attribute useful reader behaviour and subscriber acquisition to one approved Tuesday LinkedIn launch before testing alternative openings or adding channels?
+Can Churn Is Dead reliably attribute useful reader behaviour and subscriber acquisition to the approved Tuesday short post and the reactivated native LinkedIn Newsletter as two distinct acquisition surfaces?
 
 This is a measurement baseline, not an A/B test and not evidence that LinkedIn is the best channel.
 
@@ -18,19 +18,20 @@ This is a measurement baseline, not an A/B test and not evidence that LinkedIn i
 
 One evidence-led LinkedIn post, with the canonical article in the first comment, will produce tagged visits and at least one observable qualified action or acquired signup during the seven-day window.
 
-## Single treatment
+## Distribution treatments
 
-- Publish the approved Tuesday LinkedIn adaptation after the canonical website issue is verified live.
-- Use the exact `tuesday_launch` first-comment URL from the issue package and manager sheet.
-- Make no other distribution or website conversion change during the window.
+- Publish the approved Tuesday LinkedIn adaptation after the canonical website issue is verified live, using the exact `tuesday_launch` first-comment URL from the issue package and manager sheet.
+- Publish the substantial native LinkedIn Newsletter adaptation on Wednesday 26 August at 18:15 Sydney, using the exact `linkedin_newsletter` URL in the edition.
+- Do not publish the displaced Wednesday carousel or another duplicate launch post.
+- Make no other website conversion change during the window.
 
-The issue thesis, article CTA, playbook, posting time, first-comment placement, and website experience remain fixed. Do not add Medium, a LinkedIn Newsletter, a follow-up launch post, paid distribution, or a second CTA test.
+The issue thesis, article CTA, playbook, Tuesday posting time, first-comment placement, and website experience remain fixed. Do not add Medium, a follow-up short launch post, paid distribution, or a second CTA test. The Tuesday post has an uncontested first 24-hour window; after the newsletter starts, report each surface by its exact attribution label and do not claim the run isolates channel causality.
 
 ## Aggregate measures
 
 | Measure | Definition | Use |
 |---|---|---|
-| Tagged visits | Unique first-party sessions with the exact campaign variant and a page view | Denominator and instrumentation check |
+| Tagged visits | Unique first-party sessions with the exact `tuesday_launch` or `linkedin_newsletter` campaign variant and a page view | Per-surface denominator and instrumentation check |
 | Form-view sessions | Unique tagged sessions that saw a subscription form | CTA exposure diagnostic |
 | Qualified-action sessions | Unique tagged sessions that opened a resource, shared, answered the reader pulse, or visited the CS Analyzer demo | Reader activation |
 | Acquired signups | Subscriber records created with the exact campaign variant, regardless of later subscription status | Primary acquisition outcome |
@@ -43,9 +44,9 @@ Secondary observed rate: qualified-action sessions / tagged visits.
 
 ## Validity and decision rules
 
-1. The run is measurable only if the approved URL is posted exactly, at least one tagged visit is recorded, the full seven-day window elapses, and no competing asset uses the campaign label.
+1. Each surface is measurable only if its approved URL is posted exactly, at least one tagged visit is recorded, the full surface window elapses, and no competing asset uses its campaign label.
 2. If the post is confirmed live but tagged visits remain zero, diagnose posting or attribution. Do not label the topic a failure.
-3. Fewer than 20 tagged visits is descriptive only. Extend the baseline through the second weekly issue without adding a new channel. The 20-visit floor is an internal operating rule, not statistical significance.
+3. Fewer than 20 tagged visits on a surface is descriptive only. Extend that surface without adding another attribution label. The 20-visit floor is an internal operating rule, not statistical significance.
 4. Regardless of reach, do not declare a winning format from this issue. The decision after Week 1 is whether measurement is usable and whether the same controlled baseline should continue.
 5. Do not begin the hard-problem versus operating-model opening test until two baseline weeks have complete campaign, form, qualified-action, and acquisition recording.
 
@@ -57,7 +58,8 @@ Secondary observed rate: qualified-action sessions / tagged visits.
 | Playbook works | PDF opens from the canonical issue | Pending |
 | LinkedIn approval recorded | `distribution-approval.json` and manager sheet agree | Pending |
 | Exact tracked link present | First comment contains the registered four-part campaign | Pending |
-| No competing distribution | No Medium, LinkedIn Newsletter, paid, or duplicate launch post | Pending |
+| Native newsletter scheduled | `Product does not need another customer request`, Wednesday 26 August at 18:15 Sydney | Verified 24 August |
+| No unlabelled competing distribution | No Medium, paid distribution, duplicate launch post, or Wednesday carousel | Pending |
 | Aggregate dashboard ready | Variant row can report visits, form views, qualified sessions, acquired, and active | Pending deployment approval |
 
 ## Result record
