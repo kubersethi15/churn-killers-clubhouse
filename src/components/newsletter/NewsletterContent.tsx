@@ -4,7 +4,6 @@ import { ExternalLink, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import NewsletterForm from "@/components/NewsletterForm";
 import { Newsletter } from "@/types/newsletter";
-import EditorialVisual from "@/components/newsletter/EditorialVisual";
 import { trackGrowthEvent } from "@/utils/growthTracking";
 
 type VaultResource = {
@@ -81,7 +80,6 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
           </ol>
         </nav>
       )}
-      <EditorialVisual title={newsletter.title} excerpt={newsletter.excerpt} category={newsletter.category} />
       <div className="article-content" dangerouslySetInnerHTML={{ __html: formattedContent }} />
 
       {/* Share bar */}
@@ -116,10 +114,10 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
       {/* Subscribe CTA */}
       <div className="my-14 py-10 px-8 bg-navy-dark rounded-lg text-center">
         <h3 className="text-xl font-serif font-bold text-white mb-2">
-          The article is the argument. The next issue is the operating system.
+          Useful enough to try with your team?
         </h3>
         <p className="text-sm text-gray-400 mb-6">
-          Join senior CS operators getting a researched framework and free playbook every Tuesday.
+          Get one honest CS take and one practical tool every Tuesday.
         </p>
         <div className="max-w-sm mx-auto">
           <NewsletterForm 
@@ -144,7 +142,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
           to="/playbook" 
           className="inline-flex items-center gap-2 text-sm font-semibold text-navy-dark hover:text-red-600 transition-colors"
         >
-          Playbook Vault <ArrowRight className="w-4 h-4" />
+          Free CS playbooks <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
     </>

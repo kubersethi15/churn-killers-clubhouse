@@ -50,6 +50,6 @@ export const buildSubscriberReferral = (pathname: string, placement: string) => 
     linkedinUrl: withVariant("linkedin"),
     copyUrl: withVariant("copy"),
     privateUrl,
-    privateMessage: `One Customer Success resource worth keeping: Churn Is Dead publishes one evidence-led operating system and practical playbook every Tuesday. ${privateUrl}`,
+    privateMessage: `One Customer Success resource worth keeping: Churn Is Dead publishes one honest take and one practical tool every Tuesday. ${privateUrl}`,
   };
 };

@@ -125,12 +125,12 @@ const STATIC_PLAYBOOKS: Playbook[] = [
   },
 ];
 
-const PROBLEMS = ["All", "Renewal risk", "Executive value", "AI readiness", "Operating cadence"] as const;
+const PROBLEMS = ["All", "Renewal risk", "Executive value", "AI readiness", "Meetings and workflows"] as const;
 const KIT_FILTERS: Record<string, typeof PROBLEMS[number]> = {
   renewal: "Renewal risk",
   executive: "Executive value",
   ai: "AI readiness",
-  cadence: "Operating cadence",
+  cadence: "Meetings and workflows",
 };
 
 const matchesProblem = (playbook: Playbook, problem: typeof PROBLEMS[number]) => {
@@ -140,14 +140,14 @@ const matchesProblem = (playbook: Playbook, problem: typeof PROBLEMS[number]) =>
     "Renewal risk": ["renewal", "churn", "predictability", "momentum", "survival"],
     "Executive value": ["revenue", "strategic", "impact", "expansion", "qbr"],
     "AI readiness": ["ai", "exposure"],
-    "Operating cadence": ["qbr", "framework", "momentum", "co-op"],
+    "Meetings and workflows": ["qbr", "framework", "momentum", "co-op"],
   };
   return terms[problem].some(term => text.includes(term));
 };
 
 const PlaybookVault = () => {
   // ?q= lets a campaign land on exactly the playbook it promised, instead of
-  // dropping someone who asked for one thing onto a vault of thirty-four.
+  // dropping someone who asked for one thing onto a library of thirty-four.
   // Mirrors the existing ?kit= behaviour below.
   const [query, setQuery] = useState(() => {
     if (typeof window === "undefined") return "";
@@ -169,8 +169,8 @@ const PlaybookVault = () => {
   useEffect(() => {
     import("@/utils/seoMeta").then(({ applyRouteSeo }) =>
       applyRouteSeo({
-        title: "Playbook Vault | Churn Is Dead",
-        description: "Downloadable CS playbooks and audits: QBR conversion, renewal readiness, AI exposure, churn attribution, and more. Built for enterprise CS operators.",
+        title: "Free Customer Success Playbooks | Churn Is Dead",
+        description: "Free Customer Success checklists, worksheets, and audits for renewals, executive reviews, AI, churn analysis, and team leadership.",
         path: "/playbook",
       })
     );
@@ -200,10 +200,10 @@ const PlaybookVault = () => {
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-2xl mx-auto">
             <h1 className="text-3xl md:text-5xl font-serif font-black text-navy-dark mb-3">
-              Playbook Vault
+              Free Customer Success playbooks
             </h1>
             <p className="text-lg text-gray-600">
-              Pick the operating problem. Leave with a tool you can run this week.
+              Free checklists and worksheets for real Customer Success work.
             </p>
           </div>
         </div>
@@ -217,7 +217,7 @@ const PlaybookVault = () => {
               {[
                 ["Protect a renewal", "Renewal risk", "Diagnose hidden risk and customer predictability."],
                 ["Prove CS value", "Executive value", "Connect CS work to decisions, revenue, and impact."],
-                ["Redesign the cadence", "Operating cadence", "Replace status meetings with working systems."],
+                ["Fix recurring meetings", "Meetings and workflows", "Replace status updates with clearer decisions and next steps."],
               ].map(([title, target, description]) => (
                 <button key={title} type="button" onClick={() => setProblem(target as typeof PROBLEMS[number])} className="rounded-lg border border-gray-200 p-4 text-left transition-all hover:-translate-y-0.5 hover:border-red-600 hover:shadow-sm">
                   <span className="mb-1 block font-serif text-base font-bold text-navy-dark">{title}</span>
@@ -226,7 +226,7 @@ const PlaybookVault = () => {
               ))}
             </div>
             <label htmlFor="playbook-search" className="text-[10px] uppercase tracking-[0.22em] text-red font-bold">
-              Find the operating problem
+              Find a playbook
             </label>
             <div className="relative mt-3 mb-10">
               <Input
@@ -286,11 +286,11 @@ const PlaybookVault = () => {
                       <div><dt className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-red-600"><UsersRound className="h-3.5 w-3.5" /> Built for</dt><dd className="mt-1 text-xs leading-relaxed text-gray-700">{experience.role}</dd></div>
                     </dl>
 
-                    <p className="mb-5 border-l-2 border-navy-dark pl-3 text-xs leading-relaxed text-gray-700"><strong className="text-navy-dark">Leave with:</strong> {experience.outcome}</p>
+                    <p className="mb-5 border-l-2 border-navy-dark pl-3 text-xs leading-relaxed text-gray-700"><strong className="text-navy-dark">You will leave with:</strong> {experience.outcome}</p>
 
                     {/* Actions */}
                     <div className="flex flex-wrap items-center gap-3">
-                      <Link to={`/playbook/${encodeURIComponent(pb.id)}?title=${encodeURIComponent(pb.title)}`} className="inline-flex items-center gap-1.5 rounded-lg bg-navy-dark px-3 py-2 text-sm font-semibold text-white hover:bg-navy-dark/90">Open working view <ArrowRight className="h-3.5 w-3.5" /></Link>
+                      <Link to={`/playbook/${encodeURIComponent(pb.id)}?title=${encodeURIComponent(pb.title)}`} className="inline-flex items-center gap-1.5 rounded-lg bg-navy-dark px-3 py-2 text-sm font-semibold text-white hover:bg-navy-dark/90">Use this playbook <ArrowRight className="h-3.5 w-3.5" /></Link>
                       {pb.pdf_path && (
                         <a
                           href={pb.pdf_path}
@@ -340,7 +340,7 @@ const PlaybookVault = () => {
           <div className="max-w-xl mx-auto text-center">
             <p className="text-[10px] uppercase tracking-[0.22em] text-red font-bold mb-3">New every Tuesday</p>
             <h2 className="text-2xl font-serif font-bold text-navy-dark mb-2">Do not wait for the archive.</h2>
-            <p className="text-sm text-gray-500 mb-6">Get the argument, framework, and playbook as each issue publishes.</p>
+            <p className="text-sm text-gray-500 mb-6">Get the honest take and practical tool when each issue publishes.</p>
             <NewsletterForm location="playbook" buttonVariant="vibrant-red" buttonText="Join the list" subscribeText="" />
           </div>
         </div>

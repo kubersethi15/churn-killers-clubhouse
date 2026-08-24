@@ -259,8 +259,8 @@ const Auth = () => {
               {isRecoveryMode
                 ? "Pick something you'll remember. You'll be signed in fresh on the next screen."
                 : activeTab === "signin"
-                ? "Sign in to access your AI-powered CS tools and tactical frameworks."
-                : "Create your account to unlock AI-powered CS tools and tactical frameworks."}
+                ? "Sign in to access your CS tools and saved work."
+                : "Create your account to access the CS tools and save your work."}
             </p>
             <ul className="space-y-4">
               <li className="flex items-center gap-3 text-gray-200">
@@ -273,13 +273,13 @@ const Auth = () => {
                 <div className="w-8 h-8 rounded-full bg-red/20 flex items-center justify-center flex-shrink-0">
                   <BookText className="w-4 h-4 text-red-400" />
                 </div>
-                <span>Weekly newsletter with tactical CS plays</span>
+                <span>Weekly newsletter with honest, practical CS thinking</span>
               </li>
               <li className="flex items-center gap-3 text-gray-200">
                 <div className="w-8 h-8 rounded-full bg-red/20 flex items-center justify-center flex-shrink-0">
                   <Sparkles className="w-4 h-4 text-red-400" />
                 </div>
-                <span>Playbook Vault — templates & frameworks</span>
+                <span>Free CS templates and checklists</span>
               </li>
             </ul>
           </div>

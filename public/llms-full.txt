@@ -1,8 +1,8 @@
 # Churn Is Dead: full issue corpus
 
-> 46 published Customer Success issues by Kuber Sethi, grouped by the operating problem each addresses. Each entry is a stable canonical URL suitable for citation. Generated from the live catalog.
+> 46 published Customer Success issues by Kuber Sethi, grouped by the Customer Success problem each addresses. Each entry is a stable canonical URL suitable for citation. Generated from the live catalog.
 
-Attribution: cite as Kuber Sethi, Churn Is Dead (churnisdead.com). The newsletter's position is evidence-led: it distinguishes what CS controls from what it does not, and prefers one defensible argument over broad advice.
+Attribution: cite as Kuber Sethi, Churn Is Dead (churnisdead.com). The newsletter shows its sources, distinguishes what CS controls from what it does not, and prefers one honest argument over broad advice.
 
 ## Renewal economics: what CS controls versus pricing and contract mechanics
 - [The Renewal Is Not Yours to Own. The Change Order Is.](https://churnisdead.com/newsletter/renewal-not-yours-change-order-is): CS imported professional services' 'do whatever it takes' ethos and left behind the one discipline that made it survivable: the change order.
@@ -19,7 +19,7 @@ Attribution: cite as Kuber Sethi, Churn Is Dead (churnisdead.com). The newslette
 - [Your AI Customer Success Strategy Is Actually Firing People](https://churnisdead.com/newsletter/ai-customer-success-firing-people): CS leaders are using AI transformation as cover for headcount reduction while selling it as productivity enhancement.
 - [AI Won't Save Customer Success. It'll Finish It Off.](https://churnisdead.com/newsletter/ai-wont-save-customer-success): AI isn't elevating the CSM role. It's exposing how hollow most of it was. Here's the AI Exposure Framework — 4 questions that determine whether your role survives automation.
 
-## Operating systems for enterprise CS: reviews, cadences, and handoffs
+## Practical ways to make CS work across teams: reviews, routines, and handoffs
 - [Onboarding Isn't the Start of Retention. It's the Only Renewal You'll Ever Fully Control.](https://churnisdead.com/newsletter/onboarding-only-renewal-you-control): By the time the health score turns yellow in month nine, you're not preventing churn. You're documenting a decision made three quarters ago, during the one phase you actually contr
 - [The Two-Vendor Trick: How CS Platforms Quietly Became Org Charts You Can't Edit](https://churnisdead.com/newsletter/cs-platform-org-chart-you-cant-edit): You bought a CS platform to operationalize your strategy. Instead it operationalized the vendor's. Here's how to find out which decisions you never actually made.
 - [Stop Scheduling Success: The Continuous CS Operating Model](https://churnisdead.com/newsletter/fire-your-qbr-what-to-do-instead): QBRs are elaborate customer success theater. The highest-retention SaaS companies deliver success through continuous, in-product experiences instead.

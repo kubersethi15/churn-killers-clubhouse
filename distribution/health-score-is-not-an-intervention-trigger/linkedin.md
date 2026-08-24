@@ -1,36 +1,29 @@
-A health score can summarise an account.
+Your health score moved from green to yellow.
 
-It still cannot tell the team when to intervene.
+What should the CSM actually do?
 
-“Usage fell 18%” is an observation.
+“Usage fell 18%” tells us something changed. It does not tell us whether the customer needs help.
 
-“The customer may miss a confirmed implementation milestone” is a consequence.
+“Investigate account health” is not much of an instruction either.
 
-“Investigate account health” is not an action.
+A useful alert should answer six questions:
 
-An intervention trigger needs six things:
+Which customer promise or decision is at risk?
+What exactly happened, and where did the data come from?
+What is normal for this customer?
+How large and how long must the change be before it matters?
+Who responds, and what should they do?
+What clears the alert?
 
-1. A customer commitment or decision at risk.
-2. An observable event with a known source.
-3. A credible baseline and comparison window.
-4. A threshold, persistence rule, and disqualifiers.
-5. A response class and owner.
-6. A reset rule.
+Then look back at what happened.
 
-Then evaluate the trigger:
+Did the alert find a real problem?
+Did it arrive early enough to help?
+Could the owner act with the information they had?
+Did it disappear when the problem was resolved?
 
-Did it find something consequential?
+Keep the health score if it helps leaders scan the portfolio.
 
-Did it fire while recovery options still existed?
+Just do not ask CSMs to investigate every colour change.
 
-Could the assigned owner act with the information available?
-
-Did the alert clear when the condition changed?
-
-A metric is not a signal.
-
-A signal is not a trigger.
-
-A trigger connects an observed customer condition to a pre-agreed response.
-
-The full framework and free Intervention Trigger Ledger are in the first comment.
+The full guide and free alert checklist are in the first comment.

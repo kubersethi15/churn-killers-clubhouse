@@ -1,48 +1,46 @@
 # Product does not need another customer request
 
-Most product requests do not have a prioritisation problem.
+Here is a familiar scene.
 
-They have a decision-quality problem.
+A customer asks for a product change. CS says it is urgent. Product asks for evidence. Sales adds the size of the account. The request goes into a backlog.
 
-CS sends urgency. Product asks for evidence. Sales adds another logo. The request enters a backlog and everybody quietly interprets that as progress.
+Everyone calls that progress.
 
-Nothing was decided.
+But nobody has made a decision.
 
-The backlog is useful for Product. It is a terrible communication system for a customer-facing team.
+A backlog may help Product organise work. It is a terrible way for CS to explain what happens next.
 
-When CS tells a customer that something is “in the backlog,” it often means there is no owner, no decision date, and no shared definition of the problem. The customer hears a soft commitment. Product hears an unqualified request. CS is left carrying the credibility debt.
+When we tell a customer that something is “in the backlog,” they often hear a soft promise. Product may only see an incomplete request. CS is left trying to keep both sides happy without an owner, an answer, or a date.
 
-A better operating model is the Product Friction Review.
+There is a better way to handle the conversation.
 
-It borrows one useful discipline from sprint planning: only decision-ready work belongs in the room.
+Before CS sends a request to Product, answer five questions.
 
-CS brings five things.
+First, what can the user not do? Describe the broken workflow, not just the requested feature.
 
-First, the user consequence. What is the customer unable to do, and which workflow breaks?
+Second, what evidence do we have? Use repeated examples, support cases, usage data, recordings, or a reproducible failure. The loudest stakeholder is not evidence.
 
-Second, the evidence. Not the loudest stakeholder. Repeated examples, support cases, usage data, recordings, or a reproducible failure.
+Third, which customer decision is affected, and when? Is this about a renewal, expansion, adoption target, or implementation milestone?
 
-Third, the commercial decision and date. What renewal, expansion, adoption, or implementation decision is affected, and when will it be made?
+Fourth, is there a workaround? Be honest about its cost and limits. “They can do it manually” is not enough.
 
-Fourth, the real workaround. If a workaround exists, state its cost and limits. “Manual” is not a cost estimate.
+Fifth, what decision do we need from Product? Commit, investigate, decline, or tell us what evidence is missing.
 
-Fifth, the exact decision requested from Product. Commit, investigate, decline, or name the missing evidence.
+Product still decides the roadmap. Customer urgency does not give CS the right to set product priorities.
 
-Product keeps roadmap authority. CS does not get to convert customer urgency into prioritisation power.
+But a complete request should leave the conversation with a clear answer, an owner, and a date.
 
-But every qualified request leaves the review with a decision state, an owner, and a date.
+Do not judge the process by how quickly something ships. That encourages promises nobody can keep.
 
-The metric is not time to ship. That would reward fake promises and rushed commitments.
+Instead, ask how long a complete customer problem waits for a clear Product decision.
 
-Measure decision latency instead: how long a complete customer problem sits without an explicit Product decision.
+That small change matters.
 
-That changes the conversation.
+CS stops treating a forwarded request as a finished job. Product gets the context in one place. Customers get something more credible than an implied promise.
 
-CS stops measuring whether it successfully forwarded a request. Product stops absorbing context in fragments. Customers get something more credible than an implied promise.
+People will still disagree. The aim is to make the disagreement clear while there is still time to handle the customer consequence.
 
-This does not eliminate disagreement. It makes disagreement explicit while there is still time to manage the commercial consequence.
-
-The full issue includes the operating cadence, decision states, evidence standard, and a free Product Friction Review template.
+The full issue includes the meeting format, the questions to ask, and a free Product Friction Review template.
 
 Read it on Churn Is Dead:
 https://churnisdead.com/newsletter/stealing-sprint-planning-from-engineering?utm_source=linkedin&utm_medium=newsletter&utm_campaign=stealing-sprint-planning-from-engineering&utm_content=linkedin_newsletter

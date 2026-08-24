@@ -141,7 +141,7 @@ const NewsletterForm = ({
       }
 
       toast.success("You're subscribed!", {
-        description: "You are on the list. New frameworks publish every Tuesday.",
+        description: "You are on the list. The next issue arrives Tuesday.",
       });
       setEmail("");
       setIsSubscribed(true);
@@ -168,7 +168,7 @@ const NewsletterForm = ({
     const event = { eventName: "content_share" as const, resourceId: `subscriber_referral:private:${referral.campaign}` };
     if (navigator.share) {
       try {
-        await navigator.share({ title: "Churn Is Dead", text: "One evidence-led Customer Success operating system and practical playbook every Tuesday.", url: referral.privateUrl });
+        await navigator.share({ title: "Churn Is Dead", text: "One honest Customer Success take and one practical tool every Tuesday.", url: referral.privateUrl });
         void trackGrowthEvent(event);
         return;
       } catch (error) {
@@ -248,7 +248,7 @@ const NewsletterForm = ({
       )}
       {subscribeText !== "" && (
         <p className={`text-xs mt-2.5 text-center ${textColor === "text-gray-700" ? "text-gray-500" : "text-white/70"}`}>
-          {subscribeText || "Join CS leaders getting tactical frameworks every Tuesday."}
+          {subscribeText || "Join CS people who want useful answers, not more jargon."}
         </p>
       )}
       <p className={`mt-2 text-center text-[11px] ${textColor === "text-gray-700" ? "text-gray-500" : "text-white/70"}`}>

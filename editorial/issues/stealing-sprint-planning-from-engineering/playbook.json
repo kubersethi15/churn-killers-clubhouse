@@ -1,16 +1,16 @@
 {
   "title": "The Product Friction Review",
-  "subtitle": "Turn customer friction into explicit Product decisions without confusing urgency with roadmap control.",
-  "intro_text": "Use this before a Product Friction Review. Complete the packet, run the decision meeting, then record what the customer team can honestly communicate. This is a decision tool, not a delivery SLA.",
+  "subtitle": "Help CS explain the customer problem clearly, let Product make the call, and give the customer an honest answer.",
+  "intro_text": "Use this before a Product Friction Review. Complete the five-part brief, run the 30-minute review, then record what the customer team can honestly communicate. This tool does not promise a delivery date.",
   "scoring_note": "Score readiness from 1 to 5 in each section. A low score means the request is not ready for a Product decision.",
   "closing_quote": "The goal is not to win every roadmap argument. The goal is to end backlog ambiguity.",
-  "next_action": "Complete the lowest-scoring part of the packet before asking Product for a decision. Then book one review and record the decision state, owner, and answer date.",
+  "next_action": "Complete the weakest part of the brief before asking Product for an answer. Then book one review and record the answer, owner, and date.",
   "interpretation": [
     ["Total Score", "Assessment", "What It Means"],
-    ["16-20", "Decision ready", "The packet is ready for an explicit Product decision."],
+    ["16-20", "Ready for review", "The customer problem is clear enough for Product to answer."],
     ["12-15", "Almost ready", "Close the lowest-scoring evidence gap before review."],
-    ["8-11", "Evidence gaps", "Important context is missing. Return it to the packet owner."],
-    ["4-7", "Not ready", "This is still a request or escalation, not a decision packet."]
+    ["8-11", "Evidence gaps", "Important context is missing. Return it to the person who prepared the brief."],
+    ["4-7", "Not ready", "This is still a request or escalation, not a clear customer problem." ]
   ],
   "sections": [
     {

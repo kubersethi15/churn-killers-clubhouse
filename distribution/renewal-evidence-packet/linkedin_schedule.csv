@@ -1,41 +1,32 @@
 Date,Time,Timezone,Day,Content,First Comment,Platform,Status,Newsletter,Strategy
-2026-09-01,18:15,Australia/Sydney,Tuesday,"A renewal forecast can be precise and still be impossible to defend.
+2026-09-01,18:15,Australia/Sydney,Tuesday,"The account is 80% likely to renew.
 
-The account is 80% likely to renew.
+My first question would be: what has the customer actually done or said that makes 80% believable?
 
-Fine. What has the customer actually done or said that makes 80% credible?
+If the answer is scattered across call notes, Slack threads, and one CSM's instinct, the number is hiding what we do not know.
 
-If the answer lives across call notes, Slack threads, and CSM instinct, the number is hiding the uncertainty.
+For every important renewal, put six things on one page:
 
-A better operating model is the Renewal Evidence Packet.
+What does the contract say?
+Who can approve the renewal?
+What value has the customer recognised?
+What still has to happen?
+What could derail it, and who is responding?
+What evidence points the other way?
 
-For every material renewal, record six things:
+For each answer, say whether it came from the customer, was observed by your team, is only an internal belief, or is still missing.
 
-Contract reality.
-Customer authority.
-Value proof.
-The remaining decision path.
-Specific risks and responses.
-Contrary evidence.
+Add the source and the date. Old evidence can create false confidence.
 
-Then label every item:
+An account should not move to Commit because the CSM feels better this week.
 
-Customer-confirmed.
-Observed.
-Internally asserted.
-Missing.
+It should move because the facts changed and anyone in the review can see why.
 
-Add a source date and an expiry date.
+This is not about making the forecast more pessimistic.
 
-An account should not enter Commit because the CSM feels better this week.
+It is about making it believable.
 
-It should enter Commit because the evidence changed and the packet can show how.
-
-The goal is not to make the forecast pessimistic.
-
-It is to make it credible.
-
-The full framework and free Renewal Evidence Packet are in the first comment.","The evidence-led framework and free Renewal Evidence Packet:
+The full guide and free Renewal Evidence Packet are in the first comment.","The full guide and free Renewal Evidence Packet:
 https://churnisdead.com/newsletter/renewal-evidence-packet?utm_source=linkedin&utm_medium=post&utm_campaign=renewal-evidence-packet&utm_content=tuesday_launch
 
-Churn Is Dead publishes one practical Customer Success operating system each Tuesday.",LinkedIn,Approved for Posting,renewal-evidence-packet,Newsletter launch
+Churn Is Dead publishes one honest CS take and one practical tool every Tuesday.",LinkedIn,Approved for Posting,renewal-evidence-packet,Newsletter launch

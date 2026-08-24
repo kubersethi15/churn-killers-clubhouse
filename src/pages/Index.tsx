@@ -10,8 +10,6 @@ import Footer from "@/components/Footer";
 import { isPreviewMode } from "@/utils/preview";
 import { formatContent as formatNewsletterContent } from "@/utils/formatUtils";
 import NewsletterForm from "@/components/NewsletterForm";
-import { topicHubs } from "@/data/topicHubs";
-import OperatingSystemPreview from "@/components/OperatingSystemPreview";
 
 // Real reader quotes ONLY. The "What readers say" section renders nothing while
 // this list is empty. Add entries as {quote, name, role} when readers give
@@ -19,9 +17,9 @@ import OperatingSystemPreview from "@/components/OperatingSystemPreview";
 const TESTIMONIALS: { quote: string; name: string; role: string }[] = [];
 
 const FEATURED_REFRESH = {
-  title: "Digital CS Is Not Coverage Until Someone Owns the Silence",
-  excerpt: "Replace send volume and login counts with a Silence Ledger that shows who was reached, who responded, what changed, and when a human must step in.",
-  category: "Operating Systems",
+  title: "Your Digital CS Programme Cannot Tell You Who Needs Help",
+  excerpt: "A simple way to see who received your digital journey, who acted, who went quiet, and when a person should step in.",
+  category: "Digital Customer Success",
   read_time: "8 min read",
 };
 
@@ -44,8 +42,8 @@ const Index = () => {
   useEffect(() => {
     import("@/utils/seoMeta").then(({ applyRouteSeo }) =>
       applyRouteSeo({
-        title: "Churn Is Dead | Bold Customer Success Strategies",
-        description: "Weekly Customer Success frameworks for enterprise CS leaders by Kuber Sethi. Hard truths, tactical plays, and downloadable playbooks that replace hope with strategy.",
+        title: "Churn Is Dead | Honest Customer Success Thinking",
+        description: "A direct weekly Customer Success newsletter by Kuber Sethi. Honest arguments, useful ways forward, and practical tools for people doing the work.",
         path: "/",
       })
     );
@@ -107,17 +105,17 @@ const Index = () => {
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'1\'/%3E%3C/svg%3E")' }} />
         
         <div className="container relative z-10 mx-auto px-4 md:px-6">
-          <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
-            <div>
+          <div className="mx-auto max-w-5xl">
+            <div className="max-w-4xl">
               <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1.5 text-sm text-gray-300 backdrop-blur-sm">
                 <span className="h-2 w-2 rounded-full bg-red-500 motion-safe:animate-pulse" />
                 New issue every Tuesday
               </div>
-              <p className="mb-6 text-xs font-bold uppercase tracking-[0.2em] text-red-400">Evidence-led operating systems for Customer Success</p>
+              <p className="mb-6 text-xs font-bold uppercase tracking-[0.2em] text-red-400">Honest Customer Success thinking for people doing the work</p>
               <h1 className="font-serif text-4xl font-black leading-[1.02] tracking-tight md:text-6xl lg:text-7xl">
                 The CS newsletter that doesn't <span className="text-red-500 italic">sugarcoat it.</span>
               </h1>
-              <p className="mb-8 mt-6 max-w-xl text-lg leading-relaxed text-gray-300 md:text-xl">Every Tuesday: one researched argument, one operating model, and one tool you can run with your team.</p>
+              <p className="mb-8 mt-6 max-w-2xl text-lg leading-relaxed text-gray-300 md:text-xl">Every Tuesday: one sharp take, a practical way forward, and something useful for your team.</p>
               <div className="max-w-md">
               <NewsletterForm 
                 location="hero" 
@@ -126,13 +124,9 @@ const Index = () => {
                 buttonText="Subscribe"
                 subscribeText=""
               />
-                <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
-                  <p className="text-xs text-gray-400">Free. Core playbooks stay open.</p>
-                  <Link to="/start" className="inline-flex items-center gap-1.5 text-xs font-semibold text-white hover:text-red-300">See the 60-second path <ArrowRight className="h-3.5 w-3.5" /></Link>
-                </div>
+                <p className="mt-4 text-xs text-gray-400">Free. No gated downloads.</p>
               </div>
             </div>
-            <OperatingSystemPreview />
           </div>
         </div>
       </section>
@@ -140,27 +134,12 @@ const Index = () => {
       <section aria-label="Publication facts" className="border-b border-gray-200 bg-cream/40">
         <div className="container mx-auto px-4 md:px-6">
           <div className="mx-auto grid max-w-5xl grid-cols-2 divide-x divide-y divide-gray-200 py-6 text-center md:grid-cols-4 md:divide-y-0">
-            <div className="px-2 pb-4 md:pb-0"><strong className="block text-xl font-serif text-navy-dark">10+ years</strong><span className="text-xs text-gray-600">operating in CS</span></div>
+            <div className="px-2 pb-4 md:pb-0"><strong className="block text-xl font-serif text-navy-dark">10+ years</strong><span className="text-xs text-gray-600">working in CS</span></div>
             <div className="px-2"><strong className="block text-xl font-serif text-navy-dark">40+</strong><span className="text-xs text-gray-600">published issues</span></div>
             <div className="px-2 pt-4 md:pt-0"><strong className="block text-xl font-serif text-navy-dark">32</strong><span className="text-xs text-gray-600">practical tools</span></div>
             <div className="px-2 pt-4 md:pt-0"><strong className="block text-xl font-serif text-navy-dark">~8,200</strong><span className="text-xs text-gray-600">LinkedIn followers</span></div>
           </div>
         </div>
-      </section>
-
-      <section className="border-b border-gray-100 bg-white py-12 md:py-16">
-        <div className="container mx-auto px-4 md:px-6"><div className="mx-auto max-w-5xl">
-          <p className="mb-6 text-[10px] font-bold uppercase tracking-[0.22em] text-red-600">Choose your route in</p>
-          <div className="grid gap-4 md:grid-cols-3">
-            {[
-              ["I run accounts", "For ICs who need the next customer decision, not another generic best practice.", "/start#run-accounts"],
-              ["I lead the function", "For leaders building evidence, cadence, role clarity, and commercial credibility.", "/start#lead-function"],
-              ["I am moving into leadership", "For ambitious operators learning how senior CS decisions are actually made.", "/start#move-into-leadership"],
-            ].map(([title, copy, href], index) => (
-              <Link key={title} to={href} className="group rounded-2xl border border-gray-200 p-5 transition-all hover:-translate-y-0.5 hover:border-red-300 hover:shadow-sm"><span className="font-serif text-xl font-black text-red-600">0{index + 1}</span><h2 className="mt-4 font-sans text-base font-bold text-navy-dark group-hover:text-red-600">{title}</h2><p className="mt-2 text-sm leading-relaxed text-gray-600">{copy}</p></Link>
-            ))}
-          </div>
-        </div></div>
       </section>
 
       {/* ── LATEST ISSUE (The Star) ── */}
@@ -261,7 +240,7 @@ const Index = () => {
               Every Tuesday, straight to your inbox.
             </h2>
             <p className="text-lg text-gray-500 mb-10">
-              No fluff. No "just checking in." Just an argument, an operating model, and a tool you can test.
+              No fluff. No "just checking in." Just a hard question, a useful way to think about it, and something you can put to work.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -272,55 +251,28 @@ const Index = () => {
               </div>
               <div>
                 <div className="text-3xl font-serif font-black text-red-600 mb-2">02</div>
-                <h3 className="font-semibold text-navy-dark mb-1.5">The Framework</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">A named, actionable framework you can run on your team this week.</p>
+                <h3 className="font-semibold text-navy-dark mb-1.5">A Way Forward</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">A clear approach you can adapt to the team and customers you actually have.</p>
               </div>
               <div>
                 <div className="text-3xl font-serif font-black text-red-600 mb-2">03</div>
-                <h3 className="font-semibold text-navy-dark mb-1.5">The Playbook</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">A downloadable audit or diagnostic to measure what actually matters.</p>
+                <h3 className="font-semibold text-navy-dark mb-1.5">Something Useful</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">A checklist, worksheet, or review you can use without handing over your email.</p>
               </div>
             </div>
 
-            {/* Vault lead magnet */}
+            {/* Playbooks */}
             <div className="rounded-lg border border-gray-100 bg-gray-50 p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
-                <h3 className="font-semibold text-navy-dark mb-1">The Playbook Vault is open.</h3>
-                <p className="text-sm text-gray-500">Browse every available audit, framework, and diagnostic. No gatekeeping and no email required.</p>
+                <h3 className="font-semibold text-navy-dark mb-1">Need something practical?</h3>
+                <p className="text-sm text-gray-500">Use the free checklists, audits, and worksheets. No email required.</p>
               </div>
               <Link
                 to="/playbook"
                 className="inline-flex items-center justify-center px-5 py-2.5 bg-navy-dark text-white text-sm font-semibold rounded-lg hover:opacity-90 transition-opacity whitespace-nowrap"
               >
-                Browse the Vault
+                Browse the playbooks
               </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-t border-gray-100 bg-cream/30 py-16 md:py-20">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="mx-auto max-w-5xl">
-            <div className="mb-9 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-              <div>
-                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-red-600">problem-led library</p>
-                <h2 className="font-serif text-3xl font-black text-navy-dark md:text-4xl">Start with the decision on your desk.</h2>
-              </div>
-              <Link to="/topics" className="inline-flex items-center gap-2 text-sm font-semibold text-red-600 hover:text-red-700">Explore all topics <ArrowRight className="h-4 w-4" /></Link>
-            </div>
-            <div className="grid gap-4 md:grid-cols-2">
-              {topicHubs.map((topic, index) => (
-                <Link key={topic.slug} to={`/topics/${topic.slug}`} className="group rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:border-red-300">
-                  <div className="flex gap-4">
-                    <span className="font-serif text-2xl font-black text-red-600">0{index + 1}</span>
-                    <div>
-                      <h3 className="font-serif text-xl font-bold text-navy-dark transition-colors group-hover:text-red-600">{topic.title}</h3>
-                      <p className="mt-2 text-sm leading-relaxed text-gray-600">{topic.description}</p>
-                    </div>
-                  </div>
-                </Link>
-              ))}
             </div>
           </div>
         </div>
@@ -332,8 +284,8 @@ const Index = () => {
             <div aria-hidden="true" className="flex h-16 w-16 flex-none items-center justify-center rounded-full bg-navy-dark font-serif text-xl font-black text-white">KS</div>
             <div className="flex-1">
               <p className="mb-1 text-xs font-bold uppercase tracking-widest text-red-600">Written by Kuber Sethi</p>
-              <h2 className="mb-2 text-2xl font-serif font-black text-navy-dark">Strong opinions. Visible evidence. Usable systems.</h2>
-              <p className="text-sm leading-relaxed text-gray-600">Churn Is Dead turns difficult CS questions into an argument you can test, an operating model your team can run, and a playbook you can use immediately.</p>
+              <h2 className="mb-2 text-2xl font-serif font-black text-navy-dark">Strong opinions. Honest evidence. Useful help.</h2>
+              <p className="text-sm leading-relaxed text-gray-600">Churn Is Dead takes difficult CS questions, says what most teams avoid, and gives you a practical next step.</p>
             </div>
             <Link to="/about" className="inline-flex items-center gap-2 text-sm font-semibold text-red-600 hover:text-red-700">Why it exists <ArrowRight className="h-4 w-4" /></Link>
           </div>
@@ -370,7 +322,7 @@ const Index = () => {
               Stop hoping your accounts renew.
             </h2>
             <p className="text-gray-400 mb-8">
-              Start running the frameworks that make renewals more predictable.
+              Start doing the work that makes renewals less surprising.
             </p>
             <div className="max-w-md mx-auto">
               <NewsletterForm 
@@ -380,7 +332,7 @@ const Index = () => {
                 buttonText="Subscribe"
                 subscribeText=""
               />
-              <p className="text-sm text-gray-400 mt-4">The weekly issue and core playbooks remain free.</p>
+              <p className="text-sm text-gray-400 mt-4">The weekly issue and practical tools remain free.</p>
             </div>
           </div>
         </div>

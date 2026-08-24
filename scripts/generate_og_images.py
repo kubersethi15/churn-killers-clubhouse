@@ -20,6 +20,7 @@ import os
 import sys
 import glob
 import html
+import json
 import re
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
@@ -100,10 +101,10 @@ def short_hook(title):
 def format_and_flow(title):
     lowered = title.lower()
     if re.search(r"evidence|data|metric|forecast|usage|score|signal", lowered):
-        return "EVIDENCE BRIEF", ["OBSERVE", "DECIDE", "INTERVENE"]
+        return "EVIDENCE REVIEW", ["WHAT HAPPENED", "WHY IT MATTERS", "WHAT TO DO"]
     if re.search(r"framework|playbook|system|model|packet|ledger|map|review|kickoff|onboarding|silence|digital cs", lowered):
-        return "OPERATING SYSTEM", ["INPUT", "DECISION", "OWNER"]
-    return "DECISION TEARDOWN", ["ASSUMPTION", "TEST", "REBUILD"]
+        return "PRACTICAL GUIDE", ["THE PROBLEM", "A WAY FORWARD", "NEXT STEP"]
+    return "STRAIGHT OPINION", ["THE ASSUMPTION", "THE HONEST TEST", "WHAT NEXT"]
 
 
 def extract_newsletters_from_migrations():
@@ -154,6 +155,21 @@ def extract_newsletters_from_migrations():
             newsletters.append({"slug": page.parent.name, "title": title})
 
     deduped = {item["slug"]: item for item in newsletters}
+
+    # Editorial packages are the source of truth for approved title rewrites.
+    # Only override slugs already present in the public catalogue so future
+    # issues do not leak into generated assets before publication.
+    issue_dir = Path(REPO_ROOT) / "editorial" / "issues"
+    for metadata_path in issue_dir.glob("*/metadata.json"):
+        try:
+            metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        slug = metadata.get("slug")
+        title = metadata.get("title")
+        if slug in deduped and isinstance(title, str) and title.strip():
+            deduped[slug]["title"] = title.strip()
+
     return list(deduped.values())
 
 
@@ -186,7 +202,7 @@ def generate_og_image(slug, title):
 
     canvas_x, canvas_y, canvas_w, canvas_h = 775, 105, 350, 390
     draw.rounded_rectangle([(canvas_x, canvas_y), (canvas_x + canvas_w, canvas_y + canvas_h)], radius=24, fill=(23, 39, 64), outline=(55, 72, 98), width=2)
-    draw.text((canvas_x + 26, canvas_y + 24), "OPERATING MAP", fill=LIGHT_GRAY, font=load_font(FONT_SANS_BOLD, 13))
+    draw.text((canvas_x + 26, canvas_y + 24), "IN THIS ISSUE", fill=LIGHT_GRAY, font=load_font(FONT_SANS_BOLD, 13))
     for index, step in enumerate(flow):
         y = canvas_y + 78 + index * 92
         draw.rounded_rectangle([(canvas_x + 25, y), (canvas_x + canvas_w - 25, y + 62)], radius=12, fill=(15, 27, 45), outline=(70, 87, 112), width=1)
@@ -227,9 +243,9 @@ def generate_brand_assets():
     draw = ImageDraw.Draw(img)
     draw.rectangle([(0, 0), (WIDTH, 7)], fill=RED)
     draw.text((70, 55), "CHURN IS DEAD", fill=WHITE, font=load_font(FONT_SERIF_BOLD, 34))
-    draw.text((70, 145), "Operating systems for", fill=WHITE, font=load_font(FONT_SERIF_BOLD, 64))
+    draw.text((70, 145), "Honest thinking for", fill=WHITE, font=load_font(FONT_SERIF_BOLD, 64))
     draw.text((70, 225), "Customer Success.", fill=RED, font=load_font(FONT_SERIF_BOLD, 64))
-    flow = ["ONE ARGUMENT", "ONE MODEL", "ONE TOOL"]
+    flow = ["ONE SHARP TAKE", "A WAY FORWARD", "ONE USEFUL TOOL"]
     for index, label in enumerate(flow):
         x = 70 + index * 350
         draw.rounded_rectangle([(x, 360), (x + 310, 465)], radius=16, fill=(23, 39, 64), outline=(62, 79, 105), width=2)
@@ -242,8 +258,8 @@ def generate_brand_assets():
     bdraw = ImageDraw.Draw(banner)
     bdraw.rectangle([(0, 0), (12, 396)], fill=RED)
     bdraw.text((75, 72), "CHURN IS DEAD", fill=WHITE, font=load_font(FONT_SERIF_BOLD, 58))
-    bdraw.text((76, 160), "The operating-system publication for Customer Success.", fill=LIGHT_GRAY, font=load_font(FONT_SANS, 27))
-    bdraw.text((76, 235), "One researched argument.  One operating model.  One tool.", fill=WHITE, font=load_font(FONT_SANS_BOLD, 22))
+    bdraw.text((76, 160), "Honest Customer Success thinking for people doing the work.", fill=LIGHT_GRAY, font=load_font(FONT_SANS, 27))
+    bdraw.text((76, 235), "One sharp take.  A practical way forward.  One useful tool.", fill=WHITE, font=load_font(FONT_SANS_BOLD, 22))
     bdraw.rounded_rectangle([(76, 305), (385, 354)], radius=24, fill=RED)
     bdraw.text((104, 320), "NEW ISSUE EVERY TUESDAY", fill=WHITE, font=load_font(FONT_SANS_BOLD, 15))
     banner.save(Path(REPO_ROOT) / "public" / "linkedin-banner.png", "PNG", optimize=True)
