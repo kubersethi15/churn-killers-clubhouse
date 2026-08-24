@@ -135,6 +135,158 @@ This is Claude's ready-to-run queue. It replaces the three-item rolling queue as
 
 **Stop rule:** no paid links, exchanges, bulk directories, generic templates, or requests where Churn Is Dead is not genuinely useful. Stop after six sends and one follow-up per route without a reply or link.
 
+## Expanded growth and engagement queue
+
+These are not writing assignments. They are audience systems. Claim them after
+the first unblocked start-now item, or sooner when the required connected
+surface is available and the higher-priority work is already claimed.
+
+### CG-14: run a conversation-to-framework loop
+
+**Deliverable:** each week, select one recurring public operator debate found
+through CG-01/CG-02. Produce one standalone LinkedIn mini-framework that answers
+the debate, then point to an existing canonical asset only when the post
+explicitly offers that asset. Give the social manager final copy and timing in
+the live Sheet before any post is published.
+
+**Proof:** source discussions, non-duplicative thesis, manager handoff, exact
+campaign label when a route exists, and aggregate qualified visits or replies.
+
+**Stop rule:** no quote-post pile-ons, copied private comments, or artificial
+controversy. One original framework per week maximum.
+
+### CG-15: build a cross-newsletter collaboration lane
+
+**Deliverable:** verify 12 active, complementary newsletters across CS, Product,
+RevOps, SaaS operations, and B2B leadership. Rank four by audience fit and stage
+two distinct swaps, guest notes, or joint-edition proposals. Each proposal must
+give the partner's readers a complete operating idea rather than ask for a
+generic promotion.
+
+**Proof:** current publication evidence, collaboration policy or editor route,
+canonical policy, tailored idea, non-duplicate Gmail check, attribution label,
+and reply or referred-visit outcome.
+
+**Stop rule:** one approach and one follow-up per publication; no list purchase,
+false audience claim, reciprocal praise, or full duplicate that competes with
+the canonical site.
+
+### CG-16: launch a public CS operating-room format
+
+**Deliverable:** design one 30-minute monthly office hour, teardown, or live
+clinic around a single expensive CS decision. Specify the audience, submission
+rules, privacy boundary, run-of-show, useful takeaway, host platform, partner
+distribution route, and one owned subscribe destination. Secure a co-host or
+five explicit attendee commitments before scheduling.
+
+**Proof:** verified demand commitments, live registration route, attendance,
+qualified questions, tagged subscribers, and replay or written recap route.
+
+**Stop rule:** do not schedule an empty webinar, request customer-confidential
+data, or turn the session into a product pitch.
+
+### CG-17: create a practitioner evidence council
+
+**Deliverable:** recruit five experienced CS/Product/RevOps operators who opt in
+to one short evidence-check or problem-ranking request per month. Start with a
+clear participation note, no endorsement expectation, and no private names or
+quotes in Git. Use the council to test whether a proposed issue solves a real
+decision before drafting it.
+
+**Proof:** aggregate acceptances, role mix, decision-ranking response count,
+topics rejected or improved, and credited public contributions only with
+explicit permission.
+
+**Stop rule:** no invented advisory board, testimonial harvesting, unpaid
+ongoing labour expectation, or benchmark claim below the stated response gate.
+
+### CG-18: establish delayed canonical syndication
+
+**Deliverable:** verify current canonical-link and import behaviour on Medium
+and two other relevant publishing surfaces. Select two evergreen archive issues
+with clear owned-site next actions. Prepare a delayed full syndication or a
+substantial native excerpt only where the platform preserves the canonical
+route and the article remains useful in-platform.
+
+**Proof:** first-party platform policy, publication date offset, canonical or
+excerpt strategy, distinct campaign label, live route, qualified visits, and
+subscriber outcome.
+
+**Stop rule:** the website publishes first. Do not spray every issue across
+platforms, create duplicate-index ambiguity, or continue a surface after three
+posts without qualified traffic or meaningful engagement.
+
+### CG-19: build the first original CS pulse study
+
+**Deliverable:** define one five-question pulse around a costly decision already
+recurring in the ledger. Document sampling limits, distribution partners,
+analysis plan, and the practical artifact respondents will receive. Recruit two
+credible distribution partners before launch.
+
+**Proof:** instrument and consent language, partner commitments, response count,
+role mix in aggregate, reproducible analysis, and a public limitations section.
+
+**Stop rule:** no market benchmark, percentage headline, or "research shows"
+claim below 30 qualified responses; do not collect customer names, account data,
+or unnecessary personal fields.
+
+### CG-20: create a reader-to-reader referral partnership
+
+**Deliverable:** identify ten public practitioners, community leads, or
+newsletter operators who have already engaged with the same operating problem.
+Invite no more than three to share one exact free asset when it is genuinely
+useful to their audience, with a source-specific route and no payment or praise
+exchange.
+
+**Proof:** public relevance evidence, individual invitation, attributed visits,
+resource opens, acquired subscribers, and retained status after the mature
+window.
+
+**Stop rule:** no cold bulk outreach, no subscriber identities, no more than one
+follow-up, and stop the route after 20 attributed visits without a qualified
+action.
+
+### CG-21: turn accepted appearances into owned-audience journeys
+
+**Deliverable:** for every accepted podcast, guest article, webinar, or
+community contribution, prepare one audience-specific landing route, one useful
+free tool, a short host-ready description, and a 48-hour follow-up post. Keep
+the contribution valuable even if the audience never clicks.
+
+**Proof:** accepted appearance, exact partner campaign, landing QA, tagged
+visits, resource opens, acquired subscribers, and one follow-up readout.
+
+**Stop rule:** build nothing speculative for an unaccepted pitch and do not use
+generic homepage links when the audience was promised a specific tool.
+
+### CG-22: develop one co-created operating asset
+
+**Deliverable:** when the costly-problem ledger shows one problem across at
+least three independent source classes, recruit one credible practitioner or
+community partner to co-create a small tool. Define contribution, evidence,
+credit, canonical home, partner distribution, revision ownership, and aggregate
+success metric before production.
+
+**Proof:** written scope, source map, approved attribution, usable artifact,
+two-party distribution, qualified opens, acquired subscribers, and post-use
+feedback.
+
+**Stop rule:** no logo collecting, invented co-author contribution, gated PDF,
+or large build before the problem threshold and partner commitment exist.
+
+### CG-23: test a problem-specific subscriber activation path
+
+**Deliverable:** after LOOP-03 reaches its 20-session evidence gate, choose one
+dominant signup problem and test one welcome-path change: a single relevant
+starter tool or reading path. Preserve first-touch attribution and change no
+other welcome variable in the window.
+
+**Proof:** accepted welcome markers, destination clicks, resource opens,
+current-active status at the mature window, minimum sample, and rollback rule.
+
+**Stop rule:** date-gated by LOOP-03. No extra email sequence, behavioural
+profiling, or conclusion below the written evidence threshold.
+
 ## Date-gated execution
 
 | Date | ID | Required action | Aggregate proof |
@@ -147,11 +299,13 @@ This is Claude's ready-to-run queue. It replaces the three-item rolling queue as
 ## Connection order
 
 1. GitHub for claims, branch, PR, tests, and handoff.
-2. LinkedIn for CG-01, CG-02, and CG-07.
-3. Gmail for CG-03, CG-04, CG-11, and replies on Claude-owned new routes.
+2. LinkedIn for CG-01, CG-02, CG-07, CG-14, CG-17, and CG-20.
+3. Gmail for CG-03, CG-04, CG-11, CG-15 to CG-17, and CG-19 to CG-22.
 4. Google Drive and Sheets for the manager calendar, Engagement List, and Growth Partnerships status.
 5. Supabase for aggregate funnel, activation, referral, and retention evidence only.
 6. Search Console for the dated organic reviews.
+7. Platform-native browser sessions for CG-16 and CG-18 only after current
+   rules and duplicate checks are recorded.
 
 Request only the connection needed for the claimed task. Never ask Kuber to paste a password, token, cookie, export, or subscriber list.
 

@@ -39,6 +39,29 @@ const NewsletterDetail = () => {
         }
       ];
     }
+    if (slug === "their-timeline-not-yours") {
+      return [
+        {
+          title: "Timeline Negotiator",
+          description: "A framework for negotiating realistic timelines that build trust with customers and internal stakeholders.",
+          notionLink: "https://www.notion.so/Timeline-Negotiator-1f95d0709c99808e8926eaeff56ef138"
+        }
+      ];
+    }
+    if (slug === "the-perfect-kickoff-call") {
+      return [
+        {
+          title: "Kickoff Re-Discovery Checklist",
+          description: "A tactical checklist to align internally, validate goals, and earn trust before the first customer call.",
+          notionLink: "https://www.notion.so/Kickoff-Re-Discovery-Checklist-1f95d0709c9980cfb35ae653901a6661"
+        },
+        {
+          title: "Kickoff Agenda Blueprint",
+          description: "A tactical agenda to lead high-trust kickoff calls across doers, managers, and executives.",
+          notionLink: "https://www.notion.so/Kickoff-Agenda-Blueprint-1f95d0709c9980e1a233cdd529187a6e"
+        }
+      ];
+    }
     return [];
   };
 

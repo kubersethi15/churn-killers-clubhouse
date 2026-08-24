@@ -1,16 +1,16 @@
 # CG-07: post-to-asset continuity across LinkedIn
 
 **Run:** 24 August 2026, from the signed-in account, read only. Aggregate
-counts only. No viewer, follower or engager identity was inspected or recorded.
+counts only. No viewer, follower or engager identity was recorded. Capture
+ended at approximately 14:45 Sydney.
 
-## Headline
+## Narrow finding
 
-**None of the five most recent posts contains a route to churnisdead.com.**
+**None of the five inspected recent post bodies contains a route to
+churnisdead.com.** This is a post-body audit, not a complete inventory of every
+first comment, attachment or profile surface.
 
-Not a weak route. None. The only outbound links in any post body are company
-mentions of Gainsight and ChurnZero, which route to their pages rather than his.
-
-| # | Post, opening line | Reactions | Comments | Route to owned site |
+| # | Post, opening line | Reactions | Comments | Owned link in body |
 |---|---|---:|---:|---|
 | 1 | "My AI agent told me it had updated six records" | 30 | 14 | none |
 | 2 | "Three numbers from this quarter's CX research" | 16 | 12 | none |
@@ -18,62 +18,40 @@ mentions of Gainsight and ChurnZero, which route to their pages rather than his.
 | 4 | "Every lost account has three people pointing at each other" | 7 | 4 | none |
 | 5 | "Nine mistakes almost every founding CS hire makes" | 39 | 27 | none |
 
-Roughly 112 reactions and 65 comments across the five, and no owned destination
-from any of them.
+The five bodies drew roughly 112 reactions and 65 comments. Those totals show
+attention, but they do not prove how much traffic a link would have produced.
 
-## The gap, with the caveat stated first
+## Attribution limits and routes outside the post body
 
-**The caveat matters more than the ratio.** Site instrumentation began on
-23 August, so first-party data covers about two days, while the Premium figures
-cover seven. These are not the same window and the comparison is indicative
-only.
+Site instrumentation began on 23 August, while the LinkedIn Premium totals
+cover seven days. The windows do not align. Five LinkedIn-tagged site sessions
+is below the 20-action reporting floor, so no conversion rate or causal claim is
+made.
 
-| Source | Figure | Window |
-|---|---:|---|
-| Post impressions (Premium, aggregate) | 3,678 | 7 days |
-| Profile views (Premium, aggregate) | 1,531 | 7 days |
-| Search appearances (Premium, aggregate) | 133 | 7 days |
-| LinkedIn-tagged sessions on site | 5 | ~2 days of data |
+The Premium custom button is not the only standing route. The profile also has
+an untagged Featured website card, and the older QBR post now has a public,
+tracked first-comment route to the Playbook Vault. The first comments and
+attachments on these five inspected posts were not captured consistently
+enough to classify, so the audit cannot call every post a dead end.
 
-Even normalised, the shape is the same: a large amount of attention on LinkedIn
-and a very small number of arrivals. Five sessions is below the 20-action floor,
-so this stays descriptive. No conversion rate is claimed.
+## Defensible next action
 
-The mechanism is not mysterious. The only standing route from LinkedIn to the
-site is the Premium profile button, which is passive: the reader has to leave
-the post, open the profile, and click. Every post is a dead end by default.
+For future posts, decide during authoring whether the post genuinely promises
+an existing resource. If it does, prepare one canonical, campaign-labelled
+route and record whether it belongs in the body or first comment. If it does
+not, publish the post without manufacturing a CTA.
 
-## Top three repair opportunities, ranked
+Post 4 has a close, already-live match in the Churn Attribution Matrix Audit.
+Post 1 may inform the CS Decision Rights Map, but that map is a research
+candidate rather than a confirmed 22 September publication. Neither historical
+post should be edited solely to create a test.
 
-**1. Decide the route at authoring time, for future posts only.**
-Two of the five map onto assets that already exist or are already planned. Post
-4, on everyone blaming each other after a lost account, is the
-`Churn_Attribution_Matrix_Audit` in the vault today. Post 1, on an AI agent
-confidently reporting work it never performed, is the CS Decision Rights Map
-already scheduled for 22 September. The fix is a step in the authoring
-checklist, not a campaign.
+## Metric, review, and stop rule
 
-**2. Do not retrofit calls to action onto the five published posts.**
-None of them promised a resource. Editing them after the fact to add one is
-manufacturing demand, it is explicitly against the sprint stop rule, and on a
-feed it reads as exactly what it is. Recommended action here is deliberately
-nothing.
+After CID-001 closes, activate at most one future, promise-aligned post route
+under its own campaign label. Read aggregate tagged visits, `resource_open`, and
+acquired subscribers. Stay descriptive below 20 tagged visits and do not claim
+an isolated channel effect during an overlapping campaign window.
 
-**3. Treat the profile button as a floor, not the route.**
-It is the correct always-on control and CID-006 will test its destination after
-CID-001 closes. But a passive profile surface cannot carry a channel where the
-attention lives in the feed. This is context for CID-006, not a change to make
-now.
-
-## What this does not recommend
-
-No mass direct messages. No CTA added to any existing post. No change to
-CID-001's surfaces, copy, timing or mix. No gating of any free tool.
-
-## Metric and stop rule
-
-Aggregate only: LinkedIn-tagged sessions, `resource_open`, and acquired
-subscribers by campaign label. **Minimum 20 tagged actions before any rate is
-stated.** Re-read once instrumentation covers a full seven days so the site and
-Premium windows finally align, which is the first point a real comparison
-becomes possible.
+No mass direct messages, retrofitted CTAs, gating, or changes to CID-001 were
+made in this audit.

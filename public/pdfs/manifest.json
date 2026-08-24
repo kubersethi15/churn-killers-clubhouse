@@ -85,9 +85,9 @@
     "description": "Download the Customer Journey Reality Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Customer_Journey_Reality_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": "customer-journey-maps-are-fiction",
-    "newsletter_title": "Your Customer Journey Maps Are Fiction",
-    "published_date": "2026-03-10T08:00:00+00:00"
+    "newsletter_slug": null,
+    "newsletter_title": null,
+    "published_date": null
   },
   {
     "id": "pdf-customer_predictability_audit_churnisdead",
@@ -175,9 +175,9 @@
     "description": "Download the Playbook Problem Solving Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Playbook_Problem_Solving_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": "csms-task-collectors-not-problem-solvers",
-    "newsletter_title": "Your CSMs Are Task Collectors, Not Problem Solvers",
-    "published_date": "2026-03-17T08:00:00+00:00"
+    "newsletter_slug": null,
+    "newsletter_title": null,
+    "published_date": null
   },
   {
     "id": "pdf-playbook_renewal_readiness_audit_churnisdead",
@@ -185,9 +185,9 @@
     "description": "Download the Playbook Renewal Readiness Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Playbook_Renewal_Readiness_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": "renewal-reviews-are-theater",
-    "newsletter_title": "Your Renewal Reviews Are Theater",
-    "published_date": "2026-03-17T08:00:00+00:00"
+    "newsletter_slug": null,
+    "newsletter_title": null,
+    "published_date": null
   },
   {
     "id": "pdf-playbook_work_distribution_audit_churnisdead",
@@ -195,9 +195,9 @@
     "description": "Download the Playbook Work Distribution Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Playbook_Work_Distribution_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": "cs-team-hoarding-work",
-    "newsletter_title": "Your CS Team Is Hoarding Work",
-    "published_date": "2026-03-03T08:00:00+00:00"
+    "newsletter_slug": null,
+    "newsletter_title": null,
+    "published_date": null
   },
   {
     "id": "pdf-revenue_readiness_audit_churnisdead",
@@ -315,8 +315,8 @@
     "description": "Download the Voice Of Customer Reality Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Voice_Of_Customer_Reality_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": "csms-selling-snake-oil",
-    "newsletter_title": "Your CSMs Are Selling You Snake Oil",
-    "published_date": "2026-03-24T08:00:00+00:00"
+    "newsletter_slug": null,
+    "newsletter_title": null,
+    "published_date": null
   }
 ]

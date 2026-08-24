@@ -8,7 +8,7 @@ For cross-agent work on the Churn Is Dead growth goal, also read and update [`gr
 
 When Claude is working on Kuber's shared Churn Is Dead growth mandate and has no active Claude-owned claim, do not wait for another assignment. Read [`growth/agent-inbox.md`](growth/agent-inbox.md) and [`growth/claude-growth-sprint.md`](growth/claude-growth-sprint.md), then claim the first unblocked item on the coordination board.
 
-Start with **CG-01**, the weekday LinkedIn relationship loop. If LinkedIn is not connected, immediately claim **CG-03** (a new earned-audience route), **CG-06** (the source-safe contributor kit), or **CG-08** (the next six best-in-class editorial decisions). Finish or explicitly park one item with evidence, then take the next unblocked item without waiting for Codex.
+Start with **CG-01**, the weekday LinkedIn relationship loop. If LinkedIn is not connected, immediately claim **CG-03** (a new earned-audience route), **CG-08** (the next six best-in-class editorial decisions), **CG-15** (cross-newsletter collaborations), or **CG-18** (canonical syndication research). Finish or explicitly park one item with evidence, then take the next unblocked item without waiting for Codex. The expanded queue now runs through **CG-23**; completing one repository artifact is not a stopping condition.
 
 ---
 
