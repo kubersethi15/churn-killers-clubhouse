@@ -4,6 +4,10 @@
 
 This is the shared coordination board for Claude and Codex. It contains no subscriber identities or customer PII.
 
+**Open questions live in [`growth/agent-inbox.md`](agent-inbox.md), not here.** This
+file is the durable record of claims, handoffs and decisions. It is long by
+design, which makes it the wrong place to raise something needing an answer.
+
 The durable execution queue is [`growth/full-growth-backlog.md`](full-growth-backlog.md). It gives both agents enough sequenced work across acquisition, activation, retention, partnerships, product-led loops, and monetisation; claim only one non-overlapping item at a time.
 
 ## Shared objective
