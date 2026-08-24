@@ -58,6 +58,22 @@ Rows are the complete page table shown for this three-month window, not a sample
 
 Sparse queries can be withheld or partially reported by Search Console. Zero in the filtered report means there is no usable evidence in this surface and window, not proof that nobody searched the phrase.
 
+### CTR candidate diagnostic
+
+The three zero-click candidates were filtered one page at a time on 24 August.
+The disclosed query rows explained only a small fraction of each page's
+impressions. `/newsletters` exposed seven of 57 impressions, `/playbook`
+exposed 19 of 52, and `ai-didnt-kill-customer-success` exposed three of 45.
+The visible rows were branded or unrelated to a defensible public CS-search
+intent. Private-looking long queries were deliberately not copied into this
+repository.
+
+The live titles, descriptions, and canonical URLs were also checked. None had
+a broken or mismatched canonical, and the metadata accurately described the
+surface. Result: no title or description change on 24 August. The evidence is
+too partial to select a useful intent, and changing one now would contaminate
+the clean observation window already scheduled below.
+
 ## Indexing and sitemap evidence
 
 The Page Indexing report, last updated 21 August 2026, showed 16 indexed pages and two pages under `Crawled - currently not indexed`:
@@ -94,7 +110,7 @@ The submitted `/sitemap.xml` was submitted and last read on 24 August 2026 with 
 
 1. **Do not consolidate the health-score archive yet.** There is no query evidence selecting a winner. Keep the curated hub and the five issue URLs intact through the recrawl window.
 2. **Do not declare the internal-link graph successful yet.** Review indexed-page count from 7 September 2026, at least two weeks after the merged graph and successful sitemap read.
-3. **Treat `/newsletters`, `/playbook`, and `ai-didnt-kill-customer-success` as CTR candidates, not proven failures.** Each has at least 20 impressions and zero clicks, but recent crawlability and metadata changes need a clean observation window. Review on 21 September before changing one surface at a time.
+3. **Treat `/newsletters`, `/playbook`, and `ai-didnt-kill-customer-success` as CTR candidates, not proven failures.** Each has at least 20 impressions and zero clicks. A page-filtered review on 24 August found no usable public query-intent evidence and no broken metadata. Review on 21 September before changing one surface at a time.
 4. **Recheck the two crawled-not-indexed pages first.** They now have sitemap and internal-link support. If they remain excluded after the recrawl window, inspect the live canonical, rendered content, duplication and Google-selected canonical before requesting validation.
 5. **Optimize for indexed, qualified entrances before publishing more search pages.** The current bottleneck is archive discovery and useful search demand, not a shortage of URLs.
 
