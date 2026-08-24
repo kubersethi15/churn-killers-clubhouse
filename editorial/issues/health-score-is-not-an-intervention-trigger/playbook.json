@@ -1,0 +1,82 @@
+{
+  "title": "The Intervention Trigger Ledger",
+  "subtitle": "Turn one observed customer change into an action someone can justify and own.",
+  "assessment_mode": "decision_record",
+  "intro_text": "Use this ledger for one recurring alert or leading signal. Connect the raw observation to a customer consequence, define when the condition is meaningful, and pre-assign the response before the next occurrence.",
+  "scoring_note": "Do not total the rows into a health score. Record one trigger, test it in operation, and review false alarms, missed conditions, timing, and ownership.",
+  "closing_quote": "A metric is not a signal. A signal is not a trigger. A trigger connects an observed condition to a pre-agreed response.",
+  "next_action": "Choose one alert that created work in the last month. Review its five most recent occurrences, complete one ledger row, and test the rule on the next occurrence.",
+  "final_record": {
+    "title": "Intervention Trigger Record",
+    "headers": ["Record", "Complete this"],
+    "col_ratios": [0.35, 0.65],
+    "rows": [
+      ["Customer consequence and date", "____________________________________________"],
+      ["Trigger rule and response class", "____________________________________________"],
+      ["First action and rightful owner", "____________________________________________"],
+      ["Reset rule and review date", "____________________________________________"]
+    ]
+  },
+  "interpretation_col_ratios": [0.22, 0.35, 0.43],
+  "interpretation": [
+    ["Response class", "Use when", "Required record"],
+    ["Interrupt", "Delay materially reduces recovery options", "Immediate owner, action, and escalation"],
+    ["Next working day", "The condition matters but current work need not be disrupted", "Owner, due time, and customer question"],
+    ["Monitor", "Evidence is incomplete or movement may be normal", "Next observation, evidence owner, and expiry"],
+    ["Remove", "The alert repeatedly creates no justified action", "Reason, retirement date, and replacement if needed"]
+  ],
+  "sections": [
+    {
+      "title": "Consequence and Observation",
+      "why_it_matters": "Available data is not automatically a customer-relevant signal.",
+      "review_prompt": "What customer commitment or decision could fail, and what can we observe before it does?",
+      "headers": ["Record", "Question", "Evidence"],
+      "col_ratios": [0.25, 0.49, 0.26],
+      "rows": [
+        ["Customer consequence", "What commitment, outcome, or decision is at risk?", "Customer-confirmed record"],
+        ["Consequence date", "When do recovery options materially narrow?", "Confirmed date or expiry"],
+        ["Observable event", "What raw event can be inspected consistently?", "System and field"],
+        ["Evidence cadence", "How often does the source refresh, and who owns its quality?", "Cadence and owner"]
+      ]
+    },
+    {
+      "title": "Baseline and Trigger Rule",
+      "why_it_matters": "Normal variation should not create the same response as consequential movement.",
+      "review_prompt": "What movement, persistence, and context justify action?",
+      "headers": ["Rule element", "Record this", "Quality check"],
+      "col_ratios": [0.24, 0.50, 0.26],
+      "rows": [
+        ["Baseline", "Normal range for this account, use case, segment, or stage", "Enough observations?"],
+        ["Threshold", "Direction and amount of meaningful movement", "Why this level?"],
+        ["Window", "How long the condition must persist", "Too fast or too late?"],
+        ["Disqualifiers", "Known benign conditions to check first", "Visible and testable?"]
+      ]
+    },
+    {
+      "title": "Response and Reset",
+      "why_it_matters": "A trigger is useful only when the first response and decision owner are explicit.",
+      "review_prompt": "What happens when the rule fires, and what clears it?",
+      "headers": ["Record", "Required detail", "Owner or date"],
+      "col_ratios": [0.24, 0.50, 0.26],
+      "rows": [
+        ["Response class", "Interrupt, next working day, or monitor", "Response deadline"],
+        ["First action", "A specific action possible with available evidence", "Action owner"],
+        ["Decision owner", "Person who can resolve the underlying condition", "Role and escalation"],
+        ["Reset rule", "Observed state that closes or downgrades the trigger", "Expiry or review"]
+      ]
+    },
+    {
+      "title": "Operational Review",
+      "why_it_matters": "Trigger quality improves through outcomes, not confidence in the original design.",
+      "review_prompt": "Did the trigger find a consequential condition at a useful time with the right response?",
+      "headers": ["Review", "Record this", "Change"],
+      "col_ratios": [0.24, 0.50, 0.26],
+      "rows": [
+        ["Precision", "Consequential event or benign movement?", "Keep or narrow"],
+        ["Detection time", "Usable recovery time remaining", "Move window or source"],
+        ["Ownership", "Could the assigned person act and decide?", "Change owner or input"],
+        ["Missed condition", "Was risk discovered through another route?", "Add or redesign signal"]
+      ]
+    }
+  ]
+}

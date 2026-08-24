@@ -1,0 +1,12 @@
+{
+  "linkedin": {
+    "status": "approved",
+    "approved_by": "Kuber Sethi",
+    "approved_at": "2026-08-24T13:29:34+10:00"
+  },
+  "medium": {
+    "status": "hold_until_canonical_is_live",
+    "approved_by": null,
+    "approved_at": null
+  }
+}
