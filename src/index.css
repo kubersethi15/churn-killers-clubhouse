@@ -205,8 +205,9 @@
   /* ── EDITORIAL ARTICLE STYLES ── */
   .prose-custom .article-content {
     @apply text-gray-700 leading-relaxed;
-    font-size: 1.0625rem; /* 17px - sweet spot for reading */
-    line-height: 1.75;
+    font-size: 1.125rem;
+    line-height: 1.78;
+    overflow-wrap: anywhere;
   }
 
   .prose-custom .article-content h1 {
@@ -250,8 +251,17 @@
     @apply ml-5 mb-2.5;
   }
 
+  .prose-custom .article-content ul li {
+    list-style: disc;
+  }
+
+  .prose-custom .article-content ol li {
+    list-style: decimal;
+  }
+
   .prose-custom .article-content a {
     @apply text-red-600 font-medium underline decoration-red-200 hover:decoration-red-600 transition-colors;
+    word-break: break-word;
   }
 
   /* CTA buttons in newsletter content */
@@ -266,4 +276,10 @@
   .policy-content p + p {
     @apply mt-4;
   }
+}
+
+@media print {
+  @page { margin: 14mm; }
+  body { color: #111a2c; }
+  textarea { resize: none; overflow: visible; }
 }

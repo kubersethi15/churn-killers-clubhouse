@@ -14,7 +14,7 @@ const STANDARDS = [
   {
     number: "02",
     title: "A human owns every issue",
-    body: "Codex can support research, evidence mapping, structure, and production. Kuber reviews and approves the argument, the claims, the playbook, and the final public copy before publication.",
+    body: "Kuber is the named author and remains accountable for the editorial position. Research and production tools can support the work, but they do not supply personal experience or become the author.",
   },
   {
     number: "03",
@@ -23,11 +23,16 @@ const STANDARDS = [
   },
   {
     number: "04",
+    title: "Methodology is visible",
+    body: "Current-standard issues end with Sources and methodology. The section names the evidence used, the limits of the evidence, and which parts of the framework are original Churn Is Dead proposals.",
+  },
+  {
+    number: "05",
     title: "The website is canonical",
     body: "Churn Is Dead publishes here first. LinkedIn and Medium versions are optional adaptations. They point back to the original and do not change the evidence or conclusion.",
   },
   {
-    number: "05",
+    number: "06",
     title: "Corrections stay visible",
     body: "If a material fact, source, or conclusion changes, the article is corrected and a dated note explains what changed. Quiet edits are reserved for spelling and formatting.",
   },

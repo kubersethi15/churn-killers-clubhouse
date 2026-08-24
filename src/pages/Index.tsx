@@ -11,11 +11,19 @@ import { isPreviewMode } from "@/utils/preview";
 import { formatContent as formatNewsletterContent } from "@/utils/formatUtils";
 import NewsletterForm from "@/components/NewsletterForm";
 import { topicHubs } from "@/data/topicHubs";
+import OperatingSystemPreview from "@/components/OperatingSystemPreview";
 
 // Real reader quotes ONLY. The "What readers say" section renders nothing while
 // this list is empty. Add entries as {quote, name, role} when readers give
 // permission to be quoted. Never add invented testimonials.
 const TESTIMONIALS: { quote: string; name: string; role: string }[] = [];
+
+const FEATURED_REFRESH = {
+  title: "Digital CS Is Not Coverage Until Someone Owns the Silence",
+  excerpt: "Replace send volume and login counts with a Silence Ledger that shows who was reached, who responded, what changed, and when a human must step in.",
+  category: "Operating Systems",
+  read_time: "8 min read",
+};
 
 type Newsletter = {
   id: string;
@@ -70,7 +78,8 @@ const Index = () => {
         }
 
         if (data && data.length > 0) {
-          setLatestNewsletter(data[0] as Newsletter);
+          const first = data[0] as Newsletter;
+          setLatestNewsletter(first.slug === "digital-cs-coverage-silence" ? { ...first, ...FEATURED_REFRESH } : first);
           setRecentNewsletters(data.slice(1) as Newsletter[]);
         }
       } catch (error) {
@@ -93,34 +102,23 @@ const Index = () => {
       <main id="main-content">
       
       {/* ── HERO ── */}
-      <section className="pt-28 pb-16 md:pt-36 md:pb-24 bg-navy-dark text-white relative overflow-hidden">
+      <section className="relative overflow-hidden bg-navy-dark pb-16 pt-28 text-white md:pb-24 md:pt-36">
         {/* Subtle grain texture */}
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'1\'/%3E%3C/svg%3E")' }} />
         
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="max-w-2xl mx-auto text-center">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm mb-5 text-sm text-gray-300">
-              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-              New issue every Tuesday
-            </div>
-
-            <p className="mb-7 text-xs font-bold uppercase tracking-[0.2em] text-red-400">
-              Evidence-led operating systems for enterprise Customer Success
-            </p>
-
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-black mb-6 leading-[1.05] tracking-tight">
-              The CS newsletter<br />
-              that doesn't<br />
-              <span className="text-red-500 italic">sugarcoat it.</span>
-            </h1>
-            
-            <p className="text-lg md:text-xl text-gray-300 mb-10 max-w-lg mx-auto leading-relaxed">
-              Frameworks, hard truths, and tactical plays for CS leaders who'd rather drive outcomes than manage vibes.
-            </p>
-            
-            {/* Subscribe form inline */}
-            <div className="max-w-md mx-auto">
+        <div className="container relative z-10 mx-auto px-4 md:px-6">
+          <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
+            <div>
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1.5 text-sm text-gray-300 backdrop-blur-sm">
+                <span className="h-2 w-2 rounded-full bg-red-500 motion-safe:animate-pulse" />
+                New issue every Tuesday
+              </div>
+              <p className="mb-6 text-xs font-bold uppercase tracking-[0.2em] text-red-400">Evidence-led operating systems for Customer Success</p>
+              <h1 className="font-serif text-4xl font-black leading-[1.02] tracking-tight md:text-6xl lg:text-7xl">
+                The CS newsletter that doesn't <span className="text-red-500 italic">sugarcoat it.</span>
+              </h1>
+              <p className="mb-8 mt-6 max-w-xl text-lg leading-relaxed text-gray-300 md:text-xl">Every Tuesday: one researched argument, one operating model, and one tool you can run with your team.</p>
+              <div className="max-w-md">
               <NewsletterForm 
                 location="hero" 
                 buttonVariant="vibrant-red"
@@ -128,21 +126,41 @@ const Index = () => {
                 buttonText="Subscribe"
                 subscribeText=""
               />
-              <p className="text-sm text-gray-300 mt-4 font-medium">Read by enterprise CS operators every Tuesday.</p>
-              <p className="text-xs text-gray-400 mt-2">Free. The full Playbook Vault is open to everyone.</p>
+                <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+                  <p className="text-xs text-gray-400">Free. Core playbooks stay open.</p>
+                  <Link to="/start" className="inline-flex items-center gap-1.5 text-xs font-semibold text-white hover:text-red-300">See the 60-second path <ArrowRight className="h-3.5 w-3.5" /></Link>
+                </div>
+              </div>
             </div>
+            <OperatingSystemPreview />
           </div>
         </div>
       </section>
 
       <section aria-label="Publication facts" className="border-b border-gray-200 bg-cream/40">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="mx-auto grid max-w-3xl grid-cols-3 divide-x divide-gray-200 py-6 text-center">
+          <div className="mx-auto grid max-w-5xl grid-cols-2 divide-x divide-y divide-gray-200 py-6 text-center md:grid-cols-4 md:divide-y-0">
+            <div className="px-2 pb-4 md:pb-0"><strong className="block text-xl font-serif text-navy-dark">10+ years</strong><span className="text-xs text-gray-600">operating in CS</span></div>
             <div className="px-2"><strong className="block text-xl font-serif text-navy-dark">40+</strong><span className="text-xs text-gray-600">published issues</span></div>
-            <div className="px-2"><strong className="block text-xl font-serif text-navy-dark">Tuesday</strong><span className="text-xs text-gray-600">weekly cadence</span></div>
-            <div className="px-2"><strong className="block text-xl font-serif text-navy-dark">Free</strong><span className="text-xs text-gray-600">tools &amp; playbooks</span></div>
+            <div className="px-2 pt-4 md:pt-0"><strong className="block text-xl font-serif text-navy-dark">32</strong><span className="text-xs text-gray-600">practical tools</span></div>
+            <div className="px-2 pt-4 md:pt-0"><strong className="block text-xl font-serif text-navy-dark">~8,200</strong><span className="text-xs text-gray-600">LinkedIn followers</span></div>
           </div>
         </div>
+      </section>
+
+      <section className="border-b border-gray-100 bg-white py-12 md:py-16">
+        <div className="container mx-auto px-4 md:px-6"><div className="mx-auto max-w-5xl">
+          <p className="mb-6 text-[10px] font-bold uppercase tracking-[0.22em] text-red-600">Choose your route in</p>
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              ["I run accounts", "For ICs who need the next customer decision, not another generic best practice.", "/start#run-accounts"],
+              ["I lead the function", "For leaders building evidence, cadence, role clarity, and commercial credibility.", "/start#lead-function"],
+              ["I am moving into leadership", "For ambitious operators learning how senior CS decisions are actually made.", "/start#move-into-leadership"],
+            ].map(([title, copy, href], index) => (
+              <Link key={title} to={href} className="group rounded-2xl border border-gray-200 p-5 transition-all hover:-translate-y-0.5 hover:border-red-300 hover:shadow-sm"><span className="font-serif text-xl font-black text-red-600">0{index + 1}</span><h2 className="mt-4 font-sans text-base font-bold text-navy-dark group-hover:text-red-600">{title}</h2><p className="mt-2 text-sm leading-relaxed text-gray-600">{copy}</p></Link>
+            ))}
+          </div>
+        </div></div>
       </section>
 
       {/* ── LATEST ISSUE (The Star) ── */}
@@ -362,7 +380,7 @@ const Index = () => {
                 buttonText="Subscribe"
                 subscribeText=""
               />
-              <p className="text-sm text-gray-400 mt-4">Free every Tuesday, with access to the full Playbook Vault.</p>
+              <p className="text-sm text-gray-400 mt-4">The weekly issue and core playbooks remain free.</p>
             </div>
           </div>
         </div>
