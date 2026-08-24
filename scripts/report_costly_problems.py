@@ -1,22 +1,38 @@
-"""Aggregate costly-problem ledger (CG-09).
+"""Aggregate costly-problem ledger (CG-09), corrected under BC-01.
 
-Implements the smallest ledger the monetization evidence plan allows. It counts
-independent aggregate signals per problem so Gate 1, "one problem repeats
-across at least two independent signals", can be judged from evidence instead of
-from a hunch about which post did well.
+Corrections to the first version (PR #90):
 
-What it deliberately does not do
---------------------------------
-No identity, no reply text, no email, no viewer or engager data. Nothing here
-can answer "who". It answers "which problem, how often, from how many
-independent directions".
+1. Session deduplication. A problem's weight is unique sessions, not raw
+   events. One reader refreshing a page five times is one session, not five.
 
-It also makes no offer recommendation. Gate 0 requires a complete seven-day
-Tuesday baseline, and until CID-001 closes the correct output is a count and a
-blocked status.
+2. Correct source classes. Site visits and Vault opens are both first-party
+   on-site behaviour, so they are ONE class, not two. The earlier version
+   counted them as two independent classes, which let a single behaviour trip
+   Gate 1's "two independent signals" rule on its own. That was wrong. A genuine
+   second class must come from a different surface: LinkedIn engagement,
+   approved reply themes, reader-pulse responses, or CS Analyzer demo
+   behaviour, all entered by hand.
 
-Problem taxonomy is the five existing topic hubs. Inventing a second taxonomy
-would make the ledger disagree with the site.
+3. Resource-id mapping. `pdf-*`, `topic:*` and `topic-tool:*` identifiers all
+   map to a problem. Only `topic:*` carries data today; the other two are
+   handled for when they do.
+
+4. No conclusion uses pre-fix rows. `growth_events` was contaminated by agent
+   preview traffic before the host guard in #90 (see below). The report reads a
+   `clean_from` cutoff from `growth_measurement_state` and ignores everything
+   before it. With no cutoff recorded, it reports nothing and says why.
+
+What can and cannot be claimed about the contamination, precisely:
+  - Verified: `trackGrowthEvent` wrote from any production build including
+    localhost `vite preview`, and the table grew from 353 to 572 rows during a
+    single agent working session.
+  - Not verified, and not claimable: exactly which rows are agent versus reader.
+    No host or environment field exists on the row. Real production traffic
+    before the cutoff is valid but not separable from agent traffic, so the
+    whole pre-cutoff window is set aside rather than any row being labelled.
+
+Aggregate only. No identity, no reply text, no email. Answers which problem and
+how often, never who.
 
 Usage:
   SUPABASE_SERVICE_KEY=... python3 scripts/report_costly_problems.py
@@ -30,6 +46,7 @@ import sys
 import urllib.error
 import urllib.request
 from collections import defaultdict
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -40,10 +57,93 @@ MANIFEST = REPO_ROOT / "public" / "pdfs" / "manifest.json"
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://xtwxemlxzbnadkkrvozr.supabase.co")
 KEY = os.environ.get("SUPABASE_SERVICE_KEY") or os.environ.get("SUPABASE_ANON_KEY")
 
-# Gate 1: a problem advances only on two independent signal classes.
-GATE_1_SIGNAL_CLASSES = 2
-# Within a class, this many events before the class counts as present at all.
-MIN_EVENTS_PER_CLASS = 3
+GATE_1_INDEPENDENT_CLASSES = 2
+MIN_SESSIONS_PER_CLASS = 3
+CLEAN_DAYS_REQUIRED = 7
+
+
+def _parse_ts(value: object) -> datetime | None:
+    try:
+        dt = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    except (ValueError, TypeError):
+        return None
+    return dt.replace(tzinfo=timezone.utc) if dt.tzinfo is None else dt
+
+
+def problem_for(row: dict, hub_of_issue: dict, hub_of_resource: dict) -> str | None:
+    """Map one event to a problem (topic hub), or None."""
+    rid = str(row.get("resource_id") or "")
+    if rid.startswith("topic:") or rid.startswith("topic-tool:"):
+        return rid.split(":", 1)[1] or None
+    if rid.startswith("pdf-") or rid.startswith("/pdfs/"):
+        hit = hub_of_resource.get(rid)
+        if hit:
+            return hit
+    slug = row.get("content_slug") or ""
+    if slug and hub_of_issue.get(slug):
+        return hub_of_issue[slug]
+    path = row.get("page_path") or ""
+    for issue_slug, hub in hub_of_issue.items():
+        if issue_slug and issue_slug in path:
+            return hub
+    if path.startswith("/topics/"):
+        return path.split("/topics/", 1)[1].split("/")[0] or None
+    return None
+
+
+def summarise(
+    events: list[dict],
+    hub_of_issue: dict,
+    hub_of_resource: dict,
+    clean_from: datetime | None,
+    now: datetime,
+) -> dict:
+    """Pure core. Deterministic given its inputs, so it is directly testable."""
+    kept, dropped = [], 0
+    for row in events:
+        ts = _parse_ts(row.get("created_at"))
+        if clean_from is not None and (ts is None or ts < clean_from):
+            dropped += 1
+            continue
+        kept.append(row)
+
+    # sessions per (source class, problem). site + vault are ONE class.
+    onsite_sessions: dict[str, set] = defaultdict(set)
+    for row in kept:
+        problem = problem_for(row, hub_of_issue, hub_of_resource)
+        if not problem:
+            continue
+        sid = row.get("session_id")
+        if sid:
+            onsite_sessions[problem].add(sid)
+
+    problems = sorted({h for h in hub_of_issue.values() if h})
+    rows = []
+    for p in problems:
+        onsite = len(onsite_sessions.get(p, set()))
+        classes = 1 if onsite >= MIN_SESSIONS_PER_CLASS else 0
+        rows.append({"problem": p, "onsite_sessions": onsite, "independent_classes": classes})
+
+    clean_days = None
+    if clean_from is not None:
+        clean_days = (now - clean_from).total_seconds() / 86400.0
+
+    gate0_met = (
+        clean_from is not None
+        and clean_days is not None
+        and clean_days >= CLEAN_DAYS_REQUIRED
+    )
+    return {
+        "kept": len(kept),
+        "dropped_pre_cutoff": dropped,
+        "clean_from": clean_from.isoformat() if clean_from else None,
+        "clean_days": round(clean_days, 2) if clean_days is not None else None,
+        "gate0_data_trustworthy": gate0_met,
+        "rows": rows,
+        # A problem needs the on-site class PLUS a second independent class,
+        # which lives only in the manual sources, so on-site alone never reaches 2.
+        "gate1_candidates_onsite": [r["problem"] for r in rows if r["independent_classes"] >= 1],
+    }
 
 
 def fetch(path: str) -> list[dict]:
@@ -68,81 +168,52 @@ def fetch(path: str) -> list[dict]:
 def main() -> int:
     hub_of_issue = load_hub_membership()
     manifest = json.loads(MANIFEST.read_text()) if MANIFEST.exists() else []
-    hub_of_pdf = {
-        e["pdf_path"]: hub_of_issue.get(e.get("newsletter_slug") or "")
-        for e in manifest
-    }
+    hub_of_resource = {}
+    for e in manifest:
+        hub = hub_of_issue.get(e.get("newsletter_slug") or "")
+        if hub:
+            hub_of_resource[e["pdf_path"]] = hub
+            hub_of_resource[e["id"]] = hub
+
+    state = fetch("growth_measurement_state?select=metric,tracked_from")
+    clean_from = None
+    for r in state:
+        if r.get("metric") == "growth_events_clean_from":
+            clean_from = _parse_ts(r.get("tracked_from"))
 
     events = fetch(
-        "growth_events?select=event_name,page_path,content_slug,resource_id,created_at"
-        "&order=created_at.desc&limit=5000"
+        "growth_events?select=event_name,page_path,content_slug,resource_id,"
+        "session_id,created_at&order=created_at.desc&limit=5000"
     )
 
-    # signal class -> problem -> count. Classes must be independent of each other.
-    signals: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
-
-    for row in events:
-        name = (row.get("event_name") or "").lower()
-        slug = row.get("content_slug") or ""
-        path = row.get("page_path") or ""
-        hub = hub_of_issue.get(slug)
-        if not hub:
-            for issue_slug, h in hub_of_issue.items():
-                if issue_slug and issue_slug in path:
-                    hub = h
-                    break
-        if name == "resource_open":
-            rid = str(row.get("resource_id") or "")
-            hub = hub or hub_of_pdf.get(rid) or hub_of_pdf.get(f"/pdfs/{rid}")
-            if hub:
-                signals["vault_open"][hub] += 1
-        elif hub:
-            signals["site_visit"][hub] += 1
-
-    hubs = sorted({h for h in hub_of_issue.values() if h})
+    # now() is unavailable to workflow scripts but fine here; stamp once.
+    now = datetime.now(timezone.utc)
+    summary = summarise(events, hub_of_issue, hub_of_resource, clean_from, now)
 
     print("Costly-problem ledger")
-    print("=" * 62)
-    print()
-    print("GATE 0: measurement trustworthy    NOT MET")
-    print("  The seven-day Tuesday baseline (CID-001) closes 1 September 2026.")
-    print("  No commercial research request may be raised before then.")
-    print()
-    print(f"{'problem (topic hub)':32} {'site':>6} {'vault':>6} {'classes':>8}")
-    print("-" * 62)
-    advanced = []
-    for hub in hubs:
-        site = signals["site_visit"].get(hub, 0)
-        vault = signals["vault_open"].get(hub, 0)
-        classes = sum(1 for v in (site, vault) if v >= MIN_EVENTS_PER_CLASS)
-        print(f"{hub:32} {site:>6} {vault:>6} {classes:>8}")
-        if classes >= GATE_1_SIGNAL_CLASSES:
-            advanced.append(hub)
+    print("=" * 60)
+    if clean_from is None:
+        print("\nGATE 0: NO clean_from recorded in growth_measurement_state.")
+        print("Reporting nothing. Record growth_events_clean_from first, after")
+        print("PR #90 is confirmed deployed. Migration is in this branch.")
+        return 0
 
+    print(f"\nclean_from: {summary['clean_from']}  ({summary['clean_days']} clean days)")
+    print(f"rows kept: {summary['kept']}   dropped before cutoff: {summary['dropped_pre_cutoff']}")
+    print(f"GATE 0 (>= {CLEAN_DAYS_REQUIRED} clean days): "
+          f"{'MET' if summary['gate0_data_trustworthy'] else 'NOT MET'}")
     print()
-    print("MANUAL CLASSES (aggregate only, enter from the source, never identities)")
-    for label in (
-        "LinkedIn engagement by problem",
-        "Approved reply themes by problem",
-        "Reader-pulse responses by problem",
-        "CS Analyzer demo behaviour by problem",
-    ):
-        print(f"  {label:44} ____")
-    print()
-    print("  These are independent of the two automated classes above, which is the")
-    print("  point: Gate 1 needs independence, not volume from one surface.")
-    print()
+    print(f"{'problem (topic hub)':32} {'sessions':>9} {'onsite class':>13}")
+    print("-" * 60)
+    for r in summary["rows"]:
+        print(f"{r['problem']:32} {r['onsite_sessions']:>9} {r['independent_classes']:>13}")
 
-    if advanced:
-        print(f"GATE 1 candidates ({GATE_1_SIGNAL_CLASSES}+ independent classes): {', '.join(advanced)}")
-        print("  Still blocked by Gate 0. Record only; do not open research.")
-    else:
-        print("GATE 1: no problem yet appears in two independent automated classes.")
-        print("  Expected. Instrumentation began 23 August 2026.")
+    print("\nSECOND CLASS is required for Gate 1 and lives only in manual sources")
+    print("(LinkedIn, approved replies, reader-pulse, Analyzer demo). On-site")
+    print("behaviour is one class; it cannot satisfy the two-class rule alone.")
 
-    print()
-    print("Review cadence: weekly, after the Tuesday readout. Advance a problem only")
-    print("on evidence, never on one strong post.")
+    if not summary["gate0_data_trustworthy"]:
+        print("\nGate 0 not yet met. Counts only, no problem advances.")
     return 0
 
 
