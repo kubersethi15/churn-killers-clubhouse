@@ -26,6 +26,51 @@ Churn Is Dead
 
 https://churnisdead.com/
 
+## SuccessCOACHING: CS Mastermind panel
+
+**Status:** Prepared 24 August 2026. Not sent. The current first-party events
+calendar lists `The Future of Subscription Models: Preparing for Outcome-Based
+Pricing` for 16 September 2026 and describes a three-practitioner live panel.
+No existing Gmail thread was found for SuccessCOACHING, Andrew Marks, or Kristi
+Faltorusso. The only current first-party general address verified was
+`hello@successcoaching.co`; use it once, do not guess a host address, and do not
+follow up more than once.
+
+**Subject:** Sep 16 panel idea: outcome pricing needs an evidence contract
+
+Hi SuccessCOACHING team,
+
+Your September 16 CS Mastermind on outcome-based pricing is tackling the point
+where many value conversations become commercially fragile: teams attach terms
+to an “outcome” before agreeing who will measure it, what evidence counts, and
+when the customer will acknowledge it.
+
+I publish Churn Is Dead, an evidence-led set of operating systems for Customer
+Success leaders. I could contribute one practical artifact to the panel: a
+Renewal Evidence Packet that separates the customer outcome, agreed evidence
+source, customer acknowledgement, commercial state, decision path, and next
+proof gap.
+
+A useful discussion could cover:
+
+1. why product usage is not automatically outcome evidence;
+2. how to define acceptable proof before pricing is exposed to it;
+3. what belongs to CS, Finance, Product, and the customer in that evidence
+   chain;
+4. what to do when the outcome is real but attribution is disputed.
+
+The audience would leave with a compact evidence structure they can apply to
+one outcome-based commercial conversation. I am happy to keep it practical and
+non-promotional, and to send the one-page artifact in advance.
+
+Would this be useful for the September panel or a later CS Mastermind?
+
+Kuber Sethi
+
+Churn Is Dead
+
+https://churnisdead.com/
+
 ## Customer Success Collective: podcast
 
 **To:** contribute@customersuccesscollective.com
