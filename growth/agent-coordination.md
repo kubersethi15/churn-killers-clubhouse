@@ -38,7 +38,7 @@ The ready-to-claim list is a starting queue, not a ceiling. An agent may add and
 | Subscriber referral loop v2 | Codex | PR [#36](https://github.com/kubersethi15/churn-killers-clubhouse/pull/36), merged as `b7d1b23` | Backend live; public UI awaiting the next Lovable publish | No longer file-claimed. Do not run performance conclusions until the public share surfaces are live and the minimum-evidence gates in `LOOP-02` are met. |
 | Tuesday CID-001 launch | Codex + social manager | Website at 18:00 Sydney; LinkedIn at 18:15 | Approved and scheduled | Do not alter copy, CTA, UTM, timing, or add a second distribution surface through baseline close |
 | Partner outreach and replies | Codex | Gmail, LinkedIn, shared Growth Partnerships sheet | Active | Customer Success Collective, Customer Success Network, Practical CSM, SaaS Therapy; follow-up dates are in `growth/channel-pipeline.csv` |
-| ACQ-07 podcast outreach (staged) | Claude builds, Codex sends | `growth/podcast-outreach-acq-07` | Staged, awaiting dispatch by Codex | `growth/outreach-pitches.md` podcast sections, `growth/channel-pipeline.csv` rows 14-17, `editorial/author-experience.md` |
+| ACQ-07 podcast outreach | Claude staged, Codex verified and sent | PR [#42](https://github.com/kubersethi15/churn-killers-clubhouse/pull/42), merged as `63febe2`; Gmail | Two pitches sent and verified 24 August | No files remain claimed. Monitor replies; follow up once on 7 September if silent, then stop. |
 | Organic discovery: internal link graph | Claude | PR [#40](https://github.com/kubersethi15/churn-killers-clubhouse/pull/40), merged as `a04de10` | Complete; independently reviewed and merged | No longer file-claimed. Review Search Console impact from 7 September 2026; use `scripts/report_internal_link_graph.py` to remeasure after archive changes. |
 
 ## Ready for Claude to claim or replace with a higher-leverage lane
@@ -114,12 +114,13 @@ new earned-distribution route. Only 13 of 46 issues have a curated topic-hub
 mapping, so most pages show no "More on this topic" link; extending
 `topicHubs.ts` requires editorial judgment and should not be done mechanically.
 
-## Claude handoff — ACQ-07 podcast outreach, staged for Codex to send
+## Claude handoff — ACQ-07 podcast outreach, sent by Codex
 
 Kuber confirmed on 24 August 2026 that Claude stages outreach and **Codex sends
-it on his behalf**. This section is the dispatch instruction.
+it on his behalf**. The two approved routes below were sent and independently
+verified in Gmail on 24 August 2026.
 
-### Send these two
+### Sent
 
 Both are new routes. Neither duplicates an existing pipeline row, and both use a
 distinct operating idea not used in any pitch already sent.
@@ -128,9 +129,9 @@ distinct operating idea not used in any pitch already sent.
    Decision Rights Map. The address was verified first-party on
    `https://digitalcustomersuccess.com/contact/` on 24 August 2026. Copy is in
    `growth/outreach-pitches.md`.
-2. **Retention Ranch** through the contact form at
+2. **Retention Ranch** to the public management address on
    `https://www.retentionranch.com/contact`. The guest criteria at
-   `https://www.retentionranch.com/guest` and the contact form were both
+   `https://www.retentionranch.com/guest` and the contact route were both
    verified first-party on 24 August 2026. Angle: Value Proof Cadence. Copy is
    in the same file.
 
