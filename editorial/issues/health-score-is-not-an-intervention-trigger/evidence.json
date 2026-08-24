@@ -1,0 +1,42 @@
+[
+  {
+    "id": "E01",
+    "claim": "NIST describes control charts as comparisons of a current process characteristic with an in-control baseline over time. Control limits determine the risk of investigating variation when no assignable cause exists, and a point outside the limits warrants investigation rather than proving a specific cause.",
+    "source_title": "What are Control Charts?",
+    "url": "https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc31.htm",
+    "publisher": "National Institute of Standards and Technology",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-24",
+    "notes": "Used for the general discipline of comparing current movement with a baseline and acknowledging false-alarm risk. The issue does not claim that irregular, low-volume customer activity satisfies statistical process-control assumptions or prescribe three-sigma limits for CS."
+  },
+  {
+    "id": "E02",
+    "claim": "Google SRE distinguishes a user-visible symptom from its possible cause and recommends that urgent alerts be actionable, require human judgment, and avoid conditions that can safely be ignored. Its Bigtable example describes excessive alerts consuming triage time while obscuring user-impacting problems.",
+    "source_title": "Monitoring Distributed Systems",
+    "url": "https://sre.google/sre-book/monitoring-distributed-systems/",
+    "publisher": "Google Site Reliability Engineering",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-24",
+    "notes": "Applied as an analogy for CS intervention design. Customer relationships are not software services, and paging practices are not copied directly."
+  },
+  {
+    "id": "E03",
+    "claim": "Google's SRE Workbook evaluates alert strategies through precision, recall, detection time, and reset time. It shows how short windows can produce low precision, how longer or multiple windows change trade-offs, and why low-volume systems require impact-aware treatment because a single event can appear disproportionately severe.",
+    "source_title": "Alerting on SLOs",
+    "url": "https://sre.google/workbook/alerting-on-slos/",
+    "publisher": "Google Site Reliability Engineering",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-24",
+    "notes": "The issue borrows the evaluation questions, not Google's SLO formulas or recommended engineering thresholds. CS account signals are often too sparse and heterogeneous for those parameters."
+  },
+  {
+    "id": "E04",
+    "claim": "GitLab's public product-usage playbooks pair specific product metrics with explicit timing or movement triggers and discovery questions. The guidance also notes that a usage drop can have a benign explanation, so the CSM should investigate the customer's reason rather than treating the metric as a diagnosis.",
+    "source_title": "Product usage playbooks with usage metrics",
+    "url": "https://handbook.gitlab.com/handbook/customer-success/product-usage-data/metrics-based-playbooks/",
+    "publisher": "GitLab",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-08-24",
+    "notes": "Used as one transparent company example of metric, trigger, timing, and discovery being connected. GitLab's numeric thresholds are product-specific and are not proposed as CS benchmarks."
+  }
+]

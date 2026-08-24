@@ -1,0 +1,20 @@
+{
+  "title": "A Health Score Is Not an Intervention Trigger",
+  "slug": "health-score-is-not-an-intervention-trigger",
+  "excerpt": "Replace noisy account alerts with an explicit rule that connects observed change, customer consequence, evidence quality, and a response someone can actually own.",
+  "category": "Measurement",
+  "theme": "decision_grade_measurement",
+  "format": "measurement",
+  "primary_goal": "Help CS leaders decide which leading account signal justifies intervention before a composite health score changes.",
+  "primary_cta": "Define one account intervention in the Intervention Trigger Ledger.",
+  "read_time": "8 min read",
+  "published_date": "2026-09-15T08:00:00+00:00",
+  "pdf_filename": "Intervention_Trigger_Ledger_ChurnIsDead.pdf",
+  "playbook_title": "The Intervention Trigger Ledger",
+  "playbook_description": "A practical record for turning one observed customer change into a bounded, actionable and reviewable intervention rule.",
+  "subject_variants": [
+    {"label": "framework", "subject": "The Intervention Trigger Ledger"},
+    {"label": "problem", "subject": "Your health score changed. Now what?"},
+    {"label": "outcome", "subject": "Only alert CS when the action is clear"}
+  ]
+}

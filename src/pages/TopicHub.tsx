@@ -16,7 +16,7 @@ const TopicHub = () => {
     if (!topic) return;
     applyRouteSeo({
       title: `${topic.title} | Churn Is Dead`,
-      description: `${topic.description} Explore three practical issues and one operating tool for experienced Customer Success leaders.`,
+      description: `${topic.description} Explore practical issues and one operating tool for experienced Customer Success leaders.`,
       path: `/topics/${topic.slug}`,
     });
     void trackGrowthEvent({ eventName: "resource_open", resourceId: `topic:${topic.slug}` });

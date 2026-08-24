@@ -181,6 +181,12 @@ export const topicHubs: TopicHub[] = [
     ],
     reads: [
       {
+        slug: "health-score-is-not-an-intervention-trigger",
+        title: "A Health Score Is Not an Intervention Trigger",
+        description: "Turn one observed customer change into a bounded intervention rule with an owner, response, and reset condition.",
+        availableFrom: "2026-09-15T08:00:00+00:00",
+      },
+      {
         slug: "case-against-customer-health-scores",
         title: "The Case Against Customer Health Scores",
         description: "Diagnose why blended scores create confidence without identifying the intervention the account needs.",
