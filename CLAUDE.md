@@ -2,6 +2,8 @@
 
 This is Kuber Sethi's repo for [churnisdead.com](https://churnisdead.com) — the **Churn Is Dead** newsletter and the **CS Analyzer** product. Read this first before touching anything.
 
+For cross-agent work on the Churn Is Dead growth goal, also read and update [`growth/agent-coordination.md`](growth/agent-coordination.md). Claim a workstream there before editing so Claude and Codex do not duplicate work or overwrite each other.
+
 ---
 
 ## The vision (for the CS Analyzer)

@@ -100,6 +100,10 @@ serve(async (req: Request): Promise<Response> => {
     const startUrl = "https://churnisdead.com/start?utm_source=welcome&utm_medium=email&utm_campaign=starter_kit";
     const vaultUrl = "https://churnisdead.com/playbook?utm_source=welcome&utm_medium=email&utm_campaign=starter_kit";
     const diagnosticUrl = "https://churnisdead.com/ai-exposure-score?utm_source=welcome&utm_medium=email&utm_campaign=starter_kit";
+    const referralBaseUrl = "https://churnisdead.com/start?utm_source=subscriber_referral&utm_medium=share&utm_campaign=welcome_starter_kit";
+    const linkedinReferralUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${referralBaseUrl}&utm_content=welcome_linkedin`)}`;
+    const textReferralUrl = `${referralBaseUrl}&utm_content=welcome_forward`;
+    const emailReferralUrl = `mailto:?subject=${encodeURIComponent("A useful Customer Success operating resource")}&body=${encodeURIComponent(`Churn Is Dead publishes one evidence-led Customer Success operating system and practical playbook every Tuesday. Start here: ${referralBaseUrl}&utm_content=welcome_email`)}`;
 
     const response = await resend.emails.send({
       from: "Kuber at Churn Is Dead <newsletter@churnisdead.com>",
@@ -111,7 +115,7 @@ serve(async (req: Request): Promise<Response> => {
         "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
         "Precedence": "bulk",
       },
-      text: `You're on the Churn Is Dead Tuesday list.\n\nStart with the operating problem on your desk: ${startUrl}\nBrowse the Playbook Vault: ${vaultUrl}\nTake the directional AI Exposure Score: ${diagnosticUrl}\n\nReply and tell me: what is the hardest CS decision your team is making this quarter?\n\nKuber\n\nUnsubscribe: ${unsubscribeUrl}`,
+      text: `You're on the Churn Is Dead Tuesday list.\n\nStart with the operating problem on your desk: ${startUrl}\nBrowse the Playbook Vault: ${vaultUrl}\nTake the directional AI Exposure Score: ${diagnosticUrl}\n\nReply and tell me: what is the hardest CS decision your team is making this quarter?\n\nKnow one CS operator facing the same problem? Forward this email and keep this starting-point link in it: ${textReferralUrl}\n\nKuber\n\nUnsubscribe: ${unsubscribeUrl}`,
       html: `
         <div style="font-family:Inter,Arial,sans-serif;max-width:600px;margin:0 auto;padding:32px 22px;color:#17233a">
           <p style="margin:0 0 22px;color:#dc2626;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">Churn Is Dead</p>
@@ -123,6 +127,11 @@ serve(async (req: Request): Promise<Response> => {
             <p style="margin:0;padding:20px 0;border-bottom:1px solid #e5e7eb"><strong style="display:block;margin-bottom:5px">03. Examine the role</strong><a href="${diagnosticUrl}" style="color:#dc2626">Take the two-minute AI Exposure Score</a></p>
           </div>
           <p style="font-size:17px;line-height:1.65;color:#17233a"><strong>One useful reply:</strong> what is the hardest CS decision your team is making this quarter?</p>
+          <div style="margin:26px 0;padding:18px 20px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px">
+            <p style="margin:0 0 12px;font-size:15px;line-height:1.55;color:#17233a"><strong>Know one CS operator facing the same problem?</strong> Send them the starting point that helped you.</p>
+            <a href="${linkedinReferralUrl}" style="display:inline-block;padding:10px 14px;background:#0a66c2;border-radius:6px;color:#ffffff;text-decoration:none;font-size:13px;font-weight:700">Share on LinkedIn</a>
+            <a href="${emailReferralUrl}" style="display:inline-block;margin-left:8px;padding:10px 14px;border:1px solid #cbd5e1;border-radius:6px;color:#17233a;text-decoration:none;font-size:13px;font-weight:700">Share by email</a>
+          </div>
           <p style="margin-top:26px;font-size:16px;line-height:1.6">Kuber</p>
           <p style="margin-top:34px;padding-top:18px;border-top:1px solid #e5e7eb;font-size:12px;line-height:1.6;color:#64748b">You received this because you subscribed at churnisdead.com. <a href="${unsubscribeUrl}" style="color:#64748b;text-decoration:underline">Unsubscribe in one click</a>.</p>
         </div>`,
