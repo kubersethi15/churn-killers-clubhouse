@@ -102,6 +102,25 @@ export const currentContentSlug = () => {
   return match?.[1]?.slice(0, 160) ?? null;
 };
 
+// Only the live site may write growth events.
+//
+// import.meta.env.DEV alone is not enough. It is false in any production build,
+// including one served by `vite preview` from localhost, so every agent or
+// developer who builds the site and clicks through it was writing events to the
+// production table as an indistinguishable reader. That contaminates CID-001,
+// the LinkedIn funnel, CID-006, referral measurement and the costly-problem
+// ledger, all of which read this table.
+//
+// This is an allowlist rather than a localhost blocklist. It fails closed: an
+// unrecognised host records nothing, which loses data. A blocklist fails open,
+// which silently poisons it. Missing data is visible; poisoned data is not.
+const PRODUCTION_HOSTS = new Set(["churnisdead.com", "www.churnisdead.com"]);
+
+const isProductionSite = () => {
+  if (typeof window === "undefined") return false;
+  return PRODUCTION_HOSTS.has(window.location.hostname.toLowerCase());
+};
+
 export const trackGrowthEvent = async ({
   eventName,
   pagePath = safePath(),
@@ -110,6 +129,7 @@ export const trackGrowthEvent = async ({
   resourceId = null,
 }: GrowthEvent) => {
   if (import.meta.env.DEV) return;
+  if (!isProductionSite()) return;
   const attribution = getGrowthAttribution();
   const { error } = await supabase.from("growth_events").insert({
     session_id: growthSessionId(),
