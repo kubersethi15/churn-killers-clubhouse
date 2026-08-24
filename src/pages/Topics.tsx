@@ -12,7 +12,7 @@ const Topics = () => {
   useEffect(() => {
     applyRouteSeo({
       title: "Customer Success Topics | Churn Is Dead",
-      description: "Explore practical Churn Is Dead operating systems for renewal economics, CS measurement, health-score alternatives, AI role design, and cross-functional operations.",
+      description: "Find practical Churn Is Dead guidance on renewals, measurement, health scores, AI, and the messy work between CS and the rest of the company.",
       path: "/topics",
     });
     window.scrollTo(0, 0);
@@ -26,8 +26,8 @@ const Topics = () => {
           <div className="container mx-auto px-4 md:px-6">
             <div className="mx-auto max-w-3xl">
               <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.22em] text-red-400">problem-led library</p>
-              <h1 className="max-w-2xl font-serif text-4xl font-black leading-[1.05] tracking-tight md:text-6xl">Start with the decision on your desk.</h1>
-              <p className="mt-6 max-w-2xl text-lg leading-relaxed text-gray-300">{topicHubs.length} durable Customer Success problems. Each collection gives you the argument, the operating model, and a tool to run.</p>
+              <h1 className="max-w-2xl font-serif text-4xl font-black leading-[1.05] tracking-tight md:text-6xl">Start with the problem you are facing.</h1>
+              <p className="mt-6 max-w-2xl text-lg leading-relaxed text-gray-300">{topicHubs.length} recurring Customer Success problems. Each collection helps you understand the issue and gives you something practical to try.</p>
             </div>
           </div>
         </section>
@@ -56,7 +56,7 @@ const Topics = () => {
         <section className="border-t border-gray-100 bg-cream/40 py-14 md:py-18">
           <div className="container mx-auto px-4 md:px-6">
             <div className="mx-auto max-w-3xl text-center">
-              <h2 className="font-serif text-3xl font-black text-navy-dark">One operating decision every Tuesday.</h2>
+              <h2 className="font-serif text-3xl font-black text-navy-dark">One difficult CS problem every Tuesday.</h2>
               <p className="mb-7 mt-3 text-gray-600">The full issue and tool arrive together. No gated archive.</p>
               <div className="mx-auto max-w-md"><NewsletterForm location="footer" buttonVariant="vibrant-red" buttonText="Join the Tuesday list" subscribeText="" /></div>
             </div>

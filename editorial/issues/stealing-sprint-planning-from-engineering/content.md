@@ -6,9 +6,9 @@ Then the request joins a backlog with no agreed decision, no owner, and no hones
 
 The problem is not that Product has never heard the voice of the customer. The problem is that hearing a complaint and making a product decision are different jobs.
 
-Customer Success needs a better operating system between those two jobs.
+Customer Success needs a better way to close the gap between those two jobs.
 
-Not a louder escalation channel. Not a fake promise that every renewal risk gets roadmap priority. A review that converts customer friction into evidence Product can decide on.
+Not a louder escalation channel. Not a fake promise that every renewal risk gets roadmap priority. A simple review that helps CS explain the customer problem clearly and lets Product give an honest answer.
 
 Call it the **Product Friction Review**.
 
@@ -46,9 +46,9 @@ The Product Friction Review is not a transfer of control. It is a contract about
 
 Without that contract, CS tries to win with commercial intensity. Product defends itself with backlog language. The customer gets ambiguity.
 
-## The decision packet
+## The five-part customer problem brief
 
-A request enters the review only when it has a complete decision packet.
+A request enters the review only when it has a complete five-part brief.
 
 The packet has five fields.
 
@@ -138,7 +138,7 @@ This is a constructed example, not a reported customer case.
 
 A customer says a permissions limitation will block a wider rollout. The original request asks Product to “fix permissions before renewal.”
 
-The decision packet changes the conversation. It identifies the administrator workflow, shows the manual workaround, records the security review date, and asks whether Product will investigate a narrower group-level control.
+The five-part brief changes the conversation. It identifies the administrator workflow, shows the manual workaround, records the security review date, and asks whether Product will investigate a narrower group-level control.
 
 Product declines a broad permissions redesign. It accepts a short investigation into the narrower control and names the decision date. CS tells the customer what is being evaluated, what is not committed, and when the next answer will arrive.
 
@@ -166,7 +166,7 @@ Pick the ten oldest product requests attached to active customer conversations.
 
 Do not ask Product to rank them yet.
 
-For each one, complete the five-field decision packet. Remove the requests that have no clear user consequence. Mark the ones with missing evidence. Identify the requests that already have an answer nobody communicated.
+For each one, complete the five-part customer problem brief. Remove the requests that have no clear user consequence. Mark the ones with missing evidence. Identify the requests that already have an answer nobody communicated.
 
 Then run one Product Friction Review.
 
@@ -176,4 +176,4 @@ The goal is not to win more roadmap slots. The goal is to replace backlog ambigu
 
 ## Sources and methodology
 
-This issue proposes a Churn Is Dead operating model. It does not claim that the cadence or metric is a universal benchmark. The model draws on the planning boundaries in the [official Scrum Guide](https://scrumguides.org/scrum-guide.html), the separation of customer input from Product autonomy in [GitLab's customer issues framework](https://handbook.gitlab.com/handbook/product/product-processes/customer-issues-prioritization-framework/) and [product process](https://handbook.gitlab.com/handbook/product/product-processes/), and the use of written cross-functional decision policies in [Google SRE](https://sre.google/workbook/error-budget-policy/). Sources were reviewed on 23 August 2026.
+This issue proposes a Churn Is Dead review method. It does not claim that the cadence or metric is a universal benchmark. The method draws on the planning boundaries in the [official Scrum Guide](https://scrumguides.org/scrum-guide.html), the separation of customer input from Product autonomy in [GitLab's customer issues framework](https://handbook.gitlab.com/handbook/product/product-processes/customer-issues-prioritization-framework/) and [product process](https://handbook.gitlab.com/handbook/product/product-processes/), and the use of written cross-functional decision policies in [Google SRE](https://sre.google/workbook/error-budget-policy/). Sources were reviewed on 23 August 2026.

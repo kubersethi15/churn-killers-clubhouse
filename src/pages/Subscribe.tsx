@@ -12,13 +12,13 @@ const delivery = [
   },
   {
     number: "02",
-    title: "An operating model",
-    description: "Named decisions, signals and owners—not another list of generic best practices.",
+    title: "A practical way forward",
+    description: "A clear view of the problem, who needs to act, and what to do next.",
   },
   {
     number: "03",
     title: "A tool you can run",
-    description: "A practical audit, rubric or playbook to use with your team that week.",
+    description: "A practical checklist, worksheet, or review to use with your team that week.",
   },
 ];
 
@@ -27,7 +27,7 @@ const Subscribe = () => {
     import("@/utils/seoMeta").then(({ applyRouteSeo }) =>
       applyRouteSeo({
         title: "Subscribe to Churn Is Dead | Customer Success Newsletter",
-        description: "Get one evidence-led Customer Success operating system and practical playbook every Tuesday. Free, direct, and built for decisions—not theatre.",
+        description: "Get one honest Customer Success take and one practical tool every Tuesday. Free, direct, and written for people doing the work.",
         path: "/subscribe",
       }),
     );
@@ -61,7 +61,7 @@ const Subscribe = () => {
                   Customer Success advice should survive contact with a renewal.
                 </h1>
                 <p className="mt-6 max-w-2xl text-lg leading-relaxed text-gray-300 md:text-xl">
-                  Every Tuesday, Churn Is Dead turns one difficult CS problem into a clear argument, an operating model and a practical playbook.
+                  Every Tuesday, Churn Is Dead takes one difficult CS problem, says what most teams avoid, and gives you a practical next step.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-gray-300">
                   <span className="inline-flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-red-400" /> 40+ published issues</span>
@@ -117,7 +117,7 @@ const Subscribe = () => {
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.18em] text-red-600">Built for the work</p>
                 <h2 className="mt-3 font-serif text-3xl font-black text-navy-dark md:text-4xl">
-                  For leaders who need a decision, not a slogan.
+                  For CS people who need useful help, not another slogan.
                 </h2>
               </div>
               <div className="space-y-5 text-base leading-relaxed text-gray-600">
@@ -135,7 +135,7 @@ const Subscribe = () => {
           <div className="container mx-auto px-4 md:px-6">
             <div className="mx-auto max-w-2xl text-center">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-red-400">Next issue: Tuesday</p>
-              <h2 className="mt-3 font-serif text-3xl font-black md:text-4xl">Make the next CS decision with better evidence.</h2>
+              <h2 className="mt-3 font-serif text-3xl font-black md:text-4xl">See the problem clearly. Make the next move with confidence.</h2>
               <p className="mx-auto mt-4 max-w-xl text-gray-300">Join the email list and get the complete Churn Is Dead issue every week.</p>
               <div className="mx-auto mt-8 max-w-md">
                 <NewsletterForm

@@ -1,15 +1,15 @@
 export const PROBLEM_DOMAINS = [
   "All",
   "Renewal economics",
-  "Decision-grade measurement",
+  "Measurement that helps",
   "AI and role design",
-  "CS operating systems",
+  "Working across teams",
   "Health score alternatives",
 ] as const;
 
 export type ProblemDomain = (typeof PROBLEM_DOMAINS)[number];
 export type AudiencePath = "All readers" | "Run accounts" | "Lead the function" | "Move into leadership";
-export type EditorialFormat = "Decision teardown" | "Operating system" | "Evidence brief";
+export type EditorialFormat = "Straight opinion" | "Practical guide" | "Evidence review";
 
 type PublicationItem = { title: string; excerpt?: string | null; category?: string | null };
 
@@ -20,15 +20,15 @@ export const problemDomainFor = (item: PublicationItem): Exclude<ProblemDomain, 
   if (/health score|health-score|momentum|intervention trigger/.test(text)) return "Health score alternatives";
   if (/\bai\b|automation|agent|role|title|supervisor|team design/.test(text)) return "AI and role design";
   if (/renew|nrr|pricing|contract|expansion|commercial|revenue/.test(text)) return "Renewal economics";
-  if (/metric|measure|data|evidence|forecast|usage|predict|signal|cfo/.test(text)) return "Decision-grade measurement";
-  return "CS operating systems";
+  if (/metric|measure|data|evidence|forecast|usage|predict|signal|cfo/.test(text)) return "Measurement that helps";
+  return "Working across teams";
 };
 
 export const editorialFormatFor = (item: PublicationItem): EditorialFormat => {
   const text = textFor(item);
-  if (/evidence|data|metric|research|forecast|usage|score|signal/.test(text)) return "Evidence brief";
-  if (/framework|playbook|system|model|packet|ledger|map|review|planning|kickoff|onboarding/.test(text)) return "Operating system";
-  return "Decision teardown";
+  if (/evidence|data|metric|research|forecast|usage|score|signal/.test(text)) return "Evidence review";
+  if (/framework|playbook|system|model|packet|ledger|map|review|planning|kickoff|onboarding/.test(text)) return "Practical guide";
+  return "Straight opinion";
 };
 
 export const audiencesFor = (item: PublicationItem): Exclude<AudiencePath, "All readers">[] => {
@@ -50,11 +50,11 @@ export const playbookExperienceFor = (item: PublicationItem) => {
       useWhen: "A renewal judgement feels confident but the commercial evidence is scattered.",
       outcome: "A clearer decision record with owners, unknowns, and the next customer action.",
     },
-    "Decision-grade measurement": {
+    "Measurement that helps": {
       role: "CS leader · CS Ops",
       time: "15 to 20 min",
       useWhen: "The dashboard reports activity but does not tell the team what to do next.",
-      outcome: "A smaller set of signals connected to explicit interventions.",
+      outcome: "A smaller set of measures that tell the team when something changed and what to do next.",
     },
     "AI and role design": {
       role: "CS leader · CSM · CS Ops",
@@ -62,17 +62,17 @@ export const playbookExperienceFor = (item: PublicationItem) => {
       useWhen: "The team is adopting AI without redesigning judgement, ownership, or role boundaries.",
       outcome: "A bounded view of what to automate, what to retain, and who stays accountable.",
     },
-    "CS operating systems": {
+    "Working across teams": {
       role: "CSM · CS leader",
       time: "15 to 30 min",
       useWhen: "A recurring customer problem depends on memory, meetings, or informal escalation.",
-      outcome: "A repeatable operating record with inputs, decisions, owners, and review dates.",
+      outcome: "A simple way to stop the same customer problem getting lost between teams.",
     },
     "Health score alternatives": {
       role: "CSM · CS leader · CS Ops",
       time: "15 to 20 min",
-      useWhen: "A red, amber, or green score is visible but the required intervention is not.",
-      outcome: "An observable trigger, response owner, and reset condition.",
+      useWhen: "A red, amber, or green score is visible but nobody agrees what should happen next.",
+      outcome: "A real customer change, a named person to respond, and a date to check again.",
     },
   } as const;
   return { problem, ...configurations[problem] };

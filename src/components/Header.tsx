@@ -261,7 +261,7 @@ const Header = () => {
           </DialogHeader>
           <div className="py-4">
             <p className="text-center text-gray-600 mb-6">
-              Every Tuesday: tactical frameworks and downloadable playbooks that replace hope with strategy. No fluff. No "just check in."
+              Every Tuesday: a sharp take, a practical way forward, and something useful for your team. No fluff. No "just checking in."
             </p>
             <NewsletterForm location="hero" className="max-w-sm mx-auto" />
             <p className="text-sm mt-4 text-center text-gray-500">

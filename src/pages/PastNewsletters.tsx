@@ -33,7 +33,7 @@ const PastNewsletters = () => {
     import("@/utils/seoMeta").then(({ applyRouteSeo }) =>
       applyRouteSeo({
         title: "All Issues | Churn Is Dead Newsletter Archive",
-        description: "Every issue of Churn Is Dead. Weekly Customer Success frameworks, hard truths, and tactical plays for enterprise CS leaders by Kuber Sethi.",
+        description: "Every issue of Churn Is Dead. Honest Customer Success arguments and practical help for experienced CS people, by Kuber Sethi.",
         path: "/newsletters",
       })
     );
@@ -106,7 +106,7 @@ const PastNewsletters = () => {
               All Issues
             </h1>
             <p className="text-lg text-gray-600">
-              Search 40+ evidence-led frameworks by the operating problem on your desk.
+              Search 40+ issues by the Customer Success problem you are trying to solve.
             </p>
           </div>
         </div>

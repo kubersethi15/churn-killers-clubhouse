@@ -1,7 +1,7 @@
 {
-  "status": "approved",
-  "approved_by": "Kuber Sethi",
-  "human_reviewed": true,
-  "approved_at": "2026-08-23T20:05:00+10:00",
-  "basis": "Kuber explicitly asked Codex to fix the audited pipeline and have the corrected issue go live on Tuesday."
+  "status": "pending",
+  "approved_by": null,
+  "human_reviewed": false,
+  "approved_at": null,
+  "basis": "The thesis and evidence are unchanged, but the 24 August plain-language rewrite needs a final human check before Tuesday publication."
 }

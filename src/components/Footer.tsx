@@ -20,7 +20,7 @@ const Footer = () => {
                   <span><span className="underline-red">Churn</span> Is Dead</span>
                 </Link>
                 <p className="text-xs text-gray-600 mt-1 max-w-xs">
-                  Evidence-led operating systems for enterprise Customer Success.
+                  Honest Customer Success thinking for people doing the work.
                 </p>
               </div>
               

@@ -26,12 +26,12 @@ export const topicHubs: TopicHub[] = [
     slug: "renewal-economics",
     eyebrow: "commercial mechanics",
     title: "Renewal economics",
-    description: "Separate the work CS can influence from the commercial mechanics it does not control.",
-    decision: "What evidence and cross-functional action would make this renewal more predictable?",
+    description: "Understand what CS can influence in a renewal and what sits with Product, Sales, Finance, or Legal.",
+    decision: "What would make this renewal less surprising, and who else needs to act?",
     principles: [
       "Name the customer decision and its date.",
       "Separate product, pricing, contract, adoption, and relationship risk.",
-      "Give every intervention an owner outside CS when the cause sits outside CS.",
+      "When the cause sits outside CS, give the next action to the team that can actually change it.",
     ],
     reads: [
       {
@@ -52,7 +52,7 @@ export const topicHubs: TopicHub[] = [
     ],
     tool: {
       title: "Renewal Rescue Kit",
-      description: "Use the Vault's renewal and risk tools to map causes, owners, evidence, and the next customer decision.",
+      description: "Use the Vault's renewal and risk tools to understand the cause, involve the right people, and agree what happens next.",
       href: "/playbook?kit=renewal",
       label: "Open the renewal kit",
     },
@@ -60,13 +60,13 @@ export const topicHubs: TopicHub[] = [
   {
     slug: "measurement-decisions",
     eyebrow: "measurement",
-    title: "Measurement that changes a decision",
-    description: "Replace decorative dashboards with signals that tell the team when to intervene and what to do next.",
-    decision: "Which signal would cause a different action this week?",
+    title: "Numbers that help you act",
+    description: "Replace reassuring dashboards with measures that help the team notice a real change and respond usefully.",
+    decision: "Which change would make us do something differently this week?",
     principles: [
-      "Define the decision before choosing the metric.",
-      "Keep observed evidence separate from inferred risk.",
-      "Measure latency and movement, not only static colour states.",
+      "Know what action a number should inform before you track it.",
+      "Separate what you observed from what you think it means.",
+      "Track what changed and how quickly the team responded, not only a red, amber, or green status.",
     ],
     reads: [
       {
@@ -87,7 +87,7 @@ export const topicHubs: TopicHub[] = [
     ],
     tool: {
       title: "QBR Replacement Kit",
-      description: "Use a smaller review format that forces decisions, owners, and customer-facing follow-through.",
+      description: "Use a smaller review format that gets to the real issue, names who will act, and closes the loop with the customer.",
       href: "/playbook?kit=executive",
       label: "Open the review kit",
     },
@@ -95,13 +95,13 @@ export const topicHubs: TopicHub[] = [
   {
     slug: "ai-role-design",
     eyebrow: "AI and team design",
-    title: "AI and defensible CS work",
-    description: "Redesign the role around judgment, evidence, and decisions instead of protecting every current task.",
-    decision: "Which parts of the role should AI support, and which decisions still need accountable human judgment?",
+    title: "AI and the work that still needs people",
+    description: "Use AI for the repetitive work while protecting the judgment, trust, and difficult conversations customers still need from people.",
+    decision: "What should AI help with, and where does a person still need to take responsibility?",
     principles: [
       "Automate preparation before automating judgment.",
       "Keep evidence attached to every generated recommendation.",
-      "Redesign decision rights before redesigning job titles.",
+      "Be clear about who is responsible before changing job titles.",
     ],
     reads: [
       {
@@ -130,30 +130,30 @@ export const topicHubs: TopicHub[] = [
   {
     slug: "operating-systems",
     eyebrow: "CS operations",
-    title: "Customer Success operating systems",
-    description: "Turn recurring cross-functional friction into explicit inputs, decisions, owners, and customer communication.",
-    decision: "What repeatable operating mechanism would remove ambiguity from this customer problem?",
+    title: "Making CS work across teams",
+    description: "Practical ways to stop customer problems getting lost between CS, Product, Sales, Support, and leadership.",
+    decision: "What simple routine would stop this customer problem falling between teams again?",
     principles: [
-      "Bring prepared evidence, not unstructured urgency.",
-      "Name who owns the decision and who owns the customer consequence.",
-      "Record the state, owner, answer date, and next communication.",
+      "Bring the facts, not just the urgency.",
+      "Be clear about who decides and who speaks to the customer.",
+      "Write down the answer, who owns the next step, and when the customer will hear back.",
     ],
     reads: [
       {
         slug: "stealing-sprint-planning-from-engineering",
         title: "What Sprint Planning Can Teach CS About Product Friction",
-        description: "A sourced Product Friction Review for turning customer problems into explicit Product decisions.",
+        description: "A practical review that helps CS bring Product the evidence it needs and gives customers a clear answer.",
         availableFrom: "2026-08-25T08:00:00+00:00",
       },
       {
         slug: "onboarding-only-renewal-you-control",
         title: "Onboarding Isn't the Start of Retention",
-        description: "Treat onboarding as an operating proof point, not a calendar stage.",
+        description: "Treat onboarding as proof that the customer can make progress, not just a date on the project plan.",
       },
       {
         slug: "fire-your-qbr-what-to-do-instead",
-        title: "Stop Scheduling Success: The Continuous CS Operating Model",
-        description: "Replace calendar-driven activity with a clearer rhythm for customer decisions and evidence.",
+        title: "Stop Scheduling Success. Start Helping Customers Move.",
+        description: "Replace calendar-driven activity with a simpler rhythm built around what the customer needs next.",
       },
       {
         slug: "cs-platform-org-chart-you-cant-edit",
@@ -162,22 +162,22 @@ export const topicHubs: TopicHub[] = [
       }
     ],
     tool: {
-      title: "CS operating review kit",
-      description: "Choose the review, audit, or decision tool that matches the cross-functional problem on your desk.",
+      title: "Cross-team CS kit",
+      description: "Choose a review, checklist, or worksheet for the customer problem that keeps bouncing between teams.",
       href: "/playbook?kit=cadence",
-      label: "Open the operating kit",
+      label: "Open the cross-team kit",
     },
   },
   {
     slug: "health-score-alternatives",
     eyebrow: "risk signals",
-    title: "Customer health score alternatives",
-    description: "Replace static account colours with observed movement, outcome evidence, and intervention signals that lead to action.",
-    decision: "What observed change would make us intervene differently this week?",
+    title: "Better ways to understand customer health",
+    description: "Look beyond a red, amber, or green score and pay attention to what customers are actually doing, achieving, and struggling with.",
+    decision: "What real customer change would make us respond differently this week?",
     principles: [
       "Start with observable customer movement, not a composite colour.",
       "Keep usage, outcomes, confidence, and commercial risk separate.",
-      "Pair every signal with an owner, a next action, and a review date.",
+      "For every meaningful change, agree who will respond, what they will do, and when the team will check again.",
     ],
     reads: [
       {
@@ -204,7 +204,7 @@ export const topicHubs: TopicHub[] = [
     ],
     tool: {
       title: "Customer Predictability Audit",
-      description: "Use the Vault's renewal-risk tools to inspect momentum, evidence, causes, and the next customer decision.",
+      description: "Use the Vault's renewal-risk tools to understand what changed, why it matters, and what to do next.",
       href: "/playbook?kit=renewal",
       label: "Open the predictability tools",
     },

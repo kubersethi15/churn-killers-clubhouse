@@ -44,7 +44,7 @@ const TopicHub = () => {
         <section className="border-b border-gray-100 bg-cream/40 py-10">
           <div className="container mx-auto px-4 md:px-6">
             <div className="mx-auto max-w-3xl">
-              <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-red-600">the decision</p>
+              <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-red-600">the question</p>
               <p className="font-serif text-2xl font-bold leading-snug text-navy-dark md:text-3xl">{topic.decision}</p>
             </div>
           </div>
@@ -82,7 +82,7 @@ const TopicHub = () => {
                     </Link>
                   ))}
                 </div>
-                <p className="mt-5 text-xs leading-relaxed text-gray-500">Archive note: issues published before August 2026 predate the current evidence-led editorial package. Their operating ideas remain available, but historical anecdotes and numerical claims have not all been re-verified.</p>
+                <p className="mt-5 text-xs leading-relaxed text-gray-500">Archive note: issues published before August 2026 were created under an earlier research standard. Their practical ideas remain available, but not every historical story or number has been checked again.</p>
               </div>
             </div>
           </div>
@@ -91,8 +91,8 @@ const TopicHub = () => {
         <section className="bg-navy-dark py-14 text-white md:py-18">
           <div className="container mx-auto px-4 md:px-6">
             <div className="mx-auto max-w-2xl text-center">
-              <h2 className="font-serif text-3xl font-black">Keep building the operating system.</h2>
-              <p className="mb-7 mt-3 text-gray-300">One decision, one framework, and one usable tool every Tuesday.</p>
+              <h2 className="font-serif text-3xl font-black">Keep making the work better.</h2>
+              <p className="mb-7 mt-3 text-gray-300">One honest take and one useful tool every Tuesday.</p>
               <div className="mx-auto max-w-md"><NewsletterForm location="footer" buttonVariant="vibrant-red" textColor="text-white" buttonText="Join the Tuesday list" subscribeText="" /></div>
             </div>
           </div>

@@ -1,6 +1,6 @@
 # Churn Is Dead
 
-> Evidence-led Customer Success operating systems for enterprise CS leaders, by Kuber Sethi. Every issue ships one defensible argument, one operating model, and one tool a reader can run.
+> Honest Customer Success thinking for people doing the work, by Kuber Sethi. Every issue gives readers one sharp argument and one practical tool.
 
 Churn Is Dead is a newsletter and tools site for senior Customer Success operators. It covers renewal and expansion mechanics, QBR alternatives, customer health-score alternatives, measurement that drives intervention, and AI's effect on CS roles. The full citable corpus of every issue is in /llms-full.txt.
 
@@ -13,7 +13,7 @@ Churn Is Dead is a newsletter and tools site for senior Customer Success operato
 - [Renewal economics: what CS controls versus pricing and contract mechanics](https://churnisdead.com/topics/renewal-economics)
 - [Measurement that changes a decision, not decorative dashboards](https://churnisdead.com/topics/measurement-decisions)
 - [Redesigning CS work around defensible judgment in the age of AI](https://churnisdead.com/topics/ai-role-design)
-- [Operating systems for enterprise CS: reviews, cadences, and handoffs](https://churnisdead.com/topics/operating-systems)
+- [Practical ways to make CS work across teams: reviews, routines, and handoffs](https://churnisdead.com/topics/operating-systems)
 - [Alternatives to blended customer health scores](https://churnisdead.com/topics/health-score-alternatives)
 
 ## Key pages

@@ -340,7 +340,7 @@ const PlaybookVault = () => {
           <div className="max-w-xl mx-auto text-center">
             <p className="text-[10px] uppercase tracking-[0.22em] text-red font-bold mb-3">New every Tuesday</p>
             <h2 className="text-2xl font-serif font-bold text-navy-dark mb-2">Do not wait for the archive.</h2>
-            <p className="text-sm text-gray-500 mb-6">Get the argument, framework, and playbook as each issue publishes.</p>
+            <p className="text-sm text-gray-500 mb-6">Get the honest take and practical tool when each issue publishes.</p>
             <NewsletterForm location="playbook" buttonVariant="vibrant-red" buttonText="Join the list" subscribeText="" />
           </div>
         </div>

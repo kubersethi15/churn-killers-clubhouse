@@ -24,7 +24,7 @@ const STANDARDS = [
   {
     number: "04",
     title: "Methodology is visible",
-    body: "Current-standard issues end with Sources and methodology. The section names the evidence used, the limits of the evidence, and which parts of the framework are original Churn Is Dead proposals.",
+    body: "Current-standard issues end with Sources and methodology. The section names the evidence used, its limits, and which ideas are original Churn Is Dead proposals.",
   },
   {
     number: "05",
@@ -43,7 +43,7 @@ const EditorialStandards = () => {
   useEffect(() => {
     applyRouteSeo({
       title: "Editorial Standards | Churn Is Dead",
-      description: "How Churn Is Dead researches, reviews, publishes, and corrects its evidence-led Customer Success newsletter.",
+      description: "How Churn Is Dead researches, reviews, publishes, and corrects its Customer Success newsletter.",
       path: "/editorial-standards",
     });
   }, []);
@@ -58,7 +58,7 @@ const EditorialStandards = () => {
               <p className="text-[10px] uppercase tracking-[0.22em] text-red font-bold mb-3">How the work gets made</p>
               <h1 className="text-3xl md:text-5xl font-serif font-black text-navy-dark mb-4">Editorial standards</h1>
               <p className="text-lg text-gray-500 leading-relaxed">
-                Strong opinions need stronger operating discipline. These are the rules behind every researched issue and playbook.
+                Strong opinions need clear publishing rules. These are the standards behind every researched issue and practical tool.
               </p>
             </div>
           </div>

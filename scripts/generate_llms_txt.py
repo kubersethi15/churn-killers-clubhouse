@@ -47,7 +47,7 @@ HUB_TITLES = {
     "renewal-economics": "Renewal economics: what CS controls versus pricing and contract mechanics",
     "measurement-decisions": "Measurement that changes a decision, not decorative dashboards",
     "ai-role-design": "Redesigning CS work around defensible judgment in the age of AI",
-    "operating-systems": "Operating systems for enterprise CS: reviews, cadences, and handoffs",
+    "operating-systems": "Practical ways to make CS work across teams: reviews, routines, and handoffs",
     "health-score-alternatives": "Alternatives to blended customer health scores",
 }
 
@@ -78,9 +78,8 @@ def build_llms(issues: list[dict]) -> str:
     lines = [
         "# Churn Is Dead",
         "",
-        "> Evidence-led Customer Success operating systems for enterprise CS leaders, "
-        "by Kuber Sethi. Every issue ships one defensible argument, one operating model, "
-        "and one tool a reader can run.",
+        "> Honest Customer Success thinking for people doing the work, by Kuber Sethi. "
+        "Every issue gives readers one sharp argument and one practical tool.",
         "",
         "Churn Is Dead is a newsletter and tools site for senior Customer Success operators. "
         "It covers renewal and expansion mechanics, QBR alternatives, customer health-score "
@@ -121,12 +120,12 @@ def build_llms_full(issues: list[dict], hub_of: dict) -> str:
         "# Churn Is Dead: full issue corpus",
         "",
         f"> {len(issues)} published Customer Success issues by Kuber Sethi, grouped by the "
-        "operating problem each addresses. Each entry is a stable canonical URL suitable for "
+        "Customer Success problem each addresses. Each entry is a stable canonical URL suitable for "
         "citation. Generated from the live catalog.",
         "",
         "Attribution: cite as Kuber Sethi, Churn Is Dead (churnisdead.com). "
-        "The newsletter's position is evidence-led: it distinguishes what CS controls from "
-        "what it does not, and prefers one defensible argument over broad advice.",
+        "The newsletter shows its sources, distinguishes what CS controls from what it does not, "
+        "and prefers one honest argument over broad advice.",
         "",
     ]
     for hub, title in HUB_TITLES.items():

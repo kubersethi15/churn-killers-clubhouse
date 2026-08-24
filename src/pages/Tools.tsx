@@ -65,7 +65,7 @@ const Tools = () => {
               Run the test, not the theory.
             </h1>
             <p className="mb-12 text-lg leading-relaxed text-gray-700">
-              Short, opinionated diagnostics you can run on your own work in a
+              Short, honest self-checks you can run on your own work in a
               couple of minutes. Each one gives you a score and one practical
               next move. No signup for the result.
             </p>
@@ -98,11 +98,11 @@ const Tools = () => {
 
             <div className="mt-14 rounded-xl bg-cream/40 p-8 text-center">
               <p className="mb-2 text-lg font-serif font-bold text-navy-dark">
-                The frameworks behind the tools ship every Tuesday.
+                The thinking behind these tools arrives every Tuesday.
               </p>
               <p className="mb-5 text-sm text-gray-600">
-                Churn Is Dead is a weekly operating system for enterprise CS. One
-                argument, one model, one tool you can run.
+                Churn Is Dead is a weekly publication for people working in CS. One
+                sharp take and one practical tool you can use.
               </p>
               <Link
                 to="/start"

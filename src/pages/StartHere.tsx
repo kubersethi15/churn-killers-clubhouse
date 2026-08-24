@@ -43,13 +43,13 @@ const StartHere = () => {
           <div className="max-w-2xl mx-auto">
             <div className="text-[1.0625rem] leading-relaxed text-gray-700 space-y-5">
               <p>
-                <strong className="text-navy-dark">Churn Is Dead</strong> is a weekly publication for experienced CS operators. Every Tuesday, you get one clear argument, one operating model, and one downloadable playbook.
+                <strong className="text-navy-dark">Churn Is Dead</strong> is a weekly publication for experienced CS people. Every Tuesday, you get one clear argument, a practical way forward, and something useful for your team.
               </p>
               <p>
                 The premise is simple: most CS advice is too vague to be useful. "Build relationships." "Prove your value." "Be strategic." None of that tells you what to do Monday morning.
               </p>
               <p>
-                This publication is built for action. Named frameworks. Decision rubrics. Diagnostic templates. Tools you can test with your team this week.
+                This publication is built to be used. Expect honest questions, clear thinking, checklists, worksheets, and tools you can try with your team this week.
               </p>
             </div>
           </div>
@@ -62,8 +62,8 @@ const StartHere = () => {
           <h2 className="font-serif text-3xl font-black text-navy-dark">Same standard. A clearer route in.</h2>
           <div className="mt-8 grid gap-5 md:grid-cols-3">
             {[
-              { id: "run-accounts", title: "I run accounts", copy: "Start with renewal evidence, customer movement, and the next decision you need from the account.", topic: "/topics/renewal-economics", tool: "/playbook?kit=renewal" },
-              { id: "lead-function", title: "I lead the function", copy: "Start with measurement, operating cadence, and the cross-functional ownership your team needs.", topic: "/topics/measurement-decisions", tool: "/playbook?kit=executive" },
+              { id: "run-accounts", title: "I run accounts", copy: "Start with what the customer is trying to do, what is getting in the way, and what needs to happen next.", topic: "/topics/renewal-economics", tool: "/playbook?kit=renewal" },
+              { id: "lead-function", title: "I lead the function", copy: "Start with what your team is measured on, where ownership is unclear, and which routines are wasting time.", topic: "/topics/measurement-decisions", tool: "/playbook?kit=executive" },
               { id: "move-into-leadership", title: "I am moving into leadership", copy: "Start with role design, judgement, and the systems that separate senior operators from task managers.", topic: "/topics/ai-role-design", tool: "/ai-exposure-score" },
             ].map((path, index) => (
               <article id={path.id} key={path.id} className="scroll-mt-28 rounded-2xl border border-gray-200 bg-white p-6">
@@ -123,7 +123,7 @@ const StartHere = () => {
               Build a useful baseline in twenty minutes.
             </h2>
             <p className="text-gray-500 mb-6">
-              Take the directional AI Exposure Score, inspect an example call analysis, or choose a practical tool from the Playbook Vault.
+              Check how exposed your role is to AI, inspect an example call analysis, or choose a practical tool from the Playbook Vault.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <Link to="/ai-exposure-score" className="inline-flex items-center gap-2 rounded-lg bg-navy-dark px-5 py-3 font-semibold text-white hover:bg-navy-dark/90">Take the AI score <ArrowRight className="h-4 w-4" /></Link>

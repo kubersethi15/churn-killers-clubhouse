@@ -68,11 +68,11 @@ const About = () => {
               <div className="max-w-2xl text-[1.0625rem] leading-[1.75] text-gray-700">
                 <h2 className="font-serif text-3xl font-black text-navy-dark">Why Churn Is Dead exists</h2>
                 <p className="mt-5">CS has a habit of rewarding visible activity. The deck was delivered. The call happened. The health score changed colour. The customer still has not made a useful decision.</p>
-                <p className="mt-5">I built this publication to close that gap. Every issue should give an experienced operator an argument they can inspect, an operating model they can adapt, and a tool they can use with a real account or team.</p>
-                <p className="mt-5">My own view changed along the way. I used to believe a strong product could carry an account through anything. I was burnt several times relying on the product. Relationships carry accounts through problems product quality does not. The useful work is designing a system that can see both.</p>
+                <p className="mt-5">I built this publication to close that gap. Every issue should help an experienced CS person see a difficult problem more clearly and leave with something useful for a real account or team.</p>
+                <p className="mt-5">My own view changed along the way. I used to believe a strong product could carry an account through anything. I was burnt several times relying on the product. Relationships carry accounts through problems product quality does not. Good CS needs to see both.</p>
 
                 <div className="my-10 rounded-2xl border border-navy-dark/10 bg-navy-dark p-6 text-white md:p-8">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-red-300">An operating system I built</p>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-red-300">A review I rebuilt</p>
                   <h3 className="mt-3 font-serif text-2xl font-black">The thirty-minute, three-slide quarterly review</h3>
                   <ol className="mt-6 grid gap-4">
                     {["The customer's goal and how the last three months aligned to it.", "What was achieved.", "What happens next, including where support is needed."].map((item, index) => (
@@ -86,7 +86,7 @@ const About = () => {
 
                 <h2 className="mt-10 font-serif text-3xl font-black text-navy-dark">The publishing rules</h2>
                 <div className="mt-6 grid gap-5">
-                  {[["01", "Visible evidence", "External facts link to their sources. Proposals and illustrative scenarios are labelled."], ["02", "Human ownership", "Kuber owns the final judgement. Tools can support research and production, but they do not become the author."], ["03", "Usable systems", "Every flagship issue should change a decision and leave the reader with something they can run."]].map(([number, title, copy]) => (
+                  {[["01", "Show the evidence", "External facts link to their sources. Proposals and illustrative scenarios are labelled."], ["02", "Keep it human", "Kuber owns the final judgement. Tools can support research and production, but they do not become the author."], ["03", "Make it useful", "Every flagship issue should help the reader think more clearly and leave them with something they can use."]].map(([number, title, copy]) => (
                     <div key={number} className="flex gap-5 border-t border-gray-200 pt-5"><span className="font-serif text-2xl font-black text-red-600">{number}</span><div><h3 className="font-sans text-base font-bold text-navy-dark">{title}</h3><p className="mt-1 text-sm leading-relaxed text-gray-600">{copy}</p></div></div>
                   ))}
                 </div>
@@ -94,14 +94,14 @@ const About = () => {
 
               <aside className="h-fit rounded-2xl border border-gray-200 bg-cream/40 p-6 lg:sticky lg:top-28">
                 <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-red-600">Publication facts</p>
-                <dl className="mt-5 space-y-5"><div><dt className="text-xs text-gray-500">Cadence</dt><dd className="mt-1 font-semibold text-navy-dark">Every Tuesday</dd></div><div><dt className="text-xs text-gray-500">LinkedIn reach</dt><dd className="mt-1 font-semibold text-navy-dark">Roughly 8,200 followers</dd></div><div><dt className="text-xs text-gray-500">Core access</dt><dd className="mt-1 font-semibold text-navy-dark">Weekly issue and core playbooks remain free</dd></div></dl>
+                <dl className="mt-5 space-y-5"><div><dt className="text-xs text-gray-500">Cadence</dt><dd className="mt-1 font-semibold text-navy-dark">Every Tuesday</dd></div><div><dt className="text-xs text-gray-500">LinkedIn reach</dt><dd className="mt-1 font-semibold text-navy-dark">Roughly 8,200 followers</dd></div><div><dt className="text-xs text-gray-500">Core access</dt><dd className="mt-1 font-semibold text-navy-dark">The weekly issue and practical tools remain free</dd></div></dl>
                 <div className="mt-6 border-t border-gray-200 pt-6"><Link to="/start" className="inline-flex items-center gap-2 text-sm font-semibold text-red-600">Choose your starting path <ArrowRight className="h-4 w-4" /></Link></div>
               </aside>
             </div>
           </div>
         </section>
 
-        <section className="bg-navy-dark py-14 text-white md:py-18"><div className="container mx-auto px-4 md:px-6"><div className="mx-auto max-w-2xl text-center"><h2 className="font-serif text-3xl font-black">One difficult CS decision every Tuesday.</h2><p className="mb-7 mt-3 text-gray-300">The weekly issue and core playbooks remain free.</p><div className="mx-auto max-w-md"><NewsletterForm location="article" buttonVariant="vibrant-red" textColor="text-white" buttonText="Subscribe" subscribeText="" /></div></div></div></section>
+        <section className="bg-navy-dark py-14 text-white md:py-18"><div className="container mx-auto px-4 md:px-6"><div className="mx-auto max-w-2xl text-center"><h2 className="font-serif text-3xl font-black">One difficult CS problem every Tuesday.</h2><p className="mb-7 mt-3 text-gray-300">The weekly issue and practical tools remain free.</p><div className="mx-auto max-w-md"><NewsletterForm location="article" buttonVariant="vibrant-red" textColor="text-white" buttonText="Subscribe" subscribeText="" /></div></div></div></section>
       </main>
       <Footer />
     </div>
