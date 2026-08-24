@@ -30,6 +30,32 @@ The path deliberately curates only:
 
 It points to the existing Customer Predictability and renewal-risk tools. It adds no new claims, gated asset, form, or competing CTA. Historical issues retain the existing archive evidence note.
 
+## Open: the health-score near-duplicates
+
+The shipped hub curates three reads. Three further health-score issues remain
+outside it and are named here so the open question stays visible:
+
+| Slug | Title | Note |
+|---|---|---|
+| `stopped-tracking-health-scores` | I Stopped Tracking Health Scores. Here's What I Found Instead. | Near-identical premise to the row below |
+| `customer-momentum-over-health-score` | Why I Stopped Looking at Health Scores and Started Watching Movement | Near-identical premise to the row above |
+| `your-health-score-wont-save-you` | Your Health Score Won't Save You | Same intent, distinct framing |
+
+Excluding them from the reading path was the right editorial call: a hub is a
+curated route, not a collection. But it leaves the underlying issue open. Five
+issue pages still target the same query intent, and the hub is now a sixth URL
+against that intent, so in the short term discovery improves while
+consolidation does not.
+
+The first two rows are the strongest consolidation candidates in the archive:
+same argument, same reader, two URLs.
+
+**Decision deferred, deliberately.** Choosing a canonical page and redirecting
+the rest is an editorial decision for Kuber, and it needs Search Console query
+data to make well. Per SEO-01, no ranking claim should be made without it. Do
+not act on this section until Search Console is connected; do not quietly drop
+it either.
+
 ## Proof and review rule
 
 - Build proof: the hub must have a crawlable production entrypoint, a sitemap entry, valid referenced issue slugs, and no duplicate issue ownership across hubs.
