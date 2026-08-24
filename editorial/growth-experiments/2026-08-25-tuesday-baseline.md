@@ -55,12 +55,35 @@ Secondary observed rate: qualified-action sessions / tagged visits.
 | Check | Required evidence | Status |
 |---|---|---|
 | Canonical article live | Public URL returns the approved issue after 08:00 UTC | Pending |
-| Playbook works | PDF opens from the canonical issue | Pending |
-| LinkedIn approval recorded | `distribution-approval.json` and manager sheet agree | Pending |
-| Exact tracked link present | First comment contains the registered four-part campaign | Pending |
+| Playbook works | PDF opens from the canonical issue | Verified 24 August |
+| LinkedIn approval recorded | `distribution-approval.json` and manager sheet agree | Verified 24 August |
+| Exact tracked link present | Package and manager sheet contain the registered four-part campaign; verify the live first comment after posting | Staged |
 | Native newsletter scheduled | `Product does not need another customer request`, Wednesday 26 August at 18:15 Sydney | Verified 24 August |
-| No unlabelled competing distribution | No Medium, paid distribution, duplicate launch post, or Wednesday carousel | Pending |
-| Aggregate dashboard ready | Variant row can report visits, form views, qualified sessions, acquired, and active | Pending deployment approval |
+| No unlabelled competing distribution | No Medium, paid distribution, duplicate launch post, or Wednesday carousel | Verified pre-launch |
+| Aggregate dashboard ready | Variant row can report visits, form views, qualified sessions, acquired, and active | Verified in production 25 August |
+
+## Exact pre-launch aggregate baseline
+
+Captured with read-only aggregate SQL in the linked production Supabase project
+on 25 August 2026 before either labelled release began. No subscriber identity,
+email address, session identifier, or free text was read or exported.
+
+| Measure | Value | Interpretation |
+|---|---:|---|
+| Subscriber records | 325 | Exact row count, not a table estimate |
+| Currently active subscribers | 325 | Current status only; not mature cohort retention |
+| Acquired in the last 7 days | 1 | The same one record is currently active |
+| Acquired in the last 30 days | 14 | All 14 are currently active |
+| Acquired in the last 90 days | 65 | The latest two weekly cohorts contained one acquisition each |
+| Recent acquisition with no source or medium | 64 of 65 | Historic channel contribution cannot be reconstructed honestly |
+| Recent acquisition labelled direct | 1 of 65 | Descriptive only |
+| `tuesday_launch` tagged sessions / acquisitions | 0 / 0 | Correct pre-launch zero |
+| `linkedin_newsletter` tagged sessions / acquisitions | 0 / 0 | Correct pre-launch zero |
+
+The growth problem is therefore not literal zero acquisition across the quarter;
+it is a sharp recent slowdown combined with almost no historic channel
+attribution. CID-001 and CID-004 are designed to make the next acquisition
+observable, not to retrofit certainty onto the previous 65.
 
 ## Result record
 
