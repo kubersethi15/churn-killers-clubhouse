@@ -23,6 +23,7 @@ from pathlib import Path
 
 from editorial_issue import SLUG_RE, approved_newsletters
 from newsletter_catalog import load_newsletter_catalog
+from related_graph import build_related_graph, hub_for_slug, load_hub_membership
 
 REPO_ROOT = Path(__file__).parent.parent
 MIGRATIONS_DIR = REPO_ROOT / "supabase" / "migrations"
@@ -170,7 +171,7 @@ def md_to_html(md):
     return '\n      '.join(parts)
 
 
-def build_page(base_html, nl):
+def build_page(base_html, nl, related=None, hub_slug=None, catalog=None):
     title_esc = htmlmod.escape(nl['title'])
     desc_esc = htmlmod.escape(nl['excerpt'])
     slug = nl['slug']
@@ -242,6 +243,54 @@ def build_page(base_html, nl):
             archive_note = '<p><strong>Archive note:</strong> This issue predates the evidence ledger introduced in August 2026. Treat uncited benchmarks and examples as editorial analysis, not independently verified findings.</p>'
     except ValueError:
         archive_note = ""
+    # Crawlable lateral links. Previously each issue offered only "All issues"
+    # and "Subscribe", so half the archive had no inbound internal link at all
+    # and the rest pooled on the three newest issues per category.
+    related_records = []
+    for related_slug in (related or []):
+        record = (catalog or {}).get(related_slug)
+        if not record:
+            continue
+        related_records.append({
+            "slug": related_slug,
+            "title": record.get("title", ""),
+            "excerpt": record.get("excerpt", ""),
+            "category": record.get("category") or "Strategy",
+            "read_time": record.get("read_time") or "9 min read",
+            "published_date": record.get("published_date", ""),
+        })
+
+    if related_records:
+        links = "".join(
+            f'<li style="margin-bottom:8px"><a href="{SITE_URL}/newsletter/{r["slug"]}">'
+            f'{htmlmod.escape(r["title"])}</a></li>'
+            for r in related_records
+        )
+        hub_link = (
+            f'<p style="font-size:14px"><a href="{SITE_URL}/topics/{hub_slug}">'
+            f'More on this topic</a></p>' if hub_slug else ""
+        )
+        related_markup = (
+            '<nav aria-label="Related issues" style="margin:32px 0">'
+            '<h2 style="font-family:Helvetica,Arial,sans-serif;font-size:18px">Keep reading</h2>'
+            f'<ul style="padding-left:18px">{links}</ul>{hub_link}</nav>'
+        )
+    else:
+        related_markup = ""
+
+    # Same set the React component renders, so the rendered DOM matches the
+    # prerendered HTML without a Supabase round-trip inside the render budget.
+    payload = json.dumps(
+        {"currentSlug": slug, "hub": hub_slug, "items": related_records},
+        ensure_ascii=False,
+    )
+    payload = payload.replace("</", "<\\/")
+    result = result.replace(
+        "</head>",
+        f'<script type="application/json" id="ci-related-issues">{payload}</script>\n  </head>',
+        1,
+    )
+
     noscript = f"""
   <noscript>
     <div style="max-width:680px;margin:40px auto;padding:0 16px;font-family:Georgia,serif;line-height:1.7;color:#1a1a1a">
@@ -251,6 +300,7 @@ def build_page(base_html, nl):
       {archive_note}
       {article_html}
       <hr>
+      {related_markup}
       <p style="font-size:13px;color:#999">By <strong>Kuber Sethi</strong> · <a href="{SITE_URL}/newsletters">All issues</a> · <a href="{SITE_URL}/start">Subscribe</a></p>
     </div>
   </noscript>"""
@@ -264,6 +314,24 @@ def main():
     base_html = INDEX_HTML.read_text()
     newsletters = load_newsletter_catalog()
     print(f"  {len(newsletters)} newsletters (migrations + live DB + approved packages)")
+
+    # Internal link graph over issues that are actually live. Built once so
+    # every page links to a stable, topical set instead of the newest three.
+    now_for_graph = datetime.now(timezone.utc)
+    live_items = []
+    for graph_slug, record in newsletters.items():
+        try:
+            when = datetime.fromisoformat(str(record.get('published_date', '')).replace('Z', '+00:00'))
+        except ValueError:
+            continue
+        if when.tzinfo is None:
+            when = when.replace(tzinfo=timezone.utc)
+        if when <= now_for_graph and record.get('content'):
+            live_items.append(dict(record, slug=graph_slug))
+    hub_membership = load_hub_membership()
+    related_graph = build_related_graph(live_items, membership=hub_membership)
+    print(f"  internal link graph: {len(related_graph)} issues, "
+          f"{sum(len(v) for v in related_graph.values())} lateral links")
 
     generated = 0
     now = datetime.now(timezone.utc)
@@ -295,7 +363,15 @@ def main():
             continue
         out_dir = PUBLIC_DIR / "newsletter" / slug
         out_dir.mkdir(parents=True, exist_ok=True)
-        (out_dir / "index.html").write_text(build_page(base_html, nl))
+        (out_dir / "index.html").write_text(
+            build_page(
+                base_html,
+                nl,
+                related=related_graph.get(slug, []),
+                hub_slug=hub_for_slug(slug, hub_membership),
+                catalog=newsletters,
+            )
+        )
         generated += 1
         print(f"  ✓ /newsletter/{slug}/")
 
