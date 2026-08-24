@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ExternalLink, Download, Search, Clock3, Target, UsersRound, ArrowRight } from "lucide-react";
+import { Search, ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import NewsletterForm from "@/components/NewsletterForm";
@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
 import { trackGrowthEvent } from "@/utils/growthTracking";
 import { mergePlaybookManifest, type PlaybookRecord } from "@/utils/playbookManifest";
-import { playbookExperienceFor } from "@/data/publicationTaxonomy";
+import { playbookDisplayDescription, playbookDisplayTitle } from "@/utils/playbookDisplay";
 
 type Playbook = PlaybookRecord;
 
@@ -145,7 +145,7 @@ const matchesProblem = (playbook: Playbook, problem: typeof PROBLEMS[number]) =>
   return terms[problem].some(term => text.includes(term));
 };
 
-const PlaybookVault = () => {
+const Playbooks = () => {
   // ?q= lets a campaign land on exactly the playbook it promised, instead of
   // dropping someone who asked for one thing onto a library of thirty-four.
   // Mirrors the existing ?kit= behaviour below.
@@ -157,6 +157,7 @@ const PlaybookVault = () => {
     if (typeof window === "undefined") return "All";
     return KIT_FILTERS[new URLSearchParams(window.location.search).get("kit") || ""] || "All";
   });
+  const [visibleCount, setVisibleCount] = useState(12);
   const [playbooks, setPlaybooks] = useState<Playbook[]>(
     STATIC_PLAYBOOKS.sort((a, b) => {
       if (!a.published_date) return 1;
@@ -189,6 +190,7 @@ const PlaybookVault = () => {
     const searchable = `${playbook.title} ${playbook.description} ${playbook.newsletter_title ?? ""}`.toLowerCase();
     return searchable.includes(query.trim().toLowerCase()) && matchesProblem(playbook, problem);
   });
+  const visiblePlaybooks = filteredPlaybooks.slice(0, visibleCount);
 
   return (
     <div className="min-h-screen bg-white">
@@ -213,35 +215,26 @@ const PlaybookVault = () => {
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-2xl mx-auto">
-            <div className="mb-10 grid gap-3 sm:grid-cols-3">
-              {[
-                ["Protect a renewal", "Renewal risk", "Diagnose hidden risk and customer predictability."],
-                ["Prove CS value", "Executive value", "Connect CS work to decisions, revenue, and impact."],
-                ["Fix recurring meetings", "Meetings and workflows", "Replace status updates with clearer decisions and next steps."],
-              ].map(([title, target, description]) => (
-                <button key={title} type="button" onClick={() => setProblem(target as typeof PROBLEMS[number])} className="rounded-lg border border-gray-200 p-4 text-left transition-all hover:-translate-y-0.5 hover:border-red-600 hover:shadow-sm">
-                  <span className="mb-1 block font-serif text-base font-bold text-navy-dark">{title}</span>
-                  <span className="block text-xs leading-relaxed text-gray-600">{description}</span>
-                </button>
-              ))}
-            </div>
             <label htmlFor="playbook-search" className="text-[10px] uppercase tracking-[0.22em] text-red font-bold">
               Find a playbook
             </label>
-            <div className="relative mt-3 mb-10">
+            <div className="relative mt-3 mb-5">
               <Input
                 id="playbook-search"
                 type="search"
                 value={query}
-                onChange={event => setQuery(event.target.value)}
+                onChange={event => {
+                  setQuery(event.target.value);
+                  setVisibleCount(12);
+                }}
                 placeholder="Renewals, QBRs, AI, metrics, expansion..."
                 className="h-12 pl-11"
               />
               <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-600" />
             </div>
-            <div className="mb-10 flex flex-wrap gap-2" aria-label="Filter playbooks by problem">
+            <div className="mb-8 flex flex-wrap gap-2" aria-label="Filter playbooks by problem">
               {PROBLEMS.map(item => (
-                <button key={item} type="button" onClick={() => setProblem(item)} aria-pressed={problem === item} className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${problem === item ? "bg-navy-dark text-white" : "border border-gray-200 text-gray-700 hover:border-navy-dark"}`}>
+                <button key={item} type="button" onClick={() => { setProblem(item); setVisibleCount(12); }} aria-pressed={problem === item} className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${problem === item ? "bg-navy-dark text-white" : "border border-gray-200 text-gray-700 hover:border-navy-dark"}`}>
                   {item}
                 </button>
               ))}
@@ -259,76 +252,47 @@ const PlaybookVault = () => {
             ) : filteredPlaybooks.length === 0 ? (
               <p className="text-gray-600 py-16 text-center">No playbook matches that problem yet.</p>
             ) : (
-              <div className="grid gap-5">
-                {filteredPlaybooks.map((pb) => (
-                  <article key={pb.id} className="rounded-2xl border border-gray-200 bg-white p-5 transition-colors hover:border-red-200 md:p-6">
-                    {(() => { const experience = playbookExperienceFor(pb); return <>
-                    {/* Title + date */}
-                    <div className="flex items-start justify-between gap-4 mb-2">
-                      <h3 className="text-lg md:text-xl font-serif font-bold text-navy-dark leading-snug">
-                        {pb.title}
-                      </h3>
-                      {pb.published_date && (
-                        <span className="text-xs text-gray-600 flex-shrink-0 mt-1">
-                          {formatDate(pb.published_date)}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-sm text-gray-500 leading-relaxed mb-4">
-                      {pb.description}
-                    </p>
-
-                    <dl className="mb-5 grid gap-3 rounded-xl bg-cream/40 p-4 sm:grid-cols-3">
-                      <div><dt className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-red-600"><Target className="h-3.5 w-3.5" /> Use when</dt><dd className="mt-1 text-xs leading-relaxed text-gray-700">{experience.useWhen}</dd></div>
-                      <div><dt className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-red-600"><Clock3 className="h-3.5 w-3.5" /> Time</dt><dd className="mt-1 text-xs leading-relaxed text-gray-700">{experience.time}</dd></div>
-                      <div><dt className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-red-600"><UsersRound className="h-3.5 w-3.5" /> Built for</dt><dd className="mt-1 text-xs leading-relaxed text-gray-700">{experience.role}</dd></div>
-                    </dl>
-
-                    <p className="mb-5 border-l-2 border-navy-dark pl-3 text-xs leading-relaxed text-gray-700"><strong className="text-navy-dark">You will leave with:</strong> {experience.outcome}</p>
-
-                    {/* Actions */}
-                    <div className="flex flex-wrap items-center gap-3">
-                      <Link to={`/playbook/${encodeURIComponent(pb.id)}?title=${encodeURIComponent(pb.title)}`} className="inline-flex items-center gap-1.5 rounded-lg bg-navy-dark px-3 py-2 text-sm font-semibold text-white hover:bg-navy-dark/90">Use this playbook <ArrowRight className="h-3.5 w-3.5" /></Link>
-                      {pb.pdf_path && (
-                        <a
-                          href={pb.pdf_path}
-                          download
-                          onClick={() => void trackGrowthEvent({ eventName: "resource_open", resourceId: pb.id })}
-                          className="inline-flex items-center gap-1.5 text-sm font-semibold text-red-600 hover:text-red-700 transition-colors"
-                        >
-                          <Download className="w-3.5 h-3.5" />
-                          Download PDF
-                        </a>
-                      )}
-                      {pb.notion_link && (
-                        <a
-                          href={pb.notion_link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={() => void trackGrowthEvent({ eventName: "resource_open", resourceId: pb.id })}
-                          className="inline-flex items-center gap-1.5 text-sm font-semibold text-navy-dark hover:text-red-600 transition-colors"
-                        >
-                          <ExternalLink className="w-3.5 h-3.5" />
-                          View in Notion
-                        </a>
-                      )}
-                      {pb.newsletter_slug && (
-                        <>
-                          <span className="text-gray-400">·</span>
-                          <Link
-                            to={`/newsletter/${pb.newsletter_slug}`}
-                            className="text-sm text-gray-600 hover:text-navy-dark transition-colors"
-                          >
-                            From: {pb.newsletter_title}
-                          </Link>
-                        </>
-                      )}
-                    </div>
-                    </>; })()}
-                  </article>
-                ))}
+              <div className="divide-y divide-gray-200 border-y border-gray-200">
+                {visiblePlaybooks.map((pb) => {
+                  const displayTitle = playbookDisplayTitle(pb);
+                  const displayDescription = playbookDisplayDescription(pb);
+                  return (
+                    <Link
+                      key={pb.id}
+                      to={`/playbook/${encodeURIComponent(pb.id)}?title=${encodeURIComponent(displayTitle)}`}
+                      onClick={() => void trackGrowthEvent({ eventName: "resource_open", resourceId: pb.id })}
+                      className="group block py-6"
+                    >
+                      <article className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-5">
+                        <div>
+                          <h3 className="font-serif text-xl font-bold leading-snug text-navy-dark transition-colors group-hover:text-red-600">
+                            {displayTitle}
+                          </h3>
+                          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-gray-600">
+                            {displayDescription}
+                          </p>
+                          {pb.published_date && (
+                            <span className="mt-3 block text-xs text-gray-500">
+                              {formatDate(pb.published_date)}
+                            </span>
+                          )}
+                        </div>
+                        <ArrowRight className="mt-1 h-5 w-5 flex-none text-gray-300 transition-colors group-hover:text-red-600" aria-hidden="true" />
+                      </article>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+            {visibleCount < filteredPlaybooks.length && (
+              <div className="mt-8 text-center">
+                <button
+                  type="button"
+                  onClick={() => setVisibleCount(count => count + 12)}
+                  className="rounded-lg border border-gray-300 px-5 py-2.5 text-sm font-semibold text-navy-dark transition-colors hover:border-navy-dark"
+                >
+                  Show more playbooks
+                </button>
               </div>
             )}
           </div>
@@ -338,9 +302,8 @@ const PlaybookVault = () => {
       <section className="py-12 border-t border-gray-100 bg-cream/30">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-xl mx-auto text-center">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-red font-bold mb-3">New every Tuesday</p>
-            <h2 className="text-2xl font-serif font-bold text-navy-dark mb-2">Do not wait for the archive.</h2>
-            <p className="text-sm text-gray-500 mb-6">Get the honest take and practical tool when each issue publishes.</p>
+            <h2 className="text-2xl font-serif font-bold text-navy-dark mb-2">Want the next playbook?</h2>
+            <p className="text-sm text-gray-500 mb-6">Get the Tuesday issue and its practical tool by email.</p>
             <NewsletterForm location="playbook" buttonVariant="vibrant-red" buttonText="Join the list" subscribeText="" />
           </div>
         </div>
@@ -352,4 +315,4 @@ const PlaybookVault = () => {
   );
 };
 
-export default PlaybookVault;
+export default Playbooks;

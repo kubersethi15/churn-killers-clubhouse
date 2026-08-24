@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft, Download, Printer } from "lucide-react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { playbookExperienceFor } from "@/data/publicationTaxonomy";
 import type { PlaybookRecord } from "@/utils/playbookManifest";
+import { playbookDisplayDescription, playbookDisplayTitle } from "@/utils/playbookDisplay";
 import { applyRouteSeo } from "@/utils/seoMeta";
 
 const prompts = [
@@ -28,8 +28,9 @@ const PlaybookWorkspace = () => {
       .catch(() => setRecord(null));
   }, [playbookId]);
 
-  const title = record?.title || fallbackTitle;
-  const experience = useMemo(() => playbookExperienceFor({ title, excerpt: record?.description }), [title, record?.description]);
+  const title = record ? playbookDisplayTitle(record) : fallbackTitle;
+  const description = record ? playbookDisplayDescription(record) : undefined;
+  const intro = description ?? "Work through the questions below and leave with a clear next step.";
 
   useEffect(() => {
     applyRouteSeo({ title: `${title} | Working View | Churn Is Dead`, description: `Complete ${title} in a private, printable working view. Nothing entered here is transmitted or saved.`, path: `/playbook/${playbookId}` });
@@ -41,16 +42,15 @@ const PlaybookWorkspace = () => {
       <main id="main-content">
         <section className="border-b border-gray-100 bg-cream/40 pb-12 pt-28 print:border-0 print:bg-white print:pt-8 md:pt-36">
           <div className="container mx-auto px-4 md:px-6"><div className="mx-auto max-w-4xl">
-            <Link to="/playbook" className="mb-7 inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-red-600 print:hidden"><ArrowLeft className="h-4 w-4" /> Back to the Vault</Link>
-            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-red-600">Private working view</p>
+            <Link to="/playbook" className="mb-7 inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-red-600 print:hidden"><ArrowLeft className="h-4 w-4" /> Back to playbooks</Link>
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-red-600">Free worksheet</p>
             <h1 className="mt-3 font-serif text-4xl font-black leading-tight text-navy-dark md:text-5xl">{title}</h1>
-            <p className="mt-4 max-w-2xl leading-relaxed text-gray-600">{experience.useWhen}</p>
-            <div className="mt-6 flex flex-wrap gap-3 text-xs text-gray-600"><span className="rounded-full border border-gray-200 bg-white px-3 py-1.5">{experience.time}</span><span className="rounded-full border border-gray-200 bg-white px-3 py-1.5">{experience.role}</span><span className="rounded-full border border-gray-200 bg-white px-3 py-1.5">Nothing entered here is sent or saved</span></div>
+            <p className="mt-4 max-w-2xl leading-relaxed text-gray-600">{intro}</p>
+            <p className="mt-5 text-xs text-gray-500">Nothing entered here is sent or saved.</p>
           </div></div>
         </section>
 
         <section className="py-12 md:py-16"><div className="container mx-auto px-4 md:px-6"><div className="mx-auto max-w-4xl">
-          <div className="mb-8 rounded-xl border-l-4 border-red-600 bg-navy-dark p-5 text-white"><p className="text-xs font-bold uppercase tracking-wider text-red-300">Leave with</p><p className="mt-2 text-sm leading-relaxed text-gray-200">{experience.outcome}</p></div>
           <div className="grid gap-6">
             {prompts.map(([number, label, guidance], index) => <section key={number} className="break-inside-avoid rounded-2xl border border-gray-200 p-5 md:p-7"><div className="flex gap-4"><span className="font-serif text-2xl font-black text-red-600">{number}</span><div><h2 className="font-sans text-lg font-bold text-navy-dark">{label}</h2><p className="mt-1 text-sm leading-relaxed text-gray-600">{guidance}</p></div></div><label htmlFor={`workspace-${index}`} className="sr-only">{label}</label><textarea id={`workspace-${index}`} value={notes[index] || ""} onChange={event => setNotes(current => ({ ...current, [index]: event.target.value }))} placeholder="Write the decision record here..." className="mt-5 min-h-36 w-full rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm leading-relaxed text-navy-dark placeholder:text-gray-400 focus:border-red-400 focus:bg-white print:min-h-44 print:bg-white" /></section>)}
           </div>
