@@ -15,9 +15,9 @@
     "description": "Download the AI Exposure Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/AI_Exposure_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "ai-wont-save-customer-success",
+    "newsletter_title": "AI Won't Save Customer Success. It'll Finish It Off.",
+    "published_date": "2026-03-04T08:00:00+00:00"
   },
   {
     "id": "pdf-ai_impact_reality_check_audit_churnisdead",
@@ -25,9 +25,9 @@
     "description": "Download the AI Impact Reality Check Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/AI_Impact_Reality_Check_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "ai-customer-success-firing-people",
+    "newsletter_title": "Your AI Customer Success Strategy Is Actually Firing People",
+    "published_date": "2026-04-21T08:00:00+00:00"
   },
   {
     "id": "pdf-cfo_lens_audit_churnisdead",
@@ -35,9 +35,9 @@
     "description": "Download the CFO Lens Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/CFO_Lens_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "3-things-your-cfo-knows-about-cs",
+    "newsletter_title": "3 Things Your CFO Knows About CS That You Don't",
+    "published_date": "2026-05-26T08:00:00+00:00"
   },
   {
     "id": "pdf-cs_survival_audit_churnisdead",
@@ -45,9 +45,9 @@
     "description": "Download the CS Survival Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/CS_Survival_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "customer-success-doesnt-deserve-to-survive",
+    "newsletter_title": "Customer Success Doesn't Deserve to Survive",
+    "published_date": "2026-02-25T07:00:00+00:00"
   },
   {
     "id": "pdf-churn_attribution_matrix_audit_churnisdead",
@@ -55,9 +55,9 @@
     "description": "Download the Churn Attribution Matrix Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Churn_Attribution_Matrix_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "stopped-tracking-health-scores",
+    "newsletter_title": "I Stopped Tracking Health Scores. Here's What I Found Instead.",
+    "published_date": "2026-05-05T08:00:00+00:00"
   },
   {
     "id": "pdf-continuous_success_architecture_audit_churnisdead",
@@ -65,9 +65,9 @@
     "description": "Download the Continuous Success Architecture Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Continuous_Success_Architecture_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "fire-your-qbr-what-to-do-instead",
+    "newsletter_title": "Stop Scheduling Success: The Continuous CS Operating Model",
+    "published_date": "2026-05-12T08:00:00+00:00"
   },
   {
     "id": "pdf-courage_ladder_audit_churnisdead",
@@ -75,9 +75,9 @@
     "description": "Download the Courage Ladder Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Courage_Ladder_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "cs-teams-courage-problem",
+    "newsletter_title": "CS Teams Don't Have a Churn Problem. They Have a Courage Problem.",
+    "published_date": "2026-06-02T08:00:00+00:00"
   },
   {
     "id": "pdf-customer_journey_reality_audit_churnisdead",
@@ -85,9 +85,9 @@
     "description": "Download the Customer Journey Reality Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Customer_Journey_Reality_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "customer-journey-maps-are-fiction",
+    "newsletter_title": "Your Customer Journey Maps Are Fiction",
+    "published_date": "2026-03-10T08:00:00+00:00"
   },
   {
     "id": "pdf-customer_predictability_audit_churnisdead",
@@ -95,9 +95,9 @@
     "description": "Download the Customer Predictability Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Customer_Predictability_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "health-scores-are-astrology",
+    "newsletter_title": "Health Scores Are Astrology for CS Teams",
+    "published_date": "2026-03-25T08:00:00+00:00"
   },
   {
     "id": "pdf-displacement_reality_audit_churnisdead",
@@ -105,9 +105,9 @@
     "description": "Download the Displacement Reality Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Displacement_Reality_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "your-ai-strategy-is-just-expensive-layoffs",
+    "newsletter_title": "Your AI Strategy Is Just Expensive Layoffs",
+    "published_date": "2026-04-14T08:00:00+00:00"
   },
   {
     "id": "pdf-frozen_layer_audit_churnisdead",
@@ -115,9 +115,9 @@
     "description": "Download the Frozen Layer Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Frozen_Layer_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "cs-platform-org-chart-you-cant-edit",
+    "newsletter_title": "The Two-Vendor Trick: How CS Platforms Quietly Became Org Charts You Can't Edit",
+    "published_date": "2026-06-30T08:00:00+00:00"
   },
   {
     "id": "pdf-metered_vs_earned_retention_audit_churnisdead",
@@ -125,9 +125,9 @@
     "description": "Download the Metered vs Earned Retention Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Metered_vs_Earned_Retention_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "nrr-no-csm-touched-consumption-illusion",
+    "newsletter_title": "The 125% NRR That No CSM Ever Touched",
+    "published_date": "2026-07-28T08:00:00+00:00"
   },
   {
     "id": "pdf-monthly_business_review_conversion_audit_churnisdead",
@@ -135,9 +135,9 @@
     "description": "Download the Monthly Business Review Conversion Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Monthly_Business_Review_Conversion_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "fire-your-qbr-heres-what-to-do-instead",
+    "newsletter_title": "The 30-Minute Monthly Business Review",
+    "published_date": "2026-05-19T08:00:00+00:00"
   },
   {
     "id": "pdf-off_telemetry_map_audit_churnisdead",
@@ -145,9 +145,9 @@
     "description": "Download the Off Telemetry Map Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Off_Telemetry_Map_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "renewal-cliff-data-intelligence-blind-spot",
+    "newsletter_title": "The Renewal Cliff Nobody Charted: Why CS Doesn't Own Half the Churn It's Blamed For",
+    "published_date": "2026-06-09T08:00:00+00:00"
   },
   {
     "id": "pdf-platform_dependency_audit_churnisdead",
@@ -155,9 +155,9 @@
     "description": "Download the Platform Dependency Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Platform_Dependency_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "cs-platform-expensive-spreadsheet",
+    "newsletter_title": "Your CS Platform Is A $200K Spreadsheet",
+    "published_date": "2026-04-07T08:00:00+00:00"
   },
   {
     "id": "pdf-playbook_cs_metrics_reality_audit_churnisdead",
@@ -165,9 +165,9 @@
     "description": "Download the Playbook CS Metrics Reality Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Playbook_CS_Metrics_Reality_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "cs-metrics-performance-theater",
+    "newsletter_title": "Your CS Metrics Are Performance Theater",
+    "published_date": "2026-03-31T08:00:00+00:00"
   },
   {
     "id": "pdf-playbook_problem_solving_audit_churnisdead",
@@ -175,9 +175,9 @@
     "description": "Download the Playbook Problem Solving Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Playbook_Problem_Solving_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "csms-task-collectors-not-problem-solvers",
+    "newsletter_title": "Your CSMs Are Task Collectors, Not Problem Solvers",
+    "published_date": "2026-03-17T08:00:00+00:00"
   },
   {
     "id": "pdf-playbook_renewal_readiness_audit_churnisdead",
@@ -185,9 +185,9 @@
     "description": "Download the Playbook Renewal Readiness Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Playbook_Renewal_Readiness_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "renewal-reviews-are-theater",
+    "newsletter_title": "Your Renewal Reviews Are Theater",
+    "published_date": "2026-03-17T08:00:00+00:00"
   },
   {
     "id": "pdf-playbook_work_distribution_audit_churnisdead",
@@ -195,9 +195,9 @@
     "description": "Download the Playbook Work Distribution Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Playbook_Work_Distribution_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "cs-team-hoarding-work",
+    "newsletter_title": "Your CS Team Is Hoarding Work",
+    "published_date": "2026-03-03T08:00:00+00:00"
   },
   {
     "id": "pdf-revenue_readiness_audit_churnisdead",
@@ -205,9 +205,9 @@
     "description": "Download the Revenue Readiness Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Revenue_Readiness_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "the-revenue-ownership-trap",
+    "newsletter_title": "The Revenue Ownership Trap",
+    "published_date": "2026-03-11T08:00:00+00:00"
   },
   {
     "id": "pdf-signal_vs_noise_audit_churnisdead",
@@ -215,9 +215,9 @@
     "description": "Download the Signal vs Noise Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Signal_vs_Noise_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "case-against-customer-health-scores",
+    "newsletter_title": "The Case Against Customer Health Scores",
+    "published_date": "2026-04-28T08:00:00+00:00"
   },
   {
     "id": "pdf-signed_and_forgotten_audit_churnisdead",
@@ -225,9 +225,9 @@
     "description": "Download the Signed and Forgotten Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Signed_and_Forgotten_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "renewal-clause-lawyers-wrote-cs-forgot",
+    "newsletter_title": "The Renewal Clause Your Lawyers Wrote and Your CS Team Forgot",
+    "published_date": "2026-07-07T08:00:00+00:00"
   },
   {
     "id": "pdf-strategic_impact_audit_churnisdead",
@@ -235,9 +235,9 @@
     "description": "Download the Strategic Impact Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Strategic_Impact_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "stop-calling-yourself-strategic",
+    "newsletter_title": "Stop Calling Yourself Strategic \u2014 You're Just Expensive",
+    "published_date": "2026-03-18T08:00:00+00:00"
   },
   {
     "id": "pdf-supervisor_closer_split_audit_churnisdead",
@@ -245,9 +245,9 @@
     "description": "Download the Supervisor Closer Split Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Supervisor_Closer_Split_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "csm-promoted-to-babysitter-agent-supervisor",
+    "newsletter_title": "The Day Your CSM Got Promoted to Babysitter",
+    "published_date": "2026-06-16T08:00:00+00:00"
   },
   {
     "id": "pdf-the_credibility_debt_audit_churnisdead",
@@ -255,9 +255,9 @@
     "description": "Download the The Credibility Debt Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/The_Credibility_Debt_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "csm-title-liability-rebrand-wont-fix-it",
+    "newsletter_title": "The CSM Title Is Now a Liability. The Rebrand Everyone's Reaching For Won't Fix It.",
+    "published_date": "2026-08-04T08:00:00+00:00"
   },
   {
     "id": "pdf-the_dependency_window_audit_churnisdead",
@@ -265,9 +265,9 @@
     "description": "Download the The Dependency Window Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/The_Dependency_Window_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "onboarding-only-renewal-you-control",
+    "newsletter_title": "Onboarding Isn't the Start of Retention. It's the Only Renewal You'll Ever Fully Control.",
+    "published_date": "2026-07-14T08:00:00+00:00"
   },
   {
     "id": "pdf-the_expansion_ceiling_audit_churnisdead",
@@ -275,9 +275,9 @@
     "description": "Download the The Expansion Ceiling Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/The_Expansion_Ceiling_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "expansion-recession-not-retention-problem",
+    "newsletter_title": "The Expansion Recession Is Here. Stop Calling It a Retention Problem.",
+    "published_date": "2026-06-23T08:00:00+00:00"
   },
   {
     "id": "pdf-the_inherited_number_audit_churnisdead",
@@ -285,9 +285,9 @@
     "description": "Download the The Inherited Number Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/The_Inherited_Number_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "you-dont-own-nrr-you-rent-it-from-pricing",
+    "newsletter_title": "You Don't Own NRR. You Rent It From Pricing.",
+    "published_date": "2026-07-21T08:00:00+00:00"
   },
   {
     "id": "pdf-the_scope_line_audit_churnisdead",
@@ -295,9 +295,9 @@
     "description": "Download the The Scope Line Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/The_Scope_Line_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "renewal-not-yours-change-order-is",
+    "newsletter_title": "The Renewal Is Not Yours to Own. The Change Order Is.",
+    "published_date": "2026-08-11T08:00:00+00:00"
   },
   {
     "id": "pdf-the_silence_ledger_audit_churnisdead",
@@ -305,9 +305,9 @@
     "description": "Download the The Silence Ledger Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/The_Silence_Ledger_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "digital-cs-coverage-silence",
+    "newsletter_title": "You Bought 'Full Coverage.' What You Actually Bought Was Silence.",
+    "published_date": "2026-08-18T08:00:00+00:00"
   },
   {
     "id": "pdf-voice_of_customer_reality_audit_churnisdead",
@@ -315,8 +315,8 @@
     "description": "Download the Voice Of Customer Reality Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/Voice_Of_Customer_Reality_Audit_ChurnIsDead.pdf",
     "notion_link": null,
-    "newsletter_slug": null,
-    "newsletter_title": null,
-    "published_date": null
+    "newsletter_slug": "csms-selling-snake-oil",
+    "newsletter_title": "Your CSMs Are Selling You Snake Oil",
+    "published_date": "2026-03-24T08:00:00+00:00"
   }
 ]
