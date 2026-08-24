@@ -1,6 +1,6 @@
 # Churn Is Dead agent coordination
 
-**Last updated:** 24 August 2026
+**Last updated:** 25 August 2026
 
 This is the shared coordination board for Claude and Codex. It contains no subscriber identities or customer PII.
 
@@ -13,6 +13,21 @@ The durable execution queue is [`growth/full-growth-backlog.md`](full-growth-bac
 ## Shared objective
 
 Increase qualified Churn Is Dead subscribers and organic traffic, improve activation and retention, and build an evidence-led path to monetisation. The website is canonical. Preserve Kuber Sethi's voice, never invent personal experience or results, and measure aggregate outcomes.
+
+## Launch-week focus: 25 August to 1 September
+
+The build sprint is closed. Until CID-001 reaches its seven-day read, Codex and
+Claude keep no more than three outcome lanes active between them:
+
+1. execute and measure CID-001 and the separately labelled CID-004 editions;
+2. deepen qualified conversations and rescue useful replies without exceeding
+   the shared engagement cap; and
+3. earn one non-duplicate practitioner or newsletter distribution route.
+
+Do not open a process-only PR, another dashboard, a new measurement framework,
+or a site restyle during this window. A production failure may be repaired. A
+research artifact is useful only when it supports a named pitch, editorial
+decision, or dated evidence read. Commits and documents are not growth metrics.
 
 ## Joint growth mandate
 
@@ -40,7 +55,7 @@ The ready-to-claim list is a starting queue, not a ceiling. An agent may add and
 | Workstream | Owner | Branch or surface | Status | Claimed files / boundary |
 |---|---|---|---|---|
 | SITE-01 best-in-class publication experience | Codex | merged PR [#106](https://github.com/kubersethi15/churn-killers-clubhouse/pull/106) | Complete and live 24 August 2026 | Public publication surfaces, semantic route integrity, archive taxonomy, featured-issue evidence, playbook workspace/PDF, brand assets and analyzer accessibility shipped. No files remain claimed. |
-| SITE-02 plain-language brand repair | Codex | `codex/simplify-homepage-hero` | Active 24 August 2026 after Kuber reported that the new language felt confusing, robotic, and unlike the brand | Claimed: public publication copy, archive labels, article CTA, referral copy, OG/LLM/prerender brand text, and the 18 and 25 August editorial packages. Remove unexplained systems language, preserve useful methods inside articles, and do not change CID-001's LinkedIn post, tracked link, CTA, or timing. |
+| SITE-02 plain-language brand repair | Codex | merged PR [#109](https://github.com/kubersethi15/churn-killers-clubhouse/pull/109) | Complete and live 24 August 2026 | Human publication voice restored across the homepage and supporting surfaces. No files remain claimed; hold further copy changes through the CID-001 read unless production is broken. |
 | SITE-03 category-defining editorial art direction | Codex | merged PR [#112](https://github.com/kubersethi15/churn-killers-clubhouse/pull/112), production commit `64ed47d` | Complete and live 24 August 2026 | Oversized editorial masthead, red signal motif, asymmetric issue presentation, authentic author imagery, and shared art direction shipped across Homepage, Issues, Playbooks, About, article headers/content, navigation, footer, and signup forms. Focused lint, TypeScript, production build, 19 public-route checks, desktop/mobile QA, and live production verification passed. No files remain claimed. |
 | Subscriber referral loop v2 | Codex | PR [#36](https://github.com/kubersethi15/churn-killers-clubhouse/pull/36), merged as `b7d1b23`; QA repair on `codex/referral-measurement-qa-fixes` | Public surfaces live; exact event-semantics and conversion-rate repair claimed 24 August | Claimed: `NewsletterForm`, growth event types, referral RPC migration, referral dashboard copy, focused tests, and aggregate action log. Do not review performance until exact semantics deploy and the `LOOP-02` evidence gate is met. |
 | Tuesday CID-001 launch | Codex + social manager | Website at 18:00 Sydney; LinkedIn at 18:15 | Approved, staged in Supabase, playbook live, measurement-ready, and covered by the active growth heartbeat | Do not alter copy, CTA, UTM, timing, or add a second short launch post through baseline close. Publisher run [32690490235](https://github.com/kubersethi15/churn-killers-clubhouse/actions/runs/32690490235) succeeded 24 August. The `churn-is-dead-daily-growth-operator` heartbeat must remain active through the 18:00 canonical check and the post-18:15 LinkedIn plus tracked-comment verification. |
@@ -51,7 +66,7 @@ The ready-to-claim list is a starting queue, not a ceiling. An agent may add and
 | Organic discovery: internal link graph | Claude | PR [#40](https://github.com/kubersethi15/churn-killers-clubhouse/pull/40), merged as `a04de10` | Complete; independently reviewed and merged | No longer file-claimed. Review Search Console impact from 7 September 2026; use `scripts/report_internal_link_graph.py` to remeasure after archive changes. |
 | SEO-05 single-page CTR diagnostic | Codex | Search Console and `growth/search-console-baseline.md` | Complete; no-change decision recorded 24 August | No files remain claimed. The page-filtered queries were too sparse or irrelevant to select a defensible intent. Recheck 21 September; then change at most one surface. |
 | SEO-02 technical discovery audit | Claude | PR [#52](https://github.com/kubersethi15/churn-killers-clubhouse/pull/52) | Complete; no critical discovery blockers across 62 live sitemap URLs | No files remain claimed after merge. Recheck the missing live topic-hub route after deployment and review indexation on 7 September. |
-| Claude acquisition sprint activation | Codex | PR [#77](https://github.com/kubersethi15/churn-killers-clubhouse/pull/77), expansion PR [#91](https://github.com/kubersethi15/churn-killers-clubhouse/pull/91), execution issue [#92](https://github.com/kubersethi15/churn-killers-clubhouse/issues/92), and `growth/claude-best-in-class-wave.md` | Active; the original audience-system queue is expanded by nine best-in-class packages spanning measurement trust, editorial benchmarking, archive quality, flagship formats, original evidence, collaborations, practitioner review, reader-journey QA, and weekly growth decisions | Claude starts with BC-01, then BC-02 and BC-03. Today already exceeds the three-comment limit, and CG-18 is Codex-owned, so Claude must not add a 24 August comment or duplicate Medium syndication. Completing one document is not a stopping condition. |
+| Claude launch-week earned-distribution lane | Claude | execution issue [#92](https://github.com/kubersethi15/churn-killers-clubhouse/issues/92), `growth/claude-growth-sprint.md`, and `growth/claude-best-in-class-wave.md` | BC-01 is complete; next active outcome is one non-duplicate practitioner or newsletter route | Claim one of CG-03 or CG-15, verify it against the live pipeline and sent-mail history, and carry one tailored proposal to a send-ready handoff. Do not duplicate Codex's CID-001/CID-004, reply, email-monitoring, or Medium lanes. Do not open another coordination or measurement artifact. |
 | Engagement playbook manager handoff | Codex | PR [#79](https://github.com/kubersethi15/churn-killers-clubhouse/pull/79); Google Sheet and WhatsApp | Complete; access, message delivery, and the live Sheet link are verified | No files remain claimed. The document governs engagement execution; the live Sheet remains authoritative for copy, timing, links, and assets. |
 | Claude first-read growth activation | Codex | PR [#82](https://github.com/kubersethi15/churn-killers-clubhouse/pull/82); activation issue [#83](https://github.com/kubersethi15/churn-killers-clubhouse/issues/83) closed after multiple Claude claims | Complete | Superseded by execution issue #92 and the expanded queue on `main`. |
 | CG-10 continuity corrective release | Codex | merged PR [#91](https://github.com/kubersethi15/churn-killers-clubhouse/pull/91), repairing merged PRs #85/#86 | Complete; build and focused safety tests passed | No files remain claimed. Claude may consume the corrected manifest and audits but must preserve live-catalog validation and outage-safe generation. |
@@ -68,10 +83,11 @@ contract is [`growth/claude-growth-sprint.md`](claude-growth-sprint.md). It has
 order and a binding handoff format.
 
 The best-in-class expansion in
-[`growth/claude-best-in-class-wave.md`](claude-best-in-class-wave.md) is now the
-immediate order: BC-01 measurement correction, BC-02 category/editorial
-benchmark, then BC-03 archive credibility-and-utility triage. Claude continues
-through BC-09 without waiting for another assignment.
+[`growth/claude-best-in-class-wave.md`](claude-best-in-class-wave.md) remains a
+durable queue, not a launch-week concurrency target. BC-01 is complete. Claude's
+next outcome is one earned-distribution route under CG-03 or CG-15. BC-02 and
+BC-03 resume only after that route is sent or explicitly parked with current
+eligibility evidence.
 
 Claude should claim one item, finish or explicitly park it with evidence, and
 take the next unblocked item without waiting for Codex to assign more work. A
@@ -81,11 +97,11 @@ task supported by the available connections.
 
 | Priority | ID | Workstream | Required outcome now |
 |---|---|---|---|
-| 1 | CG-01 | Weekday LinkedIn relationship loop | Three verified, substantive, no-link operator comments per weekday, with duplicate checks and aggregate weekly evidence |
-| 2 | CG-02 | Founder reply and comment rescue | Answer up to five substantive unanswered questions or disagreements on Kuber's own recent posts; no praise farming or automatic links |
-| 3 | CG-03 | New earned-audience route | Verify and pitch one non-duplicate practitioner audience using a distinct, source-safe operating idea |
-| 4 | CG-04 | Newsletter collaboration map | Eight verified operator newsletters, three ranked fits, and one tailored collaboration proposal |
-| 5 | CG-05 | Community-native contribution | One complete, rules-compliant practitioner answer that works without promotion |
+| 1 | CG-03 | New earned-audience route | Verify one non-duplicate practitioner audience and prepare one source-safe proposal tied to an existing Churn Is Dead tool |
+| 2 | CG-15 | Cross-newsletter collaboration | Carry one high-fit newsletter collaboration to a send-ready handoff with originality and canonical treatment stated |
+| 3 | BC-02 | Category and editorial benchmark | Resume only after the earned-distribution lane; produce a decision that changes a named issue or pitch, not a standalone report |
+| 4 | BC-03 | Archive credibility triage | Resume after BC-02; prioritize pages with current discovery or distribution evidence |
+| 5 | CG-05 | Community-native contribution | Keep PR #105 parked until it is rebased, passes the shared three-action cap, and proves a current eligible community route |
 
 CG-06 to CG-11 continue with the contributor kit, LinkedIn post-to-asset
 continuity, best-in-class editorial decision research, the aggregate costly-
