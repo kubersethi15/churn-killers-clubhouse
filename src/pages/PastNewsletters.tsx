@@ -92,18 +92,20 @@ const PastNewsletters = () => {
   }, {});
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#f3efe7]">
       <Header />
       <main id="main-content">
       
       {/* Header */}
-      <section className="pt-28 pb-10 md:pt-36 md:pb-14 bg-white border-b border-gray-100">
+      <section className="editorial-grid-dark relative overflow-hidden border-b border-white/15 bg-navy-dark pb-14 pt-28 text-white md:pb-20 md:pt-40">
+        <div className="signal-orbit opacity-40" aria-hidden="true" />
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-2xl mx-auto">
-            <h1 className="text-3xl md:text-5xl font-serif font-black text-navy-dark mb-3">
+          <div className="relative mx-auto max-w-[1100px]">
+            <p className="mb-5 text-[10px] font-black uppercase tracking-[0.24em] text-red-400">The complete archive</p>
+            <h1 className="font-serif text-6xl font-black uppercase leading-[0.82] tracking-[-0.065em] md:text-8xl lg:text-9xl">
               All Issues
             </h1>
-            <p className="text-lg text-gray-600">
+            <p className="mt-8 max-w-xl border-l-2 border-red-500 pl-5 text-lg leading-relaxed text-white/65 md:text-xl">
               Browse every issue, or search for the problem you are working on.
             </p>
           </div>
@@ -113,20 +115,20 @@ const PastNewsletters = () => {
       {/* Newsletter List */}
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-4xl mx-auto">
             {newsletters.length > 0 && (
               <section aria-labelledby="editor-picks" className="mb-12">
                 <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-red-600">Best place to start</p>
-                <h2 id="editor-picks" className="font-serif text-2xl font-black text-navy-dark">Three issues that show how Churn Is Dead works.</h2>
-                <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                <h2 id="editor-picks" className="max-w-2xl font-serif text-3xl font-black uppercase leading-tight tracking-[-0.035em] text-navy-dark md:text-4xl">Three issues that show how Churn Is Dead works.</h2>
+                <div className="mt-7 grid border-y-2 border-navy-dark sm:grid-cols-3 sm:divide-x sm:divide-navy-dark/20">
                   {topicHubs.slice(0, 3).map((topic) => {
                     const pick = newsletters.find(item => item.slug === topic.reads[0]?.slug);
-                    return pick ? <Link key={pick.slug} to={`/newsletter/${pick.slug}`} className="group rounded-xl border border-gray-200 p-4 hover:border-red-300"><span className="text-[10px] font-bold uppercase tracking-wider text-red-600">Recommended</span><h3 className="mt-2 font-sans text-sm font-bold leading-snug text-navy-dark group-hover:text-red-600">{pick.title}</h3><p className="mt-2 text-xs text-gray-500">{problemDomainFor(pick)}</p></Link> : null;
+                    return pick ? <Link key={pick.slug} to={`/newsletter/${pick.slug}`} className="group min-h-[210px] p-5 transition-colors hover:bg-white"><span className="text-[10px] font-bold uppercase tracking-wider text-red-600">Recommended</span><h3 className="mt-5 font-serif text-xl font-black leading-tight text-navy-dark group-hover:text-red-600">{pick.title}</h3><p className="mt-5 font-mono text-[10px] uppercase tracking-wider text-gray-500">{problemDomainFor(pick)}</p></Link> : null;
                   })}
                 </div>
               </section>
             )}
-            <div className="mb-12 min-h-[365px] rounded-xl border border-gray-200 bg-gray-50 p-5 sm:min-h-[250px]">
+            <div className="mb-14 min-h-[365px] border-2 border-navy-dark bg-white p-5 shadow-[8px_8px_0_0_hsl(var(--red))] sm:min-h-[250px] md:p-7">
               {loading ? (
                 <div className="animate-pulse" aria-hidden="true">
                   <div className="mb-4 h-3 w-24 rounded bg-gray-200" />
@@ -206,7 +208,7 @@ const PastNewsletters = () => {
                                   {problemDomainFor(nl)}
                                 </span>
                               )}
-                              <h3 className="text-lg md:text-xl font-serif font-bold text-navy-dark leading-snug group-hover:text-red-600 transition-colors duration-200">
+                              <h3 className="font-serif text-2xl font-black leading-tight tracking-[-0.025em] text-navy-dark transition-colors duration-200 group-hover:text-red-600 md:text-3xl">
                                 {nl.title}
                               </h3>
                               <p className="text-sm text-gray-600 mt-1">
@@ -239,10 +241,10 @@ const PastNewsletters = () => {
       </section>
 
       {/* Subscribe CTA */}
-      <section className="py-14 md:py-20 bg-navy-dark">
+      <section className="editorial-grid-dark border-t border-white/15 bg-navy-dark py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-serif font-black text-white mb-3">
+            <h2 className="font-serif text-4xl font-black uppercase leading-none tracking-[-0.045em] text-white md:text-6xl">
               Don't miss the next one.
             </h2>
             <p className="text-gray-400 mb-8">
