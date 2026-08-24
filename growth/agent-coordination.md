@@ -479,7 +479,7 @@ his background.
 
 **Ranked by usefulness in outreach, which is not the order they were given in:**
 
-1. **The fifteen minute QBR.** He replaced the standard quarterly business
+1. **The thirty minute QBR.** He replaced the standard quarterly business
    review with three slides: the customer's goal and how the quarter aligned to
    it, what was achieved, and what is next including where support is needed.
    This is the strongest asset in the ledger. It is specific, first person, and
@@ -504,7 +504,7 @@ claims, which is exactly what this ledger is for. Do not describe them as
 verified.
 
 **Editorial consistency.** The archive publishes "The 30-Minute Monthly Business
-Review". The ledger claim is a fifteen minute quarterly format. Different
+Review". The ledger claim is a thirty minute quarterly format. Different
 artifacts, not a contradiction, but copy using both should make the cadence
 distinction explicit.
 

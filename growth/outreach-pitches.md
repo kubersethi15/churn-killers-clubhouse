@@ -383,7 +383,7 @@ Following up once on the decision rights idea, then I will leave it.
 One thing I left out of the first note. The reason I care about decision rights
 is that I spent more than ten years in CS, from support through to executive,
 and the change that mattered most was not automation. It was killing the
-quarterly business review and replacing it with fifteen minutes and three
+quarterly business review and replacing it with thirty minutes and three
 slides: the customer's goal and how the quarter aligned to it, what we achieved,
 and what is next including where we need support.
 
@@ -434,7 +434,7 @@ Following up once, then I will stop.
 
 Given the daily format, here is the tightest version. The most overused term in
 this profession is QBR, and most of them are a waste of everyone's time. I
-replaced ours with fifteen minutes and three slides: the customer's goal and how
+replaced ours with thirty minutes and three slides: the customer's goal and how
 the last three months aligned to it, what we achieved, and what is next plus
 where we need support. That is the whole thing.
 

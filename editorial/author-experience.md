@@ -14,7 +14,7 @@ not written here.
 | 1 | Tenure and progression | "More than ten years in Customer Success, moving from support into CSM roles and then into CS executive leadership." |
 | 2 | Leadership scope | "Has led CS teams and built CS functions, including KPI design, training, team development and team metrics." |
 | 3 | Revenue scale | "Has been accountable for customer revenue in the USD 5 to 10 million ARR range." |
-| 4 | Operating system built | "Replaced the standard quarterly business review with a fifteen minute, three slide format: the customer's goal and how the last three months aligned to it, what was achieved, and what is next including where support is needed." |
+| 4 | Operating system built | "Replaced the standard quarterly business review with a thirty minute, three slide format: the customer's goal and how the last three months aligned to it, what was achieved, and what is next including where support is needed." |
 | 5 | Changed position | "Used to believe a strong product could carry an account through anything. Changed that view after being burnt several times relying on the product. Relationships carry accounts through problems product quality does not." |
 | 6 | LinkedIn reach | "Kuber publishes to roughly 8,200 followers on LinkedIn." Round down; never state a precise count. |
 | 7 | LinkedIn Premium | Holds an active LinkedIn Premium subscription, including the profile custom button and Premium audience analytics. |
@@ -42,7 +42,7 @@ not written here.
 ### Consistency note for editorial
 
 The archive publishes `fire-your-qbr-heres-what-to-do-instead` as "The
-30-Minute Monthly Business Review". Claim 4 is a fifteen minute quarterly
+30-Minute Monthly Business Review". Claim 4 is a thirty minute quarterly
 format. These are different artifacts, not a contradiction, but any copy using
 both should make the cadence distinction explicit rather than blur them.
 
