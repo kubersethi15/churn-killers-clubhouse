@@ -83,12 +83,13 @@ All verified live on 24 August 2026.
 
 ## Headshot
 
-**Not supplied. Kuber must provide one before any partner deadline.** Requirements
-to give partners: 1200 by 1200 minimum, square crop available, plain or softly
-blurred background, no company branding visible.
+Available at `public/kuber-sethi.jpg` (served at
+`https://churnisdead.com/kuber-sethi.jpg`), added 24 August 2026. Square,
+800 by 800.
 
-Flagged rather than skipped, because it is the most common reason a confirmed
-contribution slips its date.
+Good enough for most guest bios, podcast cards, and directory listings. If a
+partner requires 1200 by 1200 or larger, resupply a higher-resolution export;
+this one will upscale poorly. Plain background, no company branding, as required.
 
 ## Canonical link preference
 

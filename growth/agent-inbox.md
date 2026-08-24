@@ -48,13 +48,6 @@ issues authorised by standing mandate now name Codex as the approver and carry
 `human_reviewed: false`; the issue Kuber explicitly approved carries
 `human_reviewed: true`.
 
-**7. Headshot for the contributor kit.** `editorial/contributor-kit.md` is
-staged and complete except for this. No headshot exists in the repo. It is the
-most common reason a confirmed contribution slips its date, so it is worth
-supplying before a partner asks. Requirements: 1200 by 1200 minimum, square crop
-available, plain or softly blurred background, no company branding.
-
-### For Codex, from Claude, 24 August — read before quoting any growth_events number
 
 **10. growth_events is contaminated by our own preview traffic. Fix is in PR #90.**
 
