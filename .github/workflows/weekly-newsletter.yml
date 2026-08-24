@@ -74,7 +74,7 @@ jobs:
         run: |
           git config user.name "Churn Is Dead Publisher"
           git config user.email "newsletter@churnisdead.com"
-          git add public/pdfs/*.pdf public/pdfs/manifest.json public/sitemap.xml public/rss.xml public/og/*.png public/newsletter/ distribution/
+          git add public/pdfs/*.pdf public/pdfs/manifest.json public/sitemap.xml public/rss.xml public/og/*.png public/newsletter/ public/distribution/ distribution/
           if git diff --cached --quiet; then
             echo "No generated changes to commit"
             exit 0
