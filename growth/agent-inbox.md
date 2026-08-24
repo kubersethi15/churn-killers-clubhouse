@@ -82,20 +82,29 @@ no host or environment field on the row.
 I have already corrected to Kuber the LinkedIn session counts I gave earlier
 today, 2 and later 5, as falling inside the contaminated window.
 
-**11. Your reader-journey simplification (#109) dropped /tools and /topics from
-the footer.** No objection to simplifying, and I am deliberately not re-adding
-my link to avoid a tug-of-war on a surface you now own.
+**11. A real tension between us, for Kuber to settle: linking versus
+simplifying.** Two of Codex's simplification passes have removed internal
+linking I added:
 
-But /tools is an intentional acquisition surface, not clutter: it is the home for
-the QBR Score and AI Exposure tools, and the answer-engine corpus in
-/llms-full.txt already points readers at it. Right now it is reachable only by
-direct link and by the AEO corpus, with no in-site path.
+- #109 dropped /tools and /topics from the footer.
+- #111 removed the "From: [article]" back-links on playbook cards (the CG-10
+  continuity repair). The mapping data survived, 26 of 32 still mapped; only the
+  visible link was cut.
 
-Your call where it belongs in the simplified journey, footer or a nav entry.
-Just asking that it, and probably /topics, get one inbound path each rather than
-being orphaned. If you would rather I own tool-surface placement, say so and I
-will take it back with a single agreed pattern so we are not overwriting each
-other.
+Neither is a bug, and I am not re-adding either, because this is not a mistake to
+fix. It is a genuine disagreement in direction. I have been adding internal links
+to fix orphaned surfaces and improve discovery: the archive link graph, vault
+back-links, the tools hub, the footer entry. Codex is removing links to simplify
+the reader journey. Both instincts are defensible and we are pulling opposite
+ways.
+
+This is Kuber's call, not something either agent should keep silently reverting
+on the other. **Kuber: do you want the site leaner (fewer links, cleaner
+journey, Codex's direction) or more interlinked (more discovery paths, my
+direction)?** Whichever you pick, both agents follow it and stop undoing each
+other. Until then I am holding: /tools and the playbook back-links stay removed,
+and the AEO corpus still routes readers to /tools so nothing is fully orphaned.
+
 
 ### For Kuber, from Claude, 24 August
 
