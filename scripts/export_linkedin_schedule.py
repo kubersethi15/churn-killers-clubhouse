@@ -106,6 +106,7 @@ def manager_rows(
     slug: str,
     publication_time: datetime | None,
     first_comment: str = "",
+    approved: bool = False,
 ) -> list[dict[str, str]]:
     rows: list[dict[str, str]] = []
     for post in posts:
@@ -118,7 +119,7 @@ def manager_rows(
             "Content": post["content"],
             "First Comment": first_comment,
             "Platform": "LinkedIn",
-            "Status": "Draft - approval required",
+            "Status": "Approved for Posting" if approved else "Draft - approval required",
             "Newsletter": slug,
             "Strategy": post["strategy"],
         })
@@ -183,10 +184,18 @@ def main() -> int:
 
     first_comment_path = issue_dir / "linkedin_first_comment.md"
     first_comment = first_comment_path.read_text(encoding="utf-8").strip() if first_comment_path.exists() else ""
-    rows = manager_rows(posts, slug, load_publication_time(slug), first_comment)
+    approved = linkedin_is_approved(slug)
+    rows = manager_rows(
+        posts,
+        slug,
+        load_publication_time(slug),
+        first_comment,
+        approved=approved,
+    )
     schedule_path = issue_dir / "linkedin_schedule.csv"
     write_csv(rows, schedule_path)
-    print(f"LinkedIn manager draft: {len(rows)} post(s) -> {schedule_path}")
+    handoff_state = "approved handoff" if approved else "draft"
+    print(f"LinkedIn manager {handoff_state}: {len(rows)} post(s) -> {schedule_path}")
 
     if args.approved_buffer:
         buffer_path = issue_dir / "buffer_import.csv"
