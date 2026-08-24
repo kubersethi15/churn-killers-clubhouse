@@ -136,3 +136,90 @@ Kuber Sethi
 Churn Is Dead
 
 https://churnisdead.com/
+
+## The Digital CX Podcast: guest conversation
+
+**To:** alex@digitalcustomersuccess.com (verified 24 August 2026 on
+https://digitalcustomersuccess.com/contact/)
+
+**Host:** Alex Turkovic. **Secondary route:** LinkedIn, show profile and host
+profile. **Angle:** CS Decision Rights Map. Distinct from every other pitch in
+the pipeline.
+
+**Subject:** Which CS decisions should AI never own
+
+Hi Alex,
+
+I publish Churn Is Dead, an evidence-led set of operating systems for Customer
+Success leaders.
+
+Most digital CS conversations argue about which tasks to automate. I think that
+is the wrong unit. The useful question is which decisions a CSM is accountable
+for, and which of those a model can support without pretending to own the
+judgment.
+
+The operating artifact is a CS Decision Rights Map. For each recurring decision
+it names four things: who is accountable, what evidence is required, what the
+model is allowed to do, and what happens when the evidence is missing. Renewal
+risk calls, escalation thresholds, and expansion timing sit in different places
+on that map, and treating them the same is how teams end up with automation
+they quietly stop trusting.
+
+A useful episode could cover:
+
+1. why task-level automation questions produce brittle answers;
+2. the difference between a model supplying evidence and a model supplying a
+   verdict;
+3. the decisions where a confident wrong answer costs more than no answer;
+4. what to do when the evidence a decision needs does not exist yet.
+
+Listeners would leave with a map they can fill in for their own team. Happy to
+keep it practitioner-level and non-promotional, and to adapt the angle to what
+your audience is already arguing about.
+
+Kuber Sethi
+
+Churn Is Dead
+
+https://churnisdead.com/
+
+## Retention Ranch: guest conversation
+
+**To:** contact form at https://www.retentionranch.com/guest (verified
+24 August 2026). The page asks for a brief overview, what has been achieved,
+and the unique perspective a guest would bring.
+
+**Angle:** Value Proof Cadence. Their stated audience is B2B SaaS founders,
+product leaders, and CS leaders, with a focus on retention and onboarding.
+
+**Subject:** Onboarding ends. Value proof does not.
+
+Hi Retention Ranch team,
+
+I publish Churn Is Dead, an evidence-led set of operating systems for Customer
+Success leaders. It is a publication, not a product pitch, and every issue ships
+one operating model and one tool a reader can run.
+
+The perspective I would bring: most retention problems are diagnosed too late
+because onboarding is treated as a project with an end date rather than the
+first checkpoint in a value-proof cadence. Teams declare go-live, the
+implementation team leaves, and nobody re-establishes what proof of value looks
+like until a renewal is already in question.
+
+The operating artifact is a Value Proof Cadence. It defines the evidence
+checkpoints between go-live and renewal, who owns each one, and what a failed
+checkpoint actually triggers. The point is that a missed checkpoint is a signal
+you can act on months earlier than a health score moves.
+
+For your audience specifically, the practical outcome is a checkpoint schedule
+they can run on one account this quarter, and a rule for what happens when a
+checkpoint fails.
+
+I am happy to keep this concrete and non-promotional, and to share the source
+material behind the framework ahead of recording.
+
+Kuber Sethi
+
+Churn Is Dead
+
+https://churnisdead.com/

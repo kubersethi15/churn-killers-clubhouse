@@ -2,7 +2,19 @@
 
 Only user-confirmed first-person claims belong here. An empty ledger means newsletter drafts must use neutral language or clearly labelled illustrative examples.
 
-No claims have been confirmed yet.
+## Confirmed claims
+
+| # | Claim | Exact safe wording | Confirmed | Re-confirm |
+|---|---|---|---|---|
+| 1 | LinkedIn reach | "Kuber Sethi publishes to roughly 8,200 followers on LinkedIn." Round down; never state a precise count. | Kuber, 24 August 2026 | Before any reuse after 24 September 2026, since follower counts move |
+| 2 | LinkedIn Premium | Kuber holds an active LinkedIn Premium subscription, including the profile custom button and Premium audience analytics. | Kuber, 24 August 2026 | On subscription change |
+
+Claim 1 is reach, not results. It must never be presented as subscriber count,
+engagement, readership, or evidence that a channel works. Prefer omitting it
+entirely in practitioner outreach, where a distinct operating idea carries more
+weight than audience size.
+
+No other claims have been confirmed yet.
 
 ## Confirmation queue for Kuber
 
