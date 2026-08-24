@@ -18,6 +18,7 @@ const CSAnalyzer = lazy(() => import("./pages/CSAnalyzer"));
 const CSAnalyzerDemo = lazy(() => import("./pages/CSAnalyzerDemo"));
 const CSAnalyzerShare = lazy(() => import("./pages/CSAnalyzerShare"));
 const AIExposureScore = lazy(() => import("./pages/AIExposureScore"));
+const QBRScore = lazy(() => import("./pages/QBRScore"));
 const StartHere = lazy(() => import("./pages/StartHere"));
 const Subscribe = lazy(() => import("./pages/Subscribe"));
 const Auth = lazy(() => import("./pages/Auth"));
@@ -60,6 +61,7 @@ const App = () => (
               <Route path="/cs-analyzer/share/:shareId" element={<CSAnalyzerShare />} />
               <Route path="/cs-analyzer-waitlist" element={<Navigate to="/cs-analyzer" replace />} />
               <Route path="/ai-exposure-score" element={<AIExposureScore />} />
+              <Route path="/qbr-score" element={<QBRScore />} />
               <Route path="/start" element={<StartHere />} />
               <Route path="/subscribe" element={<Subscribe />} />
               <Route path="/topics" element={<Topics />} />
