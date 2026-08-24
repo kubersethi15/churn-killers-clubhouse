@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDate } from "@/utils/formatUtils";
@@ -19,15 +19,41 @@ interface NewsletterCard {
 }
 
 /**
- * Shows the 3 most recent newsletters (excluding the one currently being read).
- * Designed to live at the bottom of NewsletterDetail to drive pages-per-session
- * and prevent the dead-end reading experience.
+ * Shows the issues most topically related to the one being read.
+ *
+ * The set is computed at build time by scripts/related_graph.py and embedded in
+ * the prerendered page as #ci-related-issues, so the rendered DOM matches the
+ * crawlable HTML and needs no Supabase round-trip. The previous behaviour --
+ * the 3 most recent issues in the same category -- left 23 of 46 published
+ * issues with no inbound internal link at all and rewrote the graph weekly.
+ *
+ * The Supabase query remains as a fallback for dev and for any page served
+ * before the prerender step has run.
  */
+type EmbeddedRelated = { hub: string | null; items: NewsletterCard[] };
+
+const readEmbeddedRelated = (): EmbeddedRelated | null => {
+  if (typeof document === "undefined") return null;
+  const node = document.getElementById("ci-related-issues");
+  if (!node?.textContent) return null;
+  try {
+    const parsed = JSON.parse(node.textContent) as EmbeddedRelated;
+    return parsed?.items?.length ? parsed : null;
+  } catch {
+    return null;
+  }
+};
+
 const RelatedNewsletters = ({ currentSlug, category, limit = 3 }: RelatedNewslettersProps) => {
-  const [items, setItems] = useState<NewsletterCard[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Read once: the prerendered payload never changes after hydration.
+  const embedded = useMemo(readEmbeddedRelated, []);
+  const [items, setItems] = useState<NewsletterCard[]>(embedded?.items ?? []);
+  const [loading, setLoading] = useState(!embedded);
+  const hubSlug = embedded?.hub ?? null;
 
   useEffect(() => {
+    // The build-time graph is authoritative when present.
+    if (embedded) return;
     const fetchRecent = async () => {
       try {
         const nowIso = new Date().toISOString();
@@ -64,7 +90,7 @@ const RelatedNewsletters = ({ currentSlug, category, limit = 3 }: RelatedNewslet
       }
     };
     fetchRecent();
-  }, [category, currentSlug, limit]);
+  }, [category, currentSlug, limit, embedded]);
 
   if (loading || items.length === 0) return null;
 
@@ -74,7 +100,7 @@ const RelatedNewsletters = ({ currentSlug, category, limit = 3 }: RelatedNewslet
         Keep Reading
       </p>
       <h2 className="text-2xl sm:text-3xl font-bold mb-8 text-gray-900">
-        {category ? `More on ${category}` : "Recent issues"}
+        More on this problem
       </h2>
       <div className="grid gap-6 md:grid-cols-3">
         {items.map((nl) => (
@@ -103,8 +129,16 @@ const RelatedNewsletters = ({ currentSlug, category, limit = 3 }: RelatedNewslet
           to="/newsletters"
           className="inline-block text-sm font-semibold text-red-700 hover:underline"
         >
-          See all issues →
+          See all issues
         </Link>
+        {hubSlug && (
+          <Link
+            to={`/topics/${hubSlug}`}
+            className="inline-block ml-6 text-sm font-semibold text-red-700 hover:underline"
+          >
+            More on this topic
+          </Link>
+        )}
       </div>
     </section>
   );
