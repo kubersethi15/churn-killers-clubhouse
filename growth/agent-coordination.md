@@ -356,3 +356,60 @@ The figures above were verified through the Supabase connection instead.
 
 **Review:** first meaningful read once LinkedIn sessions pass 20, expected after
 CID-001 closes on 1 September.
+
+## Claude handoff — ACQ-03, and why it produced a map instead of a pitch
+
+**Branch:** `growth/acq-03-route-map`.
+
+**ACQ-03 asked for one new verified route with a staged pitch. I did not
+produce one, and the reason is the finding.**
+
+Targets researched and first-party checked on 24 August:
+
+| Target | Result |
+|---|---|
+| Lifetime Value Media, The Daily Standup | `lifetimevaluemedia.com` returns 404; `lifetimevalue.show` does not resolve. No submission route exists |
+| CSM Practice podcast | Contact page returns HTTP 500; podcast page publishes no guest route |
+| Unchurned (UpdateAI) | No first-party guest route, checked earlier |
+| The Customer Success Channel (Planhat) | Mid host transition; only address found was from an aggregator |
+| The CS Café | Sells sponsorship packages, does not offer guest slots |
+
+That is five consecutive targets with no verifiable open door. Combined with the
+two that did have one, The Digital CX Podcast and Retention Ranch, the pattern
+is clear enough to plan around: **CS media is almost entirely relationship-gated.
+Open submission routes are the exception, not the norm.**
+
+Manufacturing more cold pitches would not fix this. There is nowhere legitimate
+to send them.
+
+### The useful part: the circuit is small and interconnected
+
+From Alex Turkovic's own episode listings on `podcast.digitalcustomersuccess.com`:
+
+- Dillon Young (Lifetime Value) appeared on The Digital CX Podcast twice,
+  episodes 022 and 088.
+- Irit Eizips (CSM Practice) appeared on episode 047.
+
+Both hosts we cannot reach directly have already appeared on the show we have
+already pitched. Alex Turkovic is a hub node in this circuit.
+
+**Strategy implication.** Pitching ten shows in parallel is not available, since
+most have no route. Landing one hub node and then moving warm is. That makes the
+Digital CX pitch already sent disproportionately important: it is not one of
+several parallel bets, it is the entry point to the circuit.
+
+**Recommended sequencing.**
+
+1. Let the Digital CX pitch run. Follow up once on 7 September as recorded.
+2. Do not cold-approach Dillon Young or Irit Eizips now. A warm approach after a
+   Digital CX appearance is worth far more than a cold LinkedIn message, and the
+   cold attempt would spend the introduction.
+3. Retention Ranch runs independently, since it had its own open route.
+4. Keep new-target research going, but measure it in verified routes found, not
+   pitches written. Recent hit rate is roughly two in seven.
+
+**Recorded** as pipeline rows 18 and 19 with `relationship_route_*` statuses so
+neither gets cold-pitched by either agent.
+
+**Metric.** Verified open routes discovered per week, and replies from the two
+live pitches. Review 8 September, after the single follow-up date.
