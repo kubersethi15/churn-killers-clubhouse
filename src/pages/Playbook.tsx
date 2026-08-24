@@ -123,7 +123,13 @@ const matchesProblem = (playbook: Playbook, problem: typeof PROBLEMS[number]) =>
 };
 
 const PlaybookVault = () => {
-  const [query, setQuery] = useState("");
+  // ?q= lets a campaign land on exactly the playbook it promised, instead of
+  // dropping someone who asked for one thing onto a vault of thirty-four.
+  // Mirrors the existing ?kit= behaviour below.
+  const [query, setQuery] = useState(() => {
+    if (typeof window === "undefined") return "";
+    return (new URLSearchParams(window.location.search).get("q") || "").slice(0, 80);
+  });
   const [problem, setProblem] = useState<typeof PROBLEMS[number]>(() => {
     if (typeof window === "undefined") return "All";
     return KIT_FILTERS[new URLSearchParams(window.location.search).get("kit") || ""] || "All";
