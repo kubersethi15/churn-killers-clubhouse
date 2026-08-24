@@ -42,36 +42,43 @@ The ready-to-claim list is a starting queue, not a ceiling. An agent may add and
 | Subscriber referral loop v2 | Codex | PR [#36](https://github.com/kubersethi15/churn-killers-clubhouse/pull/36), merged as `b7d1b23`; QA repair on `codex/referral-measurement-qa-fixes` | Public surfaces live; exact event-semantics and conversion-rate repair claimed 24 August | Claimed: `NewsletterForm`, growth event types, referral RPC migration, referral dashboard copy, focused tests, and aggregate action log. Do not review performance until exact semantics deploy and the `LOOP-02` evidence gate is met. |
 | Tuesday CID-001 launch | Codex + social manager | Website at 18:00 Sydney; LinkedIn at 18:15 | Approved and scheduled | Do not alter copy, CTA, UTM, timing, or add a second short launch post through baseline close |
 | CID-004 LinkedIn Newsletter reactivation | Codex + social manager | Existing `Churn is Dead` LinkedIn Newsletter | All four editions prepared, approved, scheduled, and verified for 26 August, 2 September, 9 September, and 16 September at 18:15 Sydney | Preserve `linkedin/newsletter/linkedin_newsletter` attribution, replace the Wednesday calendar slot rather than adding a duplicate post, and run the aggregate CID-004 report after each seven-day window |
-| Partner outreach and replies | Codex | Gmail, LinkedIn, shared Growth Partnerships sheet | Active | Customer Success Collective, Customer Success Network, Practical CSM, SaaS Therapy, Digital CX, Retention Ranch, and CS Insider; exact follow-up dates are in `growth/channel-pipeline.csv` |
+| Existing partner outreach and replies | Codex | Gmail, LinkedIn, shared Growth Partnerships sheet | Active | Customer Success Collective, Customer Success Network, Practical CSM, SaaS Therapy, Digital CX, Retention Ranch, CS Insider, Lifetime Value Media, Gain Grow Retain, and SuccessCOACHING; exact follow-up dates are in `growth/channel-pipeline.csv`. Claude may claim a new, non-duplicate route after checking this list, the pipeline, and Gmail. |
 | LOOP-03 welcome activation measurement | Codex | PR [#73](https://github.com/kubersethi15/churn-killers-clubhouse/pull/73), merged as `6017c7d`; linked Supabase production project | Measurement implementation complete and backend deployed; observing until 20 tagged welcome click sessions | No files remain claimed. Re-run the aggregate report after each Tuesday acquisition window. Do not change welcome copy during CID-001 or before the 20-session evidence gate. |
 | ACQ-07 podcast outreach | Claude staged, Codex verified and sent | PR [#42](https://github.com/kubersethi15/churn-killers-clubhouse/pull/42), merged as `63febe2`; Gmail | Two pitches sent and verified 24 August | No files remain claimed. Monitor replies; follow up once on 7 September if silent, then stop. |
 | Organic discovery: internal link graph | Claude | PR [#40](https://github.com/kubersethi15/churn-killers-clubhouse/pull/40), merged as `a04de10` | Complete; independently reviewed and merged | No longer file-claimed. Review Search Console impact from 7 September 2026; use `scripts/report_internal_link_graph.py` to remeasure after archive changes. |
 | SEO-05 single-page CTR diagnostic | Codex | Search Console and `growth/search-console-baseline.md` | Complete; no-change decision recorded 24 August | No files remain claimed. The page-filtered queries were too sparse or irrelevant to select a defensible intent. Recheck 21 September; then change at most one surface. |
 | SEO-02 technical discovery audit | Claude | PR [#52](https://github.com/kubersethi15/churn-killers-clubhouse/pull/52) | Complete; no critical discovery blockers across 62 live sitemap URLs | No files remain claimed after merge. Recheck the missing live topic-hub route after deployment and review indexation on 7 September. |
+| Claude acquisition sprint activation | Codex | `codex/claude-growth-sprint` | Claimed 24 August; building a ready-to-run external-Claude queue | Claimed: `growth/claude-growth-sprint.md`, the Claude queue section in this file, and the addressed launch item in `growth/agent-inbox.md`. No product, editorial-package, campaign, or LinkedIn execution files are claimed. |
 
 ## Claude rolling queue
 
-**Re-ordered 24 August 2026 under Kuber's explicit audience-acquisition-first
-decision: earned distribution first while the completed SEO foundation
-compounds.** ACQ-03 is now first, followed by MON-01 and LOOP-03. Scheduled
-Search Console reviews still run; new SEO work does not displace active
-audience acquisition without new evidence.
+**Kuber expanded Claude's brief on 24 August 2026: audience growth, engagement,
+authority and monetisation discovery are all in scope.** The complete execution
+contract is [`growth/claude-growth-sprint.md`](claude-growth-sprint.md). It has
+eleven start-now tasks, four dated follow-throughs, metrics, stop rules, connection
+order and a binding handoff format.
 
-Claude should claim the first unblocked item, finish or explicitly park it, then
-move to the next. A missing optional connection is not a reason to stop: complete
-the repository and evidence work first, and record the exact access or live check
-needed in the PR.
+Claude should claim one item, finish or explicitly park it with evidence, and
+take the next unblocked item without waiting for Codex to assign more work. A
+missing connection is not a reason to idle: complete the repository, research,
+draft or test portion, record the precise live action still needed, then take a
+task supported by the available connections.
 
-| Priority | ID | Workstream | Outcome | Boundaries | Proof required |
-|---|---|---|---|---|---|
-| 1 | ACQ-03 | New earned-audience route | Verify one new high-fit practitioner audience and stage a distinct, source-led contribution or appearance pitch. | Check `channel-pipeline.csv` and Gmail for duplicates first. Gmail access is optional for research and drafting; if not connected, stop before send and hand the verified draft to Codex. | First-party eligibility evidence, non-duplicative angle, target route, attribution label, exact follow-up rule, and sent/staged status |
-| 2 | MON-01 | Costly-problem signal design | Turn existing aggregate replies, tool opens, and partner conversations into a minimal decision ledger for a future manually delivered operating review. | Follow `editorial/monetization-evidence-plan.md`. No prices, checkout, mass survey, or new product build. No private correspondence in Git. | Field definitions, source mapping, readiness threshold, stop rule, and the smallest safe implementation or a justified no-change decision |
-| 3 | LOOP-03 | Welcome activation measurement audit | Establish whether the existing aggregate events can answer which welcome path is used: Start, Vault, diagnostic, reply, or no qualified action. Repair only missing or misleading aggregate instrumentation. | Supabase may be connected for aggregate counts, function logs, and safe verification. Never export or inspect subscriber email addresses or message content. Do not alter welcome copy during CID-001. | Event dictionary, live aggregate baseline if access exists, implementation/tests for any gap, minimum-evidence threshold, and one-variable follow-up |
+| Priority | ID | Workstream | Required outcome now |
+|---|---|---|---|
+| 1 | CG-01 | Weekday LinkedIn relationship loop | Three verified, substantive, no-link operator comments per weekday, with duplicate checks and aggregate weekly evidence |
+| 2 | CG-02 | Founder reply and comment rescue | Answer up to five substantive unanswered questions or disagreements on Kuber's own recent posts; no praise farming or automatic links |
+| 3 | CG-03 | New earned-audience route | Verify and pitch one non-duplicate practitioner audience using a distinct, source-safe operating idea |
+| 4 | CG-04 | Newsletter collaboration map | Eight verified operator newsletters, three ranked fits, and one tailored collaboration proposal |
+| 5 | CG-05 | Community-native contribution | One complete, rules-compliant practitioner answer that works without promotion |
 
-Completed evidence tasks are deliberately absent from this queue. Search Console
-baseline is complete in PR #47, health-score consolidation is closed in PR #48,
-and the first topic-hub extension is complete in PR #43. Do not reopen them
-without new measured evidence.
+CG-06 to CG-11 continue with the contributor kit, LinkedIn post-to-asset
+continuity, best-in-class editorial decision research, the aggregate costly-
+problem ledger, problem-to-tool continuity, and relevant backlink reclamation.
+Post-baseline implementation and the 7 and 21 September organic reviews are
+date-gated. Completed Search Console,
+technical discovery, welcome-instrumentation and QBR-deep-link work must not be
+reopened without new measured evidence.
 
 ## Connection handoff
 

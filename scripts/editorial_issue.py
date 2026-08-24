@@ -205,6 +205,10 @@ def validate_issue(issue: EditorialIssue, require_approved: bool = False) -> Val
         for field in ("approved_by", "approved_at", "basis"):
             if not approval.get(field):
                 errors.append(f"approved issue is missing approval field '{field}'")
+        if not isinstance(approval.get("human_reviewed"), bool):
+            errors.append("approved issue must record human_reviewed as true or false")
+        if approval.get("human_reviewed") is False and approval.get("approved_by") == "Kuber Sethi":
+            errors.append("standing-mandate approval must not be attributed to Kuber as human reviewer")
     if require_approved and status != "approved":
         errors.append("publication blocked: issue is not approved")
 
