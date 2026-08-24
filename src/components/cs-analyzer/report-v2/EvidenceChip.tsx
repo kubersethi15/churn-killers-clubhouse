@@ -25,10 +25,11 @@ export const EvidenceChip = ({ anchorIds, className }: EvidenceChipProps) => {
         <button
           key={id}
           onClick={() => openDrawer(id)}
+          aria-label={`View evidence anchor ${id}`}
           className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold font-sans bg-navy-dark/10 text-navy-dark hover:bg-navy-dark hover:text-white transition-colors cursor-pointer"
           title={`View evidence ${id}`}
         >
-          {id}
+          Evidence {id}
         </button>
       ))}
     </span>

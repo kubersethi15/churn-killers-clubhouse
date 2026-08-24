@@ -8,6 +8,8 @@ import { isPreviewMode } from "@/utils/preview";
 import { format } from "date-fns";
 import { ArrowRight, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { audiencesFor, editorialFormatFor, problemDomainFor, PROBLEM_DOMAINS, type AudiencePath } from "@/data/publicationTaxonomy";
+import { topicHubs } from "@/data/topicHubs";
 
 type Newsletter = {
   id: string;
@@ -24,6 +26,7 @@ const PastNewsletters = () => {
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
+  const [audience, setAudience] = useState<AudiencePath>("All readers");
   const [visibleCount, setVisibleCount] = useState(18);
   
   useEffect(() => {
@@ -47,15 +50,20 @@ const PastNewsletters = () => {
         if (!isPreviewMode()) {
           query = query.lte("published_date", new Date().toISOString());
         }
-        const { data, error } = await query;
+        const [{ data, error }, staticResponse] = await Promise.all([
+          query,
+          fetch("/newsletter/catalog.json").catch(() => null),
+        ]);
         
         if (error) {
           console.error("Error fetching newsletters:", error);
           return;
         }
-        if (data) {
-          setNewsletters(data as Newsletter[]);
-        }
+        const staticRows = staticResponse?.ok ? await staticResponse.json() as Newsletter[] : [];
+        const merged = new Map<string, Newsletter>();
+        for (const row of (data ?? []) as Newsletter[]) merged.set(row.slug, row);
+        for (const row of staticRows) merged.set(row.slug, row);
+        setNewsletters([...merged.values()].sort((a, b) => new Date(b.published_date).getTime() - new Date(a.published_date).getTime()));
       } catch (error) {
         console.error("Unexpected error:", error);
       } finally {
@@ -68,11 +76,12 @@ const PastNewsletters = () => {
 
   const formatDate = (dateString: string) => format(new Date(dateString), "MMM d, yyyy");
 
-  const categories = ["All", ...Array.from(new Set(newsletters.map(item => item.category).filter(Boolean) as string[])).sort()];
+  const categories = PROBLEM_DOMAINS;
   const filtered = newsletters.filter(item => {
-    const matchesCategory = category === "All" || item.category === category;
+    const matchesCategory = category === "All" || problemDomainFor(item) === category;
+    const matchesAudience = audience === "All readers" || audiencesFor(item).includes(audience);
     const haystack = `${item.title} ${item.excerpt} ${item.category ?? ""}`.toLowerCase();
-    return matchesCategory && haystack.includes(query.trim().toLowerCase());
+    return matchesCategory && matchesAudience && haystack.includes(query.trim().toLowerCase());
   });
   const visible = filtered.slice(0, visibleCount);
 
@@ -107,7 +116,19 @@ const PastNewsletters = () => {
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-2xl mx-auto">
-            <div className="mb-12 min-h-[365px] rounded-xl border border-gray-200 bg-gray-50 p-5 sm:min-h-[210px]">
+            {newsletters.length > 0 && (
+              <section aria-labelledby="editor-picks" className="mb-12">
+                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-red-600">Best place to start</p>
+                <h2 id="editor-picks" className="font-serif text-2xl font-black text-navy-dark">Three issues that show how Churn Is Dead works.</h2>
+                <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                  {topicHubs.slice(0, 3).map((topic) => {
+                    const pick = newsletters.find(item => item.slug === topic.reads[0]?.slug);
+                    return pick ? <Link key={pick.slug} to={`/newsletter/${pick.slug}`} className="group rounded-xl border border-gray-200 p-4 hover:border-red-300"><span className="text-[10px] font-bold uppercase tracking-wider text-red-600">{editorialFormatFor(pick)}</span><h3 className="mt-2 font-sans text-sm font-bold leading-snug text-navy-dark group-hover:text-red-600">{pick.title}</h3><p className="mt-2 text-xs text-gray-500">{problemDomainFor(pick)}</p></Link> : null;
+                  })}
+                </div>
+              </section>
+            )}
+            <div className="mb-12 min-h-[365px] rounded-xl border border-gray-200 bg-gray-50 p-5 sm:min-h-[250px]">
               {loading ? (
                 <div className="animate-pulse" aria-hidden="true">
                   <div className="mb-4 h-3 w-24 rounded bg-gray-200" />
@@ -142,6 +163,12 @@ const PastNewsletters = () => {
                       {item}
                     </button>
                   ))}
+                </div>
+                <div className="mt-5 border-t border-gray-200 pt-4">
+                  <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-gray-600">Filter by role</p>
+                  <div className="flex flex-wrap gap-2" aria-label="Filter by reader role">
+                    {(["All readers", "Run accounts", "Lead the function", "Move into leadership"] as AudiencePath[]).map(item => <button key={item} type="button" onClick={() => { setAudience(item); setVisibleCount(18); }} aria-pressed={audience === item} className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${audience === item ? "bg-red-600 text-white" : "border border-gray-200 bg-white text-gray-700 hover:border-red-400"}`}>{item}</button>)}
+                  </div>
                 </div>
                 <p className="mt-4 text-xs text-gray-600" aria-live="polite">{filtered.length} {filtered.length === 1 ? "issue" : "issues"} found</p>
                 </>
@@ -184,7 +211,7 @@ const PastNewsletters = () => {
                             <div className="flex-1 min-w-0">
                               {nl.category && (
                                 <span className="text-[11px] font-semibold uppercase tracking-wider text-red-600 mb-1 block">
-                                  {nl.category}
+                                  {problemDomainFor(nl)} · {editorialFormatFor(nl)}
                                 </span>
                               )}
                               <h3 className="text-lg md:text-xl font-serif font-bold text-navy-dark leading-snug group-hover:text-red-600 transition-colors duration-200">

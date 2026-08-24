@@ -29,7 +29,8 @@ export const ActionPlanChecklist = ({ actions }: ActionPlanChecklistProps) => {
   const toggle = (idx: number) =>
     setChecked((prev) => {
       const next = new Set(prev);
-      next.has(idx) ? next.delete(idx) : next.add(idx);
+      if (next.has(idx)) next.delete(idx);
+      else next.add(idx);
       return next;
     });
 
@@ -50,7 +51,7 @@ export const ActionPlanChecklist = ({ actions }: ActionPlanChecklistProps) => {
       </div>
       <CardContent className="p-5">
         <div ref={listParent} className="space-y-3">
-          {actions
+          {[...actions]
             .sort((a, b) => a.due_in_days - b.due_in_days)
             .map((action, idx) => {
               const done = checked.has(idx);
@@ -68,7 +69,10 @@ export const ActionPlanChecklist = ({ actions }: ActionPlanChecklistProps) => {
                   <div className="p-4 flex items-start gap-3">
                     {/* Checkbox */}
                     <button
+                      type="button"
                       className="shrink-0 mt-0.5"
+                      aria-label={`${done ? "Mark incomplete" : "Mark complete"}: ${action.action}`}
+                      aria-pressed={done}
                       onClick={(e) => {
                         e.stopPropagation();
                         toggle(idx);

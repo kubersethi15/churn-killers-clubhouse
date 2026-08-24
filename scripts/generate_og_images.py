@@ -90,6 +90,22 @@ def wrap_by_pixels(draw, text, font, max_width):
     return lines
 
 
+def short_hook(title):
+    cleaned = re.sub(r"^(the|your|a|an)\s+", "", title.strip(), flags=re.IGNORECASE)
+    cleaned = re.split(r"[:?.!]", cleaned, maxsplit=1)[0]
+    words = cleaned.split()
+    return " ".join(words[:5]).rstrip(".,:;-")
+
+
+def format_and_flow(title):
+    lowered = title.lower()
+    if re.search(r"evidence|data|metric|forecast|usage|score|signal", lowered):
+        return "EVIDENCE BRIEF", ["OBSERVE", "DECIDE", "INTERVENE"]
+    if re.search(r"framework|playbook|system|model|packet|ledger|map|review|kickoff|onboarding|silence|digital cs", lowered):
+        return "OPERATING SYSTEM", ["INPUT", "DECISION", "OWNER"]
+    return "DECISION TEARDOWN", ["ASSUMPTION", "TEST", "REBUILD"]
+
+
 def extract_newsletters_from_migrations():
     """Extract slug and title from migration SQL files."""
     newsletters = []
@@ -149,47 +165,40 @@ def generate_og_image(slug, title):
     # Red accent bar at top
     draw.rectangle([(0, 0), (WIDTH, 6)], fill=RED)
     
-    # "CHURN IS DEAD" wordmark
-    font_wordmark = load_font(FONT_SERIF_BOLD, 28)
-    draw.text((80, 50), "CHURN IS DEAD", fill=RED, font=font_wordmark)
-    
-    # Red underline under wordmark
-    wm_bbox = draw.textbbox((80, 50), "CHURN IS DEAD", font=font_wordmark)
-    draw.rectangle([(80, wm_bbox[3] + 4), (wm_bbox[2], wm_bbox[3] + 7)], fill=RED)
-    
-    # Newsletter title — choose the largest size that fits by measured width.
-    font_title = None
-    lines = []
-    for size in range(64, 43, -2):
-        candidate_font = load_font(FONT_SERIF_BOLD, size)
-        candidate_lines = wrap_by_pixels(draw, title, candidate_font, WIDTH - 160)
-        if len(candidate_lines) <= 4:
-            font_title = candidate_font
-            lines = candidate_lines
-            break
-    if font_title is None:
-        font_title = load_font(FONT_SERIF_BOLD, 42)
-        lines = wrap_by_pixels(draw, title, font_title, WIDTH - 160)[:4]
-    
-    y_start = 140
-    line_height = font_title.size + 12
+    format_label, flow = format_and_flow(title)
+    font_wordmark = load_font(FONT_SERIF_BOLD, 27)
+    draw.text((70, 48), "CHURN IS DEAD", fill=WHITE, font=font_wordmark)
+    draw.rectangle([(70, 84), (265, 89)], fill=RED)
+    font_label = load_font(FONT_SANS_BOLD, 15)
+    draw.text((70, 123), format_label, fill=RED, font=font_label)
+
+    hook = short_hook(title)
+    font_title = load_font(FONT_SERIF_BOLD, 66)
+    lines = wrap_by_pixels(draw, hook, font_title, 640)[:3]
     for i, line in enumerate(lines):
-        draw.text((80, y_start + i * line_height), line, fill=WHITE, font=font_title)
-    
-    # Separator line
-    sep_y = y_start + len(lines) * line_height + 30
-    draw.rectangle([(80, sep_y), (300, sep_y + 2)], fill=RED)
-    
-    # "by Kuber Sethi"
-    font_author = load_font(FONT_SANS, 20)
-    draw.text((80, sep_y + 20), "by Kuber Sethi", fill=GRAY, font=font_author)
+        draw.text((70, 165 + i * 78), line, fill=WHITE, font=font_title)
+
+    font_original = load_font(FONT_SANS, 16)
+    original_lines = wrap_by_pixels(draw, title, font_original, 620)[:2]
+    original_y = 165 + len(lines) * 78 + 24
+    for i, line in enumerate(original_lines):
+        draw.text((72, original_y + i * 23), line, fill=GRAY, font=font_original)
+
+    canvas_x, canvas_y, canvas_w, canvas_h = 775, 105, 350, 390
+    draw.rounded_rectangle([(canvas_x, canvas_y), (canvas_x + canvas_w, canvas_y + canvas_h)], radius=24, fill=(23, 39, 64), outline=(55, 72, 98), width=2)
+    draw.text((canvas_x + 26, canvas_y + 24), "OPERATING MAP", fill=LIGHT_GRAY, font=load_font(FONT_SANS_BOLD, 13))
+    for index, step in enumerate(flow):
+        y = canvas_y + 78 + index * 92
+        draw.rounded_rectangle([(canvas_x + 25, y), (canvas_x + canvas_w - 25, y + 62)], radius=12, fill=(15, 27, 45), outline=(70, 87, 112), width=1)
+        draw.text((canvas_x + 43, y + 18), f"0{index + 1}", fill=RED, font=load_font(FONT_SERIF_BOLD, 20))
+        draw.text((canvas_x + 90, y + 22), step, fill=WHITE, font=load_font(FONT_SANS_BOLD, 14))
     
     # Bottom bar
     draw.rectangle([(0, HEIGHT - 60), (WIDTH, HEIGHT)], fill=(10, 20, 35))
     
     # Bottom left: churnisdead.com
     font_url = load_font(FONT_SANS, 16)
-    draw.text((80, HEIGHT - 42), "churnisdead.com", fill=LIGHT_GRAY, font=font_url)
+    draw.text((70, HEIGHT - 42), "churnisdead.com  ·  by Kuber Sethi", fill=LIGHT_GRAY, font=font_url)
     
     # Bottom right: "New issue every Tuesday" pill
     pill_text = "New issue every Tuesday"
@@ -213,6 +222,33 @@ def generate_og_image(slug, title):
     return out_path
 
 
+def generate_brand_assets():
+    img = Image.new("RGB", (WIDTH, HEIGHT), BG_COLOR)
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([(0, 0), (WIDTH, 7)], fill=RED)
+    draw.text((70, 55), "CHURN IS DEAD", fill=WHITE, font=load_font(FONT_SERIF_BOLD, 34))
+    draw.text((70, 145), "Operating systems for", fill=WHITE, font=load_font(FONT_SERIF_BOLD, 64))
+    draw.text((70, 225), "Customer Success.", fill=RED, font=load_font(FONT_SERIF_BOLD, 64))
+    flow = ["ONE ARGUMENT", "ONE MODEL", "ONE TOOL"]
+    for index, label in enumerate(flow):
+        x = 70 + index * 350
+        draw.rounded_rectangle([(x, 360), (x + 310, 465)], radius=16, fill=(23, 39, 64), outline=(62, 79, 105), width=2)
+        draw.text((x + 22, 382), f"0{index + 1}", fill=RED, font=load_font(FONT_SERIF_BOLD, 22))
+        draw.text((x + 22, 423), label, fill=WHITE, font=load_font(FONT_SANS_BOLD, 17))
+    draw.text((70, 555), "Every Tuesday  ·  churnisdead.com", fill=LIGHT_GRAY, font=load_font(FONT_SANS, 18))
+    img.save(Path(REPO_ROOT) / "public" / "og-image.png", "PNG", optimize=True)
+
+    banner = Image.new("RGB", (1584, 396), BG_COLOR)
+    bdraw = ImageDraw.Draw(banner)
+    bdraw.rectangle([(0, 0), (12, 396)], fill=RED)
+    bdraw.text((75, 72), "CHURN IS DEAD", fill=WHITE, font=load_font(FONT_SERIF_BOLD, 58))
+    bdraw.text((76, 160), "The operating-system publication for Customer Success.", fill=LIGHT_GRAY, font=load_font(FONT_SANS, 27))
+    bdraw.text((76, 235), "One researched argument.  One operating model.  One tool.", fill=WHITE, font=load_font(FONT_SANS_BOLD, 22))
+    bdraw.rounded_rectangle([(76, 305), (385, 354)], radius=24, fill=RED)
+    bdraw.text((104, 320), "NEW ISSUE EVERY TUESDAY", fill=WHITE, font=load_font(FONT_SANS_BOLD, 15))
+    banner.save(Path(REPO_ROOT) / "public" / "linkedin-banner.png", "PNG", optimize=True)
+
+
 def main():
     import argparse
     parser = argparse.ArgumentParser()
@@ -224,6 +260,8 @@ def main():
         print(f"Generating OG image for: {args.slug}")
         generate_og_image(args.slug, args.title)
         return
+
+    generate_brand_assets()
     
     # Generate for all newsletters from migrations
     print("Extracting newsletters from migrations...")

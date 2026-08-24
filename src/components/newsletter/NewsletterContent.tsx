@@ -4,6 +4,7 @@ import { ExternalLink, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import NewsletterForm from "@/components/NewsletterForm";
 import { Newsletter } from "@/types/newsletter";
+import EditorialVisual from "@/components/newsletter/EditorialVisual";
 import { trackGrowthEvent } from "@/utils/growthTracking";
 
 type VaultResource = {
@@ -33,7 +34,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
   const referralLinkedInUrl = `${referralBaseUrl}&utm_content=article_linkedin`;
   const referralCopyUrl = `${referralBaseUrl}&utm_content=article_copy`;
   const linkedinShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(referralLinkedInUrl)}`;
-  const usesCurrentEditorialStandard = new Date(newsletter.published_date).getTime() >= new Date("2026-08-25T00:00:00Z").getTime();
+  const usesCurrentEditorialStandard = /##\s+Sources and methodology/i.test(newsletter.content);
 
   const shareBar = (
     <div className="my-8 flex items-center justify-center gap-3">
@@ -80,6 +81,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
           </ol>
         </nav>
       )}
+      <EditorialVisual title={newsletter.title} excerpt={newsletter.excerpt} category={newsletter.category} />
       <div className="article-content" dangerouslySetInnerHTML={{ __html: formattedContent }} />
 
       {/* Share bar */}

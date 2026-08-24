@@ -196,7 +196,7 @@ const CSAnalyzerShare = () => {
                 Want a report like this on your accounts?
               </h2>
               <p className="text-white/70 mb-6 max-w-xl mx-auto">
-                Paste a call transcript. The five-agent pipeline reads every line, anchors every claim to a quote, and gives you the report you'd write if you had three more hours.
+                Paste a call transcript. Get a decision-ready report with risks, stakeholders, next actions, and evidence linked back to the conversation.
               </p>
               <Link
                 to={runCtaHref}

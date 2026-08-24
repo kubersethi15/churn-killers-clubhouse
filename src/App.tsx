@@ -14,6 +14,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const NewsletterDetail = lazy(() => import("./pages/NewsletterDetail"));
 const About = lazy(() => import("./pages/About"));
 const Playbook = lazy(() => import("./pages/Playbook"));
+const PlaybookWorkspace = lazy(() => import("./pages/PlaybookWorkspace"));
 const CSAnalyzer = lazy(() => import("./pages/CSAnalyzer"));
 const CSAnalyzerDemo = lazy(() => import("./pages/CSAnalyzerDemo"));
 const CSAnalyzerShare = lazy(() => import("./pages/CSAnalyzerShare"));
@@ -57,6 +58,7 @@ const App = () => (
               <Route path="/terms" element={<Terms />} />
               <Route path="/analyzer-data-handling" element={<AnalyzerDataHandling />} />
               <Route path="/playbook" element={<Playbook />} />
+              <Route path="/playbook/:playbookId" element={<PlaybookWorkspace />} />
               <Route path="/cs-analyzer" element={<CSAnalyzer />} />
               <Route path="/cs-analyzer/demo" element={<CSAnalyzerDemo />} />
               <Route path="/cs-analyzer/share/:shareId" element={<CSAnalyzerShare />} />

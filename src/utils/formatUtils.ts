@@ -59,7 +59,14 @@ export const formatContent = (content: string) => {
     // Also handle mid-text incomplete bold formatting
     .replace(/\*\*([^*\n]+?)(\n\n|\n(?=\n)|$)/g, '<strong>$1</strong>')
     // Italic text - only match complete pairs of *
-    .replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em>$1</em>');
+    .replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em>$1</em>')
+    // Markdown links. Publication content is repository-controlled; keep
+    // internal downloads in the same tab and mark external evidence links.
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+|\/[^)\s]+)\)/g, (_match, label: string, href: string) => {
+      const external = /^https?:\/\//i.test(href);
+      const attributes = external ? ' target="_blank" rel="noopener noreferrer"' : '';
+      return `<a href="${href}"${attributes}>${label}</a>`;
+    });
 
   // Step 5: Process lists - handle ordered and unordered blocks
   // Ordered list blocks

@@ -13,6 +13,7 @@ import NewsletterForm from "./NewsletterForm";
 import ContactDialog from "./ContactDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { User, LogOut, ChevronDown } from "lucide-react";
+import BrandMark from "@/components/BrandMark";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -68,7 +69,8 @@ const Header = () => {
       }`}
     >
       <div className="container mx-auto flex justify-between items-center px-4 md:px-6">
-        <Link to="/" className="flex items-center" aria-label="Churn Is Dead — Home">
+        <Link to="/" className="flex items-center gap-2.5" aria-label="Churn Is Dead — Home">
+          <BrandMark className="h-8 w-8" />
           <div className="text-xl md:text-2xl font-serif font-black text-navy-dark">
             <span className="underline-red">Churn</span> Is Dead
           </div>
@@ -88,7 +90,7 @@ const Header = () => {
             Playbook Vault
           </NavLink>
           <NavLink to={user ? "/cs-analyzer" : "/cs-analyzer/demo"} className={getNavLinkClass}>
-            Analyze a Call
+            CS Analyzer
           </NavLink>
           <button
             onClick={() => setIsSubscribeOpen(true)}
@@ -213,7 +215,7 @@ const Header = () => {
               }
               onClick={() => setIsMenuOpen(false)}
             >
-              Analyze a Call
+              CS Analyzer
             </NavLink>
             <div className="pt-2">
               <button

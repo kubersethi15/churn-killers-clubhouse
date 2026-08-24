@@ -5,6 +5,52 @@ import { useToast } from "@/hooks/use-toast";
 import { Newsletter } from "@/types/newsletter";
 import { isPreviewMode } from "@/utils/preview";
 
+const isNewsletter = (value: unknown, slug: string): value is Newsletter => {
+  if (!value || typeof value !== "object") return false;
+  const row = value as Partial<Newsletter>;
+  return row.slug === slug && typeof row.title === "string" && typeof row.content === "string";
+};
+
+const readEmbeddedNewsletter = (slug: string): Newsletter | null => {
+  const node = document.getElementById("ci-newsletter");
+  if (!node?.textContent) return null;
+  try {
+    const parsed: unknown = JSON.parse(node.textContent);
+    return isNewsletter(parsed, slug) ? parsed : null;
+  } catch {
+    return null;
+  }
+};
+
+const fetchPrerenderedNewsletter = async (slug: string): Promise<Newsletter | null> => {
+  const embedded = readEmbeddedNewsletter(slug);
+  if (embedded) return embedded;
+  try {
+    const catalogResponse = await fetch("/newsletter/catalog.json", {
+      headers: { Accept: "application/json" },
+    });
+    if (catalogResponse.ok) {
+      const catalog: unknown = await catalogResponse.json();
+      if (Array.isArray(catalog)) {
+        const exact = catalog.find((row) => isNewsletter(row, slug));
+        if (exact && isNewsletter(exact, slug)) return exact;
+      }
+    }
+
+    const response = await fetch(`/newsletter/${encodeURIComponent(slug)}/index.html`, {
+      headers: { Accept: "text/html" },
+    });
+    if (!response.ok) return null;
+    const documentCopy = new DOMParser().parseFromString(await response.text(), "text/html");
+    const payload = documentCopy.getElementById("ci-newsletter")?.textContent;
+    if (!payload) return null;
+    const parsed: unknown = JSON.parse(payload);
+    return isNewsletter(parsed, slug) ? parsed : null;
+  } catch {
+    return null;
+  }
+};
+
 export const useNewsletter = (slug: string | undefined) => {
   const [newsletter, setNewsletter] = useState<Newsletter | null>(null);
   const [loading, setLoading] = useState(true);
@@ -22,8 +68,21 @@ export const useNewsletter = (slug: string | undefined) => {
       setLoading(true);
       try {
         console.log(`Fetching newsletter with slug: "${slug}"`);
+
+        // The checked-in publication package is canonical for public reading.
+        // It can be newer and more complete than the delivery database, and it
+        // also preserves migration-era issues that never reached that table.
+        const prerendered = await fetchPrerenderedNewsletter(slug);
+        if (prerendered) {
+          setNewsletter(prerendered);
+          document.title = `${prerendered.title} | Churn Is Dead`;
+          setError(null);
+          setLoading(false);
+          return;
+        }
         
-        // First, try exact match
+        // Fall back to the delivery database for preview-only or unpublished
+        // records that are intentionally absent from the public catalogue.
         let exactQuery = supabase
           .from("newsletters")
           .select("*")
@@ -132,11 +191,7 @@ export const useNewsletter = (slug: string | undefined) => {
             console.log("Available newsletters:", allNewsletters.map(n => ({ title: n.title, slug: n.slug })));
             setError("Newsletter not found");
             
-            toast({
-              title: "Newsletter not found",
-              description: `Could not find newsletter with slug: "${slug}"`,
-              variant: "destructive",
-            });
+            toast({ title: "Issue unavailable", description: "This issue could not be loaded.", variant: "destructive" });
           }
         }
       } catch (err) {

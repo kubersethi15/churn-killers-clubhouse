@@ -1,0 +1,20 @@
+{
+  "title": "Digital CS Is Not Coverage Until Someone Owns the Silence",
+  "slug": "digital-cs-coverage-silence",
+  "excerpt": "Replace send volume and login counts with a Silence Ledger that shows who was reached, who responded, what changed, and when a human must step in.",
+  "category": "Operating Systems",
+  "theme": "digital_cs_intervention_design",
+  "format": "operating_system",
+  "primary_goal": "Help CS leaders decide whether a digital programme creates useful customer movement or only records automated activity.",
+  "primary_cta": "Audit one digital segment with the Silence Ledger before changing coverage or headcount.",
+  "read_time": "8 min read",
+  "published_date": "2026-08-18T08:00:00+00:00",
+  "pdf_filename": "The_Silence_Ledger_Audit_ChurnIsDead.pdf",
+  "playbook_title": "The Silence Ledger",
+  "playbook_description": "A practical record for separating automated reach, customer response, unresolved silence, and the human intervention required next.",
+  "subject_variants": [
+    {"label": "framework", "subject": "The Silence Ledger"},
+    {"label": "problem", "subject": "Digital CS is not coverage yet"},
+    {"label": "outcome", "subject": "Find the silence your dashboard hides"}
+  ]
+}

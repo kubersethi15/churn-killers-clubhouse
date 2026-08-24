@@ -22,6 +22,26 @@ def main() -> int:
     assert good["noindex"] is False
     assert good["jsonld"] == 1
     assert good["desc_len"] > 0
+    assert good["semantic_dead"] is False
+
+    article = inspect_html(
+        "https://churnisdead.com/newsletter/example",
+        200,
+        "https://churnisdead.com/newsletter/example",
+        good_html.replace("</head>", '<script id="ci-newsletter" type="application/json">{}</script></head>'),
+    )
+    assert article["semantic_dead"] is False
+
+    semantic_dead = inspect_html(
+        "https://churnisdead.com/newsletter/missing",
+        200,
+        "https://churnisdead.com/newsletter/missing",
+        good_html.replace(
+            "https://churnisdead.com/playbook",
+            "https://churnisdead.com/newsletter/missing",
+        ),
+    )
+    assert semantic_dead["semantic_dead"] is True
 
     broken = inspect_html(
         "https://churnisdead.com/newsletters",
@@ -29,12 +49,13 @@ def main() -> int:
         "https://churnisdead.com/archive",
         '<meta name="robots" content="noindex">',
     )
-    groups, blockers = summarise([good, broken])
+    groups, blockers = summarise([good, broken, semantic_dead])
     assert len(groups["redirected"]) == 1
     assert len(groups["canonical mismatch"]) == 1
     assert len(groups["noindex"]) == 1
     assert len(groups["no meta description"]) == 1
-    assert blockers == 4
+    assert len(groups["semantic dead page"]) == 1
+    assert blockers == 5
     print("discovery integrity audit contract passed")
     return 0
 

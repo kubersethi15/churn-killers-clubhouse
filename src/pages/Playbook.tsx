@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ExternalLink, Download, Search } from "lucide-react";
+import { ExternalLink, Download, Search, Clock3, Target, UsersRound, ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import NewsletterForm from "@/components/NewsletterForm";
@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
 import { trackGrowthEvent } from "@/utils/growthTracking";
 import { mergePlaybookManifest, type PlaybookRecord } from "@/utils/playbookManifest";
+import { playbookExperienceFor } from "@/data/publicationTaxonomy";
 
 type Playbook = PlaybookRecord;
 
@@ -258,9 +259,10 @@ const PlaybookVault = () => {
             ) : filteredPlaybooks.length === 0 ? (
               <p className="text-gray-600 py-16 text-center">No playbook matches that problem yet.</p>
             ) : (
-              <div className="space-y-0 divide-y divide-gray-100">
+              <div className="grid gap-5">
                 {filteredPlaybooks.map((pb) => (
-                  <div key={pb.id} className="py-7 first:pt-0 last:pb-0">
+                  <article key={pb.id} className="rounded-2xl border border-gray-200 bg-white p-5 transition-colors hover:border-red-200 md:p-6">
+                    {(() => { const experience = playbookExperienceFor(pb); return <>
                     {/* Title + date */}
                     <div className="flex items-start justify-between gap-4 mb-2">
                       <h3 className="text-lg md:text-xl font-serif font-bold text-navy-dark leading-snug">
@@ -278,8 +280,17 @@ const PlaybookVault = () => {
                       {pb.description}
                     </p>
 
+                    <dl className="mb-5 grid gap-3 rounded-xl bg-cream/40 p-4 sm:grid-cols-3">
+                      <div><dt className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-red-600"><Target className="h-3.5 w-3.5" /> Use when</dt><dd className="mt-1 text-xs leading-relaxed text-gray-700">{experience.useWhen}</dd></div>
+                      <div><dt className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-red-600"><Clock3 className="h-3.5 w-3.5" /> Time</dt><dd className="mt-1 text-xs leading-relaxed text-gray-700">{experience.time}</dd></div>
+                      <div><dt className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-red-600"><UsersRound className="h-3.5 w-3.5" /> Built for</dt><dd className="mt-1 text-xs leading-relaxed text-gray-700">{experience.role}</dd></div>
+                    </dl>
+
+                    <p className="mb-5 border-l-2 border-navy-dark pl-3 text-xs leading-relaxed text-gray-700"><strong className="text-navy-dark">Leave with:</strong> {experience.outcome}</p>
+
                     {/* Actions */}
                     <div className="flex flex-wrap items-center gap-3">
+                      <Link to={`/playbook/${encodeURIComponent(pb.id)}?title=${encodeURIComponent(pb.title)}`} className="inline-flex items-center gap-1.5 rounded-lg bg-navy-dark px-3 py-2 text-sm font-semibold text-white hover:bg-navy-dark/90">Open working view <ArrowRight className="h-3.5 w-3.5" /></Link>
                       {pb.pdf_path && (
                         <a
                           href={pb.pdf_path}
@@ -315,7 +326,8 @@ const PlaybookVault = () => {
                         </>
                       )}
                     </div>
-                  </div>
+                    </>; })()}
+                  </article>
                 ))}
               </div>
             )}

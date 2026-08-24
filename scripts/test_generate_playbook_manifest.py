@@ -10,6 +10,16 @@ import generate_playbook_manifest as generator
 
 
 class PlaybookManifestSafetyTest(unittest.TestCase):
+    def test_description_does_not_repeat_the_article(self) -> None:
+        self.assertEqual(
+            generator.download_description("The Silence Ledger Audit"),
+            "Download The Silence Ledger Audit worksheet from the Churn Is Dead archive.",
+        )
+        self.assertEqual(
+            generator.download_description("Revenue Readiness Audit"),
+            "Download the Revenue Readiness Audit worksheet from the Churn Is Dead archive.",
+        )
+
     def test_refuses_empty_or_truncated_live_catalog(self) -> None:
         with self.assertRaisesRegex(RuntimeError, "refusing to rewrite"):
             generator.build_rows({}, datetime.now(timezone.utc))

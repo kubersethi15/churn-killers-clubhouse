@@ -252,7 +252,7 @@
   {
     "id": "pdf-the_credibility_debt_audit_churnisdead",
     "title": "The Credibility Debt Audit",
-    "description": "Download the The Credibility Debt Audit worksheet from the Churn Is Dead archive.",
+    "description": "Download The Credibility Debt Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/The_Credibility_Debt_Audit_ChurnIsDead.pdf",
     "notion_link": null,
     "newsletter_slug": "csm-title-liability-rebrand-wont-fix-it",
@@ -262,7 +262,7 @@
   {
     "id": "pdf-the_dependency_window_audit_churnisdead",
     "title": "The Dependency Window Audit",
-    "description": "Download the The Dependency Window Audit worksheet from the Churn Is Dead archive.",
+    "description": "Download The Dependency Window Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/The_Dependency_Window_Audit_ChurnIsDead.pdf",
     "notion_link": null,
     "newsletter_slug": "onboarding-only-renewal-you-control",
@@ -272,7 +272,7 @@
   {
     "id": "pdf-the_expansion_ceiling_audit_churnisdead",
     "title": "The Expansion Ceiling Audit",
-    "description": "Download the The Expansion Ceiling Audit worksheet from the Churn Is Dead archive.",
+    "description": "Download The Expansion Ceiling Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/The_Expansion_Ceiling_Audit_ChurnIsDead.pdf",
     "notion_link": null,
     "newsletter_slug": "expansion-recession-not-retention-problem",
@@ -282,7 +282,7 @@
   {
     "id": "pdf-the_inherited_number_audit_churnisdead",
     "title": "The Inherited Number Audit",
-    "description": "Download the The Inherited Number Audit worksheet from the Churn Is Dead archive.",
+    "description": "Download The Inherited Number Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/The_Inherited_Number_Audit_ChurnIsDead.pdf",
     "notion_link": null,
     "newsletter_slug": "you-dont-own-nrr-you-rent-it-from-pricing",
@@ -292,7 +292,7 @@
   {
     "id": "pdf-the_scope_line_audit_churnisdead",
     "title": "The Scope Line Audit",
-    "description": "Download the The Scope Line Audit worksheet from the Churn Is Dead archive.",
+    "description": "Download The Scope Line Audit worksheet from the Churn Is Dead archive.",
     "pdf_path": "/pdfs/The_Scope_Line_Audit_ChurnIsDead.pdf",
     "notion_link": null,
     "newsletter_slug": "renewal-not-yours-change-order-is",
@@ -301,12 +301,12 @@
   },
   {
     "id": "pdf-the_silence_ledger_audit_churnisdead",
-    "title": "The Silence Ledger Audit",
-    "description": "Download the The Silence Ledger Audit worksheet from the Churn Is Dead archive.",
+    "title": "The Silence Ledger",
+    "description": "A practical record for separating automated reach, customer response, unresolved silence, and the human intervention required next.",
     "pdf_path": "/pdfs/The_Silence_Ledger_Audit_ChurnIsDead.pdf",
     "notion_link": null,
     "newsletter_slug": "digital-cs-coverage-silence",
-    "newsletter_title": "You Bought 'Full Coverage.' What You Actually Bought Was Silence.",
+    "newsletter_title": "Digital CS Is Not Coverage Until Someone Owns the Silence",
     "published_date": "2026-08-18T08:00:00+00:00"
   },
   {

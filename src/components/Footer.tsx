@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ContactDialog from "@/components/ContactDialog";
+import BrandMark from "@/components/BrandMark";
 
 const Footer = () => {
   const [isContactOpen, setIsContactOpen] = useState(false);
@@ -14,8 +15,9 @@ const Footer = () => {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
               {/* Brand */}
               <div>
-                <Link to="/" className="text-lg font-serif font-black text-navy-dark hover:text-red-600 transition-colors">
-                  <span className="underline-red">Churn</span> Is Dead
+                <Link to="/" className="inline-flex items-center gap-2 text-lg font-serif font-black text-navy-dark hover:text-red-600 transition-colors">
+                  <BrandMark className="h-8 w-8" />
+                  <span><span className="underline-red">Churn</span> Is Dead</span>
                 </Link>
                 <p className="text-xs text-gray-600 mt-1 max-w-xs">
                   Evidence-led operating systems for enterprise Customer Success.
