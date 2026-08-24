@@ -213,7 +213,7 @@ const NewsletterForm = ({
           <p className={`mt-1 text-xs ${textColor === "text-gray-700" ? "text-gray-600" : "text-white/70"}`}>Know one CS operator facing the same problem? Send them the page that convinced you.</p>
           <div className="mt-3 flex flex-wrap gap-2">
             <button type="button" onClick={() => void sharePrivately()} className={`inline-flex items-center gap-1.5 rounded-md border px-3 py-2 text-xs font-semibold ${textColor === "text-gray-700" ? "border-gray-300 text-navy-dark" : "border-white/30 text-white"}`}><Send className="h-3.5 w-3.5" /> Send privately</button>
-            <a href={referralShareUrl} target="_blank" rel="noopener noreferrer" onClick={() => void trackGrowthEvent({ eventName: "content_share", resourceId: `subscriber_referral:linkedin:${referral.campaign}` })} className="rounded-md bg-[#0A66C2] px-3 py-2 text-xs font-semibold text-white">Share on LinkedIn</a>
+            <a href={referralShareUrl} target="_blank" rel="noopener noreferrer" onClick={() => void trackGrowthEvent({ eventName: "share_intent", resourceId: `subscriber_referral:linkedin:${referral.campaign}` })} className="rounded-md bg-[#0A66C2] px-3 py-2 text-xs font-semibold text-white">Share on LinkedIn</a>
             <button type="button" onClick={() => void copyReferralLink()} className={`inline-flex items-center gap-1.5 rounded-md border px-3 py-2 text-xs font-semibold ${textColor === "text-gray-700" ? "border-gray-300 text-navy-dark" : "border-white/30 text-white"}`}><Copy className="h-3.5 w-3.5" /> Copy link</button>
           </div>
         </div>

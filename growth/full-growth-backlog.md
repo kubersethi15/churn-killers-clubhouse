@@ -91,7 +91,7 @@ These do not need to wait for the controlled acquisition experiment.
 | ID | Work | Earliest start | Primary proof | Stop or revise rule |
 |---|---|---|---|---|
 | LOOP-01 | Deploy and verify referral loop v2 | Active | Live page-specific share paths and private aggregate dashboard | Roll back if signup or clipboard/native-share flows regress |
-| LOOP-02 | Review referral prompt performance | After 10 share-action sessions and 20 referred visits | Referred acquisitions still active at day 30 | Revise prompt if ten actions produce no referred visit |
+| LOOP-02 | Review referral prompt performance | After 10 completed share sessions and 20 referred visits | Referred acquisitions still active at day 30 | Revise prompt if ten completed shares produce no referred visit |
 | LOOP-03 | Measure welcome starter-kit activation | Active | Start-page, Vault, diagnostic, and reply actions from welcome UTMs | Change one welcome element at a time after minimum evidence |
 | LOOP-04 | Build a seven-day new-reader activation sequence only after welcome performance is known and deliverability is safe | After safety gate | Qualified actions and day-30 retention | Stop if complaints/bounces worsen or activation does not move |
 | LOOP-05 | Improve problem-to-tool continuity across topic hubs and Playbook Vault | Now for audit; changes sequenced | Resource opens and return sessions | Avoid gating free tools or adding competing CTAs |
