@@ -37,6 +37,16 @@ Publish one substantial native adaptation each Wednesday for four consecutive ed
 5. use only claims supported by the editorial ledgers and never invent Kuber's experience;
 6. keep newsletter-subscriber and website-growth reporting aggregate-only.
 
+## Second edition record
+
+- Title: `An 80% renewal forecast is not evidence`
+- Source file: `editorial/issues/renewal-evidence-packet/linkedin-newsletter.md`
+- Native schedule verified: Wednesday 2 September at 18:15 Sydney
+- Canonical resource campaign: `linkedin / newsletter / renewal-evidence-packet / linkedin_newsletter`
+- Canonical resource URL: `https://churnisdead.com/newsletter/renewal-evidence-packet?utm_source=linkedin&utm_medium=newsletter&utm_campaign=renewal-evidence-packet&utm_content=linkedin_newsletter`
+- Manager sheet: `2026 Calendar` row 242, `Approved for Posting`
+- Calendar rule: the native edition replaces the blank Wednesday slot; no carousel or duplicate feed post
+
 ## Measurement
 
 Record after each edition and for the four-edition block:

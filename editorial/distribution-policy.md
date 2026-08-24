@@ -6,7 +6,7 @@ The website is the canonical publication. Distribution exists to earn qualified 
 
 - Website: the complete Tuesday issue, evidence, playbook, and permanent canonical URL.
 - LinkedIn: the primary discovery channel. Publish one adapted post after the website is live. Use a second post only when it adds a distinct operator insight rather than repeating the launch post.
-- LinkedIn Newsletter: test one substantial adaptation per month. Do not mirror every weekly issue or split the audience across multiple newsletters.
+- LinkedIn Newsletter: run the approved four-edition weekly reactivation block in the existing `Churn is Dead` publication. Each Wednesday edition must be a substantial native adaptation with one tagged canonical link and must replace, not duplicate, the calendar slot. After the block, continue weekly only if aggregate qualified actions or acquired website subscribers justify it; otherwise reduce to monthly.
 - Medium: import one or two evergreen issues per month after the canonical version is live. Use Medium's import tool, retain the canonical URL, add the required AI-assistance disclosure, and review formatting manually.
 - Communities: share only where the operating problem is already being discussed. Do not broadcast identical copy across groups.
 
@@ -36,7 +36,7 @@ Weeks 1 and 2 establish the page-view, form-view, form-submit, signup, share, an
 
 Weeks 3 and 4 test two LinkedIn openings for the same issue: a hard operating problem and a practical framework. The website CTA and article remain unchanged so the source of lift is knowable.
 
-Weeks 5 and 6 import the strongest evergreen issue to Medium and test one LinkedIn Newsletter adaptation. Both link to the canonical article with distinct campaign parameters.
+The active four-edition LinkedIn Newsletter block runs independently under `CID-004` because Kuber explicitly activated the dormant 680-subscriber publication. Medium remains held until the block produces a readout and the selected canonical article is live.
 
 Weeks 7 and 8 keep only the channel and format combinations producing subscriber growth or meaningful playbook use.
 

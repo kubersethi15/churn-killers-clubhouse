@@ -61,14 +61,14 @@ Do not add multiple competing calls to action to the same issue. A playbook can 
 
 The website remains canonical. LinkedIn Newsletter and Medium are selective distribution surfaces, not duplicate weekly obligations.
 
-- Test one LinkedIn Newsletter adaptation monthly after the first acquisition baseline.
+- Complete the approved four-edition weekly LinkedIn Newsletter reactivation block under `CID-004`, then keep weekly only if it produces aggregate qualified actions or acquired website subscribers; otherwise reduce to monthly.
 - Import one strong evergreen issue to Medium only after the canonical article is live.
 - Use the platform's canonical controls and one tagged link back to the original.
 - Stop any surface that creates reach but no qualified actions in two measured tests.
 
 ## Experiment discipline
 
-Only one controlled acquisition experiment may change at a time. Relationship comments, research, and partner pitching may continue because they do not publish a competing acquisition link.
+Controlled acquisition surfaces should normally change one at a time. Kuber's 24 August override activated `CID-004` concurrently with `CID-001`; both therefore require distinct attribution and a mixed-surface readout rather than an isolated-channel claim. Relationship comments, research, and partner pitching may continue because they do not publish a competing acquisition link.
 
 Stable, always-on distribution infrastructure may also continue when it has its own source label: the LinkedIn Premium profile button, earned directory listings, and existing partner backlinks. These are reported separately and are not treated as controlled comparisons. Keep their copy and URLs unchanged during a test. Do not use cross-channel differences as if they were randomised evidence.
 
@@ -76,7 +76,7 @@ The first baseline is the single Tuesday LinkedIn launch post from 25 August 08:
 
 - no Medium import;
 - no second launch post;
-- no LinkedIn Newsletter edition;
+- no untagged or unrecorded LinkedIn Newsletter edition beyond the approved `CID-004` reactivation block;
 - no CTA or campaign-tag change;
 - no community link drop.
 - no new directory or partner backlink goes live until the baseline closes.
@@ -88,7 +88,7 @@ If the baseline receives fewer than 20 unique tagged visits, report it as descri
 1. Pitch one contributed article to Customer Success Collective.
 2. Pitch the same operating territory as a podcast conversation only if the angle is distinct.
 3. Answer one existing Gain Grow Retain or Customer Success Network discussion without a link; add a canonical resource only when the community rules and question make it useful.
-4. Test a LinkedIn Newsletter adaptation.
+4. Complete the four-edition LinkedIn Newsletter reactivation block and decide whether the evidence supports weekly or monthly continuation.
 5. Test one Medium canonical import.
 6. Repeat only the channel that produces acquired subscribers or meaningful tool use.
 
