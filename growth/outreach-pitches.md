@@ -28,13 +28,13 @@ https://churnisdead.com/
 
 ## SuccessCOACHING: CS Mastermind panel
 
-**Status:** Prepared 24 August 2026. Not sent. The current first-party events
+**Status:** Sent and verified in Gmail on 24 August 2026. The current first-party events
 calendar lists `The Future of Subscription Models: Preparing for Outcome-Based
 Pricing` for 16 September 2026 and describes a three-practitioner live panel.
 No existing Gmail thread was found for SuccessCOACHING, Andrew Marks, or Kristi
 Faltorusso. The only current first-party general address verified was
 `hello@successcoaching.co`; use it once, do not guess a host address, and do not
-follow up more than once.
+follow up once on 7 September if there is no reply, then stop.
 
 **Subject:** Sep 16 panel idea: outcome pricing needs an evidence contract
 
