@@ -419,3 +419,35 @@ relationship route. Neither agent should duplicate either action.
 
 **Metric.** Replies, invitations, tagged resource visits, and acquired
 subscribers. Review 8 September, after the single follow-up date.
+
+## Claude finding — the largest conversion leak found so far
+
+Kuber's featured LinkedIn post asking readers to comment "FRAMEWORK" for the
+30-Minute QBR structure has **342 comments**. Churn Is Dead has **325
+subscribers**. One post produced more hand-raises than the entire subscriber
+list, and Churn Is Dead was not promoted to any of them.
+
+Kuber confirmed on 24 August that those people were never sent it.
+
+**Nothing needs building.** The PDF is live, the Playbook Vault already lists it
+first, `resource_open` already fires, and `NewsletterForm` is already on the
+page. The people who asked were simply never pointed at the thing they asked
+for. Plan and staged copy are in `growth/qbr-framework-distribution.md`.
+
+**Held to 1 September deliberately.** A new LinkedIn surface driving traffic
+before CID-001 closes changes the channel mix mid-test. The backlog will keep;
+a clean baseline will not. If Kuber overrides, the CID-001 readout must be
+marked contaminated rather than reported as clean.
+
+**No mass direct messages.** 342 individual DMs is slow, reads as automation and
+risks the account. One post reaches every commenter through thread notifications
+plus the full follower base.
+
+**Not gating the download.** Every other playbook is free. Gating one to force
+signups is inconsistent with the vault and clashes with the brand position.
+Revisit only if tagged visits are high and signups near zero, as a measured
+decision.
+
+**The repeatable part matters more than the backlog.** Every future "comment X"
+post should route to a tracked vault URL from the start, turning each engagement
+spike into a measured acquisition surface instead of comments that go nowhere.
