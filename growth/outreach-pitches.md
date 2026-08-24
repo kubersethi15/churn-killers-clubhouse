@@ -185,10 +185,11 @@ https://churnisdead.com/
 
 ## Retention Ranch: guest conversation
 
-**To:** contact form at https://www.retentionranch.com/contact. Guest criteria
-verified at https://www.retentionranch.com/guest on 24 August 2026. The guest
-page asks for a brief overview, what has been achieved, and the unique
-perspective a guest would bring.
+**To:** public management email listed at
+https://www.retentionranch.com/contact. Guest criteria verified at
+https://www.retentionranch.com/guest on 24 August 2026. The guest page asks for
+a brief overview, what has been achieved, and the unique perspective a guest
+would bring.
 
 **Angle:** Value Proof Cadence. Their stated audience is B2B SaaS founders,
 product leaders, and CS leaders, with a focus on retention and onboarding.
