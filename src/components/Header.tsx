@@ -23,6 +23,7 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, profile, signOut } = useAuth();
+  const onDark = location.pathname === "/" && !isScrolled && !isMenuOpen;
   
   useEffect(() => {
     const handleScroll = () => {
@@ -58,21 +59,23 @@ const Header = () => {
   // Custom NavLink style function to highlight active routes
   const getNavLinkClass = ({ isActive }: { isActive: boolean }) => {
     return isActive 
-      ? "text-red-600 font-medium transition-colors" 
-      : "text-navy-dark hover:text-red-600 font-medium transition-colors";
+      ? "text-red-500 font-bold transition-colors"
+      : `${onDark ? "text-white/75 hover:text-white" : "text-navy-dark hover:text-red-600"} font-bold transition-colors`;
   };
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white ${
-        isScrolled ? "shadow-sm border-b border-gray-100 py-2.5" : "py-4"
+      className={`fixed left-0 right-0 top-0 z-50 border-b transition-all duration-300 ${
+        onDark
+          ? "border-white/15 bg-navy-dark/10 py-4 text-white backdrop-blur-sm"
+          : "border-gray-200 bg-white/95 py-2.5 text-navy-dark shadow-sm backdrop-blur-xl"
       }`}
     >
       <div className="container mx-auto flex justify-between items-center px-4 md:px-6">
-        <Link to="/" className="flex items-center gap-2.5" aria-label="Churn Is Dead — Home">
-          <BrandMark className="h-8 w-8" />
-          <div className="text-xl md:text-2xl font-serif font-black text-navy-dark">
-            <span className="underline-red">Churn</span> Is Dead
+        <Link to="/" className="group flex items-center gap-3" aria-label="Churn Is Dead — Home">
+          <BrandMark className={`h-9 w-9 rounded-none border ${onDark ? "border-white/35" : "border-navy-dark"}`} />
+          <div className={`font-serif text-lg font-black uppercase tracking-[-0.035em] md:text-xl ${onDark ? "text-white" : "text-navy-dark"}`}>
+            Churn Is Dead
           </div>
         </Link>
         
@@ -91,7 +94,7 @@ const Header = () => {
           </NavLink>
           <button
             onClick={() => setIsSubscribeOpen(true)}
-            className="ml-2 py-1.5 px-4 bg-red-600 text-white text-sm font-semibold rounded-lg hover:bg-red-700 transition-colors"
+            className="ml-2 border border-red-600 bg-red-600 px-4 py-2 text-xs font-black uppercase tracking-[0.12em] text-white transition-colors hover:border-red-700 hover:bg-red-700"
           >
             Subscribe
           </button>
@@ -140,10 +143,11 @@ const Header = () => {
             </div>
           )}
           
-          <Button 
+          <Button
             variant="ghost" 
             size="icon" 
             onClick={toggleMenu}
+            className={onDark ? "text-white hover:bg-white/10 hover:text-white" : "text-navy-dark"}
           >
             <span className="sr-only">Menu</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">

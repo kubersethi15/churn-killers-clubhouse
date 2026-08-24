@@ -193,18 +193,20 @@ const Playbooks = () => {
   const visiblePlaybooks = filteredPlaybooks.slice(0, visibleCount);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#f3efe7]">
       <Header />
       <main id="main-content">
 
       {/* Header */}
-      <section className="pt-28 pb-10 md:pt-36 md:pb-14 bg-white border-b border-gray-100">
+      <section className="editorial-grid-dark relative overflow-hidden border-b border-white/15 bg-navy-dark pb-14 pt-28 text-white md:pb-20 md:pt-40">
+        <div className="signal-orbit opacity-40" aria-hidden="true" />
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-2xl mx-auto">
-            <h1 className="text-3xl md:text-5xl font-serif font-black text-navy-dark mb-3">
+          <div className="relative mx-auto max-w-[1100px]">
+            <p className="mb-5 text-[10px] font-black uppercase tracking-[0.24em] text-red-400">Free. Open. Built to use.</p>
+            <h1 className="max-w-5xl font-serif text-5xl font-black uppercase leading-[0.84] tracking-[-0.06em] md:text-8xl lg:text-9xl">
               Free Customer Success playbooks
             </h1>
-            <p className="text-lg text-gray-600">
+            <p className="mt-8 max-w-xl border-l-2 border-red-500 pl-5 text-lg leading-relaxed text-white/65 md:text-xl">
               Free checklists and worksheets for real Customer Success work.
             </p>
           </div>
@@ -214,7 +216,8 @@ const Playbooks = () => {
       {/* Playbooks List */}
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-4xl mx-auto">
+            <div className="mb-12 border-2 border-navy-dark bg-white p-5 shadow-[8px_8px_0_0_hsl(var(--red))] md:p-7">
             <label htmlFor="playbook-search" className="text-[10px] uppercase tracking-[0.22em] text-red font-bold">
               Find a playbook
             </label>
@@ -228,17 +231,17 @@ const Playbooks = () => {
                   setVisibleCount(12);
                 }}
                 placeholder="Renewals, QBRs, AI, metrics, expansion..."
-                className="h-12 pl-11"
+                className="h-14 rounded-none border-gray-300 pl-11 text-base focus-visible:ring-red-600"
               />
               <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-600" />
             </div>
-            <div className="mb-8 flex flex-wrap gap-2" aria-label="Filter playbooks by problem">
+            <div className="flex flex-wrap gap-2" aria-label="Filter playbooks by problem">
               {PROBLEMS.map(item => (
-                <button key={item} type="button" onClick={() => { setProblem(item); setVisibleCount(12); }} aria-pressed={problem === item} className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${problem === item ? "bg-navy-dark text-white" : "border border-gray-200 text-gray-700 hover:border-navy-dark"}`}>
+                <button key={item} type="button" onClick={() => { setProblem(item); setVisibleCount(12); }} aria-pressed={problem === item} className={`px-3 py-2 text-[10px] font-black uppercase tracking-[0.1em] transition-colors ${problem === item ? "bg-navy-dark text-white" : "border border-gray-300 text-gray-700 hover:border-navy-dark"}`}>
                   {item}
                 </button>
               ))}
-            </div>
+            </div></div>
             {loading ? (
               <div className="space-y-8">
                 {[1, 2, 3, 4].map(i => (
@@ -252,8 +255,8 @@ const Playbooks = () => {
             ) : filteredPlaybooks.length === 0 ? (
               <p className="text-gray-600 py-16 text-center">No playbook matches that problem yet.</p>
             ) : (
-              <div className="divide-y divide-gray-200 border-y border-gray-200">
-                {visiblePlaybooks.map((pb) => {
+              <div className="divide-y divide-navy-dark/20 border-y-2 border-navy-dark">
+                {visiblePlaybooks.map((pb, index) => {
                   const displayTitle = playbookDisplayTitle(pb);
                   const displayDescription = playbookDisplayDescription(pb);
                   return (
@@ -261,11 +264,12 @@ const Playbooks = () => {
                       key={pb.id}
                       to={`/playbook/${encodeURIComponent(pb.id)}?title=${encodeURIComponent(displayTitle)}`}
                       onClick={() => void trackGrowthEvent({ eventName: "resource_open", resourceId: pb.id })}
-                      className="group block py-6"
+                      className="group block transition-colors hover:bg-white"
                     >
-                      <article className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-5">
+                      <article className="grid grid-cols-[46px_minmax(0,1fr)_auto] items-start gap-4 py-7 md:grid-cols-[70px_minmax(0,1fr)_auto] md:gap-6 md:px-5">
+                        <span className="font-mono text-[10px] font-bold tracking-[0.14em] text-red-600">{String(index + 1).padStart(2, "0")}</span>
                         <div>
-                          <h3 className="font-serif text-xl font-bold leading-snug text-navy-dark transition-colors group-hover:text-red-600">
+                          <h3 className="font-serif text-2xl font-black leading-tight tracking-[-0.025em] text-navy-dark transition-colors group-hover:text-red-600 md:text-3xl">
                             {displayTitle}
                           </h3>
                           <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-gray-600">
@@ -277,7 +281,7 @@ const Playbooks = () => {
                             </span>
                           )}
                         </div>
-                        <ArrowRight className="mt-1 h-5 w-5 flex-none text-gray-300 transition-colors group-hover:text-red-600" aria-hidden="true" />
+                        <ArrowRight className="mt-1 h-6 w-6 flex-none text-navy-dark transition-transform group-hover:translate-x-2 group-hover:text-red-600" aria-hidden="true" />
                       </article>
                     </Link>
                   );
@@ -289,7 +293,7 @@ const Playbooks = () => {
                 <button
                   type="button"
                   onClick={() => setVisibleCount(count => count + 12)}
-                  className="rounded-lg border border-gray-300 px-5 py-2.5 text-sm font-semibold text-navy-dark transition-colors hover:border-navy-dark"
+                  className="border-2 border-navy-dark px-6 py-3 text-xs font-black uppercase tracking-[0.12em] text-navy-dark transition-colors hover:bg-navy-dark hover:text-white"
                 >
                   Show more playbooks
                 </button>
@@ -299,11 +303,11 @@ const Playbooks = () => {
         </div>
       </section>
 
-      <section className="py-12 border-t border-gray-100 bg-cream/30">
+      <section className="editorial-grid-dark border-t border-white/15 bg-navy-dark py-16 text-white md:py-24">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-xl mx-auto text-center">
-            <h2 className="text-2xl font-serif font-bold text-navy-dark mb-2">Want the next playbook?</h2>
-            <p className="text-sm text-gray-500 mb-6">Get the Tuesday issue and its practical tool by email.</p>
+            <h2 className="font-serif text-4xl font-black uppercase leading-none tracking-[-0.045em] md:text-6xl">Want the next playbook?</h2>
+            <p className="mb-7 mt-5 text-sm text-white/55">Get the Tuesday issue and its practical tool by email.</p>
             <NewsletterForm location="playbook" buttonVariant="vibrant-red" buttonText="Join the list" subscribeText="" />
           </div>
         </div>

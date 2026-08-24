@@ -231,7 +231,7 @@ const NewsletterForm = ({
             value={email}
             onChange={handleEmailChange}
             required
-            className={`h-12 px-4 py-3 text-base ${isHero ? "text-black" : ""} ${inputClass}`}
+            className={`h-14 rounded-none border-0 px-4 py-3 text-base shadow-none ${isHero ? "text-black" : ""} ${inputClass}`}
           />
           <Mail className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={18} />
         </div>
@@ -240,7 +240,7 @@ const NewsletterForm = ({
           disabled={isLoading}
           variant={getButtonVariant()}
           size="xl-wide"
-          className={`font-medium min-w-[140px] shadow-sm transition-all ${isHero ? "text-white !bg-red-600 hover:!bg-red-700" : ""}`}
+          className={`min-w-[140px] rounded-none font-black uppercase tracking-[0.1em] shadow-none transition-all ${isHero ? "text-white !bg-red-600 hover:!bg-red-700" : ""}`}
         >
           {isLoading ? "Subscribing..." : buttonText}
         </Button>

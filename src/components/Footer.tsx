@@ -1,62 +1,49 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { ArrowUpRight } from "lucide-react";
 import ContactDialog from "@/components/ContactDialog";
 import BrandMark from "@/components/BrandMark";
 
 const Footer = () => {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const currentYear = new Date().getFullYear();
-  
+
+  const links = [
+    ["Issues", "/newsletters"],
+    ["Playbooks", "/playbook"],
+    ["About", "/about"],
+    ["Standards", "/editorial-standards"],
+    ["Privacy", "/privacy"],
+    ["Terms", "/terms"],
+    ["Data handling", "/analyzer-data-handling"],
+  ];
+
   return (
     <>
-      <footer className="py-10 bg-white border-t border-gray-100">
+      <footer className="editorial-grid-dark border-t border-white/15 bg-navy-dark py-12 text-white md:py-16">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-              {/* Brand */}
+          <div className="mx-auto max-w-[1280px]">
+            <div className="grid gap-12 border-b border-white/20 pb-12 lg:grid-cols-[1fr_1fr]">
               <div>
-                <Link to="/" className="inline-flex items-center gap-2 text-lg font-serif font-black text-navy-dark hover:text-red-600 transition-colors">
-                  <BrandMark className="h-8 w-8" />
-                  <span><span className="underline-red">Churn</span> Is Dead</span>
+                <Link to="/" className="inline-flex items-center gap-3">
+                  <BrandMark className="h-11 w-11 rounded-none border border-white/30" />
+                  <span className="font-serif text-2xl font-black uppercase tracking-[-0.045em]">Churn Is Dead</span>
                 </Link>
-                <p className="text-xs text-gray-600 mt-1 max-w-xs">
-                  Honest Customer Success thinking for people doing the work.
-                </p>
+                <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/55">Honest Customer Success thinking for people doing the work.</p>
               </div>
-              
-              {/* Links */}
-              <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm sm:flex sm:flex-wrap sm:items-center sm:gap-5">
-                <Link to="/newsletters" className="text-gray-600 hover:text-navy-dark transition-colors">Issues</Link>
-                <Link to="/playbook" className="text-gray-600 hover:text-navy-dark transition-colors">Playbooks</Link>
-                <Link to="/about" className="text-gray-600 hover:text-navy-dark transition-colors">About</Link>
-                <Link to="/editorial-standards" className="text-gray-600 hover:text-navy-dark transition-colors">Standards</Link>
-                <Link to="/privacy" className="text-gray-600 hover:text-navy-dark transition-colors">Privacy</Link>
-                <Link to="/terms" className="text-gray-600 hover:text-navy-dark transition-colors">Terms</Link>
-                <Link to="/analyzer-data-handling" className="text-gray-600 hover:text-navy-dark transition-colors">Data handling</Link>
-                <button 
-                  onClick={() => setIsContactOpen(true)} 
-                  className="text-left text-gray-600 hover:text-navy-dark transition-colors bg-transparent border-none p-0 cursor-pointer"
-                >
-                  Contact
-                </button>
-                <a 
-                  href="https://www.linkedin.com/in/kuber-cs-strategist/"
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="text-gray-600 hover:text-navy-dark transition-colors"
-                >
-                  LinkedIn
-                </a>
+              <div className="grid grid-cols-2 gap-x-8 gap-y-4 text-sm sm:grid-cols-3">
+                {links.map(([label, href]) => <Link key={href} to={href} className="font-semibold text-white/60 transition-colors hover:text-white">{label}</Link>)}
+                <button onClick={() => setIsContactOpen(true)} className="text-left font-semibold text-white/60 transition-colors hover:text-white">Contact</button>
+                <a href="https://www.linkedin.com/in/kuber-cs-strategist/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-semibold text-white/60 transition-colors hover:text-white">LinkedIn <ArrowUpRight className="h-3.5 w-3.5" /></a>
               </div>
             </div>
-
-            <div className="mt-8 pt-6 border-t border-gray-100 text-xs text-gray-500">
-              &copy; {currentYear} Churn Is Dead. All rights reserved.
+            <div className="flex flex-col gap-3 pt-6 font-mono text-[10px] uppercase tracking-[0.16em] text-white/35 sm:flex-row sm:items-center sm:justify-between">
+              <span>© {currentYear} Churn Is Dead</span>
+              <span>Independent. Direct. Useful.</span>
             </div>
           </div>
         </div>
       </footer>
-      
       <ContactDialog open={isContactOpen} onOpenChange={setIsContactOpen} />
     </>
   );
