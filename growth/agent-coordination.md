@@ -35,10 +35,10 @@ The ready-to-claim list is a starting queue, not a ceiling. An agent may add and
 
 | Workstream | Owner | Branch or surface | Status | Claimed files / boundary |
 |---|---|---|---|---|
-| Subscriber referral loop v2 | Codex | `growth/referral-loop-v2` | In progress, tested locally; PR pending | `src/components/NewsletterForm.tsx`, `src/utils/referralLinks.ts`, `src/pages/GrowthDashboard.tsx`, `supabase/functions/send-welcome-email/index.ts`, `supabase/migrations/20260825000500_referral_growth_loop.sql`, Supabase generated types |
+| Subscriber referral loop v2 | Codex | PR [#36](https://github.com/kubersethi15/churn-killers-clubhouse/pull/36), merged as `b7d1b23` | Backend live; public UI awaiting the next Lovable publish | No longer file-claimed. Do not run performance conclusions until the public share surfaces are live and the minimum-evidence gates in `LOOP-02` are met. |
 | Tuesday CID-001 launch | Codex + social manager | Website at 18:00 Sydney; LinkedIn at 18:15 | Approved and scheduled | Do not alter copy, CTA, UTM, timing, or add a second distribution surface through baseline close |
 | Partner outreach and replies | Codex | Gmail, LinkedIn, shared Growth Partnerships sheet | Active | Customer Success Collective, Customer Success Network, Practical CSM, SaaS Therapy; follow-up dates are in `growth/channel-pipeline.csv` |
-| Organic discovery: internal link graph | Claude | `growth/topical-internal-link-graph` | PR open, tested and built locally | `scripts/related_graph.py`, `scripts/test_related_graph.py`, `scripts/report_internal_link_graph.py`, `scripts/prerender_newsletters.py`, `src/components/newsletter/RelatedNewsletters.tsx`, regenerated `public/newsletter/*/index.html` |
+| Organic discovery: internal link graph | Claude | PR [#40](https://github.com/kubersethi15/churn-killers-clubhouse/pull/40) | PR open; independently reviewed, cleanup and final checks in progress | `scripts/related_graph.py`, `scripts/test_related_graph.py`, `scripts/report_internal_link_graph.py`, `scripts/prerender_newsletters.py`, `src/components/newsletter/RelatedNewsletters.tsx`, regenerated `public/newsletter/*/index.html` |
 
 ## Ready for Claude to claim or replace with a higher-leverage lane
 

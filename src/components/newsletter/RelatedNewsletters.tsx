@@ -30,30 +30,41 @@ interface NewsletterCard {
  * The Supabase query remains as a fallback for dev and for any page served
  * before the prerender step has run.
  */
-type EmbeddedRelated = { hub: string | null; items: NewsletterCard[] };
+type EmbeddedRelated = {
+  currentSlug: string;
+  hub: string | null;
+  items: NewsletterCard[];
+};
 
-const readEmbeddedRelated = (): EmbeddedRelated | null => {
+const readEmbeddedRelated = (currentSlug: string): EmbeddedRelated | null => {
   if (typeof document === "undefined") return null;
   const node = document.getElementById("ci-related-issues");
   if (!node?.textContent) return null;
   try {
     const parsed = JSON.parse(node.textContent) as EmbeddedRelated;
-    return parsed?.items?.length ? parsed : null;
+    return parsed?.currentSlug === currentSlug && parsed.items?.length ? parsed : null;
   } catch {
     return null;
   }
 };
 
 const RelatedNewsletters = ({ currentSlug, category, limit = 3 }: RelatedNewslettersProps) => {
-  // Read once: the prerendered payload never changes after hydration.
-  const embedded = useMemo(readEmbeddedRelated, []);
+  // The document payload belongs to the statically rendered route. A
+  // client-side navigation can reuse the same document, so ignore the payload
+  // unless it explicitly matches the issue now on screen.
+  const embedded = useMemo(() => readEmbeddedRelated(currentSlug), [currentSlug]);
   const [items, setItems] = useState<NewsletterCard[]>(embedded?.items ?? []);
   const [loading, setLoading] = useState(!embedded);
   const hubSlug = embedded?.hub ?? null;
 
   useEffect(() => {
     // The build-time graph is authoritative when present.
-    if (embedded) return;
+    if (embedded) {
+      setItems(embedded.items);
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
     const fetchRecent = async () => {
       try {
         const nowIso = new Date().toISOString();

@@ -280,7 +280,10 @@ def build_page(base_html, nl, related=None, hub_slug=None, catalog=None):
 
     # Same set the React component renders, so the rendered DOM matches the
     # prerendered HTML without a Supabase round-trip inside the render budget.
-    payload = json.dumps({"hub": hub_slug, "items": related_records}, ensure_ascii=False)
+    payload = json.dumps(
+        {"currentSlug": slug, "hub": hub_slug, "items": related_records},
+        ensure_ascii=False,
+    )
     payload = payload.replace("</", "<\\/")
     result = result.replace(
         "</head>",
