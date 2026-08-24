@@ -58,6 +58,18 @@ def is_linkedin(row: dict) -> bool:
     return str(row.get("utm_source") or row.get("source") or "").lower() == "linkedin"
 
 
+def public_path(value: object) -> str:
+    """Return a query-free public path without carrying arbitrary URL data into reports."""
+    raw = str(value or "").strip()
+    if not raw:
+        return "-"
+    parsed = urllib.parse.urlparse(raw)
+    path = parsed.path or (raw if raw.startswith("/") else "")
+    if not path.startswith("/"):
+        return "-"
+    return path[:300]
+
+
 def summarise(events: list[dict], subscribers: list[dict]) -> dict[str, object]:
     linkedin_events = [row for row in events if is_linkedin(row)]
     linkedin_subscribers = [row for row in subscribers if is_linkedin(row)]
@@ -76,6 +88,45 @@ def summarise(events: list[dict], subscribers: list[dict]) -> dict[str, object]:
         key = surface(row)
         acquisitions_by_surface[key] = acquisitions_by_surface.get(key, 0) + 1
 
+    first_page_by_session: dict[str, tuple[str, str, str]] = {}
+    for row in linkedin_events:
+        session_id = str(row.get("session_id") or "")
+        if not session_id or row.get("event_name") != "page_view":
+            continue
+        path = public_path(row.get("page_path"))
+        if path == "-":
+            continue
+        candidate = (str(row.get("created_at") or ""), surface(row), path)
+        current = first_page_by_session.get(session_id)
+        if current is None or candidate[0] < current[0]:
+            first_page_by_session[session_id] = candidate
+
+    destination_rows: dict[tuple[str, str], dict[str, object]] = {}
+    for _, surface_name, path in first_page_by_session.values():
+        key = (surface_name, path)
+        destination = destination_rows.setdefault(
+            key,
+            {"surface": surface_name, "landing_page": path, "visits": 0, "acquired": 0, "active": 0},
+        )
+        destination["visits"] = int(destination["visits"]) + 1
+
+    for row in linkedin_subscribers:
+        surface_name = surface(row)
+        path = public_path(row.get("landing_page"))
+        key = (surface_name, path)
+        destination = destination_rows.setdefault(
+            key,
+            {"surface": surface_name, "landing_page": path, "visits": 0, "acquired": 0, "active": 0},
+        )
+        destination["acquired"] = int(destination["acquired"]) + 1
+        if row.get("subscribed") is True:
+            destination["active"] = int(destination["active"]) + 1
+
+    signup_locations: dict[str, int] = {}
+    for row in linkedin_subscribers:
+        location = str(row.get("signup_location") or "unknown").strip().lower()[:80] or "unknown"
+        signup_locations[location] = signup_locations.get(location, 0) + 1
+
     return {
         "linkedin_sessions": len(linkedin_sessions),
         "linkedin_events": len(linkedin_events),
@@ -89,6 +140,11 @@ def summarise(events: list[dict], subscribers: list[dict]) -> dict[str, object]:
             key: len(value) for key, value in sessions_by_surface.items()
         },
         "acquisitions_by_surface": acquisitions_by_surface,
+        "destinations": sorted(
+            destination_rows.values(),
+            key=lambda row: (str(row["surface"]), str(row["landing_page"])),
+        ),
+        "signup_locations": signup_locations,
     }
 
 
@@ -105,12 +161,13 @@ def main() -> int:
 
     events = fetch(
         "growth_events?select=event_name,source,medium,campaign,utm_content,"
-        f"session_id,created_at&created_at=gte.{cutoff_value}&order=created_at.desc&limit=5000"
+        f"session_id,page_path,created_at&created_at=gte.{cutoff_value}&order=created_at.desc&limit=5000"
     )
     # Explicit PII-safe projection: no email, name, IP, referrer, or free text.
     subscribers = fetch(
         "subscribers?select=acquisition_session_id,utm_source,utm_medium,utm_campaign,"
-        f"utm_content,created_at,subscribed&created_at=gte.{cutoff_value}&order=created_at.desc&limit=5000"
+        "utm_content,landing_page,signup_location,created_at,subscribed&"
+        f"created_at=gte.{cutoff_value}&order=created_at.desc&limit=5000"
     )
     report = summarise(events, subscribers)
 
@@ -133,6 +190,22 @@ def main() -> int:
                 f"    {key:44} {session_surfaces.get(key, 0)} sessions, "
                 f"{acquisition_surfaces.get(key, 0)} acquisitions"
             )
+
+    destinations = report["destinations"]
+    if destinations:
+        print("\n  LinkedIn destinations (surface -> first landing path)")
+        for row in destinations:
+            print(
+                f"    {row['surface']:38} {row['landing_page']:24} "
+                f"{row['visits']} visits, {row['acquired']} acquisitions, {row['active']} active"
+            )
+        print("  Paths are query-free. Campaign labels remain the experiment boundary.")
+
+    signup_locations = report["signup_locations"]
+    if signup_locations:
+        print("\n  LinkedIn acquisition form locations")
+        for location, count in sorted(signup_locations.items()):
+            print(f"    {location:44} {count} acquisitions")
 
     print("\nNOT MEASURED HERE (enter from LinkedIn Premium, aggregate only)")
     for label in (
