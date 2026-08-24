@@ -68,7 +68,9 @@ The website remains canonical. LinkedIn Newsletter and Medium are selective dist
 
 ## Experiment discipline
 
-Only one tagged acquisition experiment may be active at a time. Relationship comments, research, and partner pitching may continue because they do not publish a competing tracked acquisition link.
+Only one controlled acquisition experiment may change at a time. Relationship comments, research, and partner pitching may continue because they do not publish a competing acquisition link.
+
+Stable, always-on distribution infrastructure may also continue when it has its own source label: the LinkedIn Premium profile button, earned directory listings, and existing partner backlinks. These are reported separately and are not treated as controlled comparisons. Keep their copy and URLs unchanged during a test. Do not use cross-channel differences as if they were randomised evidence.
 
 The first baseline is the single Tuesday LinkedIn launch post from 25 August 08:15 UTC through 1 September 08:14 UTC. During that window:
 
@@ -77,6 +79,7 @@ The first baseline is the single Tuesday LinkedIn launch post from 25 August 08:
 - no LinkedIn Newsletter edition;
 - no CTA or campaign-tag change;
 - no community link drop.
+- no new directory or partner backlink goes live until the baseline closes.
 
 If the baseline receives fewer than 20 unique tagged visits, report it as descriptive evidence. Do not infer a conversion winner from a tiny sample.
 

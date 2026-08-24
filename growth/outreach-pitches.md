@@ -74,3 +74,65 @@ Kuber Sethi
 Churn Is Dead
 
 https://churnisdead.com/
+
+## CS Insider: guest contribution
+
+**Route:** Build rapport with Brandon Cestrone through one useful, no-link LinkedIn interaction before sending the pitch.
+
+**Subject:** Guest contribution idea: your renewal forecast needs receipts
+
+Hi Brandon,
+
+I publish Churn Is Dead, an evidence-led set of operating systems for Customer Success leaders.
+
+I would like to contribute a practical article for CS Insider on why a renewal confidence percentage is not evidence. The piece would give readers a Renewal Evidence Packet they can use to test one forecast across six domains: contract reality, customer authority, value proof, decision path, specific risks, and contrary evidence.
+
+Every item is labelled customer-confirmed, observed, internally asserted, or missing. The reader leaves with a straightforward decision: retain, promote, demote, or unverify the forecast.
+
+The article would be original for CS Insider, source-led, non-promotional, and useful in the next forecast review. I will avoid case-study claims or personal experience that cannot be substantiated.
+
+Would this fit your strategy or leadership coverage?
+
+Kuber Sethi
+
+Churn Is Dead
+
+https://churnisdead.com/
+
+## Customer Success Association: Customer Success Index listing
+
+**Route:** Submit through the association's Contact Us form after CID-001 closes. A free membership is only required for self-service entry creation; the association says proposed entries may also be submitted through Contact Us for review.
+
+**Requested title:** Churn Is Dead
+
+**Suggested description:**
+
+Churn Is Dead is a free weekly publication for experienced Customer Success operators. Each issue examines one operating decision, cites its evidence and limitations, proposes a practical framework, and includes a downloadable implementation playbook. The website is the canonical archive and publishes on Tuesdays.
+
+**Suggested categories:** Customer Success publications; newsletters; playbooks; management resources.
+
+**Canonical resource URL:**
+
+https://churnisdead.com/?utm_source=customer_success_association&utm_medium=directory&utm_campaign=resource_listing&utm_content=index_entry
+
+## Practical CSM: guest article enquiry
+
+**To:** sales@practicalcsm.com
+
+**Subject:** Practitioner article idea: measure decision latency, not backlog activity
+
+Hi Practical CSM team,
+
+I publish Churn Is Dead, an evidence-led set of operating systems for Customer Success leaders.
+
+I would like to ask whether you accept non-sponsored practitioner contributions. My proposed article addresses a common Product and CS failure: a customer request enters the backlog, but no explicit decision is made and the customer hears an implied promise.
+
+The article would define decision latency, show the minimum evidence packet CS should bring to Product, and give readers four honest decision states: commit, investigate, decline, or request missing evidence. It would be source-led, non-promotional, and include a review format readers can use immediately.
+
+If the topic fits, I would agree the originality, attribution, and canonical-link requirements with you before drafting.
+
+Kuber Sethi
+
+Churn Is Dead
+
+https://churnisdead.com/
