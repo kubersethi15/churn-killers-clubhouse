@@ -168,6 +168,41 @@ export const topicHubs: TopicHub[] = [
       label: "Open the operating kit",
     },
   },
+  {
+    slug: "health-score-alternatives",
+    eyebrow: "risk signals",
+    title: "Customer health score alternatives",
+    description: "Replace static account colours with observed movement, outcome evidence, and intervention signals that lead to action.",
+    decision: "What observed change would make us intervene differently this week?",
+    principles: [
+      "Start with observable customer movement, not a composite colour.",
+      "Keep usage, outcomes, confidence, and commercial risk separate.",
+      "Pair every signal with an owner, a next action, and a review date.",
+    ],
+    reads: [
+      {
+        slug: "case-against-customer-health-scores",
+        title: "The Case Against Customer Health Scores",
+        description: "Diagnose why blended scores create confidence without identifying the intervention the account needs.",
+      },
+      {
+        slug: "usage-is-not-success",
+        title: "Usage Is Not Success",
+        description: "Separate product activity from the customer outcome and renewal evidence it is supposed to support.",
+      },
+      {
+        slug: "health-scores-are-astrology",
+        title: "Health Scores Are Astrology for CS Teams",
+        description: "Replace a static status with a broader view of customer predictability and changing behaviour.",
+      },
+    ],
+    tool: {
+      title: "Customer Predictability Audit",
+      description: "Use the Vault's renewal-risk tools to inspect momentum, evidence, causes, and the next customer decision.",
+      href: "/playbook?kit=renewal",
+      label: "Open the predictability tools",
+    },
+  },
 ];
 
 export const topicHubBySlug = Object.fromEntries(topicHubs.map((topic) => [topic.slug, topic]));
