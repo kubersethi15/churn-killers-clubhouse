@@ -1,59 +1,54 @@
 # An 80% renewal forecast is not evidence
 
-A renewal forecast can be precise and still be impossible to defend.
+A renewal forecast can look precise and still be impossible to defend.
 
 The account is 80% likely to renew. The health score is green. The date in the CRM is correct.
 
-Then someone asks a better question: what has the customer actually done or said that makes 80% credible?
+Then someone asks: what has the customer actually done or said that makes 80% believable?
 
 The room starts searching through call notes.
 
-Confidence is not evidence. A percentage can hide whether the budget owner supports the renewal, procurement has a path, the customer recognises the value, or a known risk has an owner.
+A percentage can hide a lot. Does the budget owner support the renewal? Is procurement ready? Has the customer recognised the value? Does anyone own the biggest risk?
 
-Customer Success needs a forecast that can survive inspection.
+Those answers should not live in one CSM's memory.
 
-I call the operating record the Renewal Evidence Packet. It does not promise perfect prediction. It makes the current judgement explainable, reviewable, and easier to change when the facts change.
+Put them on one page. I call it the Renewal Evidence Packet, but the name matters less than the discipline.
 
-For each material renewal, inspect six domains.
+For each important renewal, answer six questions.
 
-1. Contract reality. Renewal date, notice period, available scope, and known legal or procurement steps.
+1. What does the contract say? Include the renewal date, notice period, scope, and known legal or procurement steps.
 
-2. Customer authority. Budget owner, approver, blocker, operator, and evidence that those roles are real.
+2. Who can approve it? Name the budget owner, approver, blocker, and day-to-day operator. Check that those roles are real.
 
-3. Value proof. The outcome the customer expected, what actually changed, and whether the customer has acknowledged it.
+3. What value has the customer recognised? Record the outcome they expected, what changed, and whether they have acknowledged it.
 
-4. Decision path. Every remaining step, owner, date, and whether that date came from the customer or from us.
+4. What still has to happen? List every remaining step, owner, and date. Be clear about whether the date came from the customer or from your team.
 
-5. Risk and response. A specific uncertain event, its likely effect, the response owner, and the next evidence date.
+5. What could derail it? Name the risk, its likely effect, who is responding, and when you expect new information.
 
-6. Contrary evidence. Facts that weaken the forecast, including a silent budget owner, seat reductions, unresolved support history, or an unconfirmed success metric.
+6. What evidence points the other way? Include the silent budget owner, seat reductions, unresolved support history, or a success metric the customer has never confirmed.
 
-Then label every evidence item:
+For every answer, mark whether it was confirmed by the customer, observed by your team, asserted internally, or is still missing.
 
-- Customer-confirmed
-- Observed
-- Internally asserted
-- Missing
+Add the source and the date. Evidence that was useful three months ago may be worthless after a reorganisation, budget change, or sponsor departure.
 
-Add a source date and an expiry date. Evidence that was credible three months ago may not be credible after a reorganisation, budget change, or sponsor departure.
+You can keep the CRM categories your business already uses. Change what an account must prove before it enters them.
 
-Keep the CRM categories if the business relies on them. Change the rule for entering them.
+An account should not move to Commit because the CSM feels better this week. It should move because the facts changed and anyone in the review can see why.
 
-An account should not enter Commit because the CSM feels better this week. It should enter Commit because the authorised commercial path is active, required approvals are understood, contradictions are visible, and remaining steps have owners and dates.
+In the forecast review, ask three questions:
 
-In the forecast review, ask only three things:
+1. What do we believe today?
+2. What is the newest evidence for or against that belief?
+3. What answer or customer action do we need next?
 
-1. What is the current state?
-2. What is the newest confirming or contrary evidence?
-3. What decision or evidence is required next?
+Then make one clear choice: keep the forecast, raise it, lower it, or mark it unverified.
 
-End with one recorded outcome: retain, promote, demote, or mark unverified.
+Start with one account currently labelled Commit. Put the evidence you already have on one page. Mark what is missing or out of date. Then ask whether the account still belongs there.
 
-Start with one account currently labelled Commit. Build the packet from the evidence you already have. Mark what is missing or stale. Then ask whether the account still belongs there.
+This is not about making the forecast more pessimistic.
 
-The goal is not to make the forecast pessimistic.
+It is about making it believable.
 
-It is to make it credible.
-
-The full evidence-led framework and free Renewal Evidence Packet are on Churn Is Dead:
+The full guide and free Renewal Evidence Packet are on Churn Is Dead:
 https://churnisdead.com/newsletter/renewal-evidence-packet?utm_source=linkedin&utm_medium=newsletter&utm_campaign=renewal-evidence-packet&utm_content=linkedin_newsletter

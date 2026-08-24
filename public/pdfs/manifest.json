@@ -301,12 +301,12 @@
   },
   {
     "id": "pdf-the_silence_ledger_audit_churnisdead",
-    "title": "The Silence Ledger",
-    "description": "A practical record for separating automated reach, customer response, unresolved silence, and the human intervention required next.",
+    "title": "The Digital CS Follow-up Check",
+    "description": "A simple worksheet for seeing who received your digital journey, who acted, who went quiet, and what to do next.",
     "pdf_path": "/pdfs/The_Silence_Ledger_Audit_ChurnIsDead.pdf",
     "notion_link": null,
     "newsletter_slug": "digital-cs-coverage-silence",
-    "newsletter_title": "Digital CS Is Not Coverage Until Someone Owns the Silence",
+    "newsletter_title": "Your Digital CS Programme Cannot Tell You Who Needs Help",
     "published_date": "2026-08-18T08:00:00+00:00"
   },
   {
