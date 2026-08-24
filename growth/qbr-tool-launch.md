@@ -66,5 +66,8 @@ gives that appetite somewhere to go.
 ## What to measure
 
 Tagged visits on the `qbr_score_launch` campaign, `tool:qbr-score` completions,
-`tool-share:qbr-score` shares, and subscribes from those sessions. All now clean
-of agent traffic after the #90 guard. Minimum 20 tagged visits before any rate.
+`tool-share:qbr-score` shares, and subscribes from those sessions. PR #90 blocks
+localhost and preview builds, but it does not identify a live-domain visit made
+during production QA. Verify the tracked route with a non-JavaScript HTTP check
+rather than opening it in an automated browser, and treat any known team-seeded
+activity separately. Minimum 20 tagged visits before any rate.

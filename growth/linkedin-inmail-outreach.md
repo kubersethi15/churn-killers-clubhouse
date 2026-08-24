@@ -18,6 +18,12 @@ click. Keep it short. These are people, not a campaign.
 Grounded only in the author-experience ledger and Kuber's public profile. No
 invented claims.
 
+**25 August correction:** the earlier draft implied that Kuber regularly
+listened to or followed these shows and described an AI system as being used by
+other teams in his region. Neither claim exists in the author-experience
+ledger. The copy below removes both claims and is the only version cleared for
+use.
+
 ---
 
 ## 1. Unchurned (UpdateAI) — Josh Schachter
@@ -29,20 +35,18 @@ podcast. The AI-decision-rights angle is a genuine fit, not a generic pitch.
 
 > Hi Josh,
 >
-> I listen to Unchurned, and the AI thread on it keeps circling a question I
-> think is the real one: not which CS tasks to automate, but which decisions a
-> model is allowed to support versus own.
+> The AI question I keep returning to in CS is not which tasks to automate. It
+> is which decisions a model is allowed to support and which a human must still
+> own.
 >
-> I have spent more than ten years in CS, support through to executive, and I
-> built an AI operating system for the CS role that other teams in my region now
-> use. The thing that surprised me was how few decisions actually belonged to the
-> model, and how expensive it was every time I let it own one it should not have.
+> I have spent more than ten years in CS, moving from support into CSM roles and
+> then CS leadership. I would bring a practical decision-rights framework: for
+> each recurring CS decision, who is accountable, what evidence is required,
+> what the model may do, and what happens when the evidence is missing.
 >
-> I would bring a specific framework: for each recurring CS decision, who is
-> accountable, what evidence is required, what the model may do, and what happens
-> when the evidence is missing. Renewal risk, escalation, expansion timing all
-> sit in different places, and treating them the same is how teams quietly stop
-> trusting their own automation.
+> Renewal risk, escalation and expansion timing sit in different places.
+> Treating them as the same kind of automation decision is how teams quietly
+> stop trusting the system.
 >
 > Would a conversation like that fit the show?
 >
@@ -59,19 +63,17 @@ the strongest, most concrete thing to bring, and it is the ledger's signature.
 
 > Hi Irit,
 >
-> I have followed CSM Practice for a while. The tactical, show-me-the-mechanism
-> angle is why.
+> Here is one practical idea I would bring to CSM Practice. The most overused
+> meeting in our profession is the QBR, and most of them inform everyone and
+> decide nothing. I replaced the standard QBR with thirty minutes and three
+> slides: the customer's goal and how the last three months aligned to it, what
+> was achieved, and what is next including where support is needed.
 >
-> Here is one I would bring. The most overused meeting in our profession is the
-> QBR, and most of them inform everyone and decide nothing. I replaced ours with
-> thirty minutes and three slides: the customer's goal and whether the quarter
-> aligned to it, what was achieved, and what is next including where we need
-> support. The one-page plan is the meeting, not an attachment to it.
->
-> More than ten years in CS, support through to executive, building CS functions
-> and the metrics behind them. I would keep the conversation concrete: the exact
-> structure, the pre-wire that makes it work, and the moment a bad-numbers
-> quarter either becomes honest or becomes a performance.
+> I have spent more than ten years in CS, moving from support into CSM roles and
+> then CS leadership, including building CS functions and their metrics. I would
+> keep the conversation concrete: the exact structure, the preparation that
+> makes it work, and how the meeting handles a quarter where the evidence is not
+> flattering.
 >
 > Would that be a fit for the show?
 >
