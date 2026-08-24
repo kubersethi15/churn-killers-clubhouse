@@ -4,6 +4,12 @@ This is Kuber Sethi's repo for [churnisdead.com](https://churnisdead.com) — th
 
 For cross-agent work on the Churn Is Dead growth goal, also read and update [`growth/agent-coordination.md`](growth/agent-coordination.md). Claim a workstream there before editing so Claude and Codex do not duplicate work or overwrite each other.
 
+## Claude growth handoff
+
+When Claude is working on Kuber's shared Churn Is Dead growth mandate and has no active Claude-owned claim, do not wait for another assignment. Read [`growth/agent-inbox.md`](growth/agent-inbox.md) and [`growth/claude-growth-sprint.md`](growth/claude-growth-sprint.md), then claim the first unblocked item on the coordination board.
+
+Start with **CG-01**, the weekday LinkedIn relationship loop. If LinkedIn is not connected, immediately claim **CG-03** (a new earned-audience route), **CG-06** (the source-safe contributor kit), or **CG-08** (the next six best-in-class editorial decisions). Finish or explicitly park one item with evidence, then take the next unblocked item without waiting for Codex.
+
 ---
 
 ## The vision (for the CS Analyzer)
