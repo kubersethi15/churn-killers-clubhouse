@@ -356,3 +356,65 @@ The figures above were verified through the Supabase connection instead.
 
 **Review:** first meaningful read once LinkedIn sessions pass 20, expected after
 CID-001 closes on 1 September.
+
+## Claude handoff — ACQ-03 route map, independently corrected
+
+**Branch:** `growth/acq-03-route-map`.
+
+Claude initially reported that five checked targets had no open route. Codex
+rechecked the highest-fit target before accepting the no-route conclusion and
+found a material contradiction: Lifetime Value Media's official `www` site was
+live, described The Daily Standup's broad guest format, and published
+`hello@lifetimevaluemedia.com`. Gmail had no existing thread. A distinct pitch
+was sent and verified rather than suppressing the route.
+
+Targets researched and first-party checked on 24 August:
+
+| Target | Result |
+|---|---|
+| Lifetime Value Media, The Daily Standup | **Open route.** `https://www.lifetimevaluemedia.com/podcasts` was live and published `hello@lifetimevaluemedia.com`; Monthly Business Review pitch sent and verified |
+| CSM Practice podcast | Contact page returns HTTP 500; podcast page publishes no guest route |
+| Unchurned (UpdateAI) | No first-party guest route, checked earlier |
+| The Customer Success Channel (Planhat) | Mid host transition; only address found was from an aggregator |
+| The CS Café | Sells sponsorship packages, does not offer guest slots |
+
+Four of the five checked targets remain relationship-gated or blocked. This
+small convenience sample supports a relationship-first hypothesis, not a claim
+about the entire CS media market. Every apparent dead end still needs a direct
+first-party recheck, including `www` host variants and visible public contact
+routes, before it is closed.
+
+### The useful part: the circuit is small and interconnected
+
+From Alex Turkovic's own episode listings on `podcast.digitalcustomersuccess.com`:
+
+- Dillon Young (Lifetime Value) appeared on The Digital CX Podcast twice,
+  episodes 022 and 088.
+- Irit Eizips (CSM Practice) appeared on episode 047.
+
+Both Dillon Young and Irit Eizips have appeared on the show already pitched.
+Alex Turkovic is therefore a useful relationship node, but no single host should
+be treated as the only route into the category.
+
+**Strategy implication.** Keep the Digital CX relationship active and use warm
+introductions when available, while continuing careful first-party route
+verification. Route quality matters more than cold-pitch volume, but a general
+public address on a show that explicitly features diverse guests remains a
+legitimate one-to-one route.
+
+**Recommended sequencing.**
+
+1. Let the Digital CX pitch run. Follow up once on 7 September as recorded.
+2. Let the new Lifetime Value Media pitch run. Follow up once on 7 September if
+   silent, then stop. Do not send Dillon Young a duplicate direct message.
+3. Keep Irit Eizips as a relationship route unless CSM Practice publishes a
+   current first-party guest or contact path.
+4. Retention Ranch runs independently, since it had its own open route.
+5. Measure verified routes, replies, invitations, tagged visits, and acquired
+   subscribers, not pitches written.
+
+**Recorded** as pipeline row 18 with a verified sent status and row 19 as a
+relationship route. Neither agent should duplicate either action.
+
+**Metric.** Replies, invitations, tagged resource visits, and acquired
+subscribers. Review 8 September, after the single follow-up date.
