@@ -8,7 +8,7 @@ import { isPreviewMode } from "@/utils/preview";
 import { format } from "date-fns";
 import { ArrowRight, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { audiencesFor, editorialFormatFor, problemDomainFor, PROBLEM_DOMAINS, type AudiencePath } from "@/data/publicationTaxonomy";
+import { problemDomainFor, PROBLEM_DOMAINS } from "@/data/publicationTaxonomy";
 import { topicHubs } from "@/data/topicHubs";
 
 type Newsletter = {
@@ -26,7 +26,6 @@ const PastNewsletters = () => {
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
-  const [audience, setAudience] = useState<AudiencePath>("All readers");
   const [visibleCount, setVisibleCount] = useState(18);
   
   useEffect(() => {
@@ -79,9 +78,8 @@ const PastNewsletters = () => {
   const categories = PROBLEM_DOMAINS;
   const filtered = newsletters.filter(item => {
     const matchesCategory = category === "All" || problemDomainFor(item) === category;
-    const matchesAudience = audience === "All readers" || audiencesFor(item).includes(audience);
     const haystack = `${item.title} ${item.excerpt} ${item.category ?? ""}`.toLowerCase();
-    return matchesCategory && matchesAudience && haystack.includes(query.trim().toLowerCase());
+    return matchesCategory && haystack.includes(query.trim().toLowerCase());
   });
   const visible = filtered.slice(0, visibleCount);
 
@@ -106,7 +104,7 @@ const PastNewsletters = () => {
               All Issues
             </h1>
             <p className="text-lg text-gray-600">
-              Search 40+ issues by the Customer Success problem you are trying to solve.
+              Browse every issue, or search for the problem you are working on.
             </p>
           </div>
         </div>
@@ -123,7 +121,7 @@ const PastNewsletters = () => {
                 <div className="mt-5 grid gap-3 sm:grid-cols-3">
                   {topicHubs.slice(0, 3).map((topic) => {
                     const pick = newsletters.find(item => item.slug === topic.reads[0]?.slug);
-                    return pick ? <Link key={pick.slug} to={`/newsletter/${pick.slug}`} className="group rounded-xl border border-gray-200 p-4 hover:border-red-300"><span className="text-[10px] font-bold uppercase tracking-wider text-red-600">{editorialFormatFor(pick)}</span><h3 className="mt-2 font-sans text-sm font-bold leading-snug text-navy-dark group-hover:text-red-600">{pick.title}</h3><p className="mt-2 text-xs text-gray-500">{problemDomainFor(pick)}</p></Link> : null;
+                    return pick ? <Link key={pick.slug} to={`/newsletter/${pick.slug}`} className="group rounded-xl border border-gray-200 p-4 hover:border-red-300"><span className="text-[10px] font-bold uppercase tracking-wider text-red-600">Recommended</span><h3 className="mt-2 font-sans text-sm font-bold leading-snug text-navy-dark group-hover:text-red-600">{pick.title}</h3><p className="mt-2 text-xs text-gray-500">{problemDomainFor(pick)}</p></Link> : null;
                   })}
                 </div>
               </section>
@@ -163,12 +161,6 @@ const PastNewsletters = () => {
                       {item}
                     </button>
                   ))}
-                </div>
-                <div className="mt-5 border-t border-gray-200 pt-4">
-                  <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-gray-600">Filter by role</p>
-                  <div className="flex flex-wrap gap-2" aria-label="Filter by reader role">
-                    {(["All readers", "Run accounts", "Lead the function", "Move into leadership"] as AudiencePath[]).map(item => <button key={item} type="button" onClick={() => { setAudience(item); setVisibleCount(18); }} aria-pressed={audience === item} className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${audience === item ? "bg-red-600 text-white" : "border border-gray-200 bg-white text-gray-700 hover:border-red-400"}`}>{item}</button>)}
-                  </div>
                 </div>
                 <p className="mt-4 text-xs text-gray-600" aria-live="polite">{filtered.length} {filtered.length === 1 ? "issue" : "issues"} found</p>
                 </>
@@ -211,7 +203,7 @@ const PastNewsletters = () => {
                             <div className="flex-1 min-w-0">
                               {nl.category && (
                                 <span className="text-[11px] font-semibold uppercase tracking-wider text-red-600 mb-1 block">
-                                  {problemDomainFor(nl)} · {editorialFormatFor(nl)}
+                                  {problemDomainFor(nl)}
                                 </span>
                               )}
                               <h3 className="text-lg md:text-xl font-serif font-bold text-navy-dark leading-snug group-hover:text-red-600 transition-colors duration-200">

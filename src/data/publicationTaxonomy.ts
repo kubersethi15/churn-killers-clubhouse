@@ -1,10 +1,10 @@
 export const PROBLEM_DOMAINS = [
   "All",
-  "Renewal economics",
-  "Measurement that helps",
-  "AI and role design",
+  "Renewals",
+  "What to measure",
+  "AI and the CS role",
   "Working across teams",
-  "Health score alternatives",
+  "Health scores",
 ] as const;
 
 export type ProblemDomain = (typeof PROBLEM_DOMAINS)[number];
@@ -17,10 +17,10 @@ const textFor = (item: PublicationItem) => `${item.title} ${item.excerpt ?? ""} 
 
 export const problemDomainFor = (item: PublicationItem): Exclude<ProblemDomain, "All"> => {
   const text = textFor(item);
-  if (/health score|health-score|momentum|intervention trigger/.test(text)) return "Health score alternatives";
-  if (/\bai\b|automation|agent|role|title|supervisor|team design/.test(text)) return "AI and role design";
-  if (/renew|nrr|pricing|contract|expansion|commercial|revenue/.test(text)) return "Renewal economics";
-  if (/metric|measure|data|evidence|forecast|usage|predict|signal|cfo/.test(text)) return "Measurement that helps";
+  if (/health score|health-score|momentum|intervention trigger/.test(text)) return "Health scores";
+  if (/\bai\b|automation|agent|role|title|supervisor|team design/.test(text)) return "AI and the CS role";
+  if (/renew|nrr|pricing|contract|expansion|commercial|revenue/.test(text)) return "Renewals";
+  if (/metric|measure|data|evidence|forecast|usage|predict|signal|cfo/.test(text)) return "What to measure";
   return "Working across teams";
 };
 
@@ -44,35 +44,35 @@ export const audiencesFor = (item: PublicationItem): Exclude<AudiencePath, "All 
 export const playbookExperienceFor = (item: PublicationItem) => {
   const problem = problemDomainFor(item);
   const configurations = {
-    "Renewal economics": {
+    "Renewals": {
       role: "CSM · CS leader · Renewals",
       time: "15 to 25 min",
-      useWhen: "A renewal judgement feels confident but the commercial evidence is scattered.",
-      outcome: "A clearer decision record with owners, unknowns, and the next customer action.",
+      useWhen: "A renewal looks healthy but the facts are scattered across people and systems.",
+      outcome: "A clearer renewal view, the missing answers, and the next customer action.",
     },
-    "Measurement that helps": {
+    "What to measure": {
       role: "CS leader · CS Ops",
       time: "15 to 20 min",
-      useWhen: "The dashboard reports activity but does not tell the team what to do next.",
-      outcome: "A smaller set of measures that tell the team when something changed and what to do next.",
+      useWhen: "The dashboard reports activity but nobody knows what to do next.",
+      outcome: "Fewer numbers and a clearer response when something important changes.",
     },
-    "AI and role design": {
+    "AI and the CS role": {
       role: "CS leader · CSM · CS Ops",
       time: "20 min",
-      useWhen: "The team is adopting AI without redesigning judgement, ownership, or role boundaries.",
-      outcome: "A bounded view of what to automate, what to retain, and who stays accountable.",
+      useWhen: "The team is adopting AI without agreeing what people should still own.",
+      outcome: "A practical view of what AI can help with and what still needs human judgement.",
     },
     "Working across teams": {
       role: "CSM · CS leader",
       time: "15 to 30 min",
-      useWhen: "A recurring customer problem depends on memory, meetings, or informal escalation.",
-      outcome: "A simple way to stop the same customer problem getting lost between teams.",
+      useWhen: "The same customer problem keeps bouncing between teams.",
+      outcome: "A named owner, a clear next step, and a date for the customer answer.",
     },
-    "Health score alternatives": {
+    "Health scores": {
       role: "CSM · CS leader · CS Ops",
       time: "15 to 20 min",
-      useWhen: "A red, amber, or green score is visible but nobody agrees what should happen next.",
-      outcome: "A real customer change, a named person to respond, and a date to check again.",
+      useWhen: "A health score changed but nobody agrees whether it matters.",
+      outcome: "The customer change that matters, who should respond, and when to check again.",
     },
   } as const;
   return { problem, ...configurations[problem] };

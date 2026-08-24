@@ -24,8 +24,8 @@ export type TopicHub = {
 export const topicHubs: TopicHub[] = [
   {
     slug: "renewal-economics",
-    eyebrow: "commercial mechanics",
-    title: "Renewal economics",
+    eyebrow: "Renewals",
+    title: "Renewals",
     description: "Understand what CS can influence in a renewal and what sits with Product, Sales, Finance, or Legal.",
     decision: "What would make this renewal less surprising, and who else needs to act?",
     principles: [
@@ -52,14 +52,14 @@ export const topicHubs: TopicHub[] = [
     ],
     tool: {
       title: "Renewal Rescue Kit",
-      description: "Use the Vault's renewal and risk tools to understand the cause, involve the right people, and agree what happens next.",
+      description: "Use the free renewal and risk tools to understand the cause, involve the right people, and agree what happens next.",
       href: "/playbook?kit=renewal",
       label: "Open the renewal kit",
     },
   },
   {
     slug: "measurement-decisions",
-    eyebrow: "measurement",
+    eyebrow: "Metrics",
     title: "Numbers that help you act",
     description: "Replace reassuring dashboards with measures that help the team notice a real change and respond usefully.",
     decision: "Which change would make us do something differently this week?",
@@ -77,7 +77,7 @@ export const topicHubs: TopicHub[] = [
       {
         slug: "fire-your-qbr-heres-what-to-do-instead",
         title: "The 30-Minute Monthly Business Review",
-        description: "Turn review time into a compact operating decision instead of a reporting ritual.",
+        description: "Turn review time into a short meeting that ends with clear decisions instead of more reporting.",
       },
       {
         slug: "cs-metrics-performance-theater",
@@ -117,7 +117,7 @@ export const topicHubs: TopicHub[] = [
       {
         slug: "ai-wont-save-customer-success",
         title: "AI Won't Save Customer Success. It'll Finish It Off.",
-        description: "The case for rebuilding weak operating work before applying automation to it.",
+        description: "The case for fixing unclear work and ownership before applying automation to it.",
       },
     ],
     tool: {
@@ -129,7 +129,7 @@ export const topicHubs: TopicHub[] = [
   },
   {
     slug: "operating-systems",
-    eyebrow: "CS operations",
+    eyebrow: "Working across teams",
     title: "Making CS work across teams",
     description: "Practical ways to stop customer problems getting lost between CS, Product, Sales, Support, and leadership.",
     decision: "What simple routine would stop this customer problem falling between teams again?",
@@ -170,7 +170,7 @@ export const topicHubs: TopicHub[] = [
   },
   {
     slug: "health-score-alternatives",
-    eyebrow: "risk signals",
+    eyebrow: "Health scores",
     title: "Better ways to understand customer health",
     description: "Look beyond a red, amber, or green score and pay attention to what customers are actually doing, achieving, and struggling with.",
     decision: "What real customer change would make us respond differently this week?",
@@ -204,7 +204,7 @@ export const topicHubs: TopicHub[] = [
     ],
     tool: {
       title: "Customer Predictability Audit",
-      description: "Use the Vault's renewal-risk tools to understand what changed, why it matters, and what to do next.",
+      description: "Use the free renewal-risk tools to understand what changed, why it matters, and what to do next.",
       href: "/playbook?kit=renewal",
       label: "Open the predictability tools",
     },

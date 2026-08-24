@@ -55,7 +55,7 @@ const Subscribe = () => {
             <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
               <div>
                 <p className="mb-5 text-xs font-bold uppercase tracking-[0.2em] text-red-400">
-                  The Tuesday briefing for serious CS operators
+                  One honest Customer Success email every Tuesday
                 </p>
                 <h1 className="max-w-3xl font-serif text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl md:text-6xl">
                   Customer Success advice should survive contact with a renewal.
@@ -93,9 +93,9 @@ const Subscribe = () => {
           <div className="container mx-auto px-4 md:px-6">
             <div className="mx-auto max-w-5xl">
               <div className="max-w-2xl">
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-red-600">What actually lands</p>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-red-600">What you will get</p>
                 <h2 className="mt-3 font-serif text-3xl font-black text-navy-dark md:text-4xl">
-                  Useful enough to take into your next operating review.
+                  Useful enough to take into your next team meeting.
                 </h2>
               </div>
               <div className="mt-10 grid gap-5 md:grid-cols-3">
@@ -121,7 +121,7 @@ const Subscribe = () => {
                 </h2>
               </div>
               <div className="space-y-5 text-base leading-relaxed text-gray-600">
-                <p>Read it if you own renewals, expansion, customer evidence, operating cadence, CS measurement or the role AI should play in the team.</p>
+                <p>Read it if you work on renewals, expansion, customer outcomes, team meetings, CS metrics, or how AI should help your team.</p>
                 <p>Skip it if you want recycled listicles, invented certainty or another reminder to “be more strategic.”</p>
                 <Link to="/editorial-standards" className="inline-flex items-center gap-2 font-semibold text-red-600 hover:text-red-700">
                   See how each issue is researched <ArrowRight className="h-4 w-4" />

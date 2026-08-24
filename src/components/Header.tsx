@@ -77,17 +77,14 @@ const Header = () => {
         </Link>
         
         <nav className="hidden md:flex items-center gap-6">
-          <NavLink to="/start" className={getNavLinkClass}>
-            Start Here
-          </NavLink>
-          <NavLink to="/topics" className={getNavLinkClass}>
-            Topics
-          </NavLink>
           <NavLink to="/newsletters" className={getNavLinkClass}>
             Issues
           </NavLink>
           <NavLink to="/playbook" className={getNavLinkClass}>
-            Playbook Vault
+            Playbooks
+          </NavLink>
+          <NavLink to="/about" className={getNavLinkClass}>
+            About
           </NavLink>
           <NavLink to={user ? "/cs-analyzer" : "/cs-analyzer/demo"} className={getNavLinkClass}>
             CS Analyzer
@@ -163,29 +160,7 @@ const Header = () => {
         <div className="md:hidden bg-white border-t border-gray-100 p-4">
           <nav className="flex flex-col space-y-4">
             <NavLink 
-              to="/start" 
-              className={({ isActive }) => 
-                isActive 
-                  ? "text-red-600 font-medium transition-colors px-2 py-1" 
-                  : "text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
-              }
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Start Here
-            </NavLink>
-            <NavLink 
-              to="/topics"
-              className={({ isActive }) => 
-                isActive 
-                  ? "text-red-600 font-medium transition-colors px-2 py-1" 
-                  : "text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
-              }
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Topics
-            </NavLink>
-            <NavLink 
-              to="/newsletters" 
+              to="/newsletters"
               className={({ isActive }) => 
                 isActive 
                   ? "text-red-600 font-medium transition-colors px-2 py-1" 
@@ -196,7 +171,7 @@ const Header = () => {
               Issues
             </NavLink>
             <NavLink 
-              to="/playbook" 
+              to="/playbook"
               className={({ isActive }) => 
                 isActive 
                   ? "text-red-600 font-medium transition-colors px-2 py-1" 
@@ -204,7 +179,18 @@ const Header = () => {
               }
               onClick={() => setIsMenuOpen(false)}
             >
-              Playbook Vault
+              Playbooks
+            </NavLink>
+            <NavLink
+              to="/about"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-red-600 font-medium transition-colors px-2 py-1"
+                  : "text-navy-dark hover:text-red-600 font-medium transition-colors px-2 py-1"
+              }
+              onClick={() => setIsMenuOpen(false)}
+            >
+              About
             </NavLink>
             <NavLink 
               to={user ? "/cs-analyzer" : "/cs-analyzer/demo"}
@@ -257,7 +243,7 @@ const Header = () => {
       <Dialog open={isSubscribeOpen} onOpenChange={setIsSubscribeOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-center text-2xl font-serif font-bold mb-2">Join serious CS operators</DialogTitle>
+            <DialogTitle className="text-center text-2xl font-serif font-bold mb-2">Get Churn Is Dead every Tuesday</DialogTitle>
           </DialogHeader>
           <div className="py-4">
             <p className="text-center text-gray-600 mb-6">
@@ -265,7 +251,7 @@ const Header = () => {
             </p>
             <NewsletterForm location="hero" className="max-w-sm mx-auto" />
             <p className="text-sm mt-4 text-center text-gray-500">
-              Join CS leaders getting fresh insights every Tuesday.
+              Free. Unsubscribe whenever you want.
             </p>
           </div>
         </DialogContent>

@@ -142,7 +142,7 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
           to="/playbook" 
           className="inline-flex items-center gap-2 text-sm font-semibold text-navy-dark hover:text-red-600 transition-colors"
         >
-          Playbook Vault <ArrowRight className="w-4 h-4" />
+          Free CS playbooks <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
     </>

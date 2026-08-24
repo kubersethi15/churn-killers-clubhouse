@@ -279,7 +279,7 @@ const Auth = () => {
                 <div className="w-8 h-8 rounded-full bg-red/20 flex items-center justify-center flex-shrink-0">
                   <Sparkles className="w-4 h-4 text-red-400" />
                 </div>
-                <span>Playbook Vault with practical templates and checklists</span>
+                <span>Free CS templates and checklists</span>
               </li>
             </ul>
           </div>

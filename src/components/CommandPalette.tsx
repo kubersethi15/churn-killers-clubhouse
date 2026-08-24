@@ -190,7 +190,7 @@ export const CommandPalette = () => {
           </CommandItem>
           <CommandItem onSelect={() => go("/playbook")}>
             <FileText className="mr-2 h-4 w-4" />
-            <span>Playbook Vault</span>
+            <span>Free CS playbooks</span>
           </CommandItem>
           <CommandItem onSelect={() => go("/ai-exposure-score")}>
             <Sparkles className="mr-2 h-4 w-4" />

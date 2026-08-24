@@ -16,7 +16,7 @@ const About = () => {
   useEffect(() => {
     applyRouteSeo({
       title: "About Kuber Sethi | Churn Is Dead",
-      description: "Kuber Sethi has spent more than ten years across support, CSM roles, and CS executive leadership. See the operating experience behind Churn Is Dead.",
+      description: "Kuber Sethi has spent more than ten years across support, CSM roles, and CS executive leadership. Read why he created Churn Is Dead.",
       path: "/about",
     });
   }, []);
@@ -29,12 +29,12 @@ const About = () => {
           <div className="container mx-auto px-4 md:px-6">
             <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[1fr_300px] lg:items-center">
               <div>
-                <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.22em] text-red-400">The operator behind the publication</p>
-                <h1 className="max-w-3xl font-serif text-4xl font-black leading-[1.05] tracking-tight md:text-6xl">Built from the work, not commentary about the work.</h1>
+                <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.22em] text-red-400">About Kuber</p>
+                <h1 className="max-w-3xl font-serif text-4xl font-black leading-[1.05] tracking-tight md:text-6xl">I write about the CS decisions most advice avoids.</h1>
                 <p className="mt-6 max-w-2xl text-lg leading-relaxed text-gray-300">I am Kuber Sethi. I have spent more than ten years in Customer Success, moving from support into CSM roles and then into CS executive leadership.</p>
                 <div className="mt-7 flex flex-wrap gap-3">
                   <a href="https://www.linkedin.com/in/kuber-cs-strategist/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-lg bg-red-600 px-5 py-3 text-sm font-semibold text-white hover:bg-red-700"><Linkedin className="h-4 w-4" /> Follow Kuber on LinkedIn</a>
-                  <Link to="/editorial-standards" className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-5 py-3 text-sm font-semibold text-white hover:border-white/50">Read the standards <ArrowRight className="h-4 w-4" /></Link>
+                  <Link to="/newsletters" className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-5 py-3 text-sm font-semibold text-white hover:border-white/50">Read the issues <ArrowRight className="h-4 w-4" /></Link>
                 </div>
               </div>
               <div className="relative mx-auto aspect-square w-full max-w-[280px] overflow-hidden rounded-3xl border border-white/15 bg-white/[0.06] shadow-2xl shadow-black/20">
@@ -82,7 +82,7 @@ const About = () => {
                 </div>
 
                 <h2 className="font-serif text-3xl font-black text-navy-dark">Who it is for</h2>
-                <p className="mt-5">The publication serves three readers: the IC running complex accounts, the leader building the function, and the ambitious operator moving toward leadership. The material does not become less rigorous for an earlier-career reader. The path into it becomes clearer.</p>
+                <p className="mt-5">It is for CSMs, CS leaders, and people moving into leadership who want a clearer answer than “be more strategic.” You do not need to learn a special method or vocabulary before the work becomes useful.</p>
 
                 <h2 className="mt-10 font-serif text-3xl font-black text-navy-dark">The publishing rules</h2>
                 <div className="mt-6 grid gap-5">
@@ -95,7 +95,7 @@ const About = () => {
               <aside className="h-fit rounded-2xl border border-gray-200 bg-cream/40 p-6 lg:sticky lg:top-28">
                 <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-red-600">Publication facts</p>
                 <dl className="mt-5 space-y-5"><div><dt className="text-xs text-gray-500">Cadence</dt><dd className="mt-1 font-semibold text-navy-dark">Every Tuesday</dd></div><div><dt className="text-xs text-gray-500">LinkedIn reach</dt><dd className="mt-1 font-semibold text-navy-dark">Roughly 8,200 followers</dd></div><div><dt className="text-xs text-gray-500">Core access</dt><dd className="mt-1 font-semibold text-navy-dark">The weekly issue and practical tools remain free</dd></div></dl>
-                <div className="mt-6 border-t border-gray-200 pt-6"><Link to="/start" className="inline-flex items-center gap-2 text-sm font-semibold text-red-600">Choose your starting path <ArrowRight className="h-4 w-4" /></Link></div>
+                <div className="mt-6 border-t border-gray-200 pt-6"><Link to="/start" className="inline-flex items-center gap-2 text-sm font-semibold text-red-600">See where to start <ArrowRight className="h-4 w-4" /></Link></div>
               </aside>
             </div>
           </div>
