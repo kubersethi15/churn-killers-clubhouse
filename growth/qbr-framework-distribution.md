@@ -43,7 +43,7 @@ measured decision, not an assumption.
 ## Tracked entry point
 
 ```
-https://churnisdead.com/playbook?utm_source=linkedin&utm_medium=comment&utm_campaign=qbr_framework
+https://churnisdead.com/playbook?utm_source=linkedin&utm_medium=comment&utm_campaign=qbr_framework&q=30-Minute%20QBR
 ```
 
 Reported separately from the CID-001 Tuesday link and from the always-on Premium
@@ -118,7 +118,7 @@ readers, but it must not be described as notifying every original commenter.
 > place to find it. The 30-Minute QBR Framework is now free in the Churn Is Dead
 > Playbook Vault, alongside the other audits and tools:
 >
-> https://churnisdead.com/playbook?utm_source=linkedin&utm_medium=comment&utm_campaign=qbr_framework
+> https://churnisdead.com/playbook?utm_source=linkedin&utm_medium=comment&utm_campaign=qbr_framework&q=30-Minute%20QBR
 >
 > If you commented and I missed you, this fixes that. No form is required to
 > download it.
@@ -154,3 +154,26 @@ The real fix is not this one backlog. Every future "comment X" post should route
 to a tracked vault URL from the start, rather than relying on manual replies that
 do not scale and are not measurable. That turns each engagement post into a
 measured acquisition surface instead of a spike in comments that goes nowhere.
+
+## Deep link added, 24 August 2026
+
+The original campaign URL landed on `/playbook`, the whole vault of 34
+playbooks. Someone who asked for one specific thing arrived at thirty-four
+things and had to go find it.
+
+`?q=` now pre-filters the vault, mirroring the `?kit=` parameter that already
+existed. The campaign URL lands on exactly the QBR framework, with the download
+link, the `resource_open` tracking and the newsletter form all intact. Verified
+on a production build: 34 cards to 1, correct card, form present. Default
+`/playbook` behaviour is unchanged at 34 cards with an empty search box, so this
+is purely additive and does not touch any CTA.
+
+**Early reading, descriptive only.** The comment went live 24 August. As of the
+same day the campaign shows 2 sessions, 2 events, 0 resource opens and 0
+signups. That is far below the 20-visit evidence floor and proves nothing. It is
+recorded so the before and after of the deep link can be compared once volume
+exists, not as a result.
+
+**Generalises.** Every future "comment X" post should use `?q=` to land on the
+exact asset promised. That is the difference between routing someone to a
+library and handing them the thing they asked for.
