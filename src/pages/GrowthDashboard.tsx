@@ -40,6 +40,21 @@ type VariantRow = {
   signups: number;
   active_subscribers: number;
 };
+type ReferralRow = {
+  campaign: string;
+  variant: string;
+  visits: number;
+  acquired: number;
+  active: number;
+};
+type ReferralData = {
+  share_action_sessions_30_days: number;
+  referred_visits_30_days: number;
+  acquired_30_days: number;
+  active_30_days: number;
+  visit_to_signup_rate: number | null;
+  rows: ReferralRow[];
+};
 type DashboardData = {
   subscribers: {
     total: number;
@@ -69,6 +84,7 @@ type DashboardData = {
   content_variants_30_days: VariantRow[];
   reactivation: ReactivationData;
   retention: RetentionData;
+  referrals: ReferralData;
 };
 
 const MetricCard = ({ label, value, note, suffix = "" }: { label: string; value: number; note: string; suffix?: string }) => (
@@ -129,20 +145,59 @@ const VariantTable = ({ rows }: { rows: VariantRow[] }) => (
   </section>
 );
 
+const ReferralTable = ({ data }: { data: ReferralData }) => (
+  <section className="rounded-xl border border-gray-200 bg-white p-6">
+    <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <h2 className="font-serif text-lg font-bold text-navy-dark">Subscriber referral loop, 30 days</h2>
+        <p className="mt-1 text-xs text-gray-500">Exact tagged, session-matched activity only. Direct visits are not guessed as referrals. Welcome-email share-button opens are excluded.</p>
+      </div>
+      <p className="text-xs font-semibold text-gray-600">Visit to signup: {data.visit_to_signup_rate === null ? "forming" : `${data.visit_to_signup_rate}%`}</p>
+    </div>
+    <div className="mb-6 grid gap-4 sm:grid-cols-4">
+      <MetricCard label="Share-path actions" value={data.share_action_sessions_30_days} note="Unique post-signup sessions that opened or successfully copied a sharing path" />
+      <MetricCard label="Referred visits" value={data.referred_visits_30_days} note="Unique tagged sessions" />
+      <MetricCard label="Acquired" value={data.acquired_30_days} note="All referred signups" />
+      <MetricCard label="Still active" value={data.active_30_days} note="Current status" />
+    </div>
+    <div className="overflow-x-auto">
+      <table className="w-full min-w-[620px] text-left text-sm">
+        <thead className="border-b border-gray-200 text-[10px] uppercase tracking-[0.16em] text-gray-500">
+          <tr><th className="pb-3 pr-4">Origin</th><th className="pb-3 pr-4">Placement</th><th className="pb-3 pr-4 text-right">Visits</th><th className="pb-3 pr-4 text-right">Acquired</th><th className="pb-3 text-right">Still active</th></tr>
+        </thead>
+        <tbody>
+          {data.rows.map(row => (
+            <tr key={`${row.campaign}:${row.variant}`} className="border-b border-gray-100 last:border-0">
+              <td className="py-3 pr-4 font-semibold text-navy-dark">{row.campaign.replaceAll("_", " ")}</td>
+              <td className="py-3 pr-4 text-gray-600">{row.variant.replaceAll("_", " ")}</td>
+              <td className="py-3 pr-4 text-right text-gray-600">{row.visits}</td>
+              <td className="py-3 pr-4 text-right font-semibold text-navy-dark">{row.acquired}</td>
+              <td className="py-3 text-right text-gray-600">{row.active}</td>
+            </tr>
+          ))}
+          {data.rows.length === 0 && <tr><td colSpan={5} className="py-5 text-gray-500">No tagged referral activity yet.</td></tr>}
+        </tbody>
+      </table>
+    </div>
+  </section>
+);
+
 const GrowthDashboard = () => {
   const [data, setData] = useState<DashboardData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [variantError, setVariantError] = useState<string | null>(null);
   const [reactivationError, setReactivationError] = useState<string | null>(null);
   const [retentionError, setRetentionError] = useState<string | null>(null);
+  const [referralError, setReferralError] = useState<string | null>(null);
 
   useEffect(() => {
     const load = async () => {
-      const [dashboardResult, variantResult, reactivationResult, retentionResult] = await Promise.all([
+      const [dashboardResult, variantResult, reactivationResult, retentionResult, referralResult] = await Promise.all([
         supabase.rpc("get_growth_dashboard"),
         supabase.rpc("get_growth_variant_dashboard"),
         supabase.rpc("get_reactivation_dashboard"),
         supabase.rpc("get_growth_retention_dashboard"),
+        supabase.rpc("get_referral_dashboard"),
       ]);
       if (dashboardResult.error) {
         setError(dashboardResult.error.message);
@@ -151,6 +206,7 @@ const GrowthDashboard = () => {
       if (variantResult.error) setVariantError(variantResult.error.message);
       if (reactivationResult.error) setReactivationError(reactivationResult.error.message);
       if (retentionResult.error) setRetentionError(retentionResult.error.message);
+      if (referralResult.error) setReferralError(referralResult.error.message);
       setData({
         ...(dashboardResult.data as unknown as Omit<DashboardData, "content_variants_30_days" | "reactivation" | "retention">),
         content_variants_30_days: variantResult.error ? [] : variantResult.data as unknown as VariantRow[],
@@ -169,6 +225,16 @@ const GrowthDashboard = () => {
             cohorts: [],
           }
           : retentionResult.data as unknown as RetentionData,
+        referrals: referralResult.error
+          ? {
+            share_action_sessions_30_days: 0,
+            referred_visits_30_days: 0,
+            acquired_30_days: 0,
+            active_30_days: 0,
+            visit_to_signup_rate: null,
+            rows: [],
+          }
+          : referralResult.data as unknown as ReferralData,
       });
     };
     void load();
@@ -240,6 +306,11 @@ const GrowthDashboard = () => {
             {readout.map((item, index) => <p key={item} className="text-sm leading-relaxed text-gray-200"><span className="mr-2 font-serif text-xl font-black text-red-400">0{index + 1}</span>{item}</p>)}
           </div>
         </section>
+
+        <div className="mb-8">
+          {referralError && <p className="mb-3 text-xs text-amber-700">Referral reporting is waiting for its database update. Sharing remains available.</p>}
+          <ReferralTable data={data.referrals} />
+        </div>
 
         <section className="mb-8 rounded-xl border border-gray-200 bg-white p-6">
           <h2 className="mb-2 font-serif text-lg font-bold text-navy-dark">Measured journey, last 30 days</h2>

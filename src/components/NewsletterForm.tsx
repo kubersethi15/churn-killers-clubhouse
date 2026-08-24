@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { Check, Copy, Mail } from "lucide-react";
-import { currentContentSlug, getGrowthAttribution, trackGrowthEvent } from "@/utils/growthTracking";
+import { Check, Copy, Mail, Send } from "lucide-react";
+import { currentContentSlug, getGrowthAttribution, growthSessionId, trackGrowthEvent } from "@/utils/growthTracking";
+import { buildSubscriberReferral } from "@/utils/referralLinks";
 import { Link } from "react-router-dom";
 
 interface NewsletterFormProps {
@@ -78,6 +79,7 @@ const NewsletterForm = ({
         utm_medium: attribution.medium,
         utm_campaign: attribution.campaign,
         utm_content: attribution.content,
+        acquisition_session_id: growthSessionId(),
       };
       const result = await supabase.from('subscribers').insert([insertPayload]);
       const insertError = result.error;
@@ -156,10 +158,37 @@ const NewsletterForm = ({
 
   const isFooter = location === "footer";
   const isHero = location === "hero";
-  const referralBaseUrl = "https://churnisdead.com/?utm_source=subscriber_referral&utm_medium=share&utm_campaign=weekly_newsletter";
-  const referralLinkedInUrl = `${referralBaseUrl}&utm_content=post_signup_linkedin`;
-  const referralCopyUrl = `${referralBaseUrl}&utm_content=post_signup_copy`;
-  const referralShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(referralLinkedInUrl)}`;
+  const referral = buildSubscriberReferral(
+    typeof window === "undefined" ? "/" : window.location.pathname,
+    `post_signup_${location}`,
+  );
+  const referralShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(referral.linkedinUrl)}`;
+
+  const sharePrivately = async () => {
+    const event = { eventName: "content_share" as const, resourceId: `subscriber_referral:private:${referral.campaign}` };
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "Churn Is Dead", text: "One evidence-led Customer Success operating system and practical playbook every Tuesday.", url: referral.privateUrl });
+        void trackGrowthEvent(event);
+        return;
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+      }
+    }
+    await navigator.clipboard.writeText(referral.privateMessage);
+    void trackGrowthEvent(event);
+    toast.success("Ready-to-send note copied");
+  };
+
+  const copyReferralLink = async () => {
+    try {
+      await navigator.clipboard.writeText(referral.copyUrl);
+      void trackGrowthEvent({ eventName: "content_share", resourceId: `subscriber_referral:copy:${referral.campaign}` });
+      toast.success("Referral link copied");
+    } catch {
+      toast.error("Could not copy the link", { description: "Use Send privately instead." });
+    }
+  };
   
   // Apply special styling for footer to match the reference image
   const inputClass = isFooter 
@@ -181,10 +210,11 @@ const NewsletterForm = ({
       {isSubscribed ? (
         <div className={`rounded-lg border p-4 text-left ${textColor === "text-gray-700" ? "border-gray-200 bg-gray-50" : "border-white/20 bg-white/5"}`} aria-live="polite">
           <p className={`flex items-center gap-2 text-sm font-semibold ${textColor}`}><Check className="h-4 w-4 text-emerald-500" /> You’re on the Tuesday list.</p>
-          <p className={`mt-1 text-xs ${textColor === "text-gray-700" ? "text-gray-600" : "text-white/70"}`}>Know one CS operator who would use this? Send them Churn Is Dead.</p>
+          <p className={`mt-1 text-xs ${textColor === "text-gray-700" ? "text-gray-600" : "text-white/70"}`}>Know one CS operator facing the same problem? Send them the page that convinced you.</p>
           <div className="mt-3 flex flex-wrap gap-2">
-            <a href={referralShareUrl} target="_blank" rel="noopener noreferrer" onClick={() => void trackGrowthEvent({ eventName: "content_share", resourceId: "subscriber_referral_linkedin" })} className="rounded-md bg-[#0A66C2] px-3 py-2 text-xs font-semibold text-white">Share on LinkedIn</a>
-            <button type="button" onClick={() => { void navigator.clipboard.writeText(referralCopyUrl); void trackGrowthEvent({ eventName: "content_share", resourceId: "subscriber_referral_copy" }); toast.success("Referral link copied"); }} className={`inline-flex items-center gap-1.5 rounded-md border px-3 py-2 text-xs font-semibold ${textColor === "text-gray-700" ? "border-gray-300 text-navy-dark" : "border-white/30 text-white"}`}><Copy className="h-3.5 w-3.5" /> Copy link</button>
+            <button type="button" onClick={() => void sharePrivately()} className={`inline-flex items-center gap-1.5 rounded-md border px-3 py-2 text-xs font-semibold ${textColor === "text-gray-700" ? "border-gray-300 text-navy-dark" : "border-white/30 text-white"}`}><Send className="h-3.5 w-3.5" /> Send privately</button>
+            <a href={referralShareUrl} target="_blank" rel="noopener noreferrer" onClick={() => void trackGrowthEvent({ eventName: "content_share", resourceId: `subscriber_referral:linkedin:${referral.campaign}` })} className="rounded-md bg-[#0A66C2] px-3 py-2 text-xs font-semibold text-white">Share on LinkedIn</a>
+            <button type="button" onClick={() => void copyReferralLink()} className={`inline-flex items-center gap-1.5 rounded-md border px-3 py-2 text-xs font-semibold ${textColor === "text-gray-700" ? "border-gray-300 text-navy-dark" : "border-white/30 text-white"}`}><Copy className="h-3.5 w-3.5" /> Copy link</button>
           </div>
         </div>
       ) : (

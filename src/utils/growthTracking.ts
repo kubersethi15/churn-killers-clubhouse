@@ -51,7 +51,7 @@ const referrerHostname = () => {
   }
 };
 
-const sessionId = () => {
+export const growthSessionId = () => {
   if (typeof window === "undefined") return crypto.randomUUID();
   const current = window.sessionStorage.getItem(SESSION_KEY);
   if (current) return current;
@@ -111,7 +111,7 @@ export const trackGrowthEvent = async ({
   if (import.meta.env.DEV) return;
   const attribution = getGrowthAttribution();
   const { error } = await supabase.from("growth_events").insert({
-    session_id: sessionId(),
+    session_id: growthSessionId(),
     event_name: eventName,
     page_path: pagePath.slice(0, 300),
     content_slug: clean(contentSlug, 160),

@@ -63,6 +63,7 @@ export type Database = {
       }
       analysis_groups: {
         Row: {
+          acquisition_session_id: string | null
           created_at: string
           id: string
           name: string
@@ -70,6 +71,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          acquisition_session_id?: string | null
           created_at?: string
           id?: string
           name: string
@@ -77,6 +79,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          acquisition_session_id?: string | null
           created_at?: string
           id?: string
           name?: string
@@ -658,6 +661,7 @@ export type Database = {
         }[]
       }
       get_growth_dashboard: { Args: never; Returns: Json }
+      get_referral_dashboard: { Args: never; Returns: Json }
       get_growth_retention_dashboard: { Args: never; Returns: Json }
       get_growth_variant_dashboard: { Args: never; Returns: Json }
       get_reactivation_dashboard: { Args: never; Returns: Json }
