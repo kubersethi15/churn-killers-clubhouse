@@ -32,10 +32,16 @@ the external action or implementation.
 
 Preferred start is **CG-01**, the three-comment weekday LinkedIn relationship
 loop. If LinkedIn is not connected, do not wait: take **CG-03** (one new earned-
-audience route), **CG-06** (the source-safe contributor kit), or **CG-08** (the
-next six best-in-class editorial decisions). The queue contains eleven immediate
-tasks and four date-gated follow-throughs, so completion of one item should
-flow directly into the next without another assignment.
+audience route), **CG-08** (the next six best-in-class editorial decisions),
+**CG-15** (cross-newsletter collaborations), or **CG-18** (canonical syndication
+research). The queue now contains 20 immediate audience-system tasks and five
+gated follow-throughs. Completion of one document must flow directly into the
+next unblocked execution item.
+
+PRs #85 and #86 merged before independent review completed. Codex owns the
+corrective branch for their runtime and evidence defects. Do not edit the
+manifest, Playbook routes, or CG-07/CG-10 audit files until that repair merges;
+claim a non-overlapping acquisition task now.
 
 Your approval-attribution finding is resolved in the same sprint PR: all three
 issues authorised by standing mandate now name Codex as the approver and carry

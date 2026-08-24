@@ -48,16 +48,17 @@ The ready-to-claim list is a starting queue, not a ceiling. An agent may add and
 | Organic discovery: internal link graph | Claude | PR [#40](https://github.com/kubersethi15/churn-killers-clubhouse/pull/40), merged as `a04de10` | Complete; independently reviewed and merged | No longer file-claimed. Review Search Console impact from 7 September 2026; use `scripts/report_internal_link_graph.py` to remeasure after archive changes. |
 | SEO-05 single-page CTR diagnostic | Codex | Search Console and `growth/search-console-baseline.md` | Complete; no-change decision recorded 24 August | No files remain claimed. The page-filtered queries were too sparse or irrelevant to select a defensible intent. Recheck 21 September; then change at most one surface. |
 | SEO-02 technical discovery audit | Claude | PR [#52](https://github.com/kubersethi15/churn-killers-clubhouse/pull/52) | Complete; no critical discovery blockers across 62 live sitemap URLs | No files remain claimed after merge. Recheck the missing live topic-hub route after deployment and review indexation on 7 September. |
-| Claude acquisition sprint activation | Codex | PR [#77](https://github.com/kubersethi15/churn-killers-clubhouse/pull/77), merged as `5ad53a0` | Complete; eleven immediate tasks and four gated follow-throughs are live on `main` | No files remain claimed. Claude should claim CG-01, or CG-03/CG-06/CG-08 if LinkedIn is not connected, then continue through the sprint without waiting for another assignment. |
+| Claude acquisition sprint activation | Codex | PR [#77](https://github.com/kubersethi15/churn-killers-clubhouse/pull/77), plus expansion on `codex/repair-cg10-and-expand-claude` | Active; 20 immediate audience-system tasks and five gated follow-throughs span engagement, collaboration, live formats, practitioner evidence, syndication, original research, referrals, appearances, and co-creation | Claude should claim CG-01 now. If LinkedIn is not connected, claim CG-03, CG-08, CG-15, or CG-18 and continue without waiting. Completing one document is not a stopping condition. |
 | Engagement playbook manager handoff | Codex | PR [#79](https://github.com/kubersethi15/churn-killers-clubhouse/pull/79); Google Sheet and WhatsApp | Complete; access, message delivery, and the live Sheet link are verified | No files remain claimed. The document governs engagement execution; the live Sheet remains authoritative for copy, timing, links, and assets. |
 | Claude first-read growth activation | Codex | PR [#82](https://github.com/kubersethi15/churn-killers-clubhouse/pull/82) and issue [#83](https://github.com/kubersethi15/churn-killers-clubhouse/issues/83) | Complete; the sprint is in Claude's first-read instructions and has a concrete launch issue | No files remain claimed. Claude should close issue #83 only after claiming CG-01 or an allowed fallback and opening its working branch. |
+| CG-10 continuity corrective release | Codex | `codex/repair-cg10-and-expand-claude`; repairs merged PR #85 evidence and runtime defects | In verification | Claimed: `Playbook.tsx`, `NewsletterDetail.tsx`, manifest generator/audit/tests, manifest, and corrected CG-07/CG-10 readouts. Claude must not edit these files until the corrective PR merges. |
 
 ## Claude rolling queue
 
 **Kuber expanded Claude's brief on 24 August 2026: audience growth, engagement,
 authority and monetisation discovery are all in scope.** The complete execution
 contract is [`growth/claude-growth-sprint.md`](claude-growth-sprint.md). It has
-eleven start-now tasks, four dated follow-throughs, metrics, stop rules, connection
+20 immediate audience-system tasks, five gated follow-throughs, metrics, stop rules, connection
 order and a binding handoff format.
 
 Claude should claim one item, finish or explicitly park it with evidence, and
@@ -77,6 +78,10 @@ task supported by the available connections.
 CG-06 to CG-11 continue with the contributor kit, LinkedIn post-to-asset
 continuity, best-in-class editorial decision research, the aggregate costly-
 problem ledger, problem-to-tool continuity, and relevant backlink reclamation.
+CG-14 to CG-22 add conversation-led frameworks, cross-newsletter
+collaborations, live operating rooms, a practitioner evidence council,
+canonical syndication, original research, reader partnerships, appearance
+journeys and co-created assets. CG-23 is gated by welcome-path evidence.
 Post-baseline implementation and the 7 and 21 September organic reviews are
 date-gated. Completed Search Console,
 technical discovery, welcome-instrumentation and QBR-deep-link work must not be

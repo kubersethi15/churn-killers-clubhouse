@@ -1,85 +1,64 @@
 # CG-10: problem-to-tool continuity audit
 
-**Run:** 24 August 2026. Reproducible via
-`scripts/audit_content_tool_continuity.py`.
+**Run:** 24 August 2026. Reproducible with
+`scripts/audit_content_tool_continuity.py` using the live delivery catalogue.
 
-## The premise was mostly wrong, and that is the useful finding
-
-CG-10 assumed "traffic is wasted when an article names a problem but the next
-action is a generic vault or unrelated subscribe prompt." Measured across all 41
-published issues rather than the six requested:
+## Corrected baseline
 
 | Measure | Count |
 |---|---:|
+| Published issues | 41 |
 | Issues linking a tool directly | 27 |
-| Issues promising a resource but linking none | **0** |
-| Issues offering no next action | 14 |
+| Issues promising a resource but linking none in the body | **2** |
+| Issues offering no detected next action | 12 |
 
-**There are no content repairs.** Every issue that promises the reader something
-already links it. The editorial discipline here is sound and did not need fixing.
+The two explicit promise gaps are `their-timeline-not-yours`, which says a
+duplicate-ready Notion template has been supplied, and
+`the-perfect-kickoff-call`, which promises two companion playbooks. The
+corresponding Notion resources already exist in the repository's playbook
+migration. They are now rendered as Related Resources on those article routes
+and as first-class entries in the Playbook Vault; no substitute resource or
+new claim was invented.
 
-The 14 issues with no next action are counted, not listed as repairs. They never
-promised one. Adding a call to action the author did not make is manufacturing
-demand, which the sprint stop rule forbids, and it would degrade the voice.
+## Tool-to-article route repair
 
-Worth naming one temptation that was declined. `ai-wont-fix-customer-experience`
-ranks at position 4.5 with 15 impressions and no clicks, which makes it the most
-attractive place in the archive to bolt on a tool. It offers no resource and is
-roughly 450 words. A keyword scan flags it as promising one, but the only match
-is the phrase "automated playbooks" in ordinary prose. It was left alone.
+The first implementation recovered exact PDF links from article bodies, but it
+had three integrity defects:
 
-## The real discontinuity was in the opposite direction
+1. the Vault discarded recovered metadata for existing static cards;
+2. five repository-only slugs looked valid in static HTML but were absent from
+   the live delivery table and failed after React hydration;
+3. a transient database outage could reduce coverage and overwrite the checked-
+   in manifest.
 
-The gap was not article to tool. It was **tool back to article**.
+The corrective implementation merges exact manifest metadata into static
+cards, emits backlinks only for slugs present in the live delivery table, and
+refuses to rewrite the manifest when the live catalogue or mapping coverage
+drops below a safety floor. An intentional deletion can use the explicit
+`--allow-coverage-drop` override after review.
 
-All 32 vault PDFs carried `newsletter_slug: null`, so a reader who arrived at
-the Playbook Vault, and it draws 52 search impressions at position 8.1, could
-download a tool with no route to the thinking behind it.
+| | Corrected result |
+|---|---:|
+| PDF tools in manifest | 32 |
+| PDFs linked to a live article | 26 |
+| PDFs left without an asserted article source | 6 |
 
-`generate_playbook_manifest.py` already had the mapping logic. It resolves
-through `editorial/issues/`, and only four issues use that newer authoring
-format, so the other twenty-eight silently produced null. A coverage gap rather
-than a bug.
+The six unmapped PDFs include the separate quarterly QBR framework and five
+tools whose repository article shells are not backed by live delivery rows.
+They remain downloadable without a false backlink. The Vault also includes the
+three verified Notion resources above, bringing the rendered resource total to
+37 without gating any tool.
 
-## The repair
+## Verification and measurement
 
-The link was never missing, only unread: those articles already link their own
-PDF in the body. The generator now recovers it from that, so nothing is inferred
-from titles and no editorial judgment is applied.
+- live catalogue: 41 rows;
+- generated manifest: 32 PDFs, 26 live article routes;
+- focused generator failure and exact-link tests pass;
+- focused runtime merge test covers null fill, stale-route replacement,
+  supplemental cards, and curated-copy preservation;
+- TypeScript and production build are the release gates.
 
-| | Before | After |
-|---|---:|---:|
-| Vault tools traceable to their issue | 0 | **31** |
-| "From: [article]" back-links rendered | 2 | **30** |
-
-One tool stays unmapped: `30-Minute-QBR-Framework-ChurnIsDead.pdf`. No article
-links it, because it was distributed as a LinkedIn lead magnet rather than
-attached to an issue. Mapping it is a genuine editorial decision and it runs
-into the cadence question already recorded in the ledger: the closest candidate
-is "The 30-Minute Monthly Business Review", which is a monthly review, while the
-framework is quarterly. Left for Kuber.
-
-## Verification
-
-`tsc --noEmit` clean. Production build passes with all 17 crawlable routes
-validated. Back-links confirmed rendering on a production preview: 30 present,
-34 cards total.
-
-## Metric and stop rule
-
-Aggregate only: `resource_open` on vault tools, and page views on
-`/newsletter/*` arriving from `/playbook`. **Minimum 20 vault sessions before
-any rate is stated**, consistent with CID-001, LI-04 and CID-006.
-
-One variable. No CTA added, no tool gated, no CID-001 surface touched.
-
-**Rollback:** revert the generator change and rerun it. The manifest is
-generated, so nothing needs hand-editing.
-
-## Honest expectation
-
-This will not move subscriber numbers soon. The vault draws 52 impressions a
-quarter and the whole property earns 18 clicks. It is a real continuity repair
-on a surface that barely has traffic yet, done because it was cheap and correct,
-not because it is a growth lever. Search remains background per Kuber's
-24 August channel decision.
+Read aggregate `resource_open` events and playbook-to-article visits only after
+20 Vault sessions. Do not infer subscriber growth from this repair alone. The
+rollback is the corrective commit; the manifest remains generated and no free
+tool was gated.

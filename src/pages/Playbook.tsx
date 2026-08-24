@@ -7,17 +7,9 @@ import NewsletterForm from "@/components/NewsletterForm";
 import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
 import { trackGrowthEvent } from "@/utils/growthTracking";
+import { mergePlaybookManifest, type PlaybookRecord } from "@/utils/playbookManifest";
 
-interface Playbook {
-  id: string;
-  title: string;
-  description: string;
-  pdf_path: string | null;
-  notion_link: string | null;
-  newsletter_slug: string | null;
-  newsletter_title: string | null;
-  published_date: string | null;
-}
+type Playbook = PlaybookRecord;
 
 const STATIC_PLAYBOOKS: Playbook[] = [
   {
@@ -100,6 +92,36 @@ const STATIC_PLAYBOOKS: Playbook[] = [
     newsletter_title: null,
     published_date: "2025-05-20T00:00:00Z",
   },
+  {
+    id: "9",
+    title: "Timeline Negotiator",
+    description: "Negotiate realistic onboarding timelines that build trust with customers and internal stakeholders.",
+    pdf_path: null,
+    notion_link: "https://www.notion.so/Timeline-Negotiator-1f95d0709c99808e8926eaeff56ef138",
+    newsletter_slug: "their-timeline-not-yours",
+    newsletter_title: "Their Timeline, Not Yours",
+    published_date: "2025-05-22T12:02:44Z",
+  },
+  {
+    id: "10",
+    title: "Kickoff Re-Discovery Checklist",
+    description: "Align internally, validate goals, and earn trust before the first customer kickoff call.",
+    pdf_path: null,
+    notion_link: "https://www.notion.so/Kickoff-Re-Discovery-Checklist-1f95d0709c9980cfb35ae653901a6661",
+    newsletter_slug: "the-perfect-kickoff-call",
+    newsletter_title: "The Perfect Kickoff Call (Doesn't Start in the Calendar)",
+    published_date: "2025-05-20T12:00:49Z",
+  },
+  {
+    id: "11",
+    title: "Kickoff Agenda Blueprint",
+    description: "Lead high-trust kickoff calls across doers, managers, and executives.",
+    pdf_path: null,
+    notion_link: "https://www.notion.so/Kickoff-Agenda-Blueprint-1f95d0709c9980e1a233cdd529187a6e",
+    newsletter_slug: "the-perfect-kickoff-call",
+    newsletter_title: "The Perfect Kickoff Call (Doesn't Start in the Calendar)",
+    published_date: "2025-05-20T12:00:49Z",
+  },
 ];
 
 const PROBLEMS = ["All", "Renewal risk", "Executive value", "AI readiness", "Operating cadence"] as const;
@@ -156,15 +178,7 @@ const PlaybookVault = () => {
     fetch("/pdfs/manifest.json")
       .then(response => response.ok ? response.json() : [])
       .then((archive: Playbook[]) => {
-        setPlaybooks(current => {
-          const knownPaths = new Set(current.map(playbook => playbook.pdf_path).filter(Boolean));
-          const supplemental = archive.filter(playbook => playbook.pdf_path && !knownPaths.has(playbook.pdf_path));
-          return [...current, ...supplemental].sort((left, right) => {
-            if (!left.published_date) return 1;
-            if (!right.published_date) return -1;
-            return new Date(right.published_date).getTime() - new Date(left.published_date).getTime();
-          });
-        });
+        setPlaybooks(current => mergePlaybookManifest(current, archive));
       })
       .catch(error => console.warn("Playbook archive manifest unavailable", error));
   }, []);

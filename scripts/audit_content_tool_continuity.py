@@ -35,7 +35,9 @@ KEY = os.environ.get("SUPABASE_SERVICE_KEY") or os.environ.get("SUPABASE_ANON_KE
 # manufactured calls to action.
 PROMISE_RE = re.compile(
     r"(?i)\b(download|grab (the|your)|free (tool|template|worksheet)|"
-    r"worksheet below|template below|use the attached|get the (framework|template|worksheet))\b"
+    r"worksheet below|template below|use the attached|get the (framework|template|worksheet)|"
+    r"(?:dropped|shared|included?) (?:a|the|\d+) (?:companion )?(?:notion )?"
+    r"(?:template|playbooks?)|template you can duplicate|includes? \d+ companion playbooks?)\b"
 )
 TOOL_LINK_RE = re.compile(r"(?i)(/pdfs/|/playbook)")
 
