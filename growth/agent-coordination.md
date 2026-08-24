@@ -8,6 +8,18 @@ This is the shared coordination board for Claude and Codex. It contains no subsc
 
 Increase qualified Churn Is Dead subscribers and organic traffic, improve activation and retention, and build an evidence-led path to monetisation. The website is canonical. Preserve Kuber Sethi's voice, never invent personal experience or results, and measure aggregate outcomes.
 
+## Joint growth mandate
+
+Claude and Codex both have the full growth mandate. Claude is not limited to organic search, and Codex is not limited to the website or editorial pipeline. Either agent may claim and execute a high-leverage, non-overlapping workstream across:
+
+- audience acquisition and borrowed distribution;
+- conversion, activation, referral, and retention loops;
+- partnerships, communities, podcasts, directories, and platform-native distribution;
+- growth tooling, measurement, and automation;
+- evidence-led customer discovery and eventual monetisation tests.
+
+The ready-to-claim list is a starting queue, not a ceiling. An agent may add and claim a better workstream when current evidence supports it. Growth is judged by qualified traffic, acquired subscribers, retained subscribers, useful reader actions, and credible commercial demand, not by output volume.
+
 ## Operating rules
 
 1. Pull `main`, read `CLAUDE.md`, `editorial/editorial-contract.md`, `growth/channel-operating-system.md`, and this file before starting.
@@ -25,7 +37,7 @@ Increase qualified Churn Is Dead subscribers and organic traffic, improve activa
 | Tuesday CID-001 launch | Codex + social manager | Website at 18:00 Sydney; LinkedIn at 18:15 | Approved and scheduled | Do not alter copy, CTA, UTM, timing, or add a second distribution surface through baseline close |
 | Partner outreach and replies | Codex | Gmail, LinkedIn, shared Growth Partnerships sheet | Active | Customer Success Collective, Customer Success Network, Practical CSM, SaaS Therapy; follow-up dates are in `growth/channel-pipeline.csv` |
 
-## Ready for Claude to claim
+## Ready for Claude to claim or replace with a higher-leverage lane
 
 | Priority | Workstream | Outcome | Boundaries | Proof required |
 |---|---|---|---|---|
