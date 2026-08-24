@@ -8,7 +8,7 @@ export const tagValue = (tags: ResendTags | undefined, name: string): string | n
 };
 
 export const shouldSuppressSubscriber = (eventType: string, bounceType?: string): boolean => {
-  if (eventType === "email.complained") return true;
+  if (eventType === "email.complained" || eventType === "email.suppressed") return true;
   if (eventType !== "email.bounced") return false;
 
   // Resend documents email.bounced as a permanent rejection. Retain the

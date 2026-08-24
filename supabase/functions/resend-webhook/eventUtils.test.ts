@@ -11,8 +11,9 @@ test("keeps compatibility with legacy array-shaped tags", () => {
   assert.equal(tagValue([{ name: "newsletter_slug", value: "issue-1" }], "newsletter_slug"), "issue-1");
 });
 
-test("suppresses complaints and permanent bounces", () => {
+test("suppresses complaints, provider suppressions, and permanent bounces", () => {
   assert.equal(shouldSuppressSubscriber("email.complained"), true);
+  assert.equal(shouldSuppressSubscriber("email.suppressed"), true);
   assert.equal(shouldSuppressSubscriber("email.bounced", "Permanent"), true);
   assert.equal(shouldSuppressSubscriber("email.bounced"), true);
 });

@@ -15,7 +15,7 @@ The legacy `send-correction-email` function is retired. It must not be used for 
 Before enabling a production send:
 
 1. Confirm `churnisdead.com` is verified in Resend.
-2. Configure the deployed `resend-webhook` URL in Resend for delivered, bounced, complained, opened, and clicked events.
+2. Configure the deployed `resend-webhook` URL in Resend for all email events, including delivered, bounced, complained, suppressed, opened, and clicked.
 3. Store the Resend signing secret as `RESEND_WEBHOOK_SECRET` in Supabase. Never copy it into the repository, a ticket, or a chat.
 4. Confirm `NEWSLETTER_UNSUBSCRIBE_SECRET` exists and the unsubscribe function works from a real test message.
 5. Confirm the send function produces one `to` address per message. Do not use CC or BCC for subscribers.
@@ -24,7 +24,7 @@ Before enabling a production send:
 8. Review Resend's current provider health signals and suppressions. Use the provider's current risk classification rather than a static benchmark copied into this runbook.
 9. Enable `NEWSLETTER_SEND_ENABLED=true` only for the approved production window.
 
-Webhook retries and manual replays must return success without creating a second `email_events` row. Permanent bounces and complaints suppress the subscriber. An explicitly temporary bounce is recorded against the send but does not unsubscribe the reader.
+Webhook retries and manual replays must return success without creating a second `email_events` row. Permanent bounces, complaints, and provider suppressions deactivate the subscriber. An explicitly temporary bounce is recorded against the send but does not unsubscribe the reader.
 
 ## After a production send
 

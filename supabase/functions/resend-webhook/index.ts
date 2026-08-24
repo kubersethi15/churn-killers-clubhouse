@@ -127,8 +127,8 @@ serve(async (req: Request): Promise<Response> => {
     const subscriberId = tagValue(event.data.tags, "subscriber_id");
     const webhookEventId = req.headers.get("svix-id") ?? "";
 
-    if (event.type === "email.bounced" || event.type === "email.complained") {
-      const sendStatus = event.type === "email.bounced" ? "bounced" : "complained";
+    if (["email.bounced", "email.complained", "email.suppressed"].includes(event.type)) {
+      const sendStatus = event.type.replace("email.", "");
       if (event.data.email_id) {
         const { error: sendLogError } = await supabase
           .from("newsletter_send_log")
