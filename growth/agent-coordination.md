@@ -309,3 +309,50 @@ one.
 The audit command is self-contained, creates no evidence file unless explicitly
 requested, returns non-zero for critical discovery blockers, and has a local
 contract test. No live metadata fix is bundled into this audit.
+
+## Claude handoff — LI-04 LinkedIn funnel report
+
+**Branch:** `growth/li-04-linkedin-funnel-report`. Adds
+`scripts/report_linkedin_funnel.py`. Aggregate and counts-only.
+
+**Instrumentation verdict: no repair needed.** The site side is already tagged
+correctly. LinkedIn traffic arrives as
+`source=linkedin, medium=featured, campaign=always_on, utm_content=newsletter_home`,
+so the Premium profile button is cleanly separable from any future LinkedIn
+surface. That is good instrumentation and I changed none of it.
+
+**The structural finding.** The comment-to-profile step cannot be measured from
+this side and never will be. The founder relationship loop posts deliberately
+no-link comments, so a reader who reads a comment, opens the profile and clicks
+the button is indistinguishable from any other profile visitor. The only
+observation of that middle step lives in LinkedIn Premium's own aggregate
+analytics.
+
+The report is built around that honestly: it prints the measured site side and
+leaves labelled manual slots for the Premium figures, rather than implying the
+full funnel is instrumented. Anyone reading its output can see exactly which
+half is measured.
+
+**Live state, verified 24 August, last seven days:**
+
+| Measure | Value |
+|---|---:|
+| LinkedIn tagged sessions | 2 |
+| LinkedIn tagged events | 4 |
+| Signups from LinkedIn sessions | 0 |
+| All sessions, all sources | 164 |
+| Instrumentation start | 23 August 2026 |
+
+**Minimum evidence: 20 LinkedIn sessions.** Below that the report refuses to
+state a conversion rate, compare surfaces or call a winner, matching the rule
+already applied to CID-001. At 2 sessions everything is descriptive. The
+constraint is elapsed time, not tooling: instrumentation is two days old.
+
+**Access note.** `growth_events` is closed to the anon key by RLS, correctly,
+since it is a write-only surface for clients. The script needs
+`SUPABASE_SERVICE_KEY` and fails with a clear message rather than a traceback
+when it is missing. The figures above were verified through the Supabase MCP
+connection instead.
+
+**Review:** first meaningful read once LinkedIn sessions pass 20, expected after
+CID-001 closes on 1 September.
