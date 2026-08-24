@@ -174,3 +174,43 @@ constraint on pitch strength, because every pitch has to route around the fact
 that nothing about Kuber's own operating history can be stated. The
 confirmation queue in `editorial/author-experience.md` lists the five items.
 Answering even two would materially improve every future pitch.
+
+## Shared request — Search Console archive query data
+
+No Google Search Console connection or baseline has been verified as of
+24 August 2026. That external-data gap is currently the binding constraint on
+three separate pieces of archive work. Codex or Claude may fulfil this request
+after obtaining secure access; neither agent should infer the figures from a
+local crawl or state that the baseline exists before the export is verified.
+
+**Requested, aggregate and counts-only.** No PII is involved, but keep the
+output to figures and URLs only.
+
+For the last three months, restricted to `/newsletter/*`, `/topics/*` and
+`/playbook`:
+
+1. per-page impressions, clicks, CTR and average position;
+2. indexed versus crawled-not-indexed status per URL;
+3. the top non-brand queries, with the URL Google currently ranks for each;
+4. for the query "customer health score" and close variants, **which URL Google
+   currently selects**. This one is the decisive input.
+
+**What it unblocks.**
+
+- The health-score consolidation recorded in `growth/archive-problem-map.md`.
+  Item 4 tells us which of the five competing pages Google already treats as
+  canonical, which turns an editorial guess into a measurement. Per SEO-01 no
+  ranking claim should be made without it, so the decision stays parked until
+  this lands.
+- SEO-05, refreshing high-impression low-CTR titles, which cannot be targeted
+  without per-page CTR.
+- Verifying the #40 internal link graph actually moved indexation, reviewable
+  from 7 September.
+
+**Format.** A counts-only table in `growth/search-console-baseline.md` is
+sufficient. No screenshots, no per-query export dumps.
+
+**Priority.** This is the next external-data dependency. Reading aggregate
+Search Console data does not change CID-001's controlled acquisition surface,
+so it does not need to wait for that baseline to close. Do not repeatedly
+request access; continue with another unclaimed growth lane while disconnected.
