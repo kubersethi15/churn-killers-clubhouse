@@ -4,7 +4,7 @@ The account is 80% likely to renew.
 
 Fine. What has the customer actually done or said that makes 80% credible?
 
-If the answer lives across call notes, Slack threads, and CSM instinct, the number is hiding the uncertainty.
+If the answer lives across call notes, Slack threads and CSM instinct, the number is hiding the uncertainty.
 
 A better operating model is the Renewal Evidence Packet.
 
