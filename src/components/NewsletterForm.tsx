@@ -10,7 +10,7 @@ import { buildSubscriberReferral } from "@/utils/referralLinks";
 import { Link } from "react-router-dom";
 
 interface NewsletterFormProps {
-  location?: "hero" | "footer" | "article" | "mid-article" | "playbook" | "start";
+  location?: "hero" | "footer" | "article" | "mid-article" | "playbook" | "start" | "subscribe";
   className?: string;
   title?: string;
   description?: string;

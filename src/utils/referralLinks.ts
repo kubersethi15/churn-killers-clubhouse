@@ -10,6 +10,7 @@ const publicPath = (pathname: string) => {
     "/newsletters",
     "/playbook",
     "/start",
+    "/subscribe",
     "/topics",
   ]);
   if (publicRoutes.has(pathname)) {

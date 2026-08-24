@@ -144,6 +144,7 @@ def generate_sitemap(newsletters):
         (f"{SITE_URL}/newsletters", today, "0.9", "weekly"),
         (f"{SITE_URL}/playbook", today, "0.8", "weekly"),
         (f"{SITE_URL}/start", today, "0.9", "monthly"),
+        (f"{SITE_URL}/subscribe", today, "0.9", "weekly"),
         (f"{SITE_URL}/topics", today, "0.9", "weekly"),
         (f"{SITE_URL}/topics/renewal-economics", today, "0.8", "weekly"),
         (f"{SITE_URL}/topics/measurement-decisions", today, "0.8", "weekly"),

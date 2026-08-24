@@ -36,6 +36,12 @@ ROUTES = {
         "New here? Start here.",
         "Choose the operating problem on your desk, follow a focused reading path, and run one practical tool.",
     ),
+    "subscribe": (
+        "Subscribe to Churn Is Dead | Customer Success Newsletter",
+        "Get one evidence-led Customer Success operating system and practical playbook every Tuesday. Free, direct, and built for decisions—not theatre.",
+        "Customer Success advice should survive contact with a renewal.",
+        "Every Tuesday, Churn Is Dead turns one difficult CS problem into a clear argument, an operating model, and a practical playbook.",
+    ),
     "topics": (
         "Customer Success Topics | Churn Is Dead",
         "Explore practical operating systems for renewal economics, CS measurement, health-score alternatives, AI role design, and cross-functional operations.",
