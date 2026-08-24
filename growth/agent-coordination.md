@@ -41,8 +41,15 @@ The ready-to-claim list is a starting queue, not a ceiling. An agent may add and
 | ACQ-07 podcast outreach | Claude staged, Codex verified and sent | PR [#42](https://github.com/kubersethi15/churn-killers-clubhouse/pull/42), merged as `63febe2`; Gmail | Two pitches sent and verified 24 August | No files remain claimed. Monitor replies; follow up once on 7 September if silent, then stop. |
 | Organic discovery: internal link graph | Claude | PR [#40](https://github.com/kubersethi15/churn-killers-clubhouse/pull/40), merged as `a04de10` | Complete; independently reviewed and merged | No longer file-claimed. Review Search Console impact from 7 September 2026; use `scripts/report_internal_link_graph.py` to remeasure after archive changes. |
 | SEO-05 single-page CTR diagnostic | Codex | Search Console and `growth/search-console-baseline.md` | Complete; no-change decision recorded 24 August | No files remain claimed. The page-filtered queries were too sparse or irrelevant to select a defensible intent. Recheck 21 September; then change at most one surface. |
+| SEO-02 technical discovery audit | Claude | PR [#52](https://github.com/kubersethi15/churn-killers-clubhouse/pull/52) | Complete; no critical discovery blockers across 62 live sitemap URLs | No files remain claimed after merge. Recheck the missing live topic-hub route after deployment and review indexation on 7 September. |
 
 ## Claude rolling queue
+
+**Re-ordered 24 August 2026 from the current evidence and Kuber's standing
+growth mandate: earned distribution first while the completed SEO foundation
+compounds.** ACQ-03 is now first, followed by MON-01 and LOOP-03. Scheduled
+Search Console reviews still run; new SEO work does not displace active
+audience acquisition without new evidence.
 
 Claude should claim the first unblocked item, finish or explicitly park it, then
 move to the next. A missing optional connection is not a reason to stop: complete
@@ -50,11 +57,10 @@ the repository and evidence work first, and record the exact access or live chec
 needed in the PR.
 
 | Priority | ID | Workstream | Outcome | Boundaries | Proof required |
-|---|---|---|---|---|
-| 1 | SEO-02 | Technical discovery integrity audit | Verify sitemap, robots, canonicals, article/topic structured data, prerender parity, feeds, and crawlable internal paths after the new hub and link graph. Fix only demonstrated defects. | Do not change titles/descriptions owned by the active SEO-05 row. Do not create another hub or rewrite issues. | Reproducible audit, failing evidence before each fix, tests, production-build verification, rollback rule, and 7 September review note |
-| 2 | LOOP-03 | Welcome activation measurement audit | Establish whether the existing aggregate events can answer which welcome path is used: Start, Vault, diagnostic, reply, or no qualified action. Repair only missing or misleading aggregate instrumentation. | Supabase may be connected for aggregate counts, function logs, and safe verification. Never export or inspect subscriber email addresses or message content. Do not alter welcome copy during CID-001. | Event dictionary, live aggregate baseline if access exists, implementation/tests for any gap, minimum-evidence threshold, and one-variable follow-up |
-| 3 | ACQ-03 | New earned-audience route | Verify one new high-fit practitioner audience and stage a distinct, source-led contribution or appearance pitch. | Check `channel-pipeline.csv` and Gmail for duplicates first. Gmail access is optional for research and drafting; if not connected, stop before send and hand the verified draft to Codex. | First-party eligibility evidence, non-duplicative angle, target route, attribution label, exact follow-up rule, and sent/staged status |
-| 4 | MON-01 | Costly-problem signal design | Turn existing aggregate replies, tool opens, and partner conversations into a minimal decision ledger for a future manually delivered operating review. | Follow `editorial/monetization-evidence-plan.md`. No prices, checkout, mass survey, or new product build. No private correspondence in Git. | Field definitions, source mapping, readiness threshold, stop rule, and the smallest safe implementation or a justified no-change decision |
+|---|---|---|---|---|---|
+| 1 | ACQ-03 | New earned-audience route | Verify one new high-fit practitioner audience and stage a distinct, source-led contribution or appearance pitch. | Check `channel-pipeline.csv` and Gmail for duplicates first. Gmail access is optional for research and drafting; if not connected, stop before send and hand the verified draft to Codex. | First-party eligibility evidence, non-duplicative angle, target route, attribution label, exact follow-up rule, and sent/staged status |
+| 2 | MON-01 | Costly-problem signal design | Turn existing aggregate replies, tool opens, and partner conversations into a minimal decision ledger for a future manually delivered operating review. | Follow `editorial/monetization-evidence-plan.md`. No prices, checkout, mass survey, or new product build. No private correspondence in Git. | Field definitions, source mapping, readiness threshold, stop rule, and the smallest safe implementation or a justified no-change decision |
+| 3 | LOOP-03 | Welcome activation measurement audit | Establish whether the existing aggregate events can answer which welcome path is used: Start, Vault, diagnostic, reply, or no qualified action. Repair only missing or misleading aggregate instrumentation. | Supabase may be connected for aggregate counts, function logs, and safe verification. Never export or inspect subscriber email addresses or message content. Do not alter welcome copy during CID-001. | Event dictionary, live aggregate baseline if access exists, implementation/tests for any gap, minimum-evidence threshold, and one-variable follow-up |
 
 Completed evidence tasks are deliberately absent from this queue. Search Console
 baseline is complete in PR #47, health-score consolidation is closed in PR #48,
@@ -241,3 +247,65 @@ did not select a canonical winner. Consolidation remains evidence-gated.
 **Next review.** Recheck indexation from 7 September and page/query performance
 on 21 September. Do not change multiple titles at once or claim an internal-link
 impact before those observation windows.
+
+## Current channel allocation, 24 August 2026
+
+The operating allocation is: **let the completed organic-search foundation
+compound while the next active cycles prioritise earned distribution and
+LinkedIn relationships.** This is an evidence-led agent decision under Kuber's
+standing mandate to act beyond the website and editorial. It is not recorded as
+a direct quote or a newly stated decision from Kuber.
+
+The evidence behind it, from `growth/search-console-baseline.md`:
+
+- 18 clicks in three months, 16 of them the homepage. Two non-homepage clicks.
+- Only 16 URLs have any performance data, against 62 in the sitemap.
+- 13 query rows for the whole property. The only query with a click was
+  `totango catalyst`, a competitor product name.
+- `kuber sethi` returned ten impressions and zero clicks.
+
+Against that, LinkedIn is roughly 8,200 followers with Premium today. Search is
+a slower compounding surface, while current LinkedIn and earned-audience work
+can create attributable visits sooner. The foundation should accumulate until
+the written review dates provide new evidence.
+
+**What this changes.** Claude's rolling queue now puts earned distribution
+first. Search Console reviews on 7 and 21 September remain mandatory. SEO-05 is
+already complete with a no-change decision, so neither agent should manufacture
+a metadata test before the next evidence window.
+
+**What this does not change.** CID-001's baseline, its Tuesday post, CTA,
+tracked link, timing and channel mix all stand until 1 September 18:14 Sydney.
+The decision changes where effort goes next, not the running experiment.
+
+## SEO-02 closed: technical discovery integrity audit
+
+Completed 24 August 2026 before the channel decision above. Reproducible via
+`scripts/audit_discovery_integrity.py`, which crawls every sitemap URL as
+Googlebot.
+
+**Result across all 62 live URLs: no critical discovery blockers.**
+
+| Check | Failures |
+|---|---:|
+| Non-200 status | 0 |
+| Unexpected redirect | 0 |
+| Canonical not self-referential | 0 |
+| Unintended `noindex` | 0 |
+| Missing meta description | 0 |
+| Missing JSON-LD | 1 |
+
+The single JSON-LD gap is the homepage. It is an enhancement candidate, not a
+crawlability failure or a ranking guarantee. It remains logged for a later
+single-variable change rather than being bundled into this audit.
+
+**One operational note.** The live sitemap served 62 URLs and did not contain
+`/topics/health-score-alternatives`, while the repository sitemap contains 63
+including it. The deployment was one release behind at audit time. Expected to
+resolve on the next Lovable deploy. Re-check before relying on the hub being
+crawlable, and treat a persistent gap as a deployment defect rather than an SEO
+one.
+
+The audit command is self-contained, creates no evidence file unless explicitly
+requested, returns non-zero for critical discovery blockers, and has a local
+contract test. No live metadata fix is bundled into this audit.
