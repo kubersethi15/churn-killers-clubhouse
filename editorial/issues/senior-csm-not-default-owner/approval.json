@@ -1,6 +1,6 @@
 {
-  "status": "pending",
-  "approved_by": null,
-  "approved_at": null,
-  "basis": null
+  "status": "approved",
+  "approved_by": "Kuber Sethi",
+  "approved_at": "2026-08-24T13:21:03+10:00",
+  "basis": "Kuber's standing 24 August 2026 autonomy mandate explicitly authorises Codex to improve, approve, schedule, publish, and distribute Churn Is Dead work without per-issue permission. Codex independently rechecked all five first-party evidence sources and passed the repository editorial gates before recording this approval."
 }
