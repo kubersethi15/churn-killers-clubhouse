@@ -40,15 +40,41 @@ The ready-to-claim list is a starting queue, not a ceiling. An agent may add and
 | Partner outreach and replies | Codex | Gmail, LinkedIn, shared Growth Partnerships sheet | Active | Customer Success Collective, Customer Success Network, Practical CSM, SaaS Therapy; follow-up dates are in `growth/channel-pipeline.csv` |
 | ACQ-07 podcast outreach | Claude staged, Codex verified and sent | PR [#42](https://github.com/kubersethi15/churn-killers-clubhouse/pull/42), merged as `63febe2`; Gmail | Two pitches sent and verified 24 August | No files remain claimed. Monitor replies; follow up once on 7 September if silent, then stop. |
 | Organic discovery: internal link graph | Claude | PR [#40](https://github.com/kubersethi15/churn-killers-clubhouse/pull/40), merged as `a04de10` | Complete; independently reviewed and merged | No longer file-claimed. Review Search Console impact from 7 September 2026; use `scripts/report_internal_link_graph.py` to remeasure after archive changes. |
+| SEO-05 single-page CTR diagnostic | Codex | Search Console plus a focused branch | Active | Codex owns only the evidence review and any eventual title/description change for one selected page. Claude must not alter archive, Playbook, or newsletter metadata while this row is active. |
 
-## Ready for Claude to claim or replace with a higher-leverage lane
+## Claude rolling queue
 
-| Priority | Workstream | Outcome | Boundaries | Proof required |
+Claude should claim the first unblocked item, finish or explicitly park it, then
+move to the next. A missing optional connection is not a reason to stop: complete
+the repository and evidence work first, and record the exact access or live check
+needed in the PR.
+
+| Priority | ID | Workstream | Outcome | Boundaries | Proof required |
 |---|---|---|---|---|
-| 1 | Search Console baseline and indexation evidence | Connect the verified domain property and establish page, query, click, impression, CTR, sitemap, and indexation baselines before the 7 September internal-link review | Requires a secure Search Console connection. Aggregate data only. Do not infer rankings from local crawls or change Tuesday's controlled acquisition surface. | Dated aggregate baseline, sitemap/indexation evidence, non-brand `/newsletter/*` segment, review query, and rollback or escalation rule |
-| 2 | Problem-led archive and hub coverage | Map the remaining useful archive to non-duplicative reader problems and identify the smallest curated hub extension worth shipping | Do not generate thin SEO pages or mechanically assign every issue. Preserve editorial meaning and check `topicHubs.ts` plus the merged graph first. | Coverage map, cannibalisation check, proposed file boundary, measured internal-link effect, and explicit no-change cases |
-| 3 | Earned distribution inventory | Verify one new high-fit practitioner audience and prepare a source-led, non-promotional contribution route | Check `growth/channel-pipeline.csv` first and do not duplicate an existing pitch. Do not send unless the route and message are recorded. | Primary-source eligibility evidence, distinct angle, target URL, attribution label, and follow-up rule |
-| 4 | Monetisation discovery instrument | Design one low-friction, aggregate demand signal for a future manually delivered CS operating review or workshop | No prices, checkout, or paid launch yet. Must follow `editorial/monetization-evidence-plan.md` readiness gates. | Implementation or validated specification with event schema, threshold, and stop rule |
+| 1 | SEO-02 | Technical discovery integrity audit | Verify sitemap, robots, canonicals, article/topic structured data, prerender parity, feeds, and crawlable internal paths after the new hub and link graph. Fix only demonstrated defects. | Do not change titles/descriptions owned by the active SEO-05 row. Do not create another hub or rewrite issues. | Reproducible audit, failing evidence before each fix, tests, production-build verification, rollback rule, and 7 September review note |
+| 2 | LOOP-03 | Welcome activation measurement audit | Establish whether the existing aggregate events can answer which welcome path is used: Start, Vault, diagnostic, reply, or no qualified action. Repair only missing or misleading aggregate instrumentation. | Supabase may be connected for aggregate counts, function logs, and safe verification. Never export or inspect subscriber email addresses or message content. Do not alter welcome copy during CID-001. | Event dictionary, live aggregate baseline if access exists, implementation/tests for any gap, minimum-evidence threshold, and one-variable follow-up |
+| 3 | ACQ-03 | New earned-audience route | Verify one new high-fit practitioner audience and stage a distinct, source-led contribution or appearance pitch. | Check `channel-pipeline.csv` and Gmail for duplicates first. Gmail access is optional for research and drafting; if not connected, stop before send and hand the verified draft to Codex. | First-party eligibility evidence, non-duplicative angle, target route, attribution label, exact follow-up rule, and sent/staged status |
+| 4 | MON-01 | Costly-problem signal design | Turn existing aggregate replies, tool opens, and partner conversations into a minimal decision ledger for a future manually delivered operating review. | Follow `editorial/monetization-evidence-plan.md`. No prices, checkout, mass survey, or new product build. No private correspondence in Git. | Field definitions, source mapping, readiness threshold, stop rule, and the smallest safe implementation or a justified no-change decision |
+
+Completed evidence tasks are deliberately absent from this queue. Search Console
+baseline is complete in PR #47, health-score consolidation is closed in PR #48,
+and the first topic-hub extension is complete in PR #43. Do not reopen them
+without new measured evidence.
+
+## Connection handoff
+
+| System | Current use | When Claude needs it | Safe boundary |
+|---|---|---|---|
+| GitHub | Shared source of truth | Always connected for claims, branches, PRs, and handoffs | No secrets or private exports in commits, issues, or PRs |
+| Supabase | Signup, activation, referral, and aggregate growth evidence | Connect for LOOP-03 live counts, function logs, migrations, or deployment verification | Aggregate queries only. Subscriber PII is not a research surface |
+| Gmail | Partner replies and one-to-one earned distribution | Connect when ACQ-03 reaches duplicate checking, sending, or reply handling | Search the existing thread first. One pitch and one follow-up maximum |
+| Search Console | Organic baseline and review windows | Use the checked-in aggregate baseline unless a live recheck is due | No screenshots, raw exports, or private query text in Git |
+| Drive and Sheets | Social-manager calendar and partnership status | Connect only when a claimed task changes shared execution state | Preserve the manager's final-content sheet as operational truth |
+| LinkedIn | Distribution, comments, and aggregate Premium evidence | Connect for an explicitly claimed LinkedIn task | One useful comment per thread. No viewer-identity logging |
+
+Access should be granted through the relevant account connection, never by
+pasting credentials or tokens into GitHub or chat. Claude should state the exact
+system and read/write action it needs, rather than requesting blanket access.
 
 ## Handoff format
 
