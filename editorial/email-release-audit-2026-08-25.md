@@ -32,13 +32,14 @@ The list is too small for three simultaneous subject variants to produce a depen
 - Rendered HTML is approximately 6 KB, well below Gmail's clipping threshold.
 - Desktop visual review and semantic link review pass.
 - The email contains one main campaign link, the archive utility link, and the required unsubscribe route.
+- Resend confirms the sending domain is verified. Open tracking and click rewriting are both disabled, so the main campaign URL remains a direct `churnisdead.com` link and aggregate attribution moves to the website session.
 
 ## Production gate still closed
 
 Do not enable `NEWSLETTER_SEND_ENABLED` until all of these are true:
 
 1. Kuber provides the business or PO Box mailing address to store as `NEWSLETTER_POSTAL_ADDRESS`.
-2. The repaired function is deployed and its downloaded source matches `main`.
+2. The repaired function from merged PR #152 is deployed and its downloaded source matches `main`.
 3. The approved issue metadata, including the single subject and preheader, is staged in Supabase.
 4. One production-equivalent test reaches an active address controlled by Kuber.
 5. Desktop, mobile, plain text, reply-to, exact canonical link, visible unsubscribe, one-click POST, authentication and provider insights are checked from that received message.
