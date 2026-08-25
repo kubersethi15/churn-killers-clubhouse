@@ -62,3 +62,13 @@ Apply before CID-001 starts, then keep the profile unchanged through 1 September
 Report the Featured link independently as `linkedin / featured / always_on / newsletter_home`.
 
 The profile and Featured links are stable distribution infrastructure, not the CID-001 controlled launch variable. Do not change them during the baseline. Compare their tagged visits and acquired subscribers descriptively; do not infer that placement caused a difference without enough evidence.
+
+## 25 August positioning override
+
+Kuber explicitly ended the unchanged-profile hold and authorised the stronger long-term positioning setup.
+
+- Live headline: `Enterprise Customer Success Executive, Cisco (Splunk) | Leading AI adoption across APJC CX | Publisher, Churn Is Dead`.
+- About describes Kuber's APJC AI leadership as work performed, not as a formal Cisco title.
+- About explains the Tuesday Churn Is Dead promise in plain language and removes the unsupported regional-adoption claim and technical stack list.
+- Churn Is Dead remains first in Featured with the description `One sharp Customer Success idea and one practical playbook every Tuesday. Free.`
+- LinkedIn canonicalised the Featured card to the homepage and stripped its query parameters again. Treat it as an aggregate profile surface; the Premium custom button remains the source-exact control.
