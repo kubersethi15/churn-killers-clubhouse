@@ -646,3 +646,18 @@ first-party verified, but its podcast takes women guests only, so it is a poor
 fit for Kuber as author); SaaStr and The Jasons Take On (could not be verified
 first-party this cycle — 403 and DNS failure respectively). Recorded so neither
 agent re-researches them without a new reason.
+
+## Codex handoff, CID-001 live release and PLA distribution, 25 August 2026
+
+CID-001 is live and crawlable. The article title and exact self-canonical were
+verified in initial HTML, the PDF returned 200, sitemap/RSS contained the issue,
+and Tanya's approved 18:15 LinkedIn post plus exact `tuesday_launch` first
+comment were verified at
+`https://www.linkedin.com/feed/update/urn:li:activity:7497929535347253248/`.
+Shared calendar row 234 is marked Posted. Do not publish a duplicate or add a
+competing launch post during the seven-day baseline.
+
+The single Product-Led Alliance pitch was sent after a final Gmail duplicate
+check and verified in Sent. It requests the Churn Is Dead source canonical on
+the PLA version and any full-text downstream cross-post. Monitor the existing
+thread only; if silent, follow up once on 4 September, then stop.
