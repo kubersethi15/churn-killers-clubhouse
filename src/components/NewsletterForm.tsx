@@ -114,31 +114,25 @@ const NewsletterForm = ({
 
       void trackGrowthEvent({ eventName: "signup_success", signupLocation: location });
 
-      // Send welcome email with better error handling
-      try {
-        const response = await fetch("https://xtwxemlxzbnadkkrvozr.supabase.co/functions/v1/send-welcome-email", {
+      // The subscription is already durable. Do not make the reader wait for
+      // the email provider before confirming success; keepalive lets the
+      // request finish if they navigate away immediately after signing up.
+      void fetch("https://xtwxemlxzbnadkkrvozr.supabase.co/functions/v1/send-welcome-email", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ email: normalizedEmail }),
+          keepalive: true,
+        })
+        .then(async (response) => {
+          if (!response.ok) throw new Error(`Server responded with status ${response.status}`);
+          const result = await response.json();
+          if (result.error || !result.success) console.error("Welcome email API error:", result);
+        })
+        .catch((emailError) => {
+          console.error("Error sending welcome email:", emailError);
         });
-
-        if (!response.ok) {
-          throw new Error(`Server responded with status ${response.status}`);
-        }
-
-        const result = await response.json();
-        
-        // Check for errors in the response
-        if (result.error || !result.success) {
-          console.error("Welcome email API error:", result);
-          // We still consider the subscription successful, but log the email error
-        }
-      } catch (emailError) {
-        console.error("Error sending welcome email:", emailError);
-        // Log but don't disrupt user experience if email sending fails
-      }
 
       toast.success("You're subscribed!", {
         description: "You are on the list. The next issue arrives Tuesday.",
