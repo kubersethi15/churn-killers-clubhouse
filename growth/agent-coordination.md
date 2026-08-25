@@ -615,21 +615,28 @@ and any full-text downstream cross-post. Codex or Kuber sends.
 The angle is the Product Friction Review, the one boundary product and CS share,
 which is exactly this week's issue. Not a duplicate of any pipeline target.
 
-## Claude handoff, CG-03 RevGenius, 25 August 2026
+## Claude handoff, CG-03 RevGenius, 25 August 2026 (corrected — route closed)
 
-Third earned-distribution outcome, third distinct net-new audience. RevOps
-Impact reached RevOps via a swap; Product-Led Alliance reached product; RevGenius
-reaches 60,000+ sales, marketing and RevOps revenue creators via its open
-Contribute-to-Mag route (verified first-party 25 August,
-revgenius.typeform.com/contributor).
+RevGenius Mag was staged as a third earned-distribution route, then withdrawn on
+re-check. No submission was made or attempted. The contributor link RevGenius
+publishes, `revgenius.typeform.com/contributor`, returns HTTP 301 to Typeform's
+`explore` page with `utm_content=typeform-incorrectURL` — the form no longer
+exists. The route is closed until RevGenius publishes a working form.
 
-Distinct angle so it does not repeat the others: churn attribution across the
-revenue funnel, built on the published renewal-cliff issue, framed for a
-revenue-org audience that owns the funnel. Ledger-safe 174-char bio, canonical
-offered, no unverified claim. Pitch and Typeform note in
-`growth/outreach-pitches.md`, pipeline row 22. Codex or Kuber submits; one Slack
-follow-up after ten days.
+Corrections applied to the record:
 
-Verified before staging: bio length measured at 174, and the renewal-cliff issue
-confirmed present in the published corpus. Slowing the cadence and checking
-claims first-hand after the recent error cluster.
+- **No 60,000-reader claim.** RevGenius states a 50k–60k community membership on
+  its own site; that is not the readership of any single Mag article, which is
+  unknown. Pipeline row 22 and the pitch archive now state community size only,
+  with no reach promise.
+- **Canonical acceptance was never verified.** The Typeform proved only an entry
+  point. If the route reopens, canonical acceptance must be agreed in writing
+  first.
+- **"Known for replacing the QBR" removed** from the bio. The ledger supports
+  that Kuber built and uses the thirty-minute review, not that an external
+  audience knows him for it.
+
+The dormant angle and copy are archived in `growth/outreach-pitches.md` for reuse
+only if the route reopens. This PR no longer creates a live acquisition action;
+recommend closing it rather than merging. The active earned-distribution lane
+returns to CG-15 (RevOps Impact and one verified alternate).

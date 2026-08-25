@@ -506,42 +506,52 @@ visits diagnostically and judge success by acquired subscribers and 30-day
 active status. Codex or Kuber sends. Do not claim audience size or customer
 results.
 
-## RevGenius Magazine: contributed article (CG-03, staged 25 August 2026)
+## RevGenius Magazine: contributed article (CG-03) — DORMANT, route not open
 
-**Route:** revgenius.typeform.com/contributor ("Contribute to Mag"), verified
-open first-party 25 August. New route, not in the prior pipeline.
+**Status: not actionable. No submission was made or attempted.** On re-check, the
+contributor route did not resolve. `https://revgenius.typeform.com/contributor` —
+the "Contribute to Mag" link RevGenius publishes on its own site — returns HTTP
+301 to `https://www.typeform.com/explore?...utm_content=typeform-incorrectURL`,
+which is Typeform's response for a form ID that no longer exists. The earlier
+"verified open first-party" note was wrong. Treat this route as closed until
+RevGenius publishes a working contributor form or another first-party route is
+verified.
 
-**Audience and why it is net-new:** 60,000+ revenue creators in sales,
-marketing, and RevOps. They care intensely about churn and NRR but sit outside
-CS media, so a contribution reaches readers a CS-publication guest slot never
-would.
+**Community size, corrected — this is not article reach.** RevGenius states a
+50k–60k community on its own site (the hero shows "60k Members"; a footer CTA
+says "Join 50k Revenue Creators"). That is community membership, not the
+readership of any single Mag article, which is unknown. Make no readership or
+distribution promise and never describe a contribution as reaching 60,000 people.
 
-**Distinct angle, not a repeat.** The RevOps Impact swap uses the NRR-is-rented-
-from-pricing hook. RevGenius gets a different published piece: the churn-
-attribution argument that CS is blamed for churn that originates elsewhere in the
-revenue funnel. For a revenue-org audience that owns the funnel, "where churn
-actually starts, and who should own each part" is their problem, not a CS lecture.
+**Canonical treatment: not verified.** Even when it existed, the Typeform proved
+only a submission entry point, never that RevGenius accepts a canonical link back
+to churnisdead.com. If the route reopens, canonical acceptance must be requested
+and agreed in writing before any drafting or publishing.
 
-**Grounded:** built on the published issue "The Renewal Cliff Nobody Charted:
-Why CS Doesn't Own Half the Churn It's Blamed For"
-(/newsletter/renewal-cliff-data-intelligence-blind-spot). No unverified claim,
-no audience-size or customer-result claim.
+The angle and copy are archived below in case the route reopens. They are
+dormant, not staged for send.
 
-**Bio (ledger-safe, 179 chars):**
+---
+
+**Angle (dormant):** cross-funnel churn attribution — where SaaS churn actually
+originates across the revenue funnel, and why attributing all of it to Customer
+Success hides the causes a revenue team can fix. Built on the published issue
+"The Renewal Cliff Nobody Charted: Why CS Doesn't Own Half the Churn It's Blamed
+For" (/newsletter/renewal-cliff-data-intelligence-blind-spot). Distinct from the
+RevOps Impact swap, which uses the NRR-is-rented-from-pricing hook.
+
+**Bio (dormant, ledger-safe):**
 
 > Kuber Sethi writes Churn Is Dead, evidence-led operating systems for enterprise
-> CS. 10+ years support to executive; known for replacing the QBR with a
-> thirty-minute decision.
+> CS. He built and uses a thirty-minute, three-slide review in place of the
+> standard QBR.
 
-**Contribution note for the Typeform:**
+**Contribution note (dormant), to be used only if canonical acceptance is agreed:**
 
 > Proposed piece: where SaaS churn actually originates across the revenue funnel,
 > and why attributing all of it to Customer Success hides the causes a revenue
 > team can actually fix. It gives revenue leaders an attribution model that
 > separates product, pricing, onboarding, and relationship causes, so the right
-> owner acts on each. Non-promotional, 1,000 to 1,500 words, canonical version
-> live on churnisdead.com and available with a canonical link.
-
-**Rules:** Codex or Kuber submits the Typeform. One follow-up via the RevGenius
-Slack after ten days if no response, then stop. Keep it non-promotional; no
-Churn Is Dead sell beyond the byline and canonical link.
+> owner acts on each. Non-promotional, 1,000 to 1,500 words. A canonical version
+> is live on churnisdead.com; a canonical link back would be requested as a
+> condition of contributing.
