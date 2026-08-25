@@ -97,6 +97,14 @@ Use the 23 September read for the weekly-versus-monthly format decision only aft
 
 The Tuesday short post remains `CID-001` with `tuesday_launch` attribution. Its first 24 hours are uncontested. After Wednesday starts, compare the two surfaces descriptively by their separate labels; do not claim a causal channel winner from concurrent distribution.
 
+Website attribution is session-level first touch. If one browser session reaches
+the site through both the Tuesday post and a LinkedIn Newsletter edition, that
+session remains attributed to the first recorded surface. These reports measure
+attributed visits and acquisitions, not every exposure. Because CID-001 and the
+first CID-004 edition also share the issue slug as campaign, never use a generic
+campaign-only total to compare them; use the dedicated report's full
+source/medium/campaign/content tuple.
+
 ## Decision rule
 
 Twenty unique tagged visits across the four editions is the minimum evidence floor. Keep the weekly cadence if the block produces attributable qualified action or acquired website subscribers without weakening editorial quality. If it does not, reduce LinkedIn Newsletter to monthly, revise the native format, and preserve the subscriber audience rather than flooding it.
