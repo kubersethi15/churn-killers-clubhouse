@@ -24,6 +24,12 @@ other teams in his region. Neither claim exists in the author-experience
 ledger. The copy below removes both claims and is the only version cleared for
 use.
 
+**Sent and verified 25 August 2026:** Kuber sent the corrected copy to both
+hosts through the signed-in LinkedIn account. Irit's message continued the
+existing conversation; Josh's message used the verified first-degree route.
+LinkedIn confirmed both sends. No InMail credit, link, attachment, or automated
+follow-up was used. Do not send either message again.
+
 ---
 
 ## 1. [Un]Churned — Josh Schachter
