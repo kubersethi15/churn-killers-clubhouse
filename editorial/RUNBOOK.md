@@ -32,13 +32,23 @@ Open a pull request. Merge the approved package to `main`. The approved publishe
 
 The publication timestamp is Tuesday 08:00 UTC. In Sydney that is 18:00 during AEST and 19:00 during AEDT. The scheduled workflow runs at 08:05 UTC to regenerate the public article, social image, sitemap, RSS feed, and Playbook Vault manifest after the issue becomes eligible.
 
+The workflow commits those generated assets to `main`; it does not publish a
+Lovable production build. After the workflow commit lands, pull the new `main`
+in Lovable and use its explicit Publish action. Complete this before sending
+traffic from LinkedIn. A client-rendered article is not a complete release when
+the issue URL's initial HTML still carries the homepage title or homepage
+canonical.
+
 Confirm:
 
 1. The article URL returns the approved title and body.
 2. The playbook downloads and appears in the vault.
 3. Sitemap, RSS, canonical URL, and social image use the approved issue.
 4. No pre-publication draft is available at the article URL.
-5. If publishing on LinkedIn, paste from `linkedin.md`, re-read it in context, and post manually.
+5. The issue URL's initial HTML contains the approved issue title and an exact
+   self-canonical, not the homepage fallback.
+6. If publishing on LinkedIn, paste from `linkedin.md`, re-read it in context,
+   and post only after the crawlable production gate passes.
 
 The pre-publication check must cover the database boundary as well as the rendered page. Before the timestamp, an anonymous REST query for the exact future slug must return no rows. An authenticated admin may still use preview mode. After the timestamp, repeat the anonymous query and confirm the approved row is visible.
 
