@@ -10,9 +10,13 @@ The website is the canonical publication. Distribution exists to earn qualified 
 - Medium: import one or two evergreen issues per month after the canonical version is live. Use Medium's import tool, retain the canonical URL, add the required AI-assistance disclosure, and review formatting manually.
 - Communities: share only where the operating problem is already being discussed. Do not broadcast identical copy across groups.
 
-## Approval gate
+## Distribution authority and provenance
 
-External copy can be drafted automatically from approved source material, but it cannot publish automatically. `distribution-approval.json` records approval separately for LinkedIn and Medium.
+External copy may publish under Kuber's recorded standing mandate without a
+separate per-post review. `distribution-approval.json` records authority
+separately for LinkedIn and Medium. It must identify the actor who approved the
+copy, whether Kuber personally reviewed it, the timestamp, and the basis. Never
+name Kuber as the reviewer when an agent acted under delegated authority.
 
 ## Attribution convention
 

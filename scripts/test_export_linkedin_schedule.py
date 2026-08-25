@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import tempfile
 import unittest
 from datetime import datetime
@@ -68,6 +69,66 @@ class LinkedInScheduleExporterTests(unittest.TestCase):
         )
 
         self.assertEqual(rows[0]["Status"], "Approved for Posting")
+
+    def test_delegated_distribution_approval_requires_truthful_provenance(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            original_editorial_dir = exporter.EDITORIAL_DIR
+            exporter.EDITORIAL_DIR = Path(directory)
+            issue_dir = exporter.EDITORIAL_DIR / "example-issue"
+            issue_dir.mkdir()
+            approval_path = issue_dir / "distribution-approval.json"
+            approval_path.write_text(json.dumps({
+                "linkedin": {
+                    "status": "approved",
+                    "approved_by": "Codex, under Kuber's standing mandate of 24 August 2026",
+                    "approved_at": "2026-08-24T12:00:00+10:00",
+                    "human_reviewed": False,
+                    "basis": "Standing distribution mandate.",
+                }
+            }), encoding="utf-8")
+            try:
+                self.assertTrue(exporter.linkedin_is_approved("example-issue"))
+            finally:
+                exporter.EDITORIAL_DIR = original_editorial_dir
+
+    def test_unreviewed_copy_cannot_name_kuber_as_reviewer(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            original_editorial_dir = exporter.EDITORIAL_DIR
+            exporter.EDITORIAL_DIR = Path(directory)
+            issue_dir = exporter.EDITORIAL_DIR / "example-issue"
+            issue_dir.mkdir()
+            (issue_dir / "distribution-approval.json").write_text(json.dumps({
+                "linkedin": {
+                    "status": "approved",
+                    "approved_by": "Kuber Sethi",
+                    "approved_at": "2026-08-24T12:00:00+10:00",
+                    "human_reviewed": False,
+                    "basis": "Standing distribution mandate.",
+                }
+            }), encoding="utf-8")
+            try:
+                self.assertFalse(exporter.linkedin_is_approved("example-issue"))
+            finally:
+                exporter.EDITORIAL_DIR = original_editorial_dir
+
+    def test_distribution_approval_requires_a_basis(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            original_editorial_dir = exporter.EDITORIAL_DIR
+            exporter.EDITORIAL_DIR = Path(directory)
+            issue_dir = exporter.EDITORIAL_DIR / "example-issue"
+            issue_dir.mkdir()
+            (issue_dir / "distribution-approval.json").write_text(json.dumps({
+                "linkedin": {
+                    "status": "approved",
+                    "approved_by": "Codex",
+                    "approved_at": "2026-08-24T12:00:00+10:00",
+                    "human_reviewed": False,
+                }
+            }), encoding="utf-8")
+            try:
+                self.assertFalse(exporter.linkedin_is_approved("example-issue"))
+            finally:
+                exporter.EDITORIAL_DIR = original_editorial_dir
 
 
 if __name__ == "__main__":
