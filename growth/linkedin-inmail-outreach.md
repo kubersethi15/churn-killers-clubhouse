@@ -1,19 +1,19 @@
-# LinkedIn Premium InMail outreach
+# LinkedIn direct outreach to podcast hosts
 
-**Staged by Claude, 24 August 2026.** Uses Kuber's Premium InMail credits, which
-mostly expire unused each month. This is the highest-value use of them: reaching
-the two podcast hosts I could not reach any other way.
+**Staged by Claude, 24 August 2026; live route corrected by Codex, 25 August
+2026.** LinkedIn's signed-in state shows that both hosts can be reached directly,
+so no Premium InMail credit is required.
 
-Earlier research marked Unchurned and CSM Practice as `relationship_route` /
-`no verified route` because neither publishes a guest form and I will not
-cold-email a scraped address. InMail is the legitimate route: it reaches the
-host directly through the platform, and a Premium message lands in a separate,
-higher-visibility inbox.
+Earlier research correctly marked Unchurned and CSM Practice as relationship
+routes because neither publishes a usable guest form and a scraped address is
+not acceptable. Live LinkedIn verification found Josh Schachter is a first-degree
+connection and Irit Eizips already has a direct conversation with Kuber. Use
+those warm routes instead of spending an InMail credit.
 
-**Rules:** send from Kuber's account. One InMail per host. No follow-up InMail
-if there is no reply, only a later light touch through a comment on their
-content. No tracked link in the message itself; the goal is a reply, not a
-click. Keep it short. These are people, not a campaign.
+**Rules:** send from Kuber's account. One direct message per host. Do not send a
+second direct message if there is no reply; use one later light touch through a
+relevant public discussion. No tracked link in the first message; the goal is a
+reply, not a click. Keep it short. These are people, not a campaign.
 
 Grounded only in the author-experience ledger and Kuber's public profile. No
 invented claims.
@@ -26,12 +26,14 @@ use.
 
 ---
 
-## 1. Unchurned (UpdateAI) — Josh Schachter
+## 1. [Un]Churned — Josh Schachter
 
-**Why him:** Josh runs UpdateAI, an AI tool for CS, and hosts the No. 1 churn
-podcast. The AI-decision-rights angle is a genuine fit, not a generic pitch.
+**Verified route and fit, 25 August:** Josh is a first-degree connection. His
+live profile lists him as SVP at Gainsight, host of [Un]Churned, and previously
+CEO of UpdateAI before its acquisition by Gainsight. The AI-decision-rights
+angle remains a genuine fit, but copy must not say he currently runs UpdateAI.
 
-**Subject:** Which CS decisions AI should never own
+**Message angle:** Which CS decisions AI should never own
 
 > Hi Josh,
 >
@@ -48,7 +50,7 @@ podcast. The AI-decision-rights angle is a genuine fit, not a generic pitch.
 > Treating them as the same kind of automation decision is how teams quietly
 > stop trusting the system.
 >
-> Would a conversation like that fit the show?
+> Would that be a useful angle for [Un]Churned?
 >
 > Kuber
 
@@ -59,9 +61,14 @@ podcast. The AI-decision-rights angle is a genuine fit, not a generic pitch.
 **Why her:** Irit's show is tactical and operating-focused. The 30-minute QBR is
 the strongest, most concrete thing to bring, and it is the ledger's signature.
 
-**Subject:** The 30-minute QBR that replaced the one everyone dreads
+**Verified route, 25 August:** Kuber and Irit already have a direct LinkedIn
+conversation from May 2025. Continue that thread as a warm but distinct request;
+do not spend an InMail credit and do not pretend the earlier exchange concerned
+the show.
 
-> Hi Irit,
+**Message angle:** The 30-minute QBR that replaced the one everyone dreads
+
+> Hi Irit — different question from last time.
 >
 > Here is one practical idea I would bring to CSM Practice. The most overused
 > meeting in our profession is the QBR, and most of them inform everyone and
@@ -75,7 +82,7 @@ the strongest, most concrete thing to bring, and it is the ledger's signature.
 > makes it work, and how the meeting handles a quarter where the evidence is not
 > flattering.
 >
-> Would that be a fit for the show?
+> Would that be a useful fit for CSM Practice?
 >
 > Kuber
 
@@ -83,8 +90,7 @@ the strongest, most concrete thing to bring, and it is the ledger's signature.
 
 ## What this uses and why it is worth it
 
-InMail credits are a Premium feature Kuber already pays for and rarely spends.
-Two of them, aimed at the two highest-fit hosts with no other route, is a far
-better use than letting them expire. If either replies, the appearance also
-becomes an owned-audience journey under the plan Codex owns for turning
-appearances into subscribers.
+LinkedIn Premium still contributes through profile conversion, analytics and
+future InMail routes that are not already connected. Spending credits here would
+add no value. If either host replies, the appearance becomes an owned-audience
+journey under the plan for turning appearances into qualified subscribers.
