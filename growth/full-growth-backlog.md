@@ -12,7 +12,7 @@ This is an execution queue, not an ideas document. Before starting an item, clai
 - CID-001 runs from 25 August at 18:15 Sydney through 1 September at 18:14 Sydney.
 - Do not change CID-001's Tuesday LinkedIn copy, tracked link, website CTA, timing, or channel mix during that window.
 - The Premium LinkedIn profile button remains the separately tagged always-on control.
-- Subscriber broadcast email remains paused until deliverability risk is back inside the written safety gate. Website and LinkedIn publishing continue.
+- Subscriber broadcast email remains paused until deliverability risk is back inside the written safety gate. The 25 August authoritative-DNS check found two conflicting `_dmarc.churnisdead.com` TXT policies; reduce them to one valid policy, reverify Resend's domain status, and complete a clean test-send read before enabling broadcasts. Website and LinkedIn publishing continue.
 - Relationship comments, reply handling, research, partner pitching, technical fixes, and separately labelled always-on infrastructure can continue.
 - From 25 August through the 1 September CID-001 read, keep no more than three outcome lanes active across both agents: the two labelled LinkedIn releases, qualified conversation/reply work, and one earned-distribution route. Do not create process-only documents, another dashboard, or a site restyle during this window.
 

@@ -2,6 +2,10 @@
 
 This log records consequential external growth actions. It contains aggregate operational evidence only, not subscriber PII.
 
+## 25 August 2026
+
+- Confirmed a sender-authentication incident directly against both authoritative GoDaddy nameservers. `_dmarc.churnisdead.com` publishes two valid but conflicting DMARC TXT records, `p=none` and `p=reject`. RFC 7489 says DMARC processing is not applied when multiple valid policy records remain. Resend's return-path SPF, MX, and DKIM records are present, but the subscriber broadcast remains paused until the duplicate is reduced to one policy, Resend re-verifies the domain, and a clean test send confirms authentication and delivery. This does not block the website or LinkedIn release.
+
 ## 24 August 2026
 
 - Recorded Kuber Sethi's LinkedIn distribution approval for the 25 August Product Friction Review launch.
