@@ -683,18 +683,21 @@ executable as a cold editorial pitch:
 
 **Replacement, one strong US practitioner publication with a verified first-party
 route: CustomerThink** (pipeline row 24). Active in 2026, founded and edited by
-Bob Thompson. Open but registration-gated: register under a real name with a
-business email, get approved, then self-publish a blog or email a proposal to the
-managing editor (`https://customerthink.com/contribute/`). Two prerequisites
-before any send: a `churnisdead.com` business email, because gmail and role
-addresses are disallowed, and capturing the managing-editor address first-party
-at registration rather than guessing it. Body must be neutral and educational
-with the Churn Is Dead link in the author bio only. Angle: the thirty-minute QBR
-replacement, ledger claim 4. Pitch staged in `growth/outreach-pitches.md`.
+Bob Thompson. The route is the public Write For Us application form at
+`https://customerthink.com/write-for-us/`. Bob Thompson personally reviews
+submissions and invites approved applicants to register, so registration is not
+the first step. Questions or proposals may also go to `editor@customerthink.com`.
+A business email is required and free email services are rejected, so use a
+`churnisdead.com` address, not the gmail on file. The text staged in
+`growth/outreach-pitches.md` is an application abstract only; CustomerThink
+requires the article be written by the author (AI may assist only with ideation,
+research, and editing), so if accepted Kuber must personally draft it. Body stays
+neutral and educational with the Churn Is Dead link in the author bio only.
+Angle: the thirty-minute QBR replacement, ledger claim 4.
 
 **Next external action:** none is send-ready yet. To open CustomerThink, Kuber or
-Codex first registers a CustomerThink author account with a `churnisdead.com`
-email and captures the managing-editor address; then Codex or Kuber sends the
-staged proposal. If actioned and silent, one follow-up on 4 September, then stop.
-Do not cold-pitch ChurnZero or Pavilion; both wait on a warm introduction (or, for
-Pavilion, an explicit paid decision).
+Codex submits the staged application through the Write For Us form (or emails
+`editor@customerthink.com`) from a `churnisdead.com` business email; if approved
+and invited, Kuber personally drafts the article. If actioned and silent, one
+follow-up on 4 September, then stop. Do not cold-pitch ChurnZero or Pavilion;
+both wait on a warm introduction (or, for Pavilion, an explicit paid decision).

@@ -613,27 +613,25 @@ revenue accountability); no customer-result or audience-size claim.
 
 ## CustomerThink: contributed article (replacement route, staged 25 August 2026)
 
-**Route status: open but registration-gated. Verified first-party 25 August
-2026.** CustomerThink is an active US-based community for customer-centric
-business, founded and edited by Bob Thompson, with recent 2026 practitioner
-content. It has a documented, open contributor route across
-`https://customerthink.com/contribute/`, `https://customerthink.com/article-guidelines/`,
-`https://customerthink.com/register/` and `https://customerthink.com/submit-article/`.
-The route works in two steps: register an author account under a real name,
-be approved by the site manager, then either self-publish a blog or email an
-article proposal to the managing editor for a featured article.
+**Route status: open via a public application form. Verified first-party 25
+August 2026.** CustomerThink is an active US-based community for customer-centric
+business, founded and edited by Bob Thompson. The route is the public Write For
+Us application form at `https://customerthink.com/write-for-us/`. Bob Thompson
+personally reviews submissions and invites approved applicants to register, so
+registration is not the first step. Questions or proposals may also go to
+`editor@customerthink.com`.
 
-**Two hard prerequisites before any send.** First, CustomerThink does not permit
-free email accounts (gmail, hotmail) or role addresses (info@, marketing@), so
-registration needs a `churnisdead.com` business email, not the gmail on file.
-Second, the managing-editor address is not published on the public pages, so
-capture it first-party during registration rather than guessing it. Do not
-invent an address.
+**This is an application, not a finished article.** The text below is an
+application abstract or proposal only. If CustomerThink accepts, Kuber must
+personally draft the article: CustomerThink requires the article be written by
+the author, and AI may assist only with ideation, research, and editing.
 
-**Content rule that fits our stance.** Articles must be neutral and educational
-and must not promote the author's company, product, or service in the body. An
-attributed author bio and byline are allowed. So this stays non-promotional,
-with the link back to Churn Is Dead living in the author bio, not the article.
+**Business email required.** CustomerThink rejects free email services, so the
+application and any registration need a `churnisdead.com` business email, not the
+gmail on file.
+
+**Content rule that fits our stance.** The article stays neutral and educational,
+with the link back to Churn Is Dead living in the author bio, not the body.
 
 **Why the audience fits:** CustomerThink's readership is CS and CX practitioners
 and business leaders, the same operator audience the thirty-minute QBR change
@@ -642,7 +640,7 @@ built and can speak to in the first person.
 
 **Tracked bio-link destination:** `https://churnisdead.com/newsletter/fire-your-qbr-heres-what-to-do-instead?utm_source=customerthink&utm_medium=guest_article&utm_campaign=thirty_minute_qbr`.
 
-**Subject:** Article proposal: the thirty-minute review that replaced my QBR
+**Application abstract (Subject:** the thirty-minute review that replaced my QBR**)**
 
 Hi CustomerThink team,
 
@@ -658,9 +656,9 @@ because it forces a decision instead of a status recap.
 The article would give readers the three-slide structure, what each slide must
 contain, and how to keep the conversation on the customer's goal rather than an
 internal status recap. It is written for practitioners in a neutral, educational
-tone, with no product or company promotion in the body. I write under my real
-name and am happy to follow your article guidelines on length, sourcing, and the
-author bio.
+tone, with no product or company promotion in the body. I would write it myself,
+under my real name, and am happy to follow your guidelines on length, sourcing,
+and the author bio.
 
 Would this fit CustomerThink?
 
