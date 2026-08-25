@@ -38,7 +38,7 @@ The list is too small for three simultaneous subject variants to produce a depen
 
 Do not enable `NEWSLETTER_SEND_ENABLED` until all of these are true:
 
-1. Kuber provides the business or PO Box mailing address to store as `NEWSLETTER_POSTAL_ADDRESS`.
+1. Kuber provides the business or PO Box mailing address to store as `NEWSLETTER_POSTAL_ADDRESS`. The weekly sender and welcome email now both fail closed without it.
 2. The repaired function from merged PR #152 is deployed and its downloaded source matches `main`.
 3. The approved issue metadata, including the single subject and preheader, is staged in Supabase.
 4. One production-equivalent test reaches an active address controlled by Kuber.
