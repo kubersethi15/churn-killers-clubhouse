@@ -5,6 +5,14 @@ import { generateNewsletterEmailTemplate, replacePlaceholders } from "./emailTem
 import { sendNewsletterBatch, sendTestNewsletter } from "./emailSender.ts";
 import type { NewsletterMessage } from "./emailSender.ts";
 import { createUnsubscribeToken } from "../_shared/unsubscribeToken.ts";
+import {
+  batchIdempotencyKey,
+  normalizeEmail,
+  orderSubscribersForSend,
+  planBatches,
+  selectPendingRecipients,
+  shouldAdvanceLastSent,
+} from "./sendPlan.ts";
 
 // Initialize Supabase client (service role for DB operations)
 const supabaseUrl = Deno.env.get("SUPABASE_URL");
@@ -268,7 +276,8 @@ const handler = async (req: Request): Promise<Response> => {
     const { data: subscribers, error: subscribersError } = await supabase
       .from("subscribers")
       .select("id,email")
-      .eq("subscribed", true);
+      .eq("subscribed", true)
+      .order("id", { ascending: true });
 
     if (subscribersError) {
       return new Response(
@@ -304,13 +313,64 @@ const handler = async (req: Request): Promise<Response> => {
       '', mainContent, latestNewsletter.slug, latestNewsletter.category
     );
 
-    const batches = [];
-    for (let i = 0; i < subscribers.length; i += batchSize) {
-      batches.push(subscribers.slice(i, i + batchSize));
+    // Deterministic recipient order so batching and subject-variant assignment
+    // are stable across runs.
+    const orderedSubscribers = orderSubscribersForSend(subscribers);
+
+    // Per-recipient idempotency: exclude anyone already delivered this issue in
+    // an earlier (possibly partial) run. This is the real guard against
+    // re-sending when the subscriber list changes between runs — batch keys are
+    // only a within-run, identical-batch backstop. If the prior-delivery log
+    // cannot be read we do not know who already received it, so we must abort
+    // rather than risk a mass double-send.
+    const { data: deliveredRows, error: deliveredError } = await supabase
+      .from("newsletter_send_log")
+      .select("subscriber_email")
+      .eq("newsletter_id", latestNewsletter.id)
+      .eq("send_status", "sent");
+
+    if (deliveredError) {
+      await logRun('failure', 'Aborting send: prior-delivery log unreadable', {
+        newsletter_id: latestNewsletter.id,
+        error: deliveredError.message,
+      });
+      return new Response(
+        JSON.stringify({ error: "Could not verify prior deliveries; send aborted to avoid duplicates" }),
+        { status: 503, headers: { "Content-Type": "application/json", ...corsHeaders } },
+      );
     }
+
+    const deliveredEmails = new Set(
+      (deliveredRows ?? []).map(row => normalizeEmail(row.subscriber_email)),
+    );
+    const recipients = selectPendingRecipients(orderedSubscribers, deliveredEmails);
+
+    if (recipients.length === 0) {
+      // Every active subscriber already has this issue. Mark it done and move on.
+      await supabase
+        .from("internal_config")
+        .upsert({ key: "last_sent_newsletter_id", value: latestNewsletter.id }, { onConflict: "key" });
+      await logRun('info', 'Issue already delivered to all active subscribers', {
+        newsletter_id: latestNewsletter.id,
+        already_delivered: deliveredEmails.size,
+      });
+      return new Response(
+        JSON.stringify({ message: "Already delivered to all active subscribers", newsletterId: latestNewsletter.id }),
+        { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } },
+      );
+    }
+
+    console.log(`${recipients.length} pending recipient(s); ${deliveredEmails.size} already delivered`);
+    const batches = planBatches(recipients, batchSize);
 
     let successCount = 0;
     let failureCount = 0;
+    // Batches that threw (network/provider error) rather than per-recipient
+    // invalid addresses. Only these hold back the sequential send pointer.
+    let transientBatchFailures = 0;
+    // If the per-recipient send log fails to persist, a retry cannot tell who
+    // was delivered, so the pointer must not advance.
+    let sendLogPersisted = true;
     const errors: string[] = [];
     const variantStats: Record<string, { sent: number; subscriberIds: string[] }> = {};
     const sendLogRows: Array<{
@@ -348,7 +408,7 @@ const handler = async (req: Request): Promise<Response> => {
         const delivery = await sendNewsletterBatch(
           messages,
           batchIndex,
-          `newsletter-${latestNewsletter.id}-batch-${batchIndex}`,
+          await batchIdempotencyKey(latestNewsletter.id, batch.map(subscriber => subscriber.id)),
         );
         successCount += delivery.count;
         failureCount += delivery.skipped;
@@ -361,7 +421,7 @@ const handler = async (req: Request): Promise<Response> => {
           variantStats[item.variantLabel].subscriberIds.push(item.subscriberId);
           sendLogRows.push({
             newsletter_id: latestNewsletter.id,
-            subscriber_email: item.email,
+            subscriber_email: normalizeEmail(item.email),
             subject_variant: item.variantLabel,
             variant_index: Math.max(0, variantIdx),
             send_status: 'sent',
@@ -373,7 +433,7 @@ const handler = async (req: Request): Promise<Response> => {
           const variantIdx = variants.findIndex(variant => variant.label === message.variantLabel);
           sendLogRows.push({
             newsletter_id: latestNewsletter.id,
-            subscriber_email: message.email,
+            subscriber_email: normalizeEmail(message.email),
             subject_variant: message.variantLabel,
             variant_index: Math.max(0, variantIdx),
             send_status: 'failed',
@@ -388,13 +448,14 @@ const handler = async (req: Request): Promise<Response> => {
         const msg = error instanceof Error ? error.message : "Unknown error";
         console.error(`Error sending private batch ${batchIndex + 1}:`, error);
         failureCount += batch.length;
+        transientBatchFailures += 1;
         errors.push(`[batch ${batchIndex + 1}] ${msg}`);
 
         for (const message of messages) {
           const variantIdx = variants.findIndex(variant => variant.label === message.variantLabel);
           sendLogRows.push({
             newsletter_id: latestNewsletter.id,
-            subscriber_email: message.email,
+            subscriber_email: normalizeEmail(message.email),
             subject_variant: message.variantLabel,
             variant_index: Math.max(0, variantIdx),
             send_status: 'failed',
@@ -413,8 +474,18 @@ const handler = async (req: Request): Promise<Response> => {
       for (let i = 0; i < sendLogRows.length; i += CHUNK) {
         const slice = sendLogRows.slice(i, i + CHUNK);
         try {
-          await supabase.from('newsletter_send_log').insert(slice);
+          // Upsert so a retry updates the recipient's row (latest status wins)
+          // instead of appending a duplicate. Requires the unique index on
+          // (newsletter_id, subscriber_email).
+          const { error: logError } = await supabase
+            .from('newsletter_send_log')
+            .upsert(slice, { onConflict: 'newsletter_id,subscriber_email' });
+          if (logError) {
+            sendLogPersisted = false;
+            console.warn(`Send log chunk ${i}-${i + slice.length} rejected:`, logError.message);
+          }
         } catch (err) {
+          sendLogPersisted = false;
           console.warn(`Failed to write send log chunk ${i}-${i + slice.length}:`, err);
         }
       }
@@ -435,8 +506,19 @@ const handler = async (req: Request): Promise<Response> => {
       }
     }
 
-    // 4. Record this newsletter as sent (only if majority succeeded)
-    if (successCount > failureCount) {
+    if (!sendLogPersisted) {
+      await logRun('failure', 'Send log did not fully persist; holding send pointer for a clean retry', {
+        newsletter_id: latestNewsletter.id,
+      });
+    }
+
+    // 4. Advance the sequential send pointer only when every currently active
+    // recipient has the issue and that is durably recorded. A batch that threw
+    // holds the pointer so the next run retries only the still-pending
+    // recipients (delivered ones are pre-filtered out above, so no double-send
+    // even if the list changed); an unpersisted send log also holds it, since a
+    // retry would otherwise be unable to tell who was already delivered.
+    if (shouldAdvanceLastSent({ transientBatchFailures, sendLogPersisted })) {
       const { error: updateError } = await supabase
         .from("internal_config")
         .upsert({ key: "last_sent_newsletter_id", value: latestNewsletter.id }, { onConflict: "key" });
@@ -449,14 +531,19 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     // Log final outcome
-    const overallStatus = failureCount === 0 ? 'success' : (successCount > 0 ? 'partial' : 'failure');
+    const overallStatus = (failureCount === 0 && sendLogPersisted)
+      ? 'success'
+      : (successCount > 0 ? 'partial' : 'failure');
     await logRun(overallStatus, `Newsletter "${latestNewsletter.title}" — ${successCount} sent, ${failureCount} failed`, {
       newsletter_id: latestNewsletter.id,
       newsletter_slug: latestNewsletter.slug,
       newsletter_title: latestNewsletter.title,
       subscribers_total: subscribers.length,
+      pending_this_run: recipients.length,
+      already_delivered: deliveredEmails.size,
       success_count: successCount,
       failure_count: failureCount,
+      send_log_persisted: sendLogPersisted,
       variant_stats: variantStats,
       errors: errors.slice(0, 5),  // limit error log size
     });
