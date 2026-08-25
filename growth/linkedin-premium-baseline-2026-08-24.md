@@ -17,6 +17,17 @@ This is an aggregate operating baseline. It contains no viewer, follower, or eng
 - Company size: 16% at organisations with 1,001 to 5,000 employees.
 - Location: 11% Greater Sydney Area.
 
+The expanded aggregate location view on 25 August was globally distributed:
+Greater Sydney 11%, Greater Melbourne 6%, Greater Bengaluru 6%, London 4%,
+Greater Delhi 3%, Greater Canberra 3%, San Francisco Bay Area 2%, Greater
+Brisbane 2%, and New York City Metropolitan Area 2%. This does not support
+treating the current follower audience as predominantly United States-based.
+The 18:15 Sydney publication slot reaches Australia in the evening, India in
+the early afternoon and the United Kingdom in the morning; United States
+engagement can still arrive later as the post circulates. Preserve the current
+slot through CID-001/CID-004, then test timing only as a separate variable if
+the four-edition read provides enough evidence.
+
 The audience is already relevant to Churn Is Dead. Subscriber growth should not be treated as an audience-fit problem without contrary evidence.
 
 ## Content performance
