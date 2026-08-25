@@ -505,3 +505,43 @@ days, send one concise follow-up in the same email thread, then stop. Track
 visits diagnostically and judge success by acquired subscribers and 30-day
 active status. Codex or Kuber sends. Do not claim audience size or customer
 results.
+
+## RevGenius Magazine: contributed article (CG-03, staged 25 August 2026)
+
+**Route:** revgenius.typeform.com/contributor ("Contribute to Mag"), verified
+open first-party 25 August. New route, not in the prior pipeline.
+
+**Audience and why it is net-new:** 60,000+ revenue creators in sales,
+marketing, and RevOps. They care intensely about churn and NRR but sit outside
+CS media, so a contribution reaches readers a CS-publication guest slot never
+would.
+
+**Distinct angle, not a repeat.** The RevOps Impact swap uses the NRR-is-rented-
+from-pricing hook. RevGenius gets a different published piece: the churn-
+attribution argument that CS is blamed for churn that originates elsewhere in the
+revenue funnel. For a revenue-org audience that owns the funnel, "where churn
+actually starts, and who should own each part" is their problem, not a CS lecture.
+
+**Grounded:** built on the published issue "The Renewal Cliff Nobody Charted:
+Why CS Doesn't Own Half the Churn It's Blamed For"
+(/newsletter/renewal-cliff-data-intelligence-blind-spot). No unverified claim,
+no audience-size or customer-result claim.
+
+**Bio (ledger-safe, 179 chars):**
+
+> Kuber Sethi writes Churn Is Dead, evidence-led operating systems for enterprise
+> CS. 10+ years support to executive; known for replacing the QBR with a
+> thirty-minute decision.
+
+**Contribution note for the Typeform:**
+
+> Proposed piece: where SaaS churn actually originates across the revenue funnel,
+> and why attributing all of it to Customer Success hides the causes a revenue
+> team can actually fix. It gives revenue leaders an attribution model that
+> separates product, pricing, onboarding, and relationship causes, so the right
+> owner acts on each. Non-promotional, 1,000 to 1,500 words, canonical version
+> live on churnisdead.com and available with a canonical link.
+
+**Rules:** Codex or Kuber submits the Typeform. One follow-up via the RevGenius
+Slack after ten days if no response, then stop. Keep it non-promotional; no
+Churn Is Dead sell beyond the byline and canonical link.

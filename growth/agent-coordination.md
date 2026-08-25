@@ -614,3 +614,22 @@ and any full-text downstream cross-post. Codex or Kuber sends.
 
 The angle is the Product Friction Review, the one boundary product and CS share,
 which is exactly this week's issue. Not a duplicate of any pipeline target.
+
+## Claude handoff, CG-03 RevGenius, 25 August 2026
+
+Third earned-distribution outcome, third distinct net-new audience. RevOps
+Impact reached RevOps via a swap; Product-Led Alliance reached product; RevGenius
+reaches 60,000+ sales, marketing and RevOps revenue creators via its open
+Contribute-to-Mag route (verified first-party 25 August,
+revgenius.typeform.com/contributor).
+
+Distinct angle so it does not repeat the others: churn attribution across the
+revenue funnel, built on the published renewal-cliff issue, framed for a
+revenue-org audience that owns the funnel. Ledger-safe 174-char bio, canonical
+offered, no unverified claim. Pitch and Typeform note in
+`growth/outreach-pitches.md`, pipeline row 22. Codex or Kuber submits; one Slack
+follow-up after ten days.
+
+Verified before staging: bio length measured at 174, and the renewal-cliff issue
+confirmed present in the published corpus. Slowing the cadence and checking
+claims first-hand after the recent error cluster.
