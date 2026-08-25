@@ -13,8 +13,10 @@
   "playbook_title": "The Product Friction Review",
   "playbook_description": "A five-part customer problem brief, 30-minute agenda, and follow-up sheet for getting a clear answer from Product.",
   "subject_variants": [
-    {"label": "framework", "subject": "The Product Friction Review"},
-    {"label": "problem", "subject": "Your backlog does not need another customer request"},
-    {"label": "outcome", "subject": "Give Product evidence it can actually decide on"}
+    {
+      "label": "backlog-boundary",
+      "subject": "Your backlog is not a customer commitment",
+      "preheader": "A 30-minute review that helps CS and Product give the customer an honest next answer."
+    }
   ]
 }

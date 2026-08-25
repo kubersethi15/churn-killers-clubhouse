@@ -1,7 +1,11 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { formatContentForEmail } from "./formatUtils.ts";
-import { generateNewsletterEmailTemplate, replacePlaceholders } from "./emailTemplate.ts";
+import {
+  generateNewsletterEmailTemplate,
+  generateNewsletterTextTemplate,
+  replacePlaceholders,
+} from "./emailTemplate.ts";
 import { sendNewsletterBatch, sendTestNewsletter } from "./emailSender.ts";
 import type { NewsletterMessage } from "./emailSender.ts";
 import { createUnsubscribeToken } from "../_shared/unsubscribeToken.ts";
@@ -19,6 +23,7 @@ const supabaseUrl = Deno.env.get("SUPABASE_URL");
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 const unsubscribeSecret = Deno.env.get("NEWSLETTER_UNSUBSCRIBE_SECRET") || supabaseServiceKey;
 const resendWebhookSecret = Deno.env.get("RESEND_WEBHOOK_SECRET");
+const newsletterPostalAddress = Deno.env.get("NEWSLETTER_POSTAL_ADDRESS")?.trim();
 
 if (!supabaseUrl || !supabaseServiceKey) {
   console.error("Missing Supabase environment variables");
@@ -30,6 +35,26 @@ const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
     "authorization, x-client-info, apikey, content-type, x-app-version, x-cron-key",
+};
+
+type SubjectVariant = { label: string; subject: string; preheader?: string };
+
+const getSubjectVariants = (newsletter: {
+  title: string;
+  subject_variants?: SubjectVariant[] | null;
+}): SubjectVariant[] => {
+  const rows = Array.isArray(newsletter.subject_variants)
+    ? newsletter.subject_variants.filter(row =>
+      row && typeof row.subject === "string" && row.subject.trim().length > 0
+    )
+    : [];
+  return rows.length > 0
+    ? rows.map((row, index) => ({
+      label: typeof row.label === "string" && row.label.trim() ? row.label.trim() : `variant-${index + 1}`,
+      subject: row.subject.trim(),
+      preheader: typeof row.preheader === "string" ? row.preheader.trim() : undefined,
+    }))
+    : [{ label: "default", subject: newsletter.title }];
 };
 
 /**
@@ -123,6 +148,7 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     // Check if this is a test email request
     let testEmailAddress: string | null = null;
+    let testSubjectVariant: string | null = null;
     let batchSize = 100;
     let requestBody = {};
     
@@ -133,7 +159,10 @@ const handler = async (req: Request): Promise<Response> => {
         if (requestBody && typeof requestBody === 'object') {
           if ('testEmail' in requestBody) {
             testEmailAddress = requestBody.testEmail as string;
-            console.log(`Test email requested for: ${testEmailAddress}`);
+            console.log("Test email requested");
+          }
+          if ('testSubjectVariant' in requestBody) {
+            testSubjectVariant = String(requestBody.testSubjectVariant || "").trim() || null;
           }
           if ('batchSize' in requestBody) {
             batchSize = Math.min(100, Math.max(1, Number(requestBody.batchSize) || 100));
@@ -161,6 +190,14 @@ const handler = async (req: Request): Promise<Response> => {
       await logRun('failure', 'Newsletter broadcast blocked: RESEND_WEBHOOK_SECRET is missing');
       return new Response(
         JSON.stringify({ error: "Newsletter broadcast blocked because delivery-event verification is not configured" }),
+        { status: 503, headers: { "Content-Type": "application/json", ...corsHeaders } },
+      );
+    }
+
+    if (!newsletterPostalAddress) {
+      await logRun('failure', 'Newsletter send blocked: NEWSLETTER_POSTAL_ADDRESS is missing');
+      return new Response(
+        JSON.stringify({ error: "Newsletter send blocked because the sender mailing address is not configured" }),
         { status: 503, headers: { "Content-Type": "application/json", ...corsHeaders } },
       );
     }
@@ -245,22 +282,65 @@ const handler = async (req: Request): Promise<Response> => {
       return { formattedDate, mainContent };
     };
 
-    // If this is a test email, send it directly
+    const variants = getSubjectVariants(latestNewsletter);
+    const pickVariantForIndex = (idx: number): SubjectVariant => variants[idx % variants.length];
+    console.log(`Using ${variants.length} subject variant(s): ${variants.map(v => v.label).join(', ')}`);
+
+    // A test must reproduce the production message, including a real signed
+    // unsubscribe URL. Restrict it to an active subscriber controlled by the
+    // operator instead of substituting the homepage and producing false QA.
     if (testEmailAddress) {
       const { formattedDate, mainContent } = formatNewsletterContent(latestNewsletter);
+      const normalizedTestEmail = normalizeEmail(testEmailAddress);
+      const { data: testSubscriber, error: testSubscriberError } = await supabase
+        .from("subscribers")
+        .select("id")
+        .eq("email", normalizedTestEmail)
+        .eq("subscribed", true)
+        .maybeSingle();
+      if (testSubscriberError || !testSubscriber?.id) {
+        return new Response(
+          JSON.stringify({ error: "Test address must be an active subscriber so unsubscribe QA is real" }),
+          { status: 422, headers: { "Content-Type": "application/json", ...corsHeaders } },
+        );
+      }
+      if (!unsubscribeSecret) throw new Error("Missing unsubscribe signing secret");
+      const token = await createUnsubscribeToken(testSubscriber.id, unsubscribeSecret);
+      const unsubscribeUrl = `${supabaseUrl}/functions/v1/unsubscribe-newsletter?token=${encodeURIComponent(token)}`;
+      const testVariant = variants.find(variant => variant.label === testSubjectVariant) ?? variants[0];
+      const previewText = testVariant.preheader || latestNewsletter.excerpt || "";
       const emailTemplate = generateNewsletterEmailTemplate(
         latestNewsletter.title, formattedDate, latestNewsletter.read_time,
-        '', mainContent, latestNewsletter.slug, latestNewsletter.category
+        previewText, mainContent, latestNewsletter.slug, latestNewsletter.category,
+        newsletterPostalAddress,
+      );
+      const textTemplate = generateNewsletterTextTemplate(
+        latestNewsletter.title, previewText, mainContent, latestNewsletter.slug,
+        newsletterPostalAddress,
       );
       const customizedEmail = replacePlaceholders(emailTemplate, {
-        email: testEmailAddress,
-        unsubscribe_url: "https://churnisdead.com",
+        unsubscribe_url: unsubscribeUrl,
+      });
+      const customizedText = replacePlaceholders(textTemplate, {
+        unsubscribe_url: unsubscribeUrl,
       });
       
       try {
-        await sendTestNewsletter(testEmailAddress, latestNewsletter.title, customizedEmail);
+        await sendTestNewsletter(
+          normalizedTestEmail,
+          testVariant.subject,
+          customizedEmail,
+          customizedText,
+          unsubscribeUrl,
+        );
         return new Response(
-          JSON.stringify({ success: true, message: `Test newsletter sent to ${testEmailAddress}`, newsletterTitle: latestNewsletter.title, timestamp: triggerTime }),
+          JSON.stringify({
+            success: true,
+            message: "Production-equivalent test newsletter sent",
+            newsletterTitle: latestNewsletter.title,
+            subjectVariant: testVariant.label,
+            timestamp: triggerTime,
+          }),
           { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
         );
       } catch (sendError) {
@@ -296,22 +376,27 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Found ${subscribers.length} active subscribers`);
 
-    // Subject line: A/B test variants if generator produced them. Falls back to title.
-    // We split the subscriber list roughly evenly across variants so each variant gets a fair sample.
-    type SubjectVariant = { label: string; subject: string };
-    const variantsRaw = (latestNewsletter as { subject_variants?: SubjectVariant[] }).subject_variants;
-    const variants: SubjectVariant[] = Array.isArray(variantsRaw) && variantsRaw.length > 0
-      ? variantsRaw.filter(v => v && typeof v.subject === 'string' && v.subject.trim().length > 0)
-      : [{ label: 'default', subject: latestNewsletter.title }];
-    const pickVariantForIndex = (idx: number): SubjectVariant => variants[idx % variants.length];
-    console.log(`Using ${variants.length} subject variant(s): ${variants.map(v => v.label).join(', ')}`);
-
     // 3. Format and send
     const { formattedDate, mainContent } = formatNewsletterContent(latestNewsletter);
-    const emailTemplate = generateNewsletterEmailTemplate(
-      latestNewsletter.title, formattedDate, latestNewsletter.read_time,
-      '', mainContent, latestNewsletter.slug, latestNewsletter.category
-    );
+    const templates = new Map<string, { html: string; text: string }>();
+    const templateForVariant = (variant: SubjectVariant) => {
+      const existing = templates.get(variant.label);
+      if (existing) return existing;
+      const previewText = variant.preheader || latestNewsletter.excerpt || "";
+      const generated = {
+        html: generateNewsletterEmailTemplate(
+          latestNewsletter.title, formattedDate, latestNewsletter.read_time,
+          previewText, mainContent, latestNewsletter.slug, latestNewsletter.category,
+          newsletterPostalAddress,
+        ),
+        text: generateNewsletterTextTemplate(
+          latestNewsletter.title, previewText, mainContent, latestNewsletter.slug,
+          newsletterPostalAddress,
+        ),
+      };
+      templates.set(variant.label, generated);
+      return generated;
+    };
 
     // Deterministic recipient order so batching and subject-variant assignment
     // are stable across runs.
@@ -388,16 +473,17 @@ const handler = async (req: Request): Promise<Response> => {
       const messages: NewsletterMessage[] = await Promise.all(batch.map(async (subscriber, localIndex) => {
         const globalIndex = batchIndex * batchSize + localIndex;
         const variant = pickVariantForIndex(globalIndex);
+        const template = templateForVariant(variant);
         const token = await createUnsubscribeToken(subscriber.id, unsubscribeSecret);
         const unsubscribeUrl = `${supabaseUrl}/functions/v1/unsubscribe-newsletter?token=${encodeURIComponent(token)}`;
         return {
           subscriberId: subscriber.id,
           email: subscriber.email,
           subject: variant.subject,
-          html: replacePlaceholders(emailTemplate, {
-            email: subscriber.email,
+          html: replacePlaceholders(template.html, {
             unsubscribe_url: unsubscribeUrl,
           }),
+          text: replacePlaceholders(template.text, { unsubscribe_url: unsubscribeUrl }),
           unsubscribeUrl,
           newsletterId: latestNewsletter.id,
           newsletterSlug: latestNewsletter.slug,

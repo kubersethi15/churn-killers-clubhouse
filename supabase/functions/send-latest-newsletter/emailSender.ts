@@ -8,8 +8,8 @@ const resendApiKey = () => {
   return key;
 };
 
-const cleanSubjectLine = (subject: string): string =>
-  subject.replace(/\n/g, " ").replace(/\s+/g, " ").trim();
+export const cleanSubjectLine = (subject: string): string =>
+  subject.replace(/[\r\n]+/g, " ").replace(/\s+/g, " ").trim();
 
 export const isValidEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -21,6 +21,7 @@ export interface NewsletterMessage {
   email: string;
   subject: string;
   html: string;
+  text: string;
   unsubscribeUrl: string;
   newsletterId: string;
   newsletterSlug: string;
@@ -31,6 +32,29 @@ interface BatchResponse {
   data?: Array<{ id: string }>;
   error?: { message?: string } | string;
 }
+
+export const buildNewsletterPayload = (
+  messages: NewsletterMessage[],
+  batchIndex: number,
+) => messages.map((message, messageIndex) => ({
+  from: EMAIL_IDENTITY.newsletterFrom,
+  to: [message.email.trim()],
+  subject: cleanSubjectLine(message.subject),
+  reply_to: EMAIL_IDENTITY.replyTo,
+  headers: {
+    "List-Unsubscribe": `<${message.unsubscribeUrl}>`,
+    "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+    "Precedence": "bulk",
+    "X-Entity-Ref-ID": `${message.newsletterId}-${batchIndex}-${messageIndex}`,
+  },
+  tags: [
+    { name: "subscriber_id", value: message.subscriberId },
+    { name: "newsletter_slug", value: message.newsletterSlug },
+    { name: "subject_variant", value: message.variantLabel },
+  ],
+  html: message.html,
+  text: message.text,
+}));
 
 const postResend = async (
   endpoint: string,
@@ -67,24 +91,7 @@ export const sendNewsletterBatch = async (
   if (skipped) console.warn(`Batch ${batchIndex + 1}: skipped ${skipped} invalid address(es)`);
   if (!valid.length) return { success: true, count: 0, skipped, deliveries: [] };
 
-  const payload = valid.map((message, messageIndex) => ({
-    from: EMAIL_IDENTITY.newsletterFrom,
-    to: [message.email.trim()],
-    subject: cleanSubjectLine(message.subject),
-    reply_to: EMAIL_IDENTITY.replyTo,
-    headers: {
-      "List-Unsubscribe": `<${message.unsubscribeUrl}>`,
-      "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
-      "Precedence": "bulk",
-      "X-Entity-Ref-ID": `${message.newsletterId}-${batchIndex}-${messageIndex}`,
-    },
-    tags: [
-      { name: "subscriber_id", value: message.subscriberId },
-      { name: "newsletter_slug", value: message.newsletterSlug },
-      { name: "subject_variant", value: message.variantLabel },
-    ],
-    html: message.html,
-  }));
+  const payload = buildNewsletterPayload(valid, batchIndex);
 
   const result = await postResend("/emails/batch", payload, idempotencyKey);
   const ids = result.data ?? [];
@@ -105,6 +112,8 @@ export const sendTestNewsletter = async (
   emailAddress: string,
   subject: string,
   htmlContent: string,
+  textContent: string,
+  unsubscribeUrl: string,
 ) => {
   if (!isValidEmail(emailAddress)) throw new Error(`Invalid test email address: ${emailAddress}`);
   const result = await postResend("/emails", {
@@ -112,8 +121,13 @@ export const sendTestNewsletter = async (
     to: [emailAddress.trim()],
     subject: `[TEST] ${cleanSubjectLine(subject)}`,
     reply_to: EMAIL_IDENTITY.replyTo,
-    headers: { "X-Entity-Ref-ID": `newsletter-test-${Date.now()}` },
+    headers: {
+      "List-Unsubscribe": `<${unsubscribeUrl}>`,
+      "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+      "X-Entity-Ref-ID": `newsletter-test-${Date.now()}`,
+    },
     html: htmlContent,
+    text: textContent,
   });
   return { success: true, email: emailAddress, result };
 };
