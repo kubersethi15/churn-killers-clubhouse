@@ -583,13 +583,13 @@ One earned-distribution outcome, not an audit. A net-new channel Codex has not
 worked: manual mutual-mention newsletter swaps. Details in
 `growth/cross-newsletter-collaboration.md`.
 
-**Staged for send:** RevOps Impact (Jeff Ignacio, verified 6k+ subs, RevOps).
-Chosen over competing CS newsletters because RevOps readers care about NRR and
-churn but mostly do not read a CS newsletter, so a swap converts net-new. The
-hook is Kuber's published "You Don't Own NRR, You Rent It From Pricing", a
-RevOps thesis in CS clothes. Pitch leads with Kuber's 8,200 LinkedIn reach, not
-the 325 site list, so the trade is fair to a larger partner. Route is LinkedIn
-(no public email). Kuber or Codex sends.
+**Staged for send:** RevOps Impact (Jeff Ignacio, over 6,000 subscribers,
+verified on its public Substack page 25 August). The testable hypothesis is that
+an adjacent RevOps audience will add qualified readers beyond the current CS
+audience; audience overlap is unknown. The hook is Kuber's published "You Don't
+Own NRR, You Rent It From Pricing". The pitch accurately describes Kuber's
+roughly 8,200 LinkedIn followers without implying guaranteed reach. Route is
+LinkedIn (no public email). Kuber or Codex sends.
 
 **Constraint recorded:** Churn Is Dead is not on Substack, so it cannot use the
 one-click Recommendations network. Swaps are manual mutual mentions, which
@@ -599,17 +599,18 @@ Second-best backing candidate is Customer Education (Joe Ryan), adjacent and
 likely peer-sized. Work it only after RevOps Impact resolves.
 ## Claude handoff, CG-03 Product-Led Alliance, 25 August 2026
 
-Second earned-distribution outcome, a genuinely new route. Every prior CG-03
-target was CS media; Product-Led Alliance is a product-led-growth audience
-(product managers, product ops), so contribution reaches net-new readers who do
-not read a CS newsletter.
+Second earned-distribution outcome, a genuinely new route. Product-Led Alliance
+serves product managers and product-operations practitioners. The hypothesis is
+that this adjacent audience will include qualified readers beyond the current
+CS audience; overlap has not been measured.
 
-**Verified open first-party 25 August:** content@productledalliance.com, min
-1,000 words, no product promotion, headshot required (have it), bio 200 chars
-(staged at 198). Accepts previously published work with a custom canonical link,
-so the Product Friction Review issue republishes with canonical to
-churnisdead.com. Pitch and bio staged in `growth/outreach-pitches.md`, pipeline
-row added. Codex or Kuber sends.
+**Verified open first-party 25 August:** content@productledalliance.com, minimum
+1,000 words, no product promotion, headshot required (have it), and bio of 200
+characters or fewer (staged at 142). PLA accepts previously published work with
+a custom canonical link. Pitch and bio are staged in
+`growth/outreach-pitches.md`; send only after the 18:00 Sydney release gate
+verifies the exact Churn Is Dead canonical, and require that canonical on PLA
+and any full-text downstream cross-post. Codex or Kuber sends.
 
 The angle is the Product Friction Review, the one boundary product and CS share,
 which is exactly this week's issue. Not a duplicate of any pipeline target.
