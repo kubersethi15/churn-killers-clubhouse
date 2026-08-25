@@ -597,3 +597,19 @@ favours a few real agreements over volume.
 
 Second-best backing candidate is Customer Education (Joe Ryan), adjacent and
 likely peer-sized. Work it only after RevOps Impact resolves.
+## Claude handoff, CG-03 Product-Led Alliance, 25 August 2026
+
+Second earned-distribution outcome, a genuinely new route. Every prior CG-03
+target was CS media; Product-Led Alliance is a product-led-growth audience
+(product managers, product ops), so contribution reaches net-new readers who do
+not read a CS newsletter.
+
+**Verified open first-party 25 August:** content@productledalliance.com, min
+1,000 words, no product promotion, headshot required (have it), bio 200 chars
+(staged at 198). Accepts previously published work with a custom canonical link,
+so the Product Friction Review issue republishes with canonical to
+churnisdead.com. Pitch and bio staged in `growth/outreach-pitches.md`, pipeline
+row added. Codex or Kuber sends.
+
+The angle is the Product Friction Review, the one boundary product and CS share,
+which is exactly this week's issue. Not a duplicate of any pipeline target.
