@@ -4,7 +4,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 // send-welcome-email use to sign them. Keeping one implementation guarantees
 // the signer and verifier can never drift apart and silently break every
 // unsubscribe link. Contract is locked by unsubscribeToken.test.ts.
-import { verifyUnsubscribeToken } from "../send-latest-newsletter/unsubscribeToken.ts";
+import { verifyUnsubscribeToken } from "../_shared/unsubscribeToken.ts";
 
 const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
 const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";

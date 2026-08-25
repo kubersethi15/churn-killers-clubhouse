@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { createUnsubscribeToken, verifyUnsubscribeToken } from "./unsubscribeToken.ts";
+import { createUnsubscribeToken, verifyUnsubscribeToken } from "../_shared/unsubscribeToken.ts";
 
 // This module is the single source of truth for the unsubscribe-token contract.
 // send-latest-newsletter and send-welcome-email sign tokens with
