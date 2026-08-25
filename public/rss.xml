@@ -6,8 +6,16 @@
     <description>Weekly CS frameworks for enterprise Customer Success leaders. Hard truths, tactical plays, and downloadable playbooks.</description>
     <language>en</language>
     <managingEditor>kuber@churnisdead.com (Kuber Sethi)</managingEditor>
-    <lastBuildDate>Tue, 25 Aug 2026 06:04:47 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 25 Aug 2026 08:08:45 +0000</lastBuildDate>
     <atom:link href="https://churnisdead.com/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>What Sprint Planning Can Teach CS About Product Friction</title>
+      <link>https://churnisdead.com/newsletter/stealing-sprint-planning-from-engineering</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/stealing-sprint-planning-from-engineering</guid>
+      <pubDate>Tue, 25 Aug 2026 08:00:00 +0000</pubDate>
+      <description>A simple 30-minute review that helps CS explain a customer problem clearly, lets Product make the call, and gives the customer an honest answer.</description>
+      <category>Operations</category>
+    </item>
     <item>
       <title>Digital CS Is Not Coverage Until Someone Owns the Silence</title>
       <link>https://churnisdead.com/newsletter/digital-cs-coverage-silence</link>
@@ -159,14 +167,6 @@
       <pubDate>Tue, 14 Apr 2026 08:00:00 +0000</pubDate>
       <description>CS leaders are using AI transformation as cover for workforce reduction while pretending it's about efficiency.</description>
       <category>AI &amp; Automation</category>
-    </item>
-    <item>
-      <title>Your CS Platform Is A $200K Spreadsheet</title>
-      <link>https://churnisdead.com/newsletter/cs-platform-expensive-spreadsheet</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/cs-platform-expensive-spreadsheet</guid>
-      <pubDate>Tue, 07 Apr 2026 08:00:00 +0000</pubDate>
-      <description>Most CS platforms create expensive busywork instead of customer outcomes. Here's how to audit what you actually need.</description>
-      <category>Operations</category>
     </item>
   </channel>
 </rss>

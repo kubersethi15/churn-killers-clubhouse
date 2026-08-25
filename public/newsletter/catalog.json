@@ -1,5 +1,14 @@
 [
   {
+    "id": "static-stealing-sprint-planning-from-engineering",
+    "title": "What Sprint Planning Can Teach CS About Product Friction",
+    "slug": "stealing-sprint-planning-from-engineering",
+    "excerpt": "A simple 30-minute review that helps CS explain a customer problem clearly, lets Product make the call, and gives the customer an honest answer.",
+    "published_date": "2026-08-25T08:00:00+00:00",
+    "read_time": "8 min read",
+    "category": "Operations"
+  },
+  {
     "id": "static-digital-cs-coverage-silence",
     "title": "Digital CS Is Not Coverage Until Someone Owns the Silence",
     "slug": "digital-cs-coverage-silence",

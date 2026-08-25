@@ -200,6 +200,16 @@
     "published_date": null
   },
   {
+    "id": "pdf-product_friction_review_churnisdead",
+    "title": "The Product Friction Review",
+    "description": "A five-part customer problem brief, 30-minute agenda, and follow-up sheet for getting a clear answer from Product.",
+    "pdf_path": "/pdfs/Product_Friction_Review_ChurnIsDead.pdf",
+    "notion_link": null,
+    "newsletter_slug": "stealing-sprint-planning-from-engineering",
+    "newsletter_title": "What Sprint Planning Can Teach CS About Product Friction",
+    "published_date": "2026-08-25T08:00:00+00:00"
+  },
+  {
     "id": "pdf-revenue_readiness_audit_churnisdead",
     "title": "Revenue Readiness Audit",
     "description": "Download the Revenue Readiness Audit worksheet from the Churn Is Dead archive.",
