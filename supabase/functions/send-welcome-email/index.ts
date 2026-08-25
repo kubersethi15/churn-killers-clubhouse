@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
+import { EMAIL_IDENTITY } from "../_shared/emailIdentity.ts";
 import { createUnsubscribeToken } from "../_shared/unsubscribeToken.ts";
 
 const resendApiKey = Deno.env.get("RESEND_API_KEY");
@@ -106,10 +107,10 @@ serve(async (req: Request): Promise<Response> => {
     const emailReferralUrl = `mailto:?subject=${encodeURIComponent("A useful Customer Success operating resource")}&body=${encodeURIComponent(`Churn Is Dead publishes one evidence-led Customer Success operating system and practical playbook every Tuesday. Start here: ${referralBaseUrl}&utm_content=welcome_email`)}`;
 
     const response = await resend.emails.send({
-      from: "Kuber at Churn Is Dead <newsletter@churnisdead.com>",
+      from: EMAIL_IDENTITY.kuberFrom,
       to: [email],
       subject: "Start here: three operating tools for serious CS teams",
-      reply_to: "support@churnisdead.com",
+      reply_to: EMAIL_IDENTITY.replyTo,
       headers: {
         "List-Unsubscribe": `<${unsubscribeUrl}>, <mailto:unsubscribe@churnisdead.com?subject=unsubscribe>`,
         "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",

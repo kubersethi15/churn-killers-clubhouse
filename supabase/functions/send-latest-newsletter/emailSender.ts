@@ -1,5 +1,7 @@
 /** Resend delivery helpers. Each subscriber receives a separate message. */
 
+import { EMAIL_IDENTITY } from "../_shared/emailIdentity.ts";
+
 const resendApiKey = () => {
   const key = Deno.env.get("RESEND_API_KEY");
   if (!key) throw new Error("Missing RESEND_API_KEY environment variable");
@@ -66,10 +68,10 @@ export const sendNewsletterBatch = async (
   if (!valid.length) return { success: true, count: 0, skipped, deliveries: [] };
 
   const payload = valid.map((message, messageIndex) => ({
-    from: "Churn Is Dead <newsletter@churnisdead.com>",
+    from: EMAIL_IDENTITY.newsletterFrom,
     to: [message.email.trim()],
     subject: cleanSubjectLine(message.subject),
-    reply_to: "support@churnisdead.com",
+    reply_to: EMAIL_IDENTITY.replyTo,
     headers: {
       "List-Unsubscribe": `<${message.unsubscribeUrl}>`,
       "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
@@ -106,10 +108,10 @@ export const sendTestNewsletter = async (
 ) => {
   if (!isValidEmail(emailAddress)) throw new Error(`Invalid test email address: ${emailAddress}`);
   const result = await postResend("/emails", {
-    from: "Churn Is Dead <newsletter@churnisdead.com>",
+    from: EMAIL_IDENTITY.newsletterFrom,
     to: [emailAddress.trim()],
     subject: `[TEST] ${cleanSubjectLine(subject)}`,
-    reply_to: "support@churnisdead.com",
+    reply_to: EMAIL_IDENTITY.replyTo,
     headers: { "X-Entity-Ref-ID": `newsletter-test-${Date.now()}` },
     html: htmlContent,
   });

@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
+import { EMAIL_IDENTITY } from "../_shared/emailIdentity.ts";
 import { createReactivationToken } from "../_shared/reactivationToken.ts";
 
 const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
@@ -105,10 +106,10 @@ serve(async (req: Request): Promise<Response> => {
     const token = await createReactivationToken(requestId, expiresAt, signingSecret);
     const confirmUrl = `${supabaseUrl}/functions/v1/confirm-newsletter-reactivation?token=${encodeURIComponent(token)}`;
     const response = await resend.emails.send({
-      from: "Kuber at Churn Is Dead <newsletter@churnisdead.com>",
+      from: EMAIL_IDENTITY.kuberFrom,
       to: [email],
       subject: "Confirm you want to rejoin Churn Is Dead",
-      reply_to: "support@churnisdead.com",
+      reply_to: EMAIL_IDENTITY.replyTo,
       text: `You asked to rejoin the Churn Is Dead Tuesday newsletter.\n\nConfirm here: ${confirmUrl}\n\nThis link expires in 24 hours. If you did not request this, ignore this email and you will remain unsubscribed.`,
       html: `
         <div style="font-family:Inter,Arial,sans-serif;max-width:600px;margin:0 auto;padding:32px 22px;color:#17233a">
