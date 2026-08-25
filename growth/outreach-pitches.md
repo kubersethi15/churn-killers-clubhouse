@@ -453,24 +453,24 @@ https://churnisdead.com/
 first-party 25 August; Slack is the alternate). New route, not in the prior
 pipeline.
 
-**Why this fits and is not a duplicate.** Every prior outreach target was a CS
-publication or podcast. Product-Led Alliance is a product-led-growth audience:
-product managers, product ops, and PLG operators. They rarely read a CS
-newsletter, so contribution there reaches net-new readers. The angle is the one
-place CS and product genuinely meet, which is exactly Kuber's Product Friction
-material, published as this week's issue.
+**Why test this route.** Product-Led Alliance serves product managers, product
+operations, and PLG practitioners. The hypothesis is that this adjacent
+audience includes qualified readers beyond Churn Is Dead's current CS audience;
+overlap has not been measured. The Product Friction Review gives the pitch a
+specific CS–Product boundary rather than a generic guest-post request.
 
 **Their rules, met:** minimum 1,000 words, no product promotion, royalty-free
 images, headshot required (public/kuber-sethi.jpg exists), bio 200 characters
 maximum. They accept previously published work with a custom canonical link,
-which means the Product Friction Review issue can be adapted with the canonical
-pointing back to churnisdead.com.
+which means the Product Friction Review can be adapted with the canonical
+pointing to the original Churn Is Dead issue. Their syndication policy also
+allows full or partial reuse on Medium, LinkedIn, and other Alliance sites, so
+the agreement must preserve the source canonical on any full-text cross-post.
 
-**Bio (176 chars, from the ledger, no unverified claim):**
+**Bio (142 characters, factual):**
 
-> Kuber Sethi writes Churn Is Dead, evidence-led operating systems for enterprise
-> CS. 10+ years from support to executive; known for replacing the QBR with a
-> thirty-minute decision.
+> Kuber Sethi writes Churn Is Dead for Customer Success leaders. He brings more
+> than ten years of experience across support, CS, and leadership.
 
 **Pitch email:**
 
@@ -490,12 +490,18 @@ pointing back to churnisdead.com.
 >
 > It is written for a product-ops and product-leadership audience, 1,000 to
 > 1,500 words, non-promotional, with a diagram of the review flow. A canonical
-> version is live on churnisdead.com and I am happy to use your custom canonical
-> link. Headshot and 200-character bio ready.
+> version publishes today at
+> https://churnisdead.com/newsletter/stealing-sprint-planning-from-engineering.
+> I would like the PLA version, and any full-text downstream cross-post, to keep
+> that URL as the canonical. Headshot and sub-200-character bio are ready.
 >
 > Would this fit your product operations or product leadership coverage?
 >
 > Kuber Sethi
 
-**Follow-up rule:** one follow-up after ten days via Slack if no email reply,
-then stop. Codex or Kuber sends. Do not claim audience size or customer results.
+**Release and follow-up rule:** do not send until the 18:00 Sydney release gate
+verifies the exact live canonical above. If there is no email reply after ten
+days, send one concise follow-up in the same email thread, then stop. Track
+visits diagnostically and judge success by acquired subscribers and 30-day
+active status. Codex or Kuber sends. Do not claim audience size or customer
+results.
