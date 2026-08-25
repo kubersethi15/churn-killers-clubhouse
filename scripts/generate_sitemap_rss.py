@@ -135,34 +135,11 @@ def extract_newsletters():
     return newsletters
 
 
-def generate_sitemap(newsletters):
+def generate_sitemap(newsletters, now=None):
     """Generate sitemap.xml."""
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    now = now or datetime.now(timezone.utc)
 
-    urls = [
-        (f"{SITE_URL}/", today, "1.0", "weekly"),
-        (f"{SITE_URL}/newsletters", today, "0.9", "weekly"),
-        (f"{SITE_URL}/playbook", today, "0.8", "weekly"),
-        (f"{SITE_URL}/start", today, "0.9", "monthly"),
-        (f"{SITE_URL}/subscribe", today, "0.9", "weekly"),
-        (f"{SITE_URL}/topics", today, "0.9", "weekly"),
-        (f"{SITE_URL}/topics/renewal-economics", today, "0.8", "weekly"),
-        (f"{SITE_URL}/topics/measurement-decisions", today, "0.8", "weekly"),
-        (f"{SITE_URL}/topics/ai-role-design", today, "0.8", "weekly"),
-        (f"{SITE_URL}/topics/operating-systems", today, "0.8", "weekly"),
-        (f"{SITE_URL}/topics/health-score-alternatives", today, "0.8", "weekly"),
-        (f"{SITE_URL}/ai-exposure-score", today, "0.8", "monthly"),
-        (f"{SITE_URL}/qbr-score", today, "0.8", "monthly"),
-        (f"{SITE_URL}/tools", today, "0.7", "monthly"),
-        (f"{SITE_URL}/cs-analyzer/demo", today, "0.7", "monthly"),
-        (f"{SITE_URL}/about", "2026-02-24", "0.5", "monthly"),
-        (f"{SITE_URL}/editorial-standards", today, "0.6", "monthly"),
-        (f"{SITE_URL}/privacy", today, "0.3", "yearly"),
-        (f"{SITE_URL}/terms", today, "0.3", "yearly"),
-        (f"{SITE_URL}/analyzer-data-handling", today, "0.5", "monthly"),
-    ]
-
-    now = datetime.now(timezone.utc)
+    published_newsletters = []
     for nl in newsletters.values():
         if not SLUG_RE.fullmatch(nl['slug']):
             continue
@@ -172,8 +149,42 @@ def generate_sitemap(newsletters):
             continue
         if published_at.tzinfo is None:
             published_at = published_at.replace(tzinfo=timezone.utc)
-        if published_at > now:
-            continue
+        if published_at <= now:
+            published_newsletters.append((nl, published_at))
+
+    # Listing surfaces genuinely change when a new issue is published. Static
+    # product and policy pages do not, so omit lastmod when their source of truth
+    # does not provide a reliable modification date instead of claiming that
+    # every publisher run changed them.
+    latest_issue_date = (
+        max(published_at for _, published_at in published_newsletters).strftime("%Y-%m-%d")
+        if published_newsletters else None
+    )
+
+    urls = [
+        (f"{SITE_URL}/", latest_issue_date, "1.0", "weekly"),
+        (f"{SITE_URL}/newsletters", latest_issue_date, "0.9", "weekly"),
+        (f"{SITE_URL}/playbook", latest_issue_date, "0.8", "weekly"),
+        (f"{SITE_URL}/start", None, "0.9", "monthly"),
+        (f"{SITE_URL}/subscribe", None, "0.9", "weekly"),
+        (f"{SITE_URL}/topics", latest_issue_date, "0.9", "weekly"),
+        (f"{SITE_URL}/topics/renewal-economics", None, "0.8", "weekly"),
+        (f"{SITE_URL}/topics/measurement-decisions", None, "0.8", "weekly"),
+        (f"{SITE_URL}/topics/ai-role-design", None, "0.8", "weekly"),
+        (f"{SITE_URL}/topics/operating-systems", None, "0.8", "weekly"),
+        (f"{SITE_URL}/topics/health-score-alternatives", None, "0.8", "weekly"),
+        (f"{SITE_URL}/ai-exposure-score", None, "0.8", "monthly"),
+        (f"{SITE_URL}/qbr-score", None, "0.8", "monthly"),
+        (f"{SITE_URL}/tools", None, "0.7", "monthly"),
+        (f"{SITE_URL}/cs-analyzer/demo", None, "0.7", "monthly"),
+        (f"{SITE_URL}/about", None, "0.5", "monthly"),
+        (f"{SITE_URL}/editorial-standards", None, "0.6", "monthly"),
+        (f"{SITE_URL}/privacy", None, "0.3", "yearly"),
+        (f"{SITE_URL}/terms", None, "0.3", "yearly"),
+        (f"{SITE_URL}/analyzer-data-handling", None, "0.5", "monthly"),
+    ]
+
+    for nl, published_at in published_newsletters:
         date = nl['published_date'][:10]
         urls.append((
             f"{SITE_URL}/newsletter/{nl['slug']}",
@@ -187,7 +198,8 @@ def generate_sitemap(newsletters):
     for loc, lastmod, priority, freq in urls:
         xml += f"  <url>\n"
         xml += f"    <loc>{escape(loc)}</loc>\n"
-        xml += f"    <lastmod>{lastmod}</lastmod>\n"
+        if lastmod:
+            xml += f"    <lastmod>{lastmod}</lastmod>\n"
         xml += f"    <changefreq>{freq}</changefreq>\n"
         xml += f"    <priority>{priority}</priority>\n"
         xml += f"  </url>\n"
