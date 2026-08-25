@@ -20,9 +20,19 @@ Before enabling a production send:
 4. Confirm `NEWSLETTER_UNSUBSCRIBE_SECRET` exists and the unsubscribe function works from a real test message.
 5. Confirm the send function produces one `to` address per message. Do not use CC or BCC for subscribers.
 6. Confirm the newsletter has explicit editorial approval and email distribution approval.
-7. Send one test to an address controlled by Kuber. Check desktop, mobile, reply-to, links, the one-click unsubscribe header, and the visible unsubscribe link.
-8. Review Resend's current provider health signals and suppressions. Use the provider's current risk classification rather than a static benchmark copied into this runbook.
-9. Enable `NEWSLETTER_SEND_ENABLED=true` only for the approved production window.
+7. Configure `NEWSLETTER_POSTAL_ADDRESS` with the lawful business or PO Box mailing address that appears in both HTML and plain-text footers. Never invent or infer this address.
+8. Send one production-equivalent test to an active subscriber address controlled by Kuber. Check desktop, mobile, subject, preheader, plain text, reply-to, links, the one-click unsubscribe header, the visible unsubscribe link, and the mailing address.
+9. Review Resend's current provider health signals and suppressions. Use the provider's current risk classification rather than a static benchmark copied into this runbook.
+10. Enable `NEWSLETTER_SEND_ENABLED=true` only for the approved production window.
+
+## Subscriber email content contract
+
+- Use one specific subject for a small list. Do not split a few hundred readers across underpowered variants and mistake noisy opens for evidence.
+- Pair the subject with a controlled preheader that adds the consequence or outcome instead of repeating the title.
+- Give the reader the opening argument in the email. Use one primary tracked route to the canonical issue and playbook.
+- Include a faithful plain-text alternative, a reply invitation, a quiet visible unsubscribe link, and the lawful mailing address.
+- Keep sharing, starter-kit, archive, and other secondary campaigns out of the main body. The footer may carry the archive as a utility link.
+- Never use fake reply prefixes, urgency tricks, all caps, emoji, or punctuation engineered only to force an open.
 
 Webhook retries and manual replays must return success without creating a second `email_events` row. Permanent bounces, complaints, and provider suppressions deactivate the subscriber. An explicitly temporary bounce is recorded against the send but does not unsubscribe the reader.
 
