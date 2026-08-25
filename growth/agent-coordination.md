@@ -576,3 +576,24 @@ unblocked package: BC-03 archive triage, using the new scorecard.
 
 **Review date:** first franchise/diagram tests read after four issues; pulse
 test after one edition with 30+ qualified responses.
+
+## Claude handoff, CG-15 cross-newsletter swap, 25 August 2026
+
+One earned-distribution outcome, not an audit. A net-new channel Codex has not
+worked: manual mutual-mention newsletter swaps. Details in
+`growth/cross-newsletter-collaboration.md`.
+
+**Staged for send:** RevOps Impact (Jeff Ignacio, verified 6k+ subs, RevOps).
+Chosen over competing CS newsletters because RevOps readers care about NRR and
+churn but mostly do not read a CS newsletter, so a swap converts net-new. The
+hook is Kuber's published "You Don't Own NRR, You Rent It From Pricing", a
+RevOps thesis in CS clothes. Pitch leads with Kuber's 8,200 LinkedIn reach, not
+the 325 site list, so the trade is fair to a larger partner. Route is LinkedIn
+(no public email). Kuber or Codex sends.
+
+**Constraint recorded:** Churn Is Dead is not on Substack, so it cannot use the
+one-click Recommendations network. Swaps are manual mutual mentions, which
+favours a few real agreements over volume.
+
+Second-best backing candidate is Customer Education (Joe Ryan), adjacent and
+likely peer-sized. Work it only after RevOps Impact resolves.
