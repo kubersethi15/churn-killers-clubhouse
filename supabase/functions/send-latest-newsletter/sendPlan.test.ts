@@ -5,6 +5,7 @@ import {
   batchIdempotencyKey,
   orderSubscribersForSend,
   planBatches,
+  selectPendingRecipients,
   shouldAdvanceLastSent,
 } from "./sendPlan.ts";
 
@@ -50,8 +51,48 @@ test("idempotency keys are scoped to the newsletter", async () => {
   assert.match(one, /^newsletter-issue-1-[0-9a-f]{32}$/);
 });
 
-test("last_sent advances only when no batch transiently failed", () => {
-  assert.equal(shouldAdvanceLastSent(0), true);
-  assert.equal(shouldAdvanceLastSent(1), false);
-  assert.equal(shouldAdvanceLastSent(3), false);
+test("pending recipients exclude anyone already delivered, case-insensitively", () => {
+  const subscribers = [
+    { id: "1", email: "A@x.com" },
+    { id: "2", email: "b@x.com" },
+  ];
+  const delivered = new Set(["a@x.com"]);
+  assert.deepEqual(selectPendingRecipients(subscribers, delivered).map(s => s.id), ["2"]);
+  // No delivered set yet: everyone is pending (first send).
+  assert.equal(selectPendingRecipients(subscribers, new Set()).length, 2);
+});
+
+test("partial success + list change: delivered recipients are never re-sent", () => {
+  // Run 1: five active subscribers. The batch holding s1..s3 succeeded and was
+  // recorded; the batch holding s4,s5 threw, so those two were not recorded.
+  const deliveredInRun1 = new Set(["s1@x.com", "s2@x.com", "s3@x.com"]);
+
+  // Between runs the list changes: s2 unsubscribes, s6 signs up. With a batch
+  // size of 2 the batch boundaries shift for everyone after s2 — exactly the
+  // case a content-addressed batch key does NOT protect against.
+  const run2Active = [
+    { id: "s1", email: "s1@x.com" },
+    { id: "s3", email: "s3@x.com" },
+    { id: "s4", email: "s4@x.com" },
+    { id: "s5", email: "s5@x.com" },
+    { id: "s6", email: "s6@x.com" },
+  ];
+
+  const pending = selectPendingRecipients(
+    orderSubscribersForSend(run2Active),
+    deliveredInRun1,
+  );
+
+  // s1 and s3 already have it and must not be re-sent despite the reshuffle;
+  // s4 and s5 (the failed batch) are retried; s6 (new) is included; s2 is gone.
+  assert.deepEqual(pending.map(s => s.id), ["s4", "s5", "s6"]);
+  const batches = planBatches(pending, 2);
+  assert.deepEqual(batches.map(b => b.map(s => s.id)), [["s4", "s5"], ["s6"]]);
+});
+
+test("last_sent advances only when no batch failed AND the send log persisted", () => {
+  assert.equal(shouldAdvanceLastSent({ transientBatchFailures: 0, sendLogPersisted: true }), true);
+  assert.equal(shouldAdvanceLastSent({ transientBatchFailures: 1, sendLogPersisted: true }), false);
+  assert.equal(shouldAdvanceLastSent({ transientBatchFailures: 0, sendLogPersisted: false }), false);
+  assert.equal(shouldAdvanceLastSent({ transientBatchFailures: 2, sendLogPersisted: false }), false);
 });

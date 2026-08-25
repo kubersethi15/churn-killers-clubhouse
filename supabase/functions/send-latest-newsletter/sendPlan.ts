@@ -17,6 +17,24 @@
 export const orderSubscribersForSend = <T extends { id: string }>(subscribers: T[]): T[] =>
   [...subscribers].sort((left, right) => (left.id < right.id ? -1 : left.id > right.id ? 1 : 0));
 
+/** Normalize an address for delivered/pending comparison. */
+export const normalizeEmail = (email: string): string => email.trim().toLowerCase();
+
+/**
+ * Per-recipient idempotency: exclude anyone already delivered this issue.
+ *
+ * This is the real guard against re-sending when the list changes between runs.
+ * A content-addressed batch key only dedupes a byte-identical batch; if one
+ * subscriber leaves, batch boundaries shift for everyone after them and their
+ * batches get fresh keys. Filtering against the set of already-delivered
+ * addresses (from newsletter_send_log) means a recipient who has the issue is
+ * never re-sent, however the remaining batches are re-packed.
+ */
+export const selectPendingRecipients = <T extends { email: string }>(
+  subscribers: T[],
+  deliveredEmails: Set<string>,
+): T[] => subscribers.filter(subscriber => !deliveredEmails.has(normalizeEmail(subscriber.email)));
+
 /** Split an ordered list into fixed-size batches. */
 export const planBatches = <T>(items: T[], batchSize: number): T[][] => {
   const size = Math.max(1, Math.floor(batchSize));
@@ -48,12 +66,16 @@ export const batchIdempotencyKey = async (
 };
 
 /**
- * Advance the sequential send pointer only when no batch failed in a way that
- * leaves recipients unsent. Per-recipient invalid addresses are permanent and
- * do not block advancement; a batch that threw (network or provider error) is
- * transient, so the pointer holds and the next run safely re-sends the issue —
- * safe because the idempotency key above deduplicates the already-delivered
- * recipients.
+ * Advance the sequential send pointer only when the issue is fully delivered to
+ * every currently active recipient AND that fact is durably recorded.
+ *
+ * - `transientBatchFailures`: a batch that threw leaves recipients unsent, so
+ *   the pointer must hold and the next run retries them (invalid addresses are
+ *   permanent and are counted separately, not here).
+ * - `sendLogPersisted`: if the per-recipient send log did not persist, the next
+ *   run cannot tell who was delivered, so advancing would strand or double-send
+ *   recipients. Hold the pointer and surface the failure instead.
  */
-export const shouldAdvanceLastSent = (transientBatchFailures: number): boolean =>
-  transientBatchFailures === 0;
+export const shouldAdvanceLastSent = (
+  input: { transientBatchFailures: number; sendLogPersisted: boolean },
+): boolean => input.transientBatchFailures === 0 && input.sendLogPersisted;
