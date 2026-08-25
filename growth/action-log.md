@@ -4,7 +4,8 @@ This log records consequential external growth actions. It contains aggregate op
 
 ## 25 August 2026
 
-- Confirmed a sender-authentication incident directly against both authoritative GoDaddy nameservers. `_dmarc.churnisdead.com` publishes two valid but conflicting DMARC TXT records, `p=none` and `p=reject`. RFC 7489 says DMARC processing is not applied when multiple valid policy records remain. Resend's return-path SPF, MX, and DKIM records are present, but the subscriber broadcast remains paused until the duplicate is reduced to one policy, Resend re-verifies the domain, and a clean test send confirms authentication and delivery. This does not block the website or LinkedIn release.
+- CID-001 release preflight passed for `stealing-sprint-planning-from-engineering`: approved issue and evidence, 18:00 Sydney publication metadata, article/playbook/PDF links, approved catalog, sitemap/RSS, provenance, prerender tests, and the exact `tuesday_launch` tracked URL all verified. No repository blocker was found. Production still requires the 18:00 live/canonical check before the 18:15 LinkedIn distribution step.
+- Rechecked `_dmarc.churnisdead.com` directly against both authoritative GoDaddy nameservers after the earlier duplicate-record incident. Both now return a single enforced `p=reject` policy; the conflicting public `p=none` record is no longer published. Subscriber broadcast remains paused pending Resend re-verification and a clean authenticated test. Website and LinkedIn releases are unaffected.
 
 ## 24 August 2026
 
