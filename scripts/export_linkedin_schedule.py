@@ -140,7 +140,14 @@ def linkedin_is_approved(slug: str) -> bool:
     if not approval_path.exists():
         return False
     approval = json.loads(approval_path.read_text(encoding="utf-8"))
-    return approval.get("linkedin", {}).get("status") == "approved"
+    linkedin = approval.get("linkedin", {})
+    if linkedin.get("status") != "approved":
+        return False
+    if any(not linkedin.get(field) for field in ("approved_by", "approved_at", "basis")):
+        return False
+    if linkedin.get("human_reviewed") is False and linkedin.get("approved_by") == "Kuber Sethi":
+        return False
+    return True
 
 
 def write_buffer_csv(rows: list[dict[str, str]], output_path: Path) -> None:
