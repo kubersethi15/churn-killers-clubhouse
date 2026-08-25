@@ -10,6 +10,28 @@
 
 **Aggregate subscriber baseline:** 680 LinkedIn Newsletter subscribers
 
+## Historical platform baseline
+
+The signed-in LinkedIn Newsletter analytics view was captured on 25 August
+2026 before the reactivation block began. Over the preceding 365 days the
+publication recorded 403 article views, 835 impressions, six engagements and
+239 new LinkedIn Newsletter subscribers. These are publication-level totals
+across the historical window, not results attributable to any one edition.
+
+The prior three editions showed two, four and five reactions respectively; the
+oldest also showed one comment. Reaction counts are weak diagnostics and are
+not the acquisition outcome. LinkedIn's aggregate subscriber demographics were
+led by Customer Success Manager (18%), followed by Customer Success Specialist
+(4%), Account Manager (3%), Director of Customer Success (3%) and Founder (3%).
+This supports the audience-fit hypothesis but does not prove how any future
+edition will perform.
+
+The seven days immediately before the new block contained zero article views,
+zero new subscribers, nine impressions and zero engagements. Use that dormant
+seven-day state and the 680-subscriber count as the clean reactivation baseline;
+do not compare the four new editions causally with the older publication-level
+365-day total.
+
 ## Why this moved forward
 
 The native newsletter is not a new channel starting at zero. The signed-in LinkedIn publication showed 680 subscribers, three prior editions, and no edition in the previous six months. LinkedIn says newsletter subscribers may receive push, in-app, and email notifications when a new edition publishes, subject to their settings. That makes a quality-controlled reactivation one of the highest-leverage existing audience assets.
@@ -51,8 +73,8 @@ Publish one substantial native adaptation each Wednesday for four consecutive ed
 
 - Title: `Your senior CSM is not the default owner`
 - Source file: `editorial/issues/senior-csm-not-default-owner/linkedin-newsletter.md`
-- Native schedule target: Wednesday 9 September at 18:15 Sydney
-- Schedule status: prepared and approved; signed-in LinkedIn scheduling still to be verified
+- Native schedule verified: Wednesday 9 September at 18:15 Sydney
+- Schedule status: scheduled in LinkedIn and approved in the manager calendar
 - Canonical resource campaign: `linkedin / newsletter / senior-csm-not-default-owner / linkedin_newsletter`
 - Canonical resource URL: `https://churnisdead.com/newsletter/senior-csm-not-default-owner?utm_source=linkedin&utm_medium=newsletter&utm_campaign=senior-csm-not-default-owner&utm_content=linkedin_newsletter`
 - Calendar rule: replace the Wednesday slot; do not add a duplicate feed post
@@ -61,8 +83,8 @@ Publish one substantial native adaptation each Wednesday for four consecutive ed
 
 - Title: `Your health score changed. Now what?`
 - Source file: `editorial/issues/health-score-is-not-an-intervention-trigger/linkedin-newsletter.md`
-- Native schedule target: Wednesday 16 September at 18:15 Sydney
-- Schedule status: prepared and approved; signed-in LinkedIn scheduling still to be verified
+- Native schedule verified: Wednesday 16 September at 18:15 Sydney
+- Schedule status: scheduled in LinkedIn and approved in the manager calendar
 - Canonical resource campaign: `linkedin / newsletter / health-score-is-not-an-intervention-trigger / linkedin_newsletter`
 - Canonical resource URL: `https://churnisdead.com/newsletter/health-score-is-not-an-intervention-trigger?utm_source=linkedin&utm_medium=newsletter&utm_campaign=health-score-is-not-an-intervention-trigger&utm_content=linkedin_newsletter`
 - Calendar rule: replace the Wednesday slot; do not add a duplicate feed post
