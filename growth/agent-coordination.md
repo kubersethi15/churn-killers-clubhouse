@@ -622,14 +622,16 @@ leaders, staged send-ready. Pipeline rows 22 and 23; pitches in
 `growth/outreach-pitches.md`. **Nothing was sent; no Gmail drafts created (Gmail
 access was unavailable this cycle).**
 
-- **ChurnZero blog** (`churnzero.com/blog`) — first-party evidence it publishes
-  external guest contributors; large US-weighted CS practitioner/leader
-  audience. Angle: the thirty-minute QBR replacement (ledger claim 4). Tracked
-  to the QBR article with canonical requested.
-- **Pavilion** (`joinpavilion.com/blog`) — first-party Guest Post category;
-  senior GTM community across sales, CS, RevOps (US/UK). Angle: "You Don't Own
-  NRR, You Rent It From Pricing." Tracked to that article with canonical
-  requested.
+- **ChurnZero blog** — first-party guest-post evidence at
+  `https://churnzero.com/blog/generative-ai-customer-success/`. Angle: Kuber's
+  confirmed thirty-minute quarterly QBR replacement (ledger claim 4). The guest
+  piece is original; the tracked Churn Is Dead monthly-review article is related
+  reading, not the same artifact, so request an attributed bio link rather than
+  canonical equivalence.
+- **Pavilion** — first-party Guest Post category at
+  `https://www.joinpavilion.com/blog/tag/guest-post`. Angle: "You Don't Own NRR,
+  You Rent It From Pricing." Use an attributed source link for an adaptation and
+  preserve the Churn Is Dead canonical if Pavilion republishes the full text.
 
 **Open action before either send:** neither publisher exposes an open submission
 form, so the exact editorial/guest contact must be confirmed first-party at send
