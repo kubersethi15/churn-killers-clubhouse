@@ -264,6 +264,36 @@ def generate_brand_assets():
     bdraw.text((104, 320), "NEW ISSUE EVERY TUESDAY", fill=WHITE, font=load_font(FONT_SANS_BOLD, 15))
     banner.save(Path(REPO_ROOT) / "public" / "linkedin-banner.png", "PNG", optimize=True)
 
+    # LinkedIn Company Page cover (1128 x 191). Keep the left edge quiet because
+    # LinkedIn overlays the square Page logo there on desktop and mobile.
+    company_banner = Image.new("RGB", (1128, 191), BG_COLOR)
+    cdraw = ImageDraw.Draw(company_banner)
+    cdraw.rectangle([(0, 0), (8, 191)], fill=RED)
+    cdraw.text((190, 26), "CHURN IS DEAD", fill=WHITE, font=load_font(FONT_SERIF_BOLD, 40))
+    cdraw.text(
+        (190, 88),
+        "The CS newsletter that doesn't sugarcoat it.",
+        fill=LIGHT_GRAY,
+        font=load_font(FONT_SANS, 20),
+    )
+    cdraw.text(
+        (190, 132),
+        "NEW ISSUE EVERY TUESDAY  ·  CHURNISDEAD.COM",
+        fill=RED,
+        font=load_font(FONT_SANS_BOLD, 15),
+    )
+    company_banner.save(
+        Path(REPO_ROOT) / "public" / "linkedin-company-banner.png",
+        "PNG",
+        optimize=True,
+    )
+    company_banner.resize((2256, 382), Image.Resampling.LANCZOS).save(
+        Path(REPO_ROOT) / "public" / "linkedin-company-banner-2x.jpg",
+        "JPEG",
+        quality=92,
+        optimize=True,
+    )
+
 
 def main():
     import argparse
