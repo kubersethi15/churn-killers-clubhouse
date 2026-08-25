@@ -6,6 +6,8 @@ This log records consequential external growth actions. It contains aggregate op
 
 - CID-001 release preflight passed for `stealing-sprint-planning-from-engineering`: approved issue and evidence, 18:00 Sydney publication metadata, article/playbook/PDF links, approved catalog, sitemap/RSS, provenance, prerender tests, and the exact `tuesday_launch` tracked URL all verified. No repository blocker was found. Production still requires the 18:00 live/canonical check before the 18:15 LinkedIn distribution step.
 - Rechecked `_dmarc.churnisdead.com` directly against both authoritative GoDaddy nameservers after the earlier duplicate-record incident. Both now return a single enforced `p=reject` policy; the conflicting public `p=none` record is no longer published. Subscriber broadcast remains paused pending Resend re-verification and a clean authenticated test. Website and LinkedIn releases are unaffected.
+- Added and authoritatively verified `links.churnisdead.com` as Resend's custom click-tracking subdomain. Resend shows the sending domain verified with click tracking routed through the branded subdomain and open-pixel tracking still disabled.
+- Merged PR #148 and directly deployed versions 154, 151, and 7 of the newsletter, welcome, and reactivation functions. All three now share `hello@churnisdead.com` as their reply inbox; 18 focused tests and the affected-function type-check passed, and the production sender still rejected an unauthenticated invocation with HTTP 401. The broadcast switch remains off until the Google Workspace inbox and a real round-trip reply test are complete.
 
 ## 24 August 2026
 
