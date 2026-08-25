@@ -1,15 +1,16 @@
 # BC-03: archive credibility-and-utility triage
 
-**Run:** 25 August 2026, against the live catalog (41 published issues) using
+**Run:** 25 August 2026, corrected against the public catalog (46 published
+issues: 41 live database rows plus five static canonical entries) using
 the BC-02 scorecard dimensions, the Search Console baseline, and structural
 checks (length, tool route, source citations, ledger era).
 
-## The structural finding: three eras, not 41 problems
+## The structural finding: three eras, not 46 problems
 
 | Era | Issues | Shape | Verdict class |
 |---|---|---|---|
 | 1: May-Sep 2025 | 14 | 300-700 words, no tool route, no sources | investigate or refresh |
-| 2: Dec 2025-Jul 2026 | 24 | 1,100-2,600 words, tool route, no cited sources | keep, archive note covers sourcing |
+| 2: Dec 2025-Jul 2026 | 29 | 1,100-2,600 words, tool route, no cited sources | keep, archive note covers sourcing |
 | 3: Aug 2026+ (ledger) | 3 | Full evidence ledger, tools, sources | keep |
 
 Only one issue in the archive cites an external source outside the ledger era.
@@ -18,7 +19,7 @@ page level, so era 2 does not need per-issue repair.
 
 ## Status for every issue
 
-**Keep (27):** all era 2 and era 3 issues. Substantial, tooled, honest archive
+**Keep (32):** all era 2 and era 3 issues. Substantial, tooled, honest archive
 note where pre-ledger. Named: digital-cs-coverage-silence,
 renewal-not-yours-change-order-is, csm-title-liability-rebrand-wont-fix-it,
 nrr-no-csm-touched-consumption-illusion, you-dont-own-nrr-you-rent-it-from-pricing,
@@ -32,7 +33,10 @@ ai-customer-success-firing-people, your-ai-strategy-is-just-expensive-layoffs,
 cs-platform-expensive-spreadsheet, cs-metrics-performance-theater,
 health-scores-are-astrology, stop-calling-yourself-strategic,
 the-revenue-ownership-trap, ai-wont-save-customer-success,
-customer-success-doesnt-deserve-to-survive, ai-didnt-kill-customer-success.
+customer-success-doesnt-deserve-to-survive, ai-didnt-kill-customer-success,
+csms-selling-snake-oil, csms-task-collectors-not-problem-solvers,
+renewal-reviews-are-theater, customer-journey-maps-are-fiction,
+cs-team-hoarding-work.
 
 **Refresh (2), both era 1 with real search attention:**
 - ai-wont-fix-customer-experience: position 4.5, 15 impressions, 450 words, no
@@ -46,8 +50,10 @@ the-ai-trap-in-customer-success, the-expansion-moment-hiding-in-plain-sight,
 co-op-renewal-framework, cs-leader-to-ceo, onboarding-is-the-first-revenue-moment,
 customer-momentum-over-health-score, customer-predictability-revolution,
 usage-is-not-success, their-timeline-not-yours, the-perfect-kickoff-call,
-be-strategic-no-one-tells-you-how. No reader harm today because almost no
-readers arrive; revisit only if Search Console shows movement. Two of these
+be-strategic-no-one-tells-you-how. The current Search Console window shows no
+measured attention for these routes, but that limited window cannot prove no
+readership or no reader harm. Revisit when stronger route-level evidence
+appears. Two of these
 (customer-predictability-revolution, onboarding-is-the-first-revenue-moment)
 are the crawled-not-indexed pair from the baseline and would be the first to
 graduate to refresh if attention appears.
@@ -63,20 +69,21 @@ decisions.
 1. Refresh ai-wont-fix-customer-experience (page one, thinnest content)
 2. Refresh your-health-score-wont-save-you (cluster's only traffic, no tool)
 3. Pulse benchmark (BC-02 change 1) so future issues carry original evidence
-4. Diagram-per-issue (BC-02 change 3) starting with the two refreshes
-5. Title/description on ai-didnt-kill-customer-success (45 imp, pos 6.8) — owned by Codex's active SEO-05 row, listed not claimed
-6. Title/description on cs-platform-org-chart (25 imp, pos 16.4) — same SEO-05 ownership
+4. Test an explanatory diagram where it clarifies either priority refresh
+5. Re-check the completed title/description repair on ai-didnt-kill-customer-success at the 21 September SEO read
+6. Re-check the completed title/description repair on cs-platform-org-chart at the same SEO read
 7. Graduate crawled-not-indexed pair if impressions appear
-8. One quoted outside operator per new issue (BC-02 gap 5), forward-looking
+8. Selective attributed operator input where it materially improves a new issue
 9. Era-1 investigate set: hold, re-check at next GSC read
 10. Nothing else meets the bar; padding this list would be theater
 
 ## Repairs implemented in this PR: zero, deliberately
 
 BC-03 allows up to two isolated repairs. Both top repairs are editorial
-rewrites of Kuber's published words. The rules I am holding to: no issue is
-rewritten merely because it is old, refreshes need voice and named approval,
-and titles/descriptions belong to the active SEO-05 row. The mechanical layer
+rewrites of Kuber's published words. Kuber's standing editorial mandate permits
+careful refreshes, but launch-week stability takes priority: do not rewrite the
+archive during CID-001. The completed SEO-05 metadata repair is awaiting its
+21 September read. The mechanical layer
 (orphan links, tool back-routes, hub membership, archive notes, lateral links)
 was already repaired across this week's PRs, so no safe mechanical repair
 remains.

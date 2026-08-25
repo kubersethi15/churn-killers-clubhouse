@@ -2,8 +2,8 @@
 
 **Run:** 25 August 2026, by Claude. Provenance is labelled per publication:
 "verified 24-25 Aug" means checked first-party during this working session;
-"public knowledge" means a well-established practice not re-verified today and
-not to be cited numerically.
+"directional observation" means an editorial comparison that was not verified
+from a current first-party source during this run and must not be cited as fact.
 
 ## The benchmark set (14 publications)
 
@@ -21,8 +21,8 @@ not to be cited numerically.
 | Lifetime Value Media | CS media | Daily show, multiple-host network, newcomers welcome | verified 24 Aug |
 | The CX Lead | CX content site | SEO listicle model, career-oriented roundups | verified 24 Aug |
 | ELG Insider (Crossbeam) | Partner-led growth | Daily vendor-backed digest | verified 24 Aug |
-| First Round Review | Management | Long-form edited operator interviews, editorial craft standard | public knowledge |
-| The Beautiful Mess (John Cutler) | Product/org | Single-author opinionated systems, diagram-heavy | public knowledge |
+| First Round Review | Management | Long-form edited operator interviews | directional observation |
+| The Beautiful Mess (John Cutler) | Product/org | Single-author systems writing with frequent diagrams | directional observation |
 
 ## Scores
 
@@ -31,19 +31,20 @@ today. This is directional judgment applied to public behaviour, not a survey.
 
 | Dimension | Best in set | Their score | CID | The gap in one line |
 |---|---|---|---|---|
-| Problem specificity | CID / Cutler | 5 | **5** | CID's one-decision-per-issue discipline is genuinely best-in-class |
+| Problem specificity | CID / Cutler | 5 | **5** | CID consistently frames an issue around one operating decision |
 | Source transparency | Growth Unhinged | 5 | 3 | GU shows its data; CID's evidence ledger only covers issues since Aug 2026 |
 | Operating usefulness | CID / CSM Practice | 5 | **5** | A runnable tool per issue is rare; protect it |
-| Originality of evidence | Growth Unhinged | 5 | 2 | GU runs primary research; CID has zero original data, its biggest gap |
+| Originality of evidence | Growth Unhinged | 5 | 2 | CID does not yet have a recurring first-party research program |
 | Readability / voice | Lenny / First Round | 5 | 4 | CID's voice is distinctive; long issues occasionally bury the decision |
-| Visual explanation | Cutler / GU | 5 | 1 | CID is text and PDFs; no diagrams anywhere, the second-biggest gap |
+| Visual explanation | Cutler / GU | 5 | 1 | CID does not yet use explanatory diagrams consistently across issues |
 | Archive discoverability | Lenny | 5 | 4 | After the link graph, hubs and AEO corpus, CID is now above category norm |
 | Reader journey to action | Lenny (paid funnel) | 5 | 4 | Tool routes now exist; subscribe placement improved this week |
 
 ## Three strengths to protect
 
-1. **One decision per issue.** Nobody else in the CS set holds this discipline.
-   It is the brand. Any format change that dilutes it is a regression.
+1. **One decision per issue.** This discipline is unusually consistent in the
+   reviewed CS set. It is the brand. Any format change that dilutes it is a
+   regression.
 2. **A runnable tool with every issue, free and ungated.** The vault plus the
    new diagnostics is a real differentiator against both vendor content and
    solo newsletters.
@@ -52,23 +53,22 @@ today. This is directional judgment applied to public behaviour, not a survey.
 
 ## Six biggest quality gaps, ranked by reader impact
 
-1. **No original evidence.** Growth Unhinged's entire moat is primary data.
-   CID cites others' research or none. Until it generates one number nobody
-   else has, it cannot be cited by peers, which caps authority. (CG-19 exists
-   as an idea; it is the right one.)
-2. **No visual explanation.** Zero diagrams in 46 issues. Cutler built a
-   durable brand on one hand-drawn diagram per essay; each doubles as a
-   LinkedIn asset. CID's LinkedIn adaptations are text-only.
+1. **No recurring first-party evidence program.** CID primarily synthesises
+   external evidence and Kuber's documented operating experience. A bounded,
+   transparent pulse could add original aggregate evidence without overstating
+   what a small sample proves.
+2. **Inconsistent visual explanation.** The archive does not yet use a clear
+   mechanism diagram as a repeatable editorial device. Test explanatory visuals
+   when they materially clarify the argument; do not force decorative graphics.
 3. **Pre-ledger archive transparency.** Issues before Aug 2026 carry an honest
    archive note but no sources. The triage in BC-03 should prioritise the ten
    most-visited, not rewrite everything.
 4. **No recognisable recurring format.** Lenny has franchises readers name and
    share. CID issues are excellent but interchangeable in shape. BC-04's
    named formats (Decision Teardown, Evidence Brief) are the fix.
-5. **Single voice, no borrowed credibility.** Lenny grew on guest posts;
-   First Round is built on operator interviews. CID quotes no practitioner but
-   Kuber. One outside operator quote per issue would compound relationships and
-   reach without diluting the voice.
+5. **Few practitioner collaborations.** Selective, properly attributed operator
+   input could add perspective and relationships when it improves an issue.
+   Do not impose a quote quota or solicit endorsement-shaped commentary.
 6. **Depth ceiling per issue.** GU ships data-rich deep dives; CID's weekly
    essay sometimes gestures where a table would prove. Fewer, deeper evidence
    blocks beat more prose.
@@ -97,9 +97,9 @@ Score every draft before approval, 0-2 each, 12 max. Ship at 9+, rework below.
 2. **Format: one named franchise, monthly.** Ship "The Decision Teardown" as a
    recognisable recurring format per BC-04's spec. Test: two editions, compare
    qualified actions and shares against the trailing four ordinary issues.
-3. **Visual: one mechanism diagram per issue, reused in the LinkedIn
-   adaptation.** Test: four issues with diagrams, compare LinkedIn saves,
-   reach and tagged visits against the four prior text-only adaptations.
+3. **Visual: test one mechanism diagram where it clarifies the issue, then reuse
+   it in the LinkedIn adaptation.** Test four suitable issues, comparing saves,
+   reach and tagged visits descriptively against the prior four adaptations.
 
 Change 1 is the usefulness change BC-02 requires. Changes 2 and 3 are format
 and presentation, and each carries its own measurable test and stop rule.
@@ -108,6 +108,6 @@ and presentation, and each carries its own measurable test and stop rule.
 
 Paid subscriptions (premature before demand evidence, per the monetization
 plan), listicle SEO volume (off-brand and the search baseline does not reward
-it yet), daily cadence (quality ceiling at this team size), and guest-written
-issues (voice risk; one quoted operator per issue gets the benefit without the
-risk).
+it yet), daily cadence (quality ceiling at this team size), and a forced guest
+or quote quota. Selective collaborations remain available when they improve the
+reader's understanding and are properly attributed.

@@ -29,10 +29,9 @@ several would create problems in a guest bio even if they were.
 > and has built CS functions from the ground up including KPI design, training,
 > team development and team metrics.
 >
-> He is best known for replacing the standard quarterly business review with a
-> thirty minute, three slide format: the customer's goal and how the quarter
-> aligned to it, what was achieved, and what is next including where support is
-> needed.
+> His work includes a thirty-minute, three-slide alternative to the standard
+> quarterly business review: the customer's goal and how the quarter aligned to
+> it, what was achieved, and what comes next including where support is needed.
 >
 > He has also changed his mind in public. He used to believe a strong product
 > could carry an account through anything. It cannot. Relationships carry
