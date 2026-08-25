@@ -26,6 +26,22 @@ led by Customer Success Manager (18%), followed by Customer Success Specialist
 This supports the audience-fit hypothesis but does not prove how any future
 edition will perform.
 
+The signed-in article-level analytics provide a useful descriptive comparison:
+
+| Historical edition | Impressions | Article views | LinkedIn email sends | Social engagements | Profile viewers | Followers gained |
+|---|---:|---:|---:|---:|---:|---:|
+| `Most CS Teams Don't Deserve to Survive` | 407 | 200 | 334 | 3 | 0 | 0 |
+| `AI Didn't Kill Customer Success. It Exposed It.` | 368 | 197 | 335 | 4 | 3 | 0 |
+| `Everyone Says “Be Strategic.” No One Tells You How.` | 564 | 40 | 0 | 6 | 3 | 0 |
+
+The first two editions each recorded roughly 200 article views alongside more
+than 330 LinkedIn email sends. The older edition had more feed impressions but
+only 40 article views and no recorded email sends. This is not a causal email
+test: the editions were published at different times with different headlines,
+content and notification states. It does show why the new block should use the
+native Newsletter surface and measure article views and subscribers separately
+from feed impressions.
+
 The seven days immediately before the new block contained zero article views,
 zero new subscribers, nine impressions and zero engagements. Use that dormant
 seven-day state and the 680-subscriber count as the clean reactivation baseline;
