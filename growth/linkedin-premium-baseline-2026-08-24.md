@@ -65,3 +65,35 @@ Evaluate CID-001 against unique tagged visits, qualified actions, acquired subsc
 If CID-001 produces enough evidence, the next LinkedIn opening test should compare the current operating-model opening with a specific-failure opening. Keep the issue, CTA, timing class, first-comment placement, and campaign structure constant.
 
 Do not conclude that an AI topic is the winner. The transferable pattern is specificity: one failed action, its commercial or operational consequence, and one safeguard the reader can apply.
+
+## 17-hour read: 24 August health-context post
+
+Captured from LinkedIn Premium on 25 August 2026 at roughly 17 hours. This is
+an early descriptive read, not the final 24-hour result and not a causal test.
+
+| Measure | Value |
+|---|---:|
+| Total followers | 8,302 |
+| Change from the 24 August account baseline | +16 |
+| Impressions | 448 |
+| Members reached | 282 |
+| In-network / out-of-network | 68% / 32% |
+| Social engagements | 26 |
+| Reactions / comments | 15 / 11 |
+| Reposts / saves / sends | 0 / 0 / 0 |
+| Profile viewers from the post | 2 |
+| Followers LinkedIn attributes to the post | 0 |
+| Substantive external comments | 5 |
+| Substantive comments with an author reply | 5 of 5 |
+
+The account-level follower increase must not be attributed to this post because
+LinkedIn reports zero post-attributed followers. The post reached a qualified
+audience—44% Senior and 20% Customer Success Manager—but distribution remained
+small and produced no observable amplification action. The useful outcome was
+conversation depth: every substantive external response had an author reply.
+Three stronger replies were added on 25 August, filling the weekday
+relationship quota; do not add more comments for volume.
+
+The next decision remains unchanged: execute the separately tagged Tuesday
+website-acquisition launch and measure whether platform conversation transfers
+to the owned subscriber path.
