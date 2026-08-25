@@ -508,11 +508,18 @@ results.
 
 ## ChurnZero blog: guest article (partner distribution, staged 25 August 2026)
 
-**Route status:** first-party evidence that ChurnZero publishes external guest
-contributors, including Jonathan Corbin of Maven AGI:
-`https://churnzero.com/blog/generative-ai-customer-success/`. There is no public
-"write for us" form, so the exact editorial/guest contact must be confirmed
-before sending. Do not guess an address. **Not sent.**
+**Route status, updated 25 August 2026: not executable as a cold editorial
+pitch. Warm-introduction or invited route only.** ChurnZero publishes external
+guest contributors, for example Jonathan Corbin of Maven AGI at
+`https://churnzero.com/blog/generative-ai-customer-success/`, but those
+contributors are executives at partner or vendor companies with an existing
+ChurnZero relationship, so that reads as invited partner contribution, not an
+open call. Re-checked first-party 25 August: there is no public "write for us"
+or editorial submission form, and no editorial contact address is exposed. The
+only public contact surface is a sales and demo form, which is not a legitimate
+editorial route. **Not sent. No address guessed.** Hold the copy below for a
+warm introduction or an invited editorial contact. Do not cold-send it and do
+not route it through the sales form.
 
 **Why the audience fits:** ChurnZero publishes practical material for working CS
 practitioners and leaders. The strongest asset in the ledger, the QBR replacement
@@ -555,9 +562,19 @@ no audience-size or customer-result claim.
 
 ## Pavilion: guest post (partner distribution, staged 25 August 2026)
 
-**Route status:** first-party evidence that Pavilion carries a current Guest Post
-category: `https://www.joinpavilion.com/blog/tag/guest-post`. Confirm the exact
-guest-post submission route before sending; do not guess. **Not sent.**
+**Route status, updated 25 August 2026: not executable as a cold guest pitch.
+Members or invited authorship (warm introduction), or a paid Sponsorships
+placement.** Pavilion carries a current Guest Post category at
+`https://www.joinpavilion.com/blog/tag/guest-post`, but re-checked first-party 25
+August it is a curated member or invited series, dominated by a single
+fractional-CRO contributor, not an open call. Pavilion is a paid private
+membership community for GTM leaders. It exposes no contact page and no
+"write for us"; the only outward routes in the footer are Support, Careers and
+paid Sponsorships (`https://www.joinpavilion.com/sponsorships`). So the only
+real routes are member or invited authorship, or a paid sponsorship, which is a
+different commercial motion. **Not sent. No address guessed.** Hold the copy
+below for a warm introduction; treat any paid placement as a separate, explicit
+decision.
 
 **Why the audience fits:** Pavilion publishes for GTM leaders across sales, CS,
 and RevOps. The NRR-from-pricing thesis is a shared-ownership argument built for
@@ -593,3 +610,61 @@ Churn Is Dead
 **Follow-up:** if actioned and silent, one concise follow-up on 4 September 2026,
 then stop. Grounded only in ledger claims 1 and 3 as background (tenure and
 revenue accountability); no customer-result or audience-size claim.
+
+## CustomerThink: contributed article (replacement route, staged 25 August 2026)
+
+**Route status: open via a public application form. Verified first-party 25
+August 2026.** CustomerThink is an active US-based community for customer-centric
+business, founded and edited by Bob Thompson. The route is the public Write For
+Us application form at `https://customerthink.com/write-for-us/`. Bob Thompson
+personally reviews submissions and invites approved applicants to register, so
+registration is not the first step. Questions or proposals may also go to
+`editor@customerthink.com`.
+
+**This is an application, not a finished article.** The text below is an
+application abstract or proposal only. If CustomerThink accepts, Kuber must
+personally draft the article: CustomerThink requires the article be written by
+the author, and AI may assist only with ideation, research, and editing.
+
+**Business email required.** CustomerThink rejects free email services, so the
+application and any registration need a `churnisdead.com` business email, not the
+gmail on file.
+
+**Content rule that fits our stance.** The article stays neutral and educational,
+with the link back to Churn Is Dead living in the author bio, not the body.
+
+**Why the audience fits:** CustomerThink's readership is CS and CX practitioners
+and business leaders, the same operator audience the thirty-minute QBR change
+speaks to. The angle is grounded in ledger claim 4, a system Kuber personally
+built and can speak to in the first person.
+
+**Tracked bio-link destination:** `https://churnisdead.com/newsletter/fire-your-qbr-heres-what-to-do-instead?utm_source=customerthink&utm_medium=guest_article&utm_campaign=thirty_minute_qbr`.
+
+**Application abstract (Subject:** the thirty-minute review that replaced my QBR**)**
+
+Hi CustomerThink team,
+
+I would like to propose an educational article on one operating change I made as
+a Customer Success leader and can speak to in the first person.
+
+I replaced the standard quarterly business review with a thirty-minute,
+three-slide format: the customer's goal and how the last three months aligned to
+it, what was achieved, and what is next including where support is needed. Most
+QBR advice adds slides. This removes them, and it holds up better in the room
+because it forces a decision instead of a status recap.
+
+The article would give readers the three-slide structure, what each slide must
+contain, and how to keep the conversation on the customer's goal rather than an
+internal status recap. It is written for practitioners in a neutral, educational
+tone, with no product or company promotion in the body. I would write it myself,
+under my real name, and am happy to follow your guidelines on length, sourcing,
+and the author bio.
+
+Would this fit CustomerThink?
+
+Kuber Sethi
+Churn Is Dead
+
+**Follow-up:** if actioned and silent, one concise follow-up on 4 September 2026,
+then stop. Grounded only in ledger claim 4 (the thirty-minute review Kuber
+built); no audience-size or customer-result claim.
