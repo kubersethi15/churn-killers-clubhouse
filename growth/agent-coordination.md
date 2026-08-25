@@ -661,3 +661,40 @@ The single Product-Led Alliance pitch was sent after a final Gmail duplicate
 check and verified in Sent. It requests the Churn Is Dead source canonical on
 the PLA version and any full-text downstream cross-post. Monitor the existing
 thread only; if silent, follow up once on 4 September, then stop.
+
+## Claude handoff, ChurnZero and Pavilion route decision, 25 August 2026
+
+**Branch:** `growth/cg03-churnzero-pavilion-route-decision`. Files: pipeline rows
+22 and 23 rewritten, a new row 24, and the ChurnZero, Pavilion and new
+CustomerThink sections in `growth/outreach-pitches.md`. **Nothing was sent.**
+
+Both staged partner routes were re-verified first-party and neither is
+executable as a cold editorial pitch:
+
+- **ChurnZero: warm-introduction or invited only.** No public write-for-us or
+  editorial submission form, and no editorial address is exposed. The external
+  guest contributors it publishes are partner or vendor executives with an
+  existing relationship, so that is invited, not open. The only public contact is
+  a sales and demo form, which is not an editorial route.
+- **Pavilion: members or invited, or paid sponsorship.** Confirmed a paid private
+  membership community. No contact page, no write-for-us; the footer exposes only
+  Support, Careers and paid Sponsorships. The Guest Post tag is a curated member
+  or invited series dominated by one fractional-CRO contributor, not an open call.
+
+**Replacement, one strong US practitioner publication with a verified first-party
+route: CustomerThink** (pipeline row 24). Active in 2026, founded and edited by
+Bob Thompson. Open but registration-gated: register under a real name with a
+business email, get approved, then self-publish a blog or email a proposal to the
+managing editor (`https://customerthink.com/contribute/`). Two prerequisites
+before any send: a `churnisdead.com` business email, because gmail and role
+addresses are disallowed, and capturing the managing-editor address first-party
+at registration rather than guessing it. Body must be neutral and educational
+with the Churn Is Dead link in the author bio only. Angle: the thirty-minute QBR
+replacement, ledger claim 4. Pitch staged in `growth/outreach-pitches.md`.
+
+**Next external action:** none is send-ready yet. To open CustomerThink, Kuber or
+Codex first registers a CustomerThink author account with a `churnisdead.com`
+email and captures the managing-editor address; then Codex or Kuber sends the
+staged proposal. If actioned and silent, one follow-up on 4 September, then stop.
+Do not cold-pitch ChurnZero or Pavilion; both wait on a warm introduction (or, for
+Pavilion, an explicit paid decision).
