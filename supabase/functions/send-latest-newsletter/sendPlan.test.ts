@@ -3,11 +3,16 @@ import test from "node:test";
 
 import {
   batchIdempotencyKey,
+  normalizeEmail,
   orderSubscribersForSend,
   planBatches,
   selectPendingRecipients,
   shouldAdvanceLastSent,
 } from "./sendPlan.ts";
+
+test("email normalization is stable for delivery-log keys", () => {
+  assert.equal(normalizeEmail("  Reader@Example.COM "), "reader@example.com");
+});
 
 test("recipient ordering is deterministic regardless of DB return order", () => {
   const a = [{ id: "c" }, { id: "a" }, { id: "b" }];

@@ -421,7 +421,7 @@ const handler = async (req: Request): Promise<Response> => {
           variantStats[item.variantLabel].subscriberIds.push(item.subscriberId);
           sendLogRows.push({
             newsletter_id: latestNewsletter.id,
-            subscriber_email: item.email,
+            subscriber_email: normalizeEmail(item.email),
             subject_variant: item.variantLabel,
             variant_index: Math.max(0, variantIdx),
             send_status: 'sent',
@@ -433,7 +433,7 @@ const handler = async (req: Request): Promise<Response> => {
           const variantIdx = variants.findIndex(variant => variant.label === message.variantLabel);
           sendLogRows.push({
             newsletter_id: latestNewsletter.id,
-            subscriber_email: message.email,
+            subscriber_email: normalizeEmail(message.email),
             subject_variant: message.variantLabel,
             variant_index: Math.max(0, variantIdx),
             send_status: 'failed',
@@ -455,7 +455,7 @@ const handler = async (req: Request): Promise<Response> => {
           const variantIdx = variants.findIndex(variant => variant.label === message.variantLabel);
           sendLogRows.push({
             newsletter_id: latestNewsletter.id,
-            subscriber_email: message.email,
+            subscriber_email: normalizeEmail(message.email),
             subject_variant: message.variantLabel,
             variant_index: Math.max(0, variantIdx),
             send_status: 'failed',
