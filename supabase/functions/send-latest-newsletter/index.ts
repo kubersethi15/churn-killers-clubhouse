@@ -5,6 +5,12 @@ import { generateNewsletterEmailTemplate, replacePlaceholders } from "./emailTem
 import { sendNewsletterBatch, sendTestNewsletter } from "./emailSender.ts";
 import type { NewsletterMessage } from "./emailSender.ts";
 import { createUnsubscribeToken } from "../_shared/unsubscribeToken.ts";
+import {
+  batchIdempotencyKey,
+  orderSubscribersForSend,
+  planBatches,
+  shouldAdvanceLastSent,
+} from "./sendPlan.ts";
 
 // Initialize Supabase client (service role for DB operations)
 const supabaseUrl = Deno.env.get("SUPABASE_URL");
@@ -268,7 +274,8 @@ const handler = async (req: Request): Promise<Response> => {
     const { data: subscribers, error: subscribersError } = await supabase
       .from("subscribers")
       .select("id,email")
-      .eq("subscribed", true);
+      .eq("subscribed", true)
+      .order("id", { ascending: true });
 
     if (subscribersError) {
       return new Response(
@@ -304,13 +311,16 @@ const handler = async (req: Request): Promise<Response> => {
       '', mainContent, latestNewsletter.slug, latestNewsletter.category
     );
 
-    const batches = [];
-    for (let i = 0; i < subscribers.length; i += batchSize) {
-      batches.push(subscribers.slice(i, i + batchSize));
-    }
+    // Deterministic recipient order so batch composition and subject-variant
+    // assignment are stable across a retry when the list is unchanged.
+    const recipients = orderSubscribersForSend(subscribers);
+    const batches = planBatches(recipients, batchSize);
 
     let successCount = 0;
     let failureCount = 0;
+    // Batches that threw (network/provider error) rather than per-recipient
+    // invalid addresses. Only these hold back the sequential send pointer.
+    let transientBatchFailures = 0;
     const errors: string[] = [];
     const variantStats: Record<string, { sent: number; subscriberIds: string[] }> = {};
     const sendLogRows: Array<{
@@ -348,7 +358,7 @@ const handler = async (req: Request): Promise<Response> => {
         const delivery = await sendNewsletterBatch(
           messages,
           batchIndex,
-          `newsletter-${latestNewsletter.id}-batch-${batchIndex}`,
+          await batchIdempotencyKey(latestNewsletter.id, batch.map(subscriber => subscriber.id)),
         );
         successCount += delivery.count;
         failureCount += delivery.skipped;
@@ -388,6 +398,7 @@ const handler = async (req: Request): Promise<Response> => {
         const msg = error instanceof Error ? error.message : "Unknown error";
         console.error(`Error sending private batch ${batchIndex + 1}:`, error);
         failureCount += batch.length;
+        transientBatchFailures += 1;
         errors.push(`[batch ${batchIndex + 1}] ${msg}`);
 
         for (const message of messages) {
@@ -413,7 +424,12 @@ const handler = async (req: Request): Promise<Response> => {
       for (let i = 0; i < sendLogRows.length; i += CHUNK) {
         const slice = sendLogRows.slice(i, i + CHUNK);
         try {
-          await supabase.from('newsletter_send_log').insert(slice);
+          // Upsert so a retry updates the recipient's row (latest status wins)
+          // instead of appending a duplicate. Requires the unique index on
+          // (newsletter_id, subscriber_email).
+          await supabase
+            .from('newsletter_send_log')
+            .upsert(slice, { onConflict: 'newsletter_id,subscriber_email' });
         } catch (err) {
           console.warn(`Failed to write send log chunk ${i}-${i + slice.length}:`, err);
         }
@@ -435,8 +451,13 @@ const handler = async (req: Request): Promise<Response> => {
       }
     }
 
-    // 4. Record this newsletter as sent (only if majority succeeded)
-    if (successCount > failureCount) {
+    // 4. Advance the sequential send pointer only when no batch transiently
+    // failed. A batch that threw leaves its recipients unsent, so the pointer
+    // holds and the next run re-sends this issue; the content-addressed
+    // idempotency key deduplicates the recipients already delivered, so the
+    // re-send does not double-send. Per-recipient invalid addresses are
+    // permanent and do not hold back the pointer.
+    if (shouldAdvanceLastSent(transientBatchFailures)) {
       const { error: updateError } = await supabase
         .from("internal_config")
         .upsert({ key: "last_sent_newsletter_id", value: latestNewsletter.id }, { onConflict: "key" });
