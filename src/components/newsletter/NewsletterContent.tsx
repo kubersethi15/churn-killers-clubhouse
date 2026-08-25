@@ -35,6 +35,24 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
   const linkedinShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(referralLinkedInUrl)}`;
   const usesCurrentEditorialStandard = /##\s+Sources and methodology/i.test(newsletter.content);
 
+  const trackArticleResourceOpen: React.MouseEventHandler<HTMLDivElement> = (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const link = target.closest("a[href]");
+    const href = link?.getAttribute("href");
+    if (!href) return;
+
+    try {
+      const url = new URL(href, window.location.origin);
+      if (url.origin !== window.location.origin || !/^\/pdfs\/[^/]+\.pdf$/i.test(url.pathname)) return;
+      const filename = decodeURIComponent(url.pathname.split("/").pop() || "playbook.pdf");
+      void trackGrowthEvent({ eventName: "resource_open", resourceId: `pdf:${filename}` });
+    } catch {
+      // A malformed editorial link should still navigate normally; it is simply
+      // not counted as a verified resource open.
+    }
+  };
+
   const shareBar = (
     <div className="my-12 flex flex-wrap items-center justify-center gap-3 border-y border-navy-dark/15 py-5">
       <span className="mr-1 text-[10px] font-black uppercase tracking-[0.14em] text-gray-600">Share this</span>
@@ -42,15 +60,19 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
         href={linkedinShareUrl}
         target="_blank"
         rel="noopener noreferrer"
-        onClick={() => void trackGrowthEvent({ eventName: "content_share", resourceId: "linkedin" })}
+        onClick={() => void trackGrowthEvent({ eventName: "share_intent", resourceId: "article:linkedin" })}
         className="inline-flex items-center gap-1.5 bg-[#0A66C2] px-3 py-2 text-[10px] font-black uppercase tracking-[0.08em] text-white transition-colors hover:bg-opacity-90"
       >
         LinkedIn
       </a>
       <button
-        onClick={() => {
-          navigator.clipboard.writeText(referralCopyUrl);
-          void trackGrowthEvent({ eventName: "content_share", resourceId: "copy_link" });
+        onClick={async () => {
+          try {
+            await navigator.clipboard.writeText(referralCopyUrl);
+            void trackGrowthEvent({ eventName: "content_share", resourceId: "article:copy_link" });
+          } catch {
+            // Do not record a completed share when the browser rejects copying.
+          }
         }}
         className="inline-flex items-center gap-1.5 border border-navy-dark/30 px-3 py-2 text-[10px] font-black uppercase tracking-[0.08em] text-gray-600 transition-colors hover:bg-white"
       >
@@ -80,7 +102,11 @@ const NewsletterContent = ({ newsletter, formatContent, vaultResources = [] }: N
           </ol>
         </nav>
       )}
-      <div className="article-content" dangerouslySetInnerHTML={{ __html: formattedContent }} />
+      <div
+        className="article-content"
+        onClick={trackArticleResourceOpen}
+        dangerouslySetInnerHTML={{ __html: formattedContent }}
+      />
 
       {/* Share bar */}
       {shareBar}
