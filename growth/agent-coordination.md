@@ -614,3 +614,30 @@ and any full-text downstream cross-post. Codex or Kuber sends.
 
 The angle is the Product Friction Review, the one boundary product and CS share,
 which is exactly this week's issue. Not a duplicate of any pipeline target.
+
+## Claude handoff, partner distribution (ChurnZero, Pavilion), 25 August 2026
+
+Two new non-duplicate partner-distribution routes to qualified US/UK CS/GTM
+leaders, staged send-ready. Pipeline rows 22 and 23; pitches in
+`growth/outreach-pitches.md`. **Nothing was sent; no Gmail drafts created (Gmail
+access was unavailable this cycle).**
+
+- **ChurnZero blog** (`churnzero.com/blog`) — first-party evidence it publishes
+  external guest contributors; large US-weighted CS practitioner/leader
+  audience. Angle: the thirty-minute QBR replacement (ledger claim 4). Tracked
+  to the QBR article with canonical requested.
+- **Pavilion** (`joinpavilion.com/blog`) — first-party Guest Post category;
+  senior GTM community across sales, CS, RevOps (US/UK). Angle: "You Don't Own
+  NRR, You Rent It From Pricing." Tracked to that article with canonical
+  requested.
+
+**Open action before either send:** neither publisher exposes an open submission
+form, so the exact editorial/guest contact must be confirmed first-party at send
+time. Do not guess an address. One follow-up on 4 September if actioned and
+silent, then stop.
+
+**Deliberately dropped, with cause:** Women in Customer Success (route
+first-party verified, but its podcast takes women guests only, so it is a poor
+fit for Kuber as author); SaaStr and The Jasons Take On (could not be verified
+first-party this cycle — 403 and DNS failure respectively). Recorded so neither
+agent re-researches them without a new reason.

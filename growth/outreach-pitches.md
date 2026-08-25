@@ -505,3 +505,89 @@ days, send one concise follow-up in the same email thread, then stop. Track
 visits diagnostically and judge success by acquired subscribers and 30-day
 active status. Codex or Kuber sends. Do not claim audience size or customer
 results.
+
+## ChurnZero blog: guest article (partner distribution, staged 25 August 2026)
+
+**Route status:** first-party evidence that churnzero.com/blog publishes external
+guest contributors (named guest posts by CS founders and operators). There is no
+public "write for us" form, so the exact editorial/guest contact must be
+confirmed before sending. Do not guess an address. **Not sent.**
+
+**Why the audience fits:** ChurnZero's blog reaches a large, US-weighted audience
+of working CS practitioners and leaders. The strongest asset in the ledger, the
+QBR replacement Kuber personally built, is exactly the kind of contrarian
+operating change that audience argues about.
+
+**Tracked destination:** `https://churnisdead.com/newsletter/fire-your-qbr-heres-what-to-do-instead?utm_source=churnzero&utm_medium=guest_article&utm_campaign=thirty_minute_qbr`
+(canonical requested on any published version).
+
+**Subject:** Guest article: the thirty-minute review that replaced our QBR
+
+Hi ChurnZero team,
+
+I write Churn Is Dead, an evidence-led newsletter for Customer Success leaders,
+and I read the CS blog regularly. I would like to propose a guest article on one
+operating change I made and can speak to in the first person.
+
+I replaced the standard quarterly business review with a thirty-minute,
+three-slide format: the customer's goal and how the last three months aligned to
+it, what was achieved, and what is next including where support is needed. Most
+QBR advice adds slides. This removes them, and it holds up better in the room
+because it forces a decision instead of a status recap.
+
+The article would give readers the three-slide structure, what each slide must
+contain, and the failure modes that pull teams back into the ninety-minute
+version. Non-promotional and practitioner-first. A canonical version is on
+churnisdead.com; I would ask for a canonical link back, and I am happy to follow
+your length, image, and bio requirements.
+
+Would this fit your blog?
+
+Kuber Sethi
+Churn Is Dead
+
+**Follow-up:** if actioned and silent, one concise follow-up on 4 September 2026,
+then stop. Grounded only in ledger claim 4 (the thirty-minute review Kuber built);
+no audience-size or customer-result claim.
+
+## Pavilion: guest post (partner distribution, staged 25 August 2026)
+
+**Route status:** first-party evidence that joinpavilion.com/blog carries a Guest
+Post category. Confirm the exact guest-post submission route before sending; do
+not guess. **Not sent.**
+
+**Why the audience fits:** Pavilion is a senior GTM community spanning sales,
+CS, and RevOps leaders across the US and UK. The NRR-from-pricing thesis is a
+shared-ownership argument built for a cross-functional leadership room, not a CS
+lecture.
+
+**Tracked destination:** `https://churnisdead.com/newsletter/you-dont-own-nrr-you-rent-it-from-pricing?utm_source=pavilion&utm_medium=guest_post&utm_campaign=nrr_from_pricing`
+(canonical requested on any published version).
+
+**Subject:** Guest post idea: NRR is rented from pricing, not earned by CS
+
+Hi Pavilion team,
+
+I lead with a thesis your members argue about: net revenue retention is mostly
+inherited from the pricing and packaging model, not earned after the sale. I
+write Churn Is Dead, an evidence-led newsletter for Customer Success leaders, and
+I have spent more than ten years in CS, moving from support into CSM roles and
+then into CS executive leadership, accountable for customer revenue along the way.
+
+The piece, "You Don't Own NRR, You Rent It From Pricing," argues that treating
+NRR as a CS scorecard hides where the number actually comes from, and gives
+leaders a way to separate what pricing sets from what CS can move. For a room of
+sales, CS, and RevOps leaders, that is a shared-ownership question.
+
+It is non-promotional and clears a standard length. A canonical version is live
+on churnisdead.com; I would ask for a canonical link back and adapt the framing
+for your members rather than paste it.
+
+Would a guest post fit, or is there a better Pavilion format for it?
+
+Kuber Sethi
+Churn Is Dead
+
+**Follow-up:** if actioned and silent, one concise follow-up on 4 September 2026,
+then stop. Grounded only in ledger claims 1 and 3 as background (tenure and
+revenue accountability); no customer-result or audience-size claim.
