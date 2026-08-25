@@ -466,11 +466,11 @@ maximum. They accept previously published work with a custom canonical link,
 which means the Product Friction Review issue can be adapted with the canonical
 pointing back to churnisdead.com.
 
-**Bio (198 chars, from the ledger, no unverified claim):**
+**Bio (176 chars, from the ledger, no unverified claim):**
 
 > Kuber Sethi writes Churn Is Dead, evidence-led operating systems for enterprise
-> Customer Success. More than ten years in CS from support to executive; known
-> for replacing the QBR with a thirty-minute decision.
+> CS. 10+ years from support to executive; known for replacing the QBR with a
+> thirty-minute decision.
 
 **Pitch email:**
 
