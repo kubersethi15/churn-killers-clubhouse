@@ -28,5 +28,6 @@ Remove it: the task is repetitive, duplicated, or adds no lasting value.
 
 Being closest to the customer does not make CS responsible for every company decision.
 
-The full guide and free Work Ownership Decision Matrix are in the first comment.
+The full guide and free Work Ownership Decision Matrix:
+https://churnisdead.com/newsletter/senior-csm-not-default-owner?utm_source=linkedin&utm_medium=post&utm_campaign=senior-csm-not-default-owner&utm_content=tuesday_inline_link
 ============================================================
