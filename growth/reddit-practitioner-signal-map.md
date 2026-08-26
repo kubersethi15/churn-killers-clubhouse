@@ -12,6 +12,7 @@
 - Keep r/SaaS and r/startups especially conservative because promotional and low-effort content is heavily moderated. r/revops is restricted, so observe unless the account is eligible to participate.
 - Record only the public thread URL, contribution URL and aggregate score/reply count. Never record identities.
 - Treat unlinked contributions as trust and problem-learning activity. Do not claim subscriber acquisition from them.
+- The signed-in profile now identifies `Kuber | Churn Is Dead`, carries a plain-language publication bio, and links to the canonical homepage. This is the conversion path for profile curiosity; community contributions stay complete and link-free. Because Reddit accepted a clean URL rather than the attempted tagged URL, treat any `reddit.com` referral traffic as aggregate, not contribution-specific attribution.
 
 ## Thirty-thread screening sample
 
