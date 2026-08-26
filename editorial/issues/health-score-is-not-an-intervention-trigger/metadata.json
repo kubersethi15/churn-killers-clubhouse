@@ -13,8 +13,10 @@
   "playbook_title": "The Intervention Trigger Ledger",
   "playbook_description": "A practical record for turning one observed customer change into a bounded, actionable and reviewable intervention rule.",
   "subject_variants": [
-    {"label": "framework", "subject": "The Intervention Trigger Ledger"},
-    {"label": "problem", "subject": "Your health score changed. Now what?"},
-    {"label": "outcome", "subject": "Only alert CS when the action is clear"}
+    {
+      "label": "problem",
+      "subject": "Your health score changed. Now what?",
+      "preheader": "A signal deserves action only when the consequence, evidence and owner are clear."
+    }
   ]
 }

@@ -13,8 +13,10 @@
   "playbook_title": "The Work Ownership Decision Matrix",
   "playbook_description": "A work inventory, authority test, ownership decision, and handoff record for deciding what CS should own, prepare, coordinate, or remove.",
   "subject_variants": [
-    {"label": "framework", "subject": "The Work Ownership Decision Matrix"},
-    {"label": "problem", "subject": "Your senior CSM is not the default owner"},
-    {"label": "outcome", "subject": "Give customer work to someone who can decide"}
+    {
+      "label": "problem",
+      "subject": "Your senior CSM is not the default owner",
+      "preheader": "Use decision authority and customer consequence to decide what CS should own, coordinate or stop doing."
+    }
   ]
 }

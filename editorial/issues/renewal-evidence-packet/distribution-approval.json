@@ -6,6 +6,13 @@
     "human_reviewed": false,
     "basis": "Kuber's standing mandate authorises distribution without per-post review; this record does not claim Kuber personally reviewed the copy."
   },
+  "email": {
+    "status": "approved",
+    "approved_by": "Codex, under Kuber's standing mandate of 24 August 2026",
+    "approved_at": "2026-08-26T02:24:02Z",
+    "human_reviewed": false,
+    "basis": "The approved issue passed the editorial validator at 1,528 words with four mapped first-party or official sources. The small-list email contract requires one subject rather than an underpowered split, so Codex selected the direct problem subject and a controlled preheader. Production remains fail-closed behind the Tuesday sender-health, lawful-footer, production-equivalent test, unsubscribe, canonical-route, and live-issue gates."
+  },
   "medium": {
     "status": "hold_until_canonical_is_live",
     "approved_by": null,
