@@ -69,6 +69,18 @@ This is directional qualitative evidence, not a prevalence estimate.
 2. **Perfect customer health metrics.** Strong fit, but already has 17 comments. Only enter if the thread still lacks a practical way to show leadership one decision while preserving conflicting evidence. Otherwise skip.
 3. **Product manager stretched across departments.** Fresh and high-engagement. A useful answer would separate influence from accountability and show how explicit decision owners, service boundaries and escalation dates prevent a PM becoming the human reminder system. Participate only if the existing discussion does not already make that point.
 
+### Next-window reply
+
+Recheck the thread immediately before posting. If another answer has already made the coordination-risk distinction, skip it. Otherwise use this reply without a link or CTA:
+
+> I wouldn't segment this by SMB versus enterprise alone. I'd segment by coordination risk.
+>
+> If one person can configure it, get to first value, recover from a mistake and repeat the core workflow without us, the call is probably overhead.
+>
+> But a small account can still need a human when data has to move, security is involved, several people need to agree, or they have a deadline. At that point the call is doing coordination work, not product education.
+>
+> So the scorecard for me would be: did they reach the first meaningful outcome, are the critical roles able to act, are dependencies cleared, and can they repeat the workflow without the CSM? If yes, skip the meeting. If not, intervene around the blocker rather than forcing everyone through the same call.
+
 ## Measurement and stop rule
 
 For each live contribution capture score and substantive reply count at 72 hours. A reply is substantive only when it adds operating evidence, a disagreement or a real follow-up question. After five contributions, continue the lane only if at least two generate substantive follow-on discussion or Reddit begins producing identifiable aggregate referral traffic after a genuinely relevant linked answer. Never add a link solely to manufacture attribution.
