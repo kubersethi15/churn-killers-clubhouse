@@ -89,6 +89,10 @@ observable, not to retrofit certainty onto the previous 65.
 
 Complete only after the observation window. Never add names, email addresses, profile URLs, or reply text.
 
+### Mid-window diagnostic, 26 August 2026
+
+Read-only aggregate SQL recorded 43 first-party page-view sessions after the Tuesday release boundary. Seven carried the exact `linkedin / post / stealing-sprint-planning-from-engineering / tuesday_launch` tuple. That surface had zero qualified-action sessions and zero acquired subscribers at this early read. Across all traffic there were eight form-view sessions, zero form-submit sessions and zero signup-success sessions. This is descriptive only: seven tagged visits is below the 20-visit evidence floor and the observation window remains open.
+
 | Result | Value |
 |---|---|
 | Tagged visits | Pending |
