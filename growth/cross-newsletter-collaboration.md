@@ -71,12 +71,13 @@ only after the RevOps Impact swap resolves, one at a time.
 | Newsletter | Author | Fit | Route |
 |---|---|---|---|
 | RevOps Impact | Jeff Ignacio | RevOps, 6k+, owns the NRR systems | staged above |
-| Customer Education Bi-Weekly | Joe Ryan | Customer education, adjacent, bi-weekly, free | **staged below** (26 Aug) |
+| Customer Education Bi-Weekly | Eric Mistry (current editor; legacy About page names Joe Ryan) | Customer education, adjacent, bi-weekly, free | **staged below** (26 Aug) |
 | The CS Cafe | Hakan Ozturk | Core-CS, 4,300+ | **held** (26 Aug): needs a specific complementary angle, not a generic swap |
 | SaaS Barometer | (verify) | SaaS ops, adjacent | Substack, verify author before contact |
 
-Customer Education (Joe Ryan) is the second-best swap: genuinely adjacent, not
-competing, and likely peer-sized so the trade is symmetric.
+Customer Education Bi-Weekly is the second-best swap: genuinely adjacent and
+not competing. Current posts and the publication profile identify Eric Mistry
+as editor; the About page's Joe Ryan attribution is stale.
 
 ## Second staged outcome, 26 August 2026: two verified non-overlapping routes
 
@@ -132,7 +133,7 @@ resource's own site. Churn Is Dead is not currently listed.
 - **Owner:** Codex or Kuber sends the staged note in `growth/outreach-pitches.md`
   to `hello@thegtmindex.com`.
 
-### Route 2, backing: Customer Education Bi-Weekly (Joe Ryan)
+### Route 2, backing: Customer Education Bi-Weekly (Eric Mistry, current editor)
 
 Verified 26 August at `https://customered.substack.com/`. Free, bi-weekly, for
 customer education, instructional design, CS, and customer marketing
@@ -148,7 +149,11 @@ editorial habit. Smaller list; let the partner state its own size.
 - **Guardrail:** confirm the hook returns 200 before sending; one tracked link per
   side; no payment, list sharing, or scraping; accurate audience descriptions;
   website stays canonical.
-- **Owner:** Codex or Kuber sends via Substack DM after confirming the route. Note
+- **Verified route:** Eric Mistry's first-party Substack profile
+  (`https://substack.com/@ericmistry1`) exposes a `Message` action. The legacy
+  About page still names Joe Ryan, but current posts, the footer and Eric's
+  profile identify Eric as the active editor.
+- **Owner:** Codex or Kuber sends through Eric's Substack `Message` action. Note
   staged in `growth/outreach-pitches.md`.
 
 ## Metric

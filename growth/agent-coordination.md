@@ -599,8 +599,9 @@ LinkedIn (no public email). Kuber or Codex sends.
 one-click Recommendations network. Swaps are manual mutual mentions, which
 favours a few real agreements over volume.
 
-Second-best backing candidate is Customer Education (Joe Ryan), adjacent and
-likely peer-sized. Work it only after RevOps Impact resolves.
+Second-best backing candidate is Customer Education Bi-Weekly. Its legacy About
+page names Joe Ryan, but current posts and the publication profile identify Eric
+Mistry as the active editor. Work it only after RevOps Impact resolves.
 ## Claude handoff, CG-03 Product-Led Alliance, 25 August 2026
 
 Second earned-distribution outcome, a genuinely new route. Product-Led Alliance
@@ -744,7 +745,7 @@ live native Reddit contribution recorded in PR #162 or the RevOps Impact swap.
 - **Owner:** Codex or Kuber sends the staged note in `growth/outreach-pitches.md`
   to `hello@thegtmindex.com`.
 
-### Route 2, backing: Customer Education Bi-Weekly (Joe Ryan)
+### Route 2, backing: Customer Education Bi-Weekly (Eric Mistry, current editor)
 
 - **Verified 26 August** at `https://customered.substack.com/`. Free bi-weekly,
   adjacent (customer education / instructional design / CS / customer marketing),
@@ -755,7 +756,12 @@ live native Reddit contribution recorded in PR #162 or the RevOps Impact swap.
 - **Follow-up:** one message and one follow-up on 9 September, then stop.
 - **Guardrail:** confirm the hook returns 200; one tracked link per side; no
   payment, list sharing, or scraping; accurate audience descriptions.
-- **Owner:** Codex or Kuber sends via Substack DM after confirming the route.
+- **Verified contact route:** Eric Mistry's Substack profile
+  (`https://substack.com/@ericmistry1`) exposes a first-party `Message` action.
+  The publication's legacy About page still names Joe Ryan; use Eric because the
+  current posts, footer and profile identify him as the active editor.
+- **Owner:** Codex or Kuber sends the staged note through Eric's Substack
+  `Message` action.
 
 ### Held for a sharper collaboration angle
 
