@@ -19,6 +19,9 @@ test("suppresses complaints, provider suppressions, and permanent bounces", () =
 });
 
 test("does not unsubscribe readers after a temporary delivery failure", () => {
+  // Resend's current webhook payload labels these failures as "Transient".
+  assert.equal(shouldSuppressSubscriber("email.bounced", "Transient"), false);
+  // Keep the older/general spelling safe as well.
   assert.equal(shouldSuppressSubscriber("email.bounced", "Temporary"), false);
   assert.equal(shouldSuppressSubscriber("email.delivered"), false);
 });
