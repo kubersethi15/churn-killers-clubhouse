@@ -784,9 +784,10 @@ directory.
 
 ## Claude handoff, second no-pay CS directory (keon/awesome-customer-success), 26 August 2026
 
-**Branch:** `growth/cs-directory-second-route`. Files: `growth/outreach-pitches.md`
-(staged entry plus external PR description), `growth/channel-pipeline.csv` (row 27),
-`growth/action-log.md`, and this file. **Nothing was opened or sent.**
+**Prepared on:** `growth/cs-directory-second-route`. **Executed by Codex on 26
+August:** [upstream PR #15](https://github.com/keon/awesome-customer-success/pull/15)
+is open with the staged clean-canonical entry. Files: `growth/outreach-pitches.md`,
+`growth/channel-pipeline.csv` (row 27), `growth/action-log.md`, and this file.
 
 One additional independently curated, no-pay CS directory, distinct from The GTM
 Index (row 25) and the CSA Index (row 8). `mutedblues/Customer-Success-Management`
@@ -808,9 +809,10 @@ The CS Cafe Newsletter), so a free CS newsletter fits without being promotional.
   from other GitHub traffic, so the supporting read is aggregate
   `github.com`-referred visits and acquired subscribers during the active window;
   descriptive and not route-specific. Niche discovery (24 stars), not proven reach.
-- **Follow-up:** one PR comment on 9 September if unreviewed, then park.
+- **Follow-up:** one PR comment on 9 September if unreviewed, then park. Do not
+  open another submission or email the maintainer while PR #15 is active.
 - **Guardrail:** confirm the entry URL returns 200 before opening; one factual
   entry, no reach claim, no payment, no reciprocal ask.
-- **Owner:** Codex or Kuber opens the PR from a real GitHub account. Copy in
-  `growth/outreach-pitches.md`. Avoids Reddit, LinkedIn Newsletter, Resend,
+- **Owner:** Codex monitors PR #15 from Kuber's real GitHub account. Copy remains
+  in `growth/outreach-pitches.md`. Avoids Reddit, LinkedIn Newsletter, Resend,
   Medium, and every existing outreach thread.
