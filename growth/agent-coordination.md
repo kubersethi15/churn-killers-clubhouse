@@ -796,13 +796,14 @@ The CS Cafe Newsletter), so a free CS newsletter fits without being promotional.
 
 - **Route:** a plain GitHub pull request adding one entry to `Additional
   Resources`. First-party and verifiable; no signed-out wall.
-- **The entry (matches the section format):** `- **[Churn Is Dead](tracked-url)** -
-  Weekly evidence-led Customer Success newsletter by Kuber Sethi; each issue
-  frames one operating decision and ships a practical tool.`
-- **Tracked destination:** `https://churnisdead.com/?utm_source=awesome_customer_success&utm_medium=directory&utm_campaign=cs_resource_listing&utm_content=github_list`; bare-URL github.com-referrer fallback if the maintainer prefers a clean link.
-- **Metric:** tagged referral visits (`awesome_customer_success/directory`),
-  acquired subscribers active at 30 days, and a merged durable backlink.
-  Descriptive below 20 tagged visits.
+- **The entry (matches the section format, bare URL to maximise acceptance):**
+  `- **[Churn Is Dead](https://churnisdead.com/)** - Weekly evidence-led Customer
+  Success newsletter by Kuber Sethi; each issue frames one operating decision and
+  ships a practical tool.` A UTM variant is optional only if the maintainer
+  explicitly allows query params.
+- **Metric:** referral visits attributed to the `github.com` referrer, acquired
+  subscribers active at 30 days, and a merged durable backlink. Niche discovery
+  (24 stars), not proven reach. Descriptive below 20 referred visits.
 - **Follow-up:** one PR comment on 9 September if unreviewed, then park.
 - **Guardrail:** confirm the entry URL returns 200 before opening; one factual
   entry, no reach claim, no payment, no reciprocal ask.

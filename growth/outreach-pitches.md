@@ -818,28 +818,32 @@ peer newsletters and blogs, verbatim:
 A free practitioner CS newsletter is squarely in scope: The CS Cafe Newsletter is
 already listed, so Churn Is Dead fits the same slot without being promotional.
 
-**Why this is a strong, non-overlapping route.** It is a different independent,
-no-pay directory from The GTM Index (row 25) and the Customer Success Association
-Index (row 8). The submission route is a plain GitHub pull request, which is
-fully first-party and verifiable and does not hit a signed-out wall. A merged
-entry is a durable backlink and reaches CS practitioners who use the list.
+**Why this is a non-overlapping route.** It is a different independent, no-pay
+directory from The GTM Index (row 25) and the Customer Success Association Index
+(row 8). The submission route is a plain GitHub pull request, which is fully
+first-party and verifiable and does not hit a signed-out wall. A merged entry is
+a durable backlink. The list has 24 stars, so treat it as niche resource
+discovery: do not assume reach or a practitioner readership it has not been shown
+to have.
 
 **Route to use:** open one pull request against `keon/awesome-customer-success`
 adding the entry to the `Additional Resources` list. Match the section's exact
 existing format. No account guessing or email is involved. Codex or Kuber opens
 the PR from a real GitHub account; Claude does not open it.
 
-**Tracked canonical destination (the entry URL):**
-`https://churnisdead.com/?utm_source=awesome_customer_success&utm_medium=directory&utm_campaign=cs_resource_listing&utm_content=github_list`
+**Primary entry URL (optimised for acceptance): the bare canonical**
+`https://churnisdead.com/`. Match the section's clean-URL convention; every
+existing entry uses a bare URL, so a UTM link risks rejection as promotional.
+Measure this route through the aggregate `github.com` referrer, not a UTM.
 
 **The one entry to add (matches the section's `- **[Name](url)** - Description.` format):**
 
-> - **[Churn Is Dead](https://churnisdead.com/?utm_source=awesome_customer_success&utm_medium=directory&utm_campaign=cs_resource_listing&utm_content=github_list)** - Weekly evidence-led Customer Success newsletter by Kuber Sethi; each issue frames one operating decision and ships a practical tool.
+> - **[Churn Is Dead](https://churnisdead.com/)** - Weekly evidence-led Customer Success newsletter by Kuber Sethi; each issue frames one operating decision and ships a practical tool.
 
-**Fallback if the maintainer prefers a bare URL to match the section (likely):**
-use `https://churnisdead.com/` and attribute the referral through the `github.com`
-referrer instead of the UTM. Do not argue the point; a merged clean listing is
-worth more than a tracked rejected one.
+**Optional only if the maintainer explicitly allows query parameters:** the
+tracked variant `https://churnisdead.com/?utm_source=awesome_customer_success&utm_medium=directory&utm_campaign=cs_resource_listing&utm_content=github_list`.
+Do not push for it; a merged clean listing is worth more than a tracked rejected
+one.
 
 **External PR description (Codex or Kuber submits; do not open it yet):**
 
@@ -862,7 +866,6 @@ opening the PR. One PR, one factual entry, no reciprocal ask and no payment.
 Keep the description non-promotional and make no reach or subscriber claim. If
 there is no review in about ten days, add one concise comment on the PR on
 9 September 2026, then leave it; if it is closed or ignored after that, park the
-route and do not reopen. Aggregate metric: tagged referral visits
-(`awesome_customer_success/directory`, or `github.com` referrer under the
-fallback), acquired subscribers still active at 30 days, and whether the entry
-merges as a durable backlink. Descriptive below 20 tagged visits.
+route and do not reopen. Aggregate metric: referral visits attributed to the
+`github.com` referrer, acquired subscribers still active at 30 days, and whether
+the entry merges as a durable backlink. Descriptive below 20 referred visits.
