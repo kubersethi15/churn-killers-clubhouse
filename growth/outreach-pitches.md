@@ -742,12 +742,14 @@ tagged referral visits (`the_gtm_index/directory`), acquired subscribers still
 active at 30 days, and whether a live listing/backlink appears. Descriptive
 below 20 tagged visits.
 
-## Customer Education Bi-Weekly (Joe Ryan): mutual-mention swap (staged 26 August 2026)
+## Customer Education Bi-Weekly (Eric Mistry): mutual-mention swap (staged 26 August 2026)
 
 **Route status: adjacent, non-competing, swap-amenable. Verified 26 August 2026**
 at `https://customered.substack.com/`. Customer Education Bi-Weekly is a free,
-bi-weekly Substack by Joe Ryan for customer education, instructional design, CS,
-and customer marketing practitioners. Its format regularly surfaces what others
+bi-weekly Substack for customer education, instructional design, CS, and
+customer marketing practitioners. Current posts and the publication profile
+identify Eric Mistry as the active editor; the About page still names former
+author Joe Ryan. Its format regularly surfaces what others
 across the field are building and learning, which is why a mutual mention fits
 its editorial habit rather than fighting it. It is a smaller list; let the
 partner state its own size and do not claim reach.
@@ -758,15 +760,16 @@ readers to another CS newsletter, and prior analysis already flagged that swap a
 weak. Customer Education is adjacent, not competing, so the exchange is
 symmetric and both audiences gain something they do not already have.
 
-**Route:** Substack direct message; no public email confirmed. Confirm the
-first-party route at send time; do not guess an address.
+**Route:** Eric Mistry's first-party Substack profile
+(`https://substack.com/@ericmistry1`) exposes a `Message` action. Use that route;
+do not address the note to Joe Ryan or guess an email address.
 
 **Tracked hook (default; Kuber may substitute a better-fit issue):**
 `https://churnisdead.com/newsletter/fire-your-qbr-heres-what-to-do-instead?utm_source=customer_education&utm_medium=newsletter_swap&utm_campaign=thirty_minute_qbr`
 
 **Note (Codex or Kuber sends via Substack DM):**
 
-> Hi Joe,
+> Hi Eric,
 >
 > Customer Education Bi-Weekly regularly surfaces what people across the field are
 > actually building, not just opinions about it. I write Churn Is Dead, a weekly
@@ -788,7 +791,8 @@ first-party route at send time; do not guess an address.
 >
 > Kuber
 
-**Guardrail and follow-up:** confirm the tracked hook returns HTTP 200 before
+**Guardrail and follow-up:** send only through Eric Mistry's verified Substack
+`Message` action and confirm the tracked hook returns HTTP 200 before
 sending. One tracked link per side; one message and one concise follow-up on
 9 September 2026, then stop. No payment, no list sharing, no scraping; describe
 audiences accurately and do not overstate either list. The website stays
