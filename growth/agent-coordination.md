@@ -738,15 +738,18 @@ live native Reddit contribution recorded in PR #162 or the RevOps Impact swap.
 - **Aggregate metric:** tagged referral visits (`the_gtm_index/directory`),
   acquired subscribers active at 30 days, live listing/backlink. Descriptive
   below 20 tagged visits.
+- **Status:** sent once and verified in Gmail on 26 August after a clear duplicate
+  search and semantic route check. The not-yet-live Renewal Evidence Packet was
+  replaced with the live onboarding issue before send.
 - **Follow-up:** 9 September once if silent, then stop; park if still unlisted
   after the next quarterly review.
 - **Send route (verified first-party 26 August):** the `/about` contact link
   resolves to `hello@thegtmindex.com`. Executable now; Rome Thorndike on LinkedIn
   is a secondary route only if the email bounces.
-- **Guardrail:** confirm the tracked destination and the three cited issue URLs
-  return 200 before sending; no payment, no reciprocal-listing ask.
-- **Owner:** Codex or Kuber sends the staged note in `growth/outreach-pitches.md`
-  to `hello@thegtmindex.com`.
+- **Guardrail:** no payment, no reciprocal-listing ask, no second send while the
+  existing thread is active.
+- **Owner:** Codex monitors the existing thread and acts once on 9 September if
+  silent.
 
 ### Route 2, backing: Customer Education Bi-Weekly (Eric Mistry, current editor)
 
@@ -775,9 +778,9 @@ mention. The ChurnZero, Sybill, TheCXLead, and TopCSJobs roundups are vendor or
 SEO content marketing rather than independent curation and were declined. None
 are staged.
 
-**Next owner action:** route 1 (The GTM Index) is executable now — send the
-staged note to `hello@thegtmindex.com`. Route 2 (Customer Education) needs its
-Substack DM route confirmed, then send. The next unblocked Claude item is one
+**Next owner action:** route 1 (The GTM Index) is sent and now in monitoring.
+Route 2 (Customer Education) needs its Substack DM route confirmed, then send.
+The next unblocked Claude item is one
 more verified non-competing swap (Customer Education is now staged; SaaS
 Barometer needs author verification) or a second independently-curated, no-pay CS
 directory.

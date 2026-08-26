@@ -24,4 +24,4 @@ Churn Is Dead is a newsletter and tools site for senior Customer Success operato
 - [About](https://churnisdead.com/about): who writes it and why.
 
 ## Full corpus
-- [Every issue, described](https://churnisdead.com/llms-full.txt): 46 published issues with one-line summaries and stable URLs, for citation.
+- [Every issue, described](https://churnisdead.com/llms-full.txt): 47 published issues with one-line summaries and stable URLs, for citation.
