@@ -93,6 +93,10 @@ Complete only after the observation window. Never add names, email addresses, pr
 
 Read-only aggregate SQL recorded 43 first-party page-view sessions after the Tuesday release boundary. Seven carried the exact `linkedin / post / stealing-sprint-planning-from-engineering / tuesday_launch` tuple. That surface had zero qualified-action sessions and zero acquired subscribers at this early read. Across all traffic there were eight form-view sessions, zero form-submit sessions and zero signup-success sessions. This is descriptive only: seven tagged visits is below the 20-visit evidence floor and the observation window remains open.
 
+The signed-in 17-hour LinkedIn post view recorded 870 impressions, 542 members reached, 43% out-of-network reach, 42 social engagements, 18 reactions, 21 comments, two saves, one LinkedIn send, two profile viewers and zero followers attributed by LinkedIn. The tracked-link first comment had 171 impressions and one reaction. The website recorded seven exact `tuesday_launch` issue sessions, of which two reached a subscription form and none submitted it.
+
+The topic generated useful conversation with the intended audience: LinkedIn reports Customer Success Manager as 20% of reached job titles and Senior as 46% of reached seniority. The weak point is outbound visibility. A first-comment link received materially fewer impressions than the post, so seven site visits cannot be treated as evidence that the issue or website failed. After this baseline closes, stage one isolated direct-link-versus-first-comment test on a comparable post. Keep the issue, CTA and destination stable, use distinct campaign labels, and do not claim a format winner below 20 tagged visits per route.
+
 | Result | Value |
 |---|---|
 | Tagged visits | Pending |
