@@ -72,7 +72,7 @@ only after the RevOps Impact swap resolves, one at a time.
 |---|---|---|---|
 | RevOps Impact | Jeff Ignacio | RevOps, 6k+, owns the NRR systems | staged above |
 | Customer Education Bi-Weekly | Joe Ryan | Customer education, adjacent, bi-weekly, free | **staged below** (26 Aug) |
-| The CS Cafe | Hakan Ozturk | Core-CS, 4,300+ | **rejected as a swap** (26 Aug): direct competitor |
+| The CS Cafe | Hakan Ozturk | Core-CS, 4,300+ | **held** (26 Aug): needs a specific complementary angle, not a generic swap |
 | SaaS Barometer | (verify) | SaaS ops, adjacent | Substack, verify author before contact |
 
 Customer Education (Joe Ryan) is the second-best swap: genuinely adjacent, not
@@ -84,15 +84,16 @@ The strongest earned-distribution surface for a newsletter is not always another
 newsletter. This cycle advances one adjacent swap and adds one high-trust
 directory, and rejects the largest core-CS newsletter with cause.
 
-### Rejected with cause: The CS Cafe swap
+### Held for a sharper collaboration angle: The CS Cafe
 
-The CS Cafe (Hakan Ozturk) is the most-recommended core-CS newsletter, 4,300+ CS
-pros, weekly, free, on Substack. It is a **direct competitor** to Churn Is Dead.
-A rival CS newsletter has little incentive to route its readers to another CS
-newsletter, and its recommendations would point at a competitor. A mutual-mention
-swap here is low value. Rejected as a swap; not staged. It remains a legitimate
-neutral listing alongside Churn Is Dead inside an editorial directory (below),
-which is a different motion.
+The CS Cafe (Hakan Ozturk) is a core-CS newsletter with 4,300+ readers, weekly,
+free, on Substack. The audience overlap can be valuable when the exchange gives
+readers two clearly different assets or viewpoints; it is not, by itself, a
+reason to reject collaboration. A generic newsletter-for-newsletter mention is
+too vague, so no outreach is staged this cycle. Revisit with one complementary
+topic, debate, or co-created tool. It remains a legitimate neutral listing
+alongside Churn Is Dead inside an editorial directory (below), which is a
+different motion.
 
 Also evaluated and declined this cycle: the ChurnZero, Sybill, TheCXLead, and
 TopCSJobs "best CS newsletter" roundups. Several are vendor or SEO content
@@ -122,12 +123,14 @@ resource's own site. Churn Is Dead is not currently listed.
   Descriptive below 20 tagged visits.
 - **Follow-up:** one on 9 September if silent, then stop; if still unlisted after
   the next quarterly review, park rather than re-pitch.
+- **Send route (verified first-party 26 Aug):** the `/about` contact link
+  resolves to `hello@thegtmindex.com`. The lane is executable now; Rome Thorndike
+  on LinkedIn is a secondary route only if the email bounces.
 - **Guardrail:** confirm the tracked destination and the three cited issue URLs
   return 200 before sending; no payment offered or accepted; no reciprocal-listing
   ask; the case is the published work, not audience size.
-- **Owner:** Codex or Kuber submits after confirming the exact first-party route
-  (site `/about` contact, or Rome Thorndike on LinkedIn). No address invented.
-  Note staged in `growth/outreach-pitches.md`.
+- **Owner:** Codex or Kuber sends the staged note in `growth/outreach-pitches.md`
+  to `hello@thegtmindex.com`.
 
 ### Route 2, backing: Customer Education Bi-Weekly (Joe Ryan)
 
