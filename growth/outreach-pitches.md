@@ -669,10 +669,11 @@ Churn Is Dead
 then stop. Grounded only in ledger claim 4 (the thirty-minute review Kuber
 built); no audience-size or customer-result claim.
 
-## The GTM Index: Customer Success directory listing (staged 26 August 2026)
+## The GTM Index: Customer Success directory listing (sent 26 August 2026)
 
-**Route status: open, editorial, no payment. Verified first-party 26 August
-2026** at `https://thegtmindex.com/customer-success/` and `https://thegtmindex.com/about/`.
+**Route status: sent once through the verified first-party contact route on 26
+August 2026; editorial, no payment.** Verified at
+`https://thegtmindex.com/customer-success/` and `https://thegtmindex.com/about/`.
 The GTM Index is a curated set of go-to-market resource directories (24 GTM
 functions), curated by Rome Thorndike. Its stated policy: it does not accept
 payment for listings, reviews and updates each directory quarterly, removes
@@ -714,14 +715,14 @@ email bounces.
 > and does not support, and include a practical tool teams can use. The full
 > archive lives on the site.
 >
-> Three recent issues that match the bar you list for:
+> Three live issues that match the bar you list for:
 >
-> 1. Why an 80% renewal forecast is not evidence, and the packet that tests one:
->    https://churnisdead.com/newsletter/renewal-evidence-packet
-> 2. The Product Friction Review, for what happens to a customer problem after CS
+> 1. The Product Friction Review, for what happens to a customer problem after CS
 >    logs it and before product decides:
 >    https://churnisdead.com/newsletter/stealing-sprint-planning-from-engineering
-> 3. The thirty-minute review that replaced the QBR:
+> 2. Onboarding is the only renewal CS fully controls:
+>    https://churnisdead.com/newsletter/onboarding-only-renewal-you-control
+> 3. The 30-Minute Monthly Business Review:
 >    https://churnisdead.com/newsletter/fire-your-qbr-heres-what-to-do-instead
 >
 > If it fits the index, the home to list is
@@ -732,8 +733,9 @@ email bounces.
 > Kuber Sethi
 > Churn Is Dead
 
-**Guardrail and follow-up:** send to `hello@thegtmindex.com`; confirm the tracked
-destination and the three issue URLs return HTTP 200 before sending. Make no
+**Execution and follow-up:** Gmail duplicate search was clear and the message was
+verified in Sent. The tracked destination and three issue URLs returned HTTP 200
+with the correct title and self-canonical before sending. Make no
 claim Churn Is Dead cannot support; the case is the published work, not audience
 size. Do not offer or accept payment, and do not propose a reciprocal listing. If
 silent, one concise follow-up on 9 September 2026, then stop; if still unlisted

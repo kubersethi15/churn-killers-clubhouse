@@ -326,6 +326,88 @@ def build_page(base_html, nl, related=None, hub_slug=None, catalog=None):
     return result
 
 
+def build_held_page(base_html):
+    """Return a crawl-safe shell for a known issue that is not published yet.
+
+    Static hosts commonly serve the newest generated article or the SPA shell
+    when a nested newsletter file is absent.  That makes a future slug return
+    HTTP 200 with another issue's title and canonical.  An explicit held page
+    prevents that identity leak without exposing the future issue's title or
+    content.
+    """
+    archive_url = f"{SITE_URL}/newsletters"
+    title = "Issue unavailable | Churn Is Dead"
+    description = (
+        "This Churn Is Dead issue is not available yet. "
+        "Browse the published Customer Success archive."
+    )
+    result = base_html
+    result = re.sub(r'<title>[^<]*</title>', f'<title>{title}</title>', result, count=1)
+    result = re.sub(
+        r'<meta name="description" content="[^"]*"',
+        f'<meta name="description" content="{description}"',
+        result,
+        count=1,
+    )
+    result = re.sub(
+        r'<link rel="canonical" href="[^"]*"',
+        f'<link rel="canonical" href="{archive_url}"',
+        result,
+        count=1,
+    )
+    result = re.sub(
+        r'<meta property="og:title" content="[^"]*"',
+        f'<meta property="og:title" content="{title}"',
+        result,
+        count=1,
+    )
+    result = re.sub(
+        r'<meta property="og:description" content="[^"]*"',
+        f'<meta property="og:description" content="{description}"',
+        result,
+        count=1,
+    )
+    result = re.sub(
+        r'<meta property="og:url" content="[^"]*"',
+        f'<meta property="og:url" content="{archive_url}"',
+        result,
+        count=1,
+    )
+    result = re.sub(
+        r'<meta property="og:type" content="[^"]*"',
+        '<meta property="og:type" content="website"',
+        result,
+        count=1,
+    )
+    result = re.sub(
+        r'<meta name="twitter:title" content="[^"]*"',
+        f'<meta name="twitter:title" content="{title}"',
+        result,
+        count=1,
+    )
+    result = re.sub(
+        r'<meta name="twitter:description" content="[^"]*"',
+        f'<meta name="twitter:description" content="{description}"',
+        result,
+        count=1,
+    )
+    result = result.replace(
+        "</head>",
+        '  <meta name="robots" content="noindex, nofollow">\n  </head>',
+        1,
+    )
+    fallback = f"""
+  <noscript>
+    <main style="max-width:680px;margin:80px auto;padding:0 20px;font-family:Helvetica,Arial,sans-serif;line-height:1.6;color:#111827">
+      <p style="font-size:11px;letter-spacing:3px;color:#C8553D;font-weight:bold;text-transform:uppercase">CHURN IS DEAD</p>
+      <h1 style="font-family:Georgia,serif;font-size:38px">This issue is not available yet.</h1>
+      <p>Read the Customer Success issues that are already published.</p>
+      <p><a href="{archive_url}">Browse all issues</a></p>
+    </main>
+  </noscript>"""
+    return result.replace('<div id="root"></div>', '<div id="root"></div>' + fallback)
+
+
 def main():
     print("Pre-rendering newsletter pages (hybrid)...")
     base_html = INDEX_HTML.read_text()
@@ -365,15 +447,12 @@ def main():
         if published_at.tzinfo is None:
             published_at = published_at.replace(tzinfo=timezone.utc)
         if published_at > now:
-            # A previously generated file may contain an early or superseded
-            # draft. Remove it so future issues are unavailable before launch.
+            # Keep an explicit generic shell. Without this file, static-host
+            # fallback can return another article's title and canonical for the
+            # future slug, which misidentifies the page to readers and crawlers.
             held_page = PUBLIC_DIR / "newsletter" / slug / "index.html"
-            if held_page.exists():
-                held_page.unlink()
-                try:
-                    held_page.parent.rmdir()
-                except OSError:
-                    pass
+            held_page.parent.mkdir(parents=True, exist_ok=True)
+            held_page.write_text(build_held_page(base_html))
             print(f"  Hold {slug} until {nl['published_date']}")
             continue
         if not nl.get('content'):

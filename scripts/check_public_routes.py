@@ -14,6 +14,15 @@ ROOT = Path(__file__).resolve().parent.parent
 DIST = ROOT / "dist"
 
 
+def is_held_newsletter(source: str) -> bool:
+    """Identify the generic noindex shell for a known future issue."""
+    return (
+        'content="noindex, nofollow"' in source
+        and f'href="{ORIGIN}/newsletters"' in source
+        and 'id="ci-newsletter"' not in source
+    )
+
+
 def main() -> None:
     errors: list[str] = []
     titles: dict[str, str] = {}
@@ -72,7 +81,11 @@ def main() -> None:
     if archive_path.exists():
         archive_source = archive_path.read_text(encoding="utf-8")
         archive_slugs = set(re.findall(r'href="/newsletter/([a-z0-9-]+)"', archive_source))
-        generated_slugs = {path.parent.name for path in (DIST / "newsletter").glob("*/index.html")}
+        generated_slugs = {
+            path.parent.name
+            for path in (DIST / "newsletter").glob("*/index.html")
+            if not is_held_newsletter(path.read_text(encoding="utf-8"))
+        }
         missing_links = sorted(generated_slugs - archive_slugs)
         stale_links = sorted(archive_slugs - generated_slugs)
         if missing_links:
@@ -85,6 +98,14 @@ def main() -> None:
     for article_path in sorted((DIST / "newsletter").glob("*/index.html")):
         slug = article_path.parent.name
         article_source = article_path.read_text(encoding="utf-8")
+        if is_held_newsletter(article_source):
+            if "<title>Issue unavailable | Churn Is Dead</title>" not in article_source:
+                errors.append(f"/newsletter/{slug}: held page has the wrong title")
+            if re.search(r'property="article:|"@type"\s*:\s*"Article"', article_source):
+                errors.append(f"/newsletter/{slug}: held page leaks article metadata")
+            if "This issue is not available yet." not in article_source:
+                errors.append(f"/newsletter/{slug}: held page lacks human fallback copy")
+            continue
         if 'id="ci-newsletter"' not in article_source:
             errors.append(f"/newsletter/{slug}: missing hydratable article payload")
         if re.search(r"newsletter not found|issue unavailable", article_source, re.IGNORECASE):
