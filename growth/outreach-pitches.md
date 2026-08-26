@@ -703,10 +703,9 @@ page. Confirm the exact first-party contact route at send time via the site
 >
 > Hi Rome,
 >
-> I came across your Customer Success index while looking at how you curate the
-> GTM lists. No payment, quarterly review, removed if it stops being useful. That
-> is the reason a listing there is worth anything, so I will keep this short and
-> let the work decide.
+> Your Customer Success index takes a line most directories do not: no payment,
+> quarterly review, removed if it stops being useful. That is the reason a listing
+> there is worth anything, so I will keep this short and let the work decide.
 >
 > I publish Churn Is Dead, a free weekly newsletter for Customer Success leaders.
 > Each issue takes one operating decision, states the evidence and its limits,
@@ -767,11 +766,10 @@ first-party route at send time; do not guess an address.
 
 > Hi Joe,
 >
-> I read Customer Education Bi-Weekly for the way you surface what people across
-> the field are actually building, not just opinions about it. I write Churn Is
-> Dead, a weekly newsletter for Customer Success leaders. I think our readers sit
-> next to each other with less overlap than you would guess, which is the
-> interesting part.
+> Customer Education Bi-Weekly regularly surfaces what people across the field are
+> actually building, not just opinions about it. I write Churn Is Dead, a weekly
+> newsletter for Customer Success leaders. I think our readers sit next to each
+> other with less overlap than you would guess, which is the interesting part.
 >
 > I am not proposing a generic swap. I have one issue that would land with a
 > customer-education audience: the thirty-minute review that replaced the QBR. It
