@@ -705,14 +705,14 @@ email bounces.
 >
 > Hi Rome,
 >
-> Your Customer Success index takes a line most directories do not: no payment,
-> quarterly review, removed if it stops being useful. That is the reason a listing
-> there is worth anything, so I will keep this short and let the work decide.
+> Your Customer Success index stood out because it is not pay-to-play and you
+> review it regularly. That makes it worth trusting, so I will keep this short
+> and let the work speak for itself.
 >
 > I publish Churn Is Dead, a free weekly newsletter for Customer Success leaders.
-> Each issue takes one operating decision, states the evidence and its limits,
-> gives a framework, and ships a tool a reader can run that week. The website is
-> the canonical archive.
+> Each Tuesday I take one difficult CS decision, explain what the evidence does
+> and does not support, and include a practical tool teams can use. The full
+> archive lives on the site.
 >
 > Three recent issues that match the bar you list for:
 >
@@ -770,8 +770,9 @@ first-party route at send time; do not guess an address.
 >
 > Customer Education Bi-Weekly regularly surfaces what people across the field are
 > actually building, not just opinions about it. I write Churn Is Dead, a weekly
-> newsletter for Customer Success leaders. I think our readers sit next to each
-> other with less overlap than you would guess, which is the interesting part.
+> newsletter for Customer Success leaders. Your readers focus on customer
+> education; mine focus on CS decisions. There is useful overlap without the two
+> newsletters doing the same job.
 >
 > I am not proposing a generic swap. I have one issue that would land with a
 > customer-education audience: the thirty-minute review that replaced the QBR. It
@@ -780,10 +781,10 @@ first-party route at send time; do not guess an address.
 > into evidence of value, it fits.
 >
 > Would you be open to a mutual mention, one issue each: you point readers at
-> that piece, I point mine at a Customer Education edition you choose. One each,
-> see how the referral looks, decide from there. I will describe both sides
-> accurately: I publish to a CS audience on the site and to about 8,200 on
-> LinkedIn, and I will frame your side however you prefer.
+> that piece, and I point mine at a Customer Education edition you choose? We can
+> try it once, look at the referral traffic, and decide whether it is useful. I
+> also have about 8,200 followers on LinkedIn, but I would keep this as a clean
+> newsletter-to-newsletter test and describe your work however you prefer.
 >
 > Kuber
 
