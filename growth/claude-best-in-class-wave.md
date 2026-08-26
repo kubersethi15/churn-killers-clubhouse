@@ -117,6 +117,13 @@ subscriber retention rather than clicks alone.
 
 ### BC-09: create the weekly growth-and-quality review
 
+**Implemented and owned by Codex from 26 August to 4 October 2026 under
+Kuber's explicit six-week focus directive.** The shared `Growth Scorecard` tab
+is the source of truth and the existing Friday growth heartbeat owns the
+weekly write. Claude should consume its aggregate evidence when choosing the
+next unclaimed growth lane, but must not create a parallel dashboard, review
+document, or competing decision cadence.
+
 Produce a compact aggregate review that joins editorial quality, distribution,
 acquisition, activation, and retention without mixing causal claims. It must
 separate LinkedIn posts, LinkedIn Newsletter, partner traffic, referral,
