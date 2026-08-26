@@ -801,9 +801,11 @@ The CS Cafe Newsletter), so a free CS newsletter fits without being promotional.
   Success newsletter by Kuber Sethi; each issue frames one operating decision and
   ships a practical tool.` A UTM variant is optional only if the maintainer
   explicitly allows query params.
-- **Metric:** referral visits attributed to the `github.com` referrer, acquired
-  subscribers active at 30 days, and a merged durable backlink. Niche discovery
-  (24 stars), not proven reach. Descriptive below 20 referred visits.
+- **Metric:** the only exact route outcome is merge status (accepted as a durable
+  backlink). A bare URL means `github.com` referrer data cannot separate this list
+  from other GitHub traffic, so the supporting read is aggregate
+  `github.com`-referred visits and acquired subscribers during the active window;
+  descriptive and not route-specific. Niche discovery (24 stars), not proven reach.
 - **Follow-up:** one PR comment on 9 September if unreviewed, then park.
 - **Guardrail:** confirm the entry URL returns 200 before opening; one factual
   entry, no reach claim, no payment, no reciprocal ask.

@@ -866,6 +866,8 @@ opening the PR. One PR, one factual entry, no reciprocal ask and no payment.
 Keep the description non-promotional and make no reach or subscriber claim. If
 there is no review in about ten days, add one concise comment on the PR on
 9 September 2026, then leave it; if it is closed or ignored after that, park the
-route and do not reopen. Aggregate metric: referral visits attributed to the
-`github.com` referrer, acquired subscribers still active at 30 days, and whether
-the entry merges as a durable backlink. Descriptive below 20 referred visits.
+route and do not reopen. **The only exact route outcome is merge status**
+(whether the entry is accepted and becomes a durable backlink). A bare URL means
+`github.com` referrer data cannot separate this list from other GitHub traffic,
+so the supporting read is aggregate `github.com`-referred visits and acquired
+subscribers during the active window; descriptive and not route-specific.
