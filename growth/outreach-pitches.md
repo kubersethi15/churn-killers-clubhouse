@@ -689,16 +689,18 @@ listing a competing newsletter alongside others is expected, not a barrier. This
 is not a generic or bulk directory: no payment, quarterly pruning, and an
 anti-product-marketing bar make it a high-trust surface.
 
-**Route to use:** no public submission form is exposed on the Customer Success
-page. Confirm the exact first-party contact route at send time via the site
-(check `/about` for a contact) or Rome Thorndike's public profile
-(`https://www.linkedin.com/in/romethorndike/`). Do not guess an email address.
+**Route to use (verified first-party 26 August):** the contact link on
+`https://thegtmindex.com/about/` resolves to **`hello@thegtmindex.com`**. That is
+the send route; the lane is executable now. Rome Thorndike's public profile
+(`https://www.linkedin.com/in/romethorndike/`) is a secondary route only if the
+email bounces.
 
 **Tracked destination (the URL to list):**
 `https://churnisdead.com/?utm_source=the_gtm_index&utm_medium=directory&utm_campaign=cs_resource_listing&utm_content=newsletter_entry`
 
-**Note (Codex or Kuber sends after confirming the route):**
+**Note (Codex or Kuber sends to `hello@thegtmindex.com`):**
 
+> To: hello@thegtmindex.com
 > Subject: For your Customer Success index: Churn Is Dead
 >
 > Hi Rome,
@@ -730,12 +732,12 @@ page. Confirm the exact first-party contact route at send time via the site
 > Kuber Sethi
 > Churn Is Dead
 
-**Guardrail and follow-up:** confirm the tracked destination and the three issue
-URLs return HTTP 200 before sending. Make no claim Churn Is Dead cannot support;
-the case is the published work, not audience size. Do not offer or accept
-payment, and do not propose a reciprocal listing. If silent, one concise
-follow-up on 9 September 2026, then stop; if still unlisted after the next
-quarterly review, park the route rather than re-pitching. Aggregate metric:
+**Guardrail and follow-up:** send to `hello@thegtmindex.com`; confirm the tracked
+destination and the three issue URLs return HTTP 200 before sending. Make no
+claim Churn Is Dead cannot support; the case is the published work, not audience
+size. Do not offer or accept payment, and do not propose a reciprocal listing. If
+silent, one concise follow-up on 9 September 2026, then stop; if still unlisted
+after the next quarterly review, park the route rather than re-pitching. Aggregate metric:
 tagged referral visits (`the_gtm_index/directory`), acquired subscribers still
 active at 30 days, and whether a live listing/backlink appears. Descriptive
 below 20 tagged visits.
