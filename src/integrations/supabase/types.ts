@@ -63,7 +63,6 @@ export type Database = {
       }
       analysis_groups: {
         Row: {
-          acquisition_session_id: string | null
           created_at: string
           id: string
           name: string
@@ -71,7 +70,6 @@ export type Database = {
           user_id: string
         }
         Insert: {
-          acquisition_session_id?: string | null
           created_at?: string
           id?: string
           name: string
@@ -79,7 +77,6 @@ export type Database = {
           user_id: string
         }
         Update: {
-          acquisition_session_id?: string | null
           created_at?: string
           id?: string
           name?: string
@@ -149,6 +146,7 @@ export type Database = {
           received_at: string | null
           resend_message_id: string | null
           subject: string | null
+          webhook_event_id: string | null
         }
         Insert: {
           email: string
@@ -160,6 +158,7 @@ export type Database = {
           received_at?: string | null
           resend_message_id?: string | null
           subject?: string | null
+          webhook_event_id?: string | null
         }
         Update: {
           email?: string
@@ -171,6 +170,7 @@ export type Database = {
           received_at?: string | null
           resend_message_id?: string | null
           subject?: string | null
+          webhook_event_id?: string | null
         }
         Relationships: []
       }
@@ -330,6 +330,7 @@ export type Database = {
         Row: {
           category: string | null
           content: string
+          core_claim: string | null
           excerpt: string
           id: string
           published_date: string
@@ -342,6 +343,7 @@ export type Database = {
         Insert: {
           category?: string | null
           content: string
+          core_claim?: string | null
           excerpt: string
           id?: string
           published_date?: string
@@ -354,6 +356,7 @@ export type Database = {
         Update: {
           category?: string | null
           content?: string
+          core_claim?: string | null
           excerpt?: string
           id?: string
           published_date?: string
@@ -392,57 +395,6 @@ export type Database = {
           role?: Database["public"]["Enums"]["cs_role"] | null
           updated_at?: string
           user_id?: string
-        }
-        Relationships: []
-      }
-      subscribers: {
-        Row: {
-          created_at: string
-          email: string
-          external_referrer: string | null
-          id: string
-          landing_page: string | null
-          last_subject_variant: string | null
-          signup_location: string | null
-          source_page: string | null
-          subscribed: boolean
-          utm_campaign: string | null
-          utm_content: string | null
-          utm_medium: string | null
-          utm_source: string | null
-          welcome_email_sent_at: string | null
-        }
-        Insert: {
-          created_at?: string
-          email: string
-          external_referrer?: string | null
-          id?: string
-          landing_page?: string | null
-          last_subject_variant?: string | null
-          signup_location?: string | null
-          source_page?: string | null
-          subscribed?: boolean
-          utm_campaign?: string | null
-          utm_content?: string | null
-          utm_medium?: string | null
-          utm_source?: string | null
-          welcome_email_sent_at?: string | null
-        }
-        Update: {
-          created_at?: string
-          email?: string
-          external_referrer?: string | null
-          id?: string
-          landing_page?: string | null
-          last_subject_variant?: string | null
-          signup_location?: string | null
-          source_page?: string | null
-          subscribed?: boolean
-          utm_campaign?: string | null
-          utm_content?: string | null
-          utm_medium?: string | null
-          utm_source?: string | null
-          welcome_email_sent_at?: string | null
         }
         Relationships: []
       }
@@ -524,6 +476,60 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      subscribers: {
+        Row: {
+          acquisition_session_id: string | null
+          created_at: string
+          email: string
+          external_referrer: string | null
+          id: string
+          landing_page: string | null
+          last_subject_variant: string | null
+          signup_location: string | null
+          source_page: string | null
+          subscribed: boolean
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          welcome_email_sent_at: string | null
+        }
+        Insert: {
+          acquisition_session_id?: string | null
+          created_at?: string
+          email: string
+          external_referrer?: string | null
+          id?: string
+          landing_page?: string | null
+          last_subject_variant?: string | null
+          signup_location?: string | null
+          source_page?: string | null
+          subscribed?: boolean
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          welcome_email_sent_at?: string | null
+        }
+        Update: {
+          acquisition_session_id?: string | null
+          created_at?: string
+          email?: string
+          external_referrer?: string | null
+          id?: string
+          landing_page?: string | null
+          last_subject_variant?: string | null
+          signup_location?: string | null
+          source_page?: string | null
+          subscribed?: boolean
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          welcome_email_sent_at?: string | null
+        }
+        Relationships: []
       }
       user_roles: {
         Row: {
@@ -649,6 +655,11 @@ export type Database = {
       }
       create_newsletter_invoke_function: { Args: never; Returns: undefined }
       enable_pg_cron: { Args: never; Returns: undefined }
+      get_growth_dashboard: { Args: never; Returns: Json }
+      get_growth_retention_dashboard: { Args: never; Returns: Json }
+      get_growth_variant_dashboard: { Args: never; Returns: Json }
+      get_reactivation_dashboard: { Args: never; Returns: Json }
+      get_referral_dashboard: { Args: never; Returns: Json }
       get_shared_analysis: {
         Args: { _share_id: string }
         Returns: {
@@ -660,11 +671,6 @@ export type Database = {
           title: string
         }[]
       }
-      get_growth_dashboard: { Args: never; Returns: Json }
-      get_referral_dashboard: { Args: never; Returns: Json }
-      get_growth_retention_dashboard: { Args: never; Returns: Json }
-      get_growth_variant_dashboard: { Args: never; Returns: Json }
-      get_reactivation_dashboard: { Args: never; Returns: Json }
       get_welcome_activation_dashboard: { Args: never; Returns: Json }
       has_role: {
         Args: {
