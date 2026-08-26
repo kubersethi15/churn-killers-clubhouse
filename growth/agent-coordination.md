@@ -779,3 +779,36 @@ Substack DM route confirmed, then send. The next unblocked Claude item is one
 more verified non-competing swap (Customer Education is now staged; SaaS
 Barometer needs author verification) or a second independently-curated, no-pay CS
 directory.
+
+## Claude handoff, second no-pay CS directory (keon/awesome-customer-success), 26 August 2026
+
+**Branch:** `growth/cs-directory-second-route`. Files: `growth/outreach-pitches.md`
+(staged entry plus external PR description), `growth/channel-pipeline.csv` (row 27),
+`growth/action-log.md`, and this file. **Nothing was opened or sent.**
+
+One additional independently curated, no-pay CS directory, distinct from The GTM
+Index (row 25) and the CSA Index (row 8). `mutedblues/Customer-Success-Management`
+was rejected as abandoned (last push January 2020). `keon/awesome-customer-success`
+was verified first-party: active (pushed 2026-07-31, recent external PRs merged),
+free, non-vendor, CC0-1.0, and its `Additional Resources` section already lists
+peer newsletters and blogs (Gain Grow Retain, HubSpot Resources, Catalyst Blog,
+The CS Cafe Newsletter), so a free CS newsletter fits without being promotional.
+
+- **Route:** a plain GitHub pull request adding one entry to `Additional
+  Resources`. First-party and verifiable; no signed-out wall.
+- **The entry (matches the section format, bare URL to maximise acceptance):**
+  `- **[Churn Is Dead](https://churnisdead.com/)** - Weekly evidence-led Customer
+  Success newsletter by Kuber Sethi; each issue frames one operating decision and
+  ships a practical tool.` A UTM variant is optional only if the maintainer
+  explicitly allows query params.
+- **Metric:** the only exact route outcome is merge status (accepted as a durable
+  backlink). A bare URL means `github.com` referrer data cannot separate this list
+  from other GitHub traffic, so the supporting read is aggregate
+  `github.com`-referred visits and acquired subscribers during the active window;
+  descriptive and not route-specific. Niche discovery (24 stars), not proven reach.
+- **Follow-up:** one PR comment on 9 September if unreviewed, then park.
+- **Guardrail:** confirm the entry URL returns 200 before opening; one factual
+  entry, no reach claim, no payment, no reciprocal ask.
+- **Owner:** Codex or Kuber opens the PR from a real GitHub account. Copy in
+  `growth/outreach-pitches.md`. Avoids Reddit, LinkedIn Newsletter, Resend,
+  Medium, and every existing outreach thread.

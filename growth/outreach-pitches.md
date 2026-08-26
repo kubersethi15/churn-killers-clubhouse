@@ -799,3 +799,75 @@ audiences accurately and do not overstate either list. The website stays
 canonical. Aggregate metric: tagged referred visits (`newsletter_swap/customer_education`),
 acquired subscribers, and 30-day active status. Diagnostic below the evidence
 threshold; no causal claim.
+
+## keon/awesome-customer-success: GitHub list entry (staged 26 August 2026)
+
+**Route status: open via a GitHub pull request. Verified first-party 26 August
+2026** at `https://github.com/keon/awesome-customer-success`. This is an
+independently curated, community-maintained "awesome list" of Customer Success
+resources. It is free, non-vendor, and licensed CC0-1.0. It was last pushed
+2026-07-31 with recent external contributions merged, so it is actively
+maintained, not abandoned. Its `Additional Resources` section already lists
+peer newsletters and blogs, verbatim:
+
+> - **[Gain Grow Retain](https://gaingrowretain.com/)** - Podcasts, community, resource lists, etc.
+> - **[HubSpot Resources](https://www.hubspot.com/resources/customer-success)** - Guides and templates.
+> - **[Catalyst Blog](https://catalyst.io/blog)** - Insights on success management.
+> - **[The CS Cafe Newsletter](https://www.thecscafe.com)** - Weekly Customer Success Newsletter by Hakan Ozturk.
+
+A free practitioner CS newsletter is squarely in scope: The CS Cafe Newsletter is
+already listed, so Churn Is Dead fits the same slot without being promotional.
+
+**Why this is a non-overlapping route.** It is a different independent, no-pay
+directory from The GTM Index (row 25) and the Customer Success Association Index
+(row 8). The submission route is a plain GitHub pull request, which is fully
+first-party and verifiable and does not hit a signed-out wall. A merged entry is
+a durable backlink. The list has 24 stars, so treat it as niche resource
+discovery: do not assume reach or a practitioner readership it has not been shown
+to have.
+
+**Route to use:** open one pull request against `keon/awesome-customer-success`
+adding the entry to the `Additional Resources` list. Match the section's exact
+existing format. No account guessing or email is involved. Codex or Kuber opens
+the PR from a real GitHub account; Claude does not open it.
+
+**Primary entry URL (optimised for acceptance): the bare canonical**
+`https://churnisdead.com/`. Match the section's clean-URL convention; every
+existing entry uses a bare URL, so a UTM link risks rejection as promotional.
+Measure this route through the aggregate `github.com` referrer, not a UTM.
+
+**The one entry to add (matches the section's `- **[Name](url)** - Description.` format):**
+
+> - **[Churn Is Dead](https://churnisdead.com/)** - Weekly evidence-led Customer Success newsletter by Kuber Sethi; each issue frames one operating decision and ships a practical tool.
+
+**Optional only if the maintainer explicitly allows query parameters:** the
+tracked variant `https://churnisdead.com/?utm_source=awesome_customer_success&utm_medium=directory&utm_campaign=cs_resource_listing&utm_content=github_list`.
+Do not push for it; a merged clean listing is worth more than a tracked rejected
+one.
+
+**External PR description (Codex or Kuber submits; do not open it yet):**
+
+> **Title:** Add Churn Is Dead newsletter to Additional Resources
+>
+> Adds one entry to the Additional Resources section: Churn Is Dead, a free
+> weekly Customer Success newsletter. It sits alongside the existing
+> newsletter and blog entries such as The CS Cafe Newsletter and Catalyst Blog.
+>
+> - Free to read on the site, no signup wall.
+> - Practitioner-written for CS leaders; each issue covers one operating
+>   decision and includes a downloadable tool.
+> - The entry follows the section's existing `- **[Name](url)** - Description.`
+>   format.
+>
+> Happy to adjust the wording or placement to match your conventions.
+
+**Guardrail and follow-up:** confirm the entry URL returns HTTP 200 before
+opening the PR. One PR, one factual entry, no reciprocal ask and no payment.
+Keep the description non-promotional and make no reach or subscriber claim. If
+there is no review in about ten days, add one concise comment on the PR on
+9 September 2026, then leave it; if it is closed or ignored after that, park the
+route and do not reopen. **The only exact route outcome is merge status**
+(whether the entry is accepted and becomes a durable backlink). A bare URL means
+`github.com` referrer data cannot separate this list from other GitHub traffic,
+so the supporting read is aggregate `github.com`-referred visits and acquired
+subscribers during the active window; descriptive and not route-specific.
