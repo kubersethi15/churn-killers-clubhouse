@@ -13,8 +13,20 @@
   "playbook_title": "The Renewal Evidence Packet",
   "playbook_description": "An evidence register, forecast-state test, contradiction log, and review record for making renewal forecasts auditable.",
   "subject_variants": [
-    {"label": "framework", "subject": "The Renewal Evidence Packet"},
-    {"label": "problem", "subject": "Your renewal forecast needs receipts"},
-    {"label": "outcome", "subject": "Make the renewal forecast auditable"}
+    {
+      "label": "framework",
+      "subject": "The one-page test for your renewal forecast",
+      "preheader": "Six questions that show what the customer has confirmed—and what your team is still guessing."
+    },
+    {
+      "label": "problem",
+      "subject": "Your renewal forecast needs receipts",
+      "preheader": "Put the contract, decision-makers, value, risks and contrary evidence on one page."
+    },
+    {
+      "label": "outcome",
+      "subject": "Would this account still be Commit?",
+      "preheader": "Take one account into the review. Keep it, raise it, lower it or mark it unverified."
+    }
   ]
 }
