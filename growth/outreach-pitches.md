@@ -668,3 +668,129 @@ Churn Is Dead
 **Follow-up:** if actioned and silent, one concise follow-up on 4 September 2026,
 then stop. Grounded only in ledger claim 4 (the thirty-minute review Kuber
 built); no audience-size or customer-result claim.
+
+## The GTM Index: Customer Success directory listing (staged 26 August 2026)
+
+**Route status: open, editorial, no payment. Verified first-party 26 August
+2026** at `https://thegtmindex.com/customer-success/` and `https://thegtmindex.com/about/`.
+The GTM Index is a curated set of go-to-market resource directories (24 GTM
+functions), curated by Rome Thorndike. Its stated policy: it does not accept
+payment for listings, reviews and updates each directory quarterly, removes
+resources that stop being useful, and lists a resource only if it teaches
+something beyond a Google search, is actively maintained, and is
+practitioner-recommended. It explicitly excludes "product marketing dressed as
+editorial," and every listing links out to the resource's own site. Churn Is
+Dead is not currently listed.
+
+**Why this is a strong, non-overlapping route.** A reader browsing a curated
+"Customer Success newsletters" index is high intent: they are actively looking
+for a CS newsletter to subscribe to. Because the index is neutral and editorial,
+listing a competing newsletter alongside others is expected, not a barrier. This
+is not a generic or bulk directory: no payment, quarterly pruning, and an
+anti-product-marketing bar make it a high-trust surface.
+
+**Route to use (verified first-party 26 August):** the contact link on
+`https://thegtmindex.com/about/` resolves to **`hello@thegtmindex.com`**. That is
+the send route; the lane is executable now. Rome Thorndike's public profile
+(`https://www.linkedin.com/in/romethorndike/`) is a secondary route only if the
+email bounces.
+
+**Tracked destination (the URL to list):**
+`https://churnisdead.com/?utm_source=the_gtm_index&utm_medium=directory&utm_campaign=cs_resource_listing&utm_content=newsletter_entry`
+
+**Note (Codex or Kuber sends to `hello@thegtmindex.com`):**
+
+> To: hello@thegtmindex.com
+> Subject: For your Customer Success index: Churn Is Dead
+>
+> Hi Rome,
+>
+> Your Customer Success index takes a line most directories do not: no payment,
+> quarterly review, removed if it stops being useful. That is the reason a listing
+> there is worth anything, so I will keep this short and let the work decide.
+>
+> I publish Churn Is Dead, a free weekly newsletter for Customer Success leaders.
+> Each issue takes one operating decision, states the evidence and its limits,
+> gives a framework, and ships a tool a reader can run that week. The website is
+> the canonical archive.
+>
+> Three recent issues that match the bar you list for:
+>
+> 1. Why an 80% renewal forecast is not evidence, and the packet that tests one:
+>    https://churnisdead.com/newsletter/renewal-evidence-packet
+> 2. The Product Friction Review, for what happens to a customer problem after CS
+>    logs it and before product decides:
+>    https://churnisdead.com/newsletter/stealing-sprint-planning-from-engineering
+> 3. The thirty-minute review that replaced the QBR:
+>    https://churnisdead.com/newsletter/fire-your-qbr-heres-what-to-do-instead
+>
+> If it fits the index, the home to list is
+> https://churnisdead.com/?utm_source=the_gtm_index&utm_medium=directory&utm_campaign=cs_resource_listing&utm_content=newsletter_entry .
+> No payment, and I am not asking for a reciprocal listing. If it is not a fit,
+> no problem, and thanks for keeping the list clean.
+>
+> Kuber Sethi
+> Churn Is Dead
+
+**Guardrail and follow-up:** send to `hello@thegtmindex.com`; confirm the tracked
+destination and the three issue URLs return HTTP 200 before sending. Make no
+claim Churn Is Dead cannot support; the case is the published work, not audience
+size. Do not offer or accept payment, and do not propose a reciprocal listing. If
+silent, one concise follow-up on 9 September 2026, then stop; if still unlisted
+after the next quarterly review, park the route rather than re-pitching. Aggregate metric:
+tagged referral visits (`the_gtm_index/directory`), acquired subscribers still
+active at 30 days, and whether a live listing/backlink appears. Descriptive
+below 20 tagged visits.
+
+## Customer Education Bi-Weekly (Joe Ryan): mutual-mention swap (staged 26 August 2026)
+
+**Route status: adjacent, non-competing, swap-amenable. Verified 26 August 2026**
+at `https://customered.substack.com/`. Customer Education Bi-Weekly is a free,
+bi-weekly Substack by Joe Ryan for customer education, instructional design, CS,
+and customer marketing practitioners. Its format regularly surfaces what others
+across the field are building and learning, which is why a mutual mention fits
+its editorial habit rather than fighting it. It is a smaller list; let the
+partner state its own size and do not claim reach.
+
+**Why this and not The CS Café.** The CS Café (Hakan Ozturk, 4,300+ CS pros) is a
+direct core-CS competitor; a rival CS newsletter has little reason to route its
+readers to another CS newsletter, and prior analysis already flagged that swap as
+weak. Customer Education is adjacent, not competing, so the exchange is
+symmetric and both audiences gain something they do not already have.
+
+**Route:** Substack direct message; no public email confirmed. Confirm the
+first-party route at send time; do not guess an address.
+
+**Tracked hook (default; Kuber may substitute a better-fit issue):**
+`https://churnisdead.com/newsletter/fire-your-qbr-heres-what-to-do-instead?utm_source=customer_education&utm_medium=newsletter_swap&utm_campaign=thirty_minute_qbr`
+
+**Note (Codex or Kuber sends via Substack DM):**
+
+> Hi Joe,
+>
+> Customer Education Bi-Weekly regularly surfaces what people across the field are
+> actually building, not just opinions about it. I write Churn Is Dead, a weekly
+> newsletter for Customer Success leaders. I think our readers sit next to each
+> other with less overlap than you would guess, which is the interesting part.
+>
+> I am not proposing a generic swap. I have one issue that would land with a
+> customer-education audience: the thirty-minute review that replaced the QBR. It
+> is about what a customer review should actually produce, a decision and a next
+> step, instead of a status recap. If your readers care about turning enablement
+> into evidence of value, it fits.
+>
+> Would you be open to a mutual mention, one issue each: you point readers at
+> that piece, I point mine at a Customer Education edition you choose. One each,
+> see how the referral looks, decide from there. I will describe both sides
+> accurately: I publish to a CS audience on the site and to about 8,200 on
+> LinkedIn, and I will frame your side however you prefer.
+>
+> Kuber
+
+**Guardrail and follow-up:** confirm the tracked hook returns HTTP 200 before
+sending. One tracked link per side; one message and one concise follow-up on
+9 September 2026, then stop. No payment, no list sharing, no scraping; describe
+audiences accurately and do not overstate either list. The website stays
+canonical. Aggregate metric: tagged referred visits (`newsletter_swap/customer_education`),
+acquired subscribers, and 30-day active status. Diagnostic below the evidence
+threshold; no causal claim.

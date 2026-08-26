@@ -71,12 +71,85 @@ only after the RevOps Impact swap resolves, one at a time.
 | Newsletter | Author | Fit | Route |
 |---|---|---|---|
 | RevOps Impact | Jeff Ignacio | RevOps, 6k+, owns the NRR systems | staged above |
-| Customer Education Newsletter | Joe Ryan | Customer education, adjacent lane, ~3 yrs | Substack DM, no public email |
-| The CS Cafe | Hakan Ozturk | CS, 4,300, sells sponsorship | competing; swap weaker, sponsorship is the real route |
+| Customer Education Bi-Weekly | Joe Ryan | Customer education, adjacent, bi-weekly, free | **staged below** (26 Aug) |
+| The CS Cafe | Hakan Ozturk | Core-CS, 4,300+ | **held** (26 Aug): needs a specific complementary angle, not a generic swap |
 | SaaS Barometer | (verify) | SaaS ops, adjacent | Substack, verify author before contact |
 
 Customer Education (Joe Ryan) is the second-best swap: genuinely adjacent, not
 competing, and likely peer-sized so the trade is symmetric.
+
+## Second staged outcome, 26 August 2026: two verified non-overlapping routes
+
+The strongest earned-distribution surface for a newsletter is not always another
+newsletter. This cycle advances one adjacent swap and adds one high-trust
+directory, and rejects the largest core-CS newsletter with cause.
+
+### Held for a sharper collaboration angle: The CS Cafe
+
+The CS Cafe (Hakan Ozturk) is a core-CS newsletter with 4,300+ readers, weekly,
+free, on Substack. The audience overlap can be valuable when the exchange gives
+readers two clearly different assets or viewpoints; it is not, by itself, a
+reason to reject collaboration. A generic newsletter-for-newsletter mention is
+too vague, so no outreach is staged this cycle. Revisit with one complementary
+topic, debate, or co-created tool. It remains a legitimate neutral listing
+alongside Churn Is Dead inside an editorial directory (below), which is a
+different motion.
+
+Also evaluated and declined this cycle: the ChurnZero, Sybill, TheCXLead, and
+TopCSJobs "best CS newsletter" roundups. Several are vendor or SEO content
+marketing rather than independently curated, which fails the trust bar. Not
+pursued.
+
+### Route 1, primary: The GTM Index Customer Success directory
+
+Verified first-party 26 August at `https://thegtmindex.com/customer-success/` and
+`https://thegtmindex.com/about/`. Curated by Rome Thorndike. It **does not accept
+payment for listings**, reviews each directory quarterly, removes resources that
+stop being useful, lists a resource only if it teaches beyond a Google search,
+is actively maintained, and is practitioner-recommended, and it explicitly
+excludes "product marketing dressed as editorial." Every listing links out to the
+resource's own site. Churn Is Dead is not currently listed.
+
+- **Why it is strong and non-overlapping.** A reader on a curated CS-newsletter
+  index is high intent: actively looking for a CS newsletter to subscribe to.
+  Because the index is neutral, listing a competing newsletter is expected, so
+  being a competitor is a barrier for a swap but not for a directory. Not a
+  generic or bulk directory: no payment, quarterly pruning, anti-product-marketing.
+- **Tracked destination:** `https://churnisdead.com/?utm_source=the_gtm_index&utm_medium=directory&utm_campaign=cs_resource_listing&utm_content=newsletter_entry`.
+- **Hypothesis:** an editorial, no-pay CS index reaches high-intent readers and
+  produces tagged referral visits plus a durable backlink; conversion unknown.
+- **Aggregate metric:** tagged referral visits (`the_gtm_index/directory`),
+  acquired subscribers still active at 30 days, and a live listing/backlink.
+  Descriptive below 20 tagged visits.
+- **Follow-up:** one on 9 September if silent, then stop; if still unlisted after
+  the next quarterly review, park rather than re-pitch.
+- **Send route (verified first-party 26 Aug):** the `/about` contact link
+  resolves to `hello@thegtmindex.com`. The lane is executable now; Rome Thorndike
+  on LinkedIn is a secondary route only if the email bounces.
+- **Guardrail:** confirm the tracked destination and the three cited issue URLs
+  return 200 before sending; no payment offered or accepted; no reciprocal-listing
+  ask; the case is the published work, not audience size.
+- **Owner:** Codex or Kuber sends the staged note in `growth/outreach-pitches.md`
+  to `hello@thegtmindex.com`.
+
+### Route 2, backing: Customer Education Bi-Weekly (Joe Ryan)
+
+Verified 26 August at `https://customered.substack.com/`. Free, bi-weekly, for
+customer education, instructional design, CS, and customer marketing
+practitioners. Its format surfaces others' work, so a mutual mention fits its
+editorial habit. Smaller list; let the partner state its own size.
+
+- **Tracked hook (default):** `https://churnisdead.com/newsletter/fire-your-qbr-heres-what-to-do-instead?utm_source=customer_education&utm_medium=newsletter_swap&utm_campaign=thirty_minute_qbr`.
+- **Hypothesis:** an adjacent, non-competing swap transfers qualified readers the
+  core-CS feed does not already reach; overlap unmeasured.
+- **Aggregate metric:** tagged referred visits (`newsletter_swap/customer_education`),
+  acquired subscribers, 30-day active status. Diagnostic below the threshold.
+- **Follow-up:** one message and one follow-up on 9 September, then stop.
+- **Guardrail:** confirm the hook returns 200 before sending; one tracked link per
+  side; no payment, list sharing, or scraping; accurate audience descriptions;
+  website stays canonical.
+- **Owner:** Codex or Kuber sends via Substack DM after confirming the route. Note
+  staged in `growth/outreach-pitches.md`.
 
 ## Metric
 

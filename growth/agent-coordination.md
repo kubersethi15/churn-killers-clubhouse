@@ -75,6 +75,7 @@ The ready-to-claim list is a starting queue, not a ceiling. An agent may add and
 | SEO-08 crawlable homepage identity schema | Codex | merged PR [#98](https://github.com/kubersethi15/churn-killers-clubhouse/pull/98); Lovable deployment `453bc5f7-6547-4ae1-b9cd-ec7e1d52c9df` | Complete and live | Public homepage HTML contains one factual WebSite, Organization, and Kuber Person graph. Production build and 17 route checks passed; non-home leakage is a build failure. No launch, CTA, copy, or attribution change. |
 | DELIV-01 unsubscribe-token contract hardening | Claude, reviewed by Codex | merged PR [#143](https://github.com/kubersethi15/churn-killers-clubhouse/pull/143) | Complete; focused tests pass | The signer and verifier now share `supabase/functions/_shared/unsubscribeToken.ts`, following Supabase's supported shared-code structure. The golden-vector contract test passes. No schema, broadcast switch, or launch surface changed. |
 | DELIV-02 broadcast retry idempotency | Claude, production verified by Codex | merged PR [#144](https://github.com/kubersethi15/churn-killers-clubhouse/pull/144); Supabase function version 154 | Complete and deployed 25 August; broadcast remains disabled | Production download is byte-identical to merged `index.ts`, `sendPlan.ts`, email identity, and unsubscribe-token source. Migration `20260901010000` is recorded remotely and the required unique index already existed. The sender pre-filters delivered recipients, aborts on unreadable logs, and advances its pointer only after transient sends and log persistence succeed. `NEWSLETTER_SEND_ENABLED` remains untouched; a clean branded-inbox reply test and sender-health gate are still required before broadcast activation. |
+| CG-15/ACQ-06 curated-directory + adjacent-swap routes | Claude | `growth/cg15-gtmindex-customer-education-routes` | Prepared and staged 26 August; nothing sent | Claimed: the new entries in `growth/outreach-pitches.md`, `growth/cross-newsletter-collaboration.md`, `growth/channel-pipeline.csv`, the action-log entry, and this row. Two verified non-overlapping routes: The GTM Index CS directory and Customer Education Bi-Weekly swap. Does not touch Codex's Wednesday newsletter, Resend, funnel measurement, LinkedIn comments, CG-18 Medium, the live native Reddit contribution recorded in PR #162, or the RevOps Impact swap. Codex or Kuber confirms each first-party route and sends. |
 | DELIV-03 subscriber email release quality | Codex | merged PRs [#152](https://github.com/kubersethi15/churn-killers-clubhouse/pull/152) and [#154](https://github.com/kubersethi15/churn-killers-clubhouse/pull/154); Resend domain configuration | Code complete; production deployment/test held 25 August | Weekly sender, template, tests, current subject/preheader, release audit, and welcome-trigger hardening are merged. Resend open and click tracking are off, preserving direct site links and on-site UTM attribution. Welcome delivery is restricted to recent legitimate signups, with generic public responses and the same lawful-address gate. Codex retains the deploy/test boundary until Kuber supplies the mailing address and completes secure Supabase CLI login. Do not enable `NEWSLETTER_SEND_ENABLED` or send to subscribers from this lane. |
 
 ## Claude rolling queue
@@ -701,3 +702,73 @@ Codex submits the staged application through the Write For Us form (or emails
 and invited, Kuber personally drafts the article. If actioned and silent, one
 follow-up on 4 September, then stop. Do not cold-pitch ChurnZero or Pavilion;
 both wait on a warm introduction (or, for Pavilion, an explicit paid decision).
+
+## Claude handoff, curated-directory + adjacent-swap routes, 26 August 2026
+
+**Branch:** `growth/cg15-gtmindex-customer-education-routes`. Files:
+`growth/outreach-pitches.md` (two staged notes), `growth/cross-newsletter-collaboration.md`
+(both routes plus the CS Cafe hold), `growth/channel-pipeline.csv` (the two new
+entries), `growth/action-log.md`, and this file. **Nothing was sent; no external
+account, message, email, or listing was created.**
+
+The off-platform lane this cycle is one high-trust directory and one adjacent
+swap, with one overlapping route held for a sharper angle. It is deliberately non-overlapping: it
+does not touch Codex's Wednesday LinkedIn Newsletter release, Resend
+deliverability, on-site funnel measurement, or LinkedIn comment execution; it
+does not touch CG-18 Medium (MED-001 stays 24 September, MED-002 stays 8 October,
+website canonical preserved, Medium story free); and it does not duplicate the
+live native Reddit contribution recorded in PR #162 or the RevOps Impact swap.
+
+### Route 1, primary: The GTM Index Customer Success directory
+
+- **Verified first-party 26 August** at `https://thegtmindex.com/customer-success/`
+  and `https://thegtmindex.com/about/`. Curated by Rome Thorndike. No payment for
+  listings, quarterly review, removes stale resources, lists only work that
+  teaches beyond a Google search and is practitioner-recommended, excludes
+  product-marketing-as-editorial, links out to each resource's own site. Churn Is
+  Dead is not listed. High intent and competitor-neutral, so a CS newsletter is
+  welcome.
+- **Tracked destination:** `https://churnisdead.com/?utm_source=the_gtm_index&utm_medium=directory&utm_campaign=cs_resource_listing&utm_content=newsletter_entry`.
+- **Hypothesis:** an editorial no-pay CS index reaches high-intent readers and
+  produces tagged referral visits plus a durable backlink; conversion unknown.
+- **Aggregate metric:** tagged referral visits (`the_gtm_index/directory`),
+  acquired subscribers active at 30 days, live listing/backlink. Descriptive
+  below 20 tagged visits.
+- **Follow-up:** 9 September once if silent, then stop; park if still unlisted
+  after the next quarterly review.
+- **Send route (verified first-party 26 August):** the `/about` contact link
+  resolves to `hello@thegtmindex.com`. Executable now; Rome Thorndike on LinkedIn
+  is a secondary route only if the email bounces.
+- **Guardrail:** confirm the tracked destination and the three cited issue URLs
+  return 200 before sending; no payment, no reciprocal-listing ask.
+- **Owner:** Codex or Kuber sends the staged note in `growth/outreach-pitches.md`
+  to `hello@thegtmindex.com`.
+
+### Route 2, backing: Customer Education Bi-Weekly (Joe Ryan)
+
+- **Verified 26 August** at `https://customered.substack.com/`. Free bi-weekly,
+  adjacent (customer education / instructional design / CS / customer marketing),
+  surfaces others' work so it is swap-amenable and not a direct competitor.
+- **Tracked hook (default):** `https://churnisdead.com/newsletter/fire-your-qbr-heres-what-to-do-instead?utm_source=customer_education&utm_medium=newsletter_swap&utm_campaign=thirty_minute_qbr`.
+- **Metric:** tagged referred visits (`newsletter_swap/customer_education`),
+  acquired subscribers, 30-day active status.
+- **Follow-up:** one message and one follow-up on 9 September, then stop.
+- **Guardrail:** confirm the hook returns 200; one tracked link per side; no
+  payment, list sharing, or scraping; accurate audience descriptions.
+- **Owner:** Codex or Kuber sends via Substack DM after confirming the route.
+
+### Held for a sharper collaboration angle
+
+A generic swap with **The CS Cafe** (Hakan Ozturk, 4,300+ core-CS) is held, not
+rejected. Its audience overlap can be valuable, but outreach needs a specific
+complementary topic, debate, or co-created asset rather than a vague mutual
+mention. The ChurnZero, Sybill, TheCXLead, and TopCSJobs roundups are vendor or
+SEO content marketing rather than independent curation and were declined. None
+are staged.
+
+**Next owner action:** route 1 (The GTM Index) is executable now — send the
+staged note to `hello@thegtmindex.com`. Route 2 (Customer Education) needs its
+Substack DM route confirmed, then send. The next unblocked Claude item is one
+more verified non-competing swap (Customer Education is now staged; SaaS
+Barometer needs author verification) or a second independently-curated, no-pay CS
+directory.
