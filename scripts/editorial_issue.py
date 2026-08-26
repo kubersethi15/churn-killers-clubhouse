@@ -213,8 +213,26 @@ def validate_issue(issue: EditorialIssue, require_approved: bool = False) -> Val
         errors.append("publication blocked: issue is not approved")
 
     variants = meta.get("subject_variants", [])
-    if variants and (not isinstance(variants, list) or any(not row.get("subject") for row in variants if isinstance(row, dict))):
+    if variants and (
+        not isinstance(variants, list)
+        or any(not isinstance(row, dict) for row in variants)
+    ):
         errors.append("subject_variants must be a list of labelled subjects")
+    elif isinstance(variants, list):
+        if status == "approved" and len(variants) != 1:
+            errors.append("approved issues must select exactly one email subject for the current small list")
+        for index, row in enumerate(variants, 1):
+            for field in ("label", "subject", "preheader"):
+                if not str(row.get(field, "")).strip():
+                    errors.append(f"subject variant {index} is missing '{field}'")
+            subject = str(row.get("subject", "")).strip()
+            preheader = str(row.get("preheader", "")).strip()
+            if len(subject) > 60:
+                errors.append(f"subject variant {index} exceeds 60 characters")
+            if len(preheader) > 140:
+                errors.append(f"subject variant {index} preheader exceeds 140 characters")
+            if "—" in subject or "—" in preheader:
+                errors.append(f"subject variant {index} contains a forbidden em dash")
 
     return ValidationResult(errors, warnings)
 
