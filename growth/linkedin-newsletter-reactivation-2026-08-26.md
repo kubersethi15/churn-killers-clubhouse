@@ -63,6 +63,10 @@ The Wednesday edition replaces the unapproved carousel in the social calendar. I
 - Canonical resource URL: `https://churnisdead.com/newsletter/stealing-sprint-planning-from-engineering?utm_source=linkedin&utm_medium=newsletter&utm_campaign=stealing-sprint-planning-from-engineering&utm_content=linkedin_newsletter`
 - Manager sheet: `2026 Calendar` row 235, `Approved for Posting`
 - Manager handoff: sent to `Kuber X LinkedIn`; the nine-page Wednesday carousel is cancelled
+- Public edition: `https://www.linkedin.com/pulse/product-does-need-another-customer-request-kuber-sethi-njhkc/`
+- Release verification: live 26 August at 18:15 Sydney with the exact tracked canonical link and no duplicate Wednesday carousel or feed post
+- Five-minute aggregate release read: 682 subscribers, 26 article views, eight impressions, five members reached, 450 email sends, 5% email open rate and four social engagements
+- Interpretation boundary: the two-subscriber movement from the dormant 680 baseline is descriptive at release and is not attributed to this edition
 
 ## Four-edition operating block
 
