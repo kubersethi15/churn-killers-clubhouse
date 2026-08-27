@@ -128,6 +128,37 @@ Before publishing a relationship comment, compare it with this baseline. If it
 could sit under almost any LinkedIn post, rewrite it around the exact tension in
 the live discussion.
 
+#### Ten-weekday interaction test — starts 3 September 2026
+
+Kuber approved a controlled expansion after the CID-001 baseline closes. The
+account may create up to **20 genuine LinkedIn interactions per weekday**, but
+20 is a ceiling, not a quota and not 20 cold comments.
+
+- Publish at most **eight external relationship comments across all operators**.
+  Codex fills only the unused capacity after checking the manager's completed
+  and planned comments in the shared `Engagement List`.
+- Aim for four high-fit Australian conversations in the earlier Sydney window
+  and four UK or United States conversations in the later Sydney window. Do not
+  force a regional split when there are not enough current, relevant threads.
+- Reserve the remaining capacity for substantive replies on Kuber's own posts
+  and follow-ups when another practitioner responds. Praise-only reactions do
+  not need a written reply.
+- Never post the eight comments in a short burst. LinkedIn publishes no safe
+  numerical threshold and warns that high-volume, repetitive activity can
+  reduce visibility or restrict an account.
+- The manager's pre-post engagement is coordinated relationship work, not a
+  proven algorithmic boost. Never describe it as causing distribution.
+- Every comment still requires a live duplicate check, the 27 August voice
+  standard and the existing exact action-time confirmation.
+
+Run the test for ten weekdays. Record external comments, substantive replies,
+follow-ups, aggregate profile views, total follower movement and any available
+post-attributed follows. Treat account-level movement descriptively. Stop
+immediately on a LinkedIn warning, a quality failure or repeated overlap. After
+ten weekdays, test a maximum of ten external comments only if the expanded
+cadence preserves voice quality and improves meaningful replies or profile
+discovery; never jump directly to 20 external comments.
+
 ### 5. Profile follow conversion
 
 Keep the current headline, About, Featured order and Premium Churn Is Dead
