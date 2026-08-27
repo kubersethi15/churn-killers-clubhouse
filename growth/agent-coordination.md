@@ -1,6 +1,6 @@
 # Churn Is Dead agent coordination
 
-**Last updated:** 25 August 2026
+**Last updated:** 27 August 2026
 
 This is the shared coordination board for Claude and Codex. It contains no subscriber identities or customer PII.
 
@@ -12,7 +12,12 @@ The durable execution queue is [`growth/full-growth-backlog.md`](full-growth-bac
 
 ## Shared objective
 
-Increase qualified Churn Is Dead subscribers and organic traffic, improve activation and retention, and build an evidence-led path to monetisation. The website is canonical. Preserve Kuber Sethi's voice, never invent personal experience or results, and measure aggregate outcomes.
+Reach 20,000 relevant LinkedIn followers by 31 December 2026 while increasing
+qualified Churn Is Dead subscribers and organic traffic, improving activation
+and retention, and building an evidence-led path to monetisation. LinkedIn
+followers and owned subscribers are separate first-class outcomes. The website
+is canonical. Preserve Kuber Sethi's voice, never invent personal experience or
+results, and measure aggregate outcomes.
 
 ## Launch-week focus: 25 August to 1 September
 
@@ -54,6 +59,7 @@ The ready-to-claim list is a starting queue, not a ceiling. An agent may add and
 
 | Workstream | Owner | Branch or surface | Status | Claimed files / boundary |
 |---|---|---|---|---|
+| LI-20K controllable follower growth | Codex + social manager | `growth/linkedin-20k-operating-plan.md`; shared `Growth Scorecard`; active growth heartbeat | Active from 27 August through 31 December 2026 | Baseline 8,345; target 20,000; required pace 648 net followers per week. Preserve approved public work through the 1 September CID-001 close, then run the follower-funnel, opening, native-asset and timing tests one variable at a time. Codex owns aggregate reads and one weekly portfolio decision; the social manager owns approved calendar execution and response coverage. Claude may claim one evidence-backed format research brief only after checking this row and must not create a parallel scorecard or duplicate comments. |
 | SITE-01 best-in-class publication experience | Codex | merged PR [#106](https://github.com/kubersethi15/churn-killers-clubhouse/pull/106) | Complete and live 24 August 2026 | Public publication surfaces, semantic route integrity, archive taxonomy, featured-issue evidence, playbook workspace/PDF, brand assets and analyzer accessibility shipped. No files remain claimed. |
 | SITE-02 plain-language brand repair | Codex | merged PR [#109](https://github.com/kubersethi15/churn-killers-clubhouse/pull/109) | Complete and live 24 August 2026 | Human publication voice restored across the homepage and supporting surfaces. No files remain claimed; hold further copy changes through the CID-001 read unless production is broken. |
 | SITE-03 category-defining editorial art direction | Codex | merged PR [#112](https://github.com/kubersethi15/churn-killers-clubhouse/pull/112), production commit `64ed47d` | Complete and live 24 August 2026 | Oversized editorial masthead, red signal motif, asymmetric issue presentation, authentic author imagery, and shared art direction shipped across Homepage, Issues, Playbooks, About, article headers/content, navigation, footer, and signup forms. Focused lint, TypeScript, production build, 19 public-route checks, desktop/mobile QA, and live production verification passed. No files remain claimed. |

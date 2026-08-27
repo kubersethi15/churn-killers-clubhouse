@@ -2,13 +2,20 @@
 
 **Start:** 24 August 2026
 
-**Goal:** turn borrowed attention into attributable, retained newsletter subscribers and repeat use of Churn Is Dead tools.
+**Goal:** turn borrowed attention into attributable, retained newsletter
+subscribers and repeat use of Churn Is Dead tools, while the separate
+`growth/linkedin-20k-operating-plan.md` grows Kuber's relevant LinkedIn audience
+to 20,000 by 31 December 2026.
 
 Editorial quality is the product foundation. It is not the distribution strategy. Growth runs through four loops that can operate outside the weekly publishing workflow.
 
 ## North-star scorecard
 
-The primary outcome is an acquired subscriber who is still active after 30 days. Report it by source and campaign. Do not optimise for followers, impressions, reactions, or raw sessions in isolation.
+For the owned-publication system, the primary outcome is an acquired subscriber
+who is still active after 30 days. Report it by source and campaign. LinkedIn's
+separate personal-brand system has net relevant followers as its hard outcome.
+Do not combine the two scorecards or optimise either one for impressions,
+reactions, or raw sessions in isolation.
 
 Track these in order:
 
@@ -18,7 +25,9 @@ Track these in order:
 4. 30-day active subscribers by acquisition source.
 5. Meaningful replies, invitations, and partner introductions.
 
-LinkedIn profile views and follower growth are relationship indicators. They are not newsletter growth unless the site action is attributable.
+LinkedIn profile views and follower growth are relationship indicators for the
+newsletter. They are first-class measures in the 20K personal-brand system, but
+they are not newsletter growth unless the site action is attributable.
 
 The LinkedIn Premium `View my newsletter` profile button is the always-on exception: it uses a dedicated tagged HTTPS URL and stays unchanged while a time-boxed acquisition experiment is running.
 
