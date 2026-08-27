@@ -8,6 +8,10 @@ This is an execution queue, not an ideas document. Before starting an item, clai
 
 ## Current fixed points
 
+- LinkedIn personal-brand target is 20,000 relevant followers by 31 December
+  2026 from an 8,345 baseline on 27 August. The operating pace is 648 net new
+  followers per week. Use `growth/linkedin-20k-operating-plan.md` as the
+  controlling plan and keep LinkedIn followers separate from email subscribers.
 - The website is the canonical publication.
 - CID-001 runs from 25 August at 18:15 Sydney through 1 September at 18:14 Sydney.
 - Do not change CID-001's Tuesday LinkedIn copy, tracked link, website CTA, timing, or channel mix during that window.
@@ -68,6 +72,11 @@ These do not need to wait for the controlled acquisition experiment.
 
 | ID | Work | Earliest start | Primary proof | Stop or revise rule |
 |---|---|---|---|---|
+| LI-20K-01 | Run the 18-week 20K follower operating plan and weekly pace read | Active from 27 August | Total followers, weekly net, pace variance, post-attributed follows and audience fit | Reallocate one slot only after two reads; never chase unrelated virality |
+| LI-20K-02 | Establish post-to-follow baselines across the approved calendar | Active; no public changes through 1 September | Members reached, profile viewers and followers gained per post at 24h and 7d | Descriptive below 5,000 combined reach or ten attributed follows |
+| LI-20K-03 | Test specific-failure openings against broader advice openings | After 1 September | Attributed follows and profile visits per 1,000 reached | Two posts per family and 10,000 combined reach before keeping a winner |
+| LI-20K-04 | Test one native document asset against a comparable text post | After the opening read | Attributed follows, saves and qualified replies per 1,000 reached | Do not keep the asset for impressions alone |
+| LI-20K-05 | Test one later Sydney slot against the established 18:15 timing class | After four comparable posts | Attributed follows and qualified reach by timing class | Do not move the calendar on assumed US audience share |
 | LI-01 | Preserve and measure the Premium `View my newsletter` profile control | Active | Tagged visits, acquired subscribers, custom-button engagement | Hold URL and copy stable through 1 September |
 | LI-02 | Close the current LinkedIn Premium baseline | 1 September | Follower growth, out-of-network reach, profile views, link engagement, tagged acquisitions | Do not report follower growth as newsletter growth |
 | LI-03 | Replace the Featured homepage card with a purpose-built LinkedIn landing path if evidence supports it | After baseline | Profile-to-qualified-action and profile-to-signup rate | Keep current control if fewer than 20 tagged visits |

@@ -2,6 +2,10 @@
 
 This log records consequential external growth actions. It contains aggregate operational evidence only, not subscriber PII.
 
+## 27 August 2026
+
+- Activated the LinkedIn 20K operating target at an aggregate baseline of 8,345 followers. The 31 December target requires 11,655 net new followers across 18 weeks, or 648 per week, versus 101 in the latest seven-day read. Added a separate follower funnel and four-step acceleration sequence covering the approved-calendar baseline, specific-failure openings, native document assets and a later timing-class test. The existing social-manager cadence and relationship loop remain in place; no extra public post, comment, profile edit or calendar change was made. LinkedIn followers and confirmed Churn Is Dead email subscribers remain separate outcomes.
+
 ## 26 August 2026
 
 - Verified the first CID-004 native LinkedIn Newsletter edition after its scheduled 18:15 Sydney publication. `Product does not need another customer request` is publicly live at `https://www.linkedin.com/pulse/product-does-need-another-customer-request-kuber-sethi-njhkc/`; the edition contains the exact `linkedin / newsletter / stealing-sprint-planning-from-engineering / linkedin_newsletter` canonical route, and the cancelled Wednesday carousel did not publish. The five-minute aggregate release read showed 682 LinkedIn Newsletter subscribers, 26 article views, eight impressions, five members reached, 450 email sends, a 5% email open rate and four social engagements. The subscriber count is two above the dormant 680 baseline, but this release snapshot is descriptive and does not attribute that movement to the edition. Shared calendar row 235 is marked Posted with the public URL. Preserve the 24-hour and seven-day reads and the four-edition 20-tagged-visit evidence floor before changing cadence.
