@@ -103,6 +103,31 @@ The daily cap remains shared across Codex, Claude and the manager. The manager's
 existing likes and replies do not authorise duplicate comments. One useful
 idea per thread, no links, no repeated post, no forced question at the end.
 
+#### Kuber comment voice baseline — 27 August 2026
+
+Kuber confirmed that the five relationship comments published on 27 August are
+the reference standard for his natural written voice. Use their tone and
+rhythm as the quality benchmark, not their wording.
+
+- Sound like a senior practitioner joining a real conversation, not a brand
+  account delivering a mini-essay.
+- Start with the operating point. Skip generic praise such as `Great post`,
+  `This really resonates`, or `Such an important point`.
+- Add one specific insight, consequence or useful distinction that advances
+  the thread. Do not summarise the author's post back to them.
+- Use plain language, contractions and varied sentence length. Keep the
+  response as short as the idea allows.
+- Do not force a question, link, CTA, brand mention, hashtag, emoji pattern or
+  artificial engagement device into the ending.
+- Avoid corporate filler, symmetrical three-part rhetoric, excessive em
+  dashes, headings, bullet lists and polished phrases that sound generated.
+- Never invent first-person experience. A natural voice does not require
+  manufactured typos or fake informality.
+
+Before publishing a relationship comment, compare it with this baseline. If it
+could sit under almost any LinkedIn post, rewrite it around the exact tension in
+the live discussion.
+
 ### 5. Profile follow conversion
 
 Keep the current headline, About, Featured order and Premium Churn Is Dead
