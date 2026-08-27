@@ -212,3 +212,19 @@ more posts. It is a clean post-to-follow baseline, followed by a specific-failur
 opening test and one profile-promise change. The 20K sprint does not wait for
 podcasts, community appearances, partnerships or creator replies; those remain
 upside when they happen.
+
+## Creative intelligence loop
+
+Use [`growth/linkedin-creative-intelligence-system.md`](linkedin-creative-intelligence-system.md)
+and the shared [`20K Creative Lab`](https://docs.google.com/spreadsheets/d/1bkwIU02ejHXb_fwazAIhGb1jdhlobhhdVpZAHqsYfWE/edit#gid=1646406001)
+to select the creative job for each existing feed slot.
+
+Across each five comparable feed posts, use two evolved Kuber winners, one
+external-pattern adaptation, one original format bet and one Churn Is Dead issue
+or tool post. Translate structures only; never copy another creator's wording,
+story, framework or visual. The manager brief must specify exactly one of:
+personal photo, graphic/carousel, or no asset. It also states what not to use.
+
+This does not increase calendar volume or override approved public copy before
+the 1 September baseline closes. Judge every format on qualified reach,
+post-attributed profile viewers and followers, not on reactions alone.
