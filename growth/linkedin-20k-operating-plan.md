@@ -261,6 +261,45 @@ No one changes approved public copy, posts, comments, profile surfaces or
 permissions without the exact action-time check required by the operating
 system. Once an exact item is approved, it executes without another request.
 
+## Social-manager value audit: 28 August to 18 September
+
+Keep the current $450-per-month social-manager arrangement unchanged through
+18 September. The purpose of the three-week window is to decide whether the
+manager supplies valuable human execution or mainly repeats work already done
+by Codex.
+
+Each Friday, score only documented work in the shared calendar, `Engagement
+List`, `20K Creative Lab` and public post record:
+
+| Dimension | Weight | Evidence |
+| --- | ---: | --- |
+| Reliability | 25 | Approved posts delivered at the exact time, URL and status recorded, with no misses or duplicates |
+| Voice and engagement quality | 20 | Comments and replies match Kuber's 27 August voice baseline and add something specific |
+| Creative production | 20 | Useful mobile-readable graphics, carousels, mock-ups or photo selections produced to brief |
+| Response coverage | 20 | Substantive questions on Kuber's posts handled promptly without robotic or praise-only replies |
+| Initiative and leverage | 15 | Routine ambiguity resolved without chasing and meaningful operating time saved |
+
+Also record missed or late posts, preventable corrections, asset rework,
+duplicate targeting, the number of times Kuber or Codex had to chase or redo
+work, unique assets delivered and a conservative estimate of human execution
+hours saved. Separate manager work from strategy, research, copy, tracking and
+briefs supplied by Codex. Reach and follower movement are context, not proof
+that the manager caused growth.
+
+Do not make an employment recommendation before the final read unless there is
+a serious trust or account-safety failure. On 18 September make one decision:
+
+- **KEEP:** at least 80/100, at least 95% schedule reliability, materially
+  useful human engagement or creative production, and little chasing.
+- **REDUCE OR REPRICE:** 60 to 79, or the useful role is primarily a narrower
+  execution service such as asset production and scheduled posting.
+- **END:** below 60, repeated misses, duplicates or robotic engagement, or the
+  role consumes as much operating time as it saves.
+
+Compare the practical evidence with the $450 monthly fee without inventing an
+hourly rate. The final decision is about leverage and reliability, not whether
+Codex can generate content.
+
 ## Immediate decision
 
 The existing cadence stays in place through 1 September. The first move is not
