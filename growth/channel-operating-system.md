@@ -4,8 +4,8 @@
 
 **Goal:** turn borrowed attention into attributable, retained newsletter
 subscribers and repeat use of Churn Is Dead tools, while the separate
-`growth/linkedin-20k-operating-plan.md` grows Kuber's relevant LinkedIn audience
-to 20,000 by 31 December 2026.
+`growth/linkedin-15k-operating-plan.md` grows Kuber's relevant LinkedIn audience
+to 15,000 by 31 December 2026.
 
 Editorial quality is the product foundation. It is not the distribution strategy. Growth runs through four loops that can operate outside the weekly publishing workflow.
 
@@ -26,7 +26,7 @@ Track these in order:
 5. Meaningful replies, invitations, and partner introductions.
 
 LinkedIn profile views and follower growth are relationship indicators for the
-newsletter. They are first-class measures in the 20K personal-brand system, but
+newsletter. They are first-class measures in the 15K personal-brand system, but
 they are not newsletter growth unless the site action is attributable.
 
 The LinkedIn Premium `View my newsletter` profile button is the always-on exception: it uses a dedicated tagged HTTPS URL and stays unchanged while a time-boxed acquisition experiment is running.
