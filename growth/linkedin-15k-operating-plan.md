@@ -1,12 +1,12 @@
-# LinkedIn 20K operating plan
+# LinkedIn 15K operating plan
 
 **Owner:** Codex, with the social manager operating the approved calendar  
-**Baseline:** 8,345 followers on 27 August 2026  
-**Target:** 20,000 followers by 31 December 2026  
-**Gap:** 11,655 followers across 18 weeks  
-**Required pace:** 648 net new followers per week, about 92 per day  
-**Recent pace:** 101 net new followers in the latest seven-day LinkedIn read  
-**Scale change required:** roughly 6.4 times the recent weekly pace
+**Baseline:** 8,363 followers on 28 August 2026  
+**Target:** 15,000 relevant followers by 31 December 2026  
+**Gap:** 6,637 followers across 18 weekly reads  
+**Required pace:** about 370 net new followers per week  
+**Recent pace:** 119 net new followers in the latest seven-day LinkedIn read  
+**Scale change required:** roughly 3.1 times the recent weekly pace
 
 This is a hard operating target, not a forecast or guarantee. We will pursue it
 aggressively through work Kuber and the team can control, while keeping the
@@ -34,25 +34,25 @@ an email subscriber.
 
 | Week ending | Target followers | Required weekly net |
 | --- | ---: | ---: |
-| 27 Aug | 8,345 | Baseline |
-| 3 Sep | 8,993 | 648 |
-| 10 Sep | 9,640 | 647 |
-| 17 Sep | 10,288 | 648 |
-| 24 Sep | 10,935 | 647 |
-| 1 Oct | 11,583 | 648 |
-| 8 Oct | 12,230 | 647 |
-| 15 Oct | 12,878 | 648 |
-| 22 Oct | 13,525 | 647 |
-| 29 Oct | 14,173 | 648 |
-| 5 Nov | 14,820 | 647 |
-| 12 Nov | 15,468 | 648 |
-| 19 Nov | 16,115 | 647 |
-| 26 Nov | 16,763 | 648 |
-| 3 Dec | 17,410 | 647 |
-| 10 Dec | 18,058 | 648 |
-| 17 Dec | 18,705 | 647 |
-| 24 Dec | 19,353 | 648 |
-| 31 Dec | 20,000 | 647 |
+| 28 Aug | 8,363 | Baseline |
+| 3 Sep | 8,732 | 369 |
+| 10 Sep | 9,101 | 369 |
+| 17 Sep | 9,470 | 369 |
+| 24 Sep | 9,839 | 369 |
+| 1 Oct | 10,208 | 369 |
+| 8 Oct | 10,577 | 369 |
+| 15 Oct | 10,946 | 369 |
+| 22 Oct | 11,315 | 369 |
+| 29 Oct | 11,684 | 369 |
+| 5 Nov | 12,053 | 369 |
+| 12 Nov | 12,422 | 369 |
+| 19 Nov | 12,791 | 369 |
+| 26 Nov | 13,160 | 369 |
+| 3 Dec | 13,528 | 368 |
+| 10 Dec | 13,896 | 368 |
+| 17 Dec | 14,264 | 368 |
+| 24 Dec | 14,632 | 368 |
+| 31 Dec | 15,000 | 368 |
 
 ## The controllable growth model
 
@@ -216,8 +216,8 @@ portfolio decision.
 
 | Measure | Why it matters |
 | --- | --- |
-| Total followers and seven-day net | Hard 20K outcome |
-| Pace variance against 648 | Shows whether the target line is being met |
+| Total followers and seven-day net | Hard 15K outcome |
+| Pace variance against the weekly target line | Shows whether the target line is being met |
 | Members reached | Distribution denominator |
 | Out-of-network share | New-audience exposure |
 | Post-attributed profile viewers | Interest beyond the feed |
@@ -269,7 +269,7 @@ manager supplies valuable human execution or mainly repeats work already done
 by Codex.
 
 Each Friday, score only documented work in the shared calendar, `Engagement
-List`, `20K Creative Lab` and public post record:
+List`, `15K Creative Lab` and public post record:
 
 | Dimension | Weight | Evidence |
 | --- | ---: | --- |
@@ -304,14 +304,14 @@ Codex can generate content.
 
 The existing cadence stays in place through 1 September. The first move is not
 more posts. It is a clean post-to-follow baseline, followed by a specific-failure
-opening test and one profile-promise change. The 20K sprint does not wait for
+opening test and one profile-promise change. The 15K sprint does not wait for
 podcasts, community appearances, partnerships or creator replies; those remain
 upside when they happen.
 
 ## Creative intelligence loop
 
 Use [`growth/linkedin-creative-intelligence-system.md`](linkedin-creative-intelligence-system.md)
-and the shared [`20K Creative Lab`](https://docs.google.com/spreadsheets/d/1bkwIU02ejHXb_fwazAIhGb1jdhlobhhdVpZAHqsYfWE/edit#gid=1646406001)
+and the shared [`15K Creative Lab`](https://docs.google.com/spreadsheets/d/1bkwIU02ejHXb_fwazAIhGb1jdhlobhhdVpZAHqsYfWE/edit#gid=1646406001)
 to select the creative job for each existing feed slot.
 
 Across each five comparable feed posts, use two evolved Kuber winners, one

@@ -4,7 +4,7 @@
 Success content signals and original format bets into qualified follower growth
 without copying creators or chasing low-fit virality.
 
-**Manager source:** [`20K Creative Lab`](https://docs.google.com/spreadsheets/d/1bkwIU02ejHXb_fwazAIhGb1jdhlobhhdVpZAHqsYfWE/edit#gid=1646406001)
+**Manager source:** [`15K Creative Lab`](https://docs.google.com/spreadsheets/d/1bkwIU02ejHXb_fwazAIhGb1jdhlobhhdVpZAHqsYfWE/edit#gid=1646406001)
 
 The shared Sheet is the execution brief. This file records the operating logic,
 evidence limits and decision rules behind it.
@@ -104,7 +104,7 @@ decorative icon grids, tiny text and overdesigned quote cards.
 
 ## Original format bets
 
-The shared `20K Creative Lab` contains production briefs for six new formats:
+The shared `15K Creative Lab` contains production briefs for six new formats:
 
 1. **CS Decision Clinic:** a clearly labelled composite or public dilemma, then
    a before/after decision map.
@@ -126,11 +126,11 @@ The shared `20K Creative Lab` contains production briefs for six new formats:
    diagnostics.
 2. Review Kuber's own top and bottom two structures and a small current public
    sample of high-fit CS posts. Record aggregate public evidence only.
-3. Select the next five-post portfolio from the shared `20K Creative Lab`.
+3. Select the next five-post portfolio from the shared `15K Creative Lab`.
 4. Give the manager one exact visual direction per post: personal photo,
    carousel/mock-up, or no asset. Do not request multiple decorative variants.
 5. On Friday, make one `KEEP`, `IMPROVE`, `PIVOT` or `PAUSE` decision after the
-   evidence gate in the 20K operating plan. Change one slot, not the entire
+   evidence gate in the 15K operating plan. Change one slot, not the entire
    calendar.
 
 Below 5,000 combined members reached or ten post-attributed follows for a

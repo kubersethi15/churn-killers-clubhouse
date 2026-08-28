@@ -1,5 +1,17 @@
 # Growth action log
 
+## 28 August 2026
+
+- Reconciled the personal-brand target with Kuber's explicit decision in the
+  `Audit Instagram Growth Strategy` task. The active objective is now 15,000
+  relevant LinkedIn followers by 31 December 2026 from a verified 8,363
+  baseline, leaving 6,637 and requiring about 370 net followers per week. This
+  supersedes the 20K target and its 648-per-week pace everywhere operational;
+  the follower outcome remains separate from Churn Is Dead email subscribers.
+  The breakout portfolio, evidence gates, audience-quality guardrails and
+  social-manager value audit remain unchanged. No public post, comment, profile
+  surface or calendar slot changed in this reconciliation.
+
 This log records consequential external growth actions. It contains aggregate operational evidence only, not subscriber PII.
 
 ## 27 August 2026
