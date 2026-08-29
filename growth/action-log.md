@@ -1,5 +1,19 @@
 # Growth action log
 
+## 30 August 2026
+
+- Replaced the staged eight-comment combined-operator test with Kuber's explicit
+  ten-weekday instruction for Codex to contribute up to ten qualified external
+  LinkedIn comments per weekday from 31 August. The operating split is four in
+  the 08:30–10:00 Sydney window, three at 12:00–13:30 and three at
+  15:00–16:30, leaving the social manager's evening lane separate. Missed
+  capacity is not carried into a catch-up burst; every batch is de-duplicated
+  against the shared `Engagement List`, follows the approved 27 August voice
+  standard and still requires exact action-time confirmation. Artificial random
+  pauses, deliberate mistakes and claims that pre-post engagement manipulates
+  distribution are excluded. No public comment was published by this planning
+  change.
+
 ## 28 August 2026
 
 - Reconciled the personal-brand target with Kuber's explicit decision in the

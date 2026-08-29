@@ -128,36 +128,48 @@ Before publishing a relationship comment, compare it with this baseline. If it
 could sit under almost any LinkedIn post, rewrite it around the exact tension in
 the live discussion.
 
-#### Ten-weekday interaction test — starts 3 September 2026
+#### Ten-comment Codex weekday test — starts 31 August 2026
 
-Kuber approved a controlled expansion after the CID-001 baseline closes. The
-account may create up to **20 genuine LinkedIn interactions per weekday**, but
-20 is a ceiling, not a quota and not 20 cold comments.
+Kuber approved a bounded test of **ten external relationship comments from
+Codex per weekday**, separate from the social manager's evening engagement
+lane. Ten is the daily ceiling and intended volume only when ten current,
+high-fit conversations genuinely warrant a useful response. Never pad the day
+with generic praise or low-relevance comments to reach the number.
 
-- Publish at most **eight external relationship comments across all operators**.
-  Codex fills only the unused capacity after checking the manager's completed
-  and planned comments in the shared `Engagement List`.
-- Aim for four high-fit Australian conversations in the earlier Sydney window
-  and four UK or United States conversations in the later Sydney window. Do not
-  force a regional split when there are not enough current, relevant threads.
-- Reserve the remaining capacity for substantive replies on Kuber's own posts
-  and follow-ups when another practitioner responds. Praise-only reactions do
-  not need a written reply.
-- Never post the eight comments in a short burst. LinkedIn publishes no safe
-  numerical threshold and warns that high-volume, repetitive activity can
-  reduce visibility or restrict an account.
+- Use three Sydney-time windows before the manager's evening activity:
+  **08:30–10:00 (four comments), 12:00–13:30 (three), and 15:00–16:30
+  (three)**. Timing inside a window should follow live thread availability,
+  not a mechanical interval.
+- If a window is missed or produces too few qualified threads, do not carry the
+  shortfall into a burst later that day. Record the actual count and reason.
+- Check the shared `Engagement List` immediately before each batch. Never
+  duplicate the manager, Claude, another automation, or an exact post Kuber has
+  already engaged with.
+- Prioritise current Australian and APJC CS conversations early, then relevant
+  UK or United States conversations as their workdays become active. Relevance
+  takes precedence over the regional split.
+- Keep every comment link-free, pitch-free and grounded in the exact post. Use
+  the 27 August voice standard: one useful operating insight, plain language,
+  no generic praise, no forced question and no fabricated experience.
+- Do not insert deliberate errors, imitate human hesitation, or use artificial
+  one-minute random pauses. Natural variation comes from the live context and
+  the substance of the response.
+- Replies on Kuber's own posts and genuine follow-ups remain important but are
+  tracked separately from the ten external comments. Praise-only reactions do
+  not require a written reply.
+- Each small batch requires a live duplicate check and exact action-time
+  confirmation before publication. Existing approval of the routine is not
+  approval of unseen future wording.
 - The manager's pre-post engagement is coordinated relationship work, not a
   proven algorithmic boost. Never describe it as causing distribution.
-- Every comment still requires a live duplicate check, the 27 August voice
-  standard and the existing exact action-time confirmation.
 
-Run the test for ten weekdays. Record external comments, substantive replies,
-follow-ups, aggregate profile views, total follower movement and any available
-post-attributed follows. Treat account-level movement descriptively. Stop
-immediately on a LinkedIn warning, a quality failure or repeated overlap. After
-ten weekdays, test a maximum of ten external comments only if the expanded
-cadence preserves voice quality and improves meaningful replies or profile
-discovery; never jump directly to 20 external comments.
+Run the test for ten weekdays. Record every public post URL, actual comment
+count, substantive replies, follow-ups, aggregate profile views, total follower
+movement and any available post-attributed follows. Treat account-level movement
+descriptively. Stop immediately on a LinkedIn warning, a quality failure or
+repeated overlap. At the end of the test, `KEEP`, `IMPROVE`, `PIVOT` or `PAUSE`
+the cadence using meaningful replies, qualified profile discovery, voice
+quality and operator overlap—not output volume alone.
 
 ### 5. Profile follow conversion
 
