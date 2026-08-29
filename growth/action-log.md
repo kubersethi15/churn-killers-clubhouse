@@ -12,7 +12,10 @@
   standard and still requires exact action-time confirmation. Artificial random
   pauses, deliberate mistakes and claims that pre-post engagement manipulates
   distribution are excluded. No public comment was published by this planning
-  change.
+  change. Two attempts to create the separate three-window Codex app heartbeat
+  did not return a confirmed result on 30 August, so the schedule must not be
+  treated as active until the app confirms it; the existing 17:45 growth
+  heartbeat remains unchanged.
 
 ## 28 August 2026
 
