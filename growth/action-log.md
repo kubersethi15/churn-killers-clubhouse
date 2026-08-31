@@ -2,6 +2,14 @@
 
 ## 31 August 2026
 
+- Published the approved Monday no-link Substack Note at 20:40 Sydney after the
+  planned 20:30 slot had just passed; verified the public Note at
+  `https://substack.com/profile/268471097-kuber-sethi/note/c-326447549`.
+  Scheduled and verified the two remaining approved Notes for Thursday
+  3 September at 20:30 Sydney and Saturday 5 September at 20:30 Sydney. The
+  Thursday and Saturday Notes retain their distinct source-labelled links to
+  the Renewal Evidence Packet; neither republishes the full issue.
+
 - Rechecked the five earned-audience email threads due today and confirmed that
   none contained a reply or an earlier follow-up. Sent and verified the single
   final follow-up in each existing Gmail thread: Customer Success Network,
