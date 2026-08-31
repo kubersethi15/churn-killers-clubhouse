@@ -1,5 +1,14 @@
 # Growth action log
 
+## 31 August 2026
+
+- Rechecked the five earned-audience email threads due today and confirmed that
+  none contained a reply or an earlier follow-up. Sent and verified the single
+  final follow-up in each existing Gmail thread: Customer Success Network,
+  Practical CSM, CS Insider, Gain Grow Retain and Customer Success Collective.
+  All five messages carry `SENT`, remained in their original threads and now
+  have a hard no-further-follow-up stop rule unless the recipient replies.
+
 ## 30 August 2026
 
 - Replaced the staged eight-comment combined-operator test with Kuber's explicit
