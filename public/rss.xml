@@ -6,8 +6,16 @@
     <description>Weekly CS frameworks for enterprise Customer Success leaders. Hard truths, tactical plays, and downloadable playbooks.</description>
     <language>en</language>
     <managingEditor>kuber@churnisdead.com (Kuber Sethi)</managingEditor>
-    <lastBuildDate>Wed, 26 Aug 2026 02:35:24 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 01 Sep 2026 08:23:07 +0000</lastBuildDate>
     <atom:link href="https://churnisdead.com/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Your Renewal Forecast Needs Receipts</title>
+      <link>https://churnisdead.com/newsletter/renewal-evidence-packet</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/renewal-evidence-packet</guid>
+      <pubDate>Tue, 01 Sep 2026 08:00:00 +0000</pubDate>
+      <description>Replace renewal confidence percentages with an auditable packet that shows what the customer has decided, what remains uncertain, and what must happen next.</description>
+      <category>Commercial</category>
+    </item>
     <item>
       <title>What Sprint Planning Can Teach CS About Product Friction</title>
       <link>https://churnisdead.com/newsletter/stealing-sprint-planning-from-engineering</link>
@@ -158,14 +166,6 @@
       <guid isPermaLink="true">https://churnisdead.com/newsletter/ai-customer-success-firing-people</guid>
       <pubDate>Tue, 21 Apr 2026 08:00:00 +0000</pubDate>
       <description>CS leaders are using AI transformation as cover for headcount reduction while selling it as productivity enhancement.</description>
-      <category>AI &amp; Automation</category>
-    </item>
-    <item>
-      <title>Your AI Strategy Is Just Expensive Layoffs</title>
-      <link>https://churnisdead.com/newsletter/your-ai-strategy-is-just-expensive-layoffs</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/your-ai-strategy-is-just-expensive-layoffs</guid>
-      <pubDate>Tue, 14 Apr 2026 08:00:00 +0000</pubDate>
-      <description>CS leaders are using AI transformation as cover for workforce reduction while pretending it's about efficiency.</description>
       <category>AI &amp; Automation</category>
     </item>
   </channel>

@@ -210,6 +210,16 @@
     "published_date": "2026-08-25T08:00:00+00:00"
   },
   {
+    "id": "pdf-renewal_evidence_packet_churnisdead",
+    "title": "The Renewal Evidence Packet",
+    "description": "An evidence register, forecast-state test, contradiction log, and review record for making renewal forecasts auditable.",
+    "pdf_path": "/pdfs/Renewal_Evidence_Packet_ChurnIsDead.pdf",
+    "notion_link": null,
+    "newsletter_slug": "renewal-evidence-packet",
+    "newsletter_title": "Your Renewal Forecast Needs Receipts",
+    "published_date": "2026-09-01T08:00:00+00:00"
+  },
+  {
     "id": "pdf-revenue_readiness_audit_churnisdead",
     "title": "Revenue Readiness Audit",
     "description": "Download the Revenue Readiness Audit worksheet from the Churn Is Dead archive.",

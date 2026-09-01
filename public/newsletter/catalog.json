@@ -1,5 +1,14 @@
 [
   {
+    "id": "static-renewal-evidence-packet",
+    "title": "Your Renewal Forecast Needs Receipts",
+    "slug": "renewal-evidence-packet",
+    "excerpt": "Replace renewal confidence percentages with an auditable packet that shows what the customer has decided, what remains uncertain, and what must happen next.",
+    "published_date": "2026-09-01T08:00:00+00:00",
+    "read_time": "8 min read",
+    "category": "Commercial"
+  },
+  {
     "id": "static-stealing-sprint-planning-from-engineering",
     "title": "What Sprint Planning Can Teach CS About Product Friction",
     "slug": "stealing-sprint-planning-from-engineering",
