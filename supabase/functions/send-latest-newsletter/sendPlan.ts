@@ -45,6 +45,24 @@ export const planBatches = <T>(items: T[], batchSize: number): T[][] => {
   return batches;
 };
 
+/**
+ * Bound a production run without changing the deterministic recipient order.
+ * A later run starts from the remaining recipients because the send log removes
+ * everyone already delivered. This lets operators pause between tranches and
+ * inspect provider health without risking duplicate mail.
+ */
+export const limitRecipientsForRun = <T>(
+  recipients: T[],
+  maxRecipients?: number | null,
+): { recipients: T[]; remaining: number } => {
+  if (maxRecipients == null) return { recipients, remaining: 0 };
+  const limit = Math.max(1, Math.floor(maxRecipients));
+  return {
+    recipients: recipients.slice(0, limit),
+    remaining: Math.max(0, recipients.length - limit),
+  };
+};
+
 const toHex = (bytes: Uint8Array): string =>
   Array.from(bytes, byte => byte.toString(16).padStart(2, "0")).join("");
 
@@ -77,5 +95,12 @@ export const batchIdempotencyKey = async (
  *   recipients. Hold the pointer and surface the failure instead.
  */
 export const shouldAdvanceLastSent = (
-  input: { transientBatchFailures: number; sendLogPersisted: boolean },
-): boolean => input.transientBatchFailures === 0 && input.sendLogPersisted;
+  input: {
+    transientBatchFailures: number;
+    sendLogPersisted: boolean;
+    pendingAfterRun?: number;
+  },
+): boolean =>
+  input.transientBatchFailures === 0 &&
+  input.sendLogPersisted &&
+  (input.pendingAfterRun ?? 0) === 0;
