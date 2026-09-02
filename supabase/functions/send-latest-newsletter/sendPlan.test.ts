@@ -6,6 +6,7 @@ import {
   normalizeEmail,
   orderSubscribersForSend,
   planBatches,
+  limitRecipientsForRun,
   selectPendingRecipients,
   shouldAdvanceLastSent,
 } from "./sendPlan.ts";
@@ -33,6 +34,22 @@ test("planBatches splits an ordered list into fixed-size batches", () => {
   assert.deepEqual(planBatches([], 100), []);
   // A degenerate batch size never yields empty batches or an infinite loop.
   assert.deepEqual(planBatches(items, 0), [[1], [2], [3], [4], [5]]);
+});
+
+test("a staged run keeps deterministic recipients and reports the remainder", () => {
+  const items = [1, 2, 3, 4, 5];
+  assert.deepEqual(limitRecipientsForRun(items, 2), {
+    recipients: [1, 2],
+    remaining: 3,
+  });
+  assert.deepEqual(limitRecipientsForRun(items), {
+    recipients: items,
+    remaining: 0,
+  });
+  assert.deepEqual(limitRecipientsForRun(items, 0), {
+    recipients: [1],
+    remaining: 4,
+  });
 });
 
 test("the same batch membership yields the same idempotency key in any order", async () => {
@@ -100,4 +117,5 @@ test("last_sent advances only when no batch failed AND the send log persisted", 
   assert.equal(shouldAdvanceLastSent({ transientBatchFailures: 1, sendLogPersisted: true }), false);
   assert.equal(shouldAdvanceLastSent({ transientBatchFailures: 0, sendLogPersisted: false }), false);
   assert.equal(shouldAdvanceLastSent({ transientBatchFailures: 2, sendLogPersisted: false }), false);
+  assert.equal(shouldAdvanceLastSent({ transientBatchFailures: 0, sendLogPersisted: true, pendingAfterRun: 1 }), false);
 });

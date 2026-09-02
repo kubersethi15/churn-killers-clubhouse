@@ -14,6 +14,7 @@ import {
   normalizeEmail,
   orderSubscribersForSend,
   planBatches,
+  limitRecipientsForRun,
   selectPendingRecipients,
   shouldAdvanceLastSent,
 } from "./sendPlan.ts";
@@ -150,6 +151,7 @@ const handler = async (req: Request): Promise<Response> => {
     let testEmailAddress: string | null = null;
     let testSubjectVariant: string | null = null;
     let batchSize = 100;
+    let maxRecipients: number | null = null;
     let requestBody = {};
     
     try {
@@ -166,6 +168,12 @@ const handler = async (req: Request): Promise<Response> => {
           }
           if ('batchSize' in requestBody) {
             batchSize = Math.min(100, Math.max(1, Number(requestBody.batchSize) || 100));
+          }
+          if ('maxRecipients' in requestBody) {
+            const requestedLimit = Number(requestBody.maxRecipients);
+            if (Number.isFinite(requestedLimit) && requestedLimit > 0) {
+              maxRecipients = Math.min(100, Math.floor(requestedLimit));
+            }
           }
         }
       }
@@ -428,7 +436,10 @@ const handler = async (req: Request): Promise<Response> => {
     const deliveredEmails = new Set(
       (deliveredRows ?? []).map(row => normalizeEmail(row.subscriber_email)),
     );
-    const recipients = selectPendingRecipients(orderedSubscribers, deliveredEmails);
+    const allPendingRecipients = selectPendingRecipients(orderedSubscribers, deliveredEmails);
+    const stagedRun = limitRecipientsForRun(allPendingRecipients, maxRecipients);
+    const recipients = stagedRun.recipients;
+    const pendingAfterRun = stagedRun.remaining;
 
     if (recipients.length === 0) {
       // Every active subscriber already has this issue. Mark it done and move on.
@@ -604,7 +615,7 @@ const handler = async (req: Request): Promise<Response> => {
     // recipients (delivered ones are pre-filtered out above, so no double-send
     // even if the list changed); an unpersisted send log also holds it, since a
     // retry would otherwise be unable to tell who was already delivered.
-    if (shouldAdvanceLastSent({ transientBatchFailures, sendLogPersisted })) {
+    if (shouldAdvanceLastSent({ transientBatchFailures, sendLogPersisted, pendingAfterRun })) {
       const { error: updateError } = await supabase
         .from("internal_config")
         .upsert({ key: "last_sent_newsletter_id", value: latestNewsletter.id }, { onConflict: "key" });
@@ -626,6 +637,7 @@ const handler = async (req: Request): Promise<Response> => {
       newsletter_title: latestNewsletter.title,
       subscribers_total: subscribers.length,
       pending_this_run: recipients.length,
+      pending_after_run: pendingAfterRun,
       already_delivered: deliveredEmails.size,
       success_count: successCount,
       failure_count: failureCount,
@@ -640,6 +652,7 @@ const handler = async (req: Request): Promise<Response> => {
         message: `Newsletter "${latestNewsletter.title}" sent to ${successCount} subscribers`,
         newsletterId: latestNewsletter.id,
         failureCount,
+        pendingAfterRun,
         errors: errors.length ? errors : null,
         startTime: triggerTime,
         endTime: new Date().toISOString()
