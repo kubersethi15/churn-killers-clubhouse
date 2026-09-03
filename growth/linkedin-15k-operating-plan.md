@@ -54,6 +54,28 @@ an email subscriber.
 | 24 Dec | 14,632 | 368 |
 | 31 Dec | 15,000 | 368 |
 
+### First September checkpoint
+
+The 3 September operating read found 8,468 followers: 105 above the 28 August
+baseline and 264 below the 8,732 target line. That is roughly 28% of the first
+week's required pace. It is still a partial first-week read, but the size of the
+gap means the September programme must test a portfolio of materially different
+creative jobs rather than make only cosmetic copy changes.
+
+Use the existing five weekly slots as a portfolio:
+
+- two reach bets: one hard, specific operating opinion and one native,
+  saveable artifact;
+- one genuine first-person field note or belief change using an approved
+  personal photo when it adds context;
+- one authority post built around a real operating failure, consequence and
+  safeguard;
+- one Churn Is Dead issue or public-tool post.
+
+These replace existing slots; they do not add volume. Each slot gets one clear
+hypothesis, but more than one slot may be redesigned in the same week. This is
+how the programme moves faster without making the evidence uninterpretable.
+
 ## The controllable growth model
 
 The team does not need more random posting. It needs more of the formats that
@@ -197,7 +219,7 @@ is a formal Cisco designation.
 - Rank formats by followers gained per 1,000 members reached. Below 5,000
   combined members reached or ten attributed follows, report descriptively.
 
-### Week 2: opening-line test
+### Week 2: opening-line and audience-window tests
 
 Compare two specific-failure openings with two broader advice openings across
 the nearest available comparable CS topics. Keep length class, asset class,
@@ -207,19 +229,24 @@ Keep the winning opening family only after at least two posts per family and a
 combined evidence floor of 10,000 members reached. Topic differences mean this
 is a directional crossover, not a causal experiment.
 
+In parallel, move one suitable existing slot later in the Sydney evening to
+create an initial United States overlap read. Pair it with the nearest
+comparable 18:15 Sydney post by topic, asset and CTA class. Do not move the
+whole calendar or claim a timing winner from one post.
+
 ### Week 3: native asset test
 
 Run one strong text post and one document post from the same verified playbook
 family. Judge direct follows, profile visits, saves and qualified comments per
 1,000 reached. Do not treat document impressions alone as a win.
 
-### Week 4: audience-window test
+### Week 4: consolidate the strongest conversion system
 
-Only after the current 18:15 Sydney class has enough evidence, compare one
-existing evening slot with one later Sydney slot that better overlaps United
-States working hours. Keep the same content and asset class as closely as
-practical. Do not move the whole calendar based on an assumed US majority; use
-LinkedIn's aggregate audience and direct-follow evidence.
+Repeat the best opening and asset combinations, complete the second
+audience-window read, and inspect whether the profile promise and Featured
+surface convert the new reach. Keep the same content and asset class as closely
+as practical for timing comparisons. Use aggregate audience and direct-follow
+evidence rather than assumptions about United States reach.
 
 ## Weekly scorecard
 
@@ -255,9 +282,19 @@ identities.
 - **PAUSE:** the format relies on unsupported claims, low-fit virality,
   repetitive engagement bait, or creates brand or employer risk.
 
-Reallocate one weekly slot after two reads; do not keep adding slots. A format
-earning less than 10% of weekly attributed follows after four qualified runs
-loses its slot to the best-performing format.
+A low-risk `IMPROVE` may change the next occurrence after its 24-hour read when
+the post earned meaningful distribution but produced no observable profile or
+follow conversion. This is an exploration decision, not a winner claim.
+
+When the weekly net is below half the target pace and at least three qualified
+posts have a 24-hour read, Friday may redesign up to two of the following
+week's slots. After two consecutive weekly reads below half pace, a `PIVOT` may
+reallocate up to three slots and test the profile promise or Featured surface
+as part of the conversion system. Do not add more posting volume.
+
+A format earning less than 10% of weekly attributed follows after four
+qualified runs loses its slot to the best-performing format. Winner claims
+still require the stated evidence floors.
 
 ## Ownership
 

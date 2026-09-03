@@ -49,6 +49,48 @@ Never lift another creator's wording, personal story, framework, list or visual.
 Do not manufacture a milestone, client example, vulnerability or build-in-public
 claim to imitate a successful post.
 
+### 3 September live refresh
+
+This current public sample reinforces the earlier signal. Counts were visible
+on LinkedIn when reviewed and are directional only because audience size, post
+age and distribution differ.
+
+| Creator and post | Visible signal | Transferable mechanic |
+| --- | ---: | --- |
+| Daphne Costa Lopes, direct `Avoid / Instead` customer-value post | 126 reactions, 37 comments and 4 reposts at 14 hours | Ruthless simplification, high-contrast structure and a useful answer in the feed |
+| Daphne Costa Lopes, connect-then-pitch joke | 146 reactions and 41 comments at five days | A short human observation and humour between heavier operating posts |
+| Kristi Faltorusso, company cut CS but churn did not move | 179 reactions, 61 comments and 2 reposts at one day | High-stakes first-person case, concrete numbers, conflict and a clear root-cause reveal |
+| Kristi Faltorusso, `CS does not own retention` | 332 reactions, 84 comments and 9 reposts at two days | Bold identity-level thesis, specific cross-functional consequences and a debate readers already feel |
+| Stan Mykhalchuk, 60 CS terms | 96 reactions, 6 comments and 12 reposts at 11 hours | Native reference asset, personal origin and immediate save/share utility |
+| Rachel Provan, CS expansion ownership without foundations | 23 reactions and 15 comments at one day | Blunt operating constraint, recognisable failure and conversational challenge |
+| Maranda Dziekonski, personal-brand field note and event | Too early at 20 minutes for a performance read | Career context, earned authority and a real-world invitation make the person visible behind the expertise |
+
+The gap is not simply posting frequency. Kuber's recent posts are credible and
+useful, but several lead with editorial explanation before the reader feels the
+stakes. The next portfolio must correct four things:
+
+1. Put the sharp claim, failure or tension in the first two lines.
+2. Use more genuine first-person operator context where the experience ledger
+   supports it; do not make every post sound like an article abstract.
+3. Make at least one weekly asset useful without leaving LinkedIn.
+4. Vary the emotional register: hard opinion, practical artifact, field note,
+   human observation and publication authority should not all sound alike.
+
+### September acceleration loop
+
+The target requires roughly three times the recent organic follower pace. Run
+the five-slot portfolio as a fast learning system:
+
+- two material reach bets each week, not five cautious variations;
+- no more than one primary hypothesis per slot;
+- 24-hour post reads may trigger an immediate `IMPROVE` to the next occurrence;
+- Friday may redesign up to two next-week slots when net growth is below half
+  pace and three qualified post reads exist;
+- after two weak weekly reads, change up to three slot jobs and the
+  post-to-profile conversion package together under a recorded `PIVOT`;
+- never compensate for weak creative by adding generic posts or engagement
+  volume.
+
 ## Creative portfolio
 
 Across the next five comparable LinkedIn feed posts, use:
@@ -130,8 +172,9 @@ The shared `15K Creative Lab` contains production briefs for six new formats:
 4. Give the manager one exact visual direction per post: personal photo,
    carousel/mock-up, or no asset. Do not request multiple decorative variants.
 5. On Friday, make one `KEEP`, `IMPROVE`, `PIVOT` or `PAUSE` decision after the
-   evidence gate in the 15K operating plan. Change one slot, not the entire
-   calendar.
+   evidence gate in the 15K operating plan. Under the September acceleration
+   rule, redesign up to two next-week slots after one weak read or up to three
+   after two consecutive weak reads; do not add posting volume.
 
 Below 5,000 combined members reached or ten post-attributed follows for a
 comparison, report the pattern descriptively. Test each repeatable structure at

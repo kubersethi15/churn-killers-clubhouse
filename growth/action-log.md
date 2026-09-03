@@ -1,5 +1,20 @@
 # Growth action log
 
+## 3 September 2026
+
+- Reframed the LinkedIn 15K programme for September urgency after the first
+  checkpoint reached 8,468 followers: 105 above the 28 August baseline and
+  264 below the 8,732 target line. Refreshed the public creative sample across
+  Daphne Costa Lopes, Kristi Faltorusso, Stan Mykhalchuk, Rachel Provan and
+  Maranda Dziekonski. The repeated mechanics were sharp first-line tension,
+  first-person stakes, native save/share utility, visible personality and a
+  clear profile promise. Updated the operating plan to use the existing five
+  slots as a materially varied portfolio, bring forward one later-Sydney timing
+  read, permit two slot redesigns after one below-half-pace week with three
+  qualified post reads, and permit a three-slot plus profile-conversion pivot
+  after two consecutive weak weekly reads. Posting volume did not increase and
+  no creator wording, story, framework or visual was copied.
+
 ## 31 August 2026
 
 - Published the approved Monday no-link Substack Note at 20:40 Sydney after the
