@@ -56,11 +56,14 @@ an email subscriber.
 
 ### First September checkpoint
 
-The 3 September operating read found 8,468 followers: 105 above the 28 August
-baseline and 264 below the 8,732 target line. That is roughly 28% of the first
-week's required pace. It is still a partial first-week read, but the size of the
-gap means the September programme must test a portfolio of materially different
-creative jobs rather than make only cosmetic copy changes.
+The 4 September operating read found 8,499 followers: 136 above the 28 August
+baseline and 233 below the 8,732 first checkpoint. LinkedIn's rolling seven-day
+view showed 5,021 impressions, 2,133 members reached and 47% out-of-network
+distribution, but the 1 and 3 September posts together produced only one
+post-attributed follow from 1,672 members reached. Reach is beginning to move;
+post-to-profile and profile-to-follow conversion remain the constraint. The
+size of the gap means the September programme must test a portfolio of
+materially different creative jobs rather than make only cosmetic copy changes.
 
 Use the existing five weekly slots as a portfolio:
 
@@ -75,6 +78,44 @@ Use the existing five weekly slots as a portfolio:
 These replace existing slots; they do not add volume. Each slot gets one clear
 hypothesis, but more than one slot may be redesigned in the same week. This is
 how the programme moves faster without making the evidence uninterpretable.
+
+### Organic acceleration: 7 to 12 September
+
+Kuber has chosen not to use paid promotion at this stage. Do not boost posts or
+introduce paid reach into this block. The week uses five distinct organic jobs
+instead of repeating the same educational structure:
+
+1. **Monday — human authority.** A first-person APJC CX AI leadership field
+   note with one approved natural work photo. Open on the gap between a good AI
+   demo and a real operating decision; give one consequence and one practical
+   shift.
+2. **Tuesday — publication authority.** The approved Work Ownership Decision
+   Matrix release with its exact inline canonical route and no duplicate first
+   comment. The opening tension is that CS owns customer context, not every
+   company decision.
+3. **Thursday — high-contrast opinion.** An original `Avoid / Instead` treatment
+   of senior-CSM ownership. Deliver the complete answer in the feed with no
+   link, copied wording or forced question.
+4. **Friday — native utility.** A six-page, mobile-readable LinkedIn document:
+   five questions to ask before an AI signal changes an account plan. The
+   artifact must be usable without leaving LinkedIn.
+5. **Saturday — human observation.** A short, warm post built around the line
+   `We'll take that away is where customer problems go to become internal
+   meetings`, followed by one practical replacement sentence.
+
+The separate Wednesday native newsletter remains scheduled and does not create
+a duplicate feed post. Operate up to ten qualified external relationship
+comments across the three daytime Sydney windows on weekdays, prioritise
+substantive replies on Kuber's posts, and keep the social manager's evening work
+de-duplicated in the shared Engagement List. Volume is a ceiling, not a quota.
+Every public contribution must add an actual operating insight.
+
+Read each feed post at 24 hours and seven days. The primary score remains
+post-attributed followers and profile viewers per 1,000 members reached, with
+out-of-network reach, saves, sends, reposts and qualified comments as
+diagnostics. If fewer than two posts generate meaningful post-attributed follow
+or profile-view movement, redesign up to three jobs for the following week;
+do not compensate with generic content or indiscriminate engagement.
 
 ## The controllable growth model
 
