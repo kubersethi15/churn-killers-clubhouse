@@ -15,8 +15,8 @@ type Playbook = PlaybookRecord;
 const STATIC_PLAYBOOKS: Playbook[] = [
   {
     id: "8",
-    title: "The 30-Minute QBR Framework",
-    description: "A decision-driven QBR structure built for complex enterprise accounts. Three blocks, pre-wire playbook, strategic vs. operational calibration, and a one-page success plan that IS the meeting.",
+    title: "The 30-Minute QBR: Three Slides",
+    description: "The complete template: the customer's goal, what was achieved, and what happens next including where support is needed.",
     pdf_path: "/pdfs/30-Minute-QBR-Framework-ChurnIsDead.pdf",
     notion_link: null,
     newsletter_slug: null,
