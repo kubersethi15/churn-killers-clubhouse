@@ -93,9 +93,10 @@ instead of repeating the same educational structure:
    Matrix release with its exact inline canonical route and no duplicate first
    comment. The opening tension is that CS owns customer context, not every
    company decision.
-3. **Thursday — high-contrast opinion.** An original `Avoid / Instead` treatment
-   of senior-CSM ownership. Deliver the complete answer in the feed with no
-   link, copied wording or forced question.
+3. **Thursday — genuine belief change.** Use Kuber's confirmed reversal on
+   product strength versus customer relationships. Open with the old belief,
+   name what changed, and land on the new operating behaviour. Keep it text-only
+   with no link, copied wording or forced question.
 4. **Friday — native utility.** A six-page, mobile-readable LinkedIn document:
    five questions to ask before an AI signal changes an account plan. The
    artifact must be usable without leaving LinkedIn.

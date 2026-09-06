@@ -58,6 +58,14 @@ def package(issue_dir: Path) -> dict[str, str]:
     if first_comment_source.exists():
         for output_dir in (private_dir, public_dir):
             shutil.copyfile(first_comment_source, output_dir / "linkedin_first_comment.md")
+    else:
+        # An issue can deliberately move its canonical link into the post body.
+        # Remove any previously packaged first-comment copy so an old handoff
+        # cannot survive a later distribution refresh and create a duplicate.
+        for output_dir in (private_dir, public_dir):
+            stale_first_comment = output_dir / "linkedin_first_comment.md"
+            if stale_first_comment.exists():
+                stale_first_comment.unlink()
 
     newsletter_source = issue_dir / "linkedin-newsletter.md"
     if newsletter_source.exists():
