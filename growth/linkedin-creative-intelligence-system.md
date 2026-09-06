@@ -49,7 +49,7 @@ Never lift another creator's wording, personal story, framework, list or visual.
 Do not manufacture a milestone, client example, vulnerability or build-in-public
 claim to imitate a successful post.
 
-### 3 September live refresh
+### 6 September live refresh
 
 This current public sample reinforces the earlier signal. Counts were visible
 on LinkedIn when reviewed and are directional only because audience size, post
@@ -57,11 +57,13 @@ age and distribution differ.
 
 | Creator and post | Visible signal | Transferable mechanic |
 | --- | ---: | --- |
-| Daphne Costa Lopes, direct `Avoid / Instead` customer-value post | 126 reactions, 37 comments and 4 reposts at 14 hours | Ruthless simplification, high-contrast structure and a useful answer in the feed |
+| Daphne Costa Lopes, direct `Avoid / Instead` customer-value post | 159 reactions, 44 comments and 4 reposts at three days | Ruthless simplification, high-contrast structure and a useful answer in the feed |
+| Daphne Costa Lopes, personal field note | 179 reactions and 39 comments at two days | A real first-person change of mind, a specific consequence and a natural photo |
 | Daphne Costa Lopes, connect-then-pitch joke | 146 reactions and 41 comments at five days | A short human observation and humour between heavier operating posts |
 | Kristi Faltorusso, company cut CS but churn did not move | 179 reactions, 61 comments and 2 reposts at one day | High-stakes first-person case, concrete numbers, conflict and a clear root-cause reveal |
-| Kristi Faltorusso, `CS does not own retention` | 332 reactions, 84 comments and 9 reposts at two days | Bold identity-level thesis, specific cross-functional consequences and a debate readers already feel |
-| Stan Mykhalchuk, 60 CS terms | 96 reactions, 6 comments and 12 reposts at 11 hours | Native reference asset, personal origin and immediate save/share utility |
+| Kristi Faltorusso, retention-and-ICP first-person case | 117 reactions, 70 comments and 1 repost at one day | A specific real case, an accountable point of view and a debate readers already feel |
+| Stan Mykhalchuk, 60 CS terms | 269 reactions, 21 comments and 37 reposts at three days | Native reference asset, personal origin and immediate save/share utility |
+| Stan Mykhalchuk, CSM-to-leader promotion post | 114 reactions, 10 comments and 8 reposts at five days | Topic collision: do not publish Kuber's drafted promotion post in the same week; replace it with Kuber's verified product-versus-relationship belief change |
 | Rachel Provan, CS expansion ownership without foundations | 23 reactions and 15 comments at one day | Blunt operating constraint, recognisable failure and conversational challenge |
 | Maranda Dziekonski, personal-brand field note and event | Too early at 20 minutes for a performance read | Career context, earned authority and a real-world invitation make the person visible behind the expertise |
 
@@ -75,6 +77,11 @@ stakes. The next portfolio must correct four things:
 3. Make at least one weekly asset useful without leaving LinkedIn.
 4. Vary the emotional register: hard opinion, practical artifact, field note,
    human observation and publication authority should not all sound alike.
+
+LinkedIn's current creator guidance reinforces the same quality gate: content
+should reflect a real person's perspective or experience, help people do their
+jobs, and avoid generic, repetitive or over-polished AI output. Use AI to edit
+and sharpen Kuber's ideas, not to manufacture a point of view.
 
 ### September acceleration loop
 

@@ -1,32 +1,28 @@
 POST 1 - TUESDAY
 ============================================================
-Senior CSMs should own important customer work.
+CS owns the customer context.
 
-They should not become the person who owns every problem a customer mentions.
+It should not own every company decision.
 
-A support incident needs a technical answer.
-
+A support issue needs a technical answer.
 A roadmap request needs a product decision.
+A commercial exception needs someone who can approve it.
 
-A commercial exception needs someone with approval authority.
+The CSM can bring the evidence, explain why it matters and keep the handoff moving.
 
-The CSM can explain the customer context, keep communication moving, and show why the problem matters.
+They still cannot make those decisions.
 
-They often cannot make the decision that fixes it.
+A more useful model has four modes:
 
-That is why “own the outcome” is incomplete advice.
+Own it: CS can decide and deliver.
 
-For each task, choose one of four options:
-
-Own it: CS has the authority and skills to decide and deliver.
-
-Prepare it: another team decides; CS brings the customer evidence and a recommendation.
+Prepare it: someone else decides; CS brings the evidence and recommendation.
 
 Coordinate it: CS keeps a short handoff moving, with a named owner and answer date.
 
-Remove it: the task is repetitive, duplicated, or adds no lasting value.
+Remove it: the task is repetitive, duplicated or adds no lasting value.
 
-Being closest to the customer does not make CS responsible for every company decision.
+Being close to the customer does not make CS the default owner of the company.
 
 The full guide and free Work Ownership Decision Matrix:
 https://churnisdead.com/newsletter/senior-csm-not-default-owner?utm_source=linkedin&utm_medium=post&utm_campaign=senior-csm-not-default-owner&utm_content=tuesday_inline_link
