@@ -118,6 +118,52 @@ diagnostics. If fewer than two posts generate meaningful post-attributed follow
 or profile-view movement, redesign up to three jobs for the following week;
 do not compensate with generic content or indiscriminate engagement.
 
+### Follower-growth reset: effective immediately
+
+The September evidence shows that useful, credible posts can still fail the
+15K objective when they read like publication summaries, create no reason to
+share, or ask one post to drive reach, authority and website acquisition at the
+same time. The next block is therefore an execution reset, not another audit.
+
+Use the five existing feed slots as follows:
+
+1. **Three reach-first posts.** Lead with a sharp, recognisable CS tension in
+   Kuber's voice. Use one strong opinion, one genuine first-person field note
+   and one short human observation. Keep external links out of these posts.
+2. **One native authority asset.** Publish a mobile-first document or authentic
+   face-to-camera video that is useful without leaving LinkedIn. Use video only
+   when a real Kuber recording exists; otherwise issue one exact recording
+   brief and use the strongest approved human-photo or document alternative.
+3. **One subscriber-acquisition post.** Give the Churn Is Dead issue or tool the
+   week's only primary website-conversion job. Do not weaken the other four
+   posts with competing website calls to action.
+
+Every feed post must pass four gates before it is marked ready:
+
+- the first two lines contain a concrete tension, consequence or unexpected
+  belief rather than an editorial introduction;
+- a reader can repeat or forward the core idea in one sentence;
+- the post contains one distinctive Kuber point of view, not generic advice;
+- its one requested action is clear: follow, save/share, discuss, or visit the
+  Churn Is Dead resource.
+
+Establish one recognisable weekly series around a recurring Customer Success
+decision or failure. The name and design should be stable enough to build
+memory, while the situation and lesson change each week. Prefer plain language
+over internal framework names in the hook.
+
+The 24-hour read is an action gate. Do not wait for a Friday or Sunday audit to
+improve the next unpublished slot. When a post receives distribution but
+produces no repost, profile-view or attributed-follow signal, retain any proven
+topic but change the next hook, emotional register, format or payoff. Never edit
+a live post merely to rescue weak performance. Sunday remains the weekly
+portfolio rebuild and manager handoff deadline.
+
+Relationship comments remain targeted distribution, not a volume substitute.
+Prioritise active posts whose audiences overlap senior CS, SaaS, RevOps and
+practical AI leadership. Ten qualified comments is the ceiling; fewer strong
+comments are better than ten generic ones.
+
 ## The controllable growth model
 
 The team does not need more random posting. It needs more of the formats that
