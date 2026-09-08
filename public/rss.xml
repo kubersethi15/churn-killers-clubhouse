@@ -6,8 +6,16 @@
     <description>Weekly CS frameworks for enterprise Customer Success leaders. Hard truths, tactical plays, and downloadable playbooks.</description>
     <language>en</language>
     <managingEditor>kuber@churnisdead.com (Kuber Sethi)</managingEditor>
-    <lastBuildDate>Sun, 06 Sep 2026 07:17:22 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 08 Sep 2026 12:41:15 +0000</lastBuildDate>
     <atom:link href="https://churnisdead.com/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Stop Giving Senior CSMs Work They Cannot Decide</title>
+      <link>https://churnisdead.com/newsletter/senior-csm-not-default-owner</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/senior-csm-not-default-owner</guid>
+      <pubDate>Tue, 08 Sep 2026 08:00:00 +0000</pubDate>
+      <description>Use decision authority, customer consequence, and enduring value to decide what a senior CSM should own, prepare, coordinate, or stop doing.</description>
+      <category>Leadership</category>
+    </item>
     <item>
       <title>Your Renewal Forecast Needs Receipts</title>
       <link>https://churnisdead.com/newsletter/renewal-evidence-packet</link>
@@ -159,14 +167,6 @@
       <pubDate>Tue, 28 Apr 2026 08:00:00 +0000</pubDate>
       <description>Health scores are the astrology of customer success—providing false confidence while real churn drivers remain invisible.</description>
       <category>Strategy</category>
-    </item>
-    <item>
-      <title>Your AI Customer Success Strategy Is Actually Firing People</title>
-      <link>https://churnisdead.com/newsletter/ai-customer-success-firing-people</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/ai-customer-success-firing-people</guid>
-      <pubDate>Tue, 21 Apr 2026 08:00:00 +0000</pubDate>
-      <description>CS leaders are using AI transformation as cover for headcount reduction while selling it as productivity enhancement.</description>
-      <category>AI &amp; Automation</category>
     </item>
   </channel>
 </rss>

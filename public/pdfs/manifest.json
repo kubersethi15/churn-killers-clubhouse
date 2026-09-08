@@ -338,5 +338,15 @@
     "newsletter_slug": null,
     "newsletter_title": null,
     "published_date": null
+  },
+  {
+    "id": "pdf-work_ownership_decision_matrix_churnisdead",
+    "title": "The Work Ownership Decision Matrix",
+    "description": "A work inventory, authority test, ownership decision, and handoff record for deciding what CS should own, prepare, coordinate, or remove.",
+    "pdf_path": "/pdfs/Work_Ownership_Decision_Matrix_ChurnIsDead.pdf",
+    "notion_link": null,
+    "newsletter_slug": "senior-csm-not-default-owner",
+    "newsletter_title": "Stop Giving Senior CSMs Work They Cannot Decide",
+    "published_date": "2026-09-08T08:00:00+00:00"
   }
 ]
