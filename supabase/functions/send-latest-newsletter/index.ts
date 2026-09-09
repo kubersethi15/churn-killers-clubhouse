@@ -150,6 +150,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Check if this is a test email request
     let testEmailAddress: string | null = null;
     let testSubjectVariant: string | null = null;
+    let targetNewsletterSlug: string | null = null;
     let batchSize = 100;
     let maxRecipients: number | null = null;
     let requestBody = {};
@@ -165,6 +166,9 @@ const handler = async (req: Request): Promise<Response> => {
           }
           if ('testSubjectVariant' in requestBody) {
             testSubjectVariant = String(requestBody.testSubjectVariant || "").trim() || null;
+          }
+          if ('newsletterSlug' in requestBody) {
+            targetNewsletterSlug = String(requestBody.newsletterSlug || "").trim() || null;
           }
           if ('batchSize' in requestBody) {
             batchSize = Math.min(100, Math.max(1, Number(requestBody.batchSize) || 100));
@@ -245,9 +249,22 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Find the next newsletter to send
+    // Find the newsletter to send. An explicitly targeted issue is useful when
+    // an older partial broadcast must remain resumable without blocking a newly
+    // approved issue. The recipient-level send log still prevents duplicates.
     let latestNewsletter;
-    if (!lastSentId) {
+    if (targetNewsletterSlug) {
+      latestNewsletter = eligibleNewsletters.find(newsletter => newsletter.slug === targetNewsletterSlug);
+      if (!latestNewsletter) {
+        await logRun('failure', 'Requested newsletter is not eligible for sending', {
+          newsletter_slug: targetNewsletterSlug,
+        });
+        return new Response(
+          JSON.stringify({ error: "Requested newsletter is not published or does not exist" }),
+          { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders } },
+        );
+      }
+    } else if (!lastSentId) {
       // No record of last sent — send the most recent one (backwards compat)
       latestNewsletter = eligibleNewsletters[eligibleNewsletters.length - 1];
     } else {
@@ -443,9 +460,11 @@ const handler = async (req: Request): Promise<Response> => {
 
     if (recipients.length === 0) {
       // Every active subscriber already has this issue. Mark it done and move on.
-      await supabase
-        .from("internal_config")
-        .upsert({ key: "last_sent_newsletter_id", value: latestNewsletter.id }, { onConflict: "key" });
+      if (!targetNewsletterSlug) {
+        await supabase
+          .from("internal_config")
+          .upsert({ key: "last_sent_newsletter_id", value: latestNewsletter.id }, { onConflict: "key" });
+      }
       await logRun('info', 'Issue already delivered to all active subscribers', {
         newsletter_id: latestNewsletter.id,
         already_delivered: deliveredEmails.size,
@@ -615,7 +634,7 @@ const handler = async (req: Request): Promise<Response> => {
     // recipients (delivered ones are pre-filtered out above, so no double-send
     // even if the list changed); an unpersisted send log also holds it, since a
     // retry would otherwise be unable to tell who was already delivered.
-    if (shouldAdvanceLastSent({ transientBatchFailures, sendLogPersisted, pendingAfterRun })) {
+    if (!targetNewsletterSlug && shouldAdvanceLastSent({ transientBatchFailures, sendLogPersisted, pendingAfterRun })) {
       const { error: updateError } = await supabase
         .from("internal_config")
         .upsert({ key: "last_sent_newsletter_id", value: latestNewsletter.id }, { onConflict: "key" });
@@ -651,6 +670,7 @@ const handler = async (req: Request): Promise<Response> => {
         success: true,
         message: `Newsletter "${latestNewsletter.title}" sent to ${successCount} subscribers`,
         newsletterId: latestNewsletter.id,
+        newsletterSlug: latestNewsletter.slug,
         failureCount,
         pendingAfterRun,
         errors: errors.length ? errors : null,
