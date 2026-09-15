@@ -1,5 +1,58 @@
 # Growth action log
 
+## 15 September 2026
+
+- Recovered the missed Tuesday website release after the Mac was unlocked at
+  approximately 18:38 Sydney. No 15 September scheduled publisher run existed,
+  and the public route still returned `Issue unavailable` with the archive
+  canonical. The approved exact issue validator passed. Dispatched the
+  website-only publisher once for `health-score-is-not-an-intervention-trigger`:
+  [run 34948105483](https://github.com/kubersethi15/churn-killers-clubhouse/actions/runs/34948105483).
+  It succeeded at 08:39:12 UTC and generated main commit `cdcb35d`. Explicitly
+  published that build through Lovable; verified the exact article title and
+  self-canonical in public initial HTML, PDF HTTP 200, sitemap and RSS inclusion.
+  The release was late, not on time. The reason GitHub did not trigger remains
+  unverified; do not describe a successful manual run as a scheduler fix.
+- Completed the held Renewal Evidence Packet recovery before the lock
+  interruption: 124 previously unaccepted active recipients accepted in two
+  batches (50 and 74), 123 delivery confirmations, no bounce or complaint
+  events in the recovery read, and zero active unsent recipients at completion.
+  The production switch was returned to false. One pending delivery is not an
+  unsent recipient and must not be retried. This recovery is separate from the
+  new health-score issue.
+- Verified 8,715 LinkedIn followers from the signed-in owner profile. Today's
+  Tuesday feed post was not visible; Monday remained the latest post. Sent the
+  exact approved calendar-row 255 and tracked first-comment route to
+  `Kuber X LinkedIn`; WhatsApp showed Delivered at 16:47 Singapore / 18:47 Sydney.
+  Tanya retains feed-post ownership. No replacement post or external comments
+  were published by Codex in this release run.
+- Current-issue preflight: approved database content hash and subject/preheader
+  match the repository; zero prior production acceptances; provider rolling
+  health 653 emails, 99.54% delivery, 0.46% bounce (two transient, one permanent),
+  zero complaints. No active suppression gaps, invalid active addresses,
+  unsigned recent stored events or recent webhook errors. All 24 focused email
+  payload/template/idempotency/unsubscribe tests passed. The owner Gmail test
+  attempt was rejected before sending because that address was not an active
+  subscriber; the verified alternate owner subscriber test delivered. Its
+  actual HTML/plain text, reply-to, tracked CTA, lawful footer and one-click
+  headers were checked. Provider Insights flagged the established signed
+  Supabase unsubscribe URL's different domain; other reported checks included
+  valid DMARC and plain text. That advisory was not mistaken for provider risk.
+- Completed the new health-score subscriber broadcast at 18:55:42 Sydney:
+  318 accepted across four checked runs (50, 100, 100, 68), zero send failures,
+  318 durable provider-ID ledger entries, 316 delivery confirmations, zero
+  bounced or complained events, and zero active recipients without acceptance.
+  Two delivery events remain pending, not eligible for re-send. The production
+  switch was explicitly returned to false immediately after the final batch.
+  The eligible active list was 318 at send time, not the earlier 319 snapshot;
+  the intervening status change was not labelled as an unsubscribe without
+  evidence. The separate owner test is excluded from all production counts.
+- Subsequently verified Tanya's text-only post live at
+  https://www.linkedin.com/feed/update/urn:li:activity:7505549519225311232/.
+  Its caption matches the approved issue; its first comment displays the exact
+  `linkedin/post/health-score-is-not-an-intervention-trigger/tuesday_launch`
+  URL. No duplicate was created. Wednesday's native edition remains separate.
+
 ## 3 September 2026
 
 - Reframed the LinkedIn 15K programme for September urgency after the first
