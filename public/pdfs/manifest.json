@@ -120,6 +120,16 @@
     "published_date": "2026-06-30T08:00:00+00:00"
   },
   {
+    "id": "pdf-intervention_trigger_ledger_churnisdead",
+    "title": "The Intervention Trigger Ledger",
+    "description": "A practical record for turning one observed customer change into a bounded, actionable and reviewable intervention rule.",
+    "pdf_path": "/pdfs/Intervention_Trigger_Ledger_ChurnIsDead.pdf",
+    "notion_link": null,
+    "newsletter_slug": "health-score-is-not-an-intervention-trigger",
+    "newsletter_title": "A Health Score Is Not an Intervention Trigger",
+    "published_date": "2026-09-15T08:00:00+00:00"
+  },
+  {
     "id": "pdf-metered_vs_earned_retention_audit_churnisdead",
     "title": "Metered vs Earned Retention Audit",
     "description": "Download the Metered vs Earned Retention Audit worksheet from the Churn Is Dead archive.",

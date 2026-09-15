@@ -1,5 +1,14 @@
 [
   {
+    "id": "static-health-score-is-not-an-intervention-trigger",
+    "title": "A Health Score Is Not an Intervention Trigger",
+    "slug": "health-score-is-not-an-intervention-trigger",
+    "excerpt": "Replace noisy account alerts with an explicit rule that connects observed change, customer consequence, evidence quality, and a response someone can actually own.",
+    "published_date": "2026-09-15T08:00:00+00:00",
+    "read_time": "8 min read",
+    "category": "Measurement"
+  },
+  {
     "id": "static-senior-csm-not-default-owner",
     "title": "Stop Giving Senior CSMs Work They Cannot Decide",
     "slug": "senior-csm-not-default-owner",

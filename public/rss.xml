@@ -6,8 +6,16 @@
     <description>Weekly CS frameworks for enterprise Customer Success leaders. Hard truths, tactical plays, and downloadable playbooks.</description>
     <language>en</language>
     <managingEditor>kuber@churnisdead.com (Kuber Sethi)</managingEditor>
-    <lastBuildDate>Tue, 08 Sep 2026 12:41:15 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 15 Sep 2026 08:39:05 +0000</lastBuildDate>
     <atom:link href="https://churnisdead.com/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A Health Score Is Not an Intervention Trigger</title>
+      <link>https://churnisdead.com/newsletter/health-score-is-not-an-intervention-trigger</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/health-score-is-not-an-intervention-trigger</guid>
+      <pubDate>Tue, 15 Sep 2026 08:00:00 +0000</pubDate>
+      <description>Replace noisy account alerts with an explicit rule that connects observed change, customer consequence, evidence quality, and a response someone can actually own.</description>
+      <category>Measurement</category>
+    </item>
     <item>
       <title>Stop Giving Senior CSMs Work They Cannot Decide</title>
       <link>https://churnisdead.com/newsletter/senior-csm-not-default-owner</link>
@@ -158,14 +166,6 @@
       <guid isPermaLink="true">https://churnisdead.com/newsletter/stopped-tracking-health-scores</guid>
       <pubDate>Tue, 05 May 2026 08:00:00 +0000</pubDate>
       <description>Health scores predict the past, not the future. Here's how to focus on what actually drives churn.</description>
-      <category>Strategy</category>
-    </item>
-    <item>
-      <title>The Case Against Customer Health Scores</title>
-      <link>https://churnisdead.com/newsletter/case-against-customer-health-scores</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/case-against-customer-health-scores</guid>
-      <pubDate>Tue, 28 Apr 2026 08:00:00 +0000</pubDate>
-      <description>Health scores are the astrology of customer success—providing false confidence while real churn drivers remain invisible.</description>
       <category>Strategy</category>
     </item>
   </channel>
