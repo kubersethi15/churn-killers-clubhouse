@@ -1,0 +1,42 @@
+[
+  {
+    "id": "E01",
+    "claim": "A staggered introduction study of an AI assistant covering 5,172 customer support agents reported an average 15% increase in issues resolved per hour, heterogeneous effects, and improved interaction measures including fewer requests for a manager.",
+    "source_title": "Generative AI at Work",
+    "url": "https://digitaleconomy.stanford.edu/publication/generative-ai-at-work/",
+    "publisher": "Stanford Digital Economy Lab; Erik Brynjolfsson, Danielle Li and Lindsey Raymond",
+    "source_type": "original_research",
+    "accessed_at": "2026-09-19",
+    "notes": "Use the currently displayed revised abstract (5,172 and 15%), not the older 5,179/14% working-paper figures. Context-specific agent assistance, not proof of autonomous CS outcomes or customer-side end-to-end time savings. Publisher PDF retrieval unavailable; claim bounded to the original researchers' verified summary."
+  },
+  {
+    "id": "E02",
+    "claim": "In a survey of 319 knowledge workers, qualitative findings describe critical-thinking work shifting towards verification, integration of responses and task stewardship.",
+    "source_title": "The Impact of Generative AI on Critical Thinking: Self-Reported Reductions in Cognitive Effort and Confidence Effects From a Survey of Knowledge Workers",
+    "url": "https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/",
+    "publisher": "Lee et al.; CHI 2025; Microsoft Research",
+    "source_type": "original_research",
+    "accessed_at": "2026-09-19",
+    "notes": "Self-report, not a timing experiment or evidence of a quantified productivity penalty. Does not establish vendor-to-customer displacement; that is the article's explicit testable proposition."
+  },
+  {
+    "id": "E03",
+    "claim": "METR's February 2026 update says selection effects and time-measurement problems make its later developer productivity estimates unreliable.",
+    "source_title": "We are Changing our Developer Productivity Experiment Design",
+    "url": "https://metr.org/blog/2026-02-24-uplift-update/",
+    "publisher": "METR",
+    "source_type": "original_research",
+    "accessed_at": "2026-09-19",
+    "notes": "Used solely as a methodological warning about missing participants/tasks and measurement. Does not transfer developer estimates to CS; avoids outdated claims that present-day AI slows developers."
+  },
+  {
+    "id": "E04",
+    "claim": "Task analysis starts from user goals and observes the work required to achieve them; observation is important rather than relying exclusively on self-reports or simulations.",
+    "source_title": "Task Analysis: Support Users in Achieving Their Goals",
+    "url": "https://www.nngroup.com/articles/task-analysis/",
+    "publisher": "Nielsen Norman Group; Maria Rosala",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-09-19",
+    "notes": "First-party UX methodology. The two-sided Customer Work Check is our own proposed adaptation, not NN/G's instrument, endorsed standard or validated ROI model."
+  }
+]
