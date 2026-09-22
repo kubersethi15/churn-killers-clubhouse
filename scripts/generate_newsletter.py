@@ -1654,6 +1654,10 @@ def generate_newsletter_and_playbook(topic_override=None):
 # ===============================================================
 
 def build_playbook_pdf(playbook_data, metadata, output_path):
+    if playbook_data.get('layout') == 'compact_one_page':
+        from compact_playbook import build_compact_playbook
+        return build_compact_playbook(playbook_data, metadata, output_path)
+
     from reportlab.lib.pagesizes import letter
     from reportlab.lib.units import inch
     from reportlab.lib.colors import HexColor

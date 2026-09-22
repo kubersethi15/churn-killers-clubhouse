@@ -1,0 +1,20 @@
+{
+  "title": "The Customer Work Missing From Your AI ROI",
+  "slug": "customer-work-ai-roi",
+  "excerpt": "Your AI assistant finishes the plan in seconds. The customer still has to check the dates, fix the assumptions and make it usable. Find out whether work disappeared or just changed hands.",
+  "category": "AI and Customer Experience",
+  "theme": "customer_side_ai_value",
+  "format": "operating_system",
+  "primary_goal": "Decide whether to expand, repair or retain the existing route for one AI-assisted customer workflow by checking acceptable outcomes and effort on both sides.",
+  "primary_cta": "Run the Customer Work Check on one AI-assisted customer workflow.",
+  "read_time": "8 min read",
+  "published_date": "2026-09-22T08:00:00+00:00",
+  "pdf_filename": "Customer_Work_Check_ChurnIsDead.pdf",
+  "playbook_title": "The Customer Work Check",
+  "playbook_description": "A one-page action guide with a short worked example and a copyable prompt to compare effort on both sides before expanding an AI workflow.",
+  "subject_variants": [{
+    "label": "customer_work",
+    "subject": "Did your AI save time, or move the work?",
+    "preheader": "Find the customer effort missing from your AI ROI. Includes a one-page check and a practical prompt."
+  }]
+}

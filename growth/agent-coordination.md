@@ -57,6 +57,11 @@ The ready-to-claim list is a starting queue, not a ceiling. An agent may add and
 
 ## Active ownership
 
+22 September: Codex claims `editorial/customer-work-scheduled` solely for the
+approved `customer-work-ai-roi` package and its compact-PDF dependency. Kuber
+explicitly requested scheduling at 12:51 Sydney. Target 18:00 Sydney / 08:00 UTC.
+Do not duplicate staging or subscriber delivery. QBR manager post is unchanged.
+
 | Workstream | Owner | Branch or surface | Status | Claimed files / boundary |
 |---|---|---|---|---|
 | 15 September release recovery | Codex | `growth/sep15-release-recovery`; existing publisher, Lovable and per-recipient sender | Website, subscriber broadcast and manager post verified 15 September | Missing scheduled publisher recovered with exact-issue run 34948105483; generated main `cdcb35d` explicitly published and public canonical/PDF/sitemap/RSS verified. Prior Renewal recovery accepted 124 previously unaccepted active recipients; never repeat it. New health-score issue: 318 accepted, 316 delivery confirmations, zero bounces/complaints, zero active unsent; switch false. Pending delivery events are not resend eligibility. Tanya's matching post is live at activity 7505549519225311232, with the exact first-comment URL displayed. No duplicate feed post. See aggregate action log; missing cron trigger cause remains unverified. |
