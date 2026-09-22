@@ -6,8 +6,16 @@
     <description>Weekly CS frameworks for enterprise Customer Success leaders. Hard truths, tactical plays, and downloadable playbooks.</description>
     <language>en</language>
     <managingEditor>kuber@churnisdead.com (Kuber Sethi)</managingEditor>
-    <lastBuildDate>Tue, 22 Sep 2026 04:37:13 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 22 Sep 2026 13:11:21 +0000</lastBuildDate>
     <atom:link href="https://churnisdead.com/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Customer Work Missing From Your AI ROI</title>
+      <link>https://churnisdead.com/newsletter/customer-work-ai-roi</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/customer-work-ai-roi</guid>
+      <pubDate>Tue, 22 Sep 2026 08:00:00 +0000</pubDate>
+      <description>Your AI assistant finishes the plan in seconds. The customer still has to check the dates, fix the assumptions and make it usable. Find out whether work disappeared or just changed hands.</description>
+      <category>AI and Customer Experience</category>
+    </item>
     <item>
       <title>A Health Score Is Not an Intervention Trigger</title>
       <link>https://churnisdead.com/newsletter/health-score-is-not-an-intervention-trigger</link>
@@ -158,14 +166,6 @@
       <guid isPermaLink="true">https://churnisdead.com/newsletter/fire-your-qbr-what-to-do-instead</guid>
       <pubDate>Tue, 12 May 2026 08:00:00 +0000</pubDate>
       <description>QBRs are elaborate customer success theater. The highest-retention SaaS companies deliver success through continuous, in-product experiences instead.</description>
-      <category>Strategy</category>
-    </item>
-    <item>
-      <title>I Stopped Tracking Health Scores. Here's What I Found Instead.</title>
-      <link>https://churnisdead.com/newsletter/stopped-tracking-health-scores</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/stopped-tracking-health-scores</guid>
-      <pubDate>Tue, 05 May 2026 08:00:00 +0000</pubDate>
-      <description>Health scores predict the past, not the future. Here's how to focus on what actually drives churn.</description>
       <category>Strategy</category>
     </item>
   </channel>

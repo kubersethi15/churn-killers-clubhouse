@@ -100,6 +100,16 @@
     "published_date": "2026-03-25T08:00:00+00:00"
   },
   {
+    "id": "pdf-customer_work_check_churnisdead",
+    "title": "The Customer Work Check",
+    "description": "A one-page action guide with a short worked example and a copyable prompt to compare effort on both sides before expanding an AI workflow.",
+    "pdf_path": "/pdfs/Customer_Work_Check_ChurnIsDead.pdf",
+    "notion_link": null,
+    "newsletter_slug": "customer-work-ai-roi",
+    "newsletter_title": "The Customer Work Missing From Your AI ROI",
+    "published_date": "2026-09-22T08:00:00+00:00"
+  },
+  {
     "id": "pdf-displacement_reality_audit_churnisdead",
     "title": "Displacement Reality Audit",
     "description": "Download the Displacement Reality Audit worksheet from the Churn Is Dead archive.",
