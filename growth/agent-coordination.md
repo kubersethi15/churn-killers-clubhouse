@@ -1,5 +1,9 @@
 # Churn Is Dead agent coordination
 
+## 23 September 2026 public-intake security repair
+
+Codex owns `fix/public-intake-rls-sep23`: live policy audit, a narrow migration and rollback-only role tests for subscribers, waitlist, growth events and newsletter reads. Kuber explicitly approved production testing/application and newsletter publication on 23 September. Production migration `20260923010000` is applied and recorded: valid anonymous/authenticated intake passed, malformed payloads and forged server fields rejected, future newsletter visibility blocked, published articles readable. No existing records deleted; all synthetic test inserts rolled back. Verified zero unconditional client INSERT policies on the three intake tables. This is payload/column hardening, not bot-rate limiting or proof of email ownership. Website deployment verification remains in progress.
+
 **Last updated:** 28 August 2026
 
 This is the shared coordination board for Claude and Codex. It contains no subscriber identities or customer PII.
