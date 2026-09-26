@@ -39,6 +39,20 @@ class CompactPlaybookTests(unittest.TestCase):
             self.assertEqual(len(pages), 6)
             self.assertIn("Intervention Trigger", pages[0].extract_text())
 
+    def test_expansion_note_has_correct_example_and_one_page(self):
+        issue = load_issue(ROOT / "editorial/issues/expansion-before-readiness")
+        self.assertTrue(validate_issue(issue).ok)
+        self.assertFalse(validate_issue(replace(issue, approval={"status": "pending"}), require_approved=True).ok)
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "expansion.pdf"
+            build_playbook_pdf(issue.playbook, issue.metadata, path)
+            pages = PdfReader(path).pages
+            self.assertEqual(len(pages), 1)
+            text = " ".join(pages[0].extract_text().split())
+            self.assertIn("Example: a three-department rollout", text)
+            self.assertNotIn("Example: an implementation plan", text)
+            self.assertIn("Do not invent facts or commitments", text)
+
 
 if __name__ == "__main__":
     unittest.main()

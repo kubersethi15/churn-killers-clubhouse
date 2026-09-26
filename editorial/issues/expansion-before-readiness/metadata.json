@@ -1,0 +1,18 @@
+{
+  "title": "The Expansion Deal Your CS Team Should Slow Down",
+  "slug": "expansion-before-readiness",
+  "excerpt": "The customer wants to buy more. But the team doing the work isn't ready. Here's how to decide whether to go ahead, start smaller or wait.",
+  "category": "Customer Growth",
+  "theme": "expansion_delivery_readiness",
+  "format": "commercial_mechanics",
+  "primary_goal": "Decide whether to proceed, phase or pause a proposed expansion by making delivery dependencies and the cost of waiting explicit.",
+  "primary_cta": "Use the Expansion Decision Note on one live opportunity with the account owner and customer delivery lead.",
+  "read_time": "7 min read",
+  "published_date": "2026-09-29T08:00:00+00:00",
+  "pdf_filename": "Expansion_Decision_Note_ChurnIsDead.pdf",
+  "playbook_title": "The Expansion Decision Note",
+  "playbook_description": "A one-page guide to deciding whether to go ahead, start smaller or wait, with a simple example and a prompt to help you think it through.",
+  "subject_variants": [
+    {"label": "primary", "subject": "They want to buy more. Should you let them?", "preheader": "The buyer is ready. The delivery team isn't. What CS should do next."}
+  ]
+}

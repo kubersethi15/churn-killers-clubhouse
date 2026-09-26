@@ -17,6 +17,16 @@ Every issue must pass these gates before it can be staged:
 
 ## Editorial mix
 
+### Plain-English review (Kuber, 27 September 2026)
+
+Before handoff, read the article, email and any action guide as someone outside
+CS. Use familiar words, explain necessary acronyms once, keep one clear idea per
+sentence, and replace abstract advice with a concrete example. Prefer “what
+could stop the work?” to “material delivery dependency”, and “go ahead, start
+smaller or wait” to “proceed, phase or pause”. Keep the argument and evidence;
+remove jargon, repeated caveats and stiff phrasing. Do not add deliberate errors
+to imitate a person. This is required QA, not a claim of a readability score.
+
 Across an eight-issue window, balance constructive operating systems, leadership, commercial mechanics, AI implications, measurement, and occasional evidence-led teardown pieces. Avoid repeated title formulas.
 
 ## Status model

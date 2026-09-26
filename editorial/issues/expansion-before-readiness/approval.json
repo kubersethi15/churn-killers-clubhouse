@@ -1,0 +1,7 @@
+{
+  "status": "approved",
+  "human_reviewed": true,
+  "approved_by": "Kuber Sethi",
+  "approved_at": "2026-09-26T23:41:30Z",
+  "basis": "Kuber reviewed the draft, requested a plain-English rewrite, and explicitly instructed 'scheduel it' after the completed rewrite was reported. Approves this revised package for Tuesday 29 September 2026 at 18:00 Sydney (08:00 UTC). Subscriber delivery remains subject to live release, safety and idempotency checks."
+}

@@ -76,7 +76,7 @@ def build_compact_playbook(playbook, metadata, output_path):
     for index, section in enumerate(playbook["sections"], 1):
         story.append(p(f"0{index}  {section['title']}", "heading"))
         story.append(p(section["instruction"]))
-    story += [p("Example: an implementation plan", "heading"), p(example["label"], "small"),
+    story += [p(example.get("heading", "Example: an implementation plan"), "heading"), p(example["label"], "small"),
               table(example["headers"], example["rows"], [.66, .17, .17]), Spacer(1, 6),
               p(example["interpretation"], "small"), p("Copy this prompt. Add your observations.", "heading")]
     prompt = Paragraph(escape(playbook["prompt"]).replace("\n", "<br/>"), styles["prompt"])

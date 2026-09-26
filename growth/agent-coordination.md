@@ -1,5 +1,15 @@
 # Churn Is Dead agent coordination
 
+## 27 September: approved 29 September newsletter release
+
+Codex owns `editorial/sep29-approved-release`: approved plain-English package
+`expansion-before-readiness`, planned 29 September 18:00 Sydney / 08:00 UTC.
+Kuber explicitly requested scheduling. Fresh main c07ca67 checked; no open PRs.
+Validation and ten tests pass. Isolated checkout preserves unrelated local work.
+Claim covers merge and deterministic future-date staging, not an immediate email
+send or changes to Tanya's approved feed posts. Staging must be verified before
+calling this scheduled. Native LinkedIn Newsletter remains a separate gate.
+
 ## 23 September 2026 public-intake security repair
 
 Codex owns `fix/public-intake-rls-sep23`: live policy audit, a narrow migration and rollback-only role tests for subscribers, waitlist, growth events and newsletter reads. Kuber explicitly approved production testing/application and newsletter publication on 23 September. Production migration `20260923010000` is applied and recorded: valid anonymous/authenticated intake passed, malformed payloads and forged server fields rejected, future newsletter visibility blocked, published articles readable. No existing records deleted; all synthetic test inserts rolled back. Verified zero unconditional client INSERT policies on the three intake tables. This is payload/column hardening, not bot-rate limiting or proof of email ownership. Website deployment verification remains in progress.
