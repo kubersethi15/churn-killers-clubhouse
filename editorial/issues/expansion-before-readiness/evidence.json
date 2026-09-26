@@ -1,0 +1,22 @@
+[
+  {
+    "id": "E01",
+    "claim": "GitLab's public success-planning process describes a customer-facing mutual plan that carries from presales into postsales and includes business outcomes, stakeholders, current and desired workflows, a phased adoption journey and milestones.",
+    "source_title": "Customer Success Plan",
+    "url": "https://handbook.gitlab.com/handbook/solutions-architects/processes/customer-success-plan/",
+    "publisher": "GitLab",
+    "source_type": "primary",
+    "accessed_at": "2026-09-27",
+    "notes": "An organisation's documented operating practice, not causal evidence of higher retention. Its thresholds and opportunity stages are not universal recommendations. We do not equate its customer-reviewed checkbox with a formal customer commitment."
+  },
+  {
+    "id": "E02",
+    "claim": "Microsoft's Skype for Business to Teams upgrade guidance separates project scope, goals and success measures, asks teams to consider a pilot for technical and user readiness, and recommends smaller milestones alongside longer-term goals.",
+    "source_title": "Define the project scope for your Skype for Business to Microsoft Teams upgrade",
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/upgrade-define-project-scope",
+    "publisher": "Microsoft Learn",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-09-27",
+    "notes": "Legacy migration context, used for the bounded planning distinction only. Not current Teams deployment advice, a CS expansion study, or evidence that pausing a deal improves revenue. Do not import its illustrative adoption percentages."
+  }
+]
