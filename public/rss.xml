@@ -6,8 +6,16 @@
     <description>Weekly CS frameworks for enterprise Customer Success leaders. Hard truths, tactical plays, and downloadable playbooks.</description>
     <language>en</language>
     <managingEditor>kuber@churnisdead.com (Kuber Sethi)</managingEditor>
-    <lastBuildDate>Sat, 26 Sep 2026 23:43:59 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 29 Sep 2026 10:25:12 +0000</lastBuildDate>
     <atom:link href="https://churnisdead.com/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Expansion Deal Your CS Team Should Slow Down</title>
+      <link>https://churnisdead.com/newsletter/expansion-before-readiness</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/expansion-before-readiness</guid>
+      <pubDate>Tue, 29 Sep 2026 08:00:00 +0000</pubDate>
+      <description>The customer wants to buy more. But the team doing the work isn't ready. Here's how to decide whether to go ahead, start smaller or wait.</description>
+      <category>Customer Growth</category>
+    </item>
     <item>
       <title>The Customer Work Missing From Your AI ROI</title>
       <link>https://churnisdead.com/newsletter/customer-work-ai-roi</link>
@@ -158,14 +166,6 @@
       <guid isPermaLink="true">https://churnisdead.com/newsletter/fire-your-qbr-heres-what-to-do-instead</guid>
       <pubDate>Tue, 19 May 2026 08:00:00 +0000</pubDate>
       <description>QBRs waste executive time by reporting on history instead of driving decisions. Here's the Monthly Business Review that actually moves the needle.</description>
-      <category>Strategy</category>
-    </item>
-    <item>
-      <title>Stop Scheduling Success: The Continuous CS Operating Model</title>
-      <link>https://churnisdead.com/newsletter/fire-your-qbr-what-to-do-instead</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/fire-your-qbr-what-to-do-instead</guid>
-      <pubDate>Tue, 12 May 2026 08:00:00 +0000</pubDate>
-      <description>QBRs are elaborate customer success theater. The highest-retention SaaS companies deliver success through continuous, in-product experiences instead.</description>
       <category>Strategy</category>
     </item>
   </channel>

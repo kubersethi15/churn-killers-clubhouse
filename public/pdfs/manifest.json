@@ -120,6 +120,16 @@
     "published_date": "2026-04-14T08:00:00+00:00"
   },
   {
+    "id": "pdf-expansion_decision_note_churnisdead",
+    "title": "The Expansion Decision Note",
+    "description": "A one-page guide to deciding whether to go ahead, start smaller or wait, with a simple example and a prompt to help you think it through.",
+    "pdf_path": "/pdfs/Expansion_Decision_Note_ChurnIsDead.pdf",
+    "notion_link": null,
+    "newsletter_slug": "expansion-before-readiness",
+    "newsletter_title": "The Expansion Deal Your CS Team Should Slow Down",
+    "published_date": "2026-09-29T08:00:00+00:00"
+  },
+  {
     "id": "pdf-frozen_layer_audit_churnisdead",
     "title": "Frozen Layer Audit",
     "description": "Download the Frozen Layer Audit worksheet from the Churn Is Dead archive.",
