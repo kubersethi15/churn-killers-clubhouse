@@ -1,0 +1,38 @@
+{
+  "title": "The Reference Request Note",
+  "subtitle": "Before you ask a customer to help with a deal",
+  "layout": "compact_one_page",
+  "assessment_mode": "decision_record",
+  "intro_text": "Use this with the account owner before approaching the customer. Keep the answer in the existing opportunity notes. Do not add customer names to this public copy.",
+  "example": {
+    "heading": "Example: a prospect asks about rollout",
+    "label": "Fictional example, not a customer result.",
+    "headers": ["Buyer wants to know", "First option", "Customer ask"],
+    "rows": [["What went wrong during rollout?", "Approved story", "Optional call next week"]],
+    "interpretation": "The story may not answer the whole question. The customer gets a specific, optional request rather than a demand for a call tomorrow."
+  },
+  "sections": [
+    {
+      "title": "What question needs answering?",
+      "instruction": "Write the buyer's actual question. Why is this customer the right person to answer it?",
+      "headers": ["Record", "What we know"],
+      "rows": [["Buyer question / customer fit", ""]]
+    },
+    {
+      "title": "What would we ask the customer to give?",
+      "instruction": "State the format, time, audience and deadline. Check prior asks and the exact permission needed. Include the customer's possible benefit without dressing up a favour as a benefit.",
+      "headers": ["Record", "What we know"],
+      "rows": [["Format / time / audience / deadline / permission", ""]]
+    },
+    {
+      "title": "Is there a smaller way?",
+      "instruction": "Choose: ask as planned, make a smaller ask, use existing proof, or wait. Name the person who will ask and the next step if the customer declines.",
+      "headers": ["Record", "Decision"],
+      "rows": [["Alternative / choice / owner / next step", ""]]
+    }
+  ],
+  "prompt": "Buyer question: [ ]\nExact customer ask: [format, audience, time, deadline]\nWhy this customer: [ ]\nPermission and recent asks checked: [ ]\nSmaller option: [ ]\nDecision and owner: [ ]",
+  "next_action": "Use on one live request. The customer's no must remain a real option. Follow your company's permission process for names, quotes and logos.",
+  "methodology": "An editorial decision aid, not a proven way to improve sales or retention. The sources and limits are in the article.",
+  "article_url": "https://churnisdead.com/newsletter/customer-reference-request"
+}

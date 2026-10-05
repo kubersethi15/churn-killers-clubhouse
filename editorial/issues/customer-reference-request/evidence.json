@@ -1,0 +1,32 @@
+[
+  {
+    "id": "E01",
+    "claim": "GitLab's public advocacy process distinguishes approved customer names and logos, quotes, ROI evidence, case studies, videos and speaking opportunities; it calls for written reference permission and checks whether proposed speakers have already been over-activated.",
+    "source_title": "Growth Community Programs",
+    "url": "https://handbook.gitlab.com/handbook/marketing/growth-marketing/growth-community-programs/",
+    "publisher": "GitLab",
+    "source_type": "primary",
+    "accessed_at": "2026-10-06",
+    "notes": "One company's documented practice. Its event lead times and approval process are not universal rules or evidence of retention impact."
+  },
+  {
+    "id": "E02",
+    "claim": "GitLab's Reference Program Manager role includes managing reference requests, respecting customers' time and effort, and seeking a positive impact for the customer and their organisation.",
+    "source_title": "Reference Program Manager",
+    "url": "https://handbook.gitlab.com/job-description-library/marketing/reference-program-manager/",
+    "publisher": "GitLab",
+    "source_type": "primary",
+    "accessed_at": "2026-10-06",
+    "notes": "A role description and intended practice, not measured evidence that a particular programme improves customer outcomes."
+  },
+  {
+    "id": "E03",
+    "claim": "GitLab's Developer Relations programme lists distinct reference activities and requires explicit, documented consent from an authorised person for that programme.",
+    "source_title": "DevRel Programs Operational Guidelines",
+    "url": "https://handbook.gitlab.com/handbook/marketing/developer-relations/programs/operational-guidelines/",
+    "publisher": "GitLab",
+    "source_type": "primary",
+    "accessed_at": "2026-10-06",
+    "notes": "A particular programme's criteria. Do not present as universal law or copy its timeframe as a benchmark."
+  }
+]

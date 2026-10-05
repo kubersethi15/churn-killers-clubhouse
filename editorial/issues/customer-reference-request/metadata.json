@@ -1,0 +1,22 @@
+{
+  "title": "Your Best Customer Is Not Your Reference Desk",
+  "slug": "customer-reference-request",
+  "excerpt": "The customer helped once. Now another team wants a call, a quote and a logo. How do you make the next ask without taking their goodwill for granted?",
+  "category": "Customer Growth",
+  "theme": "customer_advocacy_requests",
+  "format": "operating_system",
+  "primary_goal": "Decide whether to make, reduce, replace or decline a specific customer reference request.",
+  "primary_cta": "Use the Reference Request Note on one live request before the customer is approached.",
+  "read_time": "7 min read",
+  "published_date": "2026-10-13T07:00:00+00:00",
+  "pdf_filename": "Reference_Request_Note_ChurnIsDead.pdf",
+  "playbook_title": "The Reference Request Note",
+  "playbook_description": "A one-page check for the exact ask, customer time, permission and a smaller alternative.",
+  "subject_variants": [
+    {
+      "label": "primary",
+      "subject": "Can we ask this customer again?",
+      "preheader": "A useful reference request starts with the customer's time, not your deal deadline."
+    }
+  ]
+}
