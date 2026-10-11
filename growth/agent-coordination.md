@@ -1,5 +1,9 @@
 # Churn Is Dead agent coordination
 
+## 11 October 2026 LinkedIn pivot claim
+
+Codex owns the Sunday 12–17 October LinkedIn 15K evidence and creative pivot. Scope: `growth/linkedin-15k-operating-plan.md`, `growth/action-log.md`, and `growth/experiment-register.csv` on branch `growth/oct11-linkedin-pivot`, plus the shared `15K Creative Lab` proposal. Tanya and Ankush retain manager calendar copy, scheduling, native uploads and reply coverage. No approved public post is replaced until Kuber approves the exact handoff. Claude should not duplicate this lane.
+
 ## 27 September: approved 29 September newsletter release
 
 Codex owns `editorial/sep29-approved-release`: approved plain-English package
