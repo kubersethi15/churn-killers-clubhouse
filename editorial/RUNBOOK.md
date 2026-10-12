@@ -30,7 +30,7 @@ Open a pull request. Merge the approved package to `main`. The approved publishe
 
 ### Tuesday: release
 
-The publication timestamp is Tuesday 08:00 UTC. In Sydney that is 18:00 during AEST and 19:00 during AEDT. The scheduled workflow runs at 08:05 UTC to regenerate the public article, social image, sitemap, RSS feed, and Playbook Vault manifest after the issue becomes eligible.
+Set each approved issue's publication timestamp to Tuesday 18:00 Australia/Sydney: 07:00 UTC during AEDT or 08:00 UTC during AEST. The scheduled workflow runs at 18:05 Sydney using its timezone-aware cron to regenerate the public article, social image, sitemap, RSS feed, and Playbook Vault manifest after the issue becomes eligible. GitHub may delay scheduled runs; at the 18:10 Sydney checkpoint, inspect the run before dispatching the exact issue once if none is queued, active or complete.
 
 The workflow commits those generated assets to `main`; it does not publish a
 Lovable production build. After the workflow commit lands, pull the new `main`
