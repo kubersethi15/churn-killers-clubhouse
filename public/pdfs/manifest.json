@@ -240,6 +240,16 @@
     "published_date": "2026-08-25T08:00:00+00:00"
   },
   {
+    "id": "pdf-reference_request_note_churnisdead",
+    "title": "The Reference Request Note",
+    "description": "A one-page check for the exact ask, customer time, permission and a smaller alternative.",
+    "pdf_path": "/pdfs/Reference_Request_Note_ChurnIsDead.pdf",
+    "notion_link": null,
+    "newsletter_slug": "customer-reference-request",
+    "newsletter_title": "Your Best Customer Is Not Your Reference Desk",
+    "published_date": "2026-10-13T07:00:00+00:00"
+  },
+  {
     "id": "pdf-renewal_evidence_packet_churnisdead",
     "title": "The Renewal Evidence Packet",
     "description": "An evidence register, forecast-state test, contradiction log, and review record for making renewal forecasts auditable.",
