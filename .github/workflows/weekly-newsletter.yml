@@ -7,6 +7,7 @@ on:
       - 'editorial/issues/**'
       - 'scripts/editorial_issue.py'
       - 'scripts/publish_editorial_issue.py'
+      - '.github/workflows/weekly-newsletter.yml'
   schedule:
     # Tuesday 18:05 Sydney. Supabase controls each issue's exact publication time;
     # this run refreshes public SEO assets after the issue becomes eligible.
