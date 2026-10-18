@@ -1,5 +1,61 @@
 # LinkedIn 15K operating plan
 
+## 18 October weekly operating read and 19–24 October decision
+
+The shared 15K Creative Lab Sunday read records **9,649 followers** at about
+21:00 Sydney on 18 October. The gap to 15,000 is **5,351** over 74 days, or
+about **506 net followers per week**. This is a required pace, not a forecast.
+The corresponding seven-day follower net and a full comparable 90-day post
+ranking are not yet verified; do not infer either from the 13 October or Friday
+endpoint. The seven-day content view has **9,613 impressions, 202 social
+engagements, zero reposts, six saves and zero sends**. Impressions are not
+unique members reached. Keep account-level follower growth separate from
+post-attributed follows and from confirmed email subscribers.
+
+Friday 16 October's manager post is live at
+`https://www.linkedin.com/feed/update/urn:li:activity:7516762643118977024/`.
+Its available read is 537 impressions, two post-profile viewers, zero
+attributed follows, and zero reposts, saves or sends. Saturday 17 October's
+post is live at
+`https://www.linkedin.com/feed/update/urn:li:activity:7517127283850166272/`;
+the available read is 203 impressions, zero profile viewers, zero attributed
+follows, and zero reposts, saves or sends. These are not comparable 24-hour
+reach denominators, so no follows-per-1,000 or format winner is claimed. The
+immediate constraint supported by these two posts is weak discovery and
+post-to-profile action; audience fit and timing require more evidence.
+
+Keep the 19–24 October feed block at **five slots** with **three Tanya / two
+Codex**. The website issue, subscriber email and native LinkedIn Newsletter
+are separate. The Wednesday books draft remains on hold. The creative jobs and
+release gates are:
+
+| Slot | Owner | Job and direction | Gate |
+| --- | --- | --- | --- |
+| Mon 19 | Tanya | Reach-first career tension: the CSM knows the account but the expansion decision is unnamed. Text only; claim-safe alternative in Creative Lab row 86. | Original first-person AE claim is unverified. Tanya to accept the alternative or substantiate the original before queueing. |
+| Tue 20 | Codex | Authority: grounded QBR field note, text only and no external link; Calendar row 288. | Approved copy; Tanya to confirm the actual queue, then verify live URL. |
+| Thu 22 | Tanya | Native utility: one-page mobile-readable Account Progress Check PDF; claim-safe caption in Creative Lab row 89. | Tanya to accept caption, attach and inspect the PDF, then confirm queue. Local artifact alone is not a scheduled document. |
+| Fri 23 | Tanya | Practical judgement: before a third invite, ask what changed and what would make the time useful. Text-only alternative in Creative Lab row 90. | Original first-person cancelled-account/AI story is unverified; Tanya to accept alternative or substantiate original. |
+| Sat 24 | Codex | Human observation: sharper customer-update phrasing; Calendar row 292, text only. | Approved copy; confirm queue and live URL. |
+
+Use a recurring CS decision/failure cue across the block, but vary the actual
+decision, emotion and payoff. Each selected post must retain its one job and
+one action. Do not add an issue-link promo or sixth post. Do not change
+already-live content to rescue a weak read. Inspect each post at a usable 24
+hours and seven days for members reached, out-of-network share, post-profile
+viewers, attributed follows and follows per 1,000 reached; use reposts, saves,
+sends and qualified comments as diagnostics. Improve the next unpublished
+slot immediately if distribution is meaningful and profile/follow/share signal
+is absent. Do not call a winning format below two comparable reads and the
+applicable evidence floor. If Tanya cannot clear a claim or asset gate, keep
+the affected slot unqueued and escalate before its scheduled time; do not
+substitute an unapproved post.
+
+The claim-safe alternatives, ownership and dates are in the shared Creative
+Lab and Calendar. An exact Tanya/Ankush handoff is pending Kuber's action-time
+approval; a prior WhatsApp send attempt was rejected by automatic approval
+review for lacking that approval. Do not send it until approval is recorded.
+
+
 **Owner:** Codex, with the social manager operating the approved calendar  
 **Baseline:** 8,363 followers on 28 August 2026  
 **Target:** 15,000 relevant followers by 31 December 2026  

@@ -1,5 +1,14 @@
 # Growth action log
 
+## 18 October 2026 — Sunday LinkedIn evidence and next-slot gates
+
+- Pulled current main at `7a4a107`; the only open PR is draft #200 for the older 11 October pivot. Claimed the current aggregate audit and 19–24 October manager handoff without taking Tanya's calendar execution or Claude's earned-distribution lane.
+- Reconciled the shared Sunday read: 9,649 followers, 5,351 still needed by 31 December, about 506 net per week required. The seven-day content view has 9,613 impressions, 202 engagements, no reposts, six saves and no sends. Seven-day net followers, a complete comparable 90-day ranking and a 15–20 creator sample remain unverified; no causal or format-winner claim is made from those missing reads.
+- Verified the 16 and 17 October feed posts live and their available aggregate reads. Friday: 537 impressions, two post-profile viewers, zero post-attributed follows; Saturday: 203 impressions, zero profile viewers and zero attributed follows. Neither had a repost, save or send at the available read. These signals justify improving unpublished hooks and utility, while unique reach and audience-fit evidence are still needed for a formal conversion comparison.
+- Preserved the five 19–24 October slots and 3 Tanya / 2 Codex ownership in the shared Creative Lab and Calendar. Monday, Thursday and Friday have claim-safe alternatives and explicit claim/asset gates; Tuesday and Saturday exact copy is approved but queue status is unconfirmed. Wednesday books remains on hold. The one-page Thursday PDF exists locally but is not counted as delivered to Tanya or scheduled. No new public content, comments or handoff was sent.
+- The exact Tanya/Ankush message awaits Kuber's action-time approval. A prior WhatsApp handoff attempt was rejected by automatic approval review because that approval had not yet been recorded. The next operating action is approval of the exact message, followed by Tanya's queue and asset confirmation; no late relationship-comment capacity is carried forward.
+
+
 ## 15 September 2026
 
 - Recovered the missed Tuesday website release after the Mac was unlocked at

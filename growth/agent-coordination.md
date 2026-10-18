@@ -1,5 +1,9 @@
 # Churn Is Dead agent coordination
 
+## 18 October: LinkedIn weekly evidence and next block
+
+Codex owns the aggregate 18 October LinkedIn evidence, the 19–24 October five-slot brief and the pending manager handoff. Tanya owns her Monday, Thursday and Friday calendar slots and evening responses; Codex owns Tuesday and Saturday copy. The shared 15K Creative Lab and 2026 Calendar are authoritative. Friday and Saturday 16–17 October posts are already live; do not duplicate them. Monday, Thursday and Friday 19–23 October have claim-safe alternatives in Creative Lab rows 86, 89 and 90 but remain unqueued pending Tanya's claim check and Kuber's action-time approval of the exact handoff. Tuesday and Saturday copy is approved in Calendar rows 288 and 292, but queue confirmation is still missing. Wednesday's books post stays on hold. Draft PR #200 covers the older 11 October pivot and must not be treated as approval or current schedule.
+
 ## 12 October: Sydney newsletter publisher timing
 
 Codex claims only the approved Tuesday publisher timing fix in `fix/sydney-newsletter-schedule-oct12`: align the existing scheduled build with 18:05 Australia/Sydney across daylight saving and correct the release runbook. The 13 October customer-reference-request issue is approved and staged in Supabase for 18:00 Sydney; the public route remains hidden before publication. Tanya retains feed calendar ownership. Do not duplicate the workflow dispatch or subscriber send. Check the scheduled run at 18:10 and dispatch the exact issue once only if no run is queued, active or complete.
