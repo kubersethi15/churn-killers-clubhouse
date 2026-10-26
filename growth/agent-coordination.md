@@ -1,5 +1,9 @@
 # Churn Is Dead agent coordination
 
+## 26 October: 27 October escalation closure issue
+
+Codex claims the 27 October website newsletter package in `editorial/oct27-escalation-exit-note`: research, evidence QA, the Escalation Exit Note PDF, and release preflight. The issue remains pending Kuber's exact approval. This claim does not cover Tanya's approved feed calendar or a subscriber send. Do not stage, publish, or email until the corresponding release gates pass.
+
 ## 12 October: Sydney newsletter publisher timing
 
 Codex claims only the approved Tuesday publisher timing fix in `fix/sydney-newsletter-schedule-oct12`: align the existing scheduled build with 18:05 Australia/Sydney across daylight saving and correct the release runbook. The 13 October customer-reference-request issue is approved and staged in Supabase for 18:00 Sydney; the public route remains hidden before publication. Tanya retains feed calendar ownership. Do not duplicate the workflow dispatch or subscriber send. Check the scheduled run at 18:10 and dispatch the exact issue once only if no run is queued, active or complete.

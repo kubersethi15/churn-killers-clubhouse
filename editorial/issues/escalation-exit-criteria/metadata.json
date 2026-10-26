@@ -1,0 +1,22 @@
+{
+  "title": "The Ticket Closed. Did the Escalation?",
+  "slug": "escalation-exit-criteria",
+  "excerpt": "The technical fix may be done while the customer still has an open decision. Use a clear exit test before declaring an account escalation over.",
+  "category": "Customer Operations",
+  "theme": "escalation_closure",
+  "format": "operating_system",
+  "primary_goal": "Decide whether to close an account escalation, move residual work to a named owner, or keep the escalation open.",
+  "primary_cta": "Use the Escalation Exit Note on one live account escalation before changing its status.",
+  "read_time": "7 min read",
+  "published_date": "2026-10-27T07:00:00+00:00",
+  "pdf_filename": "Escalation_Exit_Note_ChurnIsDead.pdf",
+  "playbook_title": "The Escalation Exit Note",
+  "playbook_description": "A one-page close, handoff or keep-open decision for account escalations.",
+  "subject_variants": [
+    {
+      "label": "primary",
+      "subject": "The ticket closed. Did the escalation?",
+      "preheader": "A simple exit test for the customer impact, open work and next owner."
+    }
+  ]
+}

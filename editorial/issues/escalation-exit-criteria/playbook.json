@@ -1,0 +1,38 @@
+{
+  "title": "The Escalation Exit Note",
+  "subtitle": "Before an account escalation changes status",
+  "layout": "compact_one_page",
+  "assessment_mode": "decision_record",
+  "intro_text": "Use this in the existing escalation record with the account lead and the people who own the fix. The customer-facing update should agree with this note. Do not put customer names or private details in a public copy.",
+  "example": {
+    "heading": "Example: service restored, adoption still blocked",
+    "label": "Fictional example, not a customer result.",
+    "headers": ["Immediate impact", "Open work", "Decision"],
+    "rows": [["Service working", "Customer's workflow not retested", "Keep account escalation open"]],
+    "interpretation": "The support incident may be resolved. The account escalation stays open until the customer can verify the affected workflow or accepts a named handoff."
+  },
+  "sections": [
+    {
+      "title": "What changed for the customer?",
+      "instruction": "Write the original customer impact and the evidence that it ended. Record what the customer has verified and what remains unknown.",
+      "headers": ["Record", "Evidence / unknown"],
+      "rows": [["Original impact / current customer state", ""]]
+    },
+    {
+      "title": "What remains open?",
+      "instruction": "Separate the urgent impact from cleanup, workaround, product decision or account plan. Give each open item an owner and next date.",
+      "headers": ["Record", "Owner / date"],
+      "rows": [["Residual work / next decision", ""]]
+    },
+    {
+      "title": "Choose the status",
+      "instruction": "Close only if the exit test is met and the customer understands the outcome. Handoff if urgent impact ended but named work remains. Keep open if the impact or decision is still unresolved.",
+      "headers": ["Choice", "Customer update"],
+      "rows": [["Close / handoff / keep open", ""]]
+    }
+  ],
+  "prompt": "Original customer impact: [ ]\nEvidence it ended: [ ]\nCustomer confirmation or stated disagreement: [ ]\nOpen work, owner and date: [ ]\nChoice: close / handoff / keep open [ ]\nNext customer update: [owner, channel, date]",
+  "next_action": "Use on one live escalation before changing its status. Keep the note in the existing case, not a new dashboard.",
+  "methodology": "An original editorial decision aid informed by public GitLab, Atlassian and Google operating guidance. It is not a measured retention intervention or a substitute for contractual incident obligations.",
+  "article_url": "https://churnisdead.com/newsletter/escalation-exit-criteria"
+}

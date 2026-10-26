@@ -1,0 +1,32 @@
+[
+  {
+    "id": "E01",
+    "claim": "GitLab's published Customer Success escalation process requires documented alignment between its stakeholders and the customer to close an escalation, asks whether exit criteria were met, and keeps the escalation DRI and next steps current.",
+    "source_title": "Customer Success Escalations Process",
+    "url": "https://handbook.gitlab.com/handbook/customer-experience/csm/escalations/",
+    "publisher": "GitLab",
+    "source_type": "primary",
+    "accessed_at": "2026-10-26",
+    "notes": "One company's public operating process. Its internal cadence, systems and approval path are not general industry requirements or evidence of retention impact."
+  },
+  {
+    "id": "E02",
+    "claim": "Atlassian's incident response handbook defines resolution as the end of current or imminent business impact, then tracks cleanup tasks and a postmortem separately; it also recommends stating known impact, unknowns and the next customer update.",
+    "source_title": "How we respond to an incident",
+    "url": "https://www.atlassian.com/incident-management/handbook/incident-response",
+    "publisher": "Atlassian",
+    "source_type": "primary",
+    "accessed_at": "2026-10-26",
+    "notes": "A technical-incident practice used as an analogy. Account escalations can remain open after service restoration or close with tracked residual work; the article must not equate them automatically."
+  },
+  {
+    "id": "E03",
+    "claim": "Google's SRE incident response guidance distinguishes resolving a problem from managing coordination and communication, and describes explicit command, operations and communications roles.",
+    "source_title": "The Site Reliability Workbook: Incident Response",
+    "url": "https://sre.google/workbook/incident-response/",
+    "publisher": "Google SRE",
+    "source_type": "primary",
+    "accessed_at": "2026-10-26",
+    "notes": "Technical incident management, not a controlled study of Customer Success escalation outcomes. The role separation informs, but does not validate, this editorial tool."
+  }
+]
