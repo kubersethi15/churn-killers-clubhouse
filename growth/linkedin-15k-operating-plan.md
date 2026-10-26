@@ -14,7 +14,7 @@ The 90-day view has 50,368 distinct members reached and 64% out-of-network impre
 
 | Draft feed slot | Job and owner | Exact asset direction | Evidence and stop rule |
 | --- | --- | --- | --- |
-| Mon 26 Oct | Career decision tension; Tanya provisional; relevant follows | Text only | Explain why a CSM who stops a poor expansion can look weak on the expansion scoreboard. No claimed customer deal or rerun of the 14 Oct joke. |
+| Mon 26 Oct | Career decision tension; Tanya provisional; relevant follows | Text only | A CSM who flags an unrealistic onboarding date can look responsible for the delay. Name the open dependency, decision owner and customer-facing date; no claimed customer incident or rerun of last week's expansion topic. |
 | Tue 27 Oct | “The decision check” QBR field note; Codex provisional; authority | Text only, no link | Use only the already public three-slide QBR change; no invented meeting outcome. Compare direct attribution with 20 Oct 3 follows/1,060 reached. |
 | Thu 29 Oct | Original escalation decision card; Tanya provisional; saves/authority | One new mobile 4:5 three-slide native document | A visually checked local draft exists, but manager review, attachment and queue are unverified. Hold or use text if the original asset is unavailable; never reuse last week's PDF. |
 | Fri 30 Oct | Health-score decision owner opinion; Tanya provisional; qualified discussion | Text only | Specific failure and owner, no universal outcome claim. Later-Sydney timing test remains held until two comparable actual reads. |
