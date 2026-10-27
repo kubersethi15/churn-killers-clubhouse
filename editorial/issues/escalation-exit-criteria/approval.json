@@ -1,7 +1,7 @@
 {
-  "status": "pending",
-  "human_reviewed": false,
-  "approved_by": null,
-  "approved_at": null,
-  "basis": "Research and editorial QA prepared 26 October 2026. The exact issue package has not been approved or staged."
+  "status": "approved",
+  "human_reviewed": true,
+  "approved_by": "Kuber Sethi",
+  "approved_at": "2026-10-27T22:03:14+00:00",
+  "basis": "Kuber explicitly authorized publication in the active chat on 28 October Sydney: go ahead and do it asap. Release the exact Escalation Exit Note issue with the actual recovery publication date."
 }
