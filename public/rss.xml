@@ -6,8 +6,16 @@
     <description>Weekly CS frameworks for enterprise Customer Success leaders. Hard truths, tactical plays, and downloadable playbooks.</description>
     <language>en</language>
     <managingEditor>kuber@churnisdead.com (Kuber Sethi)</managingEditor>
-    <lastBuildDate>Tue, 27 Oct 2026 13:04:58 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 27 Oct 2026 22:10:24 +0000</lastBuildDate>
     <atom:link href="https://churnisdead.com/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Ticket Closed. Did the Escalation?</title>
+      <link>https://churnisdead.com/newsletter/escalation-exit-criteria</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/escalation-exit-criteria</guid>
+      <pubDate>Tue, 27 Oct 2026 22:03:14 +0000</pubDate>
+      <description>The technical fix may be done while the customer still has an open decision. Use a clear exit test before declaring an account escalation over.</description>
+      <category>Customer Operations</category>
+    </item>
     <item>
       <title>Your Best Customer Is Not Your Reference Desk</title>
       <link>https://churnisdead.com/newsletter/customer-reference-request</link>
@@ -158,14 +166,6 @@
       <guid isPermaLink="true">https://churnisdead.com/newsletter/cs-teams-courage-problem</guid>
       <pubDate>Tue, 02 Jun 2026 08:00:00 +0000</pubDate>
       <description>CS teams have become professional excuse-makers who optimize for customer comfort instead of customer outcomes.</description>
-      <category>Strategy</category>
-    </item>
-    <item>
-      <title>3 Things Your CFO Knows About CS That You Don't</title>
-      <link>https://churnisdead.com/newsletter/3-things-your-cfo-knows-about-cs</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/3-things-your-cfo-knows-about-cs</guid>
-      <pubDate>Tue, 26 May 2026 08:00:00 +0000</pubDate>
-      <description>CFOs measure CS impact through financial models that most CS leaders don't understand—and those hidden metrics determine your budget.</description>
       <category>Strategy</category>
     </item>
   </channel>

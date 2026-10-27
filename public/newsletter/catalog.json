@@ -1,5 +1,14 @@
 [
   {
+    "id": "static-escalation-exit-criteria",
+    "title": "The Ticket Closed. Did the Escalation?",
+    "slug": "escalation-exit-criteria",
+    "excerpt": "The technical fix may be done while the customer still has an open decision. Use a clear exit test before declaring an account escalation over.",
+    "published_date": "2026-10-27T22:03:14+00:00",
+    "read_time": "7 min read",
+    "category": "Customer Operations"
+  },
+  {
     "id": "static-customer-reference-request",
     "title": "Your Best Customer Is Not Your Reference Desk",
     "slug": "customer-reference-request",

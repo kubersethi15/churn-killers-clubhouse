@@ -120,6 +120,16 @@
     "published_date": "2026-04-14T08:00:00+00:00"
   },
   {
+    "id": "pdf-escalation_exit_note_churnisdead",
+    "title": "The Escalation Exit Note",
+    "description": "A one-page close, handoff or keep-open decision for account escalations.",
+    "pdf_path": "/pdfs/Escalation_Exit_Note_ChurnIsDead.pdf",
+    "notion_link": null,
+    "newsletter_slug": "escalation-exit-criteria",
+    "newsletter_title": "The Ticket Closed. Did the Escalation?",
+    "published_date": "2026-10-27T22:03:14+00:00"
+  },
+  {
     "id": "pdf-expansion_decision_note_churnisdead",
     "title": "The Expansion Decision Note",
     "description": "A one-page guide to deciding whether to go ahead, start smaller or wait, with a simple example and a prompt to help you think it through.",
