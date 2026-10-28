@@ -2,6 +2,31 @@
 // Pipeline type definitions — v2
 // ============================================================================
 
+export interface PassTiming {
+  pass: string;
+  durationMs: number;
+  provider: string;
+  model: string;
+  success: boolean;
+}
+
+export interface PipelineResult {
+  success: boolean;
+  reportVersion: "v2_panel";
+  finalReport: FinalReport | null;
+  evidenceAnchors: EvidenceAnchor[] | null;
+  debug: {
+    preprocessor: PreprocessorOutput | null;
+    analystEvidence: AnalystEvidenceOutput | null;
+    analystCommercial: AnalystCommercialOutput | null;
+    analystAdoption: AnalystAdoptionOutput | null;
+    passTimings: PassTiming[];
+    failedPasses: string[];
+    errors: string[];
+  };
+  error?: string;
+}
+
 // ---------------------------------------------------------------------------
 // Shared enums
 // ---------------------------------------------------------------------------

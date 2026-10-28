@@ -284,7 +284,7 @@ export function validatePipelineOutputs(
       "renewal_readiness", "expansion_readiness", "expansion_hooks",
       "commercial_next_questions",
     ];
-    const missingKeys = expectedKeys.filter(k => !(k in (commercial as Record<string, unknown>)));
+    const missingKeys = expectedKeys.filter(k => !(k in commercial));
     if (missingKeys.length > 0) {
       issues.push({
         type: "incomplete_analyst_output",
