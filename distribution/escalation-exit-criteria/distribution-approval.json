@@ -1,0 +1,13 @@
+{
+  "email": {
+    "status": "approved",
+    "approved_by": "Codex, recording Kuber Sethi's explicit distribution instruction on 28 October 2026",
+    "approved_at": "2026-10-28T12:24:38+11:00",
+    "human_reviewed": false,
+    "basis": "Kuber instructed 'send subscriber email at 6 pm' after the canonical website issue was published and verified. This records explicit send authorization and time, not a claim that Kuber reviewed the copy. Send the existing email for escalation-exit-criteria once at 18:00 Australia/Sydney on 28 October 2026, subject to the established sender-health, production-equivalent preview, signed-webhook, suppressions, footer/unsubscribe, prior-cohort and per-recipient idempotency gates.",
+    "scheduled_for": "2026-10-28T18:00:00+11:00",
+    "newsletter_slug": "escalation-exit-criteria",
+    "subject": "The ticket closed. Did the escalation?",
+    "preheader": "A simple exit test for the customer impact, open work and next owner."
+  }
+}
