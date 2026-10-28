@@ -1,5 +1,11 @@
 # Churn Is Dead agent coordination
 
+## 28 October 2026, 18:22 Sydney: native Newsletter missed; QBR near-24h read
+
+- At 18:20 Sydney, native LinkedIn article management confirms Scheduled has no articles; Published still ends with the 16 October reference-desk edition. No current native edition published. No unapproved replacement, duplicate feed post or manager reminder was sent. This is separate from the completed current website issue and subscriber email.
+- 28 Oct 18:22 Sydney near-24h read (about 23h45 after the ~18:37 publication; not an exact 24h sample): 604 impressions; 387 members reached; 42% out-of-network impression share; 2 post profile viewers; 2 post-attributed follows = 5.17 follows/1,000 reached (also 5.17 profile viewers/1,000); 16 reactions, 12 comments, 0 reposts/saves/sends. Aggregate audience: Senior 46%, CSM title 24%, IT services/consulting 26%, 1,001–5,000 employees 14%, London 10%. KEEP verified QBR decision tension pending a second comparable read and seven-day follow-up; below a format/timing winner claim. The zero-profile/follow/repost intervention trigger is not met. No live or approved caption edited.
+- Shared Growth Scorecard A27 and Calendar H295 updated with the aggregate read and exact sample-age caveat; E295 and all other approved copy preserved. Subscriber email outcomes remained 322 sent, 321 delivered, one permanent bounce, zero complaints at 18:20. Production send is closed and must not recur.
+
 ## 28 October 2026, 18:05 Sydney: approved subscriber email sent and verified
 
 - Executed Kuber's one-time approval for escalation-exit-criteria at the 18:00 Sydney window. Request 47 returned a platform HTTP 503 (SUPABASE_EDGE_RUNTIME_SERVICE_DEGRADED), with zero issue acceptances/events and no queued request; switch restored false. One bounded retry used the established targeted sender and private 100-recipient batches, with no maxRecipients cap and the existing recipient ledger. No Resend broadcast was created.
