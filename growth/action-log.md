@@ -1,5 +1,11 @@
 # Growth action log
 
+## 28 October 2026: escalation issue release recovery
+
+- Kuber authorized immediate recovery publication of The Ticket Closed. Did the Escalation? Approved package validation and deterministic PDF dry-run passed. PR #205 merged; publisher run [40592670688](https://github.com/kubersethi15/churn-killers-clubhouse/actions/runs/40592670688) succeeded, staging the exact slug and generating the article, PDF, sitemap, RSS and manifest in `6e3c184`.
+- The release date is 28 October Sydney, rather than the missed 27 October slot. Supabase confirms the title, publication timestamp and 10,673 content characters. Lovable reports GitHub one commit ahead; production synchronization and crawlable release verification remain in progress. This log update provides a normal PR merge to retrigger the existing GitHub synchronization.
+- Aggregate sender read for 13–28 October: 328 sent, 327 delivered, one transient bounce, zero permanent bounces and complaints. Sending domain verified; signed-event webhook endpoint enabled. No production send for the escalation issue is recorded. All remaining delivery gates still apply.
+
 ## 15 September 2026
 
 - Recovered the missed Tuesday website release after the Mac was unlocked at
