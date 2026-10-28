@@ -34,5 +34,30 @@
     "digest_verified": true
   },
   "active_subscribers_after": 319,
-  "repeat_send_authorized": false
+  "repeat_send_authorized": false,
+  "follow_up_2026_10_29": {
+    "checked_at": "2026-10-28T21:30:00Z",
+    "accepted": 322,
+    "accepted_on_follow_up_day": 0,
+    "cumulative_events": {
+      "sent": 322,
+      "delivered": 321,
+      "bounced": 2,
+      "delivery_delayed": 1,
+      "complained": 0
+    },
+    "latest_recipient_outcomes": {
+      "delivered": 320,
+      "bounced": 2
+    },
+    "bounce_classes": {
+      "permanent": 1,
+      "transient": 1
+    },
+    "delivered_then_later_bounced": 1,
+    "unsigned_issue_events": 0,
+    "active_subscribers": 320,
+    "production_switch_off": true,
+    "repeat_send_authorized": false
+  }
 }
