@@ -256,10 +256,10 @@ const Distribution = () => {
 
   const loadDistributionContent = async () => {
     const loaded: DistributionPack[] = [];
-    const manifest = await fetch("/distribution/manifest.json")
+    const manifest: { slug: string; title: string }[] = await fetch("/distribution/manifest.json")
       .then(response => response.ok ? response.json() as Promise<{ slug: string; title: string }[]> : [])
       .catch(() => [] as { slug: string; title: string }[]);
-    const manifestTitles = new Map(manifest.map(row => [row.slug, row.title]));
+    const manifestTitles = new Map<string, string>(manifest.map(row => [row.slug, row.title]));
     const slugs = Array.from(new Set([...DISTRIBUTION_SLUGS, ...manifest.map(row => row.slug)]));
 
     for (const slug of slugs) {

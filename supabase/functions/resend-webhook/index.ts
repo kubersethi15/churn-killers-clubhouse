@@ -62,7 +62,7 @@ const verifySvixSignature = async (req: Request, rawBody: string): Promise<boole
   }
   const key = await crypto.subtle.importKey(
     "raw",
-    keyBytes,
+    new Uint8Array(keyBytes).buffer,
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign"],
