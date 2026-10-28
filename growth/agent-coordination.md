@@ -1,5 +1,9 @@
 # Churn Is Dead agent coordination
 
+## 29 October 2026, 08:36 Sydney: morning relationship and completed-send monitoring claim
+
+Codex owns only this morning's bounded relationship review and aggregate follow-up for the completed escalation-exit-criteria send. Exact candidate comment remains subject to action-time approval, with no carry-forward capacity. Preserve all approved manager captions, queues and native Newsletter status. No subscriber send is authorized for today. Other operators must not duplicate the same exact candidate while its shared Engagement List row is pending.
+
 ## 28 October 2026, 18:22 Sydney: native Newsletter missed; QBR near-24h read
 
 - At 18:20 Sydney, native LinkedIn article management confirms Scheduled has no articles; Published still ends with the 16 October reference-desk edition. No current native edition published. No unapproved replacement, duplicate feed post or manager reminder was sent. This is separate from the completed current website issue and subscriber email.
