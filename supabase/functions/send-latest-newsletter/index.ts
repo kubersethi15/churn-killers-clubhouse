@@ -371,7 +371,7 @@ const handler = async (req: Request): Promise<Response> => {
       } catch (sendError) {
         console.error("Error sending test email:", sendError);
         return new Response(
-          JSON.stringify({ error: "Failed to send test email", details: sendError.message || sendError, timestamp: triggerTime }),
+          JSON.stringify({ error: "Failed to send test email", details: sendError instanceof Error ? sendError.message || sendError : sendError, timestamp: triggerTime }),
           { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
         );
       }
