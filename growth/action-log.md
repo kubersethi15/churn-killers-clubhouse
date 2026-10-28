@@ -1,5 +1,13 @@
 # Growth action log
 
+## 28 October 2026, 12:40 Sydney: subscriber email preflight
+
+- Exact current-issue subscriber send approved for today at 18:00 Sydney / 07:00 UTC; merged PR #209 records distribution authorization. Existing heartbeat prepares at 17:30 and remains active through send time. No early subscriber or test send occurred in this run.
+- Refreshed aggregates: 322 active subscribers and zero current-issue provider acceptances/events. Both previous original active cohorts are complete. Resend rolling totals remain 328 sent, 327 delivered, one transient bounce and zero permanent bounces/complaints; verified sending domain and enabled event webhook. All 662 recent stored events have webhook IDs, none unsigned in storage, and no active complaint/suppression gaps were found. These storage checks do not replace current provider risk classification or an actual email test.
+- Rechecked public initial HTML title, exact self-canonical and PDF response (3,465 bytes). Remaining gates are current provider risk classification, production-equivalent owner test and rendered email/footer/unsubscribe checks, plus switch verification at execution. Automatic approval review blocked Resend's read-only GitHub email-address permission; exact login approval is pending. No workaround attempted.
+- Read Tanya's 27 October WhatsApp update and Kuber's “Ok”: next week is two Tanya posts unchanged plus three Codex posts. This week's publisher ownership and approved slots stay as recorded. Latest QBR post was live with 555 impressions at approximately 18 hours; this is not a 24-hour read or post-attributed-follow result. No unanswered substantive question was identified among the visible comments. No new comments/messages were published.
+- Host now reports AEDT +1100; the 12:30 heartbeat arrived 12:32 Sydney. No scheduler change or extra run added. Working checkout remains dirty and could not update FETCH_HEAD under current filesystem permissions; remote main was verified through the GitHub connector instead. No stale-checkout writes.
+
 ## 28 October 2026: escalation issue release recovery
 
 - Kuber authorized immediate recovery publication of The Ticket Closed. Did the Escalation? Approved package validation and deterministic PDF dry-run passed. PR #205 merged; publisher run [40592670688](https://github.com/kubersethi15/churn-killers-clubhouse/actions/runs/40592670688) succeeded, staging the exact slug and generating the article, PDF, sitemap, RSS and manifest in `6e3c184`.
