@@ -1,5 +1,13 @@
 # Growth action log
 
+## 28 October 2026, 18:05 Sydney: approved subscriber email sent and verified
+
+- Executed Kuber's one-time approval for escalation-exit-criteria at the 18:00 Sydney window. Request 47 returned a platform HTTP 503 (SUPABASE_EDGE_RUNTIME_SERVICE_DEGRADED), with zero issue acceptances/events and no queued request; switch restored false. One bounded retry used the established targeted sender and private 100-recipient batches, with no maxRecipients cap and the existing recipient ledger. No Resend broadcast was created.
+- Request 48 succeeded: function began 18:02:21.197 and completed 18:02:27.698 Sydney; 322 accepted, zero sender failures, zero pending recipients, and 322 distinct durable provider IDs for 322 distinct recipients. Signed events and provider metrics agree on 322 sent, 321 delivered, one permanent bounce, zero complaints, suppressions or provider failures at 18:04. No accepted recipient was repeated. Do not resend the bounced recipient or this completed issue.
+- NEWSLETTER_SEND_ENABLED restored false at 18:02:41.961 Sydney and its digest verified. Current issue has zero unsigned webhook events and zero eligible unsent active recipients. Permanent-bounce active-list gap is zero. Active subscribers are now 319, with three inactive status changes after release; one aligns with the permanent bounce, while the other two reasons are not established by the generic status-change events. Keep these list changes separate from acquisition and delivery counts.
+- Exact approved primary subject, preheader, body, canonical route, PDF, signed unsubscribe/footer and corrected Sydney date were preserved. The corrected delivered owner test remained byte-equivalent across all seven deployed source files. No new public copy, manager message, feed post, permission change or duplicate issue was made.
+- Independent LinkedIn monitoring: today's single operating-day follower capture is 9,879 at about 17:36 Sydney (+41 from the prior daily capture, not a weekly net or post attribution), recorded in Daily follower count A202:B202. Latest QBR feed post was under 24 hours old at the evening read. Native Newsletter management showed no scheduled articles and the latest public native edition was still Your Best Customer Is Not Your Reference Desk; the subscriber email completion is separate from that missing native schedule.
+
 ## 28 October 2026, 15:09 Sydney: corrected email test and release gates passed
 
 - Resend login restored after explicit user permission; date formatter deployed as version 186 through merged PR #211. Readback matches repository source. Corrected owner test delivered at 15:05 Sydney with signed sent/delivered events.

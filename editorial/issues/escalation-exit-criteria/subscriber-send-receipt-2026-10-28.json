@@ -1,0 +1,38 @@
+{
+  "issue_slug": "escalation-exit-criteria",
+  "approved_send_at": "2026-10-28T18:00:00+11:00",
+  "initial_attempt": {
+    "request_id": 47,
+    "status": 503,
+    "code": "SUPABASE_EDGE_RUNTIME_SERVICE_DEGRADED",
+    "accepted": 0
+  },
+  "completed_attempt": {
+    "request_id": 48,
+    "started_at": "2026-10-28T07:02:21.197Z",
+    "completed_at": "2026-10-28T07:02:27.698Z",
+    "accepted": 322,
+    "distinct_recipient_acceptances": 322,
+    "distinct_provider_ids": 322,
+    "sender_failures": 0,
+    "eligible_unsent": 0
+  },
+  "delivery_as_of": "2026-10-28T07:04:10Z",
+  "delivery": {
+    "sent": 322,
+    "delivered": 321,
+    "permanent_bounces": 1,
+    "transient_bounces": 0,
+    "complaints": 0,
+    "suppressed": 0,
+    "provider_failures": 0,
+    "unsigned_issue_events": 0
+  },
+  "production_switch": {
+    "enabled": false,
+    "reset_at": "2026-10-28T07:02:41.961Z",
+    "digest_verified": true
+  },
+  "active_subscribers_after": 319,
+  "repeat_send_authorized": false
+}
