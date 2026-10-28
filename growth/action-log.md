@@ -1,5 +1,12 @@
 # Growth action log
 
+## 28 October 2026, 15:09 Sydney: corrected email test and release gates passed
+
+- Resend login restored after explicit user permission; date formatter deployed as version 186 through merged PR #211. Readback matches repository source. Corrected owner test delivered at 15:05 Sydney with signed sent/delivered events.
+- Actual request verified: one recipient, no CC/BCC, correct subject/reply-to, signed unsubscribe and one-click headers, HTML and plain-text body. Rendered date is 28 October; desktop and 450px mobile preview including CTA/footer are readable. Title, preheader, opening and exact tracked canonical CTA match the approved package. No real subscriber was unsubscribed for QA.
+- Provider aggregate health passes the current displayed threshold. Twelve existing bounce suppressions have zero overlap with active subscribers. Resend Insights' domain advisory is attributable to the established signed Supabase unsubscribe URL; valid DMARC/plain text pass. No infrastructure change was added for that advisory.
+- Final preflight: 322 active, zero production acceptances for escalation-exit-criteria, zero unsigned events on the corrected test, and production switch still false. Two owner-only tests are QA, excluded from production counts. Execute the already-authorized subscriber send at 18:00 Sydney today with refreshed health/recipient checks and immediate switch reset. Do not request approval again.
+
 ## 28 October 2026, 15:05 Sydney: Resend preflight and date correction
 
 - User approved the exact Resend sign-in permission and session was restored in the in-app browser. Provider Metrics reports 99.7% delivery, 0.3% bounce, zero complaints and no account-pause warning. The RISK chart line is the provider's 4% threshold, not a status on the current 0.3% total.
