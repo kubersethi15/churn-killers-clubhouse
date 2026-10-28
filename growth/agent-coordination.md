@@ -1,5 +1,9 @@
 # Churn Is Dead agent coordination
 
+## 28 October: approved escalation issue release recovery
+
+Kuber explicitly authorized immediate publication of `escalation-exit-criteria` in the active chat. PR #205 merged as `c11a2c8`; deterministic publisher run `40592670688` succeeded and generated asset commit `6e3c184`. Approval is recorded and publication date is 28 October Sydney. Supabase contains the exact approved article. Codex owns completion of the Lovable production deployment and live HTML/canonical/PDF/sitemap/RSS checks. Lovable is one commit behind GitHub; do not label the website release complete until those files are synced and deployed. Email is a separate gated send and no send for this issue is recorded. Preserve Tanya's feed ownership and avoid duplicate social or email publication.
+
 ## 26 October: 27 October escalation closure issue
 
 Codex claims the 27 October website newsletter package in `editorial/oct27-escalation-exit-note`: research, evidence QA, the Escalation Exit Note PDF, and release preflight. The issue remains pending Kuber's exact approval. This claim does not cover Tanya's approved feed calendar or a subscriber send. Do not stage, publish, or email until the corresponding release gates pass.
