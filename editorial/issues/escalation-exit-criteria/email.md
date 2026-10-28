@@ -1,6 +1,6 @@
 # Subscriber email draft
 
-Status: issue package pending exact approval. Do not send or schedule from this file.
+Status: subscriber distribution approved by Kuber's explicit instruction on 28 October 2026 for one send at 18:00 Australia/Sydney today. See distribution-approval.json. All delivery gates remain required.
 
 Subject: The ticket closed. Did the escalation?
 
@@ -20,4 +20,4 @@ Kuber
 
 ---
 
-The route above is a proposed future URL, not verified live. Release only after issue approval, deterministic staging, live HTML/canonical/sitemap/RSS/PDF, provider health, signed webhooks, suppressions, footer/unsubscribe and idempotency checks. Keep the production send switch off outside the authorized window.
+The canonical article, initial HTML, self-canonical, sitemap, RSS and one-page PDF were verified live on 28 October 2026. Recheck the live issue and PDF, production-equivalent email preview, provider health, signed webhooks, suppressions, footer/unsubscribe, prior original-cohort completion and recipient ledger at execution. Send only unsent eligible subscribers through the existing sender. Keep the production send switch off outside the authorized window.
