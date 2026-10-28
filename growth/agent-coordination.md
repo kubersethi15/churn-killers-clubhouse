@@ -1,5 +1,11 @@
 # Churn Is Dead agent coordination
 
+## 28 October, 15:05 Sydney: login restored and production test delivered
+
+Kuber explicitly approved Resend's read-only GitHub email-address permission; the in-app session is restored. The current provider Metrics page shows 99.7% deliverability, 0.3% bounce and 0% complaints. Its RISK label is a chart threshold at 4%, confirmed in the provider's “How Bounce Rate Works” dialog, rather than an active 0.3% risk badge. No account pause warning was present. One production-equivalent test through the deployed sender to the established Kuber-controlled active test subscriber was accepted at 15:00:35 Sydney and delivered at 15:00:36.73, with signed sent/delivered events. No production subscriber acceptance exists for this issue.
+
+Actual test QA confirmed subject, preheader, opening argument, reply-to, canonical tracked CTA, lawful configured footer and signed unsubscribe controls. Do not click the valid subscriber unsubscribe URL during QA because GET performs the unsubscribe. The test exposed a header date bug: the server rendered 27 October from the UTC timestamp, while publication was 28 October Sydney. The only source change adds timeZone: Australia/Sydney to that existing formatter. Three assertions covering the issue timestamp, standard time and 18:00 AEDT pass. Deploy and verify a corrected production-equivalent preview before the 18:00 send. The NEWSLETTER_SEND_ENABLED secret digest matches false; required footer, unsubscribe and webhook secrets exist. Preserve all auth, suppression, recipient-ledger and production-window controls. Continue with the already-approved 18:00 send without asking again after final gates pass.
+
 ## 28 October, 12:40 Sydney: approved 18:00 subscriber send preflight
 
 Codex owns the existing escalation-exit-criteria subscriber send at 18:00 Australia/Sydney / 07:00 UTC today, explicitly authorized by Kuber and recorded in distribution-approval.json through merged PR #209. The existing 17:30 heartbeat must remain active until the send time. Do not ask for send approval again or send early. Website/native LinkedIn/feed publishing are separate.

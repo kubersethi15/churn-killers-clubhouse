@@ -1,5 +1,12 @@
 # Growth action log
 
+## 28 October 2026, 15:05 Sydney: Resend preflight and date correction
+
+- User approved the exact Resend sign-in permission and session was restored in the in-app browser. Provider Metrics reports 99.7% delivery, 0.3% bounce, zero complaints and no account-pause warning. The RISK chart line is the provider's 4% threshold, not a status on the current 0.3% total.
+- Production-equivalent owner test accepted/delivered through the existing sender at 15:00 Sydney. Verified rendered title/preheader/opening, single tracked canonical issue CTA, reply-to, configured lawful footer, plain-text presence and signed unsubscribe controls. No real subscriber was unsubscribed during QA. Subscriber production acceptance remains zero.
+- Test found the email date formatted in UTC as 27 October. Add an explicit Australia/Sydney timezone to the existing formatter; no copy, recipient, auth or delivery-control changes. Three boundary-date assertions passed. Corrected deployment and preview readback remain the next gate.
+- Required secret names verified and production-switch digest matches false. Keep it false until the approved 18:00 Sydney send window and restore false after every production attempt.
+
 ## 28 October 2026, 12:40 Sydney: subscriber email preflight
 
 - Exact current-issue subscriber send approved for today at 18:00 Sydney / 07:00 UTC; merged PR #209 records distribution authorization. Existing heartbeat prepares at 17:30 and remains active through send time. No early subscriber or test send occurred in this run.

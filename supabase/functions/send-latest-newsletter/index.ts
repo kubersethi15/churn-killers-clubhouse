@@ -292,7 +292,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Helper: format newsletter content for email
     const formatNewsletterContent = (newsletter: typeof latestNewsletter) => {
       const formattedDate = new Date(newsletter.published_date).toLocaleDateString('en-US', {
-        year: 'numeric', month: 'long', day: 'numeric'
+        year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Australia/Sydney'
       });
 
       let fullContent = newsletter.content || '';
