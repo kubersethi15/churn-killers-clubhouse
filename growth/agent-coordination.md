@@ -1,5 +1,9 @@
 # Churn Is Dead agent coordination
 
+## 29 October 2026, lunchtime: bounded relationship review claim
+
+Codex owns one candidate in the 12:30 relationship window and the independent read-only manager-status check. One external comment (Jim Darnell) was approved and posted this morning; shared row 211 supersedes the earlier pending status. Do not duplicate it. Preserve Tanya's approved calendar and publisher ownership. No email, native edition, queue or manager message is authorized in this run. Exact new comment requires user approval and a fresh duplicate check.
+
 ## 29 October 2026, 08:39 Sydney: morning review complete; one comment awaiting approval
 
 - Fresh remote main 55c5bd05 verified through the connected GitHub app after local pull failed DNS. Preserve the dirty editorial checkout; no stale local repository writes. Other coordination chat remains not loaded with no newer manager work; only draft PRs #200/#204 are open. The standing Codex relationship/aggregate-monitoring lane is the only lane used.
