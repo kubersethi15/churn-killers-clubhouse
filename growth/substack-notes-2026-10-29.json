@@ -1,6 +1,6 @@
 {
   "prepared_at": "2026-10-29T06:41:40Z",
-  "status": "pending_exact_user_approval",
+  "status": "two_scheduled_thursday_awaiting_new_time",
   "identity": "Kuber Sethi",
   "platform": "Substack Notes",
   "notes": [
@@ -10,7 +10,8 @@
       "timezone": "Australia/Sydney",
       "kind": "thursday_takeaway",
       "copy": "The fix can be done while the customer is still dealing with the fallout. Before closing an escalation, I'd check what still affects them and who will pick up the remaining work. This week's exit note is here:\n\nhttps://churnisdead.com/newsletter/escalation-exit-criteria?utm_source=substack&utm_medium=note&utm_campaign=escalation-exit-criteria&utm_content=thursday_takeaway",
-      "job": "Source-labelled visits to the current canonical issue and confirmed retained subscribers."
+      "job": "Source-labelled visits to the current canonical issue and confirmed retained subscribers.",
+      "status": "approved_copy_time_passed_unsent"
     },
     {
       "date": "2026-10-31",
@@ -18,7 +19,10 @@
       "timezone": "Australia/Sydney",
       "kind": "saturday_operator_insight",
       "copy": "A workaround needs an expiry date. Otherwise the extra steps quietly become the customer's job forever. I'd write down when we'll check whether it still works for them.",
-      "job": "Useful practitioner conversation; no link or acquisition claim."
+      "job": "Useful practitioner conversation; no link or acquisition claim.",
+      "status": "scheduled_verified",
+      "verified_in_saved_queue": "2026-10-29T10:30:58Z",
+      "scheduled_utc": "2026-10-31T09:30:00Z"
     },
     {
       "date": "2026-11-02",
@@ -26,7 +30,10 @@
       "timezone": "Australia/Sydney",
       "kind": "monday_practitioner_question",
       "copy": "When your champion leaves, what do you check first? I'd look for who can still get the work done. A new contact isn't always a replacement champion.",
-      "job": "No-link practitioner discussion."
+      "job": "No-link practitioner discussion.",
+      "status": "scheduled_verified",
+      "verified_in_saved_queue": "2026-10-29T10:30:58Z",
+      "scheduled_utc": "2026-11-02T09:30:00Z"
     }
   ],
   "verification": {
@@ -34,7 +41,8 @@
     "existing_drafts_before_preparation": 0,
     "current_issue_title_and_self_canonical_verified": true,
     "human_voice_qa": "passed",
-    "public_actions_taken": 0
+    "public_actions_taken": 2,
+    "scheduling_receipt": "output/engagement/substack-two-scheduled-2026-10-29.png"
   },
   "measurement": {
     "read_at": "24 hours and seven days after each actual release",
@@ -55,5 +63,11 @@
     "If an approved date/time has already passed, leave that Note unscheduled and include the next clean Mon/Thu/Sat slot in a new grouped approval; do not shift dates or publish late automatically.",
     "Use only the canonical current-issue link shown; one linked Note in three.",
     "Do not republish full articles or send subscriber emails."
-  ]
+  ],
+  "approval": {
+    "received_at": "2026-10-29T10:23:15Z",
+    "basis": "User approved exact three Notes and listed dates at 20:30 Sydney.",
+    "expired_slot": "Thursday 29 October 20:30 Sydney had passed before approval was received; no late post or date shift is authorized by that approval.",
+    "new_timing_question": "Publish approved Thursday Note now, or keep it unsent; awaiting response."
+  }
 }

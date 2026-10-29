@@ -1,5 +1,11 @@
 # Growth action log
 
+## 29 October 2026, 21:31 Sydney: two approved Notes scheduled; expired Thursday slot held
+
+Kuber approved the exact three-Note batch. Approval was processed at 21:23 Sydney, after Thursday's 20:30 slot. Scheduled Saturday 31 October and Monday 2 November once each for 20:30 Sydney (09:30 UTC); exact approved wording, no links/assets, verified in Substack's saved Drafts queue as Scheduled for 31 Oct, 20:30 and Scheduled for 2 Nov, 20:30. Human-voice QA passed; no duplicate copies were present before scheduling. Screenshot receipt saved locally in output/engagement/substack-two-scheduled-2026-10-29.png.
+
+Thursday's escalation Note remains unsent. The dated approval did not authorize late publication or a new date. After completing both future schedules, asked one precise new-timing question: publish the exact approved Thursday Note now, or keep it unsent. Await the answer; do not publish, shift dates or add another Note automatically. growth/substack-notes-2026-10-29.json records each item's exact copy, approval and verified status. No LinkedIn, manager-message, subscriber-email or permission change was made. Local pull failed DNS; fresh remote main ceb3e9a4 used through the connected app, preserving the dirty checkout.
+
 ## 29 October 2026, evening checkpoint
 
 - Trigger arrived 17:31:18 Sydney; host read 17:31:40 AEDT +1100. No scheduler change. Local pull failed DNS; connector verified fresh main 4e15e7d; dirty checkout preserved. Mandatory growth/current-issue files, live shared Calendar and the inactive other coordination chat refreshed. Only draft PRs #200/#204 were open. Standing Codex release-monitoring/Notes lane used; afternoon earned-directory stop decisions remain in force.
