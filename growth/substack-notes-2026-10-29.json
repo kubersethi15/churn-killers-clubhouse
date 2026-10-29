@@ -1,6 +1,6 @@
 {
   "prepared_at": "2026-10-29T06:41:40Z",
-  "status": "two_scheduled_thursday_awaiting_new_time",
+  "status": "all_approved_actions_verified",
   "identity": "Kuber Sethi",
   "platform": "Substack Notes",
   "notes": [
@@ -11,7 +11,11 @@
       "kind": "thursday_takeaway",
       "copy": "The fix can be done while the customer is still dealing with the fallout. Before closing an escalation, I'd check what still affects them and who will pick up the remaining work. This week's exit note is here:\n\nhttps://churnisdead.com/newsletter/escalation-exit-criteria?utm_source=substack&utm_medium=note&utm_campaign=escalation-exit-criteria&utm_content=thursday_takeaway",
       "job": "Source-labelled visits to the current canonical issue and confirmed retained subscribers.",
-      "status": "approved_copy_time_passed_unsent"
+      "status": "published_verified",
+      "public_url": "https://substack.com/profile/268471097-kuber-sethi/note/c-373759328",
+      "published_sydney": "2026-10-30 09:13",
+      "verified_at": "2026-10-29T22:17:00Z",
+      "timing_basis": "User answered Publish it now after the Thursday slot had passed; publication time displayed on the public Note."
     },
     {
       "date": "2026-10-31",
@@ -37,12 +41,13 @@
     }
   ],
   "verification": {
-    "latest_public_note": "2026-10-12",
+    "latest_public_note": "https://substack.com/profile/268471097-kuber-sethi/note/c-373759328",
     "existing_drafts_before_preparation": 0,
     "current_issue_title_and_self_canonical_verified": true,
     "human_voice_qa": "passed",
-    "public_actions_taken": 2,
-    "scheduling_receipt": "output/engagement/substack-two-scheduled-2026-10-29.png"
+    "public_actions_taken": 3,
+    "scheduling_receipt": "output/engagement/substack-two-scheduled-2026-10-29.png",
+    "publication_receipt": "output/engagement/substack-escalation-posted-2026-10-30.png"
   },
   "measurement": {
     "read_at": "24 hours and seven days after each actual release",
@@ -67,7 +72,7 @@
   "approval": {
     "received_at": "2026-10-29T10:23:15Z",
     "basis": "User approved exact three Notes and listed dates at 20:30 Sydney.",
-    "expired_slot": "Thursday 29 October 20:30 Sydney had passed before approval was received; no late post or date shift is authorized by that approval.",
-    "new_timing_question": "Publish approved Thursday Note now, or keep it unsent; awaiting response."
+    "expired_slot": "Thursday 29 October 20:30 missed while approval was pending. Fresh explicit approval authorized immediate publication Friday morning.",
+    "new_timing_question": "Resolved: user answered Publish it now; exact Note published once as Kuber."
   }
 }

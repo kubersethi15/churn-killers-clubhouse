@@ -460,3 +460,13 @@ personal photo, graphic/carousel, or no asset. It also states what not to use.
 This does not increase calendar volume or override approved public copy before
 the 1 September baseline closes. Judge every format on qualified reach,
 post-attributed profile viewers and followers, not on reactions alone.
+
+### Friday 30 October checkpoint
+
+The single daily capture, approximately 09:12 Sydney, was **9,936 followers**, up **193** versus Friday 23 October's 9,743. That is 176 below the planned weekly step of 369 and 1,748 below the 29 October target of 11,684. **5,064 remain over 62 days / 8.86 weeks, requiring about 572 net per week.** Required pace is not a forecast.
+
+LinkedIn's default 23–29 October UTC view shows 4,847 impressions, 1,938 unique members reached, 41% out-of-network impressions, zero reposts, 14 saves and two sends. Five lifetime post snapshots at unequal ages sum to six post profile viewers and two attributed follows; both follows belong to the 27 October QBR (438 reached, 4.57 follows per 1,000). Do not divide these lifetime counts by seven-day unique reach. The full Friday post seven-day and Thursday document 24-hour reads remain due later today.
+
+**IMPROVE.** Relevant reach and sharing remain weak. Retain the verified QBR decision tension pending comparable evidence. Continue the three distinct, unapproved Codex proposals in shared Creative Lab rows 106–108 under next week's two Tanya / three Codex portfolio. Preserve approved copy and five-slot volume. Thursday's original three-page document is live; exact release time is unverified and it missed the 17:30 target. No format, timing or algorithm conclusion follows from these snapshots.
+
+Email remains separate: 320 active, net -1 since Friday (two acquired / three status losses), 180 site sessions and seven qualified-action sessions in the shorter 23 October 17:30–30 October 09:20 Sydney window. The approved escalation Note was published once at 09:13 Sydney on 30 October: https://substack.com/profile/268471097-kuber-sethi/note/c-373759328 . Measure source-labelled transfer at 24 hours and seven days. Saturday/Monday Notes remain scheduled at 20:30 Sydney. The subscriber broadcast is complete, with 322 accepted once and the production switch off.

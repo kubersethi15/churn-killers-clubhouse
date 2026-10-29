@@ -1,5 +1,9 @@
 # Churn Is Dead agent coordination
 
+## 30 October 2026, morning: Friday scorecard and bounded relationship claim
+
+Completed Friday scorecard, approved Note publication and release verification. Exact own-post reply approved during the run, published once and verified at https://lnkd.in/p/gita7RbP. Codex owns today's single follower capture, the aggregate Friday subscriber/LinkedIn rows, current release/reply verification and the bounded morning relationship window. User additionally approved the held escalation Substack Note: published once and verified at https://substack.com/profile/268471097-kuber-sethi/note/c-373759328; Saturday/Monday schedules preserved. No subscriber resend, manager message, new LinkedIn feed slot or unapproved comment. Other-chat ownership and approved calendar captions remain protected. Use shared Engagement List for exact-post claims.
+
 ## 29 October 2026, 21:31 Sydney: two approved Notes scheduled; expired Thursday slot held
 
 Kuber approved the exact three-Note batch. Approval was processed at 21:23 Sydney, after Thursday's 20:30 slot. Scheduled Saturday 31 October and Monday 2 November once each for 20:30 Sydney (09:30 UTC); exact approved wording, no links/assets, verified in Substack's saved Drafts queue as Scheduled for 31 Oct, 20:30 and Scheduled for 2 Nov, 20:30. Human-voice QA passed; no duplicate copies were present before scheduling. Screenshot receipt saved locally in output/engagement/substack-two-scheduled-2026-10-29.png.
