@@ -2,7 +2,7 @@
 
 ## 30 October 2026, morning: Friday scorecard and bounded relationship claim
 
-Codex owns today's single follower capture, the aggregate Friday subscriber/LinkedIn rows, current release/reply verification and the bounded morning relationship window. User additionally approved publishing the exact held escalation Substack Note now; execute once after fresh duplicates, preserving Saturday/Monday schedules. No subscriber resend, manager message, new LinkedIn feed slot or unapproved comment. Other-chat ownership and approved calendar captions remain protected. Use shared Engagement List for exact-post claims.
+Completed Friday scorecard, approved Note publication and release verification. Exact own-post reply remains pending user approval. Codex owns today's single follower capture, the aggregate Friday subscriber/LinkedIn rows, current release/reply verification and the bounded morning relationship window. User additionally approved publishing the exact held escalation Substack Note now; execute once after fresh duplicates, preserving Saturday/Monday schedules. No subscriber resend, manager message, new LinkedIn feed slot or unapproved comment. Other-chat ownership and approved calendar captions remain protected. Use shared Engagement List for exact-post claims.
 
 ## 29 October 2026, 21:31 Sydney: two approved Notes scheduled; expired Thursday slot held
 

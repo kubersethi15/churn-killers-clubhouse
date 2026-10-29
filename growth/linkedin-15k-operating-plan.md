@@ -460,3 +460,14 @@ personal photo, graphic/carousel, or no asset. It also states what not to use.
 This does not increase calendar volume or override approved public copy before
 the 1 September baseline closes. Judge every format on qualified reach,
 post-attributed profile viewers and followers, not on reactions alone.
+
+### Friday 30 October checkpoint
+
+Single daily read approximately 09:12 Sydney: **9,936 followers**, **+193** versus Friday 23 October 9,743. Planned weekly step 369; weekly variance-176. The 29 October target 11,684 leaves a cumulative gap 1,748. **5,064 remain over 62 days /8.86 weeks, requiring about 572 net/week**. This is a required pace, not a forecast.
+
+The default 23–29 OctoberUTC content view has 4,847 impressions,1,938 unique members reached,41%out-of-network impressions, zero reposts,14 saves andtwo sends. Five lifetime post snapshots at unequal ages have six post profile viewers andtwo attributed follows; both follows belong to the 27 October QBR (438 reached,4.57 follows per 1,000). These lifetime counts cannot be divided by the seven-day unique reach. Friday 23 October's full seven-day and Thursday 29 October's 24-hour reads remain due later today.
+
+**IMPROVE.** Reach and sharing remain weak. Retain the verified QBR decision tension pending comparable evidence; no format or timing winner. Continue the three distinct, unapproved Codex proposals in shared Creative Lab 106–108 under next week's two Tanya / three Codex portfolio. Preserve approved live/calendar copy and five-slot volume. Thursday's original three-page document is now live; exact release time is unverified and it missed the 17:30 target.
+
+Email stays separate:320 active, net-1 sinceFriday(two acquired/three status losses),180 site sessions/seven qualified-action sessions in 23 Oct 17:30–30 Oct 09:20 Sydney. The approved escalation Note was published once 30 Oct 09:13 at https://substack.com/profile/268471097-kuber-sethi/note/c-373759328 . Measure its source-labelled transfer at 24 hours/seven days. Saturday/Monday 20:30 Notes remain scheduled. The subscriber broadcast is complete,322 accepted once; switch off. No resend.
+
