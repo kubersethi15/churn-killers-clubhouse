@@ -1,0 +1,59 @@
+{
+  "prepared_at": "2026-10-29T06:41:40Z",
+  "status": "pending_exact_user_approval",
+  "identity": "Kuber Sethi",
+  "platform": "Substack Notes",
+  "notes": [
+    {
+      "date": "2026-10-29",
+      "time": "20:30",
+      "timezone": "Australia/Sydney",
+      "kind": "thursday_takeaway",
+      "copy": "The fix can be done while the customer is still dealing with the fallout. Before closing an escalation, I'd check what still affects them and who will pick up the remaining work. This week's exit note is here:\n\nhttps://churnisdead.com/newsletter/escalation-exit-criteria?utm_source=substack&utm_medium=note&utm_campaign=escalation-exit-criteria&utm_content=thursday_takeaway",
+      "job": "Source-labelled visits to the current canonical issue and confirmed retained subscribers."
+    },
+    {
+      "date": "2026-10-31",
+      "time": "20:30",
+      "timezone": "Australia/Sydney",
+      "kind": "saturday_operator_insight",
+      "copy": "A workaround needs an expiry date. Otherwise the extra steps quietly become the customer's job forever. I'd write down when we'll check whether it still works for them.",
+      "job": "Useful practitioner conversation; no link or acquisition claim."
+    },
+    {
+      "date": "2026-11-02",
+      "time": "20:30",
+      "timezone": "Australia/Sydney",
+      "kind": "monday_practitioner_question",
+      "copy": "When your champion leaves, what do you check first? I'd look for who can still get the work done. A new contact isn't always a replacement champion.",
+      "job": "No-link practitioner discussion."
+    }
+  ],
+  "verification": {
+    "latest_public_note": "2026-10-12",
+    "existing_drafts_before_preparation": 0,
+    "current_issue_title_and_self_canonical_verified": true,
+    "human_voice_qa": "passed",
+    "public_actions_taken": 0
+  },
+  "measurement": {
+    "read_at": "24 hours and seven days after each actual release",
+    "aggregate_only": [
+      "views",
+      "likes",
+      "replies",
+      "restacks",
+      "follows",
+      "source-labelled site visits",
+      "confirmed subscribers and 30-day retention"
+    ],
+    "do_not_claim": "Causality or acquisition from likes/follower growth; no individual engager records."
+  },
+  "stop_rules": [
+    "Never schedule without exact approval.",
+    "Recheck actual schedule and exact-note duplicates before confirming.",
+    "If an approved date/time has already passed, leave that Note unscheduled and include the next clean Mon/Thu/Sat slot in a new grouped approval; do not shift dates or publish late automatically.",
+    "Use only the canonical current-issue link shown; one linked Note in three.",
+    "Do not republish full articles or send subscriber emails."
+  ]
+}
