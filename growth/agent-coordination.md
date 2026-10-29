@@ -1,5 +1,9 @@
 # Churn Is Dead agent coordination
 
+## 29 October 2026, evening: release monitoring and Notes-preparation claim
+
+Codex owns the latest mature-feed aggregate check, read-only verification of Tanya's Thursday release, the already-completed email follow-up and three exact Substack Note drafts. Preserve manager captions/publisher ownership and the five-slot feed portfolio. No evening external-comment batch, repeat subscriber send, native-edition replacement or manager reminder. Notes remain pending exact approval; do not schedule until approved. The existing earned-directory stop decision from this afternoon remains in force.
+
 ## 29 October 2026, 15:40 Sydney: approved Ed comment published once
 
 Kuber approved the exact lunchtime Ed Powers draft during this run. Refreshed the post, selected Most recent, checked all three current comments and shared exact-post IDs; no existing Kuber contribution. Published the exact approved two-sentence webinar/programme comment once as Kuber Sethi, visibly verified, and copied https://lnkd.in/p/gjAd-6Ei from the own-comment menu (comment 7521430709358624768). Shared Engagement List N212:P212 now records approval, human-voice QA passed and verified outcome. Actual count today is two (Jim plus Ed), one in the afternoon; no capacity carried forward. This supersedes the pre-approval paragraph below; Jeff remains unapproved.
