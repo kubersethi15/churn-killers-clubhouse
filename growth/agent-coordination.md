@@ -1,5 +1,15 @@
 # Churn Is Dead agent coordination
 
+## 29 October 2026, 15:30 window: relationship check and earned-route stop decision
+
+- Trigger arrived 15:32:49 Sydney; host read 15:33:01 AEDT +1100. No scheduler adjustment, missed-capacity carry-forward or extra evening batch. Local pull failed GitHub DNS; remote main 32c18387 verified through the connector. Mandatory files/current issue metadata and authoritative Calendar/Engagement List refreshed; no active other-chat change or new non-draft PR appeared.
+- One external comment posted today (Jim, shared row 211). Ed's lunchtime draft in row 212 and Jeff's older draft remain unapproved. Latest own QBR comments were checked in Most recent and visible current threads already have Kuber replies. Reviewed the current practitioner feed; no additional draft selected beyond the useful pending Ed contribution. Afternoon published count zero; unused capacity expires. No approval reminder or public action.
+- Advanced the existing Codex-owned earned-directory monitoring lane. Upstream keon/awesome-customer-success PR #15 remains open/unmerged, last updated 26 August, with zero comments/reviews; last upstream commit is still 31 July. After 64 days without response, park outbound work and await a maintainer response. Do not close the PR, repeat the entry, revive the missed 9 September follow-up or contact the maintainer elsewhere. No accepted backlink or acquisition is claimed.
+- Existing GTM Index thread: Gmail search found only the original 26 August outbound pitch and no reply/follow-up. The live Customer Success directory still lacks Churn Is Dead. Keep the existing route for the next quarterly review on 26 November, without a catch-up pitch or guessed channel. No live placement or route-attributed acquisition is claimed. Pipeline entries updated with current evidence and stop/next-review rules.
+- Current Calendar row 297 is still Tanya's approved Thursday 17:30 caption plus the original three-slide Escalation Decision Card; queue/attachment/coverage remains unverified. No caption, queue or publisher changes. No new follower capture, email send or native edition. The 28 October completed email is closed; its dated approval does not recur. Thursday evening release/Note publication checks remain due at their actual windows.
+
+Ownership: Codex's standing relationship and existing earned-directory monitoring lane only. The unreviewed directory lane is now parked pending a maintainer response.
+
 ## 29 October 2026, lunchtime: one exact comment awaiting approval
 
 - Trigger arrived 12:36:54 Sydney; host read 12:37:12 AEDT +1100. No evidence of the old 30-minute offset; no scheduler change or carried comment capacity. Local pull failed GitHub DNS; fresh remote main 077ef44a verified through the connected app. Its new publisher commit stages the sprint-planning issue; this is not a public release. Preserve the dirty checkout. Only draft PRs #200/#204 were open; the other coordination chat remains inactive/not loaded since 18 October.
