@@ -1,5 +1,9 @@
 # Churn Is Dead agent coordination
 
+## 30 October 2026, user-directed next-week reset and native Newsletter claim
+
+Kuber explicitly requests two Codex feed posts and three Tanya feed posts for 2–7 November. This supersedes the prior two-Tanya/three-Codex proposal; five slots total. Codex owns preparation of two original, sharper drafts and one original hypothetical renewal-review asset, shared Calendar/Creative Lab draft records, and the exact approval batch. Preserve all current approved feed copy and Tanya as publisher; no manager message or next-week public scheduling without exact approval. Kuber separately explicitly authorizes this week's existing native Churn Is Dead Newsletter for 30 October at22:00 Sydney. No duplicate edition was scheduled or published before preparation; preserve the completed subscriber email and website issue. Current remote main4427017 verified through connector after local DNS failure; preserve dirty checkout.
+
 ## 30 October 2026, morning: Friday scorecard and bounded relationship claim
 
 Completed Friday scorecard, approved Note publication and release verification. Exact own-post reply approved during the run, published once and verified at https://lnkd.in/p/gita7RbP. Codex owns today's single follower capture, the aggregate Friday subscriber/LinkedIn rows, current release/reply verification and the bounded morning relationship window. User additionally approved the held escalation Substack Note: published once and verified at https://substack.com/profile/268471097-kuber-sethi/note/c-373759328; Saturday/Monday schedules preserved. No subscriber resend, manager message, new LinkedIn feed slot or unapproved comment. Other-chat ownership and approved calendar captions remain protected. Use shared Engagement List for exact-post claims.
