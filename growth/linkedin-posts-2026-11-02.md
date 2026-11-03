@@ -4,9 +4,9 @@ Prepared at Kuber's explicit request on 30 October; completed after the clock ad
 
 ## Decision
 
-Five feed slots. Tanya: Monday 2, Thursday 5, Friday 6. Codex: Tuesday 3 and Saturday 7. Native Newsletter and website issue remain separate. Saturday's proposed copy was revised on 3 November; do not use the withdrawn product-belief draft. Preserve Tanya's Monday/Thursday captions already in Calendar rows 301/304; Friday row 305 remains her reserved third slot with copy not yet present. Codex times:17:30Sydney. Both current captions are approved; final Tuesday PDF/manager handoff approval and publisher queue/response confirmation remain pending. No extra feed post, manager message or public queue operation has been authorized for these drafts.
+Five feed slots. Tanya: Monday 2, Thursday 5, Friday 6. Codex: Tuesday 3 and Saturday 7. Native Newsletter and website issue remain separate. Saturday's proposed copy was revised on 3 November; do not use the withdrawn product-belief draft. Preserve Tanya's Monday/Thursday captions already in Calendar rows 301/304; Friday row 305 remains her reserved third slot with copy not yet present. Codex times:17:30Sydney. Both current captions and the final Tuesday PDF are approved. The exact manager handoff and final PDF were delivered on 3 November at15:55–15:56Sydney. Publisher queue/preview/response confirmation remains pending. No extra feed post or independent Codex queue operation.
 
-Latest status3November afternoon: Kuber approved Tuesday's exact bonus-caption revision by saying “make the change” at approximately15:09 Sydney. CalendarE302 and Creative LabG110 note were updated and read back exactly. Saturday's AI-pilot copy remains approved. Final Tuesday PDF export/QA is complete; exact final PDF/manager handoff approval is pending. No manager message or queue operation.
+Latest status3November16:00Sydney: both selected captions and final Tuesday PDF are approved. Final PDF delivered15:55, exact consolidated handoff delivered15:56 to Kuber X LinkedIn. Tanya acknowledged the PDF and said15:57 she will fill Friday's missing slot. This is not queue/preview/coverage proof. Do not resend the handoff or attachment.
 
 The prior three Codex alternatives in Creative Lab 106–108 are parked. Their copies and notes are retained. The existing onboarding PDF remains a reserve asset, not a third selected slot.
 
@@ -40,7 +40,7 @@ Small public CS sample reviewed30 October, not the Sunday15–20creator audit: M
 Job: qualified conversation and relevant follower growth. One action: answer the concrete leadership dilemma.
 Asset: one original three-page4:5 native PDF, “The renewal we should be willing to lose.” No photo, external link or employer branding.
 Document: an explicitly hypothetical critical-workflow gap, strongest case for staying, honest recommendation under the stated constraints. It acknowledges switching cost and leadership's commercial authority. It makes no empirical churn/ARR claim.
-Asset QA: final three-page540x675pt export rendered900px and inspected at360px mobile. No clipping, overlap or glyph defects. Extracted text checked. Review footer removed; permanent hypothetical-case label retained. Final filename: The Renewal We Should Be Willing to Lose.pdf. SHA256:0bdb63c198515a97b06f85dc0d27388a2777cff47c7512dd58b47d4538e4d109. The case body is unchanged. Exact final PDF/manager handoff approval remains pending.
+Asset QA: final three-page540x675pt export rendered900px and inspected at360px mobile. No clipping, overlap or glyph defects. Extracted text checked. Review footer removed; permanent hypothetical-case label retained. Final filename: The Renewal We Should Be Willing to Lose.pdf. SHA256:0bdb63c198515a97b06f85dc0d27388a2777cff47c7512dd58b47d4538e4d109. The case body is unchanged. Final PDF and exact handoff explicitly approved and delivered3November15:55–15:56Sydney; queue/preview/coverage remains pending.
 
 Exact caption, approved3November:
 
@@ -66,7 +66,7 @@ Would you still pay that CSM their bonus for this account?
 
 ## Selected post2 — Saturday 7 November, 17:30 Sydney — EXACT COPY APPROVED 3 November
 
-Status: Kuber explicitly approved this exact revised caption and the 7 November, 17:30 Sydney slot on 3 November at about12:31. Tanya remains publisher; manager handoff and queue/response coverage are unconfirmed. This approval covers neither Tuesday's pending renewal proposal nor a manager message.
+Status: Kuber explicitly approved this exact revised caption and the 7 November, 17:30 Sydney slot on 3 November at about12:31. Tanya remains publisher. The exact two-slot handoff was separately approved and delivered3November15:56Sydney; queue/response coverage remains unconfirmed. Tuesday's revised bonus caption and final PDF are now approved too.
 
 Job: authority and qualified conversation about how CS leaders run AI pilots.
 Asset: none. Text only.
@@ -108,21 +108,21 @@ Capture each selected post once at 24h and7d after actual release. Record member
 
 Do not edit a live post to rescue it. After meaningful distribution with zero profile/follow/repost signal, replace the next unpublished Codex creative at the normal gate; no additional volume. If a date passes before exact approval/queue verification, hold it and ask for an exact replacement time rather than publishing late or stealing a Tanya slot. No automatic fallback.
 
-Publisher remains Tanya under the established arrangement. Draft consolidated handoff below is prepared for review, not sent. The final PDF now removes the review footer and retains the hypothetical-case disclosure; it has been re-rendered and inspected. Exact attachment/handoff approval and native attachment preview remain pending. Confirm asset attachment, native preview, exact local time and first-hour response owner. No “queued” claim until visible queue proof.
+Publisher remains Tanya under the established arrangement. The exact consolidated handoff below was approved and delivered3November15:56Sydney. The final PDF now removes the review footer and retains the hypothetical-case disclosure; it has been re-rendered and inspected. The final attachment and handoff are approved and delivered; native attachment preview and queue proof remain pending. Confirm asset attachment, native preview, exact local time and first-hour response owner. No “queued” claim until visible queue proof.
 
-## Exact handoff draft — NOT SENT
+## Exact approved handoff — DELIVERED 3 November,15:56 Sydney
 
 Tanya, Kuber has approved our two feed captions for this week.
 
-Today, Tuesday 3 November at 17:30 Sydney: use the exact caption in Calendar E302, opening “A CSM should be able to recommend losing a renewal without losing their bonus.” Attach the final three-page PDF “The Renewal We Should Be Willing to Lose.pdf”. Please use this final file, not the review copy. No external link.
+Today, Tuesday 3 November at 17:30 Sydney: use the exact caption in Calendar E302, opening ‘A CSM should be able to recommend losing a renewal without losing their bonus.’ Attach the final three-page PDF ‘The Renewal We Should Be Willing to Lose.pdf’. Please use this final file, not the review copy. No external link.
 
-Saturday 7 November at 17:30 Sydney: use the exact approved caption in Calendar E306, opening “Your AI pilot needs the CSM who thinks it's a waste of time.” Text only, no asset or link.
+Saturday 7 November at 17:30 Sydney: use the exact approved caption in Calendar E306, opening ‘Your AI pilot needs the CSM who thinks it's a waste of time.’ Text only, no asset or link.
 
 You remain publisher. Your Monday, Thursday and Friday slots stay with you: two Codex posts and three Tanya posts in total. Wednesday has no feed post; the native Newsletter is separate. Friday's caption is still missing from the Calendar.
 
 Please confirm today's queue time, all three PDF pages in the preview, Saturday's queue time, and who covers replies in the first hour. If today's 17:30 slot cannot be met, please flag it before posting.
 
-Approval boundary: this handoff and final attachment were presented as one exact action-time approval on3November afternoon. Until Kuber responds, neither is sent; approved copy alone does not imply a manager message or queue proof.
+Outcome: Kuber explicitly approved this exact handoff and final PDF. The PDF was delivered once at15:55Sydney and the handoff once at15:56. Tanya acknowledged the PDF, then replied15:57: “Okay, I’ll fill the Friday slot.” Do not resend either. Queue times, all three PDF pages in the native preview and first-hour response owner remain unverified.
 
 ## Native Newsletter
 
