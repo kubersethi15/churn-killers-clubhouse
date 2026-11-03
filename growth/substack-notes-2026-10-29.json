@@ -1,6 +1,6 @@
 {
   "prepared_at": "2026-10-29T06:41:40Z",
-  "status": "all_approved_actions_verified",
+  "status": "all_three_notes_published_verified",
   "identity": "Kuber Sethi",
   "platform": "Substack Notes",
   "notes": [
@@ -24,9 +24,20 @@
       "kind": "saturday_operator_insight",
       "copy": "A workaround needs an expiry date. Otherwise the extra steps quietly become the customer's job forever. I'd write down when we'll check whether it still works for them.",
       "job": "Useful practitioner conversation; no link or acquisition claim.",
-      "status": "scheduled_verified",
+      "status": "published_verified",
       "verified_in_saved_queue": "2026-10-29T10:30:58Z",
-      "scheduled_utc": "2026-10-31T09:30:00Z"
+      "scheduled_utc": "2026-10-31T09:30:00Z",
+      "public_url": "https://substack.com/@kubersethi/note/c-373221155",
+      "published_sydney": "2026-10-31 20:30",
+      "verified_at": "2026-11-03T01:27:00Z",
+      "latest_aggregate_read": {
+        "age": "approximately64hours; not24h",
+        "impressions": null,
+        "stats_status": "Stats will be available soon; refreshes hourly",
+        "replies": 0,
+        "source": "Own Note detail and stats UI",
+        "attribution": "No acquisition claim"
+      }
     },
     {
       "date": "2026-11-02",
@@ -35,19 +46,32 @@
       "kind": "monday_practitioner_question",
       "copy": "When your champion leaves, what do you check first? I'd look for who can still get the work done. A new contact isn't always a replacement champion.",
       "job": "No-link practitioner discussion.",
-      "status": "scheduled_verified",
+      "status": "published_verified",
       "verified_in_saved_queue": "2026-10-29T10:30:58Z",
-      "scheduled_utc": "2026-11-02T09:30:00Z"
+      "scheduled_utc": "2026-11-02T09:30:00Z",
+      "public_url": "https://substack.com/@kubersethi/note/c-373222078",
+      "published_sydney": "2026-11-02 20:30",
+      "verified_at": "2026-11-03T01:25:00Z",
+      "latest_aggregate_read": {
+        "age": "approximately16hours; not24h",
+        "impressions": 2,
+        "likes": 2,
+        "replies": 0,
+        "restacks": 0,
+        "source": "Own Note statistics UI; updates approximately hourly",
+        "attribution": "No subscriber or account-follower attribution claimed"
+      }
     }
   ],
   "verification": {
-    "latest_public_note": "https://substack.com/profile/268471097-kuber-sethi/note/c-373759328",
+    "latest_public_note": "https://substack.com/@kubersethi/note/c-373222078",
     "existing_drafts_before_preparation": 0,
     "current_issue_title_and_self_canonical_verified": true,
     "human_voice_qa": "passed",
     "public_actions_taken": 3,
     "scheduling_receipt": "output/engagement/substack-two-scheduled-2026-10-29.png",
-    "publication_receipt": "output/engagement/substack-escalation-posted-2026-10-30.png"
+    "publication_receipt": "output/engagement/substack-escalation-posted-2026-10-30.png",
+    "last_release_check": "2026-11-03T01:27:00Z"
   },
   "measurement": {
     "read_at": "24 hours and seven days after each actual release",

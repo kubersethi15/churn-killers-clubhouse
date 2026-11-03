@@ -4,13 +4,13 @@ Prepared at Kuber's explicit request on 30 October; completed after the clock ad
 
 ## Decision
 
-Five feed slots. Tanya: Monday 2, Thursday 5, Friday 6. Codex: Tuesday 3 and Saturday 7. Native Newsletter and website issue remain separate. Preserve Tanya's Monday/Thursday captions already in Calendar rows 301/304; Friday row 305 remains her reserved third slot with copy not yet present. Proposed Codex times: 17:30 Sydney, pending exact-copy/asset approval and publisher coordination. No extra feed post, manager message or public queue operation has been authorized for these drafts.
+Five feed slots. Tanya: Monday 2, Thursday 5, Friday 6. Codex: Tuesday 3 and Saturday 7. Native Newsletter and website issue remain separate. Saturday's proposed copy was revised on 3 November; do not use the withdrawn product-belief draft. Preserve Tanya's Monday/Thursday captions already in Calendar rows 301/304; Friday row 305 remains her reserved third slot with copy not yet present. Proposed Codex times: 17:30 Sydney, pending exact-copy/asset approval and publisher coordination. No extra feed post, manager message or public queue operation has been authorized for these drafts.
 
 The prior three Codex alternatives in Creative Lab 106–108 are parked. Their copies and notes are retained. The existing onboarding PDF remains a reserve asset, not a third selected slot.
 
 ## What changes
 
-The weak pattern was repeatedly turning every topic into decision/owner/date advice. Use a position with a real commercial consequence and an honest personal reversal. The original document begins a proposed recurring series, “CS calls I would defend”: one difficult case, both arguments, Kuber's call. No open-ended listicle, invented win, customer quote or outrage claim.
+The weak pattern was repeatedly turning every topic into decision/owner/date advice. Use a position with a real commercial consequence and a distinct AI-pilot opinion. The initially proposed personal reversal was withdrawn on 3 November because it repeated an October post. The original document begins a proposed recurring series, “CS calls I would defend”: one difficult case, both arguments, Kuber's call. No open-ended listicle, invented win, customer quote or outrage claim.
 
 ## Evidence and its limits
 
@@ -58,29 +58,31 @@ On those facts, I'd recommend an exit conversation rather than another year base
 
 Would you back your CSM if that was their advice?
 
-## Selected post2 — Saturday 7 November,17:30 Sydney proposed
+## Selected post2 — Saturday 7 November, 17:30 Sydney proposed — REVISED 3 November
 
-Job: authority and relevant follower growth through a verified belief change. One action: discuss the team's response to difficult customer feedback.
+Job: authority and qualified conversation about how CS leaders run AI pilots.
 Asset: none. Text only.
-First-person evidence: editorial/author-experience.md confirmed24 August says Kuber believed a strong product could carry an account through anything and changed his view after getting burnt several times. No client, outcome, date, ARR or fabricated scene added. Rollout/workaround lines are clearly hypothetical (“They might…”). The interpretation of trust is a proposed point of view for Kuber to review.
+Evidence boundary: this is a proposed operating opinion, not a story about a pilot Kuber ran. It asks for a willing participant and compares the whole task, including checking and corrections. It makes no productivity or adoption claim.
 
-Exact caption:
+The previous product-belief draft is withdrawn. A fresh own-Activity read on 3 November showed an already-public October post opening “I used to think a strong product could carry an account through anything. I got burnt relying on that. More than once.” Reusing that same reversal after Kuber asked for a creative reset was an editorial error. The original draft is retained in Calendar E306 and Creative Lab G111 notes for history. Earlier-copy approval cannot authorize this revision.
 
-I trusted the product too much.
+Exact revised caption:
 
-I thought a strong product could carry an account through almost anything. I got burnt relying on that. More than once.
+Your AI pilot needs the CSM who thinks it's a waste of time.
 
-I underestimated the relationship.
+I'd invite a willing sceptic into the first group.
 
-By that I mean whether the customer can tell us something uncomfortable without getting a defence of the product in return.
+Give them one real account update to prepare with the tool. Compare it with how they'd normally do the work, including the time spent checking and fixing the result.
 
-They might need to say the rollout has lost support. Or that our workaround has become extra work for their team.
+If they keep a spreadsheet open beside it, I'd ask what the spreadsheet still does better.
 
-If our response is another demo, I'd understand why they stopped telling us.
+Maybe the tool is missing context. Maybe the workflow is awkward. Maybe they're right that this task doesn't need it.
 
-I still want a strong product. I also want a customer who'll tell us when it isn't enough.
+Calling that resistance to change is an easy way to stop learning.
 
-What does your team do when the customer says, “This isn't working for us”?
+I want the awkward feedback while the pilot is small, before we turn a workaround into everyone's new process.
+
+What did a sceptical pilot user make your team change?
 
 ## Rejected routes
 
@@ -104,7 +106,7 @@ Publisher remains Tanya under the established arrangement. Draft consolidated ha
 
 For2–7 November keep five feed slots: your three onMon2/Thu 5/Fri 6, our two onTue3/Sat 7. Your existingMon/Thucopy is preserved;Fridaycopy is still missing from the shared Calendar at the3 Novemberrefresh.
 
-OurTue3proposed17:30 Sydney post opens “I want a CSM who can recommend we lose a renewal.” Use the approved final three-page renewal-review PDF only. OurSat7proposed17:30 Sydney post opens “I trusted the product too much.” Text only, no asset or link. Full exact captions are inCalendarE302/E306 and Creative LabG110/G111 notes. Both are DRAFTS pending Kuber's exact approval. Please do not queue the review PDF.
+OurTue3proposed17:30 Sydney post opens “I want a CSM who can recommend we lose a renewal.” Use the approved final three-page renewal-review PDF only. Our Saturday 7 November proposed 17:30 Sydney post now opens “Your AI pilot needs the CSM who thinks it's a waste of time.” This replaces the withdrawn product-belief draft. Text only, no asset or link. Full exact captions are inCalendarE302/E306 and Creative LabG110/G111 notes. Both are DRAFTS pending Kuber's exact approval. Please do not queue the review PDF.
 
 After approval, please confirm the two queue entries, Tuesday's attached three-page preview and who covers replies in the first hour. This changes neither your three slots nor the separate native Newsletter.
 
