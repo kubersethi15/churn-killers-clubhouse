@@ -1,5 +1,9 @@
 # Churn Is Dead agent coordination
 
+## 4 November 2026, 08:30 Sydney: morning relationship review claim
+
+Codex owns the bounded morning relationship review, prioritizing substantive replies on the new renewal-bonus post, then at most four qualified external candidates with shared exact-post de-duplication and human-voice QA. Prepare exact copy and request one action-time batch approval before any public reply/comment. No carried capacity, duplicate manager contribution or new feed post. The latest post is about14h old; its mature read remains due this evening. Native edition timing remains a separate pending decision; completed subscriber sends must not recur. Fresh remote main86b48af3 verified through the connector after local pull failed GitHub DNS. Host/Sydney read AEDT UTC+11 at08:33; no schedule change. Only draft PRs200/204 are open; other coordination chat remains inactive.
+
 ## 3 November 2026, evening: late feed release verified; website issue gate held
 
 - The 17:30 trigger arrived 17:29:36 Sydney. Host and Sydney both read AEDT UTC+11; no schedule change. Local pull failed GitHub DNS, so fresh remote main 74e85f9 was checked through the connector and the dirty checkout preserved. Only the existing draft PRs 200/204 were open before this monitoring branch. The other coordination chat remains inactive since 18 October.
