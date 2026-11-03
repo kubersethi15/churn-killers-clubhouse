@@ -1,3 +1,13 @@
+## 3 November 2026, 15:53–15:57 Sydney: approved comment and publisher handoff executed
+
+Kuber explicitly approved the exact Carly Agar comment and the final PDF plus exact Kuber X LinkedIn handoff. Codex completed only those authorized actions. This supersedes the earlier pending approval/send statuses.
+
+- Carly comment published once as Kuber after refreshing the exact thread: two existing comments, no Kuber contribution. The count became three; identity and unchanged text were verified. Own-comment menu URL matched the View comment toast: https://lnkd.in/p/grfVUYez . Human-voice QA passed. Engagement List row 216 records the verified result. Actual today: one external comment and one own-post reply, tracked separately.
+- Approved final “The Renewal We Should Be Willing to Lose.pdf” uploaded once to Kuber X LinkedIn. SHA256 0bdb63c198515a97b06f85dc0d27388a2777cff47c7512dd58b47d4538e4d109 matched the reviewed final file. WhatsApp showed three pages / 89 kB and Delivered at 15:55 Sydney. Tanya replied “Okay” to the PDF.
+- Sent the exact approved two-slot handoff once, delivered at 15:56 Sydney: Tuesday 3 November 17:30 with Calendar E302 and final PDF; Saturday 7 November 17:30 with Calendar E306, text only. Tanya remains publisher; her Monday/Thursday/Friday ownership and the five-slot total are preserved. No independent Codex feed scheduling or publication.
+- Tanya replied at 15:57, “Okay, I’ll fill the Friday slot.” This confirms she will supply the missing Friday copy. It does not verify Friday copy completion, either Codex queue entry, the native PDF attachment preview or first-hour response coverage.
+- Calendar rows 302/305/306 and Creative Lab rows 110/111 now distinguish approved/delivered from queue pending. No new email send, native-edition timing choice, website release or follower capture. Screenshots and a local receipt preserve both completed actions. No resend or duplicate manager message.
+
 ## 3 November 2026, afternoon: approved bonus caption and final PDF prepared
 
 - The trigger arrived at 15:32 Sydney; the host read 15:32:18 AEDT, UTC+11. No former 30-minute offset was observed. No schedule change or carried comment capacity. Fresh main 7f12a8d6 was verified through GitHub after the local pull failed DNS. The dirty checkout was preserved. Only draft PRs #200/#204 were open; the other coordination chat remains inactive since 18 October.
