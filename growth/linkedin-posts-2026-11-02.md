@@ -4,9 +4,9 @@ Prepared at Kuber's explicit request on 30 October; completed after the clock ad
 
 ## Decision
 
-Five feed slots. Tanya: Monday 2, Thursday 5, Friday 6. Codex: Tuesday 3 and Saturday 7. Native Newsletter and website issue remain separate. Saturday's proposed copy was revised on 3 November; do not use the withdrawn product-belief draft. Preserve Tanya's Monday/Thursday captions already in Calendar rows 301/304; Friday row 305 remains her reserved third slot with copy not yet present. Proposed Codex times: 17:30 Sydney, pending exact-copy/asset approval and publisher coordination. No extra feed post, manager message or public queue operation has been authorized for these drafts.
+Five feed slots. Tanya: Monday 2, Thursday 5, Friday 6. Codex: Tuesday 3 and Saturday 7. Native Newsletter and website issue remain separate. Saturday's proposed copy was revised on 3 November; do not use the withdrawn product-belief draft. Preserve Tanya's Monday/Thursday captions already in Calendar rows 301/304; Friday row 305 remains her reserved third slot with copy not yet present. Codex times:17:30Sydney. Both current captions are approved; final Tuesday PDF/manager handoff approval and publisher queue/response confirmation remain pending. No extra feed post, manager message or public queue operation has been authorized for these drafts.
 
-Latest status3November12:34Sydney: Saturday's revised AI-pilot caption is approved; Tuesday's renewal caption/asset remains pending. The earlier manager-message approval request references withdrawn Saturday copy and must not be executed as written. No message sent.
+Latest status3November afternoon: Kuber approved Tuesday's exact bonus-caption revision by saying “make the change” at approximately15:09 Sydney. CalendarE302 and Creative LabG110 note were updated and read back exactly. Saturday's AI-pilot copy remains approved. Final Tuesday PDF export/QA is complete; exact final PDF/manager handoff approval is pending. No manager message or queue operation.
 
 The prior three Codex alternatives in Creative Lab 106–108 are parked. Their copies and notes are retained. The existing onboarding PDF remains a reserve asset, not a third selected slot.
 
@@ -35,30 +35,34 @@ Small public CS sample reviewed30 October, not the Sunday15–20creator audit: M
 - https://www.linkedin.com/posts/leeron-yahalomi-1b066819_customersuccess-burnout-csleadership-activity-7437861460808036352-_sx2
 - https://www.linkedin.com/posts/clientsuccessprofessional_the-state-of-customer-success-2026-proving-activity-7440381371006599170-mL8W
 
-## Selected post1 — Tuesday 3 November,17:30 Sydney proposed
+## Selected post1 — Tuesday 3 November,17:30 Sydney — CAPTION APPROVED
 
 Job: qualified conversation and relevant follower growth. One action: answer the concrete leadership dilemma.
 Asset: one original three-page4:5 native PDF, “The renewal we should be willing to lose.” No photo, external link or employer branding.
 Document: an explicitly hypothetical critical-workflow gap, strongest case for staying, honest recommendation under the stated constraints. It acknowledges switching cost and leadership's commercial authority. It makes no empirical churn/ARR claim.
-Asset QA: all3 pages540x675 points, rendered and inspected at 900px and360px width; no clipping/overlap/glyph defects. Text extraction checked. SHA256:d4766e8aba7299c5516de8b8d323396c3780e494d48d0a56d35fec795973ffb7. Review-copy footer stays until approved public export is made; case-label stays permanently.
+Asset QA: final three-page540x675pt export rendered900px and inspected at360px mobile. No clipping, overlap or glyph defects. Extracted text checked. Review footer removed; permanent hypothetical-case label retained. Final filename: The Renewal We Should Be Willing to Lose.pdf. SHA256:0bdb63c198515a97b06f85dc0d27388a2777cff47c7512dd58b47d4538e4d109. The case body is unchanged. Exact final PDF/manager handoff approval remains pending.
 
-Exact caption:
+Exact caption, approved3November:
 
-I want a CSM who can recommend we lose a renewal.
+A CSM should be able to recommend losing a renewal without losing their bonus.
 
-If the customer needs a capability we can't provide, and there's no credible plan to provide it when they need it, I want that said plainly.
+Imagine this account.
 
-Even when the renewal would help our quarter.
+The customer needs a critical workflow in three months. We can’t provide it. There’s no committed delivery date, and the workaround creates more work than they can absorb.
 
-Calling someone a trusted advisor while requiring every recommendation to end in “stay” is a difficult position to defend.
+We can offer a discount. We still can’t meet the need.
 
-I'm asking whether their honest recommendation is allowed in the room.
+On those facts, I’d back a CSM who recommends discussing an exit.
 
-The document below is a made-up renewal review: the customer's deadline arrives before the capability they need.
+Leadership makes the commercial call. But the recommendation should be allowed in the room.
 
-On those facts, I'd recommend an exit conversation rather than another year based on an uncommitted feature. Leadership still has to make the commercial call.
+Now comes the uncomfortable bit.
 
-Would you back your CSM if that was their advice?
+If we agree the advice was right, then dock their bonus because the customer leaves, what have we taught them to recommend next time?
+
+Calling someone a trusted advisor is easy. Paying them when their advice hurts our quarter is harder.
+
+Would you still pay that CSM their bonus for this account?
 
 ## Selected post2 — Saturday 7 November, 17:30 Sydney — EXACT COPY APPROVED 3 November
 
@@ -104,15 +108,21 @@ Capture each selected post once at 24h and7d after actual release. Record member
 
 Do not edit a live post to rescue it. After meaningful distribution with zero profile/follow/repost signal, replace the next unpublished Codex creative at the normal gate; no additional volume. If a date passes before exact approval/queue verification, hold it and ask for an exact replacement time rather than publishing late or stealing a Tanya slot. No automatic fallback.
 
-Publisher remains Tanya under the established arrangement. Draft consolidated handoff below is prepared for review, not sent. An approved final PDF must replace the review footer, keep the hypothetical-case disclosure and be re-rendered before queueing. Confirm asset attachment, native preview, exact local time and first-hour response owner. No “queued” claim until visible queue proof.
+Publisher remains Tanya under the established arrangement. Draft consolidated handoff below is prepared for review, not sent. The final PDF now removes the review footer and retains the hypothetical-case disclosure; it has been re-rendered and inspected. Exact attachment/handoff approval and native attachment preview remain pending. Confirm asset attachment, native preview, exact local time and first-hour response owner. No “queued” claim until visible queue proof.
 
 ## Exact handoff draft — NOT SENT
 
-For2–7 November keep five feed slots: your three onMon2/Thu 5/Fri 6, our two onTue3/Sat 7. Your existingMon/Thucopy is preserved;Fridaycopy is still missing from the shared Calendar at the3 Novemberrefresh.
+Tanya, Kuber has approved our two feed captions for this week.
 
-OurTue3proposed17:30 Sydney post opens “I want a CSM who can recommend we lose a renewal.” Use the approved final three-page renewal-review PDF only. Our Saturday 7 November proposed 17:30 Sydney post now opens “Your AI pilot needs the CSM who thinks it's a waste of time.” This replaces the withdrawn product-belief draft. Text only, no asset or link. Full exact captions are inCalendarE302/E306 and Creative LabG110/G111 notes. Tuesday is a DRAFT pending exact approval. Saturday's revised AI-pilot caption is approved; its handoff and queue remain pending. Please do not queue the review PDF.
+Today, Tuesday 3 November at 17:30 Sydney: use the exact caption in Calendar E302, opening “A CSM should be able to recommend losing a renewal without losing their bonus.” Attach the final three-page PDF “The Renewal We Should Be Willing to Lose.pdf”. Please use this final file, not the review copy. No external link.
 
-After approval, please confirm the two queue entries, Tuesday's attached three-page preview and who covers replies in the first hour. This changes neither your three slots nor the separate native Newsletter.
+Saturday 7 November at 17:30 Sydney: use the exact approved caption in Calendar E306, opening “Your AI pilot needs the CSM who thinks it's a waste of time.” Text only, no asset or link.
+
+You remain publisher. Your Monday, Thursday and Friday slots stay with you: two Codex posts and three Tanya posts in total. Wednesday has no feed post; the native Newsletter is separate. Friday's caption is still missing from the Calendar.
+
+Please confirm today's queue time, all three PDF pages in the preview, Saturday's queue time, and who covers replies in the first hour. If today's 17:30 slot cannot be met, please flag it before posting.
+
+Approval boundary: this handoff and final attachment were presented as one exact action-time approval on3November afternoon. Until Kuber responds, neither is sent; approved copy alone does not imply a manager message or queue proof.
 
 ## Native Newsletter
 
