@@ -6,6 +6,8 @@ Prepared at Kuber's explicit request on 30 October; completed after the clock ad
 
 Five feed slots. Tanya: Monday 2, Thursday 5, Friday 6. Codex: Tuesday 3 and Saturday 7. Native Newsletter and website issue remain separate. Saturday's proposed copy was revised on 3 November; do not use the withdrawn product-belief draft. Preserve Tanya's Monday/Thursday captions already in Calendar rows 301/304; Friday row 305 remains her reserved third slot with copy not yet present. Proposed Codex times: 17:30 Sydney, pending exact-copy/asset approval and publisher coordination. No extra feed post, manager message or public queue operation has been authorized for these drafts.
 
+Latest status3November12:34Sydney: Saturday's revised AI-pilot caption is approved; Tuesday's renewal caption/asset remains pending. The earlier manager-message approval request references withdrawn Saturday copy and must not be executed as written. No message sent.
+
 The prior three Codex alternatives in Creative Lab 106–108 are parked. Their copies and notes are retained. The existing onboarding PDF remains a reserve asset, not a third selected slot.
 
 ## What changes
@@ -58,7 +60,9 @@ On those facts, I'd recommend an exit conversation rather than another year base
 
 Would you back your CSM if that was their advice?
 
-## Selected post2 — Saturday 7 November, 17:30 Sydney proposed — REVISED 3 November
+## Selected post2 — Saturday 7 November, 17:30 Sydney — EXACT COPY APPROVED 3 November
+
+Status: Kuber explicitly approved this exact revised caption and the 7 November, 17:30 Sydney slot on 3 November at about12:31. Tanya remains publisher; manager handoff and queue/response coverage are unconfirmed. This approval covers neither Tuesday's pending renewal proposal nor a manager message.
 
 Job: authority and qualified conversation about how CS leaders run AI pilots.
 Asset: none. Text only.
@@ -106,7 +110,7 @@ Publisher remains Tanya under the established arrangement. Draft consolidated ha
 
 For2–7 November keep five feed slots: your three onMon2/Thu 5/Fri 6, our two onTue3/Sat 7. Your existingMon/Thucopy is preserved;Fridaycopy is still missing from the shared Calendar at the3 Novemberrefresh.
 
-OurTue3proposed17:30 Sydney post opens “I want a CSM who can recommend we lose a renewal.” Use the approved final three-page renewal-review PDF only. Our Saturday 7 November proposed 17:30 Sydney post now opens “Your AI pilot needs the CSM who thinks it's a waste of time.” This replaces the withdrawn product-belief draft. Text only, no asset or link. Full exact captions are inCalendarE302/E306 and Creative LabG110/G111 notes. Both are DRAFTS pending Kuber's exact approval. Please do not queue the review PDF.
+OurTue3proposed17:30 Sydney post opens “I want a CSM who can recommend we lose a renewal.” Use the approved final three-page renewal-review PDF only. Our Saturday 7 November proposed 17:30 Sydney post now opens “Your AI pilot needs the CSM who thinks it's a waste of time.” This replaces the withdrawn product-belief draft. Text only, no asset or link. Full exact captions are inCalendarE302/E306 and Creative LabG110/G111 notes. Tuesday is a DRAFT pending exact approval. Saturday's revised AI-pilot caption is approved; its handoff and queue remain pending. Please do not queue the review PDF.
 
 After approval, please confirm the two queue entries, Tuesday's attached three-page preview and who covers replies in the first hour. This changes neither your three slots nor the separate native Newsletter.
 
