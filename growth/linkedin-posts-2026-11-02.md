@@ -4,7 +4,7 @@ Prepared at Kuber's explicit request on 30 October; completed after the clock ad
 
 ## Decision
 
-Five feed slots. Tanya: Monday2, Thursday5, Friday6. Codex: Tuesday3 and Saturday7. Native Newsletter and website issue remain separate. Preserve Tanya's Monday/Thursday captions already in Calendar rows 301/304; Friday305 remains her reserved third slot with copy not yet present. Proposed Codex times:17:30 Sydney, pending exact-copy/asset approval and publisher coordination. No extra feed post, manager message or public queue operation has been authorized for these drafts.
+Five feed slots. Tanya: Monday 2, Thursday 5, Friday 6. Codex: Tuesday 3 and Saturday 7. Native Newsletter and website issue remain separate. Preserve Tanya's Monday/Thursday captions already in Calendar rows 301/304; Friday row 305 remains her reserved third slot with copy not yet present. Proposed Codex times: 17:30 Sydney, pending exact-copy/asset approval and publisher coordination. No extra feed post, manager message or public queue operation has been authorized for these drafts.
 
 The prior three Codex alternatives in Creative Lab 106–108 are parked. Their copies and notes are retained. The existing onboarding PDF remains a reserve asset, not a third selected slot.
 
@@ -33,7 +33,7 @@ Small public CS sample reviewed30 October, not the Sunday15–20creator audit: M
 - https://www.linkedin.com/posts/leeron-yahalomi-1b066819_customersuccess-burnout-csleadership-activity-7437861460808036352-_sx2
 - https://www.linkedin.com/posts/clientsuccessprofessional_the-state-of-customer-success-2026-proving-activity-7440381371006599170-mL8W
 
-## Selected post1 — Tuesday3 November,17:30 Sydney proposed
+## Selected post1 — Tuesday 3 November,17:30 Sydney proposed
 
 Job: qualified conversation and relevant follower growth. One action: answer the concrete leadership dilemma.
 Asset: one original three-page4:5 native PDF, “The renewal we should be willing to lose.” No photo, external link or employer branding.
@@ -58,7 +58,7 @@ On those facts, I'd recommend an exit conversation rather than another year base
 
 Would you back your CSM if that was their advice?
 
-## Selected post2 — Saturday7 November,17:30 Sydney proposed
+## Selected post2 — Saturday 7 November,17:30 Sydney proposed
 
 Job: authority and relevant follower growth through a verified belief change. One action: discuss the team's response to difficult customer feedback.
 Asset: none. Text only.

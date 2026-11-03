@@ -15,7 +15,7 @@ subscriber path.
 
 ## Current execution override — 2–7 November 2026
 
-Kuber's30October instruction is two Codex feed posts and three Tanya feed posts, five total. It supersedes older three-Codex/two-Tanya proposals. Preserve TanyaMon2/Thu5/Fri6; selected Codex draftsTue3 andSat7 atproposed17:30Sydney are pending exact approval and manager queue/coverage. CreativeLab109–111 and growth/linkedin-posts-2026-11-02.md hold full copy/asset/evidence/stop rules. Previous three alternatives parked. Native Newsletter remains separate. No sixth post or unapproved manager message. This is a portfolio intervention, not a controlled format A/B test. Keep existing evidence floors and24h/7d attribution.
+Kuber's 30 October instruction is two Codex feed posts and three Tanya posts, five total. It supersedes older three-Codex/two-Tanya proposals. Preserve Tanya's Monday, Thursday and Friday slots. The selected Codex drafts for Tuesday 3 and Saturday 7 November at proposed 17:30 Sydney are pending exact approval and manager queue/response coverage. Creative Lab rows 109–111 and growth/linkedin-posts-2026-11-02.md hold the complete copy, asset, evidence and stop rules. Earlier alternatives are parked. The native Newsletter is separate. No sixth post or unapproved manager message. This is a portfolio intervention, not a controlled format A/B test; keep existing evidence floors and 24-hour/seven-day attribution.
 
 ## What changes
 
