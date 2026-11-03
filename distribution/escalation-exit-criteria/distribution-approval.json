@@ -9,5 +9,25 @@
     "newsletter_slug": "escalation-exit-criteria",
     "subject": "The ticket closed. Did the escalation?",
     "preheader": "A simple exit test for the customer impact, open work and next owner."
+  },
+  "linkedin_newsletter": {
+    "status": "approved_time_expired_publication_unverified",
+    "approved_by": "Kuber Sethi",
+    "basis": "Explicit user request to publish this week's newsletter on LinkedIn at10PM,30October2026",
+    "human_reviewed": false,
+    "scheduled_for": "2026-10-30T22:00:00+11:00",
+    "schedule_saved_and_verified": true,
+    "release_verified": false,
+    "draft_url": "https://www.linkedin.com/article/edit/7521818271373897728/",
+    "latest_receipt": {
+      "checked_at": "2026-11-03T11:07:00+11:00",
+      "scheduled_count": 0,
+      "published_latest": "2026-10-16",
+      "same_edition_location": "Drafts",
+      "body_and_tracked_links_intact": true,
+      "result": "publication_not_verified",
+      "cause": "unknown",
+      "action": "Preserved same draft. Requested exact new publication time; no new edition or late publication."
+    }
   }
 }
