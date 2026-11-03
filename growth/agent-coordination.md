@@ -1,5 +1,9 @@
 # Churn Is Dead agent coordination
 
+## 3 November 2026, midday: relationship/release preflight and repetition correction claim
+
+Codex owns the midday bounded relationship review, aggregate completed-email follow-up, release-package preflight and correction of the still-unapproved Saturday draft. The live feed shows that its product-belief story was already used in October; withdraw that proposal and prepare a distinct AI-pilot opinion, preserving the old copy in history. Tuesday's renewal case remains unchanged and pending approval. Earlier approval requests do not authorize revised Saturday copy. Preserve Tanya's publisher role and three slots; no manager message or public queue action. The trigger arrived at12:10 Sydney,20minutes before the nominal12:30 window; prepare non-public work only before that window, and do not carry morning capacity forward. Remote main1786a011 verified through connector after local pull was blocked by filesystem permissions; dirty checkout preserved.
+
 ## 3 November 2026: two-post reset prepared; native Newsletter needs new timing
 
 - Kuber's latest instruction is two Codex feed posts and three Tanya posts for 2–7 November. This supersedes the older 3/2 proposal. The clock advanced during this task; fresh main 4427017 and the shared Calendar were checked again before writes. Tanya's Monday and Thursday copy was preserved. Friday is reserved as her third slot, with no caption or queue verified.
