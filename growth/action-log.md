@@ -1,3 +1,11 @@
+## 4 November 2026, approximately09:02–09:04 Sydney: approved contributions published
+
+Kuber selected “Approve both exact contributions.” This supersedes the earlier pending status for Engagement List217/218. Fresh shared target rows and each exact public discussion were checked immediately before publication.
+
+- Published the exact approved reply to Blessing once as Kuber under the renewal-bonus post. Verified Author identity, full unchanged wording, one nested reply and post comment count5to6. Public permalink copied from own-comment menu: https://lnkd.in/p/gxkN3-4S .
+- Published the exact approved Mohan Kumar scaled-CS comment once as Kuber. Refreshed post had one existing comment and no Kuber contribution; count became two. Full unchanged wording/identity verified. Public permalink copied from own-comment menu: https://lnkd.in/p/gxjXv3dP .
+- Human-voice QA passed for both. Shared Engagement ListN217:P218 updated and read back with exact wording, approval, public links and verified outcomes; screenshots saved. Actual4November totals:one own-post reply plus one external comment, separately tracked. No extra candidates, new feed post, email send or second follower capture. No repeat publication.
+
 ## 4 November 2026, morning: bounded relationship batch prepared; completed sends reconciled
 
 - Trigger08:32 Sydney; host and Sydney AEDT UTC+11. Fresh main86b48af3 verified through the connector after local pull failed GitHub DNS; dirty checkout preserved. The overnight publisher commit regenerated older packages/assets and preserved the dated28October distribution approval. It does not establish a new current issue approval or authorize another send. Only old draft PRs200/204 open; other coordination chat inactive.
