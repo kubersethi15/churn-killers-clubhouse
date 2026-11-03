@@ -1,5 +1,9 @@
 # Churn Is Dead agent coordination
 
+## 3 November 2026, 17:30 Sydney: release monitoring claim
+
+Codex owns the existing Tuesday release-monitoring lane through18:25Sydney: verify Tanya's approved17:30 renewal/PDF post without duplicate publication, check the named current website package/database/live gates at18:00 and workflow at18:10, and capture only due post analytics at their actual age. The exact approved PDF/handoff already delivered15:55–15:56 must not recur. No new external comments, manager messages, subscriber send, native-edition timing change or second daily follower capture. Fresh main74e85f9 verified through the connector after local pull failed GitHubDNS; dirty checkout preserved. Both captions remain approved; Tanya owns publication. As of17:35, Tuesday's post is not yet visible and the latest manager reply remains her15:57 Friday-copy commitment.
+
 ## 3 November 2026, 15:53–15:57 Sydney: approved comment and publisher handoff executed
 
 Kuber explicitly approved the exact Carly Agar comment and the final PDF plus exact Kuber X LinkedIn handoff. Codex completed only those authorized actions. This supersedes the earlier pending approval/send statuses.
