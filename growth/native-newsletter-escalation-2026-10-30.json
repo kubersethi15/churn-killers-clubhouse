@@ -1,0 +1,24 @@
+{
+  "newsletter_slug": "escalation-exit-criteria",
+  "title": "The Ticket Closed. Did the Escalation?",
+  "identity": "Kuber Sethi / Churn is Dead",
+  "approved_by": "Kuber Sethi",
+  "authorization": "Publish this week's newsletter on LinkedIn at 10 PM",
+  "approved_publication_time": "2026-10-30T22:00:00+11:00",
+  "schedule_verified": true,
+  "schedule_confirmation": "Article post scheduled; independent Scheduled list: Posting Fri, Oct30 at10:00PM",
+  "schedule_screenshot": "output/newsletter-scheduled-2026-10-30.png",
+  "draft_url": "https://www.linkedin.com/article/edit/7521818271373897728/",
+  "canonical_tracked_link": "https://churnisdead.com/newsletter/escalation-exit-criteria?utm_source=linkedin&utm_medium=newsletter&utm_campaign=escalation-exit-criteria&utm_content=linkedin_newsletter",
+  "later_verification": {
+    "checked_at": "2026-11-03T11:07:00+11:00",
+    "scheduled_count": 0,
+    "published_latest": "2026-10-16",
+    "same_edition_location": "Drafts",
+    "body_and_tracked_links_intact": true,
+    "result": "publication_not_verified",
+    "cause": "unknown",
+    "action": "Preserved same draft. Requested exact new publication time; no new edition or late publication."
+  },
+  "email": "Completed28October; no resend"
+}

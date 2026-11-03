@@ -13,6 +13,10 @@ aggressively through work Kuber and the team can control, while keeping the
 audience relevant to Customer Success and protecting Churn Is Dead's owned
 subscriber path.
 
+## Current execution override — 2–7 November 2026
+
+Kuber's 30 October instruction is two Codex feed posts and three Tanya posts, five total. It supersedes older three-Codex/two-Tanya proposals. Preserve Tanya's Monday, Thursday and Friday slots. The selected Codex drafts for Tuesday 3 and Saturday 7 November at proposed 17:30 Sydney are pending exact approval and manager queue/response coverage. Creative Lab rows 109–111 and growth/linkedin-posts-2026-11-02.md hold the complete copy, asset, evidence and stop rules. Earlier alternatives are parked. The native Newsletter is separate. No sixth post or unapproved manager message. This is a portfolio intervention, not a controlled format A/B test; keep existing evidence floors and 24-hour/seven-day attribution.
+
 ## What changes
 
 The previous growth system made email subscribers the primary outcome and
