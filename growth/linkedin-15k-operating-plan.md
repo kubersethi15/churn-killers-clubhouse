@@ -15,7 +15,11 @@ subscriber path.
 
 ## Current execution override — 2–7 November 2026
 
-Kuber's 30 October instruction is two Codex feed posts and three Tanya posts, five total. It supersedes older three-Codex/two-Tanya proposals. Preserve Tanya's Monday, Thursday and Friday slots. The selected Codex drafts for Tuesday 3 and Saturday 7 November at proposed 17:30 Sydney are pending exact approval and manager queue/response coverage. Creative Lab rows 109–111 and growth/linkedin-posts-2026-11-02.md hold the complete copy, asset, evidence and stop rules. Earlier alternatives are parked. The native Newsletter is separate. No sixth post or unapproved manager message. This is a portfolio intervention, not a controlled format A/B test; keep existing evidence floors and 24-hour/seven-day attribution.
+Kuber's 30 October instruction is two Codex feed posts and three Tanya posts, five total. It supersedes older three-Codex/two-Tanya proposals. Preserve Tanya's Monday, Thursday and Friday slots. Tuesday 3 November's renewal caption/asset at proposed17:30 remains pending exact approval. Kuber approved Saturday 7 November's exact revised AI-pilot caption for17:30 Sydney at about12:31 on3November. Manager handoff and queue/response coverage remain unconfirmed for both. At the 3 November midday check, Saturday's product-belief draft was withdrawn because it repeats an October post. The replacement is a text-only AI-pilot opinion, opening “Your AI pilot needs the CSM who thinks it's a waste of time.” Any earlier-copy approval is inapplicable to this revision. Creative Lab rows 109–111 and growth/linkedin-posts-2026-11-02.md hold the complete copy, asset, evidence and stop rules. Earlier alternatives are parked. The native Newsletter is separate. No sixth post or unapproved manager message. This is a portfolio intervention, not a controlled format A/B test; keep existing evidence floors and 24-hour/seven-day attribution.
+
+### Latest daily read — 3 November
+
+10,008 followers at approximately 12:12 Sydney; recorded once in the shared daily table. This is +72 versus the last recorded 30 October capture across an unequal multi-day interval, not a seven-day net or post attribution. 4,992 followers remain across 58 days to 31 December, requiring about 602 net per week. No format or timing winner is inferred from this account total.
 
 ## What changes
 
