@@ -1,5 +1,25 @@
 # Churn Is Dead agent coordination
 
+## 4 November 2026 evening: checkpoint complete; approved follow-up delivered
+
+Codex completed the17:30–18:25Sydney release checkpoint and took the renewal document's first mature read at18:16.531impressions,337reached,27%out-of-network impression share,1post profile(2.97/1,000),0follows,18reactions,7comments,0reposts,1save,0sends. Aggregate audience fit is recorded in the operating plan and Calendar H302 note; no individual viewer data. Nonzero profile signal means no automatic zero-signal replacement of approved Saturday's AI-pilot caption. Seven-day read due10November after18:15.
+
+The already-published native champion-change edition was verified after18:20, and own Activity at18:24 showed no duplicate standalone feed post. At18:21,321accepted,317delivered,3bounced,1delayed,0complaints/unsigned/latest eligible unsent;319active subscribers. Older escalation issue322accepted/320delivered/2bounced. No resend, function deployment, switch mutation, follower recapture or evening external-comment batch. Exact receipts are in growth/releases/champion-change-check-2026-11-04.md.
+
+Kuber approved the exact remaining-week follow-up. Sent once to Kuber X LinkedIn at18:29Sydney and verified Delivered: Thursday approval/asset/time, Friday missing caption and Saturday manual17:30Sydney publication/first-hour coverage. No response or completed queue is claimed. Original handoff and PDF were not repeated. Current Calendar still has Thursday approval unresolved and Friday copy blank; Saturday remains approved. The similarly named November/December tab contains2025 material and supplies no current approval.
+
+Kuber explicitly approved merging the retry safeguard after automatic approval review initially rejected changing shared main without specific consent. PR233 merged unchanged at18:29:16 asf1237a8 after fresh head/merge checks. Sixteen targeted tests passed on the approved head. Deployed source was confirmed to have the old status-only exclusion. The fix is merged, not deployed; deploy before a future recovery send. Today's321 accepted recipients require no recovery.
+
+Two next-cycle reserves are in Creative Lab114/115; one review PDF passed desktop/mobile QA. A late live Activity check caught commercial-training overlap, so that first Reserve B was withdrawn with its history retained and replaced by a willing former-customer advisory-board opinion. Both final reserves are unapproved and unscheduled; Sunday still owns full90-day/evidence/portfolio selection. Dan's row220 comment remains unsent pending approval. Two remaining weekly Substack Notes are local drafts only because composer persistence failed; no scheduling/publication claim. Host and Sydney bothAEDT UTC+11; no clock correction.
+
+## 4 November 2026: remaining weekly Substack Notes prepared, unscheduled
+
+Monday 2 November's approved Note is already published. Codex prepared only Thursday 5 and Saturday 7 November at proposed 20:30 Sydney in growth/substack-notes-2026-11-05.json. Own public Notes and empty saved/scheduled queue checked; exact copies passed human-voice QA. The Thursday canonical preview title matched, but the composer did not reliably retain its contents between checks. No draft persistence, schedule or publication is claimed; no approval question for these Notes has been sent. Resolve that UI state before one exact action-time batch. No full-article republication, missed-slot backfill or email send.
+
+## 4 November 2026: two private reserve concepts for the next weekly review
+
+Codex owns only two unapproved reserve drafts for the next five-slot review, with the standing two Codex/three Tanya split. No calendar slot, time, manager instruction or public asset is changed. One second episode of the original CS calls I would defend series tests a concrete escalation trade-off; one text opinion tests including a willing former customer in an advisory board. The first commercial-training reserve was withdrawn after the 18:24 live Activity collision check; its history is retained. Check the full live 90-day archive and current manager plan again before Sunday selection. No fabricated first-person story or claim that controversy guarantees reach.
+
 ## 4 November 2026, afternoon: review complete; Dan comment approval pending
 
 Codex completed the bounded15:30 review and owns only the exact unsent Dan Rees candidate in Engagement List220 until approval/skip. No new public contribution. The window covered: inspect substantive own-post replies first, then prepare up to three relevant external comments after current-thread and shared-log duplicate checks. Actual today already two external comments and one own reply; no carried capacity. New champion-change newsletter released earlier today and321recipients accepted; no resend or native replacement. Email outcome read15:31Sydney unchanged317delivered/3bounced/1awaiting final event,0complaints,0eligible unsent. Fresh maina6586f5; only old draft PRs200/204. Host and Sydney both AEDT UTC+11; trigger15:30:54Sydney, no timing adjustment.

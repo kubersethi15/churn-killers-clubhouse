@@ -13,11 +13,21 @@ aggressively through work Kuber and the team can control, while keeping the
 audience relevant to Customer Success and protecting Churn Is Dead's owned
 subscriber path.
 
-## Current release status — 4 November afternoon
+## First mature renewal-document read — 4 November, 18:16 Sydney
 
-The missed website issue is now recovered under Kuber's explicit4November instruction. `champion-change-check` is live on the canonical website and as the native Churn is Dead LinkedIn Newsletter. The existing targeted subscriber function accepted321distinct recipients once at14:47Sydney; send switchfalse was verified immediately afterwards. At15:31Sydney, latest signed outcomes remain317delivered,3bounced (2permanent/1transient),1awaiting a final event and0complaints;0eligible unsent. No accepted recipient is to be retried. The older escalation native draft remains held and its28October subscriber email must not recur. Full receipt: `growth/releases/champion-change-check-2026-11-04.md`.
+The 3 November renewal-bonus document's first mature read (UI age 1d) is 531 impressions, 337 members reached, 27% out-of-network impression share, one post-attributed profile view (2.97 per 1,000 reached), zero attributed follows, 18 reactions, seven comments, zero reposts, one save and zero sends. The comments total includes the author's reply; a fully reconciled qualified-comment count is unavailable. Aggregate fit: 43% Senior, 23% Software Development, 22% Customer Success Manager title, 17% 51–200 employees, 5% Greater Bengaluru Area, 2% Cisco. No individual viewer data is recorded.
 
-This supersedes the website/native blocked status in the3November history below. Preserve the2Codex/3Tanya feed portfolio. Wednesday has no standalone feed post. Tuesday's renewal-document24h read remains due today at or after18:15Sydney; do not label an earlier read24h. Today's follower count was already captured once at10,021 in the morning; no second daily capture.
+Distribution and sharing remain limited; the sharper debate has not yet produced an attributed follower in this read. The nonzero profile signal means the automatic zero-signal replacement gate is not met. Preserve Saturday 7 November's already-approved AI-pilot caption and its 17:30 Sydney time. Do not claim a hook, format or timing winner, or attribute account follower movement to this post. Its seven-day read is due 10 November at or after 18:15 Sydney.
+
+The exact remaining-week manager follow-up was explicitly approved, sent once and verified Delivered at18:29Sydney; Thursday approval, Friday copy and Saturday manual-publication/response confirmation remain unresolved until a reply.
+
+Two unapproved reserves for the next weekly review are in Creative Lab 114/115 and growth/linkedin-reserve-2026-11-09.md. One has a rendered three-page review PDF; neither has a selected date or public approval. Sunday still requires the full current evidence and portfolio decision. Preserve two Codex/three Tanya slots and five feed posts.
+
+## Current release status — 4 November evening
+
+The missed website issue is now recovered under Kuber's explicit4November instruction. `champion-change-check` is live on the canonical website and as the native Churn is Dead LinkedIn Newsletter. The existing targeted subscriber function accepted321distinct recipients once at14:47Sydney; send switchfalse was verified immediately afterwards. At18:21Sydney, latest signed outcomes remain317delivered,3bounced (2permanent/1transient),1signed delivery-delay event and0complaints;0eligible unsent. Native publication remained live at the18:20 checkpoint. The dated older send does not recur. No accepted recipient is to be retried. The older escalation native draft remains held and its28October subscriber email must not recur. Full receipt: `growth/releases/champion-change-check-2026-11-04.md`.
+
+This supersedes the website/native blocked status in the3November history below. Preserve the2Codex/3Tanya feed portfolio. Wednesday has no standalone feed post. Tuesday's first mature renewal-document read is recorded above; the seven-day read remains due10November after18:15Sydney. Today's follower count was already captured once at10,021 in the morning; no second daily capture.
 
 ## Latest release and attribution check — 3 November evening
 
