@@ -2,7 +2,7 @@
   "prepared_at": "2026-11-04T06:58:00Z",
   "identity": "Kuber Sethi",
   "platform": "Substack Notes",
-  "status": "prepared_pending_exact_approval",
+  "status": "standing_delegation_recorded_editor_persistence_blocked",
   "current_week_monday": {
     "public_url": "https://substack.com/@kubersethi/note/c-373222078",
     "published_sydney": "2026-11-02 20:30",
@@ -16,7 +16,7 @@
       "kind": "thursday_takeaway",
       "copy": "Your champion's replacement might know the product and still be unable to free up the team for next week's pilot. I'd check that before leaving the date in the plan.\n\nThe one-page check:\nhttps://churnisdead.com/newsletter/champion-change-check?utm_source=substack&utm_medium=note&utm_campaign=champion-change-check&utm_content=thursday_takeaway",
       "job": "Source-labelled current-issue visits and confirmed active subscriber acquisition; no causal claim below the evidence floor.",
-      "status": "prepared_pending_exact_approval"
+      "status": "routine_permission_clear_editor_persistence_blocked"
     },
     {
       "date": "2026-11-07",
@@ -25,7 +25,7 @@
       "kind": "saturday_operator_insight",
       "copy": "I'd be careful about calling a new contact unengaged when they can't approve the thing we're asking for. They might be helping as much as their role allows.",
       "job": "Standalone practitioner insight; no link, pitch or acquisition claim.",
-      "status": "prepared_pending_exact_approval"
+      "status": "routine_permission_clear_editor_persistence_blocked"
     }
   ],
   "verification": {
@@ -33,12 +33,12 @@
     "current_issue_canonical_preview_title": "Your Champion Left. A New Contact Won’t Replace Them. | Churn Is Dead",
     "human_voice_qa": "passed; ordinary language, two-sentence insight, no invented experience or forced question",
     "public_actions_taken": 0,
-    "approval": "pending; no scheduling or publication permitted",
+    "approval": "Routine permission covered by 4 November standing delegation; no per-Note approval question required.",
     "preview_state": "DOM contained exact text and canonical title; one full screenshot showed the rendered Note, but subsequent composer text reset to blank. Treat preview persistence as failed.",
     "saved_in_substack": false,
     "scheduled": false,
     "approval_question_asked": false,
-    "next_action": "Refresh own saved/scheduled queue and resolve composer persistence before one exact two-Note scheduling approval batch. Local manifest retains both exact copies."
+    "next_action": "Refresh saved/scheduled queue, resolve composer persistence, then schedule exact existing Thu/Sat Notes at20:30Sydney and verify. If a slot has passed, use the next clean slot under the established plan; never duplicate."
   },
   "measurement": {
     "reads": "24 hours and seven days after each actual release",
@@ -60,5 +60,10 @@
     "Never shift an expired slot or publish it late without a new exact timing decision.",
     "One linked Note across Monday/Thursday/Saturday this week.",
     "No full-article republication or subscriber email."
-  ]
+  ],
+  "delegated_permission": {
+    "received_date": "2026-11-04",
+    "source": "Direct user instruction to act on his behalf without repeated routine approvals.",
+    "scope": "Existing Thu/Sat Notes and established weekly cadence; see growth/operating-authority.md."
+  }
 }

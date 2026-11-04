@@ -1,5 +1,11 @@
 # Churn Is Dead agent coordination
 
+## 4 November 2026: routine execution delegated; repeated copy approvals removed
+
+Kuber explicitly instructed: “i dont need you tot ask me to approve all this plese act on my behalf. I give you explicit permission.” Codex owns recording this instruction for the existing growth plan. The existing heartbeat was updated and read back successfully with its cadence, status and target unchanged. Routine captions, assets, comments, replies, Notes and manager handoffs in the existing assignments can proceed after QA at the agreed time without a separate exact-copy question. Record Codex's delegated decision honestly. See [operating authority](operating-authority.md); this supersedes historical routine approval-pending wording below.
+
+Preserve existing channels, volume, timing, publisher ownership, specific content holds and release/idempotency gates. Dan's expired afternoon opportunity is not an evening posting slot. The Thursday/Saturday Notes have permission under this delegation but still need the editor-persistence problem resolved before scheduling. The two next-cycle reserves still need Sunday selection and current collision/evidence checks. A rejected broad future merge/deployment authorization was narrowed to this accepted existing-plan instruction; it is not a blanket expansion of authority.
+
 ## 4 November 2026 evening: checkpoint complete; approved follow-up delivered
 
 Codex completed the17:30–18:25Sydney release checkpoint and took the renewal document's first mature read at18:16.531impressions,337reached,27%out-of-network impression share,1post profile(2.97/1,000),0follows,18reactions,7comments,0reposts,1save,0sends. Aggregate audience fit is recorded in the operating plan and Calendar H302 note; no individual viewer data. Nonzero profile signal means no automatic zero-signal replacement of approved Saturday's AI-pilot caption. Seven-day read due10November after18:15.

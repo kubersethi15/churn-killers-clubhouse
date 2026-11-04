@@ -1,3 +1,7 @@
+## 4 November 2026: standing routine delegation recorded
+
+Kuber directly instructed: “i dont need you tot ask me to approve all this plese act on my behalf. I give you explicit permission.” Updated the existing heartbeat with a narrowly scoped instruction to execute routine work in the existing agreed growth plan without separate exact-copy or manager-handoff questions, while preserving channels, cadence, ownership, QA, technical gates and specific holds. Read back the persisted prompt and verified unchanged schedule/status/target. The initial broader future merge/deployment authorization was rejected by automatic approval review; the narrower existing-plan update was accepted, without changing security controls. Canonical scope is growth/operating-authority.md, linked from CLAUDE.md and the operating plan. Thursday/Saturday Note permission is clear; their editor-persistence issue is still technical. No evening backfill of Dan's expired comment window, new campaign, duplicate newsletter or public publication from this authorization update.
+
 ## 4 November 2026 evening: release checkpoint, mature renewal read and approved follow-up
 
 - Active17:31:55 through18:25Sydney; host and Sydney bothAEDT UTC+11. Fresh maincd3e00e at start; current mainf1237a8 after the specifically approved PR233 merge. No scheduler change, second follower capture or evening external-comment batch. Dan's prepared row220 comment remains unapproved and unsent.

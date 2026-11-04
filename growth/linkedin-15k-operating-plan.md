@@ -1,5 +1,9 @@
 # LinkedIn 15K operating plan
 
+## Routine execution delegation, 4 November 2026
+
+Kuber explicitly delegated routine execution of the existing growth plan without separate caption, comment, Note or manager-handoff approvals. Follow [operating authority](operating-authority.md), complete the existing QA and duplicate/release gates, act at the agreed time and verify outcomes. Historical routine approval-pending wording below is superseded within those existing assignments. Specific content holds, timing, volume and publisher ownership remain in force.
+
 **Owner:** Codex, with the social manager operating the approved calendar  
 **Baseline:** 8,363 followers on 28 August 2026  
 **Target:** 15,000 relevant followers by 31 December 2026  
