@@ -10,6 +10,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
+from zoneinfo import ZoneInfo
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ISSUES_DIR = REPO_ROOT / "editorial" / "issues"
@@ -121,7 +122,20 @@ def validate_issue(issue: EditorialIssue, require_approved: bool = False) -> Val
     if published_at and published_at.tzinfo is None:
         errors.append("published_date must include a timezone")
     if published_at and published_at.weekday() != 1:
-        errors.append("published_date must fall on Tuesday")
+        # Explicitly authorised recovery releases retain their real date.
+        # Ordinary packages still fail closed on a non-Tuesday timestamp.
+        approval = issue.approval if isinstance(issue.approval, dict) else {}
+        exception = approval.get("publication_date_exception", {})
+        requested_date = published_at.astimezone(ZoneInfo("Australia/Sydney")).date().isoformat()
+        valid_exception = (
+            approval.get("status") == "approved"
+            and isinstance(exception, dict)
+            and exception.get("date") == requested_date
+            and bool(str(exception.get("authorised_by", "")).strip())
+            and bool(str(exception.get("basis", "")).strip())
+        )
+        if not valid_exception:
+            errors.append("published_date must fall on Tuesday or have a named, date-specific publication exception")
 
     word_count = len(re.findall(r"\b[\w’'-]+\b", issue.content))
     if word_count < 1200 or word_count > 2000:

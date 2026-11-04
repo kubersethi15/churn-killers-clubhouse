@@ -16,8 +16,13 @@ PUBLIC_OUTPUT = REPO_ROOT / "public" / "distribution"
 SITE_URL = "https://churnisdead.com"
 
 
-def medium_checklist(title: str, slug: str) -> str:
+def medium_checklist(title: str, slug: str, human_reviewed: bool = True) -> str:
     canonical = f"{SITE_URL}/newsletter/{slug}"
+    disclosure = (
+        "This article was researched and developed with AI assistance, then reviewed, sourced, and approved by Kuber Sethi."
+        if human_reviewed else
+        "This article was researched and developed with AI assistance. Editorial review and delegated publication approval are recorded with the canonical issue."
+    )
     return f"""# Medium import checklist: {title}
 
 Status: HOLD until the canonical article is live and Medium publication is approved.
@@ -28,7 +33,7 @@ Status: HOLD until the canonical article is live and Medium publication is appro
 4. Check headings, source links, and the playbook link after import
 5. Add this disclosure before publication:
 
-   Editorial note: This article was researched and developed with AI assistance, then reviewed, sourced, and approved by Kuber Sethi.
+   Editorial note: {disclosure}
 
 6. Publish only after `distribution-approval.json` records Medium as approved
 
@@ -72,7 +77,7 @@ def package(issue_dir: Path) -> dict[str, str]:
         for output_dir in (private_dir, public_dir):
             shutil.copyfile(newsletter_source, output_dir / "linkedin_newsletter.md")
 
-    checklist = medium_checklist(title, slug)
+    checklist = medium_checklist(title, slug, getattr(issue, "approval", {}).get("human_reviewed", True))
     (private_dir / "medium_import.md").write_text(checklist, encoding="utf-8")
     (public_dir / "medium_import.md").write_text(checklist, encoding="utf-8")
 

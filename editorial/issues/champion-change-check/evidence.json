@@ -1,0 +1,32 @@
+[
+  {
+    "id": "E01",
+    "claim": "Dynamics365 distinguishes champions, end users, economic buyers and other stakeholder roles in a sales opportunity.",
+    "source_title": "Add stakeholders, sales team, and competitors for the opportunity",
+    "url": "https://learn.microsoft.com/en-us/dynamics365/sales/add-stakeholder",
+    "publisher": "Microsoft",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-11-04",
+    "notes": "Product documentation, not empirical retention evidence. Used only to distinguish roles; does not establish a universal champion model."
+  },
+  {
+    "id": "E02",
+    "claim": "GitLab describes mutually agreed success plans connecting desired outcomes, technical milestones, timelines and directly responsible individuals.",
+    "source_title": "Customer Success Management Handbook",
+    "url": "https://handbook.gitlab.com/handbook/customer-experience/csm/",
+    "publisher": "GitLab",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-11-04",
+    "notes": "One company operating practice, not an outcome study or universal required process."
+  },
+  {
+    "id": "E03",
+    "claim": "PowerPlatform sponsor activities include resource prioritisation, funding and decisions; its guidance also recommends a backup sponsor.",
+    "source_title": "Get executive sponsorship",
+    "url": "https://learn.microsoft.com/en-us/power-platform/guidance/adoption/executive-sponsorship",
+    "publisher": "Microsoft",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-11-04",
+    "notes": "Guidance for PowerPlatform adoption. Does not mean every customer needs a C-level sponsor or that the worksheet predicts renewal."
+  }
+]
