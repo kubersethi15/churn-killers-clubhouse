@@ -20,15 +20,24 @@ export const orderSubscribersForSend = <T extends { id: string }>(subscribers: T
 /** Normalize an address for delivered/pending comparison. */
 export const normalizeEmail = (email: string): string => email.trim().toLowerCase();
 
+/** Acceptance survives later bounce/delay/complaint webhook status changes. */
+export const acceptedRecipientEmails = (
+  rows: { subscriber_email: string; send_status: string; resend_message_id?: string | null }[],
+): Set<string> => new Set(
+  rows
+    .filter(row => row.send_status === "sent" || Boolean(row.resend_message_id))
+    .map(row => normalizeEmail(row.subscriber_email)),
+);
+
 /**
- * Per-recipient idempotency: exclude anyone already delivered this issue.
+ * Per-recipient idempotency: exclude anyone already accepted for this issue.
  *
  * This is the real guard against re-sending when the list changes between runs.
  * A content-addressed batch key only dedupes a byte-identical batch; if one
  * subscriber leaves, batch boundaries shift for everyone after them and their
- * batches get fresh keys. Filtering against the set of already-delivered
- * addresses (from newsletter_send_log) means a recipient who has the issue is
- * never re-sent, however the remaining batches are re-packed.
+ * batches get fresh keys. Filtering against provider acceptance in the send log
+ * prevents another send even if a later webhook records a bounce or delay.
+ * Retrying delivery after acceptance belongs to the provider.
  */
 export const selectPendingRecipients = <T extends { email: string }>(
   subscribers: T[],

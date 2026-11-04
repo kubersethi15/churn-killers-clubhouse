@@ -3,6 +3,7 @@ import test from "node:test";
 
 import {
   batchIdempotencyKey,
+  acceptedRecipientEmails,
   normalizeEmail,
   orderSubscribersForSend,
   planBatches,
@@ -82,6 +83,21 @@ test("pending recipients exclude anyone already delivered, case-insensitively", 
   assert.deepEqual(selectPendingRecipients(subscribers, delivered).map(s => s.id), ["2"]);
   // No delivered set yet: everyone is pending (first send).
   assert.equal(selectPendingRecipients(subscribers, new Set()).length, 2);
+});
+
+test("a retry never repeats provider-accepted recipients after webhook status changes", () => {
+  const ledger = [
+    { subscriber_email: "Transient@example.com", send_status: "bounced", resend_message_id: "provider-1" },
+    { subscriber_email: "delayed@example.com", send_status: "delayed", resend_message_id: "provider-2" },
+    { subscriber_email: "complaint@example.com", send_status: "complained", resend_message_id: "provider-3" },
+    { subscriber_email: "legacy@example.com", send_status: "sent", resend_message_id: null },
+    { subscriber_email: "retry@example.com", send_status: "failed", resend_message_id: null },
+  ];
+  const active = [...ledger.map(row => ({ email: row.subscriber_email })), { email: "new@example.com" }];
+  assert.deepEqual(
+    selectPendingRecipients(active, acceptedRecipientEmails(ledger)).map(row => row.email),
+    ["retry@example.com", "new@example.com"],
+  );
 });
 
 test("partial success + list change: delivered recipients are never re-sent", () => {

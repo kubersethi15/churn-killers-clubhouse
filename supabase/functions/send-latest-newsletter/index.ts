@@ -11,6 +11,7 @@ import type { NewsletterMessage } from "./emailSender.ts";
 import { createUnsubscribeToken } from "../_shared/unsubscribeToken.ts";
 import {
   batchIdempotencyKey,
+  acceptedRecipientEmails,
   normalizeEmail,
   orderSubscribersForSend,
   planBatches,
@@ -427,7 +428,7 @@ const handler = async (req: Request): Promise<Response> => {
     // are stable across runs.
     const orderedSubscribers = orderSubscribersForSend(subscribers);
 
-    // Per-recipient idempotency: exclude anyone already delivered this issue in
+    // Per-recipient idempotency: exclude anyone already accepted for this issue in
     // an earlier (possibly partial) run. This is the real guard against
     // re-sending when the subscriber list changes between runs — batch keys are
     // only a within-run, identical-batch backstop. If the prior-delivery log
@@ -435,9 +436,9 @@ const handler = async (req: Request): Promise<Response> => {
     // rather than risk a mass double-send.
     const { data: deliveredRows, error: deliveredError } = await supabase
       .from("newsletter_send_log")
-      .select("subscriber_email")
+      .select("subscriber_email, send_status, resend_message_id")
       .eq("newsletter_id", latestNewsletter.id)
-      .eq("send_status", "sent");
+      .or("send_status.eq.sent,resend_message_id.not.is.null");
 
     if (deliveredError) {
       await logRun('failure', 'Aborting send: prior-delivery log unreadable', {
@@ -450,9 +451,7 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    const deliveredEmails = new Set(
-      (deliveredRows ?? []).map(row => normalizeEmail(row.subscriber_email)),
-    );
+    const deliveredEmails = acceptedRecipientEmails(deliveredRows ?? []);
     const allPendingRecipients = selectPendingRecipients(orderedSubscribers, deliveredEmails);
     const stagedRun = limitRecipientsForRun(allPendingRecipients, maxRecipients);
     const recipients = stagedRun.recipients;
