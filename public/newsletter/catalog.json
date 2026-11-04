@@ -1,5 +1,14 @@
 [
   {
+    "id": "static-champion-change-check",
+    "title": "Your Champion Left. A New Contact Won't Replace Them.",
+    "slug": "champion-change-check",
+    "excerpt": "When a customer champion leaves, check which commitments lost knowledge, influence or decision authority before keeping the old account plan.",
+    "published_date": "2026-11-04T03:30:00+00:00",
+    "read_time": "7 min read",
+    "category": "Customer Leadership"
+  },
+  {
     "id": "static-escalation-exit-criteria",
     "title": "The Ticket Closed. Did the Escalation?",
     "slug": "escalation-exit-criteria",

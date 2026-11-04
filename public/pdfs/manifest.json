@@ -50,6 +50,16 @@
     "published_date": "2026-02-25T07:00:00+00:00"
   },
   {
+    "id": "pdf-champion_change_check_churnisdead",
+    "title": "The Champion Change Check",
+    "description": "A one-page check for the work, authority and commitments left open when a customer champion leaves.",
+    "pdf_path": "/pdfs/Champion_Change_Check_ChurnIsDead.pdf",
+    "notion_link": null,
+    "newsletter_slug": "champion-change-check",
+    "newsletter_title": "Your Champion Left. A New Contact Won't Replace Them.",
+    "published_date": "2026-11-04T03:30:00+00:00"
+  },
+  {
     "id": "pdf-churn_attribution_matrix_audit_churnisdead",
     "title": "Churn Attribution Matrix Audit",
     "description": "Download the Churn Attribution Matrix Audit worksheet from the Churn Is Dead archive.",

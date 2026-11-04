@@ -6,8 +6,16 @@
     <description>Weekly CS frameworks for enterprise Customer Success leaders. Hard truths, tactical plays, and downloadable playbooks.</description>
     <language>en</language>
     <managingEditor>kuber@churnisdead.com (Kuber Sethi)</managingEditor>
-    <lastBuildDate>Wed, 04 Nov 2026 03:24:01 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 04 Nov 2026 03:30:56 +0000</lastBuildDate>
     <atom:link href="https://churnisdead.com/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Your Champion Left. A New Contact Won't Replace Them.</title>
+      <link>https://churnisdead.com/newsletter/champion-change-check</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/champion-change-check</guid>
+      <pubDate>Wed, 04 Nov 2026 03:30:00 +0000</pubDate>
+      <description>When a customer champion leaves, check which commitments lost knowledge, influence or decision authority before keeping the old account plan.</description>
+      <category>Customer Leadership</category>
+    </item>
     <item>
       <title>The Ticket Closed. Did the Escalation?</title>
       <link>https://churnisdead.com/newsletter/escalation-exit-criteria</link>
@@ -159,14 +167,6 @@
       <pubDate>Tue, 09 Jun 2026 08:00:00 +0000</pubDate>
       <description>Your churn model isn't getting smarter. It's getting more confident about the half of the problem it can see, and staying blind to the half that kills renewals.</description>
       <category>Data &amp; Intelligence</category>
-    </item>
-    <item>
-      <title>CS Teams Don't Have a Churn Problem. They Have a Courage Problem.</title>
-      <link>https://churnisdead.com/newsletter/cs-teams-courage-problem</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/cs-teams-courage-problem</guid>
-      <pubDate>Tue, 02 Jun 2026 08:00:00 +0000</pubDate>
-      <description>CS teams have become professional excuse-makers who optimize for customer comfort instead of customer outcomes.</description>
-      <category>Strategy</category>
     </item>
   </channel>
 </rss>
