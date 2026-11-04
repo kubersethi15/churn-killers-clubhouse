@@ -13,6 +13,12 @@ aggressively through work Kuber and the team can control, while keeping the
 audience relevant to Customer Success and protecting Churn Is Dead's owned
 subscriber path.
 
+## Current release status — 4 November afternoon
+
+The missed website issue is now recovered under Kuber's explicit4November instruction. `champion-change-check` is live on the canonical website and as the native Churn is Dead LinkedIn Newsletter. The existing targeted subscriber function accepted321distinct recipients once at14:47Sydney; send switchfalse was verified immediately afterwards. At15:31Sydney, latest signed outcomes remain317delivered,3bounced (2permanent/1transient),1awaiting a final event and0complaints;0eligible unsent. No accepted recipient is to be retried. The older escalation native draft remains held and its28October subscriber email must not recur. Full receipt: `growth/releases/champion-change-check-2026-11-04.md`.
+
+This supersedes the website/native blocked status in the3November history below. Preserve the2Codex/3Tanya feed portfolio. Wednesday has no standalone feed post. Tuesday's renewal-document24h read remains due today at or after18:15Sydney; do not label an earlier read24h. Today's follower count was already captured once at10,021 in the morning; no second daily capture.
+
 ## Latest release and attribution check — 3 November evening
 
 Tuesday’s approved renewal-bonus post is now public at https://www.linkedin.com/feed/update/urn:li:activity:7523280942321565698/ . Verified by 18:15 Sydney with the exact approved caption and all three final PDF pages; hypothetical labels remain and the review footer is absent. Tanya published after Kuber’s 18:11 go-ahead. The 17:30 target was missed because of the acknowledged daylight-saving mistake. This supersedes earlier Tuesday queue/time-pending wording below. First-hour response ownership remains unconfirmed. Saturday’s exact AI-pilot copy remains approved and delivered, with execution confirmation pending. Friday’s caption is still missing; preserve the two Codex/three Tanya portfolio.
