@@ -2,6 +2,30 @@
 
 Prepared at Kuber's explicit request on 30 October; completed after the clock advanced to 3 November. Refreshed the shared Calendar before placement. This is the 2–7 November block, not a silent move to the following week.
 
+## Thursday 5 November: claim-safe final QA under delegation
+
+Calendar C304:H304 is updated and read back. Codex approved the final copy under Kuber's 4 November standing delegation, preserving Tanya's topic and publisher ownership. Removed the unsupported 70-account/six-month example and deterministic churn/burnout claims. Tanya's complete original remains in the Calendar E304 note. Text only, no asset or link. Publication time and first-hour coverage remain unverified because WhatsApp access is blocked; no manager receipt or queue claim. Friday's reserved caption is still blank. Saturday is unchanged.
+
+Exact final Calendar E304 copy:
+
+“Just prioritise better” is what CS teams hear when headcount gets cut and accounts get redistributed.
+
+And the team often does, for a while.
+
+The fires still get handled. The renewals closing this quarter still get attention. But something else has to give.
+
+The proactive work is easy to push back. A check-in with a quiet account. An early conversation about a rollout that's slipping. Work that doesn't look urgent yet.
+
+When one of those accounts surfaces as at risk, “you should have prioritised it” is a convenient answer.
+
+I'd want to know what the CSM was expected to drop instead.
+
+If the team keeps hitting targets anyway, it can start to look like the missing role never needed backfilling. Until someone leaves and the same accounts get redistributed again.
+
+I'd put that trade-off in front of leadership before moving the accounts: here's what we can cover, and here's the work we can't.
+
+Which work are we agreeing to stop?
+
 ## Decision
 
 Five feed slots. Tanya: Monday 2, Thursday 5, Friday 6. Codex: Tuesday 3 and Saturday 7. Native Newsletter and website issue remain separate. Saturday's proposed copy was revised on 3 November; do not use the withdrawn product-belief draft. Preserve Tanya's Monday/Thursday captions already in Calendar rows 301/304; Friday row 305 remains her reserved third slot with copy not yet present. Codex times:17:30Sydney. Both current captions and the final Tuesday PDF are approved. The exact manager handoff and final PDF were delivered on 3 November at15:55–15:56Sydney. Publisher queue/preview/response confirmation remains pending. No extra feed post or independent Codex queue operation.
