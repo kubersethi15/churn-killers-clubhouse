@@ -1,0 +1,72 @@
+{
+  "title": "The Champion Change Check",
+  "subtitle": "Recheck one commitment before keeping the old plan",
+  "layout": "compact_one_page",
+  "assessment_mode": "decision_record",
+  "intro_text": "Use in the existing account record with the relevant customer people. Keep private details out of public copies.",
+  "sections": [
+    {
+      "title": "Name the commitment",
+      "instruction": "What is the customer trying to do next? Record the agreed goal, next task and date. Confirm whether that priority still stands.",
+      "headers": [
+        "Commitment",
+        "Evidence"
+      ],
+      "rows": [
+        [
+          "Next customer task / date",
+          ""
+        ]
+      ]
+    },
+    {
+      "title": "Find the missing contribution",
+      "instruction": "What did the departing person enable? Separate knowledge of the work, willingness to help and authority over time or funding. Mark unconfirmed roles as unknown.",
+      "headers": [
+        "Contribution",
+        "Covered / unknown"
+      ],
+      "rows": [
+        [
+          "Knowledge / influence / approval",
+          ""
+        ]
+      ]
+    },
+    {
+      "title": "Choose what happens next",
+      "instruction": "Continue if the required people agree. Change the step if the goal survives but the route changed. Hold only the affected request if its decision owner is missing; name the next action and date.",
+      "headers": [
+        "Choice",
+        "Owner / next date"
+      ],
+      "rows": [
+        [
+          "Continue / change / hold",
+          ""
+        ]
+      ]
+    }
+  ],
+  "example": {
+    "heading": "Example: a second-department rollout",
+    "label": "Fictional example, not a customer result.",
+    "headers": [
+      "Commitment",
+      "Missing",
+      "Choice"
+    ],
+    "rows": [
+      [
+        "Run a workflow trial with the next team",
+        "Test time",
+        "Hold date"
+      ]
+    ],
+    "interpretation": "A new contact can help arrange the conversation. The next team's manager still needs to agree test time before the trial date is confirmed."
+  },
+  "prompt": "Next customer commitment / date: [ ]\nWhat the departing person enabled: [ ]\nKnowledge / willingness / authority now: [confirmed / unknown]\nMissing decision and person who can make it: [ ]\nContinue / change / hold which request: [ ]\nNext action, owner and customer update date: [ ]",
+  "next_action": "Run on one commitment. Update the existing plan with what current customer people actually confirm. Do not infer a renewal probability from the departure.",
+  "methodology": "Original editorial decision aid, informed by public GitLab and Microsoft role guidance. Not a measured retention intervention.",
+  "article_url": "https://churnisdead.com/newsletter/champion-change-check"
+}

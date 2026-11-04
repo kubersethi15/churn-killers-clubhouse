@@ -1,0 +1,22 @@
+{
+  "title": "Your Champion Left. A New Contact Won't Replace Them.",
+  "slug": "champion-change-check",
+  "excerpt": "When a customer champion leaves, check which commitments lost knowledge, influence or decision authority before keeping the old account plan.",
+  "category": "Customer Leadership",
+  "theme": "champion_change",
+  "format": "operating_system",
+  "primary_goal": "Decide which customer commitment can continue, must change or should wait after a champion departs.",
+  "primary_cta": "Run the Champion Change Check on one live commitment after a stakeholder change.",
+  "read_time": "7 min read",
+  "published_date": "2026-11-04T03:30:00+00:00",
+  "pdf_filename": "Champion_Change_Check_ChurnIsDead.pdf",
+  "playbook_title": "The Champion Change Check",
+  "playbook_description": "A one-page check for the work, authority and commitments left open when a customer champion leaves.",
+  "subject_variants": [
+    {
+      "label": "primary",
+      "subject": "Your champion left. Who owns the next decision?",
+      "preheader": "Check what the new contact can actually take forward before keeping the old plan."
+    }
+  ]
+}

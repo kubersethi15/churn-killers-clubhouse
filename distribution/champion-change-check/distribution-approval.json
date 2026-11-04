@@ -1,0 +1,20 @@
+{
+  "linkedin": {
+    "status": "approved",
+    "human_reviewed": false,
+    "approved_by": "Codex under Kuber's explicit release instruction",
+    "approved_at": "2026-11-04T03:07:17Z",
+    "basis": "Kuber explicitly instructed Codex on 4 November 2026 to complete this week's newsletter, publish the website after proper QA, publish the native LinkedIn newsletter today because there is no feed post, and send through Resend. Codex developed and reviewed this exact package under that delegated instruction; this does not claim Kuber personally reviewed the new prose."
+  },
+  "email": {
+    "status": "approved",
+    "human_reviewed": false,
+    "approved_by": "Codex under Kuber's explicit release instruction",
+    "approved_at": "2026-11-04T03:07:17Z",
+    "basis": "Kuber explicitly instructed Codex on 4 November 2026 to complete this week's newsletter, publish the website after proper QA, publish the native LinkedIn newsletter today because there is no feed post, and send through Resend. Codex developed and reviewed this exact package under that delegated instruction; this does not claim Kuber personally reviewed the new prose."
+  },
+  "medium": {
+    "status": "hold",
+    "basis": "No Medium publication requested."
+  }
+}

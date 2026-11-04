@@ -1,0 +1,12 @@
+{
+  "status": "approved",
+  "human_reviewed": false,
+  "approved_by": "Codex under Kuber Sethi's explicit 4 November 2026 release instruction",
+  "approved_at": "2026-11-04T03:07:17Z",
+  "basis": "Kuber explicitly instructed Codex on 4 November 2026 to complete this week's newsletter, publish the website after proper QA, publish the native LinkedIn newsletter today because there is no feed post, and send through Resend. Codex developed and reviewed this exact package under that delegated instruction; this does not claim Kuber personally reviewed the new prose.",
+  "publication_date_exception": {
+    "date": "2026-11-04",
+    "authorised_by": "Kuber Sethi",
+    "basis": "Explicit request to complete the missed issue and publish today, Wednesday 4 November 2026. Use the actual recovery date rather than backdating to Tuesday."
+  }
+}
