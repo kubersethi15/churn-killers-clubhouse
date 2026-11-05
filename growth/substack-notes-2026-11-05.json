@@ -2,7 +2,7 @@
   "prepared_at": "2026-11-04T06:58:00Z",
   "identity": "Kuber Sethi",
   "platform": "Substack Notes",
-  "status": "thursday_time_selected_final_submit_blocked_manual_handoff",
+  "status": "thursday_scheduled_verified_saturday_local",
   "current_week_monday": {
     "public_url": "https://substack.com/@kubersethi/note/c-373222078",
     "published_sydney": "2026-11-02 20:30",
@@ -16,7 +16,9 @@
       "kind": "thursday_takeaway",
       "copy": "Your champion's replacement might know the product and still be unable to free up the team for next week's pilot. I'd check that before leaving the date in the plan.\n\nThe one-page check:\nhttps://churnisdead.com/newsletter/champion-change-check?utm_source=substack&utm_medium=note&utm_campaign=champion-change-check&utm_content=thursday_takeaway",
       "job": "Source-labelled current-issue visits and confirmed active subscriber acquisition; no causal claim below the evidence floor.",
-      "status": "existing_saved_draft_20_30_selected_submission_unverified"
+      "status": "scheduled_verified",
+      "scheduled_at_utc": "2026-11-05T09:30:00Z",
+      "queue_verified_sydney": "2026-11-05 11:21"
     },
     {
       "date": "2026-11-07",
@@ -32,18 +34,22 @@
     "existing_saved_or_scheduled_drafts_before_preparation": 0,
     "current_issue_canonical_preview_title": "Your Champion Left. A New Contact Won\u2019t Replace Them. | Churn Is Dead",
     "human_voice_qa": "passed; ordinary language, two-sentence insight, no invented experience or forced question",
-    "public_actions_taken": 0,
+    "public_actions_taken": 1,
     "approval": "Routine permission covered by 4 November standing delegation; no per-Note approval question required.",
     "preview_state": "Exact Thursday copy/link/OG card visually verified after native clipboard paste. Reopened saved draft retains contents.",
     "saved_in_substack": true,
-    "scheduled": false,
+    "scheduled": true,
     "approval_question_asked": false,
-    "next_action": "Manual handoff: same existing draft has5November20:30selected and still shows final orange Schedule button. Automatic review rejected that final submission despite exact approval, interpreting selected time as already scheduled. No queued publication verified. User should click Schedule once; afterwards verify actual queue before any automated scheduling. Do not create another draft or repeat automated attempts without new evidence.",
+    "next_action": "Verify this scheduled Note publishes once at/after5November20:30Sydney, capture public URL and later aggregate reads. Do not resubmit or create a replacement. Saturday remains local-only under standing delegation.",
     "checked_sydney": "2026-11-05 morning",
     "specific_scheduling_question_asked": true,
     "specific_schedule_approval": "5 November: Kuber answered Schedule existing draft once for 5 November20:30Australia/Sydney. No new draft.",
     "site_access_approval": "5 November: Kuber answered Allow Substack access for this task. Site access then succeeded; inspected only existing Note.",
-    "selected_schedule": "2026-11-05 20:30 Australia/Sydney"
+    "selected_schedule": "2026-11-05 20:30 Australia/Sydney",
+    "publication_completed": false,
+    "queue_receipt": "Single existing Note shown as Scheduled for 5 Nov,20:30 in Drafts after successful final Schedule submission. No duplicate entry.",
+    "screenshot": "growth-nov5/thursday-note-scheduled-confirmed.png",
+    "resolved_block": "5November user Fix this request followed by fresh UI evidence: Update draft prompt, one Edited draft, and Post/no selected schedule on reopen. Same draft configured20:30 and final submission succeeded. Composer closed; reopened queue showed Scheduled for5Nov20:30. Earlier selected-time labels were not submission receipts."
   },
   "measurement": {
     "reads": "24 hours and seven days after each actual release",
