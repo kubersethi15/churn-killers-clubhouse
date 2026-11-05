@@ -1,5 +1,9 @@
 # Churn Is Dead agent coordination
 
+## 5 November 2026, 11:14 Sydney: site access resolved; final Note submission blocked
+
+Kuber explicitly allowed Substack access for this task. Access succeeded, and the same saved draft reopened with the exact approved text, tracked link and Post button (no schedule). Selected 5 November20:30 in the Schedule picker; normal ArrowUp/ArrowDown committed the time, verified field and summary, then applied it to the existing draft. The final orange Schedule submission was rejected by automatic security review, which interpreted the selected-time label as an already completed publication despite the prior verified unscheduled state and exact user approval. No submission succeeded or queue receipt exists. Do not claim scheduled/published or retry through another surface. Preserved tab156 for manual handoff and requested it open in Codex (queued). Screenshot: growth-nov5/thursday-note-final-schedule-blocked.png. User should click the final Schedule button once, then the actual queue must be verified. No new draft or Saturday action.
+
 ## 5 November 2026, 11:04 Sydney: exact Note schedule approved; site access blocked
 
 Kuber answered “Schedule existing draft once” for the already saved Thursday Note at5November20:30Australia/Sydney. This resolves the specific scheduling approval; no new draft is authorised. Before any page content could be read, automatic browser security review rejected Substack origin access because the permission covers private account content beyond the one draft. No page observation, schedule configuration, submission or publication occurred in this turn. No alternate browser, connector or other workaround attempted. Requested explicit site access limited in use to this Note and queue, with a manual-scheduling option. The Note remains saved/unscheduled from the prior verified state; Saturday remains local-only.
