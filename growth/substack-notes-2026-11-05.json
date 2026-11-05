@@ -2,7 +2,7 @@
   "prepared_at": "2026-11-04T06:58:00Z",
   "identity": "Kuber Sethi",
   "platform": "Substack Notes",
-  "status": "thursday_saved_unscheduled_security_review_blocked",
+  "status": "thursday_specific_schedule_approved_origin_access_blocked",
   "current_week_monday": {
     "public_url": "https://substack.com/@kubersethi/note/c-373222078",
     "published_sydney": "2026-11-02 20:30",
@@ -16,7 +16,7 @@
       "kind": "thursday_takeaway",
       "copy": "Your champion's replacement might know the product and still be unable to free up the team for next week's pilot. I'd check that before leaving the date in the plan.\n\nThe one-page check:\nhttps://churnisdead.com/newsletter/champion-change-check?utm_source=substack&utm_medium=note&utm_campaign=champion-change-check&utm_content=thursday_takeaway",
       "job": "Source-labelled current-issue visits and confirmed active subscriber acquisition; no causal claim below the evidence floor.",
-      "status": "saved_in_substack_unscheduled_specific_gate_pending"
+      "status": "saved_unscheduled_schedule_approved_origin_access_pending"
     },
     {
       "date": "2026-11-07",
@@ -38,9 +38,10 @@
     "saved_in_substack": true,
     "scheduled": false,
     "approval_question_asked": false,
-    "next_action": "Await specific scheduling permission after automatic review rejected as duplicate risk; same one saved Thursday draft only, no new draft. Saturday is local-only. Do not claim scheduled or posted.",
+    "next_action": "Browser origin review now blocks observing Substack because permission covers the signed-in site beyond one draft. A site-access question is pending. Do not retry via another surface. Once access is authorised, inspect the same saved draft and schedule queue, schedule only if not already queued, and verify20:30Sydney. No public action or schedule completed in this approval turn.",
     "checked_sydney": "2026-11-05 morning",
-    "specific_scheduling_question_asked": true
+    "specific_scheduling_question_asked": true,
+    "specific_schedule_approval": "5 November: Kuber answered Schedule existing draft once for 5 November20:30Australia/Sydney. No new draft."
   },
   "measurement": {
     "reads": "24 hours and seven days after each actual release",

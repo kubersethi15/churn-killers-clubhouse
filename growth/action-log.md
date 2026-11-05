@@ -1,3 +1,7 @@
+## 5 November 2026, 11:04 Sydney: exact Note schedule approved; site access blocked
+
+Kuber answered “Schedule existing draft once” for the already saved Thursday Note at5November20:30Australia/Sydney. This resolves the specific scheduling approval; no new draft is authorised. Before any page content could be read, automatic browser security review rejected Substack origin access because the permission covers private account content beyond the one draft. No page observation, schedule configuration, submission or publication occurred in this turn. No alternate browser, connector or other workaround attempted. Requested explicit site access limited in use to this Note and queue, with a manual-scheduling option. The Note remains saved/unscheduled from the prior verified state; Saturday remains local-only.
+
 ## 5 November 2026 morning: delegated execution and current receipts
 
 - Trigger08:44:13Sydney; work resumed09:30 within the written08:30–10:00 window. Host/Sydney bothAEDT UTC+11; no scheduler change or carried capacity. Fresh remote mainf1237a8; PR234 remains open, oldPR200/204 untouched. Unrelated ROADMAP.md preserved.
