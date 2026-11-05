@@ -1,3 +1,32 @@
+## 5 November 2026, 14:18 Sydney: explicit five-comment batch COMPLETE
+
+Kuber directly requested “doen one now 5 comments”. Executed five qualified external LinkedIn comments through Codex's in-app browser under the existing 4 November delegation and today's explicit site access. This is a one-off timing/count exception, not missed-capacity backfill or a recurring cadence change. Morning Colin comment plus this batch makes **6 external comments today, 0 new own-post replies**. Own discussions had been checked at 13:33; no substantive unanswered question warranted another reply. Tanya's evening lane and feed/newsletter work remain separate.
+
+Fresh remote main f1237a8. Shared Engagement List A5:P232 checked for exact-post duplicates; live public post and rendered discussions inspected before each publication. All five passed human-voice QA. Published once as Kuber; each full body/You identity and comment ID verified, with public link taken from the View comment toast. No likes, DMs, individual viewer lists, fabricated experience, links in comments, repeated accepted sends or additional campaign work.
+
+1. **Dan Ahrens** — https://www.linkedin.com/feed/update/urn:li:activity:7523798758267170816/
+   - Exact: “The hard bit is deciding what the CSM stops doing. If support escalations still take half the week, adding an NRR target doesn't create time for renewal work.”
+   - Verified comment: https://lnkd.in/p/ggBuv5Qc; ID 7523945058065100800.
+   - Proof: growth-nov5/five-dan-published.png.
+2. **Saahil Karkera** — https://www.linkedin.com/feed/update/urn:li:ugcPost:7523713652592537601/
+   - Exact: “Commercial training needs practice on real decisions too. Let the CSM sit in the discount negotiation and see why a concession was accepted or refused. Another course won't teach that on its own.”
+   - Verified comment: https://lnkd.in/p/giAcmuY6; ID 7523945663563354112.
+   - Proof: growth-nov5/five-saahil-published.png.
+3. **Ralph Nikko Daguman** — https://www.linkedin.com/feed/update/urn:li:activity:7523571206063742976/
+   - Exact: “Before calling it ghosting, I'd check whether the person has the access to do the setup. A live session still stalls if the admin or security owner isn't there.”
+   - Verified comment: https://lnkd.in/p/gkBEd6s2; ID 7523945984402370560.
+   - Proof: growth-nov5/five-ralph-published.png.
+4. **Brad Wittman** — https://www.linkedin.com/feed/update/urn:li:activity:7523402721874321408/
+   - Exact: “I'd start with one stalled account and follow the handoffs. Find where it waited, who could unblock it and whether they even knew it was stuck.”
+   - Verified comment: https://lnkd.in/p/ggViWsZZ; ID 7523946256424067072.
+   - Proof: growth-nov5/five-brad-published.png.
+5. **Maranda Dziekonski** — https://www.linkedin.com/feed/update/urn:li:activity:7523920871409823744/
+   - Exact: “The strategic-product incentive is where I'd watch for a conflict. The CSM still needs to be able to say 'this isn't the right fit' without being treated as uncommercial.”
+   - Verified comment: https://lnkd.in/p/g_NQzuPB; ID 7523946472799653888.
+   - Proof: growth-nov5/five-maranda-published.png.
+
+Engagement List K222:P226 written and connector readback verified, including exact-copy notes and human-voice QA. New rows wrap and use 120px height. Native Sheet visual inspection was blocked by automatic origin review because signed-in Google access could expose broader private content; no alternate browser or workaround used. The connected Sheets tool confirmed the actual five saved rows. LinkedIn screenshots independently verify all five public actions. No further site-access approval is needed to complete these comments. Preserve unrelated ROADMAP.md. No second follower capture, premature mature analytics, Substack reschedule or manager handoff.
+
 ## 5 November 2026, 13:34 Sydney: LinkedIn access restored; midday window closed
 
 Kuber explicitly selected “Allow LinkedIn access for growth work,” with use limited to public posts, replies, queues and aggregate analytics, excluding private messages and individual viewer lists. Access succeeded through Codex's in-app browser. Permission arrived after the13:30midday external-comment cutoff (first resumed clock13:31:43Sydney), so no external candidate or make-up batch was published. The next existing review remains15:30; no unused capacity carries forward.
