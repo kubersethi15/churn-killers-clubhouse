@@ -1,3 +1,11 @@
+## 6 November 2026, 09:35–09:55 Sydney: own-post reply backlog cleared in the recent block
+
+Kuber directly requested checking his post comments and responding to unanswered ones. Codex audited the 19 most recent own posts/native wrappers visible in Activity, 15 October–5 November, using Most recent, available pagination and expanded nested replies. Published 23 tailored replies: latest headcount 8; Monday revenue 2; escalation follow-up 1; update/date ownership 2; books 6; progress 2; three-slide QBR 1; cross-team date promise 1. Existing responses and terminal external acknowledgments were preserved. No actionable unanswered question/comment remains within these inspected threads; this does not claim an all-history audit.
+
+Every new reply passed human-voice QA; published full body, Kuber/Author identity, parent and own IDs, settled public link and screenshot were verified. Twenty-three unique URLs; no repeats. Shared Engagement K232:P254 was blank before writing and exact links/copies/WRAP read back. Detailed audit and all copies: [own-post reply audit](engagement-reply-audit-2026-11-06.md). Workspace output/engagement/nov6-own-reply-receipts.json and individual PNGs retain proof. Codex delegated decisions, not claimed personal text approval. No fabricated book-reading takeaway or personal story.
+
+Today now four external comments / 24 own-post replies (one earlier Patrick reply plus 23 here), kept separate. No external volume, feed publication, manager handoff or newsletter action added. Fresh main f1237a8; unrelated ROADMAP.md preserved. Native Sheet visual fit remains unverified under the existing origin block; no workaround. Scope is the recent 19 discussions, not every historical post.
+
 ## 6 November 2026 morning: direct request for more comments completed
 
 Kuber requested “push some comments”. Fresh remote main remained `f1237a8`; Codex claimed only the remaining two external slots in the existing morning window. Existing daily total was two external comments and one own-post reply. Rechecked the latest own headcount post: Patrick already has the earlier verified reply; the visible other comments add agreement without a new substantive unanswered question.
