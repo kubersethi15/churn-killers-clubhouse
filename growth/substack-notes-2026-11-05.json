@@ -2,7 +2,7 @@
   "prepared_at": "2026-11-04T06:58:00Z",
   "identity": "Kuber Sethi",
   "platform": "Substack Notes",
-  "status": "thursday_scheduled_verified_saturday_local",
+  "status": "thursday_published_verified_saturday_local",
   "current_week_monday": {
     "public_url": "https://substack.com/@kubersethi/note/c-373222078",
     "published_sydney": "2026-11-02 20:30",
@@ -16,9 +16,12 @@
       "kind": "thursday_takeaway",
       "copy": "Your champion's replacement might know the product and still be unable to free up the team for next week's pilot. I'd check that before leaving the date in the plan.\n\nThe one-page check:\nhttps://churnisdead.com/newsletter/champion-change-check?utm_source=substack&utm_medium=note&utm_campaign=champion-change-check&utm_content=thursday_takeaway",
       "job": "Source-labelled current-issue visits and confirmed active subscriber acquisition; no causal claim below the evidence floor.",
-      "status": "scheduled_verified",
+      "status": "published_verified",
       "scheduled_at_utc": "2026-11-05T09:30:00Z",
-      "queue_verified_sydney": "2026-11-05 11:21"
+      "queue_verified_sydney": "2026-11-05 11:21",
+      "public_url": "https://substack.com/@kubersethi/note/c-378960646",
+      "published_sydney": "2026-11-05 20:30",
+      "publication_verified_sydney": "2026-11-06 morning"
     },
     {
       "date": "2026-11-07",
@@ -40,16 +43,19 @@
     "saved_in_substack": true,
     "scheduled": true,
     "approval_question_asked": false,
-    "next_action": "Verify this scheduled Note publishes once at/after5November20:30Sydney, capture public URL and later aggregate reads. Do not resubmit or create a replacement. Saturday remains local-only under standing delegation.",
-    "checked_sydney": "2026-11-05 morning",
+    "next_action": "No duplicate or reschedule. First mature24h Note read at/after6Nov20:30Sydney; seven-day12Nov20:30. Saturday remains local-only.",
+    "checked_sydney": "2026-11-06 morning",
     "specific_scheduling_question_asked": true,
     "specific_schedule_approval": "5 November: Kuber answered Schedule existing draft once for 5 November20:30Australia/Sydney. No new draft.",
     "site_access_approval": "5 November: Kuber answered Allow Substack access for this task. Site access then succeeded; inspected only existing Note.",
     "selected_schedule": "2026-11-05 20:30 Australia/Sydney",
-    "publication_completed": false,
+    "publication_completed": true,
     "queue_receipt": "Single existing Note shown as Scheduled for 5 Nov,20:30 in Drafts after successful final Schedule submission. No duplicate entry.",
     "screenshot": "growth-nov5/thursday-note-scheduled-confirmed.png",
-    "resolved_block": "5November user Fix this request followed by fresh UI evidence: Update draft prompt, one Edited draft, and Post/no selected schedule on reopen. Same draft configured20:30 and final submission succeeded. Composer closed; reopened queue showed Scheduled for5Nov20:30. Earlier selected-time labels were not submission receipts."
+    "resolved_block": "5November user Fix this request followed by fresh UI evidence: Update draft prompt, one Edited draft, and Post/no selected schedule on reopen. Same draft configured20:30 and final submission succeeded. Composer closed; reopened queue showed Scheduled for5Nov20:30. Earlier selected-time labels were not submission receipts.",
+    "public_url": "https://substack.com/@kubersethi/note/c-378960646",
+    "publication_receipt": "Public Note detail shows5Nov20:30Sydney, exactcopy and trackedcanonicalUTM match; single current entry in ownActivity, no replies. Provider released the existing schedule, no new Codex publication.",
+    "publication_screenshot": "output/engagement/nov6-thursday-note-live.png"
   },
   "measurement": {
     "reads": "24 hours and seven days after each actual release",

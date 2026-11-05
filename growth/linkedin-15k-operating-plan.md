@@ -17,6 +17,16 @@ aggressively through work Kuber and the team can control, while keeping the
 audience relevant to Customer Success and protecting Churn Is Dead's owned
 subscriber path.
 
+## Friday review — 6 November 2026 morning
+
+Single daily total10,073; +137versus30October9,936 across a slightly shorter-than-seven-day interval. This is232below the369planned weeklystep and1,980below the5Novembertarget12,053.4,927remain across55days/7.86weeks, requiring about627net/week to31December. This is a moving requirement, not a forecast or post attribution.
+
+Accountcontentwindow30October–5NovemberUTC:4,640impressions,1,915unique membersreached,42%out-of-network impressions;119reactions/71comments/0reposts/1save/0sends. Fit42%Senior,23%ITservices/consulting,18%CSMtitle,16%51–200employees,6%London,2%Cisco. Five30Oct/31Oct/2Nov/3Nov/5Novlifetime-to-read post snapshots sum2,201non-deduplicatedreaches,10postprofiles and3postfollows(1.36per1,000matchedreaches). This is descriptive across unequal ages, withThursday15hpreliminary; do not dividepostfollowsbyweeklyunique reach or attribute accountgrowth tothoseposts. Friday30Octseven-day andThursday5Nov24hreads remain due later today.
+
+Email is separate:319active,net-1;1new acquiredstillactive/2statuslosses.173site sessions/17qualified-action sessions in30Oct09:20–6Nov08:44Sydney;1/17diagnostic5.9%,notmatched-cohortconversion. No taggedfeed/nativeNewsletter/Substackacquisition; oneacquisitionis unlabelled. No matureacquisitions in30Sep–6OctSydneycohort, retentionrateunavailable. Qualifiedconversationsunmeasured. TheThursdayNoteispublicwith exactUTM and5Nov20:30timestamp: https://substack.com/@kubersethi/note/c-378960646 . No newpublication or duplicate.
+
+DecisionIMPROVE: relevantreach/sharingandowned-site transferremainweak. PreserveSaturdayapprovedAI-pilotcopy/time;Thursday'spreliminary3profileviews/1repostdoesnotmeetzero-signalrewritegate. Sundaystillrequiresthecurrent90-dayreview/creator sample and concreteportfolio rebuild ifcompletedblockremainsbelowpace. Useexistingfiveslots,2Codex/3Tanya. Today'sFridayE305remainsblank,Tanyapublisherlaneandresponseconfirmationunresolved;noCodexfallbackoradditionalvolume. SharedGrowthScorecardsubscriber13andLinkedIn41updatedoncewithnativeformulas/validationspreserved; detailedreceiptsinactionlog.
+
 ## Thursday execution verified — 5 November, 17:33 Sydney
 
 The final CalendarE304 headcount/prioritisation caption is public, text only and without an external link: https://www.linkedin.com/feed/update/urn:li:activity:7523995133432877056/ . Full body matches the claim-safe Codex revision under4November delegation. Tanya's publisher lane remains; Codex verified only. Calendar304isPosted. First mature read due6November at/after17:33Sydney conservatively; launch-age counts are not a performance result. FridayE305remainsblank and Saturday's approved AI-pilot caption/time remain unchanged; first-hour manager coverage is unconfirmed.
