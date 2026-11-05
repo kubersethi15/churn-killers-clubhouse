@@ -1,3 +1,9 @@
+## 5 November 2026, 13:34 Sydney: LinkedIn access restored; midday window closed
+
+Kuber explicitly selected “Allow LinkedIn access for growth work,” with use limited to public posts, replies, queues and aggregate analytics, excluding private messages and individual viewer lists. Access succeeded through Codex's in-app browser. Permission arrived after the13:30midday external-comment cutoff (first resumed clock13:31:43Sydney), so no external candidate or make-up batch was published. The next existing review remains15:30; no unused capacity carries forward.
+
+Inspected own renewal-bonus discussion in Most relevant and Most recent; the visible current contributions already had Kuber replies and no substantive unanswered question warranted another. Inspected the native champion-change wrapper discussion: its one visible external contribution already had a Kuber reply. No repeated reply, mature-analytics read, follower recapture, queue change or other public action. Today remains one external comment and zero new own replies. Native mature read remains due after15:31Sydney; the incidental22h wrapper display is not a24h analytics result. Existing20:30Substack schedule unchanged.
+
 ## 5 November 2026 midday: independent monitoring complete; LinkedIn access pending
 
 - Trigger12:25:54Sydney; actual start12:42, still within the written12:00–13:30 window. Host/Sydney bothAEDT UTC+11. Fresh remote mainf1237a8; PR234 is the current operating record and olderPR200/204 untouched. The other coordination chat remains inactive with latest completed work18October. Unrelated ROADMAP.md preserved.

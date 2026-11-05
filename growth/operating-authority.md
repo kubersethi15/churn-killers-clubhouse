@@ -22,3 +22,7 @@ Standing permission resolves a routine permission gate. It does not make incompl
 ## Review boundary
 
 Automatic approval review rejected an initial attempt to persist broader future publishing, messaging, merge and deployment authority. A narrower update limited to routine execution of the existing agreed plan was accepted and verified. This file records that accepted scope, not the rejected expansion. It does not change security settings, tool permissions or approval controls.
+
+## LinkedIn site-access approval, 5 November 2026
+
+After automatic browser review required destination-specific permission, Kuber explicitly selected **Allow LinkedIn access for growth work**. This covers signed-in LinkedIn site access for the existing agreed growth task, limited in use to public posts, replies, queues and aggregate analytics. Do not inspect private messages or individual viewer lists. The subsequent own-post review succeeded in Codex's in-app browser. Record and reuse this approval within its scope; it is not a change to security controls, an extension of comment windows or permission for unrelated account work. Other sites retain their separate access boundaries.
