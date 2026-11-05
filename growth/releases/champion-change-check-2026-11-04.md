@@ -27,3 +27,8 @@ Kuber explicitly instructed Codex to complete this week's missing issue, publish
 ## Morning reconciliation, 5 November 2026
 
 At09:33:42Sydney,321uniqueprovider/recipientacceptances,317latestdelivered,4bounced(twoPermanent/twoTransient),0delayed,0complaints,0unsignedlatestevents and0activeeligibleunsent.319active subscribers. The prior delayed recipient resolved as a transient bounce at04:47Sydney. No accepted recipient is retried, transient failure suppressed, send switch changed or function deployed. This completes the observed delay outcome, not a new broadcast. The PR233 safeguard remains merged but deployment is not claimed.
+
+
+## First mature native read, 5 November 2026
+
+At15:31Sydney, after the conservative prior-live checkpoint; LinkedIn UI age1d, exact elapsed24h unestablished. Wrapper analytics https://www.linkedin.com/analytics/post-summary/urn:li:activity:7523591036259098624/ showed275impressions/169members reached/18%out-of-network impression share,1post-attributed profile view(5.92per1,000reached),0attributed follows.9reactions,2comments(includes author reply),0reposts/0saves/0LinkedIn sends.214articleviews;569LinkedIn-native email sends/26%native open rate, separate from Resend and owned email subscriber figures. Aggregate demographics unavailable at this sample. Below creative evidence floors; preserve approved Saturday/portfolio, no causal/winner/account-growth attribution. Next native seven-day read12November at/after15:31Sydney. Shared CalendarH303/CreativeLabM113 updated and connector-verified. No new publication, email send, switch change or repeated follower capture.
