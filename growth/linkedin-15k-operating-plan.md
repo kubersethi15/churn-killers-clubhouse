@@ -17,6 +17,12 @@ aggressively through work Kuber and the team can control, while keeping the
 audience relevant to Customer Success and protecting Churn Is Dead's owned
 subscriber path.
 
+## Thursday execution verified — 5 November, 17:33 Sydney
+
+The final CalendarE304 headcount/prioritisation caption is public, text only and without an external link: https://www.linkedin.com/feed/update/urn:li:activity:7523995133432877056/ . Full body matches the claim-safe Codex revision under4November delegation. Tanya's publisher lane remains; Codex verified only. Calendar304isPosted. First mature read due6November at/after17:33Sydney conservatively; launch-age counts are not a performance result. FridayE305remainsblank and Saturday's approved AI-pilot caption/time remain unchanged; first-hour manager coverage is unconfirmed.
+
+The champion-change native first mature read was completed5November15:31:275impressions/169reached/18%out-of-network/1profileview(5.92per1,000)/0follows,214articleviews. Native email569sends/26%openrate is separate from Resend and owned subscribers. Both this and the renewal-document24h read have a profile signal, so no automatic zero-signal slot replacement. At5November17:34 completed owned-email outcomes remain321accepted/317delivered/4bounced/0complaints/delays/pending;319active. No repeat send. ThursdaySubstackNote is already scheduled once for20:30Sydney; publication is not yet due.
+
 ## First mature renewal-document read — 4 November, 18:16 Sydney
 
 The 3 November renewal-bonus document's first mature read (UI age 1d) is 531 impressions, 337 members reached, 27% out-of-network impression share, one post-attributed profile view (2.97 per 1,000 reached), zero attributed follows, 18 reactions, seven comments, zero reposts, one save and zero sends. The comments total includes the author's reply; a fully reconciled qualified-comment count is unavailable. Aggregate fit: 43% Senior, 23% Software Development, 22% Customer Success Manager title, 17% 51–200 employees, 5% Greater Bengaluru Area, 2% Cisco. No individual viewer data is recorded.
