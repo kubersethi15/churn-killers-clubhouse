@@ -1,5 +1,9 @@
 # LinkedIn 15K operating plan
 
+## Routine execution delegation, 4 November 2026
+
+Kuber explicitly delegated routine execution of the existing growth plan without separate caption, comment, Note or manager-handoff approvals. Follow [operating authority](operating-authority.md), complete the existing QA and duplicate/release gates, act at the agreed time and verify outcomes. Historical routine approval-pending wording below is superseded within those existing assignments. Specific content holds, timing, volume and publisher ownership remain in force.
+
 **Owner:** Codex, with the social manager operating the approved calendar  
 **Baseline:** 8,363 followers on 28 August 2026  
 **Target:** 15,000 relevant followers by 31 December 2026  
@@ -13,11 +17,43 @@ aggressively through work Kuber and the team can control, while keeping the
 audience relevant to Customer Success and protecting Churn Is Dead's owned
 subscriber path.
 
-## Current release status — 4 November afternoon
+## Friday afternoon — 6 November: caption supplied and final QA complete
 
-The missed website issue is now recovered under Kuber's explicit4November instruction. `champion-change-check` is live on the canonical website and as the native Churn is Dead LinkedIn Newsletter. The existing targeted subscriber function accepted321distinct recipients once at14:47Sydney; send switchfalse was verified immediately afterwards. At15:31Sydney, latest signed outcomes remain317delivered,3bounced (2permanent/1transient),1awaiting a final event and0complaints;0eligible unsent. No accepted recipient is to be retried. The older escalation native draft remains held and its28October subscriber email must not recur. Full receipt: `growth/releases/champion-change-check-2026-11-04.md`.
+Friday's reserved Tanya slot now has final approved copy in CalendarE305; the earlier blank status is superseded. Codex used Kuber's4November delegation, preserved Tanya's original in the cell note and retained her pre-sales/onboarding direction as one customer-capacity opinion. Removed unsupported forecasts/causal claims and overlap with this week's headcount, health-score, commercial-fluency and SaturdayAI-pilot topics. This changes no owner, date, slot count, Saturday copy or channel. Text only, no asset/link. Exact copy and prepared handoff: growth/linkedin-posts-2026-11-02.md.
 
-This supersedes the website/native blocked status in the3November history below. Preserve the2Codex/3Tanya feed portfolio. Wednesday has no standalone feed post. Tuesday's renewal-document24h read remains due today at or after18:15Sydney; do not label an earlier read24h. Today's follower count was already captured once at10,021 in the morning; no second daily capture.
+CalendarC305:H305 and CreativeLabG109 saved/read back. Planned17:30Sydney; Tanya's actual queue/time/first-hour response owner remain unconfirmed. Prepared handoff is not sent because the existing WhatsApp-origin security block remains; no retry or alternate route. Notify Kuber of the materially changed execution brief and remaining publisher action. Daily/weekly scorecards already done; no duplicate capture or premature Thursday24h/Note24h read.
+
+## Friday review — 6 November 2026 morning
+
+Single daily total10,073; +137versus30October9,936 across a slightly shorter-than-seven-day interval. This is232below the369planned weeklystep and1,980below the5Novembertarget12,053.4,927remain across55days/7.86weeks, requiring about627net/week to31December. This is a moving requirement, not a forecast or post attribution.
+
+Accountcontentwindow30October–5NovemberUTC:4,640impressions,1,915unique membersreached,42%out-of-network impressions;119reactions/71comments/0reposts/1save/0sends. Fit42%Senior,23%ITservices/consulting,18%CSMtitle,16%51–200employees,6%London,2%Cisco. Five30Oct/31Oct/2Nov/3Nov/5Novlifetime-to-read post snapshots sum2,201non-deduplicatedreaches,10postprofiles and3postfollows(1.36per1,000matchedreaches). This is descriptive across unequal ages, withThursday15hpreliminary; do not dividepostfollowsbyweeklyunique reach or attribute accountgrowth tothoseposts. Friday30Octseven-day andThursday5Nov24hreads remain due later today.
+
+Email is separate:319active,net-1;1new acquiredstillactive/2statuslosses.173site sessions/17qualified-action sessions in30Oct09:20–6Nov08:44Sydney;1/17diagnostic5.9%,notmatched-cohortconversion. No taggedfeed/nativeNewsletter/Substackacquisition; oneacquisitionis unlabelled. No matureacquisitions in30Sep–6OctSydneycohort, retentionrateunavailable. Qualifiedconversationsunmeasured. TheThursdayNoteispublicwith exactUTM and5Nov20:30timestamp: https://substack.com/@kubersethi/note/c-378960646 . No newpublication or duplicate.
+
+DecisionIMPROVE: relevantreach/sharingandowned-site transferremainweak. PreserveSaturdayapprovedAI-pilotcopy/time;Thursday'spreliminary3profileviews/1repostdoesnotmeetzero-signalrewritegate. Sundaystillrequiresthecurrent90-dayreview/creator sample and concreteportfolio rebuild ifcompletedblockremainsbelowpace. Useexistingfiveslots,2Codex/3Tanya. Today'sFridayE305remainsblank,Tanyapublisherlaneandresponseconfirmationunresolved;noCodexfallbackoradditionalvolume. SharedGrowthScorecardsubscriber13andLinkedIn41updatedoncewithnativeformulas/validationspreserved; detailedreceiptsinactionlog.
+
+## Thursday execution verified — 5 November, 17:33 Sydney
+
+The final CalendarE304 headcount/prioritisation caption is public, text only and without an external link: https://www.linkedin.com/feed/update/urn:li:activity:7523995133432877056/ . Full body matches the claim-safe Codex revision under4November delegation. Tanya's publisher lane remains; Codex verified only. Calendar304isPosted. First mature read due6November at/after17:33Sydney conservatively; launch-age counts are not a performance result. FridayE305remainsblank and Saturday's approved AI-pilot caption/time remain unchanged; first-hour manager coverage is unconfirmed.
+
+The champion-change native first mature read was completed5November15:31:275impressions/169reached/18%out-of-network/1profileview(5.92per1,000)/0follows,214articleviews. Native email569sends/26%openrate is separate from Resend and owned subscribers. Both this and the renewal-document24h read have a profile signal, so no automatic zero-signal slot replacement. At5November17:34 completed owned-email outcomes remain321accepted/317delivered/4bounced/0complaints/delays/pending;319active. No repeat send. ThursdaySubstackNote is already scheduled once for20:30Sydney; publication is not yet due.
+
+## First mature renewal-document read — 4 November, 18:16 Sydney
+
+The 3 November renewal-bonus document's first mature read (UI age 1d) is 531 impressions, 337 members reached, 27% out-of-network impression share, one post-attributed profile view (2.97 per 1,000 reached), zero attributed follows, 18 reactions, seven comments, zero reposts, one save and zero sends. The comments total includes the author's reply; a fully reconciled qualified-comment count is unavailable. Aggregate fit: 43% Senior, 23% Software Development, 22% Customer Success Manager title, 17% 51–200 employees, 5% Greater Bengaluru Area, 2% Cisco. No individual viewer data is recorded.
+
+Distribution and sharing remain limited; the sharper debate has not yet produced an attributed follower in this read. The nonzero profile signal means the automatic zero-signal replacement gate is not met. Preserve Saturday 7 November's already-approved AI-pilot caption and its 17:30 Sydney time. Do not claim a hook, format or timing winner, or attribute account follower movement to this post. Its seven-day read is due 10 November at or after 18:15 Sydney.
+
+The exact remaining-week manager follow-up was explicitly approved, sent once and verified Delivered at18:29Sydney; Thursday approval, Friday copy and Saturday manual-publication/response confirmation remain unresolved until a reply.
+
+Two unapproved reserves for the next weekly review are in Creative Lab 114/115 and growth/linkedin-reserve-2026-11-09.md. One has a rendered three-page review PDF; neither has a selected date or public approval. Sunday still requires the full current evidence and portfolio decision. Preserve two Codex/three Tanya slots and five feed posts.
+
+## Current release status — 4 November evening
+
+The missed website issue is now recovered under Kuber's explicit4November instruction. `champion-change-check` is live on the canonical website and as the native Churn is Dead LinkedIn Newsletter. The existing targeted subscriber function accepted321distinct recipients once at14:47Sydney; send switchfalse was verified immediately afterwards. At18:21Sydney, latest signed outcomes remain317delivered,3bounced (2permanent/1transient),1signed delivery-delay event and0complaints;0eligible unsent. Native publication remained live at the18:20 checkpoint. The dated older send does not recur. No accepted recipient is to be retried. The older escalation native draft remains held and its28October subscriber email must not recur. Full receipt: `growth/releases/champion-change-check-2026-11-04.md`.
+
+This supersedes the website/native blocked status in the3November history below. Preserve the2Codex/3Tanya feed portfolio. Wednesday has no standalone feed post. Tuesday's first mature renewal-document read is recorded above; the seven-day read remains due10November after18:15Sydney. Today's follower count was already captured once at10,021 in the morning; no second daily capture.
 
 ## Latest release and attribution check — 3 November evening
 

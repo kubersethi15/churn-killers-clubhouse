@@ -8,6 +8,8 @@ This is an execution queue, not an ideas document. Before starting an item, clai
 
 ## Current fixed points
 
+**4 November 2026 release update:** the champion-change issue is published on the website and native LinkedIn; its subscriber send is complete with 321 provider acceptances. The older August pause and dated release entries below are historical. Current distribution requires fresh sender-health, signed-webhook, suppression, unsubscribe and approval gates; no completed broadcast recurs. See `growth/releases/champion-change-check-2026-11-04.md`. A recipient-ledger retry safeguard was explicitly approved and merged in PR #233 at f1237a8; deployment remains required before any future recovery send. No function deployment or send is implied by that merge.
+
 - LinkedIn personal-brand target is 15,000 relevant followers by 31 December
   2026 from an 8,363 baseline on 28 August. The operating pace is about 370 net
   followers per week. Use `growth/linkedin-15k-operating-plan.md` as the
