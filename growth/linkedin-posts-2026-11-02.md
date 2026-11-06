@@ -2,6 +2,36 @@
 
 Prepared at Kuber's explicit request on 30 October; completed after the clock advanced to 3 November. Refreshed the shared Calendar before placement. This is the 2–7 November block, not a silent move to the following week.
 
+## Friday 6 November: supplied draft finalised under delegation
+
+At the15:30review, Friday E305 now contained Tanya's five2027predictions. Re-read the exact cell before editing and confirmed it was unchanged. Codex kept her pre-sales/first90days direction and narrowed it to one customer-side implementation-capacity point. Removed unsourced claims about most year-two churn, catching risk months earlier, CFO-frequency and deterministic AI/headcount changes. This is her existing Friday slot, with Tanya still publisher, not a third Codex post. No live post was edited or independently queued.
+
+Calendar C305:H305 saved and read back: Approved for Posting; exact final copy below; text only/no asset or link. Original full Tanya draft retained in E305 note, existing D/H history retained, native formatting preserved. Creative Lab G109 updated/read back to remove the stale Friday-copy-absent status. Authority/qualified conversation is the one job; one discussion action. Hypothetical rollout dependencies and proposed judgement, no invented customer story, author experience, statistic or measurable forecast. Native Sheet rendered fit remains unverified under the existing origin block.
+
+Planned existing17:30Sydney slot; Tanya's actual publication time, queue and first-hour coverage are unverified. WhatsApp origin access remains blocked by automatic security review despite the earlier group-only authorisation. No retry, alternate surface or delivered-message claim. This is a materially changed execution brief; the prepared handoff below is new copy guidance, not a repeat of the4November follow-up.
+
+### Exact final copy
+
+Before a deal closes, I'd want to know who the customer can put on the rollout.
+
+That's one CS change I'd back for 2027.
+
+A rollout can need an admin, time from security, training for users and a manager willing to change an existing process.
+
+None of that appears because the contract is signed.
+
+I'd make that work visible while the customer can still plan for it. What will their team need to contribute in the first 90 days, and which of it can they actually support?
+
+If the answer is 'we'll work that out after kickoff', the onboarding plan still has a hole in it.
+
+The CSM shouldn't be the first person to discover that the customer bought the product but couldn't staff the change.
+
+What customer-side commitment would you check before handover?
+
+### Exact manager handoff, prepared but NOT SENT
+
+Tanya, the final Friday 6 November caption is now in Calendar E305, approved by Codex under Kuber's delegation. Please use that exact version, text only, with no asset or link. The planned slot is 17:30 Australia/Sydney. Please confirm the manual publication time and who covers the first hour of replies. Your original draft is preserved in E305's note.
+
 ## Thursday 5 November: claim-safe final QA under delegation
 
 Calendar C304:H304 is updated and read back. Codex approved the final copy under Kuber's 4 November standing delegation, preserving Tanya's topic and publisher ownership. Removed the unsupported 70-account/six-month example and deterministic churn/burnout claims. Tanya's complete original remains in the Calendar E304 note. Text only, no asset or link. Publication time and first-hour coverage remain unverified because WhatsApp access is blocked; no manager receipt or queue claim. Friday's reserved caption is still blank. Saturday is unchanged.
@@ -28,7 +58,7 @@ Which work are we agreeing to stop?
 
 ## Decision
 
-Five feed slots. Tanya: Monday 2, Thursday 5, Friday 6. Codex: Tuesday 3 and Saturday 7. Native Newsletter and website issue remain separate. Saturday's proposed copy was revised on 3 November; do not use the withdrawn product-belief draft. Preserve Tanya's Monday/Thursday captions already in Calendar rows 301/304; Friday row 305 remains her reserved third slot with copy not yet present. Codex times:17:30Sydney. Both current captions and the final Tuesday PDF are approved. The exact manager handoff and final PDF were delivered on 3 November at15:55–15:56Sydney. Publisher queue/preview/response confirmation remains pending. No extra feed post or independent Codex queue operation.
+Five feed slots. Tanya: Monday 2, Thursday 5, Friday 6. Codex: Tuesday 3 and Saturday 7. Native Newsletter and website issue remain separate. Saturday's proposed copy was revised on 3 November; do not use the withdrawn product-belief draft. Preserve Tanya's Monday/Thursday captions in Calendar301/304. Friday305 now contains the final approved6November copy above; Tanya remains publisher with queue/time/coverage unverified. Codex times:17:30Sydney. Both current captions and the final Tuesday PDF are approved. The exact manager handoff and final PDF were delivered on 3 November at15:55–15:56Sydney. Publisher queue/preview/response confirmation remains pending. No extra feed post or independent Codex queue operation.
 
 Latest status 4 November 18:16 Sydney: Tuesday's approved caption and all three final PDF pages were verified publicly live by 3 November 18:15, after the missed 17:30 target and Kuber's later-time go-ahead. Its first mature read is recorded below. Saturday's exact caption/time remains approved; manual publication and response coverage are unconfirmed. Thursday approval and Friday copy remain unresolved in the current 2026 Calendar. The similarly named November/December tab contains November 2025 entries, not this week's approvals. Kuber approved the exact remaining-week follow-up; sent once and verified Delivered at4November18:29Sydney. Thursday approval, Friday copy and Saturday manual publishing/response confirmation remain unresolved until a reply. The original handoff/PDF must not be repeated.
 

@@ -17,6 +17,12 @@ aggressively through work Kuber and the team can control, while keeping the
 audience relevant to Customer Success and protecting Churn Is Dead's owned
 subscriber path.
 
+## Friday afternoon — 6 November: caption supplied and final QA complete
+
+Friday's reserved Tanya slot now has final approved copy in CalendarE305; the earlier blank status is superseded. Codex used Kuber's4November delegation, preserved Tanya's original in the cell note and retained her pre-sales/onboarding direction as one customer-capacity opinion. Removed unsupported forecasts/causal claims and overlap with this week's headcount, health-score, commercial-fluency and SaturdayAI-pilot topics. This changes no owner, date, slot count, Saturday copy or channel. Text only, no asset/link. Exact copy and prepared handoff: growth/linkedin-posts-2026-11-02.md.
+
+CalendarC305:H305 and CreativeLabG109 saved/read back. Planned17:30Sydney; Tanya's actual queue/time/first-hour response owner remain unconfirmed. Prepared handoff is not sent because the existing WhatsApp-origin security block remains; no retry or alternate route. Notify Kuber of the materially changed execution brief and remaining publisher action. Daily/weekly scorecards already done; no duplicate capture or premature Thursday24h/Note24h read.
+
 ## Friday review — 6 November 2026 morning
 
 Single daily total10,073; +137versus30October9,936 across a slightly shorter-than-seven-day interval. This is232below the369planned weeklystep and1,980below the5Novembertarget12,053.4,927remain across55days/7.86weeks, requiring about627net/week to31December. This is a moving requirement, not a forecast or post attribution.
