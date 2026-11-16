@@ -1,0 +1,22 @@
+{
+  "title": "It Worked Once. Can the Customer Run It Again?",
+  "slug": "second-run-test",
+  "excerpt": "Before removing scheduled onboarding help, watch the customer run one real task with the access and support they’ll have next week.",
+  "category": "Customer Leadership",
+  "theme": "onboarding_handoff",
+  "format": "operating_system",
+  "primary_goal": "Decide whether to hand over one customer workflow, hand over part of it or keep scheduled help in place.",
+  "primary_cta": "Put the next real run of one workflow on the calendar and use the Second Run Check to decide who owns what afterward.",
+  "read_time": "7 min read",
+  "published_date": "2026-11-17T07:00:00+00:00",
+  "pdf_filename": "Second_Run_Check_ChurnIsDead.pdf",
+  "playbook_title": "The Second Run Check",
+  "playbook_description": "A one-page worksheet for deciding when a customer can take over a workflow after an assisted first run.",
+  "subject_variants": [
+    {
+      "label": "primary",
+      "subject": "It worked once. Can the customer run it again?",
+      "preheader": "One real workflow, one more run, and a clear decision on what the customer can take over."
+    }
+  ]
+}

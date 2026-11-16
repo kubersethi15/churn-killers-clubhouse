@@ -1,0 +1,22 @@
+[
+  {
+    "id": "E01",
+    "claim": "GitLab’s customer success plan guidance connects desired business outcomes, milestones and named ownership in a shared plan.",
+    "source_title": "Success Plans",
+    "url": "https://handbook.gitlab.com/handbook/customer-experience/csm/success-plans/",
+    "publisher": "GitLab",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-11-16",
+    "notes": "Company operating practice. Informs recording the decision in the existing plan. Does not validate the worksheet or a retention effect."
+  },
+  {
+    "id": "E02",
+    "claim": "The GOV.UK Service Manual describes starting with a limited private beta, testing with real users and planning support for them.",
+    "source_title": "How the beta phase works",
+    "url": "https://www.gov.uk/service-manual/agile-delivery/how-the-beta-phase-works",
+    "publisher": "Government Digital Service",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-11-16",
+    "notes": "Public service guidance used by analogy for bounded real-use testing. Does not prescribe a two-run threshold for customer onboarding."
+  }
+]
