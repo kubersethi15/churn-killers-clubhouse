@@ -1,0 +1,72 @@
+{
+  "title": "The Second Run Check",
+  "subtitle": "Decide what the customer can take over",
+  "layout": "compact_one_page",
+  "assessment_mode": "decision_record",
+  "intro_text": "Use this on one workflow before taking scheduled help out of an onboarding plan.",
+  "sections": [
+    {
+      "title": "Name the work",
+      "instruction": "Record the task, next real input, customer operator and recipient. Agree what the recipient needs from the result.",
+      "headers": [
+        "Task",
+        "Owner and usable result"
+      ],
+      "rows": [
+        [
+          "",
+          ""
+        ]
+      ]
+    },
+    {
+      "title": "Run it under normal conditions",
+      "instruction": "Use ordinary access and the support route agreed for future runs. Record who intervened, what they did and whether the recipient could use the result.",
+      "headers": [
+        "Observation",
+        "Available next time"
+      ],
+      "rows": [
+        [
+          "",
+          ""
+        ]
+      ]
+    },
+    {
+      "title": "Make the handoff decision",
+      "instruction": "Hand over the step, hand over part with named help, or keep scheduled help. Record the owner, support route and next run date.",
+      "headers": [
+        "Decision",
+        "Owner and date"
+      ],
+      "rows": [
+        [
+          "",
+          ""
+        ]
+      ]
+    }
+  ],
+  "example": {
+    "heading": "Example: a Friday escalation report",
+    "label": "Fictional example.",
+    "headers": [
+      "Observation",
+      "Result",
+      "Decision"
+    ],
+    "rows": [
+      [
+        "A new case type has no urgency value. The regular support route has yet to resolve it.",
+        "List unusable",
+        "Keep help"
+      ]
+    ],
+    "interpretation": "Name the person who owns the mapping. Recheck the affected step before removing scheduled help."
+  },
+  "prompt": "Workflow / next real input: [ ]\nCustomer operator / recipient / usable result: [ ]\nWhat happened / help used / available next time: [ ]\nHand over / hand over part / keep scheduled help: [ ]\nOwner / support route / next run date: [ ]",
+  "next_action": "Book the second run while both teams are still involved.",
+  "methodology": "Original worksheet informed by GitLab and GOV.UK practice guidance.",
+  "article_url": "https://churnisdead.com/newsletter/second-run-test"
+}
