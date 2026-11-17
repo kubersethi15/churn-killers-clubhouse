@@ -1,0 +1,86 @@
+{
+  "prepared_at": "2026-11-04T06:58:00Z",
+  "identity": "Kuber Sethi",
+  "platform": "Substack Notes",
+  "status": "thursday_published_verified_saturday_local",
+  "current_week_monday": {
+    "public_url": "https://substack.com/@kubersethi/note/c-373222078",
+    "published_sydney": "2026-11-02 20:30",
+    "status": "already_published; do not duplicate"
+  },
+  "notes": [
+    {
+      "date": "2026-11-05",
+      "time": "20:30",
+      "timezone": "Australia/Sydney",
+      "kind": "thursday_takeaway",
+      "copy": "Your champion's replacement might know the product and still be unable to free up the team for next week's pilot. I'd check that before leaving the date in the plan.\n\nThe one-page check:\nhttps://churnisdead.com/newsletter/champion-change-check?utm_source=substack&utm_medium=note&utm_campaign=champion-change-check&utm_content=thursday_takeaway",
+      "job": "Source-labelled current-issue visits and confirmed active subscriber acquisition; no causal claim below the evidence floor.",
+      "status": "published_verified",
+      "scheduled_at_utc": "2026-11-05T09:30:00Z",
+      "queue_verified_sydney": "2026-11-05 11:21",
+      "public_url": "https://substack.com/@kubersethi/note/c-378960646",
+      "published_sydney": "2026-11-05 20:30",
+      "publication_verified_sydney": "2026-11-06 morning"
+    },
+    {
+      "date": "2026-11-07",
+      "time": "20:30",
+      "timezone": "Australia/Sydney",
+      "kind": "saturday_operator_insight",
+      "copy": "I'd be careful about calling a new contact unengaged when they can't approve the thing we're asking for. They might be helping as much as their role allows.",
+      "job": "Standalone practitioner insight; no link, pitch or acquisition claim.",
+      "status": "local_draft_under_standing_delegation"
+    }
+  ],
+  "verification": {
+    "existing_saved_or_scheduled_drafts_before_preparation": 0,
+    "current_issue_canonical_preview_title": "Your Champion Left. A New Contact Won\u2019t Replace Them. | Churn Is Dead",
+    "human_voice_qa": "passed; ordinary language, two-sentence insight, no invented experience or forced question",
+    "public_actions_taken": 1,
+    "approval": "Routine permission covered by 4 November standing delegation; no per-Note approval question required.",
+    "preview_state": "Exact Thursday copy/link/OG card visually verified after native clipboard paste. Reopened saved draft retains contents.",
+    "saved_in_substack": true,
+    "scheduled": true,
+    "approval_question_asked": false,
+    "next_action": "No duplicate or reschedule. First mature24h Note read at/after6Nov20:30Sydney; seven-day12Nov20:30. Saturday remains local-only.",
+    "checked_sydney": "2026-11-06 morning",
+    "specific_scheduling_question_asked": true,
+    "specific_schedule_approval": "5 November: Kuber answered Schedule existing draft once for 5 November20:30Australia/Sydney. No new draft.",
+    "site_access_approval": "5 November: Kuber answered Allow Substack access for this task. Site access then succeeded; inspected only existing Note.",
+    "selected_schedule": "2026-11-05 20:30 Australia/Sydney",
+    "publication_completed": true,
+    "queue_receipt": "Single existing Note shown as Scheduled for 5 Nov,20:30 in Drafts after successful final Schedule submission. No duplicate entry.",
+    "screenshot": "growth-nov5/thursday-note-scheduled-confirmed.png",
+    "resolved_block": "5November user Fix this request followed by fresh UI evidence: Update draft prompt, one Edited draft, and Post/no selected schedule on reopen. Same draft configured20:30 and final submission succeeded. Composer closed; reopened queue showed Scheduled for5Nov20:30. Earlier selected-time labels were not submission receipts.",
+    "public_url": "https://substack.com/@kubersethi/note/c-378960646",
+    "publication_receipt": "Public Note detail shows5Nov20:30Sydney, exactcopy and trackedcanonicalUTM match; single current entry in ownActivity, no replies. Provider released the existing schedule, no new Codex publication.",
+    "publication_screenshot": "output/engagement/nov6-thursday-note-live.png"
+  },
+  "measurement": {
+    "reads": "24 hours and seven days after each actual release",
+    "aggregate_only": [
+      "views",
+      "likes",
+      "replies",
+      "restacks",
+      "follows",
+      "source-labelled visits",
+      "confirmed subscribers",
+      "30-day retained acquisition"
+    ],
+    "limits": "Unavailable views are not zero. Do not attribute acquisition to likes. Keep LinkedIn account growth separate."
+  },
+  "stop_rules": [
+    "Refresh saved/scheduled queue and own exact-note history before scheduling.",
+    "Never shift an expired slot or publish it late without a new exact timing decision.",
+    "One linked Note across Monday/Thursday/Saturday this week.",
+    "No full-article republication or subscriber email.",
+    "Routine editorial permission follows standing delegation; respect the currently blocked specific scheduling gate."
+  ],
+  "delegated_permission": {
+    "received_date": "2026-11-04",
+    "source": "Direct user instruction to act on his behalf without repeated routine approvals.",
+    "scope": "Existing Thu/Sat Notes and established weekly cadence; see growth/operating-authority.md."
+  }
+}

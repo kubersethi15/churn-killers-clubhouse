@@ -9,8 +9,8 @@
 - Deterministic article validation passed. Six date-exception cases plus existing editorial tests passed. Normal Tuesday gating is preserved; exception requires approved status, exact Sydney date, named authoriser and basis.
 - One-page PDF rendered and visually inspected at 1200 px. Legible instructions, example, copyable prompt, next action and provenance; no overlap, clipping or missing glyphs.
 
-## Production receipts
+## Production receipts: completed 4 November 2026
 
-Pending website build and live initial HTML/canonical/sitemap/RSS/PDF checks, native LinkedIn publication verification, production-equivalent email preview and refreshed signed-webhook/suppression/cohort gates. No production send is claimed by this preflight record.
+The website build and live initial HTML, self-canonical, sitemap, RSS and PDF checks passed. The native edition was published once under the existing Churn is Dead Newsletter. The production-equivalent email preview and refreshed sender-health, signed-webhook, suppression, unsubscribe/footer and original-cohort gates passed before production. The targeted function accepted 321 distinct recipients once at 14:47 Sydney, with zero API failures and zero eligible unsent recipients. The send switch was restored to false at 03:47:36 UTC and its digest verified.
 
-The email switch must return to false immediately after the bounded production window, including on error. The existing per-recipient ledger is the only send path; accepted recipients are excluded from subsequent batches.
+The detailed receipt, public URLs, PDF digest and outcome limits are in `growth/releases/champion-change-check-2026-11-04.md`. At the 17:32 Sydney check, 317 were delivered, three bounced, one had a signed delivery-delay event and none had complained. Provider acceptance is complete even where delivery has bounced or is delayed. Never resend accepted recipients. Later signed events can change the delivery totals.

@@ -4,6 +4,8 @@ This is Kuber Sethi's repo for [churnisdead.com](https://churnisdead.com) — th
 
 For cross-agent work on the Churn Is Dead growth goal, also read and update [`growth/agent-coordination.md`](growth/agent-coordination.md). Claim a workstream there before editing so Claude and Codex do not duplicate work or overwrite each other.
 
+For Codex's existing growth-operator assignments, read [`growth/operating-authority.md`](growth/operating-authority.md). Kuber's 4 November standing delegation supersedes historical routine exact-copy/handoff confirmation requirements within that agreed plan. Preserve QA, publisher ownership, timing, duplicate checks and release gates; record delegated decisions honestly.
+
 ## Claude growth handoff
 
 When Claude is working on Kuber's shared Churn Is Dead growth mandate and has no active Claude-owned claim, do not wait for another assignment. Read [`growth/agent-inbox.md`](growth/agent-inbox.md) and [`growth/claude-growth-sprint.md`](growth/claude-growth-sprint.md), then claim the first unblocked item on the coordination board.
