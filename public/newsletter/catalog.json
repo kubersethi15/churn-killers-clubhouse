@@ -1,5 +1,14 @@
 [
   {
+    "id": "static-second-run-test",
+    "title": "It Worked Once. Can the Customer Run It Again?",
+    "slug": "second-run-test",
+    "excerpt": "Before removing scheduled onboarding help, watch the customer run one real task with the access and support they’ll have next week.",
+    "published_date": "2026-11-17T07:00:00+00:00",
+    "read_time": "7 min read",
+    "category": "Customer Leadership"
+  },
+  {
     "id": "static-champion-change-check",
     "title": "Your Champion Left. A New Contact Won't Replace Them.",
     "slug": "champion-change-check",

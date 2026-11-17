@@ -290,6 +290,16 @@
     "published_date": "2026-03-11T08:00:00+00:00"
   },
   {
+    "id": "pdf-second_run_check_churnisdead",
+    "title": "The Second Run Check",
+    "description": "A one-page worksheet for deciding when a customer can take over a workflow after an assisted first run.",
+    "pdf_path": "/pdfs/Second_Run_Check_ChurnIsDead.pdf",
+    "notion_link": null,
+    "newsletter_slug": "second-run-test",
+    "newsletter_title": "It Worked Once. Can the Customer Run It Again?",
+    "published_date": "2026-11-17T07:00:00+00:00"
+  },
+  {
     "id": "pdf-signal_vs_noise_audit_churnisdead",
     "title": "Signal vs Noise Audit",
     "description": "Download the Signal vs Noise Audit worksheet from the Churn Is Dead archive.",

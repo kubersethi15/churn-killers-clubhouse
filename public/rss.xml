@@ -6,8 +6,16 @@
     <description>Weekly CS frameworks for enterprise Customer Success leaders. Hard truths, tactical plays, and downloadable playbooks.</description>
     <language>en</language>
     <managingEditor>kuber@churnisdead.com (Kuber Sethi)</managingEditor>
-    <lastBuildDate>Mon, 16 Nov 2026 11:29:29 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 17 Nov 2026 16:47:59 +0000</lastBuildDate>
     <atom:link href="https://churnisdead.com/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>It Worked Once. Can the Customer Run It Again?</title>
+      <link>https://churnisdead.com/newsletter/second-run-test</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/second-run-test</guid>
+      <pubDate>Tue, 17 Nov 2026 07:00:00 +0000</pubDate>
+      <description>Before removing scheduled onboarding help, watch the customer run one real task with the access and support they’ll have next week.</description>
+      <category>Customer Leadership</category>
+    </item>
     <item>
       <title>Your Champion Left. A New Contact Won't Replace Them.</title>
       <link>https://churnisdead.com/newsletter/champion-change-check</link>
@@ -159,14 +167,6 @@
       <pubDate>Tue, 16 Jun 2026 08:00:00 +0000</pubDate>
       <description>AI isn't killing the CSM role. It's quietly demoting it into babysitting automated busywork while leadership calls it transformation. Here's the job that actually survives.</description>
       <category>Team Design</category>
-    </item>
-    <item>
-      <title>The Renewal Cliff Nobody Charted: Why CS Doesn't Own Half the Churn It's Blamed For</title>
-      <link>https://churnisdead.com/newsletter/renewal-cliff-data-intelligence-blind-spot</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/renewal-cliff-data-intelligence-blind-spot</guid>
-      <pubDate>Tue, 09 Jun 2026 08:00:00 +0000</pubDate>
-      <description>Your churn model isn't getting smarter. It's getting more confident about the half of the problem it can see, and staying blind to the half that kills renewals.</description>
-      <category>Data &amp; Intelligence</category>
     </item>
   </channel>
 </rss>
