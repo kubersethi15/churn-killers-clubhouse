@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-21",
+  "time_sydney": "20:30",
+  "time_utc": "2026-11-21T09:30:00Z",
+  "channel": "Substack Note",
+  "status": "local draft only; not saved, scheduled or published on Substack",
+  "body": "A smooth first run can hide how much help the CSM gave.\n\nBefore handing a workflow over, watch one more real run. Can the customer do it with the access and help they'll have next week?\n\nIf one step still needs you, name that step and agree when you'll check again.\n\nThe one-page Second Run Check is here:\nhttps://churnisdead.com/newsletter/second-run-test?utm_source=substack&utm_medium=notes&utm_campaign=second_run_test&utm_content=saturday_playbook",
+  "job": "Help practitioners decide which part of one workflow the customer can take over; measure tracked transfer to the existing issue.",
+  "asset": "No asset. Existing one-page worksheet is linked from the canonical issue.",
+  "approval_basis": "Routine existing-plan preparation under Kuber’s 4 November delegation. Codex editorial decision; no claim that Kuber personally reviewed the text.",
+  "qa": {
+    "human_voice": "passed",
+    "source": "Approved second-run-test article and playbook; original operator advice without a statistic or causal benchmark.",
+    "experience": "No first-person customer, employer, milestone or result claim.",
+    "canonical": "Exact live article and worksheet link verified in Codex in-app browser at about15:32Sydney20Nov.",
+    "pdf": "Morning release HTTP200 and PDF header verified. Recheck exact resource before queue action.",
+    "http_client_limit": "Afternoon Python URL request was denied403; normal signed-in browser rendered the full public article. This is not evidence that the article is offline.",
+    "format": "Short Note only, not a full-article republication.",
+    "tracked_links": 1,
+    "weekly_link_cap": "At most two linked Notes in the existing three-Note week. Check live weekly ledger before scheduling.",
+    "duplicate_check": "Live own Notes, saved drafts and scheduled queue NOT inspected this run; mandatory before saving or scheduling."
+  },
+  "execution_gate": [
+    "Read current Notes, saved drafts, scheduled queue and shared ledger; use an existing identical draft if present.",
+    "No missed Thursday/Monday backfill and no additional Note slot.",
+    "Complete any enforced exact-action approval requirement before scheduling once for21Nov20:30Sydney.",
+    "Do not call this queued until a saved/scheduled receipt is verified; capture the public permalink after release."
+  ]
+}

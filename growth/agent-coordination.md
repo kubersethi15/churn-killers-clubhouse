@@ -1094,3 +1094,13 @@ The trigger arrived at 12:26:33 Sydney; host and Sydney both AEDT UTC+11. No pub
 Outcome: one verified own-post reply, zero external comments. The external candidate is unsent because automatic approval review insists on exact approval despite the newer routine delegation. An exact question is pending. Do not duplicate this candidate, use another route, or count it as posted. Shared Engagement rows 269–270 distinguish the outcomes.
 
 Friday subscriber row 15, LinkedIn row 45 and Daily follower row 209 are updated. Do not append another 20 November subscriber row or recapture followers. Current issue receipts: 321 accepted once, 320 delivered, one provider-delayed, zero bounces or complaints; no resend. The evening operator still owns the latest post's mature read and manager queue/live verification. No feed post or native edition was added. Full evidence is in the 20 November action log and release receipt.
+
+## 20 November 2026 afternoon — Codex claim
+
+Codex owns the existing afternoon relationship review, prioritising new substantive own-post questions and completed-email aggregate monitoring. Main remains a40b2f3; current operational PR236 is unmerged and contains the midday receipts. No new Friday subscriber row, follower capture or seven-day account read. The unsent Dan candidate has no exact approval; do not retry the rejected submission or carry midday capacity. Preserve Tanya’s evening publishing lane and all other agents’ work.
+
+### 20 November afternoon outcome
+
+No new substantive own-post question required a reply. Existing manager responses were verified on the bad-news thread; the midday latest-post reply remains live. Afternoon zero external / zero own replies; daily zero external / one own reply. The exact external approval is still absent and its midday window expired. Do not repeat the rejected action or the user notification. Email stays321accepted/320delivered/1provider-delay/0bounce/complaint, no resend.
+
+Prepared only growth/substack-note-2026-11-21.json for the existing Saturday slot. It is local, not queued. Evening operator must inspect live Notes/drafts/schedules, weekly link cap and resource readiness before any action; no missed-slot backfill. Friday scorecard rows remain subscriber15/LinkedIn45 and Daily209. No second insertion or capture today. Latest post22hours old at afternoon review; mature read remains for the evening.
