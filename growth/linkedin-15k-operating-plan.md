@@ -510,3 +510,13 @@ Three lifetime-to-read snapshots total 2,277 non-deduplicated reach, 18 post pro
 Decision: IMPROVE. The latest post has nonzero profile, follow and repost signals, so the automatic zero-signal replacement gate is not met. Its mature read remains due this evening. Preserve the existing five-slot portfolio and manager publishing lane. No format winner, extra volume or new profile change is justified by this mixed-age sample. Never reuse unverified customer stories.
 
 Subscriber growth is separate: 321 active, net +1 from two new active acquisitions and one status loss. Both acquisitions came from the existing tagged LinkedIn profile route. The shared subscriber table has exactly one 20 November row.
+
+
+### 20 November evening mature reads and decision
+
+| Post / read | Impressions | Members reached | Out-of-network impressions | Post profiles /1,000 | Post follows /1,000 | Reposts / saves / sends |
+|---|---:|---:|---:|---:|---:|---|
+| Half your CS job,7529068384072798208,24hours |703|480|50%|4 /8.33|2 /4.17|1 /2 /0|
+| Cisco-demo,7526894376778907649,seven days |894|577|53%|11 /19.06|0 /0|0 /0 /0|
+
+Latest mature read has nonzero post-profile, follow and repost signals. Do not invoke the zero-signal replacement gate or declare a format winner. Preserve existing five feed slots. Friday manager CX post verified live; Saturday existing human-observation slot now has final text-only copy in CalendarE320/Lab117 and growth/saturday-feed-2026-11-21.md. This is completion of existing creative, not extra volume or a new test. Tanya's queue and first-hour coverage remain unverified; Codex did not queue or publish. No change to Friday account/subscriber aggregates, profile surfaces or comment capacity. Next latest-post seven-day read26November after17:30Sydney.
