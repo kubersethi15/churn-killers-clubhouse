@@ -492,3 +492,21 @@ LinkedIn's default 23–29 October UTC view shows 4,847 impressions, 1,938 uniqu
 **IMPROVE.** Relevant reach and sharing remain weak. Retain the verified QBR decision tension pending comparable evidence. Continue the three distinct, unapproved Codex proposals in shared Creative Lab rows 106–108 under next week's two Tanya / three Codex portfolio. Preserve approved copy and five-slot volume. Thursday's original three-page document is live; exact release time is unverified and it missed the 17:30 target. No format, timing or algorithm conclusion follows from these snapshots.
 
 Email remains separate: 320 active, net -1 since Friday (two acquired / three status losses), 180 site sessions and seven qualified-action sessions in the shorter 23 October 17:30–30 October 09:20 Sydney window. The approved escalation Note was published once at 09:13 Sydney on 30 October: https://substack.com/profile/268471097-kuber-sethi/note/c-373759328 . Measure source-labelled transfer at 24 hours and seven days. Saturday/Monday Notes remain scheduled at 20:30 Sydney. The subscriber broadcast is complete, with 322 accepted once and the production switch off.
+
+## Verified 20 November midday snapshot
+
+One daily capture: 10,414 followers at about 12:28 Sydney. The prior verified count was 10,073 on 6 November: +341 over 14 days, not seven-day growth. The 13 November endpoint is unavailable, so weekly net and pace variance remain blank. Another 4,586 are needed over 41 days / 5.86 weeks, about 783 net per week. The cumulative gap versus the 19 November target of 12,791 is 2,377.
+
+The seven-day content view covers 14–20 November UTC with partial 20 November: 4,551 impressions, 2,415 unique members, 59% out-of-network impressions, 89 reactions, 52 comments, zero reposts, four saves and zero sends. Aggregate fit: 47% Senior, 32% IT Services/Consulting, 39% at 10,001+ employees, 24% Cisco, 14% Bengaluru and 10% CSM title.
+
+| Post | Age at read | Members reached | Post profiles | Post follows | Follows/1,000 | Out-of-network impressions | Reposts / saves / sends |
+|---|---|---:|---:|---:|---:|---:|---|
+| Coffee queue field note, activity 7527981603751387136 | 3 days | 1,581 | 14 | 4 | 2.53 | 70% | 0 / 0 / 0 |
+| Bad-news call, activity 7528705809967562752 | 1 day | 254 | 1 | 0 | 0 | 38% | 1 / 1 / 0 |
+| Half your CS job, activity 7529068384072798208 | 19 hours, preliminary | 442 | 3 | 2 | 4.52 | 49% | 1 / 2 / 0 |
+
+Three lifetime-to-read snapshots total 2,277 non-deduplicated reach, 18 post profiles and six post follows: 2.635 follows per 1,000. These are not bounded weekly attribution, a matched test, or account-level growth. The account view's zero reposts conflicts with the two newer posts' one lifetime repost each; preserve the scope/provider-lag uncertainty.
+
+Decision: IMPROVE. The latest post has nonzero profile, follow and repost signals, so the automatic zero-signal replacement gate is not met. Its mature read remains due this evening. Preserve the existing five-slot portfolio and manager publishing lane. No format winner, extra volume or new profile change is justified by this mixed-age sample. Never reuse unverified customer stories.
+
+Subscriber growth is separate: 321 active, net +1 from two new active acquisitions and one status loss. Both acquisitions came from the existing tagged LinkedIn profile route. The shared subscriber table has exactly one 20 November row.

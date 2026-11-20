@@ -1084,3 +1084,13 @@ The CS Cafe Newsletter), so a free CS newsletter fits without being promotional.
 - **Owner:** Codex monitors PR #15 from Kuber's real GitHub account. Copy remains
   in `growth/outreach-pitches.md`. Avoids Reddit, LinkedIn Newsletter, Resend,
   Medium, and every existing outreach thread.
+
+## 20 November 2026 midday — Codex claim and outcome
+
+Codex owns this existing midday relationship window, completed-issue receipt reconciliation and Friday aggregate read. Fresh main: a40b2f398c8e9825fc6bd192fb1835827209d873. Open PRs 234, 204 and 200 were inspected and left unchanged. The original dirty checkout and unrelated ROADMAP.md changes are preserved.
+
+The trigger arrived at 12:26:33 Sydney; host and Sydney both AEDT UTC+11. No public action occurred before 12:30. This is trigger jitter, not evidence for a new schedule offset. No unused comment capacity carries forward.
+
+Outcome: one verified own-post reply, zero external comments. The external candidate is unsent because automatic approval review insists on exact approval despite the newer routine delegation. An exact question is pending. Do not duplicate this candidate, use another route, or count it as posted. Shared Engagement rows 269–270 distinguish the outcomes.
+
+Friday subscriber row 15, LinkedIn row 45 and Daily follower row 209 are updated. Do not append another 20 November subscriber row or recapture followers. Current issue receipts: 321 accepted once, 320 delivered, one provider-delayed, zero bounces or complaints; no resend. The evening operator still owns the latest post's mature read and manager queue/live verification. No feed post or native edition was added. Full evidence is in the 20 November action log and release receipt.
