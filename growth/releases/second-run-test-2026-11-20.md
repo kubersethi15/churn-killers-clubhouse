@@ -39,3 +39,8 @@ No native LinkedIn edition, feed post, external comment or duplicate newsletter 
 ## Evening receipt check,17:27Sydney
 
 321accepted,320signed delivered,oneprovider-delayed,zero bounces,complaints or unsigned events. No resend or production-switch change. The accepted delayed recipient remains with the provider for retry. Evening article/PDF preflight for the existing Saturday Note passed; PDF download byte-identical to the morning asset.
+
+
+## Final overnight outcome,21November08:35–08:36Sydney
+
+The accepted recipient previously delayed now has a signed Transient/General bounce. Total321unique accepted recipients/provider IDs,320delivered,1transient bounce,0complaints and0unsigned events. Ledger status320sent/1bounced does not reduce historical acceptance to320. No resend, switch change or suppression of a valid temporary failure. Permanent-bounce active suppression gaps0. New subscribers acquired after the completed broadcast do not require this older issue to be broadcast again.

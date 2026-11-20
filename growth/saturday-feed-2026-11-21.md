@@ -4,7 +4,7 @@ Existing fifth feed slot, 17:30 Australia/Sydney (06:30 UTC). Codex owns creativ
 
 ## Exact caption
 
-+The easiest thing to say in a customer meeting is “sounds good.”
+The easiest thing to say in a customer meeting is “sounds good.”
 
 The person agreeing to the date may still be wondering where the time will come from.
 
