@@ -44,3 +44,8 @@ No native LinkedIn edition, feed post, external comment or duplicate newsletter 
 ## Final overnight outcome,21November08:35–08:36Sydney
 
 The accepted recipient previously delayed now has a signed Transient/General bounce. Total321unique accepted recipients/provider IDs,320delivered,1transient bounce,0complaints and0unsigned events. Ledger status320sent/1bounced does not reduce historical acceptance to320. No resend, switch change or suppression of a valid temporary failure. Permanent-bounce active suppression gaps0. New subscribers acquired after the completed broadcast do not require this older issue to be broadcast again.
+
+
+## 21 November evening receipt check,17:35Sydney
+
+Unchanged321accepted,320signed delivered,one previously classifiedTransient/General bounce,zero complaints/unsigned events. No send, suppression or switch mutation. Completed issue remains complete.

@@ -26,5 +26,6 @@
     "Do not infer approval from automatic-review commentary or describe the composer as a saved draft.",
     "No missed-slot backfill, extra Note or alternate publication route. Capture the public permalink after release."
   ],
-  "proof": "output/engagement/nov20-saturday-note-awaiting-approval.jpg"
+  "proof": "output/engagement/nov20-saturday-note-awaiting-approval.jpg",
+  "evening_checkpoint": "21November about17:36Sydney: public own profile latest Note remains5November, no current-week duplicate. No actual response to exact approval question; automatic-review gate remains. Composer preserved unsaved/unscheduled. Do not retry or backfill missed slots."
 }

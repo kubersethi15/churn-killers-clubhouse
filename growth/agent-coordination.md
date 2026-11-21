@@ -1151,3 +1151,17 @@ Codex owns the existing15:30relationship window: new own-post questions first, t
 No new substantive own-post question. Friday post22h old; mature read due after17:30. Jeff's current team-AI post7529526891414945792 cleared exact-thread duplicate and voice QA for a narrow account-context correction contribution, but automatic review rejected direct publication and insists on exact approval despite4November delegation. One exact question pending; no actual response, public comment or retry. Engagement272 is UNSENT; preserve composer and expire without capacity carry if no timely approval. Afternoon0external/0own; daily0external/1own. Do not count candidate as published.
 
 Today’s follower capture10,480already complete, no repeat. Email321accepted/320delivered/1transient bounce/0complaints/unsigned, no resend. Saturday feed remainsTanya-owned with queue/coverage unacknowledged; Note exact approval absent, no reattempt or duplicate question. PR236 records evidence only; unrelated changes preserved.
+
+
+## 21 November 2026 evening — Codex claim
+
+Codex owns Friday’s mature24hread, Saturday manager publication verification, existing Note queue preflight and completed-email receipts. Trigger17:32:54Sydney, host/SydneyAEDT UTC+11. Fresh maina40b2f3; PR236 records lane, otherPRs/unrelated changes untouched. Daily10,480capture complete. No evening external batch or carry of afternoon unapproved comment; exact approval absent and opportunity expired. Preserve Tanya’s publishing lane, specific holds and rejected Note approval gate.
+
+
+### 21 November evening outcome
+
+Friday24h:8,856reached/88postprofiles/20postfollows/2.26follows per1,000;80%out-of-network impressions. Nonzero conversion/sharing, no zero-signal rewrite. Retain operating-identity tension as a repeat candidate, not a format winner; no reuse of unverified personal claims. CalendarH319 records full metrics; seven-day due27November with age1w gate.
+
+Saturday planned fifth feed post verified live by17:35Sydney, displayed4m, exact CalendarE320copy/noasset/nolink. Activity7529793336916738048; CalendarC320Posted and Lab117public receipt. Tanya retains publisher/response ownership; Codex verification only, no duplicate. Queue uncertainty resolved by publication, coverage acknowledgement still unverified. Saturday24hread dueSunday when age1d, before full Sunday pivot.
+
+Note remains unsaved/unscheduled awaiting actual exact approval after automatic-review rejection; public profile has no duplicate/current-week Note. Composer preserved. No retry, alternate route, repeated question or missed-slot backfill. Afternoon external candidate expired unsent; EngagementP272updated, no evening batch/carry. Daily0external/1own. Daily follower10,480alreadycaptured; no recapture or Friday-row repeat. Email321accepted/320delivered/1transient bounce/0complaints/unsigned, no resend. Registered partner-name inbox search returned no new matches in14–21November; no outreach sent. PR236 carries records only.

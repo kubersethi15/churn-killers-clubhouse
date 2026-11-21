@@ -525,3 +525,12 @@ Latest mature read has nonzero post-profile, follow and repost signals. Do not i
 ### 21 November daily capture
 
 One daily total:10,480at about12:39Sydney; +66versus20November12:28across an unequal approximately24-hour interval. Seven-day net is not available from this pair, and no post attribution is implied. Remaining4,520over40days to31December requires approximately791net/week. Dailyrow210 is verified; do not recapture today. Friday CX post still19h old at midday, mature24hread due this evening after17:30. No current creative decision changes from this account total alone.
+
+
+### 21 November evening: promising distribution, preserve evidence limits
+
+Friday CX/CS identity tension, activity7529431022820638720, first mature1d read:13,070impressions;8,856members reached;80%out-of-network impressions;88postprofiles(9.94/1,000);20post-attributed follows(2.26/1,000);1repost/7saves/1send. Audience fit45%Senior,19%CSMtitle,23%ITServices/Consulting; full aggregates in action log/CalendarH319.
+
+KEEP the operating-identity tension for deliberate reconsideration in Sunday's portfolio, with another source-safe distinct use before a format-winner claim. Distribution was substantially stronger than recent posts, but follows per1,000were lower than Thursday's smaller sample, and the posts differ. No account growth/signup attribution. The live caption's personal anecdote is not a newly verified experience claim. Zero-signal intervention is not triggered.
+
+Saturday's existing fifth slot is live exactly as approved at activity7529793336916738048, verified by17:35displayed4m. Do not add volume or publish it again. Preserve Tanya's responses and take the mature Saturday read only when age1d on22November before the full Sunday audit. Friday seven-day read27November once age1w. Daily total remains the single12:39capture10,480.
