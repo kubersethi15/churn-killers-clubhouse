@@ -1139,3 +1139,15 @@ Codex owns the existing12:30relationship window, substantive own-post reply revi
 No new own-post question; morning reply remains verified live. External candidate failed exact-thread angle duplication, so0external/0own this run; daily0external/1own. No capacity carry. Today's one follower capture is10,480at about12:39Sydney, Dailyrow210; do not recapture. +66versus yesterday is an unequal daily interval, not weekly/post attribution. Remaining4,520over40days, about791/week. Friday scorecards unchanged.
 
 Email321accepted/320delivered/1transient bounce/0complaints/unsigned, no resend. Saturday feed remainsTanya-owned with queue/coverage unacknowledged in the Sheet. Note exact approval still absent, composer preserved; no retry or duplicate question. Latest Friday post19h, mature24hread due this evening after17:30. DraftPR236 holds records; no unrelated work changed.
+
+
+## 21 November 2026 afternoon — Codex claim
+
+Codex owns the existing15:30relationship window: new own-post questions first, then qualified current external discussion review and aggregate completed-email monitoring. Trigger15:33:52Sydney; host/SydneyAEDT UTC+11. Fresh maina40b2f3; existingPR236/234/204/200 and unrelated ROADMAP.md preserved. Today’s follower capture10,480already complete; no recapture or Friday scorecard repeat. Do not carry unused comment capacity, retry accepted emails or the rejected Note, or take Tanya’s Saturday feed publishing lane.
+
+
+### 21 November afternoon outcome
+
+No new substantive own-post question. Friday post22h old; mature read due after17:30. Jeff's current team-AI post7529526891414945792 cleared exact-thread duplicate and voice QA for a narrow account-context correction contribution, but automatic review rejected direct publication and insists on exact approval despite4November delegation. One exact question pending; no actual response, public comment or retry. Engagement272 is UNSENT; preserve composer and expire without capacity carry if no timely approval. Afternoon0external/0own; daily0external/1own. Do not count candidate as published.
+
+Today’s follower capture10,480already complete, no repeat. Email321accepted/320delivered/1transient bounce/0complaints/unsigned, no resend. Saturday feed remainsTanya-owned with queue/coverage unacknowledged; Note exact approval absent, no reattempt or duplicate question. PR236 records evidence only; unrelated changes preserved.
