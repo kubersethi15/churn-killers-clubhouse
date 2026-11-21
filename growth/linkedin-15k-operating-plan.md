@@ -492,3 +492,45 @@ LinkedIn's default 23–29 October UTC view shows 4,847 impressions, 1,938 uniqu
 **IMPROVE.** Relevant reach and sharing remain weak. Retain the verified QBR decision tension pending comparable evidence. Continue the three distinct, unapproved Codex proposals in shared Creative Lab rows 106–108 under next week's two Tanya / three Codex portfolio. Preserve approved copy and five-slot volume. Thursday's original three-page document is live; exact release time is unverified and it missed the 17:30 target. No format, timing or algorithm conclusion follows from these snapshots.
 
 Email remains separate: 320 active, net -1 since Friday (two acquired / three status losses), 180 site sessions and seven qualified-action sessions in the shorter 23 October 17:30–30 October 09:20 Sydney window. The approved escalation Note was published once at 09:13 Sydney on 30 October: https://substack.com/profile/268471097-kuber-sethi/note/c-373759328 . Measure source-labelled transfer at 24 hours and seven days. Saturday/Monday Notes remain scheduled at 20:30 Sydney. The subscriber broadcast is complete, with 322 accepted once and the production switch off.
+
+## Verified 20 November midday snapshot
+
+One daily capture: 10,414 followers at about 12:28 Sydney. The prior verified count was 10,073 on 6 November: +341 over 14 days, not seven-day growth. The 13 November endpoint is unavailable, so weekly net and pace variance remain blank. Another 4,586 are needed over 41 days / 5.86 weeks, about 783 net per week. The cumulative gap versus the 19 November target of 12,791 is 2,377.
+
+The seven-day content view covers 14–20 November UTC with partial 20 November: 4,551 impressions, 2,415 unique members, 59% out-of-network impressions, 89 reactions, 52 comments, zero reposts, four saves and zero sends. Aggregate fit: 47% Senior, 32% IT Services/Consulting, 39% at 10,001+ employees, 24% Cisco, 14% Bengaluru and 10% CSM title.
+
+| Post | Age at read | Members reached | Post profiles | Post follows | Follows/1,000 | Out-of-network impressions | Reposts / saves / sends |
+|---|---|---:|---:|---:|---:|---:|---|
+| Coffee queue field note, activity 7527981603751387136 | 3 days | 1,581 | 14 | 4 | 2.53 | 70% | 0 / 0 / 0 |
+| Bad-news call, activity 7528705809967562752 | 1 day | 254 | 1 | 0 | 0 | 38% | 1 / 1 / 0 |
+| Half your CS job, activity 7529068384072798208 | 19 hours, preliminary | 442 | 3 | 2 | 4.52 | 49% | 1 / 2 / 0 |
+
+Three lifetime-to-read snapshots total 2,277 non-deduplicated reach, 18 post profiles and six post follows: 2.635 follows per 1,000. These are not bounded weekly attribution, a matched test, or account-level growth. The account view's zero reposts conflicts with the two newer posts' one lifetime repost each; preserve the scope/provider-lag uncertainty.
+
+Decision: IMPROVE. The latest post has nonzero profile, follow and repost signals, so the automatic zero-signal replacement gate is not met. Its mature read remains due this evening. Preserve the existing five-slot portfolio and manager publishing lane. No format winner, extra volume or new profile change is justified by this mixed-age sample. Never reuse unverified customer stories.
+
+Subscriber growth is separate: 321 active, net +1 from two new active acquisitions and one status loss. Both acquisitions came from the existing tagged LinkedIn profile route. The shared subscriber table has exactly one 20 November row.
+
+
+### 20 November evening mature reads and decision
+
+| Post / read | Impressions | Members reached | Out-of-network impressions | Post profiles /1,000 | Post follows /1,000 | Reposts / saves / sends |
+|---|---:|---:|---:|---:|---:|---|
+| Half your CS job,7529068384072798208,24hours |703|480|50%|4 /8.33|2 /4.17|1 /2 /0|
+| Cisco-demo,7526894376778907649,seven days |894|577|53%|11 /19.06|0 /0|0 /0 /0|
+
+Latest mature read has nonzero post-profile, follow and repost signals. Do not invoke the zero-signal replacement gate or declare a format winner. Preserve existing five feed slots. Friday manager CX post verified live; Saturday existing human-observation slot now has final text-only copy in CalendarE320/Lab117 and growth/saturday-feed-2026-11-21.md. This is completion of existing creative, not extra volume or a new test. Tanya's queue and first-hour coverage remain unverified; Codex did not queue or publish. No change to Friday account/subscriber aggregates, profile surfaces or comment capacity. Next latest-post seven-day read26November after17:30Sydney.
+
+
+### 21 November daily capture
+
+One daily total:10,480at about12:39Sydney; +66versus20November12:28across an unequal approximately24-hour interval. Seven-day net is not available from this pair, and no post attribution is implied. Remaining4,520over40days to31December requires approximately791net/week. Dailyrow210 is verified; do not recapture today. Friday CX post still19h old at midday, mature24hread due this evening after17:30. No current creative decision changes from this account total alone.
+
+
+### 21 November evening: promising distribution, preserve evidence limits
+
+Friday CX/CS identity tension, activity7529431022820638720, first mature1d read:13,070impressions;8,856members reached;80%out-of-network impressions;88postprofiles(9.94/1,000);20post-attributed follows(2.26/1,000);1repost/7saves/1send. Audience fit45%Senior,19%CSMtitle,23%ITServices/Consulting; full aggregates in action log/CalendarH319.
+
+KEEP the operating-identity tension for deliberate reconsideration in Sunday's portfolio, with another source-safe distinct use before a format-winner claim. Distribution was substantially stronger than recent posts, but follows per1,000were lower than Thursday's smaller sample, and the posts differ. No account growth/signup attribution. The live caption's personal anecdote is not a newly verified experience claim. Zero-signal intervention is not triggered.
+
+Saturday's existing fifth slot is live exactly as approved at activity7529793336916738048, verified by17:35displayed4m. Do not add volume or publish it again. Preserve Tanya's responses and take the mature Saturday read only when age1d on22November before the full Sunday audit. Friday seven-day read27November once age1w. Daily total remains the single12:39capture10,480.
