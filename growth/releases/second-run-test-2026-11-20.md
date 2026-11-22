@@ -49,3 +49,10 @@ The accepted recipient previously delayed now has a signed Transient/General bou
 ## 21 November evening receipt check,17:35Sydney
 
 Unchanged321accepted,320signed delivered,one previously classifiedTransient/General bounce,zero complaints/unsigned events. No send, suppression or switch mutation. Completed issue remains complete.
+
+
+## 23 November one-time follow-up, 09:09 Sydney — delivered
+
+Article: HTTP 200, exact title and correct browser rendering. PDF: HTTP 200 and valid header. Signed ledger: 321 accepted, 320 delivered, one previously classified Transient/General bounce, zero complaints and zero unsigned events. No new production action occurred. Kuber was notified that the website/PDF are live and the email went out once on 20 November, with neither release blocked.
+
+Kuber explicitly answered “Yes, mark it complete” on 23 November. The automation follow-up section was marked complete and verified. Its active four-run schedule and every later instruction are unchanged. Do not repeat the notification or resend accepted recipients.

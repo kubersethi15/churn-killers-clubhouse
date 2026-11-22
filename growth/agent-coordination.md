@@ -1192,3 +1192,16 @@ Codex owns the existing15:30relationship window: substantive own-post questions 
 ### 22 November afternoon outcome
 
 No new unanswered own-post question; Saturday22h, mature read stays due17:30. Angeline revenue-ownership thread7529487207666094080 already has a Kuber comment despite no corresponding latest shared-ledger row; live duplicate gate caught it. Other current candidates were unrelated or stale. Afternoon0external/0own; today's Codex actual0external/0own, no carry, approval question or rejected-action retry. Daily10,509already complete. Email321accepted/320delivered/1transient bounce/0complaints/unsigned, no production change. Saturday Note miss already recorded; tomorrow release follow-up remains pending. Full Sunday audit/pivot is still required this evening, not complete. PR236 holds records only; unrelated ROADMAP.md untouched.
+
+
+## 22 November 2026 evening — Codex claim
+
+Codex owns the required Sunday 17:30 audit, Saturday's mature read, the current 90-day own-post review, a 15–20 creator structure sample, scorecard diagnosis and the next five-slot portfolio/handoff. Trigger: 17:27:43 Sydney; host and Sydney both AEDT, UTC+11. Wait for Saturday's age to reach 1d before calling the read mature. Main a40b2f3 is fresh. Preserve PRs 236/234/204/200, the unrelated ROADMAP.md change, the fixed daily follower capture and Tanya's publishing lane. No evening external batch, email retry, missed-Note backfill or new volume/channel.
+
+### Outcome completed 23 November
+
+The 73-post review, 17-creator structure sample and Saturday's first mature read are complete. The audience export stalled, produced no verified file and contributed to missing the before-Monday deadline. Exact weekly net and causal format/timing winners remain unavailable. Repeatable relevant reach is the main constraint; follow conversion/shareability are secondary.
+
+Calendar rows 322/323/325/326/327 are approved editorially under the existing delegation, with original Monday/Thursday copy unchanged. Five slots retain two Codex/Kuber-side and three Tanya-led creative owners; Tanya publishes all five. The Tuesday three-page hypothetical PDF passed mobile QA. Friday is a verified leadership field note; Saturday is a distinct human observation at 18:30, one exploratory timing read. Lab rows 118–124 include the exact handoff. Separate delivery, queue, attachment preview and response acknowledgement remain unverified. Wednesday and books holds remain. No public feed post, comment, email send or 23 November relationship batch occurred.
+
+The requested 23 November release follow-up is fulfilled: article/PDF live, 321 accepted, 320 signed delivered, one transient bounce, zero complaints/unsigned events. Kuber explicitly approved marking the automation follow-up complete. The marker is updated; the active four-run schedule and every remaining instruction are unchanged. Do not repeat the notification or resend accepted recipients. Scorecard uses a safe wrapped callout and note; the rejected merge was not performed. PR 236 contains records only; unrelated ROADMAP.md is untouched.
