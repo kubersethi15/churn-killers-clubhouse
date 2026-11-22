@@ -3,7 +3,7 @@
   "time_sydney": "20:30",
   "time_utc": "2026-11-21T09:30:00Z",
   "channel": "Substack Note",
-  "status": "Exact copy entered in Substack composer; unsaved, unscheduled and unpublished. Exact user approval pending after automatic review rejected scheduling twice.",
+  "status": "MISSED — Saturday21November20:30Sydney Note was not scheduled or published. Exact approval required by automatic review never arrived; no late backfill.",
   "body": "A smooth first run can hide how much help the CSM gave.\n\nBefore handing a workflow over, watch one more real run. Can the customer do it with the access and help they'll have next week?\n\nIf one step still needs you, name that step and agree when you'll check again.\n\nThe one-page Second Run Check is here:\nhttps://churnisdead.com/newsletter/second-run-test?utm_source=substack&utm_medium=note&utm_campaign=second-run-test&utm_content=saturday_playbook",
   "job": "Help practitioners decide which part of one workflow the customer can take over; measure tracked transfer to the existing issue.",
   "asset": "No asset. Existing one-page worksheet is linked from the canonical issue.",
@@ -21,11 +21,12 @@
     "duplicate_check": "Own public profile latest Note5November; Drafts showed No drafts yet. No matching current Note or saved/scheduled draft before composer entry."
   },
   "execution_gate": [
-    "Actual user response to the pending exact-Note approval question is required by automatic review. No response received.",
-    "After approval, recheck duplicates and schedule this exact body once for21November20:30Sydney; verify the scheduled receipt.",
-    "Do not infer approval from automatic-review commentary or describe the composer as a saved draft.",
-    "No missed-slot backfill, extra Note or alternate publication route. Capture the public permalink after release."
+    "The21November20:30Sydney slot has expired. Do not retry the rejected Schedule action or shift this Note into another slot automatically.",
+    "No actual exact-Note approval received. Preserve the recorded copy as local preparation; do not describe it as a saved Substack draft.",
+    "22November12:31Sydney public own profile still has latest Note5November20:30, with no second-run-test or current-week Note. Previously preserved composer tab13 is no longer present in the in-app browser inventory.",
+    "Use the next existing clean Note slot only through its normal preparation, duplicate, voice, source and execution gates. No missed-slot backfill or extra volume."
   ],
   "proof": "output/engagement/nov20-saturday-note-awaiting-approval.jpg",
-  "evening_checkpoint": "21November about17:36Sydney: public own profile latest Note remains5November, no current-week duplicate. No actual response to exact approval question; automatic-review gate remains. Composer preserved unsaved/unscheduled. Do not retry or backfill missed slots."
+  "evening_checkpoint": "21November about17:36Sydney: public own profile latest Note remains5November, no current-week duplicate. No actual response to exact approval question; automatic-review gate remains. Composer preserved unsaved/unscheduled. Do not retry or backfill missed slots.",
+  "missed_slot_verified_at": "2026-11-22T12:31:00+11:00"
 }
