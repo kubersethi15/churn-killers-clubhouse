@@ -1,6 +1,6 @@
 # Subscriber email release draft
 
-Status: pending issue-specific release approval. No staging, test email or production send performed.
+Status: release authorised by Kuber on 23 November 2026 for Tuesday 24 November at 18:00 Australia/Sydney, followed by one subscriber email only after all checks pass. No test email or production send performed. Staging and publication states are tracked separately.
 
 Subject: Your customer bought less. What changed in the plan?
 
@@ -16,6 +16,6 @@ These routes are not yet live. Website initial HTML, exact self-canonical, sitem
 
 Before production, obtain the exact production-equivalent preview through the established owner-controlled active test subscriber. Verify current sender/domain health, signed webhook events, suppressions, footer/postal address, real signed unsubscribe and one-click headers, original-cohort completion and recipient acceptance ledger. Do not use a fake unsubscribe link as proof. No gate is marked passed from local editorial inspection alone.
 
-If explicitly approved, target only downsell-plan-reset and eligible unsent recipients through the existing deployed function. Open NEWSLETTER_SEND_ENABLED only during that production window and restore false in finally. Reconcile acceptance before any retry; never resend an accepted recipient or create another Resend broadcast. Do not add recipients, channels, feed posts or a native edition from this approval.
+Under the explicit dated approval, target only downsell-plan-reset and eligible unsent recipients through the existing deployed function. Open NEWSLETTER_SEND_ENABLED only during that production window and restore false in finally. Reconcile acceptance before any retry; never resend an accepted recipient or create another Resend broadcast. Do not add recipients, channels, feed posts or a native edition from this approval.
 
 Requested publication: Tuesday 24 November 2026, 18:00 Australia/Sydney (07:00 UTC). Send once only after the independent email and public-route gates pass. Any blockage must be reported with website and email states separate.

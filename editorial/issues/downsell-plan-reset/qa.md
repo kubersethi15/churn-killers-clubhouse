@@ -10,7 +10,7 @@ Archive check: no exact slug or title match and no recent title containing downs
 
 Validation: repository editorial validator passed without warnings. Plain-English/source/experience/house-voice review complete. Final one-page worksheet rendered at 1200px, visually inspected and text extracted: no overlap, clipping or missing glyphs. Existing deterministic renderer used unchanged; no model or network call in the PDF build.
 
-Approval remains pending. No database staging, publish workflow, public website change, test email or subscriber send. Production-equivalent email preview, sender health and the normal release gates remain execution-time checks. Browser controls are unavailable in this session.
+Kuber explicitly approved the exact dated website and single subscriber-email release on 23 November 2026 by replying “approbe” to the review proposal. Approval is recorded by Codex without claiming personal line review. At this approval checkpoint no database staging, publish workflow, public website change, test email or subscriber send has occurred. Subsequent staging must be verified separately. Production-equivalent email preview, sender health and the normal release gates remain execution-time checks. Browser controls are unavailable in this session.
 
 Article word count (validator convention): 1478.
 PDF bytes: 3255.
