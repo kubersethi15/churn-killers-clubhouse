@@ -1,0 +1,39 @@
+{
+  "status": "DRAFTS ONLY; not saved, scheduled or published on Substack",
+  "approval_basis": "Codex editorial decisions under 4 November delegation for the existing three weekly Note slots. No claim of personal line review. Any new automatic-review requirement is separate; none has been tested for these drafts.",
+  "qa": {
+    "human_voice": "passed",
+    "experience": "No invented customer scene, personal implementation or result",
+    "source": "Original bounded proposals from the pending issue; Thursday must pass release gate before use",
+    "duplicate": "Repository prior Note copy compared; fresh public profile/draft/schedule duplicate check unavailable because browser controls are missing",
+    "volume": "Three existing Mon/Thu/Sat slots, no missed-slot backfill, one linked Note out of three",
+    "execution": "No evening LinkedIn comment batch; no replacement timer or extra automation. Monday slot must not be backfilled if missed."
+  },
+  "notes": [
+    {
+      "date": "2026-11-23",
+      "time_sydney": "20:30",
+      "time_utc": "2026-11-23T09:30:00Z",
+      "job": "Practitioner conversation",
+      "body": "When a customer renews fewer licences, what changes in your success plan?\n\nI'm interested in the work that gets kept, narrowed or stopped, not just the new forecast.",
+      "links": 0
+    },
+    {
+      "date": "2026-11-26",
+      "time_sydney": "20:30",
+      "time_utc": "2026-11-26T09:30:00Z",
+      "job": "Current-issue transfer, conditional on release",
+      "body": "A smaller renewal can leave both teams working from an old plan.\n\nPick one workflow and agree whether to keep it, narrow it or pause it. Check the help that's actually agreed before changing the promise.\n\nThe one-page plan reset is here:\nhttps://churnisdead.com/newsletter/downsell-plan-reset?utm_source=substack&utm_medium=note&utm_campaign=downsell-plan-reset&utm_content=thursday_takeaway",
+      "links": 1,
+      "release_gate": "Hold unless downsell-plan-reset is the approved current live issue and its article/PDF pass. If it remains unpublished, reconcile the actual current issue before changing this draft; never post the unavailable route."
+    },
+    {
+      "date": "2026-11-28",
+      "time_sydney": "20:30",
+      "time_utc": "2026-11-28T09:30:00Z",
+      "job": "Grounded operator insight",
+      "body": "A plan can get more useful when you remove something from it.\n\nIf the customer's priorities or capacity have changed, leaving every old milestone in place doesn't preserve the ambition. It can leave people trying to deliver work nobody can support.\n\nI'd name what's stopping and what would need to change before it restarts.",
+      "links": 0
+    }
+  ]
+}

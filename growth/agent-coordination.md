@@ -1215,3 +1215,35 @@ Codex owns the existing 12:30 relationship window: substantive own-post question
 ### 23 November midday outcome
 
 Single daily total 10,513 is verified in Daily row 212; no recapture. No substantive unanswered question on the newest inspected own-post discussions. Of three registered targets reviewed, one current Markus systems post cleared duplicate and human-voice QA. Automatic review blocked direct submission and requires exact approval despite 4 November delegation. One question is pending; Engagement row 273 and preserved composer remain UNSENT. No retry, alternate route or public comment/reply. Do not carry unused capacity or expired candidates. Email aggregates remain 321 accepted/320 signed delivered/one transient bounce/zero complaints or unsigned events. The one-time release notice stays complete. Monday/Thursday copy, five slots, Tanya publishing and holds are unchanged; later Monday preparation is still due in the existing evening run.
+
+
+## 23 November 2026 afternoon — Codex claim
+
+Trigger 15:29:20 Sydney, 40 seconds before the written window; no early public action. Codex owns only the existing 15:30 relationship check, approved-candidate reconciliation and independent aggregate receipt checks. Browser/computer controls remain unavailable, so no fresh live-thread check, new qualified candidate, own-post question result or public submission can be claimed. Kuber's 12:57 exact approval for Engagement row 273 is recorded in the authoritative Sheet; do not ask again for unchanged copy. Use no missed midday capacity or alternate posting route. The daily total 10,513 is already complete. The full Monday operating checkpoint remains assigned to 17:30, with Tanya retaining publishing ownership.
+
+Local git fetch is blocked by read-only worktree metadata in this session. The connected GitHub app verified main remains a40b2f3 and PR 236 remains draft at 666bc33; other PRs 234/204/200 are unchanged. No stale main assumption or merge.
+
+
+### 23 November afternoon outcome
+
+Browser controls remain unavailable. The exact Markus comment is approved by Kuber's 12:57 reply and remains unsent; shared Engagement row 273 now records the afternoon blocker. No repeat permission question, live duplicate-check claim, public comment or own reply; no unused-capacity carry. Daily 10,513 remains fixed. Completed email aggregates remain 321 accepted/320 signed delivered/one transient bounce/zero complaints or unsigned events; no production action or duplicate release notice.
+
+The final Tuesday PDF now has an immutable download URL in Calendar G323 and Lab M124. Connected GitHub metadata and matching local Git blob verified the exact 4,230-byte previously QA'd asset; readbacks passed and Monday/Tuesday captions are unchanged. Tanya's queue, native attachment preview and first-hour coverage remain unverified, with no separate handoff message. Existing evening run owns the full Monday checkpoint. These local record additions remain uncommitted because git metadata is read-only; remote main/PR 236 were verified through the connector. Preserve unrelated work.
+
+
+## 23 November 2026 evening — Codex claim
+
+Trigger 17:33:51 Sydney. Codex owns the existing Monday preflight, editorial preparation and three planned Substack Notes, shared-brief reconciliation and independent completed-email aggregates. Browser controls remain unavailable: latest-post mature read, Monday 17:30 public verification, native queues and Note scheduling cannot be claimed. No evening external comment batch or retry of the approved daytime comment. Today's single 10,513 follower capture stays fixed.
+
+Connected GitHub verifies main a40b2f3 and draft PR 236 head 666bc33, with no competing new PR. Other coordination chat latest work is the October block and is not active. Shared Calendar now contains different Friday/Saturday captions with blank statuses; preserve those edits and reconcile stale Lab approvals without overwriting new copy. No approved or staged 24 November issue exists in repository/Supabase. Prepare a concrete pending commercial-mechanics draft about revising the operating plan after a downsell, with bounded primary sources and a one-page worksheet; no website/email release permission is inferred from the completed 17 November issue.
+
+
+### 23 November evening outcome
+
+Browser controls still missing: no fresh LinkedIn weekly/mature read, Monday public URL verification, manager queue check or Substack schedule. Do not claim a missed public post from tool absence. Daily10,513fixed; no evening comment batch. The approved Markus comment remains unsent, with no repeat approval request.
+
+New Friday/Saturday Calendar drafts are preserved on QA hold; earlier approval notes now clearly historical. Lab122/123 and the prepared handoff reflect current source/experience gaps; claim-safe alternatives are notes only. No overwrite of the new captions or publisher takeover. Five slots, ownership split, existing approved Mon/Tue/Thu, books hold and Saturday time remain. Queue/PDF preview/response acknowledgement unverified.
+
+Pending24November issue prepared in draftPR237, branch editorial/nov24-downsell-plan-reset, commit d2f7f4b9fcc8a626ec7634a86941def07967c9d6. Article1478words and one-page worksheet pass editorial/render QA. Approval remains pending with one exact website18:00Sydney/one-email-if-gates-pass question. No staging, release or email. Three existing weekly Note slots have new local drafts, unscheduled; Thursday link held until approved/live. No Monday backfill or new volume.
+
+Completed email aggregates unchanged321accepted/320signed delivered/one transient bounce/zero complaints/unsigned. Active subscribers321, separately measured. Current provider domain verified, webhook enabled,327sent/326delivered/one transient bounce/zero complaints or failures in the inspected15-daywindow; no risk-classification pass inferred from rates alone. No production mutation or duplicate release notice.
