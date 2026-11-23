@@ -1,0 +1,72 @@
+{
+  "title": "The Downsell Plan Reset",
+  "subtitle": "Agree what the smaller relationship can deliver",
+  "layout": "compact_one_page",
+  "assessment_mode": "decision_record",
+  "intro_text": "Use after a reduced renewal. Keep contract rights and service commitments explicit.",
+  "sections": [
+    {
+      "title": "Check what changed",
+      "instruction": "Record the confirmed reason, remaining customer goal and changed people or access. Check agreed service commitments; do not infer them from revenue.",
+      "headers": [
+        "Changed fact",
+        "Owner / evidence"
+      ],
+      "rows": [
+        [
+          "",
+          ""
+        ]
+      ]
+    },
+    {
+      "title": "Choose the working plan",
+      "instruction": "For one workflow, keep it, narrow it or pause it. Name the result, excluded work and any unresolved commercial decision.",
+      "headers": [
+        "Workflow / decision",
+        "Result / open decision"
+      ],
+      "rows": [
+        [
+          "",
+          ""
+        ]
+      ]
+    },
+    {
+      "title": "Set the next useful check",
+      "instruction": "Name both owners, the revised measure and next real use. Keep the old target as history and record why it changed.",
+      "headers": [
+        "Owner / measure",
+        "Next real use"
+      ],
+      "rows": [
+        [
+          "",
+          ""
+        ]
+      ]
+    }
+  ],
+  "example": {
+    "heading": "Example: a smaller rollout",
+    "label": "Fictional example. No customer result claimed.",
+    "headers": [
+      "Changed situation",
+      "Work",
+      "Decision"
+    ],
+    "rows": [
+      [
+        "Department closed; remaining team still needs its weekly report.",
+        "One region",
+        "Narrow"
+      ]
+    ],
+    "interpretation": "Confirm the new report operator and service commitments before agreeing the change."
+  },
+  "prompt": "Confirmed reason / remaining goal: [ ]\nChanged people, access / agreed help: [ ]\nWorkflow / keep, narrow or pause / excluded work: [ ]\nOpen commercial decision / authorised owner: [ ]\nBoth owners / revised measure / next real use: [ ]",
+  "next_action": "Amend the existing plan. This record does not change a contract or authorise extra services.",
+  "methodology": "Original planning aid. Bounded source notes and limits are in the accompanying article.",
+  "article_url": "https://churnisdead.com/newsletter/downsell-plan-reset"
+}

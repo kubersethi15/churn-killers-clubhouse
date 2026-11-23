@@ -1,0 +1,32 @@
+[
+  {
+    "id": "DPR01",
+    "claim": "ChartMogul defines contraction as reduced subscription MRR, distinct from cancellation of all subscriptions. Used as a measurement definition, not a customer diagnosis.",
+    "source_title": "Metrics glossary",
+    "url": "https://help.chartmogul.com/article/166-subscription-analytics-glossary",
+    "publisher": "ChartMogul",
+    "source_type": "official_guidance",
+    "accessed_at": "2026-11-23",
+    "notes": "Sections Churn and Contraction, lines24-32 at access. No benchmark, causal or probability claim. SaaS vendor product definition."
+  },
+  {
+    "id": "DPR02",
+    "claim": "GitLab distinguishes a smaller renewal with an active customer from full churn in its renewal order-type guidance.",
+    "source_title": "Renewals Managers - How we do it",
+    "url": "https://handbook.gitlab.com/handbook/customer-experience/renewals-managers/how/",
+    "publisher": "GitLab",
+    "source_type": "primary",
+    "accessed_at": "2026-11-23",
+    "notes": "Current page section Churn and Contraction, especially scenario3, lines3614-3668. One company taxonomy; no universal compensation, forecast or service rule borrowed."
+  },
+  {
+    "id": "DPR03",
+    "claim": "Current GitLab success-plan guidance puts the work summary, customer-recognisable success criteria and responsible owner together, refreshed as the work changes.",
+    "source_title": "Success Plans",
+    "url": "https://handbook.gitlab.com/handbook/customer-experience/csm/success-plans/",
+    "publisher": "GitLab",
+    "source_type": "primary",
+    "accessed_at": "2026-11-23",
+    "notes": "Current page lines3555-3605. Search-index wording about a living document was stale and not used; actual current page inspected. Editorial reset and worksheet are original proposals, not GitLab framework reproduction or effectiveness evidence."
+  }
+]

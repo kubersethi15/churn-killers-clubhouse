@@ -1,0 +1,22 @@
+{
+  "title": "The Customer Bought Less. Rewrite the Plan.",
+  "slug": "downsell-plan-reset",
+  "excerpt": "A smaller renewal changes the commercial record. Check which customer work still matters, what can be delivered and which promises need a new decision.",
+  "category": "Commercial Mechanics",
+  "theme": "downsell_scope_reset",
+  "format": "commercial_mechanics",
+  "primary_goal": "Choose which customer workflows to keep, narrow or pause after a smaller renewal without inventing a change in entitlement.",
+  "primary_cta": "Use the Downsell Plan Reset on one smaller renewal whose success plan still describes the old relationship.",
+  "read_time": "7 min read",
+  "published_date": "2026-11-24T07:00:00+00:00",
+  "pdf_filename": "Downsell_Plan_Reset_ChurnIsDead.pdf",
+  "playbook_title": "The Downsell Plan Reset",
+  "playbook_description": "A one-page decision record for updating the working plan after a smaller renewal.",
+  "subject_variants": [
+    {
+      "label": "primary",
+      "subject": "Your customer bought less. What changed in the plan?",
+      "preheader": "Keep, narrow or pause the work, with the customer owner and service commitments clear."
+    }
+  ]
+}
