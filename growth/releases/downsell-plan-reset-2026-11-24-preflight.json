@@ -1,13 +1,13 @@
 {
-  "checked_at": "2026-11-23T17:50:00+11:00",
+  "checked_at": "2026-11-24T08:34:00+11:00",
   "issue": "downsell-plan-reset",
   "draft_pr": "https://github.com/kubersethi15/churn-killers-clubhouse/pull/237",
   "planned_publication_sydney": "2026-11-24T18:00:00+11:00",
   "planned_publication_utc": "2026-11-24T07:00:00Z",
-  "approval": "pending exact issue-specific website/email decision",
+  "approval": "explicit website24November18:00Sydney and one subscriber email after all gates; recorded PR237 e62ed485",
   "article_words": 1478,
   "editorial_validation": "passed, no warnings",
-  "require_approved": "blocked solely on pending approval",
+  "require_approved": "passed, no warnings",
   "pdf": {
     "pages": 1,
     "bytes": 3255,
@@ -18,7 +18,7 @@
   "provider_observation": {
     "domain": "verified; sending enabled",
     "webhook": "existing delivery webhook enabled; no secret read or change",
-    "window_utc": "2026-11-08T06:50:00Z/2026-11-23T06:48:24.873Z",
+    "window_utc": "2026-11-08T21:32:00Z/2026-11-23T21:32:57.463Z",
     "sent": 327,
     "delivered": 326,
     "transient_bounced": 1,
@@ -40,14 +40,18 @@
     "action": "receipts only, never resend accepted recipients"
   },
   "pending_gates": [
-    "Actual issue-specific release approval",
+    "At/after24November18:00Sydney merge exact approved PR237 through normal PR path after fresh checks; verify deterministic publisher/database staging",
     "Stage approved exact package and inspect production-equivalent owner-controlled test preview",
     "Public initial HTML/title/self-canonical, sitemap, RSS and PDF after approved time",
     "Current sender risk assessment, suppressions and original active-cohort completion",
     "Valid signed webhooks, real signed unsubscribe/one-click headers and footer",
     "Fresh eligible-unsent ledger and restore-false production window"
   ],
-  "browser_controls": "unavailable; no website deployment or UI execution",
+  "browser_controls": "unchanged unavailable; no fresh public/manager/native/Note UI execution",
   "production_mutations": 0,
-  "distribution_scope": "existing website and one subscriber email only if explicitly approved and all gates pass; no native edition or extra feed"
+  "distribution_scope": "existing website and one subscriber email only if explicitly approved and all gates pass; no native edition or extra feed",
+  "release_branch_commit": "e62ed48576892d13e6e23b75a56f6f74e57338a5",
+  "release_pr_state": "ready, approved, unmerged; no early merge/staging before authorised release time",
+  "database_issue_rows": 0,
+  "accepted_for_new_issue": 0
 }
