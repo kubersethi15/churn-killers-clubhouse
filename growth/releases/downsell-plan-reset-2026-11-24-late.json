@@ -20,7 +20,11 @@
       "downloaded_from_live_iab_asset": true,
       "text_matches_review": true,
       "pixels_match_review": true,
-      "sha256": "1985edf42ef42c89f930ea3ab404a624591bac003c7c9b2161d814554677c2ce"
+      "sha256": "aff53822f5de7bedca8cff7fe488c5b19de727fb08a83a701e0967a03b9ad988",
+      "first_download_sha256": "1985edf42ef42c89f930ea3ab404a624591bac003c7c9b2161d814554677c2ce",
+      "post_link_actual_download_verified": true,
+      "current_download_text_matches": true,
+      "current_download_pixels_match": true
     },
     "initial_html_gate": "Direct automated HTTP article/PDF/RSS requests return Cloudflare403/error1010. Rendered title/canonical verified; initial response HTML has not been directly verified. view-source protocol is blocked by browser URL policy and will not be bypassed."
   },
@@ -34,7 +38,8 @@
     "change": "Added only exact approved worksheet URL inside existing section under delegated routine resource QA; rest of article unchanged.",
     "validator": "require-approved passes without warnings",
     "live_result": "Second existing Lovable update completed; exact Download the one-page Downsell Plan Reset link verified in live article.",
-    "current_content_md5": "60390ce39b17636e16ce4d2b4022d95b"
+    "current_content_md5": "60390ce39b17636e16ce4d2b4022d95b",
+    "live_final_pdf_verified_from": "The article's actual download link;3255bytes/one page/exact reviewed text and pixels."
   },
   "browser_recovery": {
     "state": "Restored using installed official browser-client runtime through node_repl. setupBrowserRuntime returns the Agent; assigning its return enables documented browsers API. No origin permissions weakened or alternate Chrome used.",
@@ -73,5 +78,6 @@
   ],
   "public_proof": "/private/tmp/cid-nov24-live-article.jpg",
   "published_update_proof": "/private/tmp/cid-nov24-lovable-published.jpg",
-  "scope_preserved": "No new channel, recipients, outreach route, feed/native post or older broadcast."
+  "scope_preserved": "No new channel, recipients, outreach route, feed/native post or older broadcast.",
+  "latest_checked_at_utc": "2026-11-24 11:34:31 UTC"
 }
