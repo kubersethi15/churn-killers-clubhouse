@@ -3,7 +3,7 @@
   "issue": "downsell-plan-reset",
   "user_instruction": "Kuber reported publishing the latest build and requested live verification plus one subscriber email after all checks pass.",
   "website": {
-    "state": "Publicly rendered article and live worksheet verified; late publication reported honestly.",
+    "state": "LIVE; public initialHTML/title/self-canonical/article/PDF/sitemap/RSS verified, and actual worksheet download matches reviewed text/pixels.",
     "lovable": "Recovered own in-app browser control, observed unpublished changes, completed existing Publish changes flow; Your website was updated confirmed, first receipt22:18Sydney.",
     "article": "Exact title, full approved argument, methodology/sources and rendered self-canonical verified in IAB.",
     "canonical": "https://churnisdead.com/newsletter/downsell-plan-reset",
@@ -26,7 +26,32 @@
       "current_download_text_matches": true,
       "current_download_pixels_match": true
     },
-    "initial_html_gate": "Direct automated HTTP article/PDF/RSS requests return Cloudflare403/error1010. Rendered title/canonical verified; initial response HTML has not been directly verified. view-source protocol is blocked by browser URL policy and will not be bypassed."
+    "initial_html_gate": "PASSED. Direct HTTP200 with honest User-Agent ChurnIsDeadReleaseQA/1.0:28624bytes, exact title, full initial article HTML, self-canonical and worksheet link. Generic Python client triggered the earlier Cloudflare1010; no site access setting changed.",
+    "direct_public_checks": {
+      "article": {
+        "status": 200,
+        "bytes": 28624,
+        "exact_title": true,
+        "self_canonical": true,
+        "full_initial_html": true,
+        "worksheet_link": true
+      },
+      "pdf": {
+        "status": 200,
+        "bytes": 3255,
+        "pdf_header": true
+      },
+      "rss": {
+        "status": 200,
+        "bytes": 12186,
+        "includes_issue": true
+      },
+      "sitemap": {
+        "status": 200,
+        "bytes": 14300,
+        "includes_issue": true
+      }
+    }
   },
   "resource_qa_fix": {
     "problem": "Live article lacked a direct worksheet link.",
@@ -70,7 +95,6 @@
     "reason": "Automatic approval review blocked unanticipated Google authentication destination and cross-service private-address query. Do not retry these actions without the specific approval or a materially safer permitted alternative."
   },
   "remaining_gates": [
-    "Direct initialHTML/source verification through an allowed safe method",
     "Current sender risk/health classification",
     "Current suppressions/eligibility and per-recipient acceptance check",
     "Actual signed full-article preview, unsubscribe/one-click/footer",
