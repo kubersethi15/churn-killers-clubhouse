@@ -92,6 +92,8 @@ If the narrowed plan still doesn't work, revisit the decision. Don't wait for a 
 
 ## Use the Downsell Plan Reset
 
+[Download the one-page Downsell Plan Reset](https://churnisdead.com/pdfs/Downsell_Plan_Reset_ChurnIsDead.pdf).
+
 The one-page worksheet puts the changed situation, the working decision and the next check together. Use it with one account whose order has reduced while its success plan still describes the old relationship.
 
 Bring the current plan, the confirmed reason for the reduction and the relevant service commitments. Where something is unknown, write the question and name who will answer it. Don't guess an entitlement, customer priority or staffing commitment to complete a box.
