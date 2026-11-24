@@ -39,7 +39,7 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-app-version, x-cron-key",
 };
 
-type SubjectVariant = { label: string; subject: string; preheader?: string };
+type SubjectVariant = { label: string; subject: string; preheader?: string; content_mode?: "teaser" | "full" };
 
 const getSubjectVariants = (newsletter: {
   title: string;
@@ -51,10 +51,11 @@ const getSubjectVariants = (newsletter: {
     )
     : [];
   return rows.length > 0
-    ? rows.map((row, index) => ({
+    ? rows.map((row, index): SubjectVariant => ({
       label: typeof row.label === "string" && row.label.trim() ? row.label.trim() : `variant-${index + 1}`,
       subject: row.subject.trim(),
       preheader: typeof row.preheader === "string" ? row.preheader.trim() : undefined,
+      content_mode: row.content_mode === "full" ? "full" : "teaser",
     }))
     : [{ label: "default", subject: newsletter.title }];
 };
@@ -339,10 +340,12 @@ const handler = async (req: Request): Promise<Response> => {
         latestNewsletter.title, formattedDate, latestNewsletter.read_time,
         previewText, mainContent, latestNewsletter.slug, latestNewsletter.category,
         newsletterPostalAddress,
+        testVariant.content_mode,
       );
       const textTemplate = generateNewsletterTextTemplate(
         latestNewsletter.title, previewText, mainContent, latestNewsletter.slug,
         newsletterPostalAddress,
+        testVariant.content_mode,
       );
       const customizedEmail = replacePlaceholders(emailTemplate, {
         unsubscribe_url: unsubscribeUrl,
@@ -414,10 +417,12 @@ const handler = async (req: Request): Promise<Response> => {
           latestNewsletter.title, formattedDate, latestNewsletter.read_time,
           previewText, mainContent, latestNewsletter.slug, latestNewsletter.category,
           newsletterPostalAddress,
+          variant.content_mode,
         ),
         text: generateNewsletterTextTemplate(
           latestNewsletter.title, previewText, mainContent, latestNewsletter.slug,
           newsletterPostalAddress,
+          variant.content_mode,
         ),
       };
       templates.set(variant.label, generated);
