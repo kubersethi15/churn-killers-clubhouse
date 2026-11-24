@@ -1,9 +1,9 @@
 /**
  * Newsletter email templates.
  *
- * The email gives the reader the argument's opening, then offers one clear
- * route to the canonical website issue and its playbook. Utility links stay
- * quiet in the footer so the message reads like a useful note, not a campaign.
+ * By default the email gives the reader the argument's opening, then offers
+ * one route to the canonical issue. An explicitly approved full-article mode
+ * retains the complete argument in both HTML and plain text.
  */
 
 const SITE_URL = "https://churnisdead.com";
@@ -41,6 +41,11 @@ const truncateAtWord = (value: string, maximum: number): string => {
   const lastSpace = shortened.lastIndexOf(" ");
   return `${shortened.slice(0, lastSpace > 60 ? lastSpace : maximum).trim()}…`;
 };
+
+const fullArticleText = (html: string): string => htmlToPlainText(html.replace(
+  /<a\b[^>]*href=(["'])(.*?)\1[^>]*>([\s\S]*?)<\/a>/gi,
+  (_match, _quote, url, label) => `${label} (${url})`,
+));
 
 export const trackedIssueUrl = (slug: string): string => {
   const safeSlug = encodeURIComponent(slug);
@@ -88,6 +93,7 @@ export const generateNewsletterEmailTemplate = (
   slug: string,
   category: string | null,
   postalAddress: string,
+  contentMode: "teaser" | "full" = "teaser",
 ) => {
   const teaser = extractEmailTeaser(mainContent, previewText);
   const issueUrl = trackedIssueUrl(slug);
@@ -147,7 +153,7 @@ export const generateNewsletterEmailTemplate = (
           <tr>
             <td class="content-cell" style="padding:0 40px 8px;">
               <div style="font-family:Georgia,'Times New Roman',serif;font-size:18px;line-height:1.7;color:#253047;">
-                ${teaser.bodyHtml}
+                ${contentMode === "full" ? mainContent : teaser.bodyHtml}
               </div>
             </td>
           </tr>
@@ -187,6 +193,7 @@ export const generateNewsletterTextTemplate = (
   mainContent: string,
   slug: string,
   postalAddress: string,
+  contentMode: "teaser" | "full" = "teaser",
 ) => {
   const teaser = extractEmailTeaser(mainContent, previewText);
   return [
@@ -195,7 +202,7 @@ export const generateNewsletterTextTemplate = (
     title,
     teaser.preheader,
     "",
-    teaser.bodyText,
+    contentMode === "full" ? fullArticleText(mainContent) : teaser.bodyText,
     "",
     `Read the issue and get the playbook: ${trackedIssueUrl(slug)}`,
     "",

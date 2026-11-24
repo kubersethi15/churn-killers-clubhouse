@@ -65,6 +65,40 @@ test("the controlled preheader is concise and does not leak later article copy",
   assert.ok(teaser.bodyText.length < 720);
 });
 
+test("an approved full article retains the ending and sources in HTML and plain text", () => {
+  const fullContent = content + '<h2>Sources and methodology</h2><p>Final evidence: <a href="https://example.com/source">original source</a>.</p>';
+  const html = generateNewsletterEmailTemplate(
+    "The customer bought less", "November 24, 2026", "7 min read",
+    "Keep, narrow or pause the work.", fullContent, "downsell-plan-reset",
+    "Commercial Mechanics", "PO Box 123, Sydney NSW 2000, Australia", "full",
+  );
+  const text = generateNewsletterTextTemplate(
+    "The customer bought less", "Keep, narrow or pause the work.",
+    fullContent, "downsell-plan-reset", "PO Box 123, Sydney NSW 2000, Australia", "full",
+  );
+  for (const body of [html, text]) {
+    assert.match(body, /rest of the article/);
+    assert.match(body, /Sources and methodology/);
+    assert.match(body, /Final evidence/);
+    assert.match(body, /PO Box 123/);
+    assert.match(body, /\{\{unsubscribe_url\}\}/);
+    assert.match(body, /utm_campaign=downsell-plan-reset/);
+  }
+  assert.match(html, /href="https:\/\/example.com\/source"/);
+  assert.match(text, /original source \(https:\/\/example.com\/source\)/);
+  assert.doesNotMatch(text, /<[^>]+>/);
+
+  const defaultHtml = generateNewsletterEmailTemplate(
+    "Another issue", "November 24, 2026", "7 min read", "Opening only.",
+    fullContent, "another-issue", null, "PO Box 123",
+  );
+  const defaultText = generateNewsletterTextTemplate(
+    "Another issue", "Opening only.", fullContent, "another-issue", "PO Box 123",
+  );
+  assert.doesNotMatch(defaultHtml, /Final evidence|Sources and methodology/);
+  assert.doesNotMatch(defaultText, /Final evidence|Sources and methodology/);
+});
+
 test("HTML conversion and placeholders stay deterministic", () => {
   assert.equal(htmlToPlainText("<p>CS &amp; Product</p><p>One&nbsp;answer.</p>"), "CS & Product\nOne answer.");
   assert.equal(

@@ -15,6 +15,7 @@
   "subject_variants": [
     {
       "label": "primary",
+      "content_mode": "full",
       "subject": "Your customer bought less. What changed in the plan?",
       "preheader": "Keep, narrow or pause the work, with the customer owner and service commitments clear."
     }
