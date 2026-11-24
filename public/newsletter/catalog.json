@@ -1,5 +1,14 @@
 [
   {
+    "id": "static-downsell-plan-reset",
+    "title": "The Customer Bought Less. Rewrite the Plan.",
+    "slug": "downsell-plan-reset",
+    "excerpt": "A smaller renewal changes the commercial record. Check which customer work still matters, what can be delivered and which promises need a new decision.",
+    "published_date": "2026-11-24T07:00:00+00:00",
+    "read_time": "7 min read",
+    "category": "Commercial Mechanics"
+  },
+  {
     "id": "static-second-run-test",
     "title": "It Worked Once. Can the Customer Run It Again?",
     "slug": "second-run-test",

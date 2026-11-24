@@ -130,6 +130,16 @@
     "published_date": "2026-04-14T08:00:00+00:00"
   },
   {
+    "id": "pdf-downsell_plan_reset_churnisdead",
+    "title": "The Downsell Plan Reset",
+    "description": "A one-page decision record for updating the working plan after a smaller renewal.",
+    "pdf_path": "/pdfs/Downsell_Plan_Reset_ChurnIsDead.pdf",
+    "notion_link": null,
+    "newsletter_slug": "downsell-plan-reset",
+    "newsletter_title": "The Customer Bought Less. Rewrite the Plan.",
+    "published_date": "2026-11-24T07:00:00+00:00"
+  },
+  {
     "id": "pdf-escalation_exit_note_churnisdead",
     "title": "The Escalation Exit Note",
     "description": "A one-page close, handoff or keep-open decision for account escalations.",

@@ -6,8 +6,16 @@
     <description>Weekly CS frameworks for enterprise Customer Success leaders. Hard truths, tactical plays, and downloadable playbooks.</description>
     <language>en</language>
     <managingEditor>kuber@churnisdead.com (Kuber Sethi)</managingEditor>
-    <lastBuildDate>Tue, 17 Nov 2026 16:47:59 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 24 Nov 2026 07:00:58 +0000</lastBuildDate>
     <atom:link href="https://churnisdead.com/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Customer Bought Less. Rewrite the Plan.</title>
+      <link>https://churnisdead.com/newsletter/downsell-plan-reset</link>
+      <guid isPermaLink="true">https://churnisdead.com/newsletter/downsell-plan-reset</guid>
+      <pubDate>Tue, 24 Nov 2026 07:00:00 +0000</pubDate>
+      <description>A smaller renewal changes the commercial record. Check which customer work still matters, what can be delivered and which promises need a new decision.</description>
+      <category>Commercial Mechanics</category>
+    </item>
     <item>
       <title>It Worked Once. Can the Customer Run It Again?</title>
       <link>https://churnisdead.com/newsletter/second-run-test</link>
@@ -159,14 +167,6 @@
       <pubDate>Tue, 23 Jun 2026 08:00:00 +0000</pubDate>
       <description>When gross retention holds but net retention falls, the problem isn't churn. It's an expansion ceiling set by pricing and roadmap. Here's how to decompose your NRR before leadership blames you for it.</description>
       <category>Revenue</category>
-    </item>
-    <item>
-      <title>The Day Your CSM Got Promoted to Babysitter</title>
-      <link>https://churnisdead.com/newsletter/csm-promoted-to-babysitter-agent-supervisor</link>
-      <guid isPermaLink="true">https://churnisdead.com/newsletter/csm-promoted-to-babysitter-agent-supervisor</guid>
-      <pubDate>Tue, 16 Jun 2026 08:00:00 +0000</pubDate>
-      <description>AI isn't killing the CSM role. It's quietly demoting it into babysitting automated busywork while leadership calls it transformation. Here's the job that actually survives.</description>
-      <category>Team Design</category>
     </item>
   </channel>
 </rss>
