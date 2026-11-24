@@ -1,0 +1,65 @@
+{
+  "checked_at": "2026-11-24T18:22:30+11:00",
+  "issue": "downsell-plan-reset",
+  "authorisation": "Explicit website24November18:00Sydney and one full-article subscriber email after all gates. Formal exact approval also received; no personal line-review claim.",
+  "website_state": "Approved package merged/staged and generated; final Lovable public deployment and crawlable resources not verified.",
+  "email_state": "HELD; not sent",
+  "accepted": 0,
+  "issue_events": 0,
+  "active_subscribers": 321,
+  "release_pr": 237,
+  "release_merge": "03537fcfc48720995a8b4ea6a26ac3fb3b5e963c",
+  "publisher_run": 45344657955,
+  "publisher_conclusion": "success",
+  "content_md5": "cf18f23819f6fbd12d9a3598407d9997",
+  "generated_main": "e56f562c839f03cbbc3c020a456ac1b987391a83",
+  "generated_pdf": {
+    "bytes": 3255,
+    "pages": 1,
+    "reviewed_text_matches": true,
+    "reviewed_pixels_match": true,
+    "initial_generated_sha256": "9700bd6d9b239d0fa466521701c349e63694b920270409ab4f213f4c27649b74",
+    "note": "Latest build may differ in PDF creation metadata; generated GitHub file is not proof of live website PDF."
+  },
+  "email_correction": {
+    "cause": "Existing deployed template truncated both bodies to teaser despite full-article approval; caught before send.",
+    "pr": 238,
+    "merge": "ce00460e98a7d7b956ecb599105d9da0dd541a0f",
+    "publisher_run": 45345963672,
+    "tests_passed": 26,
+    "function_version": 198,
+    "deployed_files_readback_match": 7,
+    "content_mode": "full for this issue only; default teaser unchanged",
+    "offline_render": {
+      "html_bytes": 18045,
+      "text_bytes": 10190,
+      "all_three_sources_retained": true
+    },
+    "signed_production_preview": "NOT COMPLETE; offline placeholder preview is not proof"
+  },
+  "public_checks": {
+    "article": "403; unverified",
+    "pdf": "403; unverified",
+    "rss": "403; unverified",
+    "sitemap": {
+      "status": 200,
+      "bytes": 14113,
+      "includes_slug": false
+    }
+  },
+  "pending_user_step": "Single pending request to publish/update the existing Lovable project's latest GitHub-synced build; no response confirmed.",
+  "pending_gates": [
+    "Public initialHTML/title/self-canonical/PDF/sitemap/RSS after existing Lovable deployment",
+    "Actual owner-controlled signed production-equivalent full-article preview",
+    "Current provider risk classification, suppressions, signed webhook, real unsubscribe/one-click/footer and fresh eligible-unsent ledger"
+  ],
+  "no_send_switch_mutation": true,
+  "no_production_email_invocation": true,
+  "no_duplicate_workflow_dispatch": true,
+  "scope_preserved": "Existing channels; five feed slots2Codex/3Tanya;Tanya publisher; books and revised-caption holds; no new recipients/outreach routes.",
+  "relationship_actual": {
+    "external": 0,
+    "own": 0
+  },
+  "next_action": "Continue exact approved delayed website/email release through existing runs; never resend accepted or older completed issues. Report actual delayed publication honestly."
+}
