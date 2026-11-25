@@ -784,3 +784,8 @@ Own Substack profile was signed in; latest public Note remains5November. Current
 Read-only LinkedIn article-management inventory at about17:58Sydney displayed No scheduled articles yet. Existing two drafts were untouched. The24November approved website/email package excludes a native edition, so no edition or replacement was created. Public latest native remains4November champion-change,11published editions. Wednesday books hold remains.
 
 18:20Sydney checkpoint: refreshed public native inventory still11editions, latest4November champion-change, no new downsell native edition. The specific package excludes native publication; no replacement/edition/feed action. Fresh email ledger321active/0issue rows/0accepted/0failed or bounced rows. Separate credential permission still unanswered; no preview or subscriber send. Lab124 now preserves the earlier23Nov status in notes and records the exact25Nov delivered handoff plus unchanged queue/coverage and QA holds; value readback/native visual check passed.
+
+
+25Nov18:25 checkpoint found Tanya's17:55 question about Friday/Saturday. Codex replied once18:26Sydney, human-voice QA passed; Delivered verified. Exact reply: They’re both still on hold for copy QA. Friday says I read all 25 forum replies, which I haven’t verified. Saturday needs tighter wording on exit support so we don’t promise help beyond what’s agreed. Please leave both unqueued for now.
+Both remain On Hold; no queue/coverage acknowledgement.
+Operator remained active through18:25Sydney; no native edition, feed duplicate, email preview/production invocation or credential bypass. Final email ledger checkpoint18:20 remains321active/0accepted. Existing exact permission questions remain pending.
