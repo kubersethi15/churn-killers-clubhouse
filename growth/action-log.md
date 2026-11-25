@@ -789,3 +789,11 @@ Read-only LinkedIn article-management inventory at about17:58Sydney displayed No
 25Nov18:25 checkpoint found Tanya's17:55 question about Friday/Saturday. Codex replied once18:26Sydney, human-voice QA passed; Delivered verified. Exact reply: They’re both still on hold for copy QA. Friday says I read all 25 forum replies, which I haven’t verified. Saturday needs tighter wording on exit support so we don’t promise help beyond what’s agreed. Please leave both unqueued for now.
 Both remain On Hold; no queue/coverage acknowledgement.
 Operator remained active through18:25Sydney; no native edition, feed duplicate, email preview/production invocation or credential bypass. Final email ledger checkpoint18:20 remains321active/0accepted. Existing exact permission questions remain pending.
+
+## 25 November 2026 — exact Substack approvals executed
+
+Kuber explicitly approved both existing Thursday26November20:30Sydney and Saturday28November20:30Sydney Notes with the exact wording shown in the grouped question. This closes their specific automatic-review gate; the production send-credential permission remains separate and unanswered. No retry of the older21November Note.
+
+Own signed-in Substack session reused. Fresh duplicate check found latest public Note5November and no matching queued entry; the only initial draft was the newly saved approved Thursday text. Thursday's tracked canonical downsell-plan-reset link preview matches the live current issue; paragraph/readability/source/experience/human-voice QA passed. Saturday's exact no-link plan-removal insight passed the same voice/experience gates. The schedule date/time was saved and the final Schedule submitted exactly once per Note. Native Drafts then showed exactly one matching entry Scheduled for26Nov20:30 and one Scheduled for28Nov20:30, under KuberSethi. Sydney times correspond to09:30UTC on each date. No public post was made early.
+
+Existing automation updated to record approvals and verified schedules, preserve its same four runs and all other gates, and prevent duplicates. Monday23November remains missed, no backfill or extra volume. Subscriber email remains unsent and its separate credential question unchanged. The records PR remains draft/unmerged.
