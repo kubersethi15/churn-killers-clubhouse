@@ -571,3 +571,21 @@ Single daily total10,646 at about09:43Sydney, verified in Daily214. Prior dated2
 ## 26 November 2026 — automatic commenting continued as agreed
 
 Kuber clarified that his request concerned automatic comments on other posts, and asked to continue as agreed. Codex verified the existing automation is ACTIVE on the same four-run schedule and LinkedIn is signed in as Kuber. Historical interruptions included browser unavailability and obsolete exact-per-comment confirmation wording alongside the4November delegation. Removed that conflict from the saved daytime instructions and this plan; no approval settings or actual review block was weakened. Routine qualified comments/replies execute after live duplicate/source/context/human-voice QA, then verification/logging, without individual wording approval. Keep4/3/3external caps at08:30/12:30/15:30Sydney,10/day maximum, no catch-up and Tanya's evening lane. The separate email credential hold does not block relationship work. Today remains1external/1own reply; this11:48user request caused no out-of-window publication. Next existing windows12:30/15:30. Specific old expired drafts are not replayed.
+
+### 26 November evening — release and first seven-day checkpoint
+
+Thursday's existing17:30 text-only slot is publicly verified by17:36Sydney with exact approved opening/body, in Tanya's assigned publishing lane: https://lnkd.in/p/gywqTxB3 . Linked analytics activity7531606168192925696; public share ID7531606165403811840. Exact actual publication minute unverified. Calendar325 is Posted; Lab121 reconciled. Codex did not publish/edit/duplicate; response coverage acknowledgement remains unverified. First24h due27Novafter17:36;7d3Decafter17:36. Preserve Fri/Sat/books QA holds.
+
+| 19 Nov career/AI post7529068384072798208 / first7d26Nov17:35 | Read |
+|---|---:|
+| Impressions / members reached |974 /643|
+| Out-of-network impressions |48%|
+| Post profile viewers / per1,000 reached |5 /7.78|
+| Post follows / per1,000 reached |2 /3.11|
+| Reposts / saves / sends |1 /2 /0|
+| Reactions / total comments |26 /18|
+| Premium button engagements / post-link visits |1 /0|
+
+Qualified-comment count unavailable. Fit44%Senior,25%ITservices/consulting,23%CSMtitle,16%at1,001–5,000employees,6%Bengaluru,3%Cisco. Keep the specific career/operating tension as a candidate structure with source/claim QA. The prior24h480reach/4profiles/2follows/1repost/2saves remains fixed. Additional reach yielded one additional profile viewer and no additional follow; two follows cannot establish stable conversion. Descriptive lifetime-to7d only: no bounded weekly attribution, account-growth attribution or causal format/timing winner. Nonzero profile/follow/repost signals do not trigger a zero-signal replacement. Two-qualified-case and comparable-timing floors remain. Existing Thursday opening intervention executed; no new portfolio shift or live edit.
+
+Tuesday's fixed mature read is not repeated; next7d1Decafter17:35. Actual day7external/1own reply; no evening external batch/carry. Daily10,646 stays the single capture. Lab125 is the aggregate checkpoint. Current email321active/0new-issue accepted remains held for the unanswered separate credential permission. Existing exact Thu/Sat20:30Notes stay scheduled once; verify after due time. No new notification for unchanged holds.
