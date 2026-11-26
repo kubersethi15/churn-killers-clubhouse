@@ -260,17 +260,17 @@ Before publishing a relationship comment, compare it with this baseline. If it
 could sit under almost any LinkedIn post, rewrite it around the exact tension in
 the live discussion.
 
-#### Ten-comment Codex weekday test — starts 31 August 2026
+#### Bounded daily Codex relationship loop — reaffirmed 26 November 2026
 
 Kuber approved a bounded test of **ten external relationship comments from
-Codex per weekday**, separate from the social manager's evening engagement
+Codex per operating day**, including weekends under the current standing cadence, separate from the social manager's evening engagement
 lane. Ten is the daily ceiling and intended volume only when ten current,
 high-fit conversations genuinely warrant a useful response. Never pad the day
 with generic praise or low-relevance comments to reach the number.
 
 - Use three Sydney-time windows before the manager's evening activity:
-  **08:30–10:00 (four comments), 12:00–13:30 (three), and 15:00–16:30
-  (three)**. Timing inside a window should follow live thread availability,
+  **08:30–10:00 (up to four comments), 12:30–13:30 (up to three), and15:30–16:30
+  (up to three)**. Timing inside a window should follow live thread availability,
   not a mechanical interval.
 - If a window is missed or produces too few qualified threads, do not carry the
   shortfall into a burst later that day. Record the actual count and reason.
@@ -289,13 +289,16 @@ with generic praise or low-relevance comments to reach the number.
 - Replies on Kuber's own posts and genuine follow-ups remain important but are
   tracked separately from the ten external comments. Praise-only reactions do
   not require a written reply.
-- Each small batch requires a live duplicate check and exact action-time
-  confirmation before publication. Existing approval of the routine is not
-  approval of unseen future wording.
+- Under Kuber's4November delegation, reaffirmed26November, routine comments
+  and own-post replies do not need individual wording approval. Complete the
+  live duplicate, context/source and human-voice checks, publish once as Kuber,
+  then verify and log exact text, public URL and actual count. Preserve any
+  actual higher-priority tool-review rejection; do not bypass it.
 - The manager's pre-post engagement is coordinated relationship work, not a
   proven algorithmic boost. Never describe it as causing distribution.
 
-Run the test for ten weekdays. Record every public post URL, actual comment
+The original ten-weekday trial is historical; Kuber reaffirmed continuing this
+same bounded routine on26November. Record every public post URL, actual comment
 count, substantive replies, follow-ups, aggregate profile views, total follower
 movement and any available post-attributed follows. Treat account-level movement
 descriptively. Stop immediately on a LinkedIn warning, a quality failure or
@@ -416,9 +419,11 @@ still require the stated evidence floors.
   content-format research brief at a time. Claude does not create another
   dashboard or duplicate the manager's comments.
 
-No one changes approved public copy, posts, comments, profile surfaces or
-permissions without the exact action-time check required by the operating
-system. Once an exact item is approved, it executes without another request.
+Apply the latest user delegation and the specific action's gates. Routine
+LinkedIn comments/replies in the existing bounded lane execute under4November
+delegation, reaffirmed26November, after QA and duplicate checks. Public-profile
+or permission changes, unresolved specific content holds and actual tool-review
+blocks retain their existing requirements. Tanya remains feed publisher.
 
 ## Social-manager value audit: 28 August to 18 September
 
@@ -562,3 +567,7 @@ Evening email aggregate remains321active/0accepted/0new-issue events. Existing w
 ### 26 November daily capture and routine execution
 
 Single daily total10,646 at about09:43Sydney, verified in Daily214. Prior dated25November10,600 was reconciled into213 from its existing observation, not recaptured. +46over an unequal daily interval is not weekly net or post attribution. Remaining4,354over35days/5weeks to31December requires about871net/week, not a forecast. Daily actual1external/1own reply; shared Engagement276/277 verified. No creative evidence gate or experiment changed; preserve Thursday's existing approved opening-only revision and the Friday/Saturday/books holds.19November seven-day post read remains due after17:30today; no repeat of Tuesday's fixed24hcheckpoint. Email0accepted/321active remains held for the separate unanswered credential request. Existing Thu/SatNotes are scheduled once; verify public release only after due time.
+
+## 26 November 2026 — automatic commenting continued as agreed
+
+Kuber clarified that his request concerned automatic comments on other posts, and asked to continue as agreed. Codex verified the existing automation is ACTIVE on the same four-run schedule and LinkedIn is signed in as Kuber. Historical interruptions included browser unavailability and obsolete exact-per-comment confirmation wording alongside the4November delegation. Removed that conflict from the saved daytime instructions and this plan; no approval settings or actual review block was weakened. Routine qualified comments/replies execute after live duplicate/source/context/human-voice QA, then verification/logging, without individual wording approval. Keep4/3/3external caps at08:30/12:30/15:30Sydney,10/day maximum, no catch-up and Tanya's evening lane. The separate email credential hold does not block relationship work. Today remains1external/1own reply; this11:48user request caused no out-of-window publication. Next existing windows12:30/15:30. Specific old expired drafts are not replayed.
