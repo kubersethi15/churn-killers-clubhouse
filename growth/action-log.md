@@ -943,3 +943,32 @@ Shared K288:P290 prepared before publication, exact values/notes read back after
 Daily10,683 stays the single morning capture; no recapture, new post analytics snapshot or Friday scorecard row. The two Friday scoreboards and account seven-day read remain for the evening standing run, once each; Thursday's first mature read only after17:36. The completed19November7d and Tuesday fixed24h reads were not repeated. Thursday's Substack Note remains completed/verified this morning; no duplicate or reschedule. Saturday20:30 exact Note remains scheduled once.
 
 Fri/Sat/books QA holds, five slots2Codex/3Tanya and Tanya publisher ownership preserved. The separate email credential permission still has no new answer; this is independent of comments. Last morning aggregate321active/0new-issue accepted remains dated, not re-labelled as a fresh midday provider-health check. No denied credential access/bypass, preview, production invocation, switch mutation, recipients, old resend, manager handoff or new feed/native/channel/outreach action. Existing automation remains ACTIVE on the same cadence and now carries day6external/1own and completed midday cap. Claim complete; no new blocker or user action.
+
+## 27 November 2026 — afternoon relationship window completed
+
+Trigger15:28:40 Sydney; execution began15:28:47. Host and Sydney AEDT UTC+11. Preparation, source and duplicate checks ran before15:30; public comments were submitted only after the written window opened. A slightly early trigger is not a persistent timezone shift; existing schedule unchanged. Fresh main `21523cf8`, draft PR236/`4cdeddb`, open PRs, latest plan/claims/action, shared Engagement List/Calendar and other coordination chat checked before public work. Other chat remains notLoaded with last20October update. Main-unchanged guidance/editorial sources reused. Lane claim `752c425`; no competing lane.
+
+Own Thursday post read first with Most recent. Morning's substantive author reply remains present and there is no new follow-up requiring another answer. No own reply in this window.
+
+Two qualified comments were prepared in shared K291:P292, passed final source/context/experience, live/shared exact-post duplicate and human-voice QA, and were published under Kuber's4November delegation reaffirmed26November. Codex made the editorial calls; no personal line-review claim.
+
+1. Stan Mykhalchuk — joint builder/advisor workflow test:
+   Post https://www.linkedin.com/feed/update/urn:li:activity:7531717348135727106/
+   “I'd have both roles watch the customer run the workflow before calling it done. A technical pass can still leave the customer unable to use it.”
+   Verified https://lnkd.in/p/gR6iE7JZ ; comment7531938093512310784.
+2. Kári Thor Runarsson — recurring issue/workaround diagnostic:
+   Post https://www.linkedin.com/feed/update/urn:li:activity:7530975114859802624/
+   “I'd track how often the same issue comes back after a 'fix.' A fast close can look good while the customer is still doing the workaround.”
+   Verified https://lnkd.in/p/gw7qyatQ ; comment7531938184390193153.
+
+Both Most relevant and Most recent live views checked. No prior Kuber contribution or overlapping specific point. Stan's comment is a proposed operating check, not verification or endorsement of the post's hiring percentages, pay premium, vendor examples or research sample. Kári's2d post has active10–14h discussion; the comment does not adopt its unsupported company-size/growth comparison. No invented experience, source, benchmark, link, pitch, forced question or generic praise. Human-voice QA passed.
+
+A third candidate, Michelle Abiodun's salary-transparency caption, surfaced several profile activity IDs with identical wording. The exact intended feed item was not established safely, so that candidate was dropped without a preparation row or public action. This records ambiguity, not a claim that the creator authored duplicate posts. No alternate guessed target or capacity-filling replacement.
+
+Each selected comment submitted once, then exact text, You identity and matching comment ID persisted through the observed public View comment permalink. Own-only cropped proofs saved and visually verified: nov27-afternoon-stan-published.jpg and nov27-afternoon-kari-published.jpg in this chat's visualization engagement directory. No repeat submission or individual viewer/follower/engager analytics recorded. Shared values/notes read back, only new rows wrapped/fitted, native100% visual QA passed.
+
+Actual afternoon **2external /0own replies**. Actual day **8external /1own reply**: morning3, midday3, afternoon2external. Afternoon closes here before16:30; its unused slot and the earlier unused morning slot expire. No carry, extra daytime run or evening external batch. Relevance and duplicate safety took priority over filling the cap. Relationship work is not a proven algorithmic boost or post-attributed growth.
+
+Daily10,683 remains the single morning capture. Friday's two scoreboards/account-level seven-day read remain due in the evening standing run, once each; Thursday's first mature read must wait until after17:36. No repeated19November7d or Tuesday fixed24h checkpoint. The completed Thursday Substack Note was not reposted or rescheduled; Saturday20:30 exact Note remains scheduled once. Fri/Sat/books QA holds, five slots2Codex/3Tanya and Tanya publisher ownership unchanged. No manager handoff or new feed/native/channel/outreach action.
+
+Separate email credential permission still has no new answer. Last morning321active/0new-issue accepted remains dated; no fresh provider-health claim from it. No denied credential read/bypass, preview, production invocation, switch mutation, recipient change, old resend or repeated question. The independent email hold did not stop comments. Existing automation remains ACTIVE, same four-run schedule, with day8external/1own, closed daytime capacity and next17:30standing duties only. Claim complete; no new blocker or user action.

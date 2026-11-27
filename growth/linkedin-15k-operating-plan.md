@@ -601,3 +601,7 @@ Friday scoreboards/account seven-day read remain due in the evening standing run
 ### 27 November midday execution
 
 Existing12:30 window completed with3external/0own replies; actual day6external/1own. Shared Engagement288–290 holds exact public receipts and human-voice QA. Own Thursday question already answered; no duplicate. One unused morning slot expired; no carry. Next15:30 window stays up to3 with fresh live/shared checks. Daily10,683 stays fixed; Friday scoreboards/account7d and Thursday first24h after17:36 remain due in the evening, once each. No repeated post checkpoint, held feed publication, Note resend or email credential bypass. Same four-run schedule.
+
+### 27 November afternoon execution
+
+Two qualified external comments verified in Engagement291–292; no own reply. Actual day8external/1own (3morning+3midday+2afternoon external). Salary-transparency candidate dropped because identical captions surfaced under multiple profile activity IDs and the exact intended item was ambiguous; no preparation/publication. Both unused morning/afternoon slots expire; no carry or evening external batch. Daily10,683 stays fixed. Next17:30run completes Friday scoreboards/account7d once each and waits for Thursday's first24h after17:36. Existing post checkpoints, Note completion, publisher ownership, content holds and separate email credential gate remain unchanged.
