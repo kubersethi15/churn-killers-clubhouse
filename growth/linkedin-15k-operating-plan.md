@@ -597,3 +597,7 @@ One daily capture: **10,683 followers**, own profile at about08:39Sydney, verifi
 Approved26November20:30Substack Note is publicly verified at https://substack.com/@kubersethi/note/c-396406853 with exact copy/UTM link and native timestamp. Replies0explicit; other stats unavailable, not zero. Do not repost/reschedule. Saturday28November20:30 remains scheduled once; no missed-slot backfill.
 
 Friday scoreboards/account seven-day read remain due in the evening standing run, once each, using fixed daily10,683. Thursday feed first24h is due only after17:36today; Tuesday7d1December and completed19November7d checkpoint are not repeated. Preserve Fri/Sat/books QA holds and Tanya publisher ownership. New email321active/0accepted remains behind the separate unanswered credential gate; no resend or credential bypass. Same four-run schedule; early08:28arrival caused preparation only and no pre08:30public action.
+
+### 27 November midday execution
+
+Existing12:30 window completed with3external/0own replies; actual day6external/1own. Shared Engagement288–290 holds exact public receipts and human-voice QA. Own Thursday question already answered; no duplicate. One unused morning slot expired; no carry. Next15:30 window stays up to3 with fresh live/shared checks. Daily10,683 stays fixed; Friday scoreboards/account7d and Thursday first24h after17:36 remain due in the evening, once each. No repeated post checkpoint, held feed publication, Note resend or email credential bypass. Same four-run schedule.
