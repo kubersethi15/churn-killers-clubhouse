@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-21",
+  "time_sydney": "20:30",
+  "time_utc": "2026-11-21T09:30:00Z",
+  "channel": "Substack Note",
+  "status": "MISSED — Saturday21November20:30Sydney Note was not scheduled or published. Exact approval required by automatic review never arrived; no late backfill.",
+  "body": "A smooth first run can hide how much help the CSM gave.\n\nBefore handing a workflow over, watch one more real run. Can the customer do it with the access and help they'll have next week?\n\nIf one step still needs you, name that step and agree when you'll check again.\n\nThe one-page Second Run Check is here:\nhttps://churnisdead.com/newsletter/second-run-test?utm_source=substack&utm_medium=note&utm_campaign=second-run-test&utm_content=saturday_playbook",
+  "job": "Help practitioners decide which part of one workflow the customer can take over; measure tracked transfer to the existing issue.",
+  "asset": "No asset. Existing one-page worksheet is linked from the canonical issue.",
+  "approval_basis": "Routine existing-plan preparation under Kuber’s 4 November delegation. Codex editorial decision; no claim that Kuber personally reviewed the text.",
+  "qa": {
+    "human_voice": "passed",
+    "source": "Approved second-run-test article and playbook; original operator advice without a statistic or causal benchmark.",
+    "experience": "No first-person customer, employer, milestone or result claim.",
+    "canonical": "Live article and exact tracked canonical preview verified in Codex in-app browser during 20 November evening preflight.",
+    "pdf": "Downloaded through the article link: 3,231 bytes, valid PDF header, byte-identical to morning release. SHA256 613f84f656bed6658bd2624e3773a97c99ca664e01823e7dba5ef750979691c4.",
+    "http_client_limit": "Direct PDF viewer was blank and Python returned403; normal article download succeeded. No website/PDF outage inferred.",
+    "format": "Short Note only, not a full-article republication.",
+    "tracked_links": 1,
+    "weekly_link_cap": "Current week has zero public Notes; this would be one linked Note within the existing Saturday slot. No missed Monday/Thursday backfill.",
+    "duplicate_check": "Own public profile latest Note5November; Drafts showed No drafts yet. No matching current Note or saved/scheduled draft before composer entry."
+  },
+  "execution_gate": [
+    "The21November20:30Sydney slot has expired. Do not retry the rejected Schedule action or shift this Note into another slot automatically.",
+    "No actual exact-Note approval received. Preserve the recorded copy as local preparation; do not describe it as a saved Substack draft.",
+    "22November12:31Sydney public own profile still has latest Note5November20:30, with no second-run-test or current-week Note. Previously preserved composer tab13 is no longer present in the in-app browser inventory.",
+    "Use the next existing clean Note slot only through its normal preparation, duplicate, voice, source and execution gates. No missed-slot backfill or extra volume."
+  ],
+  "proof": "output/engagement/nov20-saturday-note-awaiting-approval.jpg",
+  "evening_checkpoint": "21November about17:36Sydney: public own profile latest Note remains5November, no current-week duplicate. No actual response to exact approval question; automatic-review gate remains. Composer preserved unsaved/unscheduled. Do not retry or backfill missed slots.",
+  "missed_slot_verified_at": "2026-11-22T12:31:00+11:00"
+}

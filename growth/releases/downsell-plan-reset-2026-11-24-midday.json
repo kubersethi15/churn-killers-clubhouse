@@ -1,0 +1,70 @@
+{
+  "checked_at": "2026-11-24T12:35:00+11:00",
+  "trigger_at": "2026-11-24T12:34:04+11:00",
+  "host_timezone": "AEDT UTC+11; matches Sydney",
+  "timing_decision": "4m04s late arrival; keep existing schedule, no persistent offset established",
+  "remote_main": "a40b2f398c8e9825fc6bd192fb1835827209d873",
+  "records_pr": 236,
+  "records_parent": "8990af4c64e084b4c9f5de888a4f56d6d4135c80",
+  "release_pr": 237,
+  "approved_release_head": "e62ed48576892d13e6e23b75a56f6f74e57338a5",
+  "issue": "downsell-plan-reset",
+  "publication_sydney": "2026-11-24T18:00:00+11:00",
+  "approval": "Explicit website and one subscriber email after all gates; formal exact approval also received. No further routine approval needed.",
+  "release_state": "Ready, unmerged, not staged. Respect rejected early merge; normal merge at/after authorised time only.",
+  "new_issue_staged_rows": 0,
+  "new_issue_accepted": 0,
+  "relationship_window": {
+    "external_comments": 0,
+    "own_replies": 0,
+    "reason": "Browser controls remain unavailable; no current live context or exact-post duplicate verification possible.",
+    "approved_unsent": "Engagement273 unchanged exact approval remains valid; no retry, extra run or capacity carry.",
+    "daily_total_actual_external": 0,
+    "daily_total_actual_own": 0
+  },
+  "browser": {
+    "control_tools_available": false,
+    "repair_status": "Unchanged from user-requested diagnosis. Panel reopen did not restore control. App restart/Browser invocation suggested previously; no recovery confirmed. Lovable fallback suggestion not confirmed, so not used.",
+    "action": "No alternate control route, configuration change or repeated connection prompt."
+  },
+  "shared_calendar": {
+    "approved_rows": [
+      322,
+      323,
+      325
+    ],
+    "held_rows": [
+      324,
+      326,
+      327
+    ],
+    "tuesday_asset": "Same immutable 4230-byte approved three-page hypothetical case PDF. Tanya publisher; native attachment/queue/response acknowledgement unverified.",
+    "monday_post": "Public URL unverified; no proven miss or replacement.",
+    "notes": "Missed Monday Note not backfilled. Thursday/Saturday drafts remain unscheduled pending fresh platform checks; Thursday link requires current live issue."
+  },
+  "followers": {
+    "latest_verified": 10513,
+    "as_of": "2026-11-23",
+    "today_capture": "unavailable; no fresh value inferred"
+  },
+  "email": {
+    "active_subscribers": 321,
+    "prior_issue": "second-run-test",
+    "prior_accepted": 321,
+    "prior_signed_delivered": 320,
+    "prior_transient_bounced": 1,
+    "prior_complaints": 0,
+    "prior_unsigned_events": 0,
+    "action": "Receipts only; no send, suppression or switch mutation."
+  },
+  "evening_gates": [
+    "Remain active from existing17:30run through release verification and conditional send",
+    "Fresh PR/branch/check/duplicate verification and normal merge at/after18:00Sydney",
+    "Deterministic publisher/database readback and existing Lovable deployment if needed",
+    "Exact production-equivalent email preview",
+    "Live initial HTML/exact title/self-canonical, sitemap, RSS and PDF",
+    "Current provider risk, suppressions, signed webhooks, real signed unsubscribe/footer, prior original cohort completion and fresh recipient ledger",
+    "Only eligible unsent recipients once; restore send switch false immediately even on error"
+  ],
+  "notification": "Quiet unchanged check; prior browser blocker already reported. Notify actual completion or a new/material blocking condition."
+}

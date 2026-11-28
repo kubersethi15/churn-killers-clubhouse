@@ -1084,3 +1084,496 @@ The CS Cafe Newsletter), so a free CS newsletter fits without being promotional.
 - **Owner:** Codex monitors PR #15 from Kuber's real GitHub account. Copy remains
   in `growth/outreach-pitches.md`. Avoids Reddit, LinkedIn Newsletter, Resend,
   Medium, and every existing outreach thread.
+
+## 20 November 2026 midday — Codex claim and outcome
+
+Codex owns this existing midday relationship window, completed-issue receipt reconciliation and Friday aggregate read. Fresh main: a40b2f398c8e9825fc6bd192fb1835827209d873. Open PRs 234, 204 and 200 were inspected and left unchanged. The original dirty checkout and unrelated ROADMAP.md changes are preserved.
+
+The trigger arrived at 12:26:33 Sydney; host and Sydney both AEDT UTC+11. No public action occurred before 12:30. This is trigger jitter, not evidence for a new schedule offset. No unused comment capacity carries forward.
+
+Outcome: one verified own-post reply, zero external comments. The external candidate is unsent because automatic approval review insists on exact approval despite the newer routine delegation. An exact question is pending. Do not duplicate this candidate, use another route, or count it as posted. Shared Engagement rows 269–270 distinguish the outcomes.
+
+Friday subscriber row 15, LinkedIn row 45 and Daily follower row 209 are updated. Do not append another 20 November subscriber row or recapture followers. Current issue receipts: 321 accepted once, 320 delivered, one provider-delayed, zero bounces or complaints; no resend. The evening operator still owns the latest post's mature read and manager queue/live verification. No feed post or native edition was added. Full evidence is in the 20 November action log and release receipt.
+
+## 20 November 2026 afternoon — Codex claim
+
+Codex owns the existing afternoon relationship review, prioritising new substantive own-post questions and completed-email aggregate monitoring. Main remains a40b2f3; current operational PR236 is unmerged and contains the midday receipts. No new Friday subscriber row, follower capture or seven-day account read. The unsent Dan candidate has no exact approval; do not retry the rejected submission or carry midday capacity. Preserve Tanya’s evening publishing lane and all other agents’ work.
+
+### 20 November afternoon outcome
+
+No new substantive own-post question required a reply. Existing manager responses were verified on the bad-news thread; the midday latest-post reply remains live. Afternoon zero external / zero own replies; daily zero external / one own reply. The exact external approval is still absent and its midday window expired. Do not repeat the rejected action or the user notification. Email stays321accepted/320delivered/1provider-delay/0bounce/complaint, no resend.
+
+Prepared only growth/substack-note-2026-11-21.json for the existing Saturday slot. It is local, not queued. Evening operator must inspect live Notes/drafts/schedules, weekly link cap and resource readiness before any action; no missed-slot backfill. Friday scorecard rows remain subscriber15/LinkedIn45 and Daily209. No second insertion or capture today. Latest post22hours old at afternoon review; mature read remains for the evening.
+
+## 20 November 2026 evening — Codex claim
+
+Codex owns the existing evening mature-post check, Friday manager live/queue verification, and Saturday Note duplicate/queue preflight. Main remains a40b2f3; PR236 owns these operating records. Daily follower and Friday scorecards are already complete. No external comment batch, accepted-recipient retry, duplicate issue or manager feed publication. Trigger17:26:36Sydney; host/SydneyAEDT+11. Keep the existing cadence and distinguish trigger jitter from timezone offset.
+
+
+### 20 November evening outcome
+
+Mature24-hour and seven-day post reads, Friday live verification and Saturday brief are complete; see action log. Latest480reach/4profiles/2follows/1repost means no automatic zero-signal replacement. Friday public https://lnkd.in/p/gymk4TRJ verified; Calendar319Posted. Saturday Calendar320 and Lab117 approved editorial copy, no queue; Tanya retains publishing/response ownership. Shared handoff is prepared only, not separately delivered or acknowledged.
+
+Substack Note exact copy is in unsaved composer; scheduling rejected twice by automatic approval review requiring exact approval. User question pending, no response. Preserve composer, do not route around review or claim it scheduled. Local JSON contains exact body and QA. No missed-slot backfill. Email321accepted/320delivered/1provider-delay/0bounce/complaint, no resend. Do not repeat Friday aggregate rows or follower capture. Current PR236 records evidence only and remains draft/unmerged.
+
+
+## 21 November 2026 morning — Codex claim
+
+Codex owns the existing08:30 relationship window, own-post question review, current Engagement List de-duplication and completed-email aggregate outcome reconciliation. Trigger08:33:17Sydney; host/SydneyAEDT UTC+11. No schedule change, missed-slot carry or duplication of Tanya’s planned17:30feed. PR236 carries existing operating records; main remainsa40b2f3. The rejected Saturday Note has no new exact user approval: do not retry scheduling, route around review or repeat the approval question.
+
+
+### 21 November morning outcome
+
+One own-post reply verified on Friday CX activity7529431022820638720, reply7529659112809267200; exact copy and QA in Engagement271/action log. Zero external comments after current-fit review; no unused-capacity carry. Saturday Calendar320/Lab117 unchanged with queue/coverage still unverified. Note exact approval absent; no reattempt, new question or alternate route. Composer preserved.
+
+Completed issue321accepted/320delivered/1Transient-General bounce/0complaints/0unsigned. No resend or temporary-bounce suppression. Current active322 is separate from Friday's frozen321. Today's follower capture remains untaken; do it once in a later existing run, not a weekly-read repeat. Maina40b2f3; draftPR236 carries records only.
+
+
+## 21 November 2026 midday — Codex claim
+
+Codex owns the existing12:30relationship window, substantive own-post reply review, current shared-ledger duplicate checks and one daily follower capture if still absent. Trigger12:34:20Sydney, host/SydneyAEDT UTC+11. Fresh maina40b2f3; openPR236/234/204/200 preserved. No capacity carry, accepted-recipient retry, duplicate Saturday feed or retry of the rejected Note without actual exact approval. Tanya retains publishing and response ownership.
+
+
+### 21 November midday outcome
+
+No new own-post question; morning reply remains verified live. External candidate failed exact-thread angle duplication, so0external/0own this run; daily0external/1own. No capacity carry. Today's one follower capture is10,480at about12:39Sydney, Dailyrow210; do not recapture. +66versus yesterday is an unequal daily interval, not weekly/post attribution. Remaining4,520over40days, about791/week. Friday scorecards unchanged.
+
+Email321accepted/320delivered/1transient bounce/0complaints/unsigned, no resend. Saturday feed remainsTanya-owned with queue/coverage unacknowledged in the Sheet. Note exact approval still absent, composer preserved; no retry or duplicate question. Latest Friday post19h, mature24hread due this evening after17:30. DraftPR236 holds records; no unrelated work changed.
+
+
+## 21 November 2026 afternoon — Codex claim
+
+Codex owns the existing15:30relationship window: new own-post questions first, then qualified current external discussion review and aggregate completed-email monitoring. Trigger15:33:52Sydney; host/SydneyAEDT UTC+11. Fresh maina40b2f3; existingPR236/234/204/200 and unrelated ROADMAP.md preserved. Today’s follower capture10,480already complete; no recapture or Friday scorecard repeat. Do not carry unused comment capacity, retry accepted emails or the rejected Note, or take Tanya’s Saturday feed publishing lane.
+
+
+### 21 November afternoon outcome
+
+No new substantive own-post question. Friday post22h old; mature read due after17:30. Jeff's current team-AI post7529526891414945792 cleared exact-thread duplicate and voice QA for a narrow account-context correction contribution, but automatic review rejected direct publication and insists on exact approval despite4November delegation. One exact question pending; no actual response, public comment or retry. Engagement272 is UNSENT; preserve composer and expire without capacity carry if no timely approval. Afternoon0external/0own; daily0external/1own. Do not count candidate as published.
+
+Today’s follower capture10,480already complete, no repeat. Email321accepted/320delivered/1transient bounce/0complaints/unsigned, no resend. Saturday feed remainsTanya-owned with queue/coverage unacknowledged; Note exact approval absent, no reattempt or duplicate question. PR236 records evidence only; unrelated changes preserved.
+
+
+## 21 November 2026 evening — Codex claim
+
+Codex owns Friday’s mature24hread, Saturday manager publication verification, existing Note queue preflight and completed-email receipts. Trigger17:32:54Sydney, host/SydneyAEDT UTC+11. Fresh maina40b2f3; PR236 records lane, otherPRs/unrelated changes untouched. Daily10,480capture complete. No evening external batch or carry of afternoon unapproved comment; exact approval absent and opportunity expired. Preserve Tanya’s publishing lane, specific holds and rejected Note approval gate.
+
+
+### 21 November evening outcome
+
+Friday24h:8,856reached/88postprofiles/20postfollows/2.26follows per1,000;80%out-of-network impressions. Nonzero conversion/sharing, no zero-signal rewrite. Retain operating-identity tension as a repeat candidate, not a format winner; no reuse of unverified personal claims. CalendarH319 records full metrics; seven-day due27November with age1w gate.
+
+Saturday planned fifth feed post verified live by17:35Sydney, displayed4m, exact CalendarE320copy/noasset/nolink. Activity7529793336916738048; CalendarC320Posted and Lab117public receipt. Tanya retains publisher/response ownership; Codex verification only, no duplicate. Queue uncertainty resolved by publication, coverage acknowledgement still unverified. Saturday24hread dueSunday when age1d, before full Sunday pivot.
+
+Note remains unsaved/unscheduled awaiting actual exact approval after automatic-review rejection; public profile has no duplicate/current-week Note. Composer preserved. No retry, alternate route, repeated question or missed-slot backfill. Afternoon external candidate expired unsent; EngagementP272updated, no evening batch/carry. Daily0external/1own. Daily follower10,480alreadycaptured; no recapture or Friday-row repeat. Email321accepted/320delivered/1transient bounce/0complaints/unsigned, no resend. Registered partner-name inbox search returned no new matches in14–21November; no outreach sent. PR236 carries records only.
+
+
+## 22 November 2026 morning — Codex claim
+
+Codex owns the existing08:30relationship window, newest substantive own-post questions, shared-ledger duplicate checks, missed Saturday Note verification and completed-email aggregate monitoring. Trigger08:32:06Sydney, host/SydneyAEDT UTC+11. Fresh maina40b2f3; PR236 records lane, otherPRs and unrelated ROADMAP.md untouched. No carry of expired Saturday comments, retrospective Note backfill, accepted-email retry or early24hpost claim. Full Sunday audit/pivot remains assigned to17:30after Saturday matures.
+
+
+## 22 November 2026 midday — Codex claim
+
+Codex owns the existing12:30relationship window, substantive own-post review, shared-ledger duplicate checks, missed Saturday Note verification and the single daily follower capture if absent. Trigger12:28:09Sydney, host/SydneyAEDT UTC+11; no public work before12:30, no schedule-offset inference or capacity carry. Fresh maina40b2f3; openPR236/234/204/200 and unrelated ROADMAP.md preserved. Full Sunday audit/pivot remains17:30once Saturday matures. No rejected-action retry, manager publisher takeover or accepted-email resend. One-time23November release status follow-up remains pending until tomorrow.
+
+
+### 22 November midday outcome
+
+Own Saturday comment has no unanswered question; Friday newest discussions already have author coverage and prior Codex reply is live. Three registered external targets failed freshness/relevance;0external/0own, no carry or rejected-action retry. Morning claim was interrupted and is not a completed batch. Single daily follower total10,509at about12:31Sydney now verified in Daily211; do not recapture. +29unequal daily interval is not weekly/post attribution.
+
+Saturday Note verified missed after20:30deadline; public latest5November. Automatic-review exact-approval gate remained unsatisfied; no late backfill or duplicate question. Local JSON updated, previous unsaved composer tab absent, exact local copy preserved. Email321accepted/320delivered/1transient bounce/0complaints/unsigned, no production action. Tomorrow23November follow-up remains pending on the same automation. Full Sunday audit/pivot stays17:30after Saturday matures; no early24hclaim, manager takeover or extra volume. PR236 carries records only.
+
+
+## 22 November 2026 afternoon — Codex claim
+
+Codex owns the existing15:30relationship window: substantive own-post questions first, current external discussion review, duplicate/voice QA and aggregate completed-email monitoring. Trigger15:31:12Sydney, host Melbourne/SydneyAEDT UTC+11. Fresh maina40b2f3; openPR236/234/204/200 and unrelated ROADMAP.md preserved. Today’s10,509daily follower capture is complete; no recapture, weekly account repeat or Friday-row insertion. No expired candidate or Note retry/carry, manager publishing takeover or accepted-recipient resend. Full Sunday audit/pivot remains17:30when Saturday matures. Tomorrow’s one-time release notification remains pending.
+
+
+### 22 November afternoon outcome
+
+No new unanswered own-post question; Saturday22h, mature read stays due17:30. Angeline revenue-ownership thread7529487207666094080 already has a Kuber comment despite no corresponding latest shared-ledger row; live duplicate gate caught it. Other current candidates were unrelated or stale. Afternoon0external/0own; today's Codex actual0external/0own, no carry, approval question or rejected-action retry. Daily10,509already complete. Email321accepted/320delivered/1transient bounce/0complaints/unsigned, no production change. Saturday Note miss already recorded; tomorrow release follow-up remains pending. Full Sunday audit/pivot is still required this evening, not complete. PR236 holds records only; unrelated ROADMAP.md untouched.
+
+
+## 22 November 2026 evening — Codex claim
+
+Codex owns the required Sunday 17:30 audit, Saturday's mature read, the current 90-day own-post review, a 15–20 creator structure sample, scorecard diagnosis and the next five-slot portfolio/handoff. Trigger: 17:27:43 Sydney; host and Sydney both AEDT, UTC+11. Wait for Saturday's age to reach 1d before calling the read mature. Main a40b2f3 is fresh. Preserve PRs 236/234/204/200, the unrelated ROADMAP.md change, the fixed daily follower capture and Tanya's publishing lane. No evening external batch, email retry, missed-Note backfill or new volume/channel.
+
+### Outcome completed 23 November
+
+The 73-post review, 17-creator structure sample and Saturday's first mature read are complete. The audience export stalled, produced no verified file and contributed to missing the before-Monday deadline. Exact weekly net and causal format/timing winners remain unavailable. Repeatable relevant reach is the main constraint; follow conversion/shareability are secondary.
+
+Calendar rows 322/323/325/326/327 are approved editorially under the existing delegation, with original Monday/Thursday copy unchanged. Five slots retain two Codex/Kuber-side and three Tanya-led creative owners; Tanya publishes all five. The Tuesday three-page hypothetical PDF passed mobile QA. Friday is a verified leadership field note; Saturday is a distinct human observation at 18:30, one exploratory timing read. Lab rows 118–124 include the exact handoff. Separate delivery, queue, attachment preview and response acknowledgement remain unverified. Wednesday and books holds remain. No public feed post, comment, email send or 23 November relationship batch occurred.
+
+The requested 23 November release follow-up is fulfilled: article/PDF live, 321 accepted, 320 signed delivered, one transient bounce, zero complaints/unsigned events. Kuber explicitly approved marking the automation follow-up complete. The marker is updated; the active four-run schedule and every remaining instruction are unchanged. Do not repeat the notification or resend accepted recipients. Scorecard uses a safe wrapped callout and note; the rejected merge was not performed. PR 236 contains records only; unrelated ROADMAP.md is untouched.
+
+
+## 23 November 2026 midday — Codex claim
+
+Codex owns the existing 12:30 relationship window: substantive own-post questions first, then up to three current qualified external discussions with full duplicate and human-voice QA. Trigger 12:31:41 Sydney; host and Sydney AEDT, UTC+11. Main remains a40b2f3, PR 236 is the records lane, other PRs and unrelated ROADMAP.md work are preserved. The 23 November daily follower row is absent; capture one aggregate total only. No carry from a missed morning window, retry of expired rejected comments/Note, publisher takeover or accepted-email resend. The one-time release notification is complete and must not be repeated.
+
+
+### 23 November midday outcome
+
+Single daily total 10,513 is verified in Daily row 212; no recapture. No substantive unanswered question on the newest inspected own-post discussions. Of three registered targets reviewed, one current Markus systems post cleared duplicate and human-voice QA. Automatic review blocked direct submission and requires exact approval despite 4 November delegation. One question is pending; Engagement row 273 and preserved composer remain UNSENT. No retry, alternate route or public comment/reply. Do not carry unused capacity or expired candidates. Email aggregates remain 321 accepted/320 signed delivered/one transient bounce/zero complaints or unsigned events. The one-time release notice stays complete. Monday/Thursday copy, five slots, Tanya publishing and holds are unchanged; later Monday preparation is still due in the existing evening run.
+
+
+## 23 November 2026 afternoon — Codex claim
+
+Trigger 15:29:20 Sydney, 40 seconds before the written window; no early public action. Codex owns only the existing 15:30 relationship check, approved-candidate reconciliation and independent aggregate receipt checks. Browser/computer controls remain unavailable, so no fresh live-thread check, new qualified candidate, own-post question result or public submission can be claimed. Kuber's 12:57 exact approval for Engagement row 273 is recorded in the authoritative Sheet; do not ask again for unchanged copy. Use no missed midday capacity or alternate posting route. The daily total 10,513 is already complete. The full Monday operating checkpoint remains assigned to 17:30, with Tanya retaining publishing ownership.
+
+Local git fetch is blocked by read-only worktree metadata in this session. The connected GitHub app verified main remains a40b2f3 and PR 236 remains draft at 666bc33; other PRs 234/204/200 are unchanged. No stale main assumption or merge.
+
+
+### 23 November afternoon outcome
+
+Browser controls remain unavailable. The exact Markus comment is approved by Kuber's 12:57 reply and remains unsent; shared Engagement row 273 now records the afternoon blocker. No repeat permission question, live duplicate-check claim, public comment or own reply; no unused-capacity carry. Daily 10,513 remains fixed. Completed email aggregates remain 321 accepted/320 signed delivered/one transient bounce/zero complaints or unsigned events; no production action or duplicate release notice.
+
+The final Tuesday PDF now has an immutable download URL in Calendar G323 and Lab M124. Connected GitHub metadata and matching local Git blob verified the exact 4,230-byte previously QA'd asset; readbacks passed and Monday/Tuesday captions are unchanged. Tanya's queue, native attachment preview and first-hour coverage remain unverified, with no separate handoff message. Existing evening run owns the full Monday checkpoint. These local record additions remain uncommitted because git metadata is read-only; remote main/PR 236 were verified through the connector. Preserve unrelated work.
+
+
+## 23 November 2026 evening — Codex claim
+
+Trigger 17:33:51 Sydney. Codex owns the existing Monday preflight, editorial preparation and three planned Substack Notes, shared-brief reconciliation and independent completed-email aggregates. Browser controls remain unavailable: latest-post mature read, Monday 17:30 public verification, native queues and Note scheduling cannot be claimed. No evening external comment batch or retry of the approved daytime comment. Today's single 10,513 follower capture stays fixed.
+
+Connected GitHub verifies main a40b2f3 and draft PR 236 head 666bc33, with no competing new PR. Other coordination chat latest work is the October block and is not active. Shared Calendar now contains different Friday/Saturday captions with blank statuses; preserve those edits and reconcile stale Lab approvals without overwriting new copy. No approved or staged 24 November issue exists in repository/Supabase. Prepare a concrete pending commercial-mechanics draft about revising the operating plan after a downsell, with bounded primary sources and a one-page worksheet; no website/email release permission is inferred from the completed 17 November issue.
+
+
+### 23 November evening outcome
+
+Browser controls still missing: no fresh LinkedIn weekly/mature read, Monday public URL verification, manager queue check or Substack schedule. Do not claim a missed public post from tool absence. Daily10,513fixed; no evening comment batch. The approved Markus comment remains unsent, with no repeat approval request.
+
+New Friday/Saturday Calendar drafts are preserved on QA hold; earlier approval notes now clearly historical. Lab122/123 and the prepared handoff reflect current source/experience gaps; claim-safe alternatives are notes only. No overwrite of the new captions or publisher takeover. Five slots, ownership split, existing approved Mon/Tue/Thu, books hold and Saturday time remain. Queue/PDF preview/response acknowledgement unverified.
+
+Pending24November issue prepared in draftPR237, branch editorial/nov24-downsell-plan-reset, commit d2f7f4b9fcc8a626ec7634a86941def07967c9d6. Article1478words and one-page worksheet pass editorial/render QA. Approval remains pending with one exact website18:00Sydney/one-email-if-gates-pass question. No staging, release or email. Three existing weekly Note slots have new local drafts, unscheduled; Thursday link held until approved/live. No Monday backfill or new volume.
+
+Completed email aggregates unchanged321accepted/320signed delivered/one transient bounce/zero complaints/unsigned. Active subscribers321, separately measured. Current provider domain verified, webhook enabled,327sent/326delivered/one transient bounce/zero complaints or failures in the inspected15-daywindow; no risk-classification pass inferred from rates alone. No production mutation or duplicate release notice.
+
+
+## 24 November 2026 morning — relationship window and release preflight
+
+Trigger 08:32:01 Sydney; host Melbourne/Sydney AEDT UTC+11. Arrival is 2m01s late, not evidence of a persistent timezone shift. Keep the same four-run schedule and written windows. Fresh remote main remains a40b2f398c8e9825fc6bd192fb1835827209d873; connector used because source worktree git metadata is read-only. Open PRs237/236/234/204/200 and unrelated ROADMAP.md preserved. Records PR236 headbc2b2c5, release PR237 heade62ed485; no competing new release PR.
+
+Browser/computer controls remain unavailable. Shared Engagement268–280 refreshed, including exact approved-but-unsent Markus comment273; no live own-post reply or exact external-post freshness/duplicate result can be verified. Morning actual0external/0own replies. No rejected-action retry, alternate posting route, missed-capacity carry or repeated approval question. No fresh daily follower capture is claimed; yesterday10,513 remains dated23November.
+
+Kuber explicitly approved the new downsell-plan-reset issue and one subscriber email, including the formal answer “Approve website and one email”. PR237 records the exact24November18:00Sydney release and passes require-approved validation without warnings. The PR is ready and unmerged. Last night's automatic-review rejection of an early main merge remains respected: no daytime merge, staging or workflow dispatch. Current Supabase0issue rows/0accepted for this slug. Existing automation retains the same schedule and authorises normal merge only at/after18:00Sydney; evening run must remain active through release verification and conditional send. No new reminder or automation.
+
+Current readonly sender preflight: domain verified/sending enabled; existing webhook enabled for delivery/bounce/complaint events. Provider window8November21:32UTC–23November21:32:57UTC:327sent/326delivered/one transient bounce/zero permanent bounces, complaints or failures;99.69%delivery/0.31%bounce. Metrics do not return provider risk classification; it remains a release-time gate. Active subscribers321. Completed second-run-test remains321accepted/provider IDs,320signed delivered/one previously classified transient bounce/zero complaints or unsigned events. Other completed issue acceptance totals unchanged; no old broadcast resumed, suppression or send-switch change. New issue preview, live article/PDF/discovery assets, current risk/suppressions/unsubscribe and fresh recipient gates remain due at release.
+
+Authoritative Calendar322/323/325approved,324books hold,326/327revised-caption QA holds unchanged. Tuesday native attachment/queue/response acknowledgement and Monday publicURL remain unverified, not proof of missed publication. Monday Note draft was unscheduled and is not backfilled; use next clean Thu/Sat slots only after fresh platform checks and live issue gates. No public action or manager takeover. Current browser blocker is unchanged and already reported; no duplicate release completion notification.
+
+
+## 24 November 2026 evening — approved release staged; public deployment and email held
+
+The 17:30 trigger arrived17:26:06Sydney (3m54s early); no public action occurred before the written window. Host/Sydney AEDT UTC+11. Fresh maina40b2f3 and all open PR/owner claims checked. Codex handled the existing approved website/email release and its QA correction only. No evening comment batch, publisher takeover, new channel, recipients or extra feed/native edition.
+
+Stayed active for the authorised18:00release. PR237 exact heade62ed485 passed fresh clean/mergeable checks and merged normally just after18:00 as03537fcfc48720995a8b4ea6a26ac3fb3b5e963c. Earlier early-merge rejection was respected until the authorised window. Publisher45344657955 succeeded; no manual duplicate dispatch at18:10. Database title/date/subject/preheader match approval; loader-normalised content MD5cf18f23819f6fbd12d9a3598407d9997 matches. Generated main has article/PDF/sitemap/RSS. Generated worksheet is one page,3255bytes; exact text and rendered pixels match the reviewed PDF, while creation metadata changed.
+
+Email QA caught a material mismatch before any subscriber acceptance: the deployed template sent an opening teaser, although the review proposal said full article. Codex acknowledged the earlier description was wrong. CorrectionPR238 adds an explicit selected-variant content_mode full only for this issue, leaving every other issue's teaser default. HTML/text retain the complete article and source URLs. All26 targeted template/addressing/idempotency/signed-unsubscribe tests and syntax check pass. Offline actual-issue render18,045HTML/10,190text bytes includes allthree sources; it is not a real signed production preview. PR238 mergedce00460e; normal publisher45345963672 succeeded. Existing send-latest-newsletter version198 ACTIVE; allseven deployed files match readback, with existing auth and send controls preserved. DB variant now full; subject/preheader/article unchanged.
+
+At18:22Sydney public verification is still blocked: article/PDF/RSS direct reads return403; live sitemap200/14113bytes lacks downsell-plan-reset, while generated sitemap includes it. Do not claim dynamic article absence from those results, or mistake GitHub assets for the live site. Browser control remains unavailable. One action request asks Kuber to publish/update the existing Lovable project's latest GitHub-synced build; no response/recovery is confirmed. Current generated maine56f562c839f03cbbc3c020a456ac1b987391a83. Exact signed production preview, provider risk classification (not returned by aggregate metrics), current suppressions and the remaining public-resource/email gates stay pending. No failed gate bypass, alternate browser route or second deployment channel.
+
+Subscriber email NOT SENT:0accepted/0events for downsell-plan-reset;321active subscribers. No send-switch mutation, broadcast invocation, suppressions or accepted-recipient retry. Existing domain verified/sending enabled and webhook enabled. Sender aggregate327sent/326delivered/one transient bounce/zero permanent bounce, complaints or failures. Original active cohorts have0acceptance gaps. Completed second-run-test remains321accepted/320signed delivered/one transient bounce/zero complaints or unsigned events; no old broadcast or completion notification repeated.
+
+Calendar Monday322 is now marked posted by the manager, without fresh public URL/analytics verification. Tuesday323 stays Approved for Posting; native attachment/queue/response coverage unverified. Wednesday324books and Friday326/Saturday327QA holds preserved; Thursday325approved. Tanya remains publisher across the five slots,2Codex/3Tanya creative split. No24November follower total or mature-post metrics invented; latest verified10,513 stays dated23November. No evidence-backed creative rescue can be asserted from missing analytics. Day actual0external comments/0own replies; exact approved Markus item remains unsent. Monday Note is not backfilled. The existing automation must continue this exact delayed release in existing runs, notify verified completion or a material blocker, and keep all remaining cadence/holds unchanged.
+
+
+## 24 November 2026 late follow-up — website live; email preflight permission pending
+
+Kuber requested live verification and the approved once-only subscriber email. Codex restored the documented official Browser client through node_repl; setupBrowserRuntime returns the Agent. Own IAB control works without a permission change or use of Kuber's Chrome. Existing Lovable Publish changes completed by22:18Sydney; report actual delayed publication, not6pm public completion. Full article/title/rendered self-canonical, sitemap14300bytes and current RSS verified. Direct HTTP checks remain Cloudflare403/error1010; initial response HTML is not directly verified, and the blocked view-source protocol was not bypassed.
+
+PR239 added only the exact approved PDF link inside the worksheet section under delegated resource QA. Editorial validation and publisher45383800177 passed; current mainb7e963c7. A second existing Lovable update completed around22:28. The exact live download link now works; downloaded PDF3255bytes/one page has exact reviewed pixels/text, SHA256aff53822f5de7bedca8cff7fe488c5b19de727fb08a83a701e0967a03b9ad988. Current article MD560390ce39b17636e16ce4d2b4022d95b, full email variant and approved subject/preheader read back.
+
+Email NOT SENT:321active/0accepted. No broadcast invocation or true switch window. Automatic review blocked the additional Google Accounts sign-in for Resend and a cross-service suppression-address query. A local-only eligible-list read did not complete; no current suppression-gap pass is inferred. Consolidated permission request is pending for existing Google sign-in solely for Resend, a private local active-address/suppression comparison with counts only/no cross-service addresses, and one exact preview to the established owner-controlled test subscriber. No approval is inferred and no rejected data/auth action is bypassed. Broad all-secret listing was also rejected; the safer narrow NEWSLETTER_SEND_ENABLED=false set succeeded around22:29 without reading other secrets.
+
+Actual signed preview, sender risk/health, suppression/eligibility and initialHTML gates remain incomplete. Function198/full mode and prior26targeted tests remain verified. Public issue screenshot saved; issue tab kept as deliverable, Resend tab for handoff. Same active four-run automation now records website recovery and outstanding email gates, with no new schedule/recipients/channel/feed/native post/late comments or old broadcast. Detailed evidence: growth/releases/downsell-plan-reset-2026-11-24-late.json.
+
+
+### 24 November late public verification — COMPLETE
+
+All public gates now pass using an honest ChurnIsDeadReleaseQA/1.0 HTTP client identifier: article200/28624bytes with exact title, full initialHTML, self-canonical and worksheet URL; PDF200/3255bytes; RSS200/12186bytes with issue; sitemap200/14300bytes with slug. The generic Python user-agent triggered the earlier Cloudflare1010; no site access or browser security setting was changed. Actual live worksheet download also matches reviewed text/pixels. This supersedes earlier initialHTML-unverified wording. Subscriber email remains unsent/held solely for the outstanding protected email preflight and its pending consolidated permission; no approval inferred or failed gate bypass. Narrow false switch enforcement remains in place.
+
+
+## 25 November 2026 morning — release hold unchanged; Tuesday feed verified
+
+Codex handled the unowned morning aggregate/release-monitoring lane under the existing plan. Trigger08:36:51Sydney,6m51s after the written08:30window; host Melbourne/Sydney AEDT UTC+11. Same four-run schedule verified active; no timezone adjustment or carried capacity. Fresh main21523cf8cf968eaf21740317b2067260b13b572a verified through GitHub; local working directory is not a git repository, and source checkouts/dirty work were not changed. Only the existing records/review PRs are open; no competing new release PR.
+
+The pending consolidated preflight request has no new answer. Fresh aggregate downsell-plan-reset acceptance0, active subscribers321. No protected Google sign-in, private-address read/cross-service query, test preview, production invocation or send-switch mutation was attempted. No failed gate bypass or repeated question. Last explicit false-switch enforcement remains24November22:29Sydney; no new current-value claim. Website browser reload confirms the exact live title, self-canonical and worksheet URL. Direct shell checks hit DNS resolution failure this run; retain24November's complete HTTP/PDF verification as dated evidence rather than asserting fresh rawHTTP success or a site outage.
+
+Restored own in-app browser through the documented runtime. Captured today's total once at10,600followers, separate from subscribers and post attribution; prior10,513 remains dated23November, not a one-day baseline. Verified Tuesday's public post https://www.linkedin.com/feed/update/urn:li:activity:7530881472698703872/ with the exact approved caption and allthree native document pages, including hypothetical labels/judgement limits. UI age15h, so no premature24h or creative-rescue decision. Shared CalendarC323 marked posted andD323 updated/read back; native100%view checked, no unrelated formatting/content change. Tanya remains publisher; first-hour coverage still unverified.
+
+Inspected Most recent on the existing21November discussion and the latest Tuesday post. Available newest comments add agreement/operating observations; no substantive unanswered question warranted a forced reply. Actual this run0external comments/0own replies. The older approved-but-unsent Markus item is not replayed as missed capacity. No new feed/native edition, manager reminder, recipient/suppression change or older broadcast. Wednesday books and Friday/Saturday QA holds remain. Other-chat listing did not complete, so no coordination message or public work was taken over. Email hold unchanged and already reported; quiet monitoring, no duplicate notice.
+
+
+## 25 November 2026 — approved private preflight completed; production credential permission pending
+
+Kuber explicitly answered both pending questions: Approve existing Google sign-in for Resend and Approve these preflight checks. Codex completed the existing Google login to Resend in its own IAB, plus the authorised private local active-address/suppression comparison, with counts only and no addresses sent between services.321active,15provider suppressions,0active suppression gaps. No recipient or suppression mutation. Current domain verified/sending enabled; one DMARC reject policy. Provider327sent/326delivered/one transient bounce/0permanent/complaints/failures,99.69%delivery/0.31%bounce. Dashboard current metrics and help verified: RISK labels are chart threshold annotations; bounce pause threshold4%, complaint0.08%, current complaint0%; no current restriction shown. Existing webhook enabled; forged webhook400Invalid signature and invalid unsubscribe400, no real subscriber token opened. Recent unsigned events0; renewal/escalation/champion/second-run original active-cohort missing acceptance0.
+
+Fresh network-authorised public checks pass: article200/28624bytes/exact title/self-canonical/PDF link; PDF200/3255bytes/valid header; RSS200/12186bytes and sitemap200/14300bytes include this issue. Fresh main21523cf8 verified; source/approved content MD560390ce39b17636e16ce4d2b4022d95b and exact subject/preheader/full mode unchanged. Deployed function now199ACTIVE; allseven source files exactly match the reviewed correction source, with no new deployment by this turn.
+
+The actual signed full-article preview and subscriber send remain NOT SENT, new issue0accepted. The prior temporary credentials/helpers are no longer present. Automatic review rejected a narrow read of existing internal_config cron_api_key as unapproved sensitive credential access; no alternate credential or indirect route was used. A new exact request asks to use that existing production send credential privately in memory solely for this release's preview and once-only send, without displaying/logging/changing it. This new credential permission has no answer yet; earlier preflight permissions remain approved and must not be requested again. The established owner-controlled test subscriber was recovered privately from its earlier exact test event and is active; no test mail has been sent. Prepared fixed-purpose helper /private/tmp/cid-nov25-invoke.py accepts private in-memory stdin, exact slug/primary preview and bounded100-recipient production with a finally false-switch restoration. Syntax checked only; no invocation or switch change. Last namedfalse enforcement remains24November22:29, not a fresh current-value check.
+
+Existing automation updated to the new permission/gate state, same schedule and standing ownership. No new feed/native post, manager handoff, channel, recipients, accepted-recipient retry or older broadcast. Actual production still requires the signed preview and all live gates, with immediate false restoration and fresh acceptance reconciliation. Subscriber details, authentication material and real unsubscribe tokens remain out of repository records.
+
+
+## 25 November 2026, 12:30 relationship window — one routine contribution published
+
+Trigger12:32:42Sydney,2m42s late; host Melbourne/Sydney AEDT UTC+11. Same active four-run schedule; no timezone change or carried capacity. Fresh main21523cf8 and open PRs236/234/204/200 verified through GitHub, required growth/editorial files and live Calendar/Engagement List refreshed. Codex continued its existing relationship lane only. Today's earlier follower capture10600was not repeated. Tuesday's document post UI19h, so no premature24h read or creative-rescue claim; books and Friday/Saturday holds remain and Tanya owns publishing.
+
+Latest own post Most recent showed the same four agreement/operating comments, with no substantive unanswered question warranting a forced reply. Selected one current11h Raj Bheda implementation/time-to-value post. Feed Copy link returned an empty clipboard; exact public permalink was grounded through the author's visible Activity, without guessing. Shared Engagement ListA5:P285 profile/exact activity checks were clear; immediately before submission only this prepared row274matched. Most recent thread showed four existing contributions, no Kuber comment and no overlapping customer-readiness point.
+
+Published once as Kuber Sethi under the4November routine delegation, without claiming Kuber personally reviewed this text: “I'd agree what the customer needs to have ready too. Free implementation won't help much if nobody can grant data access or own the setup.” Human-voice QA passed. Exact wording/You identity verified, then public post reloaded to verify persistence. Public post https://www.linkedin.com/feed/update/urn:li:activity:7530994398004875264/ ; own-comment permalink copied from its menu https://lnkd.in/p/g6ZbyNv7 . SharedK274:P274 updated/read back with exact copy, delegated provenance and outcome. Focused proof output/engagement/nov25-midday-raj-published.jpg; no individual viewer/follower/engager records. Actual today1external comment/0own replies. No extra batch, filler, older Markus replay or unused-capacity carry.
+
+Email hold unchanged: fresh aggregate321active/0accepted for downsell-plan-reset. The Google/local-suppression/owner-preview permissions are approved; the separate production-credential permission request still has no answer. No rejected credential read, alternate auth route, preview, production invocation, send-switch mutation or older broadcast. Website remains previously verified live. No repeat question or unchanged-blocker notification; relationship work is not claimed as a proven growth boost.
+
+
+## 25 November 2026, 15:30 relationship window — one routine contribution published
+
+Trigger15:30:59Sydney,59seconds late; host Melbourne/Sydney AEDT UTC+11. Same four-run schedule retained. Fresh main21523cf8 and open PRs236/234/204/200 verified through the connector; required growth/editorial files, current Calendar and shared engagement rows refreshed. Codex continued the existing relationship lane, with one midday external comment already logged. Daily follower10600was not recaptured. Tuesday document post UI21h; no premature24h read or creative-rescue claim. Tanya publishing, five slots and Wednesday/books/Friday/Saturday holds remain unchanged.
+
+Own latest post Most recent still showed four agreement/operating observations and no substantive unanswered question. Midday Raj contribution remains live with no nested reply requiring an answer; no repeat reply or comment. Selected one current15h Jason Noble sales-promises/accountability post. Exact permalink grounded from the author's visible Activity. Shared profile matches are three older, different posts; exact activity A5:P285 clear before preparing, then only new row275matched before submission. Most relevant/replies and Most recent discussions inspected. Discarded an initial pre-close-review angle because an existing reply already made that point; selected original promise versus subsequent customer-plan change as a distinct operating safeguard.
+
+Published once as Kuber Sethi under the4November routine delegation: “I'd keep what was sold next to what changed after signing. Otherwise a change in the customer's plans can get logged as a promise Sales didn't keep.” Human-voice QA passed; no fabricated experience, link, pitch, CTA, brand mention or forced question. Exact wording/You identity verified and persisted after reload, comment7531213980284067840. Own-menu Copy link clipboard was initially empty, then settled without another publication. Public permalink https://lnkd.in/p/gq3sg3Sk was opened and resolved to the same post and exact focused comment. Post https://www.linkedin.com/feed/update/urn:li:activity:7530978757562658816/ . SharedK275:P275updated/read back; only the new row was wrapped/fitted, native100%view checked. Focused proof output/engagement/nov25-afternoon-jason-published.jpg excludes other commenters and individual metrics. Actual today2external comments/0own-post replies; no filler, extra batch or carried capacity. Relationship work is not attributed follower growth.
+
+Email hold unchanged:321active/0accepted for downsell-plan-reset. Actual recent chat messages contain no answer to the separate production-credential request. Google/local-suppression/owner-preview permissions remain approved. No rejected credential read, alternate auth route, preview, broadcast, send-switch mutation, new recipients/channel or older resend. Existing website and sender preflight receipts remain dated earlier today. No repeated question or unchanged-blocker notification. Mature post check stays with the existing evening run; no new schedule or manager message.
+
+## 25 November 2026 — evening mature read and Thursday opening intervention
+
+Trigger arrived17:27:59Sydney, about two minutes before the written17:30run; no evidence of a persistent timezone shift, no cadence change and no evening external-comment batch. Fresh main21523cf8cf968eaf21740317b2067260b13b572a and open PRs236/234/204/200 checked. The older coordination chat was inactive with no current23–28November claim. Existing draftPR236 remains the operating-record lane.
+
+Tuesday native case7530881472698703872 first showed1d at about17:35Sydney. First mature read:318impressions,194members reached,28%out-of-network impressions,0post-attributed profiles/follows/reposts,1save,0sends,20reactions,8total comments and29social engagements. Profiles and follows per1,000reached are both0. Qualified-comment subset was not assessed. Aggregate fit39%Senior,26%Software Development,16%at1,001–5,000employees,16%CSMtitle,7%Cisco,6%Greater Bengaluru. Small qualified reach and one save leave the format result provisional; no account-growth attribution, format winner or causal timing claim. Seven-day read1December after17:35Sydney.
+
+Codex exercised Kuber's4November delegation for one low-risk exploratory opening improvement to Thursday26November17:30Sydney, preserving topic, illustrative body/maths, text-only format, action, time and Tanya publishing. CalendarE325 now opens: “I wouldn't call an AI pilot a win because it closed 80% of the cases. / Show me the work it left for the team.” This is hypothetical judgement, not invented experience. Original complete caption preserved in the cell note. Maths80*3+20*40=1,040 versus100*10=1,000 verified. Human-voice/source/experience QA passed. Authoritative CalendarC325/D325/E325 and Lab120/121 updated with read, exact copy, evidence limits and stop rules; value/note readback and native visual QA passed. Two-qualified-case-run floor retained; no new format or portfolio pivot.
+
+Exact consolidated handoff sent once at17:49Sydney in existing Kuber X LinkedIn group after duplicate/current-owner checks. UI persisted the message with Sent receipt; delivered/read status and Tanya queue/first-hour response coverage are not yet verified. Handoff asks Tanya to update the existing queued item once, preserve one post, and reconcile coverage with Ankush. LabL121 is HANDOFF SENT / QUEUE UNVERIFIED. Friday27/Saturday28 caption QA holds and Wednesday books hold remain; five feed slots,2Codex/3Tanya creative split and Tanya publisher unchanged. No new feed post, native edition, channel, campaign or recipient.
+
+Evening email aggregate remains321active/0accepted/0new-issue events. Existing website and sender/preflight receipts pass, including function199 full-article mode; the separate exact send-credential permission request still has no answer. No denied credential read, alternate auth route, preview, production invocation, true switch window, older resend or duplicate question. Named false enforcement last succeeded24November22:29Sydney, not freshly read. Today's daily follower capture10,600 and total2external/0own replies remain fixed; no repeated capture or scorecard row.
+
+## 25 November 2026 — manager delivery and existing Note execution gate
+
+At17:55Sydney, the existing manager handoff's5:49pm message changed from Sent to Delivered in the signed-in group. Complete wording and destination verified; no duplicate sent. LabL121/M121 now records HANDOFF DELIVERED / QUEUE UNVERIFIED. Delivery does not establish Tanya's queue or first-hour response acknowledgement. Focused local proof excludes group member details: /private/tmp/cid-nov25-handoff-delivered.jpg.
+
+Own Substack profile was signed in; latest public Note remains5November. Current-week linked Notes0 and Drafts displayed No drafts yet before composing. The existing Thursday26November20:30Sydney Note was prepared with the actual approved live downsell article/PDF, correct canonical UTM link preview and readable paragraphs. Human-voice/source/experience QA passed.26November20:30 was selected in the scheduling dialog; automatic review rejected Save because it demands exact action-time confirmation despite the4November routine delegation. No retry, alternate surface or completed schedule. A single new exact question covers this Thursday Note and the existing Saturday28November20:30 no-link Note; actual answer pending. Both remain unscheduled. This is separate from the older21November Note hold and the pending production send-credential permission. Monday23November was missed and not backfilled. Own composer remains preserved at the rejected action; no new authentication route, channel or extra volume.
+
+Read-only LinkedIn article-management inventory at about17:58Sydney displayed No scheduled articles yet. Existing two drafts were untouched. The24November approved website/email package excludes a native edition, so no edition or replacement was created. Public latest native remains4November champion-change,11published editions. Wednesday books hold remains.
+
+18:20Sydney checkpoint: refreshed public native inventory still11editions, latest4November champion-change, no new downsell native edition. The specific package excludes native publication; no replacement/edition/feed action. Fresh email ledger321active/0issue rows/0accepted/0failed or bounced rows. Separate credential permission still unanswered; no preview or subscriber send. Lab124 now preserves the earlier23Nov status in notes and records the exact25Nov delivered handoff plus unchanged queue/coverage and QA holds; value readback/native visual check passed.
+
+
+25Nov18:25 checkpoint found Tanya's17:55 question about Friday/Saturday. Codex replied once18:26Sydney, human-voice QA passed; Delivered verified. Exact reply: They’re both still on hold for copy QA. Friday says I read all 25 forum replies, which I haven’t verified. Saturday needs tighter wording on exit support so we don’t promise help beyond what’s agreed. Please leave both unqueued for now.
+Both remain On Hold; no queue/coverage acknowledgement.
+Operator remained active through18:25Sydney; no native edition, feed duplicate, email preview/production invocation or credential bypass. Final email ledger checkpoint18:20 remains321active/0accepted. Existing exact permission questions remain pending.
+
+## 25 November 2026 — exact Substack approvals executed
+
+Kuber explicitly approved both existing Thursday26November20:30Sydney and Saturday28November20:30Sydney Notes with the exact wording shown in the grouped question. This closes their specific automatic-review gate; the production send-credential permission remains separate and unanswered. No retry of the older21November Note.
+
+Own signed-in Substack session reused. Fresh duplicate check found latest public Note5November and no matching queued entry; the only initial draft was the newly saved approved Thursday text. Thursday's tracked canonical downsell-plan-reset link preview matches the live current issue; paragraph/readability/source/experience/human-voice QA passed. Saturday's exact no-link plan-removal insight passed the same voice/experience gates. The schedule date/time was saved and the final Schedule submitted exactly once per Note. Native Drafts then showed exactly one matching entry Scheduled for26Nov20:30 and one Scheduled for28Nov20:30, under KuberSethi. Sydney times correspond to09:30UTC on each date. No public post was made early.
+
+Existing automation updated to record approvals and verified schedules, preserve its same four runs and all other gates, and prevent duplicates. Monday23November remains missed, no backfill or extra volume. Subscriber email remains unsent and its separate credential question unchanged. The records PR remains draft/unmerged.
+
+## 26 November 2026 — morning relationship lane claimed
+
+Codex continues its standing bounded08:30 relationship lane: inspect own substantive unanswered questions first, then at most four qualified external contributions before10:00Sydney, with live-thread/shared-log duplicate and voice checks. Trigger08:39:36Sydney; execution resumed09:32:57Sydney. Host/Sydney bothAEDT UTC+11; late arrival/queue delay is not a persistent timezone shift. Same four runs, no carry or evening-lane takeover. Fresh main21523cf8 and draftPR236/9369e1b verified; no new competing PR/claim, older coordination chat inactive. New issue email321active/0accepted and separate credential permission unchanged. Existing Thu/Sat Notes remain scheduled; no duplicate or early Note publication.
+
+## 26 November 2026 — morning lane completed
+
+Trigger08:39:36Sydney; work began09:32:57Sydney after a later resume. Host/Sydney bothAEDT UTC+11. No persistent timezone shift established, no schedule change or carried comment capacity. Fresh main21523cf8 and openPRs236/234/204/200 checked through GitHub; current operating records remain draftPR236. Required guidance, live Calendar/CreativeLab/Engagement List, current downsell approval/metadata/QA and latest Note schedules read. Older coordination chat remains inactive; no competing current lane.
+
+Latest Tuesday own post7530881472698703872 checked in Most relevant and Most recent: new comments were observations/agreement, and existing substantive threads already had author replies; no forced response. Monday7530516966969892864 then checked in both orders: earlier coaching and value questions already answered. One new sponsor-business-case question warranted a distinct answer, not a claim of existing team practice. Published once as Kuber/Author: “I'd build it with the sponsor. Ask what Finance is likely to challenge, then check the evidence together before budget season.” Parent7531356755214397441, reply7531488092977790976. Exact text and parent persisted after reload. Correct own-menu Copy link and View comment toast yielded https://lnkd.in/p/gqpg_nJf; an initial stale clipboard was not used. Human-voice QA passed. SharedK277:P277 readback/native visual QA passed; focused proof output/engagement/nov26-morning-own-reply.jpg excludes other engagers.
+
+One current8h high-fit CS pricing discussion selected; exact permalink grounded through the author's visible Activity after the feed clipboard was empty. Most relevant and all available Most recent root comments inspected. Initial renewal-price/quote-visibility draft discarded for overlap; selected a distinct affordable-smaller-scope judgement. Shared exact activity check was clear, then only prepared row276matched immediately before publication. Published once as Kuber Sethi/You under4Nov delegation: “I'd start with what they can afford without the discount. If that only buys a smaller package, I'd rather make that trade-off upfront than defer it to renewal.” Posthttps://www.linkedin.com/feed/update/urn:li:activity:7531350850762629120/ ; comment7531486636891807744 ; public receipt https://lnkd.in/p/gggc8P4x . Exact text/identity persisted after reload. Human-voice QA passed; no fabricated experience, link, CTA, pitch or endorsement of the source's percentage/guaranteed-churn claims. SharedK276:P276 readback/native visual QA passed; own-only proof output/engagement/nov26-morning-kelly-published.jpg.
+
+Actual morning/day count1external comment and1own-post reply. No filler to meet the maximum four, no older approved-but-missed item replay or carried capacity. Relationship activity is not attributed follower growth.
+
+Single26November daily capture at about09:43Sydney:10,646 from own signed-in profile. Shared Daily214 records it;25November's already-verified10,600 observation had been missing from the Sheet and was reconciled into213 with dated provenance, without a new capture. No invented24November endpoint. Difference+46 is across an unequal daily interval, not weekly net or post attribution. Another4,354 over35days/5weeks to31December requires about871net/week, a required pace not a forecast. Readback/native visual QA passed. No Friday scorecard duplicate or repeated post-performance read;19November's7dread stays due after17:30today.
+
+Email aggregate321active/0issue ledger rows/0accepted/0failed or bounced rows. Last actual user answer approved only the two exact Substack Notes; no answer to the separate production-send credential request. Approved Google/local suppression/test-preview permissions remain approved. No rejected credential read, alternate credential/auth route, actual preview, production invocation, switch mutation, recipient change or older resend. Sender/public-resource checks retain their dated25November provenance; do not claim fresh provider health from today's ledger check. Thursday26November20:30 and Saturday28November20:30 Notes remain scheduled once, not due for public verification during this morning run. No duplicate or early publication.
+
+CalendarThu26November17:30 approved opening-only revision remains with Tanya; manager handoff delivered yesterday, queue/first-hour coverage not newly verified. Books and Friday/Saturday copy QA holds preserved. No feed/native edition/profile change, manager reminder, new channel or campaign. Existing automation updated only with today's daily capture/counts, preserving the four-run cadence and all gates. Morning claim complete; remaining work belongs to existing later windows/evening checkpoints. Quiet result, no repeated approval question or unchanged-blocker notification.
+
+## 26 November 2026 — automatic commenting continued as agreed
+
+Kuber clarified that his request concerned automatic comments on other posts, and asked to continue as agreed. Codex verified the existing automation is ACTIVE on the same four-run schedule and LinkedIn is signed in as Kuber. Historical interruptions included browser unavailability and obsolete exact-per-comment confirmation wording alongside the4November delegation. Removed that conflict from the saved daytime instructions and this plan; no approval settings or actual review block was weakened. Routine qualified comments/replies execute after live duplicate/source/context/human-voice QA, then verification/logging, without individual wording approval. Keep4/3/3external caps at08:30/12:30/15:30Sydney,10/day maximum, no catch-up and Tanya's evening lane. The separate email credential hold does not block relationship work. Today remains1external/1own reply; this11:48user request caused no out-of-window publication. Next existing windows12:30/15:30. Specific old expired drafts are not replayed.
+
+## 26 November 2026 — midday relationship lane claimed
+
+Codex continues the existing12:30Sydney relationship window under Kuber's4November delegation and26November reaffirmation. Trigger12:30:55Sydney; host/Sydney bothAEDT UTC+11. Up to3qualified external comments, no morning-capacity carry, current daily actual1external/1own reply. Inspect own unanswered questions first; live/shared duplicate and human-voice/source/context QA before publication. Current main21523cf8 and draftPR236/d458085 verified, same open PRs; no new competing claim. Existing email hold is separate; no follower recapture or manager publishing takeover.
+
+## 26 November 2026 — midday relationship lane complete
+
+Trigger12:30:55Sydney, host Melbourne/SydneyAEDT UTC+11. Main21523cf8 verified through GitHub, same openPRs236/234/204/200 and inactive older coordination chat. Required guidance/editorial sources are unchanged; current operating plan/coordination/log and authoritative Calendar/Engagement List refreshed. Codex continued only its existing12:30lane; same cadence, no carried morning capacity or Tanya takeover. The26November user reaffirmation and4November delegation applied without another wording approval request.
+
+Own-post questions came first. Latest Tuesday7530881472698703872 newest discussion still contains observations/agreement and previously answered threads. Monday7530516966969892864 morning sponsor-case reply remains the only reply to that question, with no new follow-up; the older coaching question already has its author answer. No new own reply or repetitive acknowledgement warranted.
+
+Published three qualified external comments, the complete midday cap, each once as Kuber Sethi/You after source/context/experience/human-voice QA and current exact-post/shared-operator duplicate checks. URLs grounded through each author's visible Activity. Each fully rendered direct thread showed0existing comment containers and no comment-sort control; none was described as a checked sort view. Only its own prepared row matched immediately before each submission. All copy is proposed judgement, with no fabricated experience/result, source numerical claim, external link, pitch, CTA, brand mention or forced question.
+
+- Activity7531337173443235842 (12h at selection), shared row278: “I'd keep the CSM's corrections alongside the summary. A repeated correction is a clue to fix what goes into the next handover.” Published comment7531531202411814912; verified public receipt https://lnkd.in/p/g8HdJw8j .
+
+- Activity7531322043338981394 (13h at selection), shared row279: “For a long rollout, I'd agree on one workflow the customer should be able to finish without help. That's something both teams can check before the full ROI shows up.” Published comment7531531847172870145; verified public receipt https://lnkd.in/p/gHB7cn-3 .
+
+- Activity7531408971853914112 (8h at selection), shared row280: “I'd ask what the new team is trying to do before sending a quote. More seats might be right, but they may need help getting started too.” Published comment7531533207964463104; verified public receipt https://lnkd.in/p/gKqwpeJN .
+
+Human-voice QA passed for all three. First comment exact text/ID persisted after reload; its own-menu Copy link and View comment toast verified the receipt after an initial empty clipboard was disregarded. For the second, an initial stale prior-link clipboard was not used; the toast's public URL was opened and resolved to the exact activity/comment ID in dashCommentUrn. The third used the visible View comment link's href, then the same public permalink/ID/text verification. No repeated submission or duplicate was used to recover a receipt. Focused own-only screenshots saved in this chat's Codex visualizations engagement directory:nov26-midday-jef-published.jpg,nov26-midday-bilyana-published.jpg,nov26-midday-crystal-published.jpg. Copy-toast/hover overlays were dismissed before final proof; no reaction was added.
+
+SharedK278:P280 values/notes read back and native100%visual QA passed. Only new rows were wrapped/fitted. Actual midday3external/0own replies; actual day4external/1own reply. No more midday external comments or unused-capacity carry. Afternoon remains up to3 in its existing15:30window, not a catch-up allowance. Relationship activity is not a proven distribution boost or attributed follower growth.
+
+Daily10,646 follower capture and Friday scorecard were not repeated. Current newsletter ledger321active/0issue rows/0accepted/0failed/bounced rows. The separate send-credential permission remains unanswered; no credential read/bypass, test preview, production invocation, switch mutation, recipient change or old resend. Earlier sender/public-resource checks remain dated25November, not freshly claimed from the ledger. Approved Thu/Sat20:30Notes remain scheduled once; neither is due for public verification during this run. Thursday17:30Tanya feed slot and Friday/Saturday/books holds unchanged; no manager message, feed/native publication or extra channel. Existing automation updated only with verified actual counts and completed midday cap; same four runs and all gates. Claim complete; no new blocker or user action.
+
+## 26 November 2026 — afternoon relationship lane claimed
+
+Codex continues only the existing15:30Sydney relationship window, up to3qualified external comments, with no prior-window carry. Trigger15:44:01Sydney; execution began16:06:45Sydney. Host/SydneyAEDT UTC+11; late arrival/resume is not a persistent timezone shift, so cadence unchanged. Hard stop for this window16:30Sydney. Current day4external/1own reply; morning follower capture10,646 fixed. Fresh main21523cf8 and draftPR236/50aa38c, same open PRs and shared Calendar/Engagement List verified. Latest operating records read; unchanged guidance/editorial sources reused after main identity check. Own questions first, then live/shared duplicate/source/context/human-voice QA. Separate email credential hold must not pause this existing lane. Tanya publishing and content holds unchanged.
+
+## 26 November 2026 — afternoon automatic relationship window completed
+
+Codex operated only the existing 15:30–16:30 Sydney window under Kuber's 4 November delegation and 26 November reaffirmation of automatic commenting. Trigger arrived 15:44:01 Sydney; execution resumed at 16:06:45. Host/Sydney AEDT UTC+11; this late arrival/resume is not evidence of a persistent timezone shift. Same four-run schedule preserved. Fresh main `21523cf8`, PR236 head `50aa38c`, open PRs and authoritative Calendar/Engagement List were checked before claim `93b3735`. No competing lane was taken.
+
+Own Tuesday/Monday posts were checked with Most recent first. Latest substantive sponsor question already had today's verified author reply; no new unanswered question required another reply. Fixed follower total 10,646 and Tuesday's mature read were not recaptured.
+
+Three current, high-fit external comments were prepared in shared Engagement List K281:P283 after source/context, shared exact-post duplicate, live Most relevant/Most recent and human-voice QA. Codex made the editorial decisions under delegation; Kuber was not described as personally reviewing these texts.
+
+1. Jess Parker — customer tasks repeatedly slipping. Post https://www.linkedin.com/feed/update/urn:li:activity:7531361466025959425/
+   Exact: “If the same task keeps slipping, I'd ask the customer to walk me through where they get stuck. Sometimes the next step needs to be smaller, rather than another reminder.”
+   Verified receipt https://lnkd.in/p/gbbzhMYz ; comment ID 7531585813541883904.
+2. Michael Newman-Snell — transferable skills in CS hiring. Post https://www.linkedin.com/feed/update/urn:li:activity:7531401409292992513/
+   Exact: “I'd give them a messy customer situation in the interview. How they work out what's wrong and explain the next step tells me more than whether they've held the title.”
+   Verified receipt https://lnkd.in/p/ga9CynyM ; comment ID 7531586303302270976.
+3. Rod Cherkas — rapid product releases/customer learning. Post https://www.linkedin.com/feed/update/urn:li:activity:7531025210465042435/
+   Exact: “I'd separate 'you can try this' from 'your current workflow is changing' in the release note. The second one needs a date and help with the switch.”
+   Verified receipt https://lnkd.in/p/gv4RVuVk ; comment ID 7531586733176696832. Four existing comments visible before submit; one additional existing comment and its author reply surfaced later. Final read found no prior Kuber contribution or duplicate of the required-workflow transition/date/help point.
+
+Each was submitted once and verified as Kuber Sethi / You with exact text, matching comment ID and persistence through the observed public View comment permalink. No duplicate submission, artificial delay, reaction, link, pitch, CTA or fabricated experience. Human-voice QA passed. Own-only cropped screenshots saved and visually inspected: nov26-afternoon-jess-published.jpg, nov26-afternoon-michael-published.jpg, nov26-afternoon-rod-published.jpg in this chat's visualization engagement directory. No individual viewer/follower/engager analytics recorded.
+
+Shared K281:P283 values and notes read back; only these new rows wrapped/fitted; native Sheet at 100% visually verified. Actual afternoon 3 external / 0 own replies; actual day 7 external / 1 own reply. Afternoon cap complete before 16:30. No unused-capacity carry or evening external batch. Relationship activity is not a proven distribution boost or post-attributed follower growth.
+
+Existing automation remains ACTIVE with unchanged four-run schedule, now carrying verified day 7 external / 1 own and completed afternoon cap. Next 17:30 run retains full standing duties, including latest eligible seven-day read and Tanya feed verification; no external batch. Thu/Sat 20:30 Substack Notes remain scheduled once and not yet due. Tanya publisher ownership, queue-unverified status and Friday/Saturday/books holds remain unchanged. Separate send-credential permission still has no answer in this chat; it did not pause relationship work. No credential access/bypass, preview, subscriber send, switch change, feed/native publication or manager message in this lane. Claim complete; no new user action.
+
+## 26 November 2026 — evening monitoring lane claimed
+
+Codex claims only the existing 17:30 standing duties: verify Tanya's approved Thursday feed release, capture the due 19 November post seven-day aggregate once, inspect substantive own/channel replies and eligible earned-route follow-up, and maintain current release/Note holds. Trigger17:33:03 Sydney; execution17:33:08. Host/Sydney AEDT UTC+11; no schedule shift. Fresh main21523cf8 and PR236/cc607da, current open PRs and shared Calendar checked. Main-unchanged source guidance reused after identity check. Daily10,646 and actual7external/1own reply fixed; no external batch or capacity carry. Separate unanswered email credential permission preserved; no denied read/bypass or repeat broadcast.
+
+## 26 November 2026 — evening standing duties completed
+
+Trigger 17:33:03 Sydney; execution began17:33:08. Host and Sydney both AEDT UTC+11. Three-minute late arrival is not a persistent timezone shift; existing four-run schedule unchanged. Fresh main `21523cf8`, draft PR236/`cc607da`, open PRs236/234/204/200 and current shared Calendar verified. Main-unchanged guidance/editorial sources reused after identity check; current plan/claims/action log read from fresh operating branch. Other coordination chat remains notLoaded, last update20October; no new competing lane. Evening monitoring claim `9f656ce`; no external comment batch.
+
+**Thursday feed release:** the single matching post was publicly live in the assigned Tanya publishing lane with the exact approved25November opening and full illustrative body. Receipt https://lnkd.in/p/gywqTxB3 . Public share ID7531606165403811840; its linked analytics activity is7531606168192925696. These identify the same observed item, not two posts. Text-only, no article link or cancelled asset. Verified by17:36Sydney, UI age1m; scheduled17:30, exact actual publication minute not independently established. Codex neither published, edited, scheduled nor duplicated it. CalendarC325 now Posted; LabL121 POSTED / EXACT COPY VERIFIED. Original copy/notes retained. Lab124 handoff summary reconciled to Thursday Posted; Friday27/Saturday28/books QA holds and five-slot2Codex/3Tanya split preserved. Prior handoff was delivered; first-hour response coverage acknowledgement remains unverified, with no duplicate manager reminder. First24h check due27November after17:36Sydney;7d3December after17:36. Own-public-post proof saved and visually checked: nov26-thursday-live-approved-copy.jpg.
+
+**Due first seven-day read — 19November career/AI post7529068384072798208**, captured once at about17:35Sydney:
+-974 impressions;643 members reached;48% out-of-network **impressions**.
+-5 post-attributed profile viewers =7.78/1,000 reached;2 post-attributed follows =3.11/1,000.
+-26 reactions;18 total comments;1 repost;2 saves;0 sends;47 social engagements. Qualified-comment count unavailable; total comments are not a substitute.
+-1 Premium custom-button engagement;0 post-link visits. Neither is a confirmed subscriber.
+-Aggregate fit:44% Senior;25% IT Services/Consulting;23% Customer Success Manager title;16% at1,001–5,000 employees;6% Greater Bengaluru;3% Cisco.
+Existing first mature24h480reach/4profiles/2follows/1repost/2saves stays fixed. More reach produced one further profile viewer and no further follow; two follow events are too few for a stable conversion or format/timing verdict. This descriptive lifetime-to7d snapshot is not bounded weekly attribution or account follower growth. No individual viewer/follower/engager identities recorded. Lab125 holds the single aggregate read and limits. KEEP concrete career/operating tension as a candidate structure, with claim QA; do not copy unsupported old claims or infer a causal winner. Current constraint diagnosis remains limited repeatable relevant reach with weak sharing/follow transfer; one small post does not establish its cause. The post has nonzero profile/follow/repost signals, so no zero-signal replacement from this read. Tuesday's fixed25November mature read was not repeated; its next7d remains1December after17:35. Thursday's already-agreed opening improvement executed; no new portfolio change or hold release.
+
+**Response and earned-route checks:** newest Tuesday/Monday own-post comments read using Most recent. The sponsor question already has today's Codex answer; further author replies are now present on Tuesday, so Codex did not duplicate them. No new substantive unanswered question in those inspected newest threads; new Thursday item had no comment thread yet. Substack Replies explicitly reports no replies/mentions. Reddit's visible inbox had no direct-reply labels; this is a bounded visible check, not an exhaustive-history claim. Existing partnership inbound search after19November for Practical CSM, Customer Success Network, GTM Index, Product-Led Alliance and Revenue Operations Alliance returned no messages. Registered final-follow-up stop rules retained; no invented new outreach or repeated follow-up. Existing Thu26/Sat28 exact20:30Substack Notes remain scheduled once. Thursday's Note is not yet due; verify public release at the next existing run after due time, not by posting early, adding a run or scheduling a duplicate.
+
+**Website/email:** current issue renders in the own IAB with exact title/H1, self-canonical https://churnisdead.com/newsletter/downsell-plan-reset and observed one-page worksheet link. Shell HTTP checks failed local DNS; web reader could not retrieve article/PDF/sitemap and does not support RSS XML. Those are tool limitations, not evidence of a site outage; initialHTML/PDF/RSS/sitemap full verification retains its dated25November provenance. Fresh aggregate only:321active subscribers;0new-issue ledger rows/accepted/failed/bounced rows. Separate send-credential permission still has no answer; approved Google/private suppression/test-preview permissions stay approved. No denied credential read/bypass, real preview, production invocation, switch mutation, recipient change or old resend. Provider health remains dated25November, not freshly inferred from a zero ledger.
+
+Single daily follower capture10,646 stays fixed; no recapture, weekly scorecard row or post-attribution claim from account growth. Actual Codex day7external/1own reply unchanged, with no carry or evening external batch. Shared values/notes read back; native Calendar and Lab visual QA completed; only new Lab125 row fitted. Existing automation remains ACTIVE, same four-run cadence, with latest Posted receipt and completed7d checkpoint so neither is repeated. No new public copy, feed/native item, channel, campaign, audience or permission change. Claim complete; no new blocker requiring another notification.
+
+## 27 November 2026 — morning relationship lane claimed
+
+Codex claims only the existing08:30–10:00Sydney relationship window, up to4qualified external comments after own-post questions, with no prior-day/window carry. Trigger08:28:13Sydney, execution08:28:24; host/Sydney AEDT UTC+11. No public action before08:30. One slightly early arrival is not a persistent timezone shift; same four-run schedule retained. Fresh main21523cf8, PR236/b0410ef, open PRs and current shared Engagement List/Calendar verified. No27November comment entries yet; day0external/0own. Fri/Sat/books holds and Tanya publishing preserved. Separate unanswered email credential gate does not pause comments. Original renewal send inspected as completed; new issue0accepted, no credential read or resend. Main-unchanged source/editorial guidance reused; latest plan/claims/action read from operating head. Due26November Substack Note verification follows the bounded relationship work; Thursday feed first24h remains due only after17:36today.
+
+## 27 November 2026 — morning relationship window and due Note verification
+
+Trigger arrived 08:28:13 Sydney; execution began 08:28:24. Host and Sydney both AEDT UTC+11. Preparation and release-ledger checks ran before the written window; no public action before 08:30. A single arrival under two minutes early does not establish a persistent timezone shift. The existing four-run schedule remains unchanged. Fresh main `21523cf8`, draft PR236/`b0410ef`, current open PRs and authoritative Engagement List/Calendar were checked; latest plan, claims and action log read. Main-unchanged editorial/guidance sources reused after identity check. Other coordination chat remains notLoaded with its last20October update. Morning lane claim `4a50ffa`; no competing work taken.
+
+Own-post questions came first. A substantive counterpoint on Thursday's AI-efficiency post noted that human intervention is not automatically failure. Both live sort views and the shared exact-post/parent check showed no existing author answer. Codex published one reply under Kuber's standing delegation, then three qualified external comments. Each exact text passed source/context/experience, live/shared duplicate and human-voice QA; no claim that Kuber personally reviewed the wording.
+
+1. Own reply, Thursday post: https://lnkd.in/p/gywqTxB3 ; parent7531688995744014336.
+   “Yep, needing a human isn't a failure. I'd compare the full case with the manual process, including the checks and rework. Same quality bar for both.”
+   Verified https://lnkd.in/p/gaXcnpZV ; reply7531831979307241472.
+2. Jef Vanlaer, personalised low-touch guidance: https://www.linkedin.com/feed/update/urn:li:activity:7531714659868151808/
+   “I'd use a finished task as the check, rather than whether someone opened the guidance. The message can sound very personal and still leave them stuck.”
+   Verified https://lnkd.in/p/gK-ZaNDt ; comment7531832230638272512.
+3. Alexandra Sagaydak, commercial value: https://www.linkedin.com/feed/update/urn:li:activity:7530974480865779712/
+   “I'd keep 'hours freed up' separate from 'cash saved.' If the team still costs the same, I'd show what they can get done with that time instead.”
+   Verified https://lnkd.in/p/gF-GmfRG ; comment7531833319114846208.
+4. Dan Rees, adoption and the customer's existing alternative: https://www.linkedin.com/feed/update/urn:li:activity:7531639299977547776/
+   “If the old way still works, I'd spell out what gets easier when they switch. More logins on their own aren't a reason to change how they work.”
+   Verified https://lnkd.in/p/gWV54C7h ; comment7531833395740598272.
+
+All were submitted once. Exact text, Kuber Author/You identity and matching IDs persisted through observed public View comment links; the own reply also has matching dashReplyUrn. Dan's earlier hidden reply was expanded before publication. The two podcast-related posts were answered from their written captions; no claim of listening to their episodes or adopting external employer/research claims. Jef's new task-completion point differs from yesterday's CSM-correction/handover comment. A Greg Daines candidate was dropped because existing comments already covered the proposed noisy/quiet and usability-friction angles. No preparation row or publication for it; relevance took priority over filling the cap.
+
+Human-voice QA passed. Own-only cropped proofs were saved and visually checked: nov27-morning-own-reply.jpg, nov27-morning-jef-published.jpg, nov27-morning-alexandra-published.jpg, nov27-morning-dan-published.jpg in this chat's visualization engagement directory. Jef's first screenshot was blank during painting; it was replaced with a settled own-comment capture, without another submission. Shared K284:P287 exact values/notes read back; only these new rows wrapped/fitted; native100% visual check passed. Actual morning and day: **3 external /1 own reply**. Morning closes here; one unused slot expires, no carry. Next existing12:30 window is up to3, not4. Relationship work is not claimed as a proven distribution boost or attributed growth.
+
+Single daily follower capture: **10,683**, own profile at about08:39Sydney. Shared Daily215 added after a blank-destination check and read back; native visual QA passed. Prior26November10,646 remains unchanged. The +37 between dated morning endpoints is not post attribution. No individual follower/viewer/engager analytics recorded. Friday's two scoreboards and account-level seven-day read remain for the evening standing run, once each; use this fixed daily endpoint and include Thursday's first mature read only after17:36. No premature Thursday post analytics snapshot or repeated fixed Tuesday/19November checkpoint.
+
+The approved Thursday Substack Note is publicly live at https://substack.com/@kubersethi/note/c-396406853 . Exact three paragraphs and tracked downsell-plan-reset link match the approved item. Native public timestamp is **26November20:30**; one matching item appears on the profile. Public detail explicitly says no replies yet. View stats says “Stats will be available soon” and notes hourly refresh: views, likes, restacks and attributed follows are unavailable, not zero. No subscriber/site-acquisition attribution inferred. Own-Note screenshot with timestamp and no-replies state saved as nov27-substack-thursday-note-live.jpg. The detail page initially exposed an empty AX tree despite rendering normally; native screenshot and DOM-backed View stats navigation verified it, with no session reconnection needed. Codex did not repost or reschedule the completed Note. Saturday28November20:30 exact Note remains scheduled once; missed Monday and old21November hold were not activated.
+
+Release ledger before non-urgent work: new issue321active /0ledger rows /0accepted /0failed or bounced rows. Original renewal receipt has323historical ledger rows,321accepted,2failed rows and1bounced row; historical failed rows are not a fresh eligible-unsent cohort. Existing original-cohort completion remains complete; no retroactive old broadcast. The separate production-send credential question still has no answer. No denied read/bypass, preview, production invocation, switch mutation, recipient change or repeated approval question; current provider health is not inferred from ledger counts. Approved preflight permissions remain approved.
+
+Friday/Saturday/books QA holds, five feed slots,2Codex/3Tanya creative split and Tanya publisher ownership remain. No new feed/native item, asset, channel, campaign or outreach route. Automation remains ACTIVE with the same schedule, today's fixed total/counts, closed morning capacity and completed Note receipt. Morning claim complete; no new blocker or user action.
+
+## 27 November 2026 — midday relationship lane claimed
+
+Codex claims only the existing12:30–13:30Sydney relationship window, up to3qualified external comments after own-post questions. Trigger12:30:26;execution12:39:44Sydney;host/Sydney AEDT UTC+11. Late execution is not a timezone shift; same four-run cadence. Fresh main21523cf8, PR236/3dac22e, open PRs, latest plan/claims/action and shared Engagement List/Calendar checked. Morning3external/1own and daily10,683 stay fixed; one unused morning slot cannot carry. No competing lane. Main-unchanged creative/backlog/channel/experiment/editorial guidance reused after identity check. Preserve Fri/Sat/books holds, Tanya publisher and separate unanswered email credential gate. No follower/post read or Friday scoreboard duplicate; Thursday first24h remains due after17:36.
+
+## 27 November 2026 — midday relationship window completed
+
+Trigger12:30:26 Sydney; execution began12:39:44. Host/Sydney AEDT UTC+11; late execution is not a persistent timezone shift. Same four-run schedule. Fresh main `21523cf8`, draft PR236/`3dac22e`, open PRs and current shared Calendar/Engagement List were checked before the lane claim `897aa97`. Latest operating plan/claims/action read; unchanged main guidance/editorial sources reused. Other coordination chat subsequently confirmed notLoaded with last20October update; no current competing lane.
+
+Own Thursday post checked first with Most recent. The substantive human-intervention question still has this morning's verified author answer and no new follow-up requiring a second reply. No own reply in this window.
+
+Three high-fit current written posts were selected. Exact text/source/context/experience, live/shared exact-post duplicate and human-voice QA passed. Codex made the editorial calls under4November delegation reaffirmed26November; no claim of Kuber personally reviewing each text.
+
+1. Wai Au — roadmap/customer-workflow evidence:
+   Post https://www.linkedin.com/feed/update/urn:li:activity:7531687937575510016/
+   “The extra steps matter here. I'd show how a customer gets through the work today, so the room can weigh the request for one login.”
+   Verified https://lnkd.in/p/gbfDpQMJ ; comment7531895610489192448.
+2. Mohan Kumar — founder-to-first-CS-hire authority:
+   Post https://www.linkedin.com/feed/update/urn:li:activity:7531622144640978944/
+   “I'd spell out which decisions the first hire can make without the founder. Handing over the calls doesn't free up much time if every answer still needs their approval.”
+   Verified https://lnkd.in/p/gYvWHfrc ; comment7531895695960875008.
+3. Michael Marshall — source/freshness of customer memory:
+   Post https://www.linkedin.com/feed/update/urn:li:activity:7531704592032788480/
+   “I'd keep the date and source with each customer fact. Otherwise a goal from last quarter can keep showing up as if the customer still wants it.”
+   Verified https://lnkd.in/p/gB2nptjg ; comment7531895758476976128.
+
+Wai's Most relevant and Most recent views contained one other commenter/author reply with no Kuber contribution or overlapping workflow-evidence point. Mohan's current post displayed no existing comments or sort UI. Michael's showed one author comment linking episodes and no sort UI; no false claim that sort views were checked on those two. Contributions address their written captions: no claim of watching videos/podcasts, sharing another author's personal experience, reviewing Mohan's download or validating named-vendor product facts. No generic praise, forced question, link, pitch, CTA, brand insertion or invented experience.
+
+Each submitted once, with exact text and You identity verified, then persisted through the observed public View comment permalink and matching comment ID. No duplicate submission or stale clipboard receipt. Human-voice QA passed. Own-only cropped proofs saved and visually checked: nov27-midday-wai-published.jpg, nov27-midday-mohan-published.jpg, nov27-midday-michael-published.jpg in this chat's visualization engagement directory. Wai's crop tightened to exclude a tiny next-comment avatar edge; no publication changed.
+
+Shared K288:P290 prepared before publication, exact values/notes read back after publication, only these new rows wrapped/fitted and native100% visual QA passed. Actual midday **3external /0own replies**; actual day **6external /1own reply**. Midday cap complete before13:30. The unused morning slot expired; no carry. Next existing15:30 window remains up to3 after fresh duplicate/quality checks. No evening external batch. Relationship activity is not a proven algorithmic boost or post-attributed growth.
+
+Daily10,683 stays the single morning capture; no recapture, new post analytics snapshot or Friday scorecard row. The two Friday scoreboards and account seven-day read remain for the evening standing run, once each; Thursday's first mature read only after17:36. The completed19November7d and Tuesday fixed24h reads were not repeated. Thursday's Substack Note remains completed/verified this morning; no duplicate or reschedule. Saturday20:30 exact Note remains scheduled once.
+
+Fri/Sat/books QA holds, five slots2Codex/3Tanya and Tanya publisher ownership preserved. The separate email credential permission still has no new answer; this is independent of comments. Last morning aggregate321active/0new-issue accepted remains dated, not re-labelled as a fresh midday provider-health check. No denied credential access/bypass, preview, production invocation, switch mutation, recipients, old resend, manager handoff or new feed/native/channel/outreach action. Existing automation remains ACTIVE on the same cadence and now carries day6external/1own and completed midday cap. Claim complete; no new blocker or user action.
+
+## 27 November 2026 — afternoon relationship lane claimed
+
+Codex claims only the existing15:30–16:30Sydney relationship window, up to3qualified external comments after own-post questions. Trigger15:28:40;execution15:28:47Sydney;host/Sydney AEDT UTC+11. Preparation only before15:30;no early public action. A slightly early trigger does not establish a persistent timezone shift; same schedule. Fresh main21523cf8, PR236/4cdeddb, open PRs, latest plan/claims/action, shared Calendar/Engagement List and other coordination chat checked. Other chat remains notLoaded/last20October. Day6external/1own fixed; morning unused slot cannot carry. Daily10,683 not recaptured; Friday scoreboards and Thursday first24h after17:36 remain for evening. Preserve publisher ownership, content holds and separate unanswered email credential gate. Main-unchanged guidance/editorial sources reused; no competing lane.
+
+## 27 November 2026 — afternoon relationship window completed
+
+Trigger15:28:40 Sydney; execution began15:28:47. Host and Sydney AEDT UTC+11. Preparation, source and duplicate checks ran before15:30; public comments were submitted only after the written window opened. A slightly early trigger is not a persistent timezone shift; existing schedule unchanged. Fresh main `21523cf8`, draft PR236/`4cdeddb`, open PRs, latest plan/claims/action, shared Engagement List/Calendar and other coordination chat checked before public work. Other chat remains notLoaded with last20October update. Main-unchanged guidance/editorial sources reused. Lane claim `752c425`; no competing lane.
+
+Own Thursday post read first with Most recent. Morning's substantive author reply remains present and there is no new follow-up requiring another answer. No own reply in this window.
+
+Two qualified comments were prepared in shared K291:P292, passed final source/context/experience, live/shared exact-post duplicate and human-voice QA, and were published under Kuber's4November delegation reaffirmed26November. Codex made the editorial calls; no personal line-review claim.
+
+1. Stan Mykhalchuk — joint builder/advisor workflow test:
+   Post https://www.linkedin.com/feed/update/urn:li:activity:7531717348135727106/
+   “I'd have both roles watch the customer run the workflow before calling it done. A technical pass can still leave the customer unable to use it.”
+   Verified https://lnkd.in/p/gR6iE7JZ ; comment7531938093512310784.
+2. Kári Thor Runarsson — recurring issue/workaround diagnostic:
+   Post https://www.linkedin.com/feed/update/urn:li:activity:7530975114859802624/
+   “I'd track how often the same issue comes back after a 'fix.' A fast close can look good while the customer is still doing the workaround.”
+   Verified https://lnkd.in/p/gw7qyatQ ; comment7531938184390193153.
+
+Both Most relevant and Most recent live views checked. No prior Kuber contribution or overlapping specific point. Stan's comment is a proposed operating check, not verification or endorsement of the post's hiring percentages, pay premium, vendor examples or research sample. Kári's2d post has active10–14h discussion; the comment does not adopt its unsupported company-size/growth comparison. No invented experience, source, benchmark, link, pitch, forced question or generic praise. Human-voice QA passed.
+
+A third candidate, Michelle Abiodun's salary-transparency caption, surfaced several profile activity IDs with identical wording. The exact intended feed item was not established safely, so that candidate was dropped without a preparation row or public action. This records ambiguity, not a claim that the creator authored duplicate posts. No alternate guessed target or capacity-filling replacement.
+
+Each selected comment submitted once, then exact text, You identity and matching comment ID persisted through the observed public View comment permalink. Own-only cropped proofs saved and visually verified: nov27-afternoon-stan-published.jpg and nov27-afternoon-kari-published.jpg in this chat's visualization engagement directory. No repeat submission or individual viewer/follower/engager analytics recorded. Shared values/notes read back, only new rows wrapped/fitted, native100% visual QA passed.
+
+Actual afternoon **2external /0own replies**. Actual day **8external /1own reply**: morning3, midday3, afternoon2external. Afternoon closes here before16:30; its unused slot and the earlier unused morning slot expire. No carry, extra daytime run or evening external batch. Relevance and duplicate safety took priority over filling the cap. Relationship work is not a proven algorithmic boost or post-attributed growth.
+
+Daily10,683 remains the single morning capture. Friday's two scoreboards/account-level seven-day read remain due in the evening standing run, once each; Thursday's first mature read must wait until after17:36. No repeated19November7d or Tuesday fixed24h checkpoint. The completed Thursday Substack Note was not reposted or rescheduled; Saturday20:30 exact Note remains scheduled once. Fri/Sat/books QA holds, five slots2Codex/3Tanya and Tanya publisher ownership unchanged. No manager handoff or new feed/native/channel/outreach action.
+
+Separate email credential permission still has no new answer. Last morning321active/0new-issue accepted remains dated; no fresh provider-health claim from it. No denied credential read/bypass, preview, production invocation, switch mutation, recipient change, old resend or repeated question. The independent email hold did not stop comments. Existing automation remains ACTIVE, same four-run schedule, with day8external/1own, closed daytime capacity and next17:30standing duties only. Claim complete; no new blocker or user action.
+
+## 27 November 2026 — Friday evening scorecards and mature read claimed
+
+Codex claims only existing17:30standing duties: first mature Thursday post read; one Friday subscriber row and one applicable LinkedIn scoreboard row; aggregate safety/attribution checks; own-response and held publisher verification. Trigger17:33:28Sydney;execution17:48:29;host/Sydney AEDT UTC+11. Thursday first mature read at~17:49:459reach/2profiles/0follows/0reposts;nonzero profiles do not meet the zero-signal rescue gate. Current Activity still ends Thursday;Fri/SatCalendar remain OnHold. Fresh main21523cf8 and PR236/6577c00, open PRs, latest plan/claims/action and other chat/shared Calendar verified. Main-unchanged guidance/editorial reused. Daily10,683 and actual8external/1own fixed;no recapture/evening external batch. Separate email credential permission remains unanswered;no denied read/bypass or production send.

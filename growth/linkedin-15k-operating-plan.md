@@ -260,17 +260,17 @@ Before publishing a relationship comment, compare it with this baseline. If it
 could sit under almost any LinkedIn post, rewrite it around the exact tension in
 the live discussion.
 
-#### Ten-comment Codex weekday test — starts 31 August 2026
+#### Bounded daily Codex relationship loop — reaffirmed 26 November 2026
 
 Kuber approved a bounded test of **ten external relationship comments from
-Codex per weekday**, separate from the social manager's evening engagement
+Codex per operating day**, including weekends under the current standing cadence, separate from the social manager's evening engagement
 lane. Ten is the daily ceiling and intended volume only when ten current,
 high-fit conversations genuinely warrant a useful response. Never pad the day
 with generic praise or low-relevance comments to reach the number.
 
 - Use three Sydney-time windows before the manager's evening activity:
-  **08:30–10:00 (four comments), 12:00–13:30 (three), and 15:00–16:30
-  (three)**. Timing inside a window should follow live thread availability,
+  **08:30–10:00 (up to four comments), 12:30–13:30 (up to three), and15:30–16:30
+  (up to three)**. Timing inside a window should follow live thread availability,
   not a mechanical interval.
 - If a window is missed or produces too few qualified threads, do not carry the
   shortfall into a burst later that day. Record the actual count and reason.
@@ -289,13 +289,16 @@ with generic praise or low-relevance comments to reach the number.
 - Replies on Kuber's own posts and genuine follow-ups remain important but are
   tracked separately from the ten external comments. Praise-only reactions do
   not require a written reply.
-- Each small batch requires a live duplicate check and exact action-time
-  confirmation before publication. Existing approval of the routine is not
-  approval of unseen future wording.
+- Under Kuber's4November delegation, reaffirmed26November, routine comments
+  and own-post replies do not need individual wording approval. Complete the
+  live duplicate, context/source and human-voice checks, publish once as Kuber,
+  then verify and log exact text, public URL and actual count. Preserve any
+  actual higher-priority tool-review rejection; do not bypass it.
 - The manager's pre-post engagement is coordinated relationship work, not a
   proven algorithmic boost. Never describe it as causing distribution.
 
-Run the test for ten weekdays. Record every public post URL, actual comment
+The original ten-weekday trial is historical; Kuber reaffirmed continuing this
+same bounded routine on26November. Record every public post URL, actual comment
 count, substantive replies, follow-ups, aggregate profile views, total follower
 movement and any available post-attributed follows. Treat account-level movement
 descriptively. Stop immediately on a LinkedIn warning, a quality failure or
@@ -416,9 +419,11 @@ still require the stated evidence floors.
   content-format research brief at a time. Claude does not create another
   dashboard or duplicate the manager's comments.
 
-No one changes approved public copy, posts, comments, profile surfaces or
-permissions without the exact action-time check required by the operating
-system. Once an exact item is approved, it executes without another request.
+Apply the latest user delegation and the specific action's gates. Routine
+LinkedIn comments/replies in the existing bounded lane execute under4November
+delegation, reaffirmed26November, after QA and duplicate checks. Public-profile
+or permission changes, unresolved specific content holds and actual tool-review
+blocks retain their existing requirements. Tanya remains feed publisher.
 
 ## Social-manager value audit: 28 August to 18 September
 
@@ -492,3 +497,111 @@ LinkedIn's default 23–29 October UTC view shows 4,847 impressions, 1,938 uniqu
 **IMPROVE.** Relevant reach and sharing remain weak. Retain the verified QBR decision tension pending comparable evidence. Continue the three distinct, unapproved Codex proposals in shared Creative Lab rows 106–108 under next week's two Tanya / three Codex portfolio. Preserve approved copy and five-slot volume. Thursday's original three-page document is live; exact release time is unverified and it missed the 17:30 target. No format, timing or algorithm conclusion follows from these snapshots.
 
 Email remains separate: 320 active, net -1 since Friday (two acquired / three status losses), 180 site sessions and seven qualified-action sessions in the shorter 23 October 17:30–30 October 09:20 Sydney window. The approved escalation Note was published once at 09:13 Sydney on 30 October: https://substack.com/profile/268471097-kuber-sethi/note/c-373759328 . Measure source-labelled transfer at 24 hours and seven days. Saturday/Monday Notes remain scheduled at 20:30 Sydney. The subscriber broadcast is complete, with 322 accepted once and the production switch off.
+
+## Verified 20 November midday snapshot
+
+One daily capture: 10,414 followers at about 12:28 Sydney. The prior verified count was 10,073 on 6 November: +341 over 14 days, not seven-day growth. The 13 November endpoint is unavailable, so weekly net and pace variance remain blank. Another 4,586 are needed over 41 days / 5.86 weeks, about 783 net per week. The cumulative gap versus the 19 November target of 12,791 is 2,377.
+
+The seven-day content view covers 14–20 November UTC with partial 20 November: 4,551 impressions, 2,415 unique members, 59% out-of-network impressions, 89 reactions, 52 comments, zero reposts, four saves and zero sends. Aggregate fit: 47% Senior, 32% IT Services/Consulting, 39% at 10,001+ employees, 24% Cisco, 14% Bengaluru and 10% CSM title.
+
+| Post | Age at read | Members reached | Post profiles | Post follows | Follows/1,000 | Out-of-network impressions | Reposts / saves / sends |
+|---|---|---:|---:|---:|---:|---:|---|
+| Coffee queue field note, activity 7527981603751387136 | 3 days | 1,581 | 14 | 4 | 2.53 | 70% | 0 / 0 / 0 |
+| Bad-news call, activity 7528705809967562752 | 1 day | 254 | 1 | 0 | 0 | 38% | 1 / 1 / 0 |
+| Half your CS job, activity 7529068384072798208 | 19 hours, preliminary | 442 | 3 | 2 | 4.52 | 49% | 1 / 2 / 0 |
+
+Three lifetime-to-read snapshots total 2,277 non-deduplicated reach, 18 post profiles and six post follows: 2.635 follows per 1,000. These are not bounded weekly attribution, a matched test, or account-level growth. The account view's zero reposts conflicts with the two newer posts' one lifetime repost each; preserve the scope/provider-lag uncertainty.
+
+Decision: IMPROVE. The latest post has nonzero profile, follow and repost signals, so the automatic zero-signal replacement gate is not met. Its mature read remains due this evening. Preserve the existing five-slot portfolio and manager publishing lane. No format winner, extra volume or new profile change is justified by this mixed-age sample. Never reuse unverified customer stories.
+
+Subscriber growth is separate: 321 active, net +1 from two new active acquisitions and one status loss. Both acquisitions came from the existing tagged LinkedIn profile route. The shared subscriber table has exactly one 20 November row.
+
+
+### 20 November evening mature reads and decision
+
+| Post / read | Impressions | Members reached | Out-of-network impressions | Post profiles /1,000 | Post follows /1,000 | Reposts / saves / sends |
+|---|---:|---:|---:|---:|---:|---|
+| Half your CS job,7529068384072798208,24hours |703|480|50%|4 /8.33|2 /4.17|1 /2 /0|
+| Cisco-demo,7526894376778907649,seven days |894|577|53%|11 /19.06|0 /0|0 /0 /0|
+
+Latest mature read has nonzero post-profile, follow and repost signals. Do not invoke the zero-signal replacement gate or declare a format winner. Preserve existing five feed slots. Friday manager CX post verified live; Saturday existing human-observation slot now has final text-only copy in CalendarE320/Lab117 and growth/saturday-feed-2026-11-21.md. This is completion of existing creative, not extra volume or a new test. Tanya's queue and first-hour coverage remain unverified; Codex did not queue or publish. No change to Friday account/subscriber aggregates, profile surfaces or comment capacity. Next latest-post seven-day read26November after17:30Sydney.
+
+
+### 21 November daily capture
+
+One daily total:10,480at about12:39Sydney; +66versus20November12:28across an unequal approximately24-hour interval. Seven-day net is not available from this pair, and no post attribution is implied. Remaining4,520over40days to31December requires approximately791net/week. Dailyrow210 is verified; do not recapture today. Friday CX post still19h old at midday, mature24hread due this evening after17:30. No current creative decision changes from this account total alone.
+
+
+### 21 November evening: promising distribution, preserve evidence limits
+
+Friday CX/CS identity tension, activity7529431022820638720, first mature1d read:13,070impressions;8,856members reached;80%out-of-network impressions;88postprofiles(9.94/1,000);20post-attributed follows(2.26/1,000);1repost/7saves/1send. Audience fit45%Senior,19%CSMtitle,23%ITServices/Consulting; full aggregates in action log/CalendarH319.
+
+KEEP the operating-identity tension for deliberate reconsideration in Sunday's portfolio, with another source-safe distinct use before a format-winner claim. Distribution was substantially stronger than recent posts, but follows per1,000were lower than Thursday's smaller sample, and the posts differ. No account growth/signup attribution. The live caption's personal anecdote is not a newly verified experience claim. Zero-signal intervention is not triggered.
+
+Saturday's existing fifth slot is live exactly as approved at activity7529793336916738048, verified by17:35displayed4m. Do not add volume or publish it again. Preserve Tanya's responses and take the mature Saturday read only when age1d on22November before the full Sunday audit. Friday seven-day read27November once age1w. Daily total remains the single12:39capture10,480.
+
+
+### 22 November Sunday audit, completed 23 November after delay
+
+See sunday-audit-2026-11-22.md and the 73-post 90-day inventory. The fixed 22 November daily total is 10,509, leaving 4,491 over 39 days: about 806 net/week required. Exact weekly net is unavailable; the 268 new-follower graph is not net. The partial 16–22 November UTC content window shows 20,884 impressions, 12,586 unique members reached, 76% out-of-network impressions, 13 saves and one send. Five unequal-age post reads sum 13,491 non-unique reach, 130 post profile views and 26 attributed follows, or 1.93 follows/1,000 summed reach; Friday accounts for 20 of 26. Saturday's first 1d read has 166 reached, one profile view, zero follows and no shares; the strict all-zero gate is not met.
+
+PIVOT three unfilled jobs to a native decision case, verified leadership field note and distinct human observation. Preserve the existing Monday/Thursday copy, two Codex/three Tanya creative split and Tanya's publishing ownership. Exact block: linkedin-portfolio-2026-11-23.md/JSON and Calendar rows 322/323/325/326/327. Saturday 18:30 is one exploratory timing read, with no causal winner claim. Native utility must earn follow/profile/share improvement over two qualified case runs or lose its next utility slot. Repeatable relevant reach is the main constraint; follow conversion and shareability are secondary. Audience fit remains relevant. No extra feed, profile change, channel, newsletter release or books activation. Queue, PDF attachment preview and response coverage must still be verified. The Sunday deadline was missed; report the Monday completion accurately.
+
+
+### 23 November daily capture
+
+One daily total: 10,513 during the 12:30 Sydney run, verified in shared Daily row 212. The prior 22 November total was 10,509: +4 over an unequal daily interval, not weekly net or post attribution. Another 4,487 over 38 days to 31 December requires about 827 net/week; this is a required pace, not a forecast. Keep the earlier audit's distinct seven-day scope and conversion limits. No portfolio decision changes from this daily count alone.
+
+## 25 November 2026 — evening mature read and Thursday opening intervention
+
+Trigger arrived17:27:59Sydney, about two minutes before the written17:30run; no evidence of a persistent timezone shift, no cadence change and no evening external-comment batch. Fresh main21523cf8cf968eaf21740317b2067260b13b572a and open PRs236/234/204/200 checked. The older coordination chat was inactive with no current23–28November claim. Existing draftPR236 remains the operating-record lane.
+
+Tuesday native case7530881472698703872 first showed1d at about17:35Sydney. First mature read:318impressions,194members reached,28%out-of-network impressions,0post-attributed profiles/follows/reposts,1save,0sends,20reactions,8total comments and29social engagements. Profiles and follows per1,000reached are both0. Qualified-comment subset was not assessed. Aggregate fit39%Senior,26%Software Development,16%at1,001–5,000employees,16%CSMtitle,7%Cisco,6%Greater Bengaluru. Small qualified reach and one save leave the format result provisional; no account-growth attribution, format winner or causal timing claim. Seven-day read1December after17:35Sydney.
+
+Codex exercised Kuber's4November delegation for one low-risk exploratory opening improvement to Thursday26November17:30Sydney, preserving topic, illustrative body/maths, text-only format, action, time and Tanya publishing. CalendarE325 now opens: “I wouldn't call an AI pilot a win because it closed 80% of the cases. / Show me the work it left for the team.” This is hypothetical judgement, not invented experience. Original complete caption preserved in the cell note. Maths80*3+20*40=1,040 versus100*10=1,000 verified. Human-voice/source/experience QA passed. Authoritative CalendarC325/D325/E325 and Lab120/121 updated with read, exact copy, evidence limits and stop rules; value/note readback and native visual QA passed. Two-qualified-case-run floor retained; no new format or portfolio pivot.
+
+Exact consolidated handoff sent once at17:49Sydney in existing Kuber X LinkedIn group after duplicate/current-owner checks. UI persisted the message with Sent receipt; delivered/read status and Tanya queue/first-hour response coverage are not yet verified. Handoff asks Tanya to update the existing queued item once, preserve one post, and reconcile coverage with Ankush. LabL121 is HANDOFF SENT / QUEUE UNVERIFIED. Friday27/Saturday28 caption QA holds and Wednesday books hold remain; five feed slots,2Codex/3Tanya creative split and Tanya publisher unchanged. No new feed post, native edition, channel, campaign or recipient.
+
+Evening email aggregate remains321active/0accepted/0new-issue events. Existing website and sender/preflight receipts pass, including function199 full-article mode; the separate exact send-credential permission request still has no answer. No denied credential read, alternate auth route, preview, production invocation, true switch window, older resend or duplicate question. Named false enforcement last succeeded24November22:29Sydney, not freshly read. Today's daily follower capture10,600 and total2external/0own replies remain fixed; no repeated capture or scorecard row.
+
+### 26 November daily capture and routine execution
+
+Single daily total10,646 at about09:43Sydney, verified in Daily214. Prior dated25November10,600 was reconciled into213 from its existing observation, not recaptured. +46over an unequal daily interval is not weekly net or post attribution. Remaining4,354over35days/5weeks to31December requires about871net/week, not a forecast. Daily actual1external/1own reply; shared Engagement276/277 verified. No creative evidence gate or experiment changed; preserve Thursday's existing approved opening-only revision and the Friday/Saturday/books holds.19November seven-day post read remains due after17:30today; no repeat of Tuesday's fixed24hcheckpoint. Email0accepted/321active remains held for the separate unanswered credential request. Existing Thu/SatNotes are scheduled once; verify public release only after due time.
+
+## 26 November 2026 — automatic commenting continued as agreed
+
+Kuber clarified that his request concerned automatic comments on other posts, and asked to continue as agreed. Codex verified the existing automation is ACTIVE on the same four-run schedule and LinkedIn is signed in as Kuber. Historical interruptions included browser unavailability and obsolete exact-per-comment confirmation wording alongside the4November delegation. Removed that conflict from the saved daytime instructions and this plan; no approval settings or actual review block was weakened. Routine qualified comments/replies execute after live duplicate/source/context/human-voice QA, then verification/logging, without individual wording approval. Keep4/3/3external caps at08:30/12:30/15:30Sydney,10/day maximum, no catch-up and Tanya's evening lane. The separate email credential hold does not block relationship work. Today remains1external/1own reply; this11:48user request caused no out-of-window publication. Next existing windows12:30/15:30. Specific old expired drafts are not replayed.
+
+### 26 November evening — release and first seven-day checkpoint
+
+Thursday's existing17:30 text-only slot is publicly verified by17:36Sydney with exact approved opening/body, in Tanya's assigned publishing lane: https://lnkd.in/p/gywqTxB3 . Linked analytics activity7531606168192925696; public share ID7531606165403811840. Exact actual publication minute unverified. Calendar325 is Posted; Lab121 reconciled. Codex did not publish/edit/duplicate; response coverage acknowledgement remains unverified. First24h due27Novafter17:36;7d3Decafter17:36. Preserve Fri/Sat/books QA holds.
+
+| 19 Nov career/AI post7529068384072798208 / first7d26Nov17:35 | Read |
+|---|---:|
+| Impressions / members reached |974 /643|
+| Out-of-network impressions |48%|
+| Post profile viewers / per1,000 reached |5 /7.78|
+| Post follows / per1,000 reached |2 /3.11|
+| Reposts / saves / sends |1 /2 /0|
+| Reactions / total comments |26 /18|
+| Premium button engagements / post-link visits |1 /0|
+
+Qualified-comment count unavailable. Fit44%Senior,25%ITservices/consulting,23%CSMtitle,16%at1,001–5,000employees,6%Bengaluru,3%Cisco. Keep the specific career/operating tension as a candidate structure with source/claim QA. The prior24h480reach/4profiles/2follows/1repost/2saves remains fixed. Additional reach yielded one additional profile viewer and no additional follow; two follows cannot establish stable conversion. Descriptive lifetime-to7d only: no bounded weekly attribution, account-growth attribution or causal format/timing winner. Nonzero profile/follow/repost signals do not trigger a zero-signal replacement. Two-qualified-case and comparable-timing floors remain. Existing Thursday opening intervention executed; no new portfolio shift or live edit.
+
+Tuesday's fixed mature read is not repeated; next7d1Decafter17:35. Actual day7external/1own reply; no evening external batch/carry. Daily10,646 stays the single capture. Lab125 is the aggregate checkpoint. Current email321active/0new-issue accepted remains held for the unanswered separate credential permission. Existing exact Thu/Sat20:30Notes stay scheduled once; verify after due time. No new notification for unchanged holds.
+
+### 27 November morning execution
+
+One daily capture: **10,683 followers**, own profile at about08:39Sydney, verified in shared Daily215. Prior26November10,646 stays fixed; +37 between dated endpoints is not post attribution. Actual morning/day **3external /1own reply**, Engagement284–287 with exact public receipts and human-voice QA. One unused morning slot expires; no capacity carry. Next existing12:30 window remains up to3. Greg's overlapping candidate was discarded rather than filling the cap.
+
+Approved26November20:30Substack Note is publicly verified at https://substack.com/@kubersethi/note/c-396406853 with exact copy/UTM link and native timestamp. Replies0explicit; other stats unavailable, not zero. Do not repost/reschedule. Saturday28November20:30 remains scheduled once; no missed-slot backfill.
+
+Friday scoreboards/account seven-day read remain due in the evening standing run, once each, using fixed daily10,683. Thursday feed first24h is due only after17:36today; Tuesday7d1December and completed19November7d checkpoint are not repeated. Preserve Fri/Sat/books QA holds and Tanya publisher ownership. New email321active/0accepted remains behind the separate unanswered credential gate; no resend or credential bypass. Same four-run schedule; early08:28arrival caused preparation only and no pre08:30public action.
+
+### 27 November midday execution
+
+Existing12:30 window completed with3external/0own replies; actual day6external/1own. Shared Engagement288–290 holds exact public receipts and human-voice QA. Own Thursday question already answered; no duplicate. One unused morning slot expired; no carry. Next15:30 window stays up to3 with fresh live/shared checks. Daily10,683 stays fixed; Friday scoreboards/account7d and Thursday first24h after17:36 remain due in the evening, once each. No repeated post checkpoint, held feed publication, Note resend or email credential bypass. Same four-run schedule.
+
+### 27 November afternoon execution
+
+Two qualified external comments verified in Engagement291–292; no own reply. Actual day8external/1own (3morning+3midday+2afternoon external). Salary-transparency candidate dropped because identical captions surfaced under multiple profile activity IDs and the exact intended item was ambiguous; no preparation/publication. Both unused morning/afternoon slots expire; no carry or evening external batch. Daily10,683 stays fixed. Next17:30run completes Friday scoreboards/account7d once each and waits for Thursday's first24h after17:36. Existing post checkpoints, Note completion, publisher ownership, content holds and separate email credential gate remain unchanged.

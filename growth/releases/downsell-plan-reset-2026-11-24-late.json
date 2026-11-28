@@ -1,0 +1,107 @@
+{
+  "checked_at": "2026-11-24T22:30:00+11:00",
+  "issue": "downsell-plan-reset",
+  "user_instruction": "Kuber reported publishing the latest build and requested live verification plus one subscriber email after all checks pass.",
+  "website": {
+    "state": "LIVE; public initialHTML/title/self-canonical/article/PDF/sitemap/RSS verified, and actual worksheet download matches reviewed text/pixels.",
+    "lovable": "Recovered own in-app browser control, observed unpublished changes, completed existing Publish changes flow; Your website was updated confirmed, first receipt22:18Sydney.",
+    "article": "Exact title, full approved argument, methodology/sources and rendered self-canonical verified in IAB.",
+    "canonical": "https://churnisdead.com/newsletter/downsell-plan-reset",
+    "sitemap": {
+      "status": 200,
+      "bytes": 14300,
+      "includes_issue": true
+    },
+    "rss": "IAB XML shows exact title/canonical, pubDate24November07:00UTC and current generated build.",
+    "pdf": {
+      "url": "https://churnisdead.com/pdfs/Downsell_Plan_Reset_ChurnIsDead.pdf",
+      "bytes": 3255,
+      "pages": 1,
+      "downloaded_from_live_iab_asset": true,
+      "text_matches_review": true,
+      "pixels_match_review": true,
+      "sha256": "aff53822f5de7bedca8cff7fe488c5b19de727fb08a83a701e0967a03b9ad988",
+      "first_download_sha256": "1985edf42ef42c89f930ea3ab404a624591bac003c7c9b2161d814554677c2ce",
+      "post_link_actual_download_verified": true,
+      "current_download_text_matches": true,
+      "current_download_pixels_match": true
+    },
+    "initial_html_gate": "PASSED. Direct HTTP200 with honest User-Agent ChurnIsDeadReleaseQA/1.0:28624bytes, exact title, full initial article HTML, self-canonical and worksheet link. Generic Python client triggered the earlier Cloudflare1010; no site access setting changed.",
+    "direct_public_checks": {
+      "article": {
+        "status": 200,
+        "bytes": 28624,
+        "exact_title": true,
+        "self_canonical": true,
+        "full_initial_html": true,
+        "worksheet_link": true
+      },
+      "pdf": {
+        "status": 200,
+        "bytes": 3255,
+        "pdf_header": true
+      },
+      "rss": {
+        "status": 200,
+        "bytes": 12186,
+        "includes_issue": true
+      },
+      "sitemap": {
+        "status": 200,
+        "bytes": 14300,
+        "includes_issue": true
+      }
+    }
+  },
+  "resource_qa_fix": {
+    "problem": "Live article lacked a direct worksheet link.",
+    "pr": 239,
+    "merge": "1c767f78faafa3f91d422d8edf5ea7dd6667a9ae",
+    "publisher_run": 45383800177,
+    "publisher_result": "success",
+    "generated_main": "b7e963c7c73923e43a5c95e637861d6760f7d440",
+    "change": "Added only exact approved worksheet URL inside existing section under delegated routine resource QA; rest of article unchanged.",
+    "validator": "require-approved passes without warnings",
+    "live_result": "Second existing Lovable update completed; exact Download the one-page Downsell Plan Reset link verified in live article.",
+    "current_content_md5": "60390ce39b17636e16ce4d2b4022d95b",
+    "live_final_pdf_verified_from": "The article's actual download link;3255bytes/one page/exact reviewed text and pixels."
+  },
+  "browser_recovery": {
+    "state": "Restored using installed official browser-client runtime through node_repl. setupBrowserRuntime returns the Agent; assigning its return enables documented browsers API. No origin permissions weakened or alternate Chrome used.",
+    "own_iab_session": "01a10ff9-25b1-7360-82a1-4d5193d84995",
+    "existing_binding": "Reuse valid Agent/browser handles; do not reset for stale tabs."
+  },
+  "email": {
+    "state": "HELD; NOT SENT",
+    "active_subscribers": 321,
+    "accepted_for_issue": 0,
+    "function_version": 198,
+    "content_mode": "full",
+    "subject": "Your customer bought less. What changed in the plan?",
+    "preheader": "Keep, narrow or pause the work, with the customer owner and service commitments clear.",
+    "preview": "Not sent; actual signed production-equivalent preview remains pending.",
+    "provider_suppressions_read": 15,
+    "current_suppression_crosscheck": "NOT COMPLETE. Cross-service address query was rejected before execution; attempted local-only eligible-list read did not complete. No gap count inferred.",
+    "send_switch": "Narrow CLI set NEWSLETTER_SEND_ENABLED=false succeeded at22:29Sydney. No true window or subscriber broadcast invocation.",
+    "switch_digest": "Broad secrets list was rejected; no retry/bypass. Safer named false enforcement succeeded without reading other secrets."
+  },
+  "pending_consolidated_permission": {
+    "scope": [
+      "Existing Google sign-in at accounts.google.com solely to access Resend sender health",
+      "Private local comparison of active Supabase subscriber addresses with Resend suppressions, count-only logs and no cross-service address transmission",
+      "One exact production-equivalent preview to established owner-controlled test subscriber"
+    ],
+    "status": "Question pending; no approval inferred from elapsed time.",
+    "reason": "Automatic approval review blocked unanticipated Google authentication destination and cross-service private-address query. Do not retry these actions without the specific approval or a materially safer permitted alternative."
+  },
+  "remaining_gates": [
+    "Current sender risk/health classification",
+    "Current suppressions/eligibility and per-recipient acceptance check",
+    "Actual signed full-article preview, unsubscribe/one-click/footer",
+    "Only after all gates pass: eligible-unsent production send once, finally false, aggregate receipts"
+  ],
+  "public_proof": "/private/tmp/cid-nov24-live-article.jpg",
+  "published_update_proof": "/private/tmp/cid-nov24-lovable-published.jpg",
+  "scope_preserved": "No new channel, recipients, outreach route, feed/native post or older broadcast.",
+  "latest_checked_at_utc": "2026-11-24 11:34:31 UTC"
+}

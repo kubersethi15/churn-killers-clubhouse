@@ -1,0 +1,46 @@
+{
+  "status": "SCHEDULED: Thursday26November20:30Sydney and Saturday28November20:30Sydney; one entry per date verified in Substack Drafts after final Schedule submission. Monday missed; no backfill.",
+  "approval_basis": "Kuber explicitly approved both exact existing Note slots on25November in this chat. This supersedes their earlier automatic-review hold; no claim of personal review of other work or approval of the older21November Note.",
+  "qa": {
+    "human_voice": "passed",
+    "experience": "No invented customer scene, personal implementation or result",
+    "source": "Thursday approved current live article/PDF passed25Nov; correct canonical link preview verified.",
+    "duplicate": "Fresh public profile latest5Nov; before composing only the newly saved Thursday draft existed. After scheduling, Drafts shows exactly one matching Thursday entry and one matching Saturday entry with the correct dates/times. No public duplicate.",
+    "volume": "Three existing Mon/Thu/Sat slots, no missed-slot backfill, one linked Note out of three",
+    "execution": "Two existing Thu/Sat slots only; no Monday backfill, extra volume, new channel or subscriber-email action. Prior send-credential permission remains separate and pending."
+  },
+  "notes": [
+    {
+      "date": "2026-11-23",
+      "time_sydney": "20:30",
+      "time_utc": "2026-11-23T09:30:00Z",
+      "job": "Practitioner conversation",
+      "body": "When a customer renews fewer licences, what changes in your success plan?\n\nI'm interested in the work that gets kept, narrowed or stopped, not just the new forecast.",
+      "links": 0,
+      "status": "MISSED / do not backfill"
+    },
+    {
+      "date": "2026-11-26",
+      "time_sydney": "20:30",
+      "time_utc": "2026-11-26T09:30:00Z",
+      "job": "Current-issue transfer, conditional on release",
+      "body": "A smaller renewal can leave both teams working from an old plan.\n\nPick one workflow and agree whether to keep it, narrow it or pause it. Check the help that's actually agreed before changing the promise.\n\nThe one-page plan reset is here:\n\nhttps://churnisdead.com/newsletter/downsell-plan-reset?utm_source=substack&utm_medium=note&utm_campaign=downsell-plan-reset&utm_content=thursday_takeaway",
+      "links": 1,
+      "release_gate": "Hold unless downsell-plan-reset is the approved current live issue and its article/PDF pass. If it remains unpublished, reconcile the actual current issue before changing this draft; never post the unavailable route.",
+      "status": "SCHEDULED / verified in native Substack Drafts",
+      "execution_note": "Final Schedule submitted once under Kuber Sethi; queue label verified: 26 Nov, 20:30 Sydney. Do not duplicate; verify public release at or after due time.",
+      "approval": "Explicit exact-copy and dated-slot approval25November2026"
+    },
+    {
+      "date": "2026-11-28",
+      "time_sydney": "20:30",
+      "time_utc": "2026-11-28T09:30:00Z",
+      "job": "Grounded operator insight",
+      "body": "A plan can get more useful when you remove something from it.\n\nIf the customer's priorities or capacity have changed, leaving every old milestone in place doesn't preserve the ambition. It can leave people trying to deliver work nobody can support.\n\nI'd name what's stopping and what would need to change before it restarts.",
+      "links": 0,
+      "status": "SCHEDULED / verified in native Substack Drafts",
+      "approval": "Explicit exact-copy and dated-slot approval25November2026",
+      "execution_note": "Final Schedule submitted once under Kuber Sethi; queue label verified: 28 Nov, 20:30 Sydney. Do not duplicate; verify public release at or after due time."
+    }
+  ]
+}
